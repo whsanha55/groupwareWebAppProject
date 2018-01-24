@@ -23,6 +23,10 @@
 				read-only="true" propagation="REQUIRED" isolation="DEFAULT" timeout="-1" />
 			<tx:method name="modify*" rollback-for="Exception"
 				propagation="REQUIRED" isolation="DEFAULT" timeout="-1" />
+			<tx:method name="remove*" rollback-for="Exception"
+				propagation="REQUIRED" isolation="DEFAULT" timeout="-1" />
+			<tx:method name="find*" rollback-for="Exception"
+				propagation="REQUIRED" isolation="DEFAULT" timeout="-1" />
 		</tx:attributes>
 	</tx:advice>
 
