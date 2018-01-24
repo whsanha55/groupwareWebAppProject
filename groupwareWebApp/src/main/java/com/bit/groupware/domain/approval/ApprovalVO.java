@@ -6,16 +6,14 @@ import java.util.List;
 public class ApprovalVO {
 
 	int apprNo;
-	String documentNo;
+
 	String apprDate;
 	String validDate;
-	// ë³´í†µ : 0 , ê¸´ê¸‰ : 1
-	boolean urgency;
-	// ë¶ˆí—ˆ : 0, ?—ˆ?š© : 1
-	boolean commentUsing;
+
+	int urgency;
 	String apprTitle;
 	String apprContent;
-	// ì§„í–‰ì¤?: 0, ê²°ìž¬: 1, ë³´ë¥˜: 2, ë°˜ë ¤: 3 ,?ž„?‹œë³´ê?: 4, ?šŒ?ˆ˜: 5
+
 	int apprFinalStatus;
 	EmployeeVO employee;
 	TemplateVO template;
@@ -31,14 +29,6 @@ public class ApprovalVO {
 
 	public void setApprNo(int apprNo) {
 		this.apprNo = apprNo;
-	}
-
-	public String getDocumentNo() {
-		return documentNo;
-	}
-
-	public void setDocumentNo(String documentNo) {
-		this.documentNo = documentNo;
 	}
 
 	public String getApprDate() {
@@ -57,20 +47,8 @@ public class ApprovalVO {
 		this.validDate = validDate;
 	}
 
-	public boolean isUrgency() {
+	public int isUrgency() {
 		return urgency;
-	}
-
-	public void setUrgency(boolean urgency) {
-		this.urgency = urgency;
-	}
-
-	public boolean isCommentUsing() {
-		return commentUsing;
-	}
-
-	public void setCommentUsing(boolean commentUsing) {
-		this.commentUsing = commentUsing;
 	}
 
 	public String getApprTitle() {
@@ -137,13 +115,20 @@ public class ApprovalVO {
 		this.approvalRecords.add(approvalRecord);
 	}
 
+	public int getUrgency() {
+		return urgency;
+	}
+
+	public void setUrgency(int urgency) {
+		this.urgency = urgency;
+	}
+
 	@Override
 	public String toString() {
-		return "ApprovalVO [apprNo=" + apprNo + ", documentNo=" + documentNo + ", apprDate=" + apprDate + ", validDate="
-				+ validDate + ", urgency=" + urgency + ", commentUsing=" + commentUsing + ", apprTitle=" + apprTitle
-				+ ", apprContent=" + apprContent + ", apprFinalStatus=" + apprFinalStatus + ", employee=" + employee
-				+ ", template=" + template + ", approvalFiles=" + approvalFiles + ", approvalRecords=" + approvalRecords
-				+ "]";
+		return "ApprovalVO [apprNo=" + apprNo + ", apprDate=" + apprDate + ", validDate=" + validDate + ", urgency="
+				+ urgency + ", apprTitle=" + apprTitle + ", apprContent=" + apprContent + ", apprFinalStatus="
+				+ apprFinalStatus + ", employee=" + employee + ", template=" + template + ", approvalFiles="
+				+ approvalFiles + ", approvalRecords=" + approvalRecords + "]";
 	}
 
 }

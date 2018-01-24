@@ -10,7 +10,7 @@ public class TemplateVO {
 	String tmpContent;
 	String tmpSummary;
 	String tmpDate;
-	boolean tmpUsing;
+	int tmpUsing;
 	TemplateCategoryVO templateCategory;
 	List<DelegationVO> delegations = new ArrayList<DelegationVO>();
 	List<TemplateBookmarkVO> templateBookmarks = new ArrayList<TemplateBookmarkVO>();
@@ -59,11 +59,11 @@ public class TemplateVO {
 		this.tmpDate = tmpDate;
 	}
 
-	public boolean isTmpUsing() {
+	public int isTmpUsing() {
 		return tmpUsing;
 	}
 
-	public void setTmpUsing(boolean tmpUsing) {
+	public void setTmpUsing(int tmpUsing) {
 		this.tmpUsing = tmpUsing;
 	}
 

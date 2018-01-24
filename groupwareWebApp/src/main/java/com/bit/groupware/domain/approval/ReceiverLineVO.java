@@ -10,7 +10,7 @@ public class ReceiverLineVO {
 	EmployeeVO lineEmployee;
 	int lineOrder;
 	// 결재 : 0 , 참조 : 1
-	boolean apprType;
+	int apprType;
 	List<ApprovalRecordVO> approvalRecords = new ArrayList<ApprovalRecordVO>();
 
 	public ReceiverLineVO() {
@@ -49,11 +49,11 @@ public class ReceiverLineVO {
 		this.lineOrder = lineOrder;
 	}
 
-	public boolean isApprType() {
+	public int isApprType() {
 		return apprType;
 	}
 
-	public void setApprType(boolean apprType) {
+	public void setApprType(int apprType) {
 		this.apprType = apprType;
 	}
 

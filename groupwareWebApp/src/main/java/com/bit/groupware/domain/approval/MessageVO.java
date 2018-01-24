@@ -3,12 +3,14 @@ package com.bit.groupware.domain.approval;
 public class MessageVO {
 
 	int msgNo;
-	EmployeeVO employee;
-	EmployeeVO msgEmployee;
+	EmployeeVO senderEmployee;
+	EmployeeVO receipientEmployee;
 	String msgDate;
 	String msgTitle;
 	String msgContent;
-	boolean isRead;
+	int isRead;
+	String senderRemoval;
+	String receipientRemoval;
 
 	public MessageVO() {
 	}
@@ -21,13 +23,7 @@ public class MessageVO {
 		this.msgNo = msgNo;
 	}
 
-	public EmployeeVO getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(EmployeeVO employee) {
-		this.employee = employee;
-	}
+	
 
 	public String getMsgDate() {
 		return msgDate;
@@ -37,13 +33,7 @@ public class MessageVO {
 		this.msgDate = msgDate;
 	}
 
-	public EmployeeVO getMsgEmployee() {
-		return msgEmployee;
-	}
-
-	public void setMsgEmployee(EmployeeVO msgEmployee) {
-		this.msgEmployee = msgEmployee;
-	}
+	
 
 	public String getMsgTitle() {
 		return msgTitle;
@@ -61,18 +51,55 @@ public class MessageVO {
 		this.msgContent = msgContent;
 	}
 
-	public boolean isRead() {
+	public EmployeeVO getSenderEmployee() {
+		return senderEmployee;
+	}
+
+	public void setSenderEmployee(EmployeeVO senderEmployee) {
+		this.senderEmployee = senderEmployee;
+	}
+
+	public EmployeeVO getReceipientEmployee() {
+		return receipientEmployee;
+	}
+
+	public void setReceipientEmployee(EmployeeVO receipientEmployee) {
+		this.receipientEmployee = receipientEmployee;
+	}
+
+	public int getIsRead() {
 		return isRead;
 	}
 
-	public void setRead(boolean isRead) {
+	public void setIsRead(int isRead) {
 		this.isRead = isRead;
+	}
+
+	public String getSenderRemoval() {
+		return senderRemoval;
+	}
+
+	public void setSenderRemoval(String senderRemoval) {
+		this.senderRemoval = senderRemoval;
+	}
+
+	public String getReceipientRemoval() {
+		return receipientRemoval;
+	}
+
+	public void setReceipientRemoval(String receipientRemoval) {
+		this.receipientRemoval = receipientRemoval;
 	}
 
 	@Override
 	public String toString() {
-		return "MessageVO [msgNo=" + msgNo + ", employee=" + employee + ", msgDate=" + msgDate + ", msgEmployee="
-				+ msgEmployee + ", msgTitle=" + msgTitle + ", msgContent=" + msgContent + ", isRead=" + isRead + "]";
+		return "MessageVO [msgNo=" + msgNo + ", senderEmployee=" + senderEmployee + ", receipientEmployee="
+				+ receipientEmployee + ", msgDate=" + msgDate + ", msgTitle=" + msgTitle + ", msgContent=" + msgContent
+				+ ", isRead=" + isRead + ", senderRemoval=" + senderRemoval + ", receipientRemoval=" + receipientRemoval
+				+ "]";
 	}
+
+	
+
 
 }
