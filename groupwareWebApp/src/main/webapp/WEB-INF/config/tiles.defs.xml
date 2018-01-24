@@ -13,11 +13,17 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/admin_footer.jsp" />
 	</definition>
 	
-	<definition name="*/*" extends="adminMain">
+	<definition name="admin_header/admin_content" extends="adminMain">
+		<!-- <definition name="*/*/*/*" extends="main"> -->
+		<put-attribute name="header" value="/WEB-INF/views/common/admin_header.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/common/admin_content.jsp" />
+	</definition>	
+	
+	<definition name="*/*/*" extends="adminMain">
 		<!-- <definition name="*/*/*/*" extends="main"> -->
 		<put-attribute name="header" value="/WEB-INF/views/common/{1}.jsp" />
-		<put-attribute name="content" value="/WEB-INF/views/common/{2}.jsp" />
-	</definition>	
+		<put-attribute name="content" value="/WEB-INF/views/{2}/{3}.jsp" />
+	</definition>	 
 	
 	<!-- 사용자 -->
 	<definition name="main" template="/WEB-INF/views/common/index.jsp">
@@ -27,11 +33,11 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
 
-	<definition name="*/*/*" extends="main">
-	<!-- <definition name="*/*/*/*" extends="main"> -->
+<!-- 	<definition name="*/*/*" extends="main">
+	<definition name="*/*/*/*" extends="main">
 	<put-attribute name="header" value="/WEB-INF/views/common/{1}.jsp" />
 	<put-attribute name="menu" value="/WEB-INF/views/common/{2}.jsp" />
 	<put-attribute name="content" value="/WEB-INF/views/common/{3}.jsp" />
 	</definition>
-
+ -->
 </tiles-definitions>

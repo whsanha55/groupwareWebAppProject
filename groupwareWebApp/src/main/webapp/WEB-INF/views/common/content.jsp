@@ -7,7 +7,7 @@
 <title>content</title>
 </head>
 <body>
-<div class="right_col" role="main">
+
           <!-- top tiles -->
           
 		  <div class="col-md-12 col-sm-12 col-xs-12 dashboard_graph" style="margin-bottom:10px;">
@@ -248,8 +248,7 @@
               </div>
               
                 
-                
-                </div>
+               
                 
 </body>
 </html>
