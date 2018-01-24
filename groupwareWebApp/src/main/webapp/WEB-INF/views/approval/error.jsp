@@ -8,3 +8,4 @@ Error : <br>
 <c:forEach var="stackTraceElement" items="${requestScope.exception.stackTrace }">
 	${pageScope.stackTraceElement }<br>
 </c:forEach>
+ 
