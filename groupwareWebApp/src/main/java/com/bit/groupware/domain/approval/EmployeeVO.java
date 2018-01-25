@@ -1,5 +1,5 @@
 package com.bit.groupware.domain.approval;
 
-public class Hello {
+public class EmployeeVO {
 
 }
