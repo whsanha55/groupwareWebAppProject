@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,7 +29,7 @@
                         <tbody>
                         <tr class="even pointer">
                             <td class=" ">1</td>
-                            <td class=" "><a href="noticeDetail.html">사이트 이전 안내입니다.</a></td>
+                            <td class=" "><a href='<c:url value="detailNotice.do"/>'>사이트 이전 안내입니다.</a></td>
                             <td class=" ">31</td>
                             <td class=" ">2017.12.31</td>
                             
