@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class TempListController {
 
 	//임시보관함 페이지 요청
-	@RequestMapping(value="/tempList.do", method=RequestMethod.GET)
+	@RequestMapping(value="/temp.do", method=RequestMethod.GET)
 	public String form() {
 		
 		return "/approval/tempList";
