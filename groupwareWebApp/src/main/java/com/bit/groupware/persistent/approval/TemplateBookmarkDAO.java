@@ -1,6 +1,6 @@
 package com.bit.groupware.persistent.approval;
 
-import com.bit.user.domain.approval.TemplateBookmarkVO;
+import com.bit.groupware.domain.approval.TemplateBookmarkVO;
 
 public interface TemplateBookmarkDAO {
 
