@@ -3,6 +3,8 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.authority.RoleVO;
+
 public interface RoleDAO {
 	
 	//해당 권한에 역할을 일괄 등록한다.
@@ -21,7 +23,7 @@ public interface RoleDAO {
 	List<RoleVO> searchRole(Map<String , Object> map);
 	
 	//역할을 롤ID순으로 오름차순 정렬하여 조회한다.
-	List<RoleVO> selectRole(Map<String, Integer>);
+	List<RoleVO> selectRole(Map<String, Integer> map);
 	
 	//역할 정보를 수정한다.
 	void updateRole(RoleVO role);

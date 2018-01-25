@@ -3,6 +3,8 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.authority.RoleVO;
+
 public class RoleDAOImpl implements RoleDAO {
 
 	public void insertAuthRole(Map<String, Object> map) {
@@ -43,6 +45,11 @@ public class RoleDAOImpl implements RoleDAO {
 	public void deleteRole(String roleId) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public List<RoleVO> selectRole(Map<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

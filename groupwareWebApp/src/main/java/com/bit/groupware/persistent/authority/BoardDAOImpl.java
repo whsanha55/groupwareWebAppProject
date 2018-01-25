@@ -1,5 +1,9 @@
 package com.bit.groupware.persistent.authority;
 
+import java.util.List;
+
+import com.bit.groupware.domain.authority.BoardVO;
+
 public class BoardDAOImpl implements BoardDAO {
 
 	public List<BoardVO> selectBoard() {
