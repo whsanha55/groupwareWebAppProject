@@ -1,16 +1,16 @@
-package com.bit.groupware.controller.authority;
+package com.bit.groupware.controller.approval;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class AdminRetrieveBoardController {
+public class FinishListController {
 
-	@RequestMapping(value="/admin/board.do", method=RequestMethod.GET)
+	//승인 문서함 페이지 요청
+	@RequestMapping(value="/finishList.do", method=RequestMethod.GET)
 	public String form() {
-		return "authority/admin_board";
+		return "/approval/finishList";
 	}
-	
 	
 }

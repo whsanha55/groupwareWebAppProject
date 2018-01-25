@@ -61,8 +61,8 @@
 				  <br>
                   <li><h3>게시판</h3>
                     <ul class="nav child_menu" style="display: block;">
-                      <li><a href='<c:url value="/notice.do"/>'>공지사항</a></li>
-                      <li><a href="article.html">게시판</a></li>
+                      <li><a href='<c:url value="/noticeList.do"/>'>공지사항</a></li>
+                      <li><a href='<c:url value="/postList.do"/>'>게시판</a></li>
                     </ul>
                   </li>
 				  <br>

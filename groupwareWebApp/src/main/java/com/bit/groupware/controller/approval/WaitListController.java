@@ -1,16 +1,16 @@
-package com.bit.groupware.controller.authority;
+package com.bit.groupware.controller.approval;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class AdminRetrieveRoleController {
-
-	@RequestMapping(value="/admin/role.do", method=RequestMethod.GET)
-	public String form() {
-		return "authority/admin_role";
-	}
+public class WaitListController {
 	
+	//대기문서함 페이지 요청
+	@RequestMapping(value="/waitList.do", method=RequestMethod.GET)
+	public String form() {
+		return "/approval/waitList";
+	}
 	
 }
