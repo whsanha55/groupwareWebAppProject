@@ -7,28 +7,33 @@ public class PlanVO {
 	private String pNo;
 	private String pTitle;
 	private String pClass;
-	private String plmpt;
+	private String pImpt;
 	private String pContent;
 	private String startDate;
 	private String endDate;
+	private int latitude;
+	private int longitude;
 	private CodeVO code;
 	private EmployeeVO employee;
 	private List<PlanFileVO> files;
 	
 	public PlanVO() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public PlanVO(String pNo, String pTitle, String pClass, String plmpt, String pContent, String startDate,
-			String endDate, CodeVO code, EmployeeVO employee, List<PlanFileVO> files) {
+	public PlanVO(String pNo, String pTitle, String pClass, String pImpt, String pContent, String startDate,
+			String endDate, int latitude, int longitude, CodeVO code, EmployeeVO employee, List<PlanFileVO> files) {
 		super();
 		this.pNo = pNo;
 		this.pTitle = pTitle;
 		this.pClass = pClass;
-		this.plmpt = plmpt;
+		this.pImpt = pImpt;
 		this.pContent = pContent;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.code = code;
 		this.employee = employee;
 		this.files = files;
@@ -58,12 +63,12 @@ public class PlanVO {
 		this.pClass = pClass;
 	}
 
-	public String getPlmpt() {
-		return plmpt;
+	public String getpImpt() {
+		return pImpt;
 	}
 
-	public void setPlmpt(String plmpt) {
-		this.plmpt = plmpt;
+	public void setpImpt(String pImpt) {
+		this.pImpt = pImpt;
 	}
 
 	public String getpContent() {
@@ -88,6 +93,22 @@ public class PlanVO {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public int getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(int latitude) {
+		this.latitude = latitude;
+	}
+
+	public int getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(int longitude) {
+		this.longitude = longitude;
 	}
 
 	public CodeVO getCode() {
@@ -116,10 +137,13 @@ public class PlanVO {
 
 	@Override
 	public String toString() {
-		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", pClass=" + pClass + ", plmpt=" + plmpt + ", pContent="
-				+ pContent + ", startDate=" + startDate + ", endDate=" + endDate + ", code=" + code + ", files=" + files
-				+ "]";
+		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", pClass=" + pClass + ", pImpt=" + pImpt + ", pContent="
+				+ pContent + ", startDate=" + startDate + ", endDate=" + endDate + ", latitude=" + latitude
+				+ ", longitude=" + longitude + ", code=" + code + ", employee=" + employee + ", files=" + files + "]";
 	}
+	
+	
+	
 	
 	
 	
