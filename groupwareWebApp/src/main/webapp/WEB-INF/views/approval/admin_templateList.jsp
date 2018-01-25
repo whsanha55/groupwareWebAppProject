@@ -6,8 +6,6 @@
 	<title>관리자 양식 관리</title>
 	</head>
 	<body>
-			<!-- page content -->
-			<div class="right_col" role="main">
 				<div class="">
 					<div class="page-title">
 						<div class="title_left">
@@ -137,7 +135,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	<!-- /page content -->
 	<!-- 모달 팝업 -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">

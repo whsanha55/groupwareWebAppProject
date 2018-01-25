@@ -17,7 +17,7 @@
 	<!-- 일정 파일 삭제 -->
 	<delete id="deletePlanFile" parameterType="PlanFile" statementType="PREPARED">
 		delete from plan_file
-		where file_no=#{fileNo}
+		where p_no=#{pNo}
 	</delete>
 	
 </mapper>
