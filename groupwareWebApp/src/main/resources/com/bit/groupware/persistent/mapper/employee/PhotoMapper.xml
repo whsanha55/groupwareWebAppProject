@@ -6,7 +6,7 @@
 <mapper namespace="com.bit.groupware.persistent.mapper.EmployeeMapper">
 	
 	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
-		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
+		<selectKey keyProperty="emp_no" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
 		</selectKey>				
 		insert into article (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
