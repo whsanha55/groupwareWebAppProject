@@ -6,6 +6,7 @@
 <title>대기문서함</title>
 </head>
 <body>
+          
 		  <!-- 등록된 관리자 리스트 -->
           <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">

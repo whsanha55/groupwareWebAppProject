@@ -41,7 +41,7 @@
 	</insert>
 	
 	
-	<!-- 일정번호에 해당하는 일정 조회 -->
+	<!-- 일정번호에 해당하는 일정 상세 조회 -->
 	<resultMap id="selectPlanResultMap" type="Plan" >
 		<id column="p_no"				property="pNo" />
 		<result column="p_title"			property="pTitle" />

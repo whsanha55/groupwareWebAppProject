@@ -1,9 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 
-	        <!-- page content -->
-        <div class="right_col" role="main" >
-          <!-- top tiles -->
-          
 		  <!-- 등록된 관리자 리스트 -->
           <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -164,21 +160,10 @@
               </div>
                 </div>
                 <!-- end of weather widget -->
-              </div>
-            </div>
-          
-        
+              </div>  
         <!-- /page content -->
 
-        <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            @Copyright 전자결재관리시스템 
-          </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
-      
+
     
 
 	<!-- 모달 팝업 -->
