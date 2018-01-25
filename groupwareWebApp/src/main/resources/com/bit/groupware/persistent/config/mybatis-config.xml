@@ -4,27 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		
-<<<<<<< HEAD
-		<!-- <typeAlias alias="Receiver" type="com.bit.groupware.domain.approval.ReceiverVO.java"/> 
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
-		  -->
-=======
-		
->>>>>>> refs/remotes/origin/master
-		
+
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateMapper.xml" />
