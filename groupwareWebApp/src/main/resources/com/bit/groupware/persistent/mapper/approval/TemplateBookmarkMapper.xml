@@ -5,6 +5,16 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.approval.TemplateBookmarkMapper">
 	
+	<insert id="insertTemplateBookmark" parameterType="TemplateBookmark" statementType="PREPARED">
+	 <selectKey keyProperty="bookmarkNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+	 	select template_bookmark_seq from dual
+	 </selectKey>
+	 	insert into template_bookmark(bookmark_no,emp_no,tmp_no)
+		values(#{bookmarkNo},#{employee.empNo},${template.tmpNo})
+	</insert>
 	
-	
+	<delete id="deleteTemplateBookmark" parameterType="int" statementType="PREPARED" >
+		delete from TEMPLATE_BOOKMARK
+		where bookmark_no=#{bookmarkNo}
+	</delete>
 </mapper>
