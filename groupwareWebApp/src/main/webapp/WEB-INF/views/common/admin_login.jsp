@@ -35,11 +35,11 @@
             <form>
               <h1>로고</h1>
               <div>
-				<h2 class="text-left">관리자 아이디</h2>
+            <h2 class="text-left">관리자 아이디</h2>
                 <input type="text" class="form-control" placeholder="아이디를 입력해주세요." required="" />
               </div>
               <div>
-				<h2 class="text-left">비밀번호</h2>	
+            <h2 class="text-left">비밀번호</h2>   
                 <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" required="" />
               </div>
 
