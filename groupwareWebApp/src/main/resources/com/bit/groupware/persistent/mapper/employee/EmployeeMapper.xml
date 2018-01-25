@@ -5,6 +5,18 @@
   
 <mapper namespace="com.bit.groupware.persistent.mapper.EmployeeMapper">
 	
+	<insert id="insertEmployee" parameterType="Employee" statementType="PREPARED">			
+		<selectKey keyProperty="emp_no" resultType="String" statementType="STATEMENT" order="BEFORE">
+			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
+		</selectKey>				
+		insert into article (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
+								email, reg_number, hire_date, address)
+		values (#{emp_no}, #{emp_name}, #{emp_pwd}, #{eng_name}, #{phone_number}, 
+					#{email}, #{reg_number}, sysdate, #{address})	
+	</insert>
+	
+	<insert id="insertEmployeeCode" parameterType="EmployeeCodeVO" statementType="PREPARED"> 
 		
+	</insert>
 
 </mapper>
