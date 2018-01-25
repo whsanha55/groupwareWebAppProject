@@ -12,7 +12,7 @@
                   <div class="x_title">
                     <h2>공지사항</h2>
                     <div class="text-right">
-                  <button class="btn btn-primary pull-right">등록</button>
+                  <a class="btn btn-primary" href='<c:url value="/admin/addNotice.do"/>'>등록</a>
                </div>
                     <div class="clearfix"></div>
                   </div>
@@ -38,7 +38,7 @@
                               <input type="checkbox" class="flat" name="table_records">
                             </td>
                             <td class=" ">1</td>
-                            <td class=" "><a href='<c:url value="/detailNotice.do"/>'>사이트 이전 안내입니다.</a></td>
+                            <td class=" "><a href='<c:url value="/admin/detailNotice.do"/>'>사이트 이전 안내입니다.</a></td>
                             <td class=" ">31</td>
                             <td class=" ">2017.12.31</td>
                             

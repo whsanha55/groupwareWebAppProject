@@ -23,10 +23,8 @@
 		
 	</typeAliases>
 	<mappers>
-		<!-- 
-		<mapper resource="com/bit/groupware/persistent/mapper/ArticleMapper.xml" />
-		<mapper resource="com/bit/groupware/persistent/mapper/ArticleFileMapper.xml" />
-		 -->
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateMapper.xml" />
+			
 	</mappers>
 
 </configuration>
