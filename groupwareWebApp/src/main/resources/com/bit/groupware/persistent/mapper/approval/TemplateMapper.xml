@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.approval.TemplateMapper">
+
+	<insert id="insertTemplate" parameterType="Template" statementType="PREPARED">
+		<selectKey keyProperty="tmpNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+			select template_seq.nextval from dual
+		</selectKey>
+		insert into template(tmp_no,tmp_name,category_no,tmp_content,tmp_summary,tmp_using)
+		values(#{tmpNo},#{tmpName},#{templateCategory.categoryNo},#{tmpContent},#{tmpSummary},#{tmpUsing});
+	</insert>
+	
+	
+	<resultMap id="selectTemplateResultMap" type="Template">
+		<id property="tmpNO" column="tmp_no" />
+		<result property="tmpName" column="tmp_name" />
+		<result property="tmpContent" column="tmp_content" />
+		<result property="tmpSummary" column="tmp_summary" />
+		<result property="tmpDate" column="tmp_date" />
+		<result property="tmpUsing" column="tmp_using" />
+		
+		<association property="templateCategory" column="category_no" javaType="TemplateCategory">
+			<id property="categoryNo" column="category_no" />
+			<result property="categoryName" column="category_name" />
+		</association>
+	</resultMap>
+	<select statementType="PREPARED" parameterType="map" id="selectTemplateList" resultMap="selectTemplateResultMap" > 
+		select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,t.category_no,tc.CATEGORY_NAME
+		from (select rownum as rn, tmp.*
+    		  from (select *	
+              		from template order by tmp_name asc) tmp) t,template_category tc
+        where t.category_no=tc.category_no
+
+		<if test="keyfield=='categoryNo' and keyword!=null">
+			and tc.category_no=${categoryNo}
+		</if>
+		<if test="keyfield=='categoryName'and keyword!=null">
+			and tc.category_name=${categoryName}
+		</if>
+		<if test="keyfield=='tmpName'and keyword!=null">
+			and t.tmp_name=#{tmpName}
+		</if>
+		<![CDATA[
+		and t.rn>=1 and t.rn<=5]]>
+	</select>
+	
+	<select statementType="PREPARED" parameterType="int" id="selectTemplate" resultMap="">
+		 select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,
+		 t.category_no,tc.CATEGORY_NAME
+		from template t,template_category tc
+		where t.category_no=tc.category_no
+		and t.tmp_no='3';
+	</select>
+		
+		
+	<delete id="deleteTemplate" parameterType="int" statementType="PREPARED">
+		delete from template
+		where tmp_no=#{tmpNo}
+	</delete>	
+	
+	
+	
+
+</mapper>
