@@ -11,4 +11,6 @@ public interface ReceiverLineDAO {
 	void insertReceiverLineList(List<ReceiverLineVO> receiverLines);
 	
 	void deleteReceiverLines(int receiverNo);
+	
+	
 }
