@@ -45,6 +45,15 @@
                    </tr>
                       </table>
             </div>
+            <div class="ln_solid"></div>
+			<div class="form-group">
+				<label class="control-label col-md-3 col-sm-3 col-xs-12">홍길동
+					</label>
+				<div class="col-md-9 col-sm-9 col-xs-12">
+					<textarea class="resizable_textarea form-control"
+						placeholder="댓글작성"></textarea>
+				</div>
+			</div>
           </div>
        </div>
 </body>
