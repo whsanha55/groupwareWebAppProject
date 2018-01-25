@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bit.groupware.persistent.mapper.approval.TemplateMapper">
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.NotificationMapper">
 
 	<insert id="insertTemplate" parameterType="Template" statementType="PREPARED">
 		<selectKey keyProperty="tmpNo" resultType="int" statementType="STATEMENT" order="BEFORE">
@@ -60,9 +60,25 @@
 	<delete id="deleteTemplate" parameterType="int" statementType="PREPARED">
 		delete from template
 		where tmp_no=#{tmpNo}
-	</delete>	
+	</delete>
+
+	<resultMap id="selectNotificationListMap" type="NotificationVO">
+		<id property="noteNo" column="note_no" />
+		<result property="noteDate" column="note_date" />
+		<result property="redirectPath" column="redirect_path" />
+		<result property="message" column="message" />
+		<association property="employee" column="emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="emp_no" />
+			<result property="empName" column="emp_name" />
+			<collection property="codes" ofType="codeVO">
+				<result property="cName" column="c_name"/>
+			</collection>
+		</association>
+	</resultMap>
 	
+	<select id="selectNotificationList" parameterType="map" resultMap="selectNotificationListMap" >
 	
+	</select>
 	
 
 </mapper>
