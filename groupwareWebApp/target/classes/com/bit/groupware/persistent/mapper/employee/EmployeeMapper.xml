@@ -22,7 +22,7 @@
 		        where c_name = #{cName}), #{empNo})
 	</insert>
 	
-	<select id="selectEmployeeList" resultType="EmployeeVO" statementType="STATEMENT">
+	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="STATEMENT">
 		select 
 			emp_no, 
 			emp_Name,
