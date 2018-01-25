@@ -50,13 +50,13 @@
 						<li class=""><a>관리 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu" style="display: none;">
 								<%-- <li><a href="${pageScope.url1 }">권한 관리</a></li> --%>
-								<li><a href='<c:url value="/admin/admin_authorityList.do"/>'>권한 관리</a></li>
-								<li><a href='<c:url value="/admin/admin_roleList.do"/>'>역할 관리</a></li>
+								<li><a href='<c:url value="/admin/authorityList.do"/>'>권한 관리</a></li>
+								<li><a href='<c:url value="/admin/roleList.do"/>'>역할 관리</a></li>
 							</ul></li>
 						<li><a>커뮤니티 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="index2.html">공지사항 관리</a></li>
-								<li><a href="a_index_board.html">자료실 관리</a></li>
+								<li><a href='<c:url value="/admin/notice.do"/>'>공지사항 관리</a></li>
+								<li><a href='<c:url value="/admin/board.do"/>'>게시판 관리</a></li>
 							</ul></li>
 					</ul></li>
 				<br>

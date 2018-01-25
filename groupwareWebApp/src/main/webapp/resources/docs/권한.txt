@@ -1,0 +1,3 @@
+코드 관리
+서비스명 pattern 							  authority
+코드 등록 /admin/code/registerCode.do ROLE_ADMIN
