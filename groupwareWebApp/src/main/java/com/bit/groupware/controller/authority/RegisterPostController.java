@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class AdminRetrieveRoleController {
+public class RegisterPostController {
 
-	@RequestMapping(value="/admin/role.do", method=RequestMethod.GET)
+	@RequestMapping(value="/addPost.do", method=RequestMethod.GET)
 	public String form() {
-		return "authority/admin_role";
+		return "authority/addPost";
 	}
 	
 	
