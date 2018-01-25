@@ -1,6 +1,6 @@
 <%--content.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,15 +35,18 @@
                   <label class="control-label col-md-2" for="first-name">롤 타입
                   </label>
                   <div class="col-md-8">
-                    <p>
-                        url:<div class="iradio_flat-green checked" style="position: relative;"><input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required="" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> 
-                  method: <div class="iradio_flat-green" style="position: relative;"><input type="radio" class="flat" name="gender" id="genderF" value="F" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                      </p>
+                    <label class="radio-inline"> <input
+										type="radio" name="inlineRadioOptions" id="inlineRadio1"
+										value="option1"> url
+								</label> <label class="radio-inline"> <input type="radio"
+										name="inlineRadioOptions" id="inlineRadio2" value="option2">
+									   method
+								</label>
                   </div>
                </div>   
                   </div>
               <div class="text-center">
-                  <button class="btn btn-primary">등록</button>
+                   <a class="btn btn-primary" href='<c:url value="/admin/designRole.do"/>'>등록</a>
                   <button class="btn btn-default">취소</button>
                </div>
                 </div>

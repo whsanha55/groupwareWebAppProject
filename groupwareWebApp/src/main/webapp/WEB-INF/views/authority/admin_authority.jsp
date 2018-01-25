@@ -28,22 +28,13 @@
 				<div class="col-md-12" style="margin-bottom: 40px;">
 					<label class="control-label col-md-2" for="first-name">유무 </label>
 					<div class="col-md-8">
-						<p>유 :
-						<div class="iradio_flat-green checked" style="position: relative;">
-							<input type="radio" class="flat" name="gender" id="genderM"
-								value="M" checked="" required=""
-								style="position: absolute; opacity: 0;">
-							<ins class="iCheck-helper"
-								style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-						</div>
-						무 :
-						<div class="iradio_flat-green" style="position: relative;">
-							<input type="radio" class="flat" name="gender" id="genderF"
-								value="F" style="position: absolute; opacity: 0;">
-							<ins class="iCheck-helper"
-								style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-						</div>
-						</p>
+						<label class="radio-inline"> <input
+										type="radio" name="inlineRadioOptions" id="inlineRadio1"
+										value="option1"> 유
+								</label> <label class="radio-inline"> <input type="radio"
+										name="inlineRadioOptions" id="inlineRadio2" value="option2">
+									   무
+								</label>
 					</div>
 				</div>
 				<div class="col-md-12" style="margin: 40px 0;">
