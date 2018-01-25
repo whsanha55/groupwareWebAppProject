@@ -25,17 +25,18 @@
 		<div class="menu_section">
 			<ul class="nav side-menu">
 				<li><h3>결재관리</h3>
-									<ul class="nav child_menu" style="display: block;">
-										<li><a href='<c:url value="/admin/approval.do" />'>결재조회</a></li>
-										<li><a href='<c:url value="/admin/template.do" />'>양식관리</a></li>
-									</ul></li>
+					<ul class="nav child_menu" style="display: block;">
+						<li><a href='<c:url value="/admin/approval.do" />'>결재조회</a></li>
+						<li><a href='<c:url value="/admin/template.do" />'>양식관리</a></li>
+					</ul></li>
 				<br>
 				<li><h3>권한관리</h3>
 					<ul class="nav child_menu" style="display: block;">
 						<li class=""><a>관리 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu" style="display: none;">
 								<%-- <li><a href="${pageScope.url1 }">권한 관리</a></li> --%>
-								<li><a href='<c:url value="/admin/authorityList.do"/>'>권한 관리</a></li>
+								<li><a href='<c:url value="/admin/authorityList.do"/>'>권한
+										관리</a></li>
 								<li><a href='<c:url value="/admin/roleList.do"/>'>역할 관리</a></li>
 							</ul></li>
 						<li><a>커뮤니티 <span class="fa fa-chevron-down"></span></a>
@@ -45,12 +46,16 @@
 							</ul></li>
 					</ul></li>
 				<br>
-				<li><h3>결재관리</h3>
+				<li><h3>인사관리</h3>
 					<ul class="nav child_menu" style="display: block;">
-						<li><a href="general_elements.html">내 정보 조회/수정</a></li>
-						<li><a href="media_gallery.html">개인설정</a></li>
-						<li><a href="typography.html">서명설정</a></li>
-						<li><a href="icons.html">대결권자 설정</a></li>
+						<li><a>사원관리 <span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu">
+								<li><a href="admin_employeeList.html">사원명부</a></li>
+								<li><a href="admin_codeHistory.html">이력조회</a></li>
+							</ul>
+						<li><a href="admin_codeList.html">코드관리</a></li>
+						<li><a href="admin_departmentList.html">부서관리</a></li>
+						<li><a href="admin_calendar.html">일정관리</a></li>
 					</ul></li>
 			</ul>
 		</div>
