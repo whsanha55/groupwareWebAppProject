@@ -13,15 +13,15 @@
 	
 	
 	<!-- 코드 이름 중복체크 -->
-	<select id="checkCode" resultMap="Code">
-		select c_name
+	<select id="checkCode" parameterType="String" resultType="int">
+		select distinct 1
 		from code
 		where c_name=#{cName}
 	</select>
 	
 	
 	<!-- 하위 코드 수 확인 -->
-	<select id="checkRelation" resultMap="Code" >
+	<select id="checkRelation" parameterType="String" resultMap="int">
 		select count(*)
       	from code
        	where relation_code=#{relationCode}
