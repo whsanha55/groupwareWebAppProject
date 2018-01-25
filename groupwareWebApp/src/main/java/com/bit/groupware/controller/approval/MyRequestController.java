@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ReferenceListController {
+public class MyRequestController {
 
-	//참조 문서함 페이지 요청
-	@RequestMapping(value="/reference.do", method=RequestMethod.GET)
+	//결재 요청함 페이지 요청
+	@RequestMapping(value="/approvalMyRequest.do", method=RequestMethod.GET)
 	public String form() {
-		return "/approval/referenceList";		
+		return "approval/myRequestList";
+		
 	}
-	
 }

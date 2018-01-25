@@ -3,20 +3,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>참조 문서함</title>
+<title>진행문서함</title>
 </head>
 <body>
-        <!-- page content -->
-        <div class="right_col" role="main" >
-          <!-- top tiles -->
+
           
 		  <!-- 등록된 관리자 리스트 -->
           <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>참조 문서함</h2>
+                    <h2>결재 진행함</h2>
                     
-                    <div class="clearfix"></div>
+                    <div class="clearfix">&nbsp;&nbsp;1건의 결재 진행 문서</div>
                   </div>
 				  <div>
 				   <div class="btn-group">
@@ -62,8 +60,7 @@
                             <th class="column-title">문서 제목</th>
                             <th class="column-title">기안자</th>
                             <th class="column-title">기안부서</th>
-							<th class="column-title">기안날짜</th>
-							<th class="column-title">승인날짜</th>
+                            <th class="column-title">기안일</th>
                             <th class="column-title">현황</th>
                             
                           </tr>
@@ -79,7 +76,6 @@
                             <td class=" ">이지희</td>
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
-							<td class=" ">2018.01.07</td>
                             <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
                             
                             
@@ -87,12 +83,11 @@
                          <tr class="even pointer">
                            
 							<td>2</td>
-                             <td class=" ">지출결의서</td>
+                            <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">이지희</td>
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
-							<td class=" ">2018.01.07</td>
                             <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
                             
                             
@@ -100,12 +95,11 @@
 						  <tr class="even pointer">
                            
 							<td>3</td>
-                             <td class=" ">지출결의서</td>
+                            <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">이지희</td>
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
-							<td class=" ">2018.01.07</td>
                             <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
                             
                             
@@ -113,12 +107,11 @@
 						  <tr class="even pointer">
                             
 							<td>4</td>
-                             <td class=" ">지출결의서</td>
+                            <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">이지희</td>
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
-							<td class=" ">2018.01.07</td>
                             <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
                             
                             
@@ -126,12 +119,11 @@
 						  <tr class="even pointer">
                             
 							<td>5</td>
-                            <td class=" ">지출결의서</td>
+                           <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">이지희</td>
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
-							<td class=" ">2018.01.07</td>
                             <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
                             
                             
@@ -139,12 +131,11 @@
 						  <tr class="even pointer">
                            
 							<td>6</td>
-                             <td class=" ">지출결의서</td>
+                            <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">이지희</td>
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
-							<td class=" ">2018.01.07</td>
                             <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
                             
                             
@@ -171,10 +162,9 @@
                 </div>
                 <!-- end of weather widget -->
               </div>
-            </div>  
         <!-- /page content -->
-
-		<!-- 모달 팝업 -->
+        
+        <!-- 모달 팝업 -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 		  <div class="modal-dialog">
 		    <div class="modal-content" style="width:700px;">
@@ -216,10 +206,10 @@
 	                            <td><a data-toggle="modal" data-target="#myModal">2</a><a></a></td>
 								
 	                            <td class=" ">이지희 대리 영업부</td>
-								<td class=" ">결재</td>
+								<td class=" ">진행중</td>
 	                            <td class=" ">2018-01-03 10:30</td>
 	                            <td class=" ">2018-01-03 13:10</td>
-	                            <td class=" ">2018-01-03 14:10</td>
+	                            <td class=" "></td>
 	                            
 	                            
 	                            
@@ -235,7 +225,7 @@
 		    </div>
 		  </div>
 		</div>
-		<!-- 모달팝업 끝 -->
-		
+		<!-- 모달 팝업 끝 -->
+
 </body>
 </html>

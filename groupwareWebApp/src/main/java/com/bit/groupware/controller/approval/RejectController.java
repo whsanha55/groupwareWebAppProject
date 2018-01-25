@@ -5,12 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class RequestListController {
+public class RejectController {
 
-	//결재 요청함 페이지 요청
-	@RequestMapping(value="/request.do", method=RequestMethod.GET)
+	//반려문서함 페이지 요청
+	@RequestMapping(value="/approvalReject.do", method=RequestMethod.GET)
 	public String form() {
-		return "/approval/requestList";
-		
+		return "approval/rejectList";
 	}
 }
