@@ -56,7 +56,7 @@
                             <th class="column-title">양식명</th>
                             <th class="column-title">문서 제목</th>
                             <th class="column-title">기안일</th>
-							<th class="column-title">현황</th>
+							<th class="column-title">결재현황</th>
                             
                           </tr>
                         </thead>
@@ -70,7 +70,7 @@
                             <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">2018.03.02</td>
-							<td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+							<td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -79,7 +79,7 @@
                             <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">2018.03.02</td>
-							<td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+							<td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -89,7 +89,7 @@
                             <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">2018.03.02</td>
-							<td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+							<td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                           </tr>
 						  <tr class="even pointer">
@@ -98,7 +98,7 @@
                             <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">2018.03.02</td>
-							<td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+							<td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                           </tr>
 						  <tr class="even pointer">
@@ -107,7 +107,7 @@
                             <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">2018.03.02</td>
-							<td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+							<td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -117,7 +117,7 @@
                             <td class=" ">지출결의서</td>
                             <td class=" ">비품 구매 건</td>
                             <td class=" ">2018.03.02</td>
-							<td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+							<td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
