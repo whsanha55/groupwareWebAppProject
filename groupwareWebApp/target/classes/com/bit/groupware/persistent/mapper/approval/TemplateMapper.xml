@@ -47,12 +47,13 @@
 		and t.rn>=1 and t.rn<=5]]>
 	</select>
 	
-	<select statementType="PREPARED" parameterType="int" id="selectTemplate" resultMap="">
+	
+	<select statementType="PREPARED" parameterType="int" id="selectTemplate" resultMap="selectTemplateResultMap">
 		 select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,
 		 t.category_no,tc.CATEGORY_NAME
 		from template t,template_category tc
 		where t.category_no=tc.category_no
-		and t.tmp_no='3';
+		and t.tmp_no=${tmpNo}
 	</select>
 		
 		
