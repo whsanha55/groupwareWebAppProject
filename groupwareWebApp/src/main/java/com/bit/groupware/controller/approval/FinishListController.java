@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class FinishListController {
 
 	//승인 문서함 페이지 요청
-	@RequestMapping(value="/finishList.do", method=RequestMethod.GET)
+	@RequestMapping(value="/finish.do", method=RequestMethod.GET)
 	public String form() {
 		return "/approval/finishList";
 	}
