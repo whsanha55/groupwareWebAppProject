@@ -22,7 +22,7 @@
                         <thead>
                           <tr class="headings">
                              <th>
-                              <input type="checkbox" id="check-all" class="flat">
+                              <input type="checkbox" id="ex_chk"> 
                             </th>
                             <th class="column-title">NO </th>
                             <th class="column-title">제목 </th>
@@ -35,7 +35,7 @@
                         <tbody>
                         <tr class="even pointer">
                             <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
+                              <input type="checkbox" id="ex_chk"> 
                             </td>
                             <td class=" ">1</td>
                             <td class=" "><a href='<c:url value="/admin/detailNotice.do"/>'>사이트 이전 안내입니다.</a></td>
@@ -46,7 +46,7 @@
                           </tr>
                          <tr class="even pointer">
                              <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
+                              <input type="checkbox" id="ex_chk"> 
                             </td>
                             <td class=" ">2</td>
                             <td class=" ">공지입니다.</td>
@@ -57,7 +57,7 @@
                           </tr>
                     <tr class="even pointer">
                         <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
+                              <input type="checkbox" id="ex_chk"> 
                             </td>
                             <td class=" ">3</td>
                             <td class=" ">공지입니다.</td>

@@ -1,5 +1,10 @@
 package com.bit.groupware.persistent.authority;
 
+import java.util.List;
+import java.util.Map;
+
+import com.bit.groupware.domain.authority.PostVO;
+
 public class PostDAOImpl implements PostDAO {
 
 	public void insertPost(PostVO post) {
@@ -17,7 +22,7 @@ public class PostDAOImpl implements PostDAO {
 		
 	}
 
-	public postVO detailPost(int postNo) {
+	public PostVO detailPost(int postNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,5 +1,9 @@
 package com.bit.groupware.persistent.authority;
 
+import java.util.List;
+
+import com.bit.groupware.domain.authority.BoardVO;
+
 public interface BoardDAO {
 	
 	//게시판 목록을 조회한다.

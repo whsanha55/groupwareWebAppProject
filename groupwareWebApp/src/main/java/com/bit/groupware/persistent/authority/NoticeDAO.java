@@ -3,6 +3,8 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.authority.NoticeVO;
+
 public interface NoticeDAO {
 	
 	//공지사항 정보를 최근 등록일순으로 조회한다.

@@ -3,6 +3,8 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.authority.NoticeVO;
+
 public class NoticeDAOImpl implements NoticeDAO {
 
 	public List<NoticeVO> selectNoticeList(Map<String, Integer> map) {

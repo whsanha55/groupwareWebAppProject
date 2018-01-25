@@ -50,7 +50,11 @@
 							  <li><a href="index2.html">결재 대기함</a></li>
 							  <li><a href="index3.html">결재 진행함</a></li>
 					     </ul>
-						 <li><a>완료 <span class="fa fa-chevron-down"></span></a>
+					     <li><a>참조 <span class="fa fa-chevron-down"></span></a>
+						 <ul class="nav child_menu">
+							  <li><a href="index2.html">참조 문서함</a></li>							 
+					     </ul>
+                     	 <li><a>완료 <span class="fa fa-chevron-down"></span></a>
 						 <ul class="nav child_menu">
 							  <li><a href="index2.html">승인 문서함</a></li>
 							  <li><a href="index3.html">반려 문서함</a></li>

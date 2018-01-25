@@ -3,6 +3,8 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.authority.AuthEmpVO;
+
 public class AuthEmpDAOImpl implements AuthEmpDAO {
 
 	public List<AuthEmpVO> selectAuthEmp() {
