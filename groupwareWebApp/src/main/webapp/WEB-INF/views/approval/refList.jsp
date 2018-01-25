@@ -61,7 +61,7 @@
                             <th class="column-title">기안부서</th>
 							<th class="column-title">기안날짜</th>
 							<th class="column-title">승인날짜</th>
-                            <th class="column-title">현황</th>
+                            <th class="column-title">결재현황</th>
                             
                           </tr>
                         </thead>
@@ -77,7 +77,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -90,7 +90,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -103,7 +103,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -116,7 +116,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -129,7 +129,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -142,7 +142,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
