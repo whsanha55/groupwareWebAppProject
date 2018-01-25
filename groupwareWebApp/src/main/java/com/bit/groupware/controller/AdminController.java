@@ -9,11 +9,11 @@ public class AdminController {
 
 	@RequestMapping(value="/admin/index.do", method=RequestMethod.GET)
 	public String form() {
-		return "admin_header/admin_content";
+		return "adminMain";
 	}
 	
 	@RequestMapping(value="/index.do", method=RequestMethod.GET)
 	public String form1() {
-		return "header/menu/content";
+		return "main";
 	}
 }
