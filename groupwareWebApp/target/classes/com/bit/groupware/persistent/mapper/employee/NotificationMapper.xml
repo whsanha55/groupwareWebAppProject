@@ -5,63 +5,6 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.NotificationMapper">
 
-	<insert id="insertTemplate" parameterType="Template" statementType="PREPARED">
-		<selectKey keyProperty="tmpNo" resultType="int" statementType="STATEMENT" order="BEFORE">
-			select template_seq.nextval from dual
-		</selectKey>
-		insert into template(tmp_no,tmp_name,category_no,tmp_content,tmp_summary,tmp_using)
-		values(#{tmpNo},#{tmpName},#{templateCategory.categoryNo},#{tmpContent},#{tmpSummary},#{tmpUsing});
-	</insert>
-	
-	
-	<resultMap id="selectTemplateResultMap" type="Template">
-		<id property="tmpNO" column="tmp_no" />
-		<result property="tmpName" column="tmp_name" />
-		<result property="tmpContent" column="tmp_content" />
-		<result property="tmpSummary" column="tmp_summary" />
-		<result property="tmpDate" column="tmp_date" />
-		<result property="tmpUsing" column="tmp_using" />
-		
-		<association property="templateCategory" column="category_no" javaType="TemplateCategory">
-			<id property="categoryNo" column="category_no" />
-			<result property="categoryName" column="category_name" />
-		</association>
-	</resultMap>
-	<select statementType="PREPARED" parameterType="map" id="selectTemplateList" resultMap="selectTemplateResultMap" > 
-		select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,t.category_no,tc.CATEGORY_NAME
-		from (select rownum as rn, tmp.*
-    		  from (select *	
-              		from template order by tmp_name asc) tmp) t,template_category tc
-        where t.category_no=tc.category_no
-
-		<if test="keyfield=='categoryNo' and keyword!=null">
-			and tc.category_no=${categoryNo}
-		</if>
-		<if test="keyfield=='categoryName'and keyword!=null">
-			and tc.category_name=${categoryName}
-		</if>
-		<if test="keyfield=='tmpName'and keyword!=null">
-			and t.tmp_name=#{tmpName}
-		</if>
-		<![CDATA[
-		and t.rn>=1 and t.rn<=5]]>
-	</select>
-	
-	
-	<select statementType="PREPARED" parameterType="int" id="selectTemplate" resultMap="selectTemplateResultMap">
-		 select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,
-		 t.category_no,tc.CATEGORY_NAME
-		from template t,template_category tc
-		where t.category_no=tc.category_no
-		and t.tmp_no=${tmpNo}
-	</select>
-		
-		
-	<delete id="deleteTemplate" parameterType="int" statementType="PREPARED">
-		delete from template
-		where tmp_no=#{tmpNo}
-	</delete>
-
 	<resultMap id="selectNotificationListMap" type="NotificationVO">
 		<id property="noteNo" column="note_no" />
 		<result property="noteDate" column="note_date" />
@@ -77,8 +20,27 @@
 	</resultMap>
 	
 	<select id="selectNotificationList" parameterType="map" resultMap="selectNotificationListMap" >
-	
+		select * 
+		from (select * 
+		      from (select t1.note_no, t1.note_date, t1.redirect_path, t1.message, t1.emp_no, t2.emp_name, t2.c_name, rownum rn
+		            from notification t1, employee_view t2
+		            where t1.emp_no = t2.emp_no
+		            and t1.emp_no = ${empNo}
+		            order by t1.note_date desc)
+		      where rn &lt;= ${endRow})
+	   where rn &gt;= ${startRow}
 	</select>
 	
+	<delete id="deleteNotification" parameterType="map" >
+		delete from notification
+		<choose>
+			<when test="noteNo != null">
+				where note_no = ${noteNo}
+			</when>
+			<otherwise>
+				where emp_no = ${empNo}
+			</otherwise>
+		</choose>
+	</delete>
 
 </mapper>

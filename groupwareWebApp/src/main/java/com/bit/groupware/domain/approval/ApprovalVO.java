@@ -8,14 +8,11 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 public class ApprovalVO {
 
 	int apprNo;
-
 	String apprDate;
 	String validDate;
-
 	int urgency;
 	String apprTitle;
 	String apprContent;
-
 	int apprFinalStatus;
 	EmployeeVO employee;
 	TemplateVO template;
@@ -47,10 +44,6 @@ public class ApprovalVO {
 
 	public void setValidDate(String validDate) {
 		this.validDate = validDate;
-	}
-
-	public int isUrgency() {
-		return urgency;
 	}
 
 	public String getApprTitle() {
@@ -125,7 +118,6 @@ public class ApprovalVO {
 		this.urgency = urgency;
 	}
 
-	@Override
 	public String toString() {
 		return "ApprovalVO [apprNo=" + apprNo + ", apprDate=" + apprDate + ", validDate=" + validDate + ", urgency="
 				+ urgency + ", apprTitle=" + apprTitle + ", apprContent=" + apprContent + ", apprFinalStatus="
