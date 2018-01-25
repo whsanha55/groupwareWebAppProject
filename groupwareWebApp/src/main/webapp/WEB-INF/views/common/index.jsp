@@ -72,7 +72,9 @@
 			<!-- /top navigation -->
 
 			<!-- page content -->
+			<div class="right_col" role="main">	
 			<tiles:insertAttribute name="content" ignore="true" />
+			</div>
 			<!-- end of weather widget -->
 		</div>
 	</div>
