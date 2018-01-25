@@ -35,5 +35,6 @@
 			expression="execution(public * com.bit.groupware.service..*.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
 	</aop:config>
-
+	
+	
 </beans>
