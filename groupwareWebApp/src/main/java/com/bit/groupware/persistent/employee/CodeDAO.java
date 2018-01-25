@@ -14,7 +14,7 @@ public interface CodeDAO {
 	boolean checkCode(String cName);
 	
 	//하위 코드 수 확인
-	boolean checkRelation(String relationCode);
+	int checkRelation(String relationCode);
 	
 	//코드 리스트 조회
 	List<CodeVO> selectCodeList(Map<String, Object> map);
