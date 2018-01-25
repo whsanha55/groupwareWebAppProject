@@ -47,9 +47,8 @@
 	</head>
 	
 	<body>
-        <!-- page content -->
-        <div class="right_col" role="main" style="min-height: 939px; background-color: rgb(230, 233, 237);">
-          <div class="">
+
+          <div class="" style="min-height: 939px; background-color: rgb(230, 233, 237);">
             <div class="page-title">
            
               <div class="title_right">
@@ -136,7 +135,6 @@
 
 
           </div>
-        </div>
         <!-- /page content -->
 
 	</body>

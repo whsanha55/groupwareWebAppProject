@@ -8,9 +8,6 @@
 </head>
 <body>
 
-        <!-- page content -->
-        <div class="right_col" role="main">
-          <!-- top tiles -->
           <!--글쓰기-->
 
 
@@ -203,7 +200,6 @@
               </div>
             </div>
           </div>
-        </div>
         <!-- /page content -->
 
 
