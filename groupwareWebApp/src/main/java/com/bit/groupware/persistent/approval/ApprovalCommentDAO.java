@@ -1,6 +1,6 @@
 package com.bit.groupware.persistent.approval;
 
-import com.bit.user.domain.approval.ApprovalCommentVO;
+import com.bit.groupware.domain.approval.ApprovalCommentVO;
 
 public interface ApprovalCommentDAO {
 

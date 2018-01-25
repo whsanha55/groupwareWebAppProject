@@ -2,7 +2,7 @@ package com.bit.groupware.persistent.approval;
 
 import java.util.List;
 
-import com.bit.user.domain.approval.ReceiverLineVO;
+import com.bit.groupware.domain.approval.ReceiverLineVO;
 
 public interface ReceiverLineDAO {
 
@@ -11,4 +11,6 @@ public interface ReceiverLineDAO {
 	void insertReceiverLineList(List<ReceiverLineVO> receiverLines);
 	
 	void deleteReceiverLines(int receiverNo);
+	
+	
 }

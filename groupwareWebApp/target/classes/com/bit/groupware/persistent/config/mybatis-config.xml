@@ -4,16 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<!-- 
-		<typeAlias alias="Article" type="com.bit.groupware.domain.ArticleVO"/> 
-		<typeAlias alias="ArticleFile" type="com.bit.groupware.domain.ArticleFileVO"/> 
-		-->
+		
+		<typeAlias alias="Template" type="com.bit.groupware.domain.approval.TemplateVO"/> 
+		<typeAlias alias="Template" type="com.bit.groupware.domain.approval.TemplateCategoryVO"/>
+		
 	</typeAliases>
 	<mappers>
-		<!-- 
-		<mapper resource="com/bit/groupware/persistent/mapper/ArticleMapper.xml" />
-		<mapper resource="com/bit/groupware/persistent/mapper/ArticleFileMapper.xml" />
-		 -->
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateMapper.xml" />
+			
 	</mappers>
 
 </configuration>
