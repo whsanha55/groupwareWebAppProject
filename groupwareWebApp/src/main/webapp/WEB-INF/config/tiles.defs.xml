@@ -13,11 +13,10 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/admin_footer.jsp" />
 	</definition>
 	
-	
-	
+
 	<definition name="*/*/*" extends="adminMain">	
-		<put-attribute name="header" value="/WEB-INF/views/common/{1}.jsp" />
-		<put-attribute name="content" value="/WEB-INF/views/{2}/{3}.jsp" />
+		<put-attribute name="header" value="/WEB-INF/views/common/admin_{2}.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/{1}/admin_{3}.jsp" />
 	</definition>	 
 	
 	
@@ -28,6 +27,11 @@
 		<put-attribute name="content" value="/WEB-INF/views/common/content.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
-
+	
+	<definition name="*/*/*/*" extends="main">	
+		<put-attribute name="header" value="/WEB-INF/views/common/{2}.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/common/{3}.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/{1}/{4}.jsp" />
+	</definition>	 
 
 </tiles-definitions>
