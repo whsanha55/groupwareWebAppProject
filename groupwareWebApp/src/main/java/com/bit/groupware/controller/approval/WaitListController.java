@@ -10,7 +10,7 @@ public class WaitListController {
 	//대기문서함 페이지 요청
 	@RequestMapping(value="/wait.do", method=RequestMethod.GET)
 	public String form() {
-		return "/approval/waitList";
+		return "approval/waitList";
 	}
 	
 }
