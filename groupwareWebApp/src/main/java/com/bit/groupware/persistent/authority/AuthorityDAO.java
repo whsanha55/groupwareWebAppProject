@@ -3,6 +3,8 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.authority.AuthorityVO;
+
 public interface AuthorityDAO {
 	
 	//권한정보를 권한번호순으로 오름차순으로 조회한다.

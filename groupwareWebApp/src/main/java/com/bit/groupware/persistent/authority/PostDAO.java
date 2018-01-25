@@ -1,5 +1,10 @@
 package com.bit.groupware.persistent.authority;
 
+import java.util.List;
+import java.util.Map;
+
+import com.bit.groupware.domain.authority.PostVO;
+
 public interface PostDAO {
 	
 	//게시글을 등록한다.
@@ -13,7 +18,7 @@ public interface PostDAO {
 	void updatePost(PostVO Post);
 	
 	//게시글을 상세조회한다.
-	postVO detailPost(int postNo);
+	PostVO detailPost(int postNo);
 	
 	//게시글을 삭제한다.
 	void deletePost(int postNo);

@@ -1,19 +1,16 @@
-package com.bit.groupware.controller.approval;
+package com.bit.groupware.controller.authority;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class TempListController {
+public class AdminRetrieveRoleList2Controller {
 
-	//임시보관함 페이지 요청
-	@RequestMapping(value="/temp.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/designRole.do", method=RequestMethod.GET)
 	public String form() {
-		
-		return "/approval/tempList";
+		return "authority/admin_designateRole";
 	}
-	
 	
 	
 }

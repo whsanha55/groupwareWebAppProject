@@ -3,6 +3,8 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.authority.AuthorityVO;
+
 public class AuthorityDAOImpl implements AuthorityDAO {
 
 	public List<AuthorityVO> selectAuthorityListByAdmin(Map<String, Integer> map) {
