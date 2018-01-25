@@ -10,7 +10,7 @@
 			select template_seq.nextval from dual
 		</selectKey>
 		insert into template(tmp_no,tmp_name,category_no,tmp_content,tmp_summary,tmp_using)
-		values(#{tmpNo},#{tmpName},#{templateCategory.categoryNo},#{tmpContent},#{tmpSummary},#{tmpUsing});
+		values(#{tmpNo},#{tmpName},#{templateCategory.categoryNo},#{tmpContent},#{tmpSummary},#{tmpUsing})
 	</insert>
 	
 	
@@ -44,13 +44,14 @@
 			and t.tmp_name=#{tmpName}
 		</if>
 		<![CDATA[
-		and t.rn>=1 and t.rn<=5]]>
+		and t.rn>=${startRow} and t.rn<=${endRow}]]>
 	</select>
 	
 	
 	<select statementType="PREPARED" parameterType="int" id="selectTemplate" resultMap="selectTemplateResultMap">
-		 select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,
-		 t.category_no,tc.CATEGORY_NAME
+		 select t.tmp_no as tmpNo,t.tmp_name as tmpName,t.tmp_summary as tmpSummary,
+		 t.tmp_Date as tmpDate ,t.TMP_CONTENT as tmpContent, t.TMP_USING as tmpUsing,
+		 t.category_no as categoryNo,tc.CATEGORY_NAME as categoryName
 		from template t,template_category tc
 		where t.category_no=tc.category_no
 		and t.tmp_no=${tmpNo}

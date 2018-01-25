@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.approval.ApprovalMapper">
+
+	  <insert id="insertApproval"  parameterType="ApprovalVO" statementType="PREPARED" >
+	  	<selectKey keyProperty="apprNo" resultType="int" statementType="STATEMENT" order="BEFORE"> 
+	  		select approval_seq.nextval from dual
+	  	</selectKey>
+	  		insert into approval(appr_no,appr_title,appr_content,
+	                emp_no,tmp_no,valid_date,urgency)
+			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{template.tmpNo},#{validDate},#{urgency})
+	  </insert>
+
+	
+		<update id="updateApproval" parameterType="ApprovalVO" statementType="PREPARED">
+			update approval
+			set appr_final_status=#{apprFinalStatus}
+			where appr_no=#{apprNo}
+		</update>
+
+	
+	<resultMap id="selectApprvalResultMap" type="ApprovalVO">
+		<id property="apprNo" column="appr_no" />
+		<result property="apprDate" column="appr_date" />
+		<result property="apprTitle" column="appr_title" />
+		<result property="apprContent" column="appr_content" />
+		<result property="apprFinalStatus" column="appr_final_status" />
+		<result property="urgency" column="urgency" />
+		
+		<association property="employee" column="emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="emp_no" />
+			<result property="empName" column="emp_name" />
+			
+			<association property="codes" column="c_no" javaType="CodeVO">
+				<id property="cNo" column="c_no" />
+				<result property="cName" column="c_name" />	
+			</association>
+		</association>
+		<association property="template" column="tmp_no" javaType="TemplateVO">
+			<id property="tmpNo" column="tmp_no" />
+			<result property="tmpName" column="tmp_name" />	
+		</association>
+	</resultMap>
+	<select id="selectApprovalList" statementType="PREPARED" parameterType="map"  resultMap="selectTemplateResultMap" > 
+		select appr.appr_no ,appr.appr_date ,appr.urgency ,appr.appr_title, appr.appr_content,
+		appr.appr_final_status, emp.emp_no, emp.emp_name, tmp.tmp_no, tmp.tmp_name,
+		(select c_name from employee_code ec,code c 
+		where ec.c_no=c.c_no and ec.emp_no=emp.emp_no and c.c_no like 'A'||'%') as c_name
+		from approval appr, employee emp,template tmp
+		where appr.emp_no=emp.emp_no
+		and appr.tmp_no=tmp.tmp_no
+	</select>
+	
+</mapper>

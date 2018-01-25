@@ -17,6 +17,10 @@
 	<definition name="*/admin_*" extends="adminMain">	
 		<put-attribute name="content" value="/WEB-INF/views/{1}/admin_{2}.jsp" />
 	</definition>	 
+
+	<!-- 로그인 -->
+	<definition name="adminLogin" template="/WEB-INF/views/common/admin_login.jsp" />
+	<definition name="login" template="/WEB-INF/views/common/login.jsp" />
 	
 	
 	<!-- 사용자 -->
