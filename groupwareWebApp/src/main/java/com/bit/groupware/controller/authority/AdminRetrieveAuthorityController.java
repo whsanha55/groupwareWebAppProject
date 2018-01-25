@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class AdminRetrieveAuthorityController {
 
-	@RequestMapping(value="/admin/admin_authority.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/authority.do", method=RequestMethod.GET)
 	public String form() {
-		return "admin_header/authority/admin_authority";
+		return "authority/header/authority";
 	}
 	
 	
