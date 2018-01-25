@@ -10,7 +10,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>공지사항</h2>
+                    <h2>게시글</h2>
                     <div class="clearfix"></div>
                   </div>
              <div>
@@ -18,6 +18,16 @@
                         <tr>
                       <td>제목</td>
                       <td>1월 공지사항입니다.</td>
+          
+                   </tr>
+                     <tr>
+                      <td>문서종류</td>
+                      <td>공지사항</td>
+          
+                   </tr>
+                     <tr>
+                      <td>부서구분</td>
+                      <td>개발팀</td>
           
                    </tr>
                    <tr>
