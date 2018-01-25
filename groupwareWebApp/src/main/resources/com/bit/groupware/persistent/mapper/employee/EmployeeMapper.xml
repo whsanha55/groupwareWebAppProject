@@ -16,7 +16,26 @@
 	</insert>
 	
 	<insert id="insertEmployeeCode" parameterType="EmployeeCodeVO" statementType="PREPARED"> 
-		
+		insert into employee_code
+		values((select c_no
+		        from code 
+		        where c_name = #{c_name}), #{emp_no})
 	</insert>
+	
+	<select id="selectEmployeeList" resultType="Employee" statementType="STATEMENT">
+		select 
+			e.emp_no, 
+			emp_Name,
+			emp_pwd,
+			phone_number,
+			email,
+			hire_date,
+			ec.c_no,
+			c_name
+		from employee e, code c, employee_code ec
+		where e.emp_no = ec.emp_no
+			and c.c_no = ec.c_no
+		order by writeday asc	
+	</select>
 
 </mapper>

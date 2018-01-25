@@ -3,6 +3,8 @@ package com.bit.groupware.domain.approval;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bit.groupware.domain.employee.EmployeeVO;
+
 public class ApprovalVO {
 
 	int apprNo;
