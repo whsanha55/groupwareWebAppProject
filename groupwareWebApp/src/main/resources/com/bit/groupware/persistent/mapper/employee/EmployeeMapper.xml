@@ -6,7 +6,7 @@
 <mapper namespace="com.bit.groupware.persistent.mapper.EmployeeMapper">
 	
 	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
-		<selectKey keyProperty="emp_no" resultType="String" statementType="STATEMENT" order="BEFORE">
+		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
 		</selectKey>				
 		insert into article (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
@@ -22,7 +22,7 @@
 		        where c_name = #{cName}), #{empNo})
 	</insert>
 	
-	<select id="selectEmployeeList" resultType="Employee" statementType="STATEMENT">
+	<select id="selectEmployeeList" resultType="EmployeeVO" statementType="STATEMENT">
 		select 
 			emp_no, 
 			emp_Name,
@@ -82,6 +82,67 @@
 		where emp_no = #{empNo}
 	</update>
 	
+	<resultMap id="selectEmployeeResultMap" type="EmployeeVO">
+		<id column="emp_no"				 property="empNo" />
+		<result column="emp_name" 		 property="empName" />
+		<result column="emp_pwd" 	  	 property="empPwd" />
+		<result column="phone_number" 	 property="phoneNumber" />
+		<result column="email" 		 	 property="email" />
+		<result column="reg_number"   	 property="regNumber" />
+		<result column="hire_date" 	 	 property="hireDate" />
+		<result column="retire_status" 	 property="retireStatus" />
+		<result column="retire_date" 	 property="retireDate" />
+		<result column="address" 		 property="address" />
+		<!--  1:N 관계 -->	
+		<collection property="codes" javaType="list" ofType="CodeVO">
+			<id column="c_no" 				property="cNo"/>
+			<result column="c_name" 		property="cName" />
+			<result column="relation_code" 	property="relationCode" />
+		</collection>
+		
+		<collection property="photos" javaType="list" ofType="PhotoVO">
+			<id column="photo_no" 					property="photoNo"/>
+			<result column="photo_name" 		property="photoName" />
+			<result column="system_file_name" 	property="systemFileName" />
+			<result column="file_size" 	property="fileSize" />
+			<result column="emp_no" 	property="empNo" />
+		</collection>
+	</resultMap> 
+
+	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" statementType="PREPARED" parameterType="String">
+		select 
+			e.emp_no, 
+			emp_Name,
+			emp_pwd,
+			email,
+			phone_number,
+			hire_date,
+			(select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '부서')
+                and ec.emp_no = e.emp_no) as department,
+            (select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '직책')
+                and ec.emp_no = e.emp_no) as grade,
+            photo_no,
+            photo_name,
+            system_file_name,
+            file_size,
+            division
+		from employee e , photo ph
+        where e.emp_no = ph.emp_no
+            and e.emp_no = #{empNo};
+	</select> 
+	
+	
 	
 
 </mapper>
+
