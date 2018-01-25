@@ -15,7 +15,7 @@
 						#{depReason},#{dempNo},#{empNo})	
 	</insert>
 	
-	<select id="selectDeputyList" parameterType>
+	<select id="selectDeputyList" parameterType="map">
 		
 	</select>
 
