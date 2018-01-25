@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class RejectListController {
 
 	//반려문서함 페이지 요청
-	@RequestMapping(value="/rejectList.do", method=RequestMethod.GET)
+	@RequestMapping(value="/reject.do", method=RequestMethod.GET)
 	public String form() {
 		return "/approval/rejectList";
 	}
