@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.PlanMapper">
+
+	<!-- 일정 목록 조회 -->
+	<select id="selectPlanList" parameterType="map" resultType="Plan" >
+		select 
+			p.p_no,
+			p.p_title,
+			p.dept_no,
+			p.p_class,
+			p.p_impt,
+			p.rspb_no,
+			p.p_content,
+			p.start_date,
+			p.end_date,
+			p.latitude,
+			p.longitude,
+			e.emp_name
+		from plan
+		<choose>
+			<when test="keyfield == 'p_title'  and keyword != null " >
+				where p.p_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="keyfield == 'emp_name'  and keyword != null ">
+				where e.emp_name like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 일정 등록 -->
+	<insert id="insertPlan" parameterType="Plan" statementType="PREPARED">
+		<selectKey keyProperty="p_no" resultType="String" statementType="STATEMENT" order="BEFORE">
+			select 'p'||lpad(p_no_seq.nextval,5,0) from dual
+		</selectKey>
+		insert into plan(p_no,p_title,dept_no,p_class,p_impt,rspb_no,p_content,start_date,end_date,latitude,longitude)
+		values (#{pNo},#{pTitle},#{pClass},#{pImpt],#{pContetn},#{startDate},#{endDate},#{latitude},#{longitude})
+	</insert>
+	
+	
+	<!-- 일정번호에 해당하는 일정 상세 조회 -->
+	<resultMap id="selectPlanResultMap" type="Plan" >
+		<id column="p_no"				property="pNo" />
+		<result column="p_title"			property="pTitle" />
+		<result column="dept_no"		property="deptNo" />
+		<result column="p_class"			property="pClass" />
+		<result column="p_impt"			property="pImpt" />
+		<result column="rspb_no"		property="rspbNo" />
+		<result column="p_content"		property="pContent" />
+		<result column="start_date"		property="startDate" />
+		<result column="end_date"		property="endDate" />
+		<result column="latitude"			property="latitude" />
+		<result column="longitude"		property="longitude" />
+		<!-- 1:1 관계 -->
+		<collection property="planFile" javaType="PlanFile" column="p_no">
+			<id column="file_no"			property="fileNo" />
+			<result column="file_name"	property="fileName" />
+			<result column="system_file_name"		property="systemFileName" />
+			<result column="file_size"		property="fileSize" />
+		</collection>
+	</resultMap>
+	
+	<select id="selectPlan" resultMap="selectPlanResultMap" statementType="PREPARED" parameterType="String" >
+		select 
+			p.p_no,
+			p.p_title,
+			c.c_name,
+			p.p_class,
+			p.p_impt,
+			e.emp_name,
+			p.p_content,
+			p.start_date,
+			p.end_date,
+			f.file_no,
+			f.file_name,
+			f.system_file_name,
+			f.file_size,
+			f.p_no
+        from plan p, plan_file f, code c, employee e
+        where p.dept_no=c.c_no
+           and p.rspb_no=e.emp_no
+           and p.p_no=f.p_no
+           and p.p_no=#{value}
+	</select>	
+	
+	
+	<!-- 일정 번호에 해당하는 일정 수정 -->
+	<update id="updatePlan" parameterType="Plan" statementType="PREPARED" >
+		update plan
+		<trim prefix="set" suffixOverrides=",">
+			<if test="p_no != null" >
+				p_no = #{pNo} ,
+			</if>
+			<if test="p_title != null" >
+				p_title = #{pTitle} ,
+			</if>
+			<if test="dept_no != null" >
+				dept_no = #{deptNo} ,
+			</if>
+			<if test="p_class != null" >
+				p_class = #{pClass} ,
+			</if>
+			<if test="p_impt != null" >
+				p_impt = #{pImpt} ,
+			</if>
+			<if test="rspb_no != null" >
+				rspb_no = #{rspbNo} ,
+			</if>
+			<if test="p_content != null" >
+				p_content = #{pContent} ,
+			</if>
+			<if test="start_date != null" >
+				start_date = #{startDate} ,
+			</if>
+			<if test="end_date != null" >
+				end_date = #{endDate} ,
+			</if>
+			<if test="latitude != null" >
+				latitude = #{latitude} ,
+			</if>
+			<if test="longitude != null" >
+				longitude = #{longitude} ,
+			</if>
+		</trim>
+		where p_no = #{pNo}
+	</update>
+	
+	
+	<!-- 일정번호에 해당하는 일정 삭제 -->
+	<delete id="deletePlan" parameterType="Plan" statementType="PREPARED" >
+		delete from plan
+		where p_no=#{pNo}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

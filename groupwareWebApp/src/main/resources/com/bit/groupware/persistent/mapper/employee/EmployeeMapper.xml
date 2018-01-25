@@ -22,20 +22,51 @@
 		        where c_name = #{c_name}), #{emp_no})
 	</insert>
 	
-	<select id="selectEmployeeList" resultType="Employee" statementType="STATEMENT">
+	<!-- <select id="selectEmployeeList" resultType="Employee" statementType="STATEMENT">
 		select 
-			e.emp_no, 
+			emp_no, 
 			emp_Name,
 			emp_pwd,
 			phone_number,
 			email,
 			hire_date,
-			ec.c_no,
-			c_name
-		from employee e, code c, employee_code ec
-		where e.emp_no = ec.emp_no
-			and c.c_no = ec.c_no
-		order by writeday asc	
-	</select>
+			(select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = #{c_no} 
+                and ec.emp_no = e.emp_no'),
+            (select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = #{c_no}
+                and ec.emp_no = e.emp_no)
+		from employee e
+		order by emp_no asc	
+	</select> -->
+
+	<update id="updateEmployee" parameterType="Employee" statementType="PREPARED">
+		update Employee
+		<trim prefix="set" prefixOverrides=",">
+			<if test="writer != null">
+				, emp_no = #{emp_no} 
+			</if>
+			<if test="subject != null">
+				, emp_name = #{emp_name} 
+			</if>
+			<if test="content != null">
+				, emp_pwd = #{emp_pwd}
+			</if>
+			<if test="pwd != null">
+				, phone_number = #{phone_number} 
+			</if>
+			<if test="writeday != null">
+				, writeday = #{writeday}	
+			</if>
+			<if test="hitcount != 0">
+				, hitcount = #{hitcount} 
+			</if>
+		</trim>	
+		where no = #{no}
+	</update> 
 
 </mapper>

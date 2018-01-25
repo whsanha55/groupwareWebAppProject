@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,6 +11,9 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>게시글</h2>
+                    <div class="text-right">
+                  <a class="btn btn-primary" href='<c:url value="postList.do"/>'>목록</a>
+               </div>
                     <div class="clearfix"></div>
                   </div>
              <div>
@@ -45,6 +48,15 @@
                    </tr>
                       </table>
             </div>
+            <div class="ln_solid"></div>
+			<div class="form-group">
+				<label class="control-label col-md-3 col-sm-3 col-xs-12">홍길동
+					</label>
+				<div class="col-md-9 col-sm-9 col-xs-12">
+					<textarea class="resizable_textarea form-control"
+						placeholder="댓글작성"></textarea>
+				</div>
+			</div>
           </div>
        </div>
 </body>

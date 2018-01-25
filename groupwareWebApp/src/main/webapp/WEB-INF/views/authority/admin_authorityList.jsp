@@ -40,7 +40,8 @@
 							</div>
 						</div>
 					</div>
-					<a class="btn btn-primary pull-right" href='<c:url value="/admin/authority.do"/>'>추가</a>
+					<a class="btn btn-primary pull-right"
+						href='<c:url value="/admin/authority.do"/>'>추가</a>
 				</div>
 
 			</div>
@@ -52,8 +53,7 @@
 					<table class="table table-striped jambo_table bulk_action">
 						<thead>
 							<tr class="headings">
-								<th><input type="checkbox" id="check-all" class="flat">
-								</th>
+								<th><input type="checkbox" id="ex_chk"> </th>
 								<th class="column-title">권한번호</th>
 								<th class="column-title">권한명</th>
 								<th class="column-title">비고</th>
@@ -65,8 +65,7 @@
 
 						<tbody>
 							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" class="flat"
-									name="table_records"></td>
+								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
 								<td><a data-toggle="modal" data-target="#myModal">A00001<a></td>
 
 								<td class=" ">전체관리자</td>
@@ -78,8 +77,7 @@
 								</td>
 							</tr>
 							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" class="flat"
-									name="table_records"></td>
+								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
 								<td class=" ">A00001</td>
 								<td class=" ">전체관리자</td>
 								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
@@ -90,8 +88,7 @@
 								</td>
 							</tr>
 							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" class="flat"
-									name="table_records"></td>
+								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
 								<td class=" ">A00001</td>
 								<td class=" ">전체관리자</td>
 								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
@@ -102,8 +99,7 @@
 								</td>
 							</tr>
 							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" class="flat"
-									name="table_records"></td>
+								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
 								<td class=" ">A00001</td>
 								<td class=" ">전체관리자</td>
 								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
@@ -114,8 +110,7 @@
 								</td>
 							</tr>
 							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" class="flat"
-									name="table_records"></td>
+								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
 								<td class=" ">A00001</td>
 								<td class=" ">전체관리자</td>
 								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
@@ -126,8 +121,7 @@
 								</td>
 							</tr>
 							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" class="flat"
-									name="table_records"></td>
+								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
 								<td class=" ">A00001</td>
 								<td class=" ">전체관리자</td>
 								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
@@ -158,64 +152,62 @@
 			</div>
 		</div>
 	</div>
-	
-	   <!-- 모달 팝업 -->
-   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-     <div class="modal-dialog">
-       <div class="modal-content">
-         <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-      <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-         </div>
-         <div class="modal-body">
-      <table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            <th>
-                              <input type="checkbox" id="check-all" class="flat">
-                            </th>
-                            <th class="column-title">사번 </th>
-                            <th class="column-title">이름</th>
-                            <th class="column-title">권한명</th>
-                            
-                          </tr>
-                        </thead>
 
-                        <tbody>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td><a data-toggle="modal" data-target="#myModal">AAAA1<a></td>
-                     
-                            <td class=" ">일길동</td>
-                            <td class=" ">전체관리자</td>
-                            
-                            </td>
-                     
-                          </tr>
-                    <tr class="even pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td><a data-toggle="modal" data-target="#myModal">AAAA1<a></td>
-                     
-                            <td class=" ">홍길동</td>
-                            <td class=" ">전체관리자</td>
-                            
-                            </td>
-                     
-                          </tr>
-            </tbody>
-                      </table>
-         </div>
-         <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-      <button type="button" class="btn btn-primary">삭제</button>
-         </div>
-       </div>
-     </div>
-   </div>
-   
+	<!-- 모달 팝업 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped jambo_table bulk_action">
+						<thead>
+							<tr class="headings">
+								<th><input type="checkbox" id="ex_chk "> 
+								</th>
+								<th class="column-title">사번</th>
+								<th class="column-title">이름</th>
+								<th class="column-title">권한명</th>
+
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr class="even pointer">
+								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
+								<td><a data-toggle="modal" data-target="#myModal">AAAA1<a></td>
+
+								<td class=" ">일길동</td>
+								<td class=" ">전체관리자</td>
+
+								</td>
+
+							</tr>
+							<tr class="even pointer">
+								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
+								<td><a data-toggle="modal" data-target="#myModal">AAAA1<a></td>
+
+								<td class=" ">홍길동</td>
+								<td class=" ">전체관리자</td>
+
+								</td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-primary">삭제</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 </html>
