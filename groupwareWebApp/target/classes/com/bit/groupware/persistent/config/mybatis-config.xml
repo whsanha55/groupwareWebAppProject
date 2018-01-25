@@ -4,10 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<!-- 
-		<typeAlias alias="Article" type="com.bit.groupware.domain.ArticleVO"/> 
-		<typeAlias alias="ArticleFile" type="com.bit.groupware.domain.ArticleFileVO"/> 
-		-->
+		
+		<!-- <typeAlias alias="Receiver" type="com.bit.groupware.domain.approval.ReceiverVO.java"/> 
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		<typeAlias alias="ArticleFile" type="/groupwareWebApp/src/main/java/com/bit/groupware/domain/approval/ApprovalCommentVO.java"/>
+		  -->
+		
 	</typeAliases>
 	<mappers>
 		<!-- 

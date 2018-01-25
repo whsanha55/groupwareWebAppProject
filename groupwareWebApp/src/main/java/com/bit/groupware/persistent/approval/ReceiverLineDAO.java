@@ -12,5 +12,5 @@ public interface ReceiverLineDAO {
 	
 	void deleteReceiverLines(int receiverNo);
 	
-	
+		
 }
