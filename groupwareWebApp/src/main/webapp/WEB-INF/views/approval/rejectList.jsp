@@ -6,9 +6,6 @@
 <title>반려문서함</title>
 </head>
 <body>
-       <!-- page content -->
-        <div class="right_col" role="main" >
-          <!-- top tiles -->
           
 		  <!-- 등록된 관리자 리스트 -->
           <div class="col-md-12 col-sm-12 col-xs-12">
@@ -52,7 +49,7 @@
                             <th class="column-title">기안부서</th>
 							<th class="column-title">기안날짜</th>
 							<th class="column-title">승인날짜</th>
-                            <th class="column-title">현황</th>
+                            <th class="column-title">결재현황</th>
                             
                           </tr>
                         </thead>
@@ -70,7 +67,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
 							
                             
                             
@@ -86,7 +83,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -101,7 +98,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                           </tr>
 						  <tr class="even pointer">
@@ -116,7 +113,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -132,7 +129,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -148,7 +145,7 @@
                             <td class=" ">영업부</td>
 							<td class=" ">2018.01.03</td>
 							<td class=" ">2018.01.07</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">현황</a><a></a></td>
+                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
@@ -174,7 +171,6 @@
                 </div>
                 <!-- end of weather widget -->
               </div>
-            </div>
         <!-- /page content -->
         
 	    <!-- 모달 팝업 -->

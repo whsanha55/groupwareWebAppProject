@@ -14,7 +14,7 @@
 	</insert>
 	
 	<select id="selectTemplateCategoryList" resultType="TemplateCategoryVO" statementType="STATEMENT"> 
-	    select category_name 
+	    select category_name as categoryName
 		from template_category
 		order by 1 asc
 	</select>

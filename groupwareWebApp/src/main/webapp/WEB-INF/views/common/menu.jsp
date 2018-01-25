@@ -41,24 +41,23 @@
                     <ul class="nav child_menu" style="display: block;">
 						<li><a>기안 <span class="fa fa-chevron-down"></span></a>
 						 <ul class="nav child_menu">
-							  <li><a href="index2.html">문서 작성</a></li>
-							  <li><a href="index3.html">임시 보관함</a></li>
-							  <li><a href="index3.html">결재</a></li>
+							  <li><a href='<c:url value="/selectCategory.do"/>'>문서 작성</a></li>
+							  <li><a href='<c:url value="/approvalTemp.do"/>'>임시 보관함</a></li>
+							  <li><a href='<c:url value="/approvalMyRequest.do"/>'>결재 요청함</a></li>
 					     </ul>
 						 <li><a>결재 <span class="fa fa-chevron-down"></span></a>
 						 <ul class="nav child_menu">
-							  <li><a href="index2.html">결재 대기함</a></li>
-							  <li><a href="index3.html">결재 진행함</a></li>
+							  <li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함</a></li>
+							  <li><a href='<c:url value="/approvalProceed.do"/>'>결재 진행함</a></li>
 					     </ul>
 					     <li><a>참조 <span class="fa fa-chevron-down"></span></a>
 						 <ul class="nav child_menu">
-							  <li><a href="index2.html">참조 문서함</a></li>							 
+							  <li><a href='<c:url value="/approvalRef.do"/>'>참조 문서함</a></li>							 
 					     </ul>
                      	 <li><a>완료 <span class="fa fa-chevron-down"></span></a>
 						 <ul class="nav child_menu">
-							  <li><a href="index2.html">승인 문서함</a></li>
-							  <li><a href="index3.html">반려 문서함</a></li>
-							  <li><a href="index3.html">결재</a></li>
+							  <li><a href='<c:url value="/approvalFinish.do"/>'>승인 문서함</a></li>
+							  <li><a href='<c:url value="/approvalReject.do"/>'>반려 문서함</a></li>
 					     </ul>
                     </ul>
                   </li>

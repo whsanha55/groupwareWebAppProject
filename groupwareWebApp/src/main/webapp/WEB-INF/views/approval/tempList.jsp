@@ -6,9 +6,6 @@
 <title>임시보관함</title>
 </head>
 <body>
-       <!-- page content -->
-        <div class="right_col" role="main" >
-          <!-- top tiles -->
           
 		  <!-- 등록된 관리자 리스트 -->
           <div class="col-md-12 col-sm-12 col-xs-12">
@@ -155,8 +152,7 @@
                 </div>
                 <!-- end of weather widget -->
               </div>
-            </div>
-          
+        
         
         <!-- /page content -->
         
