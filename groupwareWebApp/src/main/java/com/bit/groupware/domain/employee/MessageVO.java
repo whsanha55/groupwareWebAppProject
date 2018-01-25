@@ -1,4 +1,4 @@
-package com.bit.groupware.domain.approval;
+package com.bit.groupware.domain.employee;
 
 import com.bit.groupware.domain.employee.EmployeeVO;
 
