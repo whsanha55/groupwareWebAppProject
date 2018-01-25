@@ -15,28 +15,10 @@ public class PlanVO {
 	private int longitude;
 	private CodeVO code;
 	private EmployeeVO employee;
-	private List<PlanFileVO> files;
+	private PlanFileVO file;
 	
 	public PlanVO() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public PlanVO(String pNo, String pTitle, String pClass, String pImpt, String pContent, String startDate,
-			String endDate, int latitude, int longitude, CodeVO code, EmployeeVO employee, List<PlanFileVO> files) {
-		super();
-		this.pNo = pNo;
-		this.pTitle = pTitle;
-		this.pClass = pClass;
-		this.pImpt = pImpt;
-		this.pContent = pContent;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.code = code;
-		this.employee = employee;
-		this.files = files;
 	}
 
 	public String getpNo() {
@@ -127,20 +109,23 @@ public class PlanVO {
 		this.employee = employee;
 	}
 
-	public List<PlanFileVO> getFiles() {
-		return files;
+	public PlanFileVO getFile() {
+		return file;
 	}
 
-	public void setFiles(List<PlanFileVO> files) {
-		this.files = files;
+	public void setFile(PlanFileVO file) {
+		this.file = file;
 	}
 
 	@Override
 	public String toString() {
 		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", pClass=" + pClass + ", pImpt=" + pImpt + ", pContent="
 				+ pContent + ", startDate=" + startDate + ", endDate=" + endDate + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", code=" + code + ", employee=" + employee + ", files=" + files + "]";
+				+ ", longitude=" + longitude + ", code=" + code + ", employee=" + employee + ", file=" + file + "]";
 	}
+	
+	
+	
 	
 	
 	
