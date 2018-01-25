@@ -5,11 +5,23 @@
 <configuration>
 	<typeAliases>
 		
-		
+		<typeAlias alias ="ApprovalComment" type="com.bit.groupware.domain.approval.ApprovalCommentVO"/>
+		<typeAlias alias ="ApprovalFile" type="com.bit.groupware.domain.approval.ApprovalFileVO"/>
+		<typeAlias alias ="ApprovalRecord" type="com.bit.groupware.domain.approval.ApprovalRecordVO"/>
+		<typeAlias alias ="Approval" type="com.bit.groupware.domain.approval.ApprovalVO"/>
+		<typeAlias alias ="Delegation" type="com.bit.groupware.domain.approval.DelegationVO"/>
+		<typeAlias alias ="Employee" type="com.bit.groupware.domain.approval.EmployeeVO"/>
+		<typeAlias alias ="Message" type="com.bit.groupware.domain.approval.MessageVO"/>
+		<typeAlias alias ="Notification" type="com.bit.groupware.domain.approval.NotificationVO"/>
+		<typeAlias alias ="ReceiverLine" type="com.bit.groupware.domain.approval.ReceiverLineVO"/>
+		<typeAlias alias ="Receiver" type="com.bit.groupware.domain.approval.ReceiverVO"/>
+		<typeAlias alias ="TemplateBookmark" type="com.bit.groupware.domain.approval.TemplateBookmarkVO"/>
+		<typeAlias alias ="TemplateCategory" type="com.bit.groupware.domain.approval.TemplateCategoryVO"/>
+		<typeAlias alias ="Template" type="com.bit.groupware.domain.approval.TemplateVO"/>
 		
 	</typeAliases>
 	<mappers>
-		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateMapper.xml" />
+		<!-- <mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateMapper.xml" /> -->
 			
 	</mappers>
 
