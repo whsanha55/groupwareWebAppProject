@@ -5,37 +5,83 @@
   
 <mapper namespace="com.bit.groupware.persistent.mapper.EmployeeMapper">
 	
-	<insert id="insertEmployee" parameterType="Employee" statementType="PREPARED">			
+	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
 		<selectKey keyProperty="emp_no" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
 		</selectKey>				
 		insert into article (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
 								email, reg_number, hire_date, address)
-		values (#{emp_no}, #{emp_name}, #{emp_pwd}, #{eng_name}, #{phone_number}, 
-					#{email}, #{reg_number}, sysdate, #{address})	
+		values (#{empNo}, #{empName}, #{empPwd}, #{engName}, #{phoneNumber}, 
+					#{email}, #{regNumber}, sysdate, #{address})	
 	</insert>
 	
 	<insert id="insertEmployeeCode" parameterType="EmployeeCodeVO" statementType="PREPARED"> 
 		insert into employee_code
 		values((select c_no
 		        from code 
-		        where c_name = #{c_name}), #{emp_no})
+		        where c_name = #{cName}), #{empNo})
 	</insert>
 	
 	<select id="selectEmployeeList" resultType="Employee" statementType="STATEMENT">
 		select 
-			e.emp_no, 
+			emp_no, 
 			emp_Name,
 			emp_pwd,
-			phone_number,
 			email,
+			phone_number,
 			hire_date,
-			ec.c_no,
-			c_name
-		from employee e, code c, employee_code ec
-		where e.emp_no = ec.emp_no
-			and c.c_no = ec.c_no
-		order by writeday asc	
+			(select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '부서')
+                and ec.emp_no = e.emp_no) as department,
+            (select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '직책')
+                and ec.emp_no = e.emp_no) as grade
+		from employee e
+		order by emp_no asc;
 	</select>
+
+	<update id="updateEmployee" parameterType="EmployeeVO" statementType="PREPARED">
+		update Employee
+		<trim prefix="set" prefixOverrides=",">
+			<if test="empName != null">
+				, emp_name = #{empName} 
+			</if>
+			<if test="empPwd != null">
+				, emp_pwd = #{empPwd}
+			</if>
+			<if test="phoneNumber != null">
+				, phone_number = #{phoneNumber} 
+			</if>
+			<if test="email != null">
+				, email = #{email}	
+			</if>
+			<if test="regNumber != 0">
+				, reg_number = #{regNumber} 
+			</if>
+			<if test="hireDate != 0">
+				, hire_date = #{hireDate} 
+			</if>
+			<if test="retireStatus != 0">
+				, retire_status = #{retireStatus} 
+			</if>
+			<if test="retireDate != 0">
+				, retire_date = #{retireDate} 
+			</if>
+			<if test="address != 0">
+				, address = #{address} 
+			</if>
+		</trim>	
+		where emp_no = #{empNo}
+	</update>
+	
+	
 
 </mapper>

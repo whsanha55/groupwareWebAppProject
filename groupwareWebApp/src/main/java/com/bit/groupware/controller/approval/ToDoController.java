@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class WaitListController {
+public class ToDoController {
 	
 	//대기문서함 페이지 요청
-	@RequestMapping(value="/wait.do", method=RequestMethod.GET)
+	@RequestMapping(value="/approvalTodo.do", method=RequestMethod.GET)
 	public String form() {
-		return "/approval/waitList";
+		return "approval/toDoList";
 	}
 	
 }
