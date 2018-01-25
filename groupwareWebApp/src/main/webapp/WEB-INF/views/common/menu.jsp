@@ -1,6 +1,8 @@
 
 <%-- content.jsp --%>
 <%@page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -59,7 +61,7 @@
 				  <br>
                   <li><h3>게시판</h3>
                     <ul class="nav child_menu" style="display: block;">
-                      <li><a href="notice.html">공지사항</a></li>
+                      <li><a href='<c:url value="/notice.do"/>'>공지사항</a></li>
                       <li><a href="article.html">게시판</a></li>
                     </ul>
                   </li>

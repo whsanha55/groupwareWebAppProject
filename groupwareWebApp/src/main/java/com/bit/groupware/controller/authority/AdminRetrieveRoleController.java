@@ -9,7 +9,7 @@ public class AdminRetrieveRoleController {
 
 	@RequestMapping(value="/admin/role.do", method=RequestMethod.GET)
 	public String form() {
-		return "authority/header/role";
+		return "authority/admin_role";
 	}
 	
 	

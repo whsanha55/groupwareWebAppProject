@@ -56,7 +56,7 @@
 						<li><a>커뮤니티 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li><a href="index2.html">공지사항 관리</a></li>
-								<li><a href="a_index_board.html">자료실 관리</a></li>
+								<li><a href="a_index_board.html">게시판 관리</a></li>
 							</ul></li>
 					</ul></li>
 				<br>
