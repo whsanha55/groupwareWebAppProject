@@ -2,7 +2,7 @@ package com.bit.groupware.persistent.approval;
 
 import java.util.List;
 
-import com.bit.user.domain.approval.ApprovalRecordVO;
+import com.bit.groupware.domain.approval.ApprovalRecordVO;
 
 public interface ApprovalRecordDAO {
 

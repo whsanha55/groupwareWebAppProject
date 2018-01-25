@@ -40,7 +40,7 @@
 							</div>
 						</div>
 					</div>
-					<a class="btn btn-primary pull-right" href='<c:url value="/admin/admin_authority.do"/>'>추가</a>
+					<a class="btn btn-primary pull-right" href='<c:url value="/admin/authority.do"/>'>추가</a>
 				</div>
 
 			</div>

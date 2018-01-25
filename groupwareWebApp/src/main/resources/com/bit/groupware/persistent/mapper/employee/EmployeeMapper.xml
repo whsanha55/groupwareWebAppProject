@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.EmployeeMapper">
+	
+	<insert id="insertEmployee" parameterType="Employee" statementType="PREPARED">			
+		<selectKey keyProperty="emp_no" resultType="String" statementType="STATEMENT" order="BEFORE">
+			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
+		</selectKey>				
+		insert into article (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
+								email, reg_number, hire_date, address)
+		values (#{emp_no}, #{emp_name}, #{emp_pwd}, #{eng_name}, #{phone_number}, 
+					#{email}, #{reg_number}, sysdate, #{address})	
+	</insert>
+	
+	<insert id="insertEmployeeCode" parameterType="EmployeeCodeVO" statementType="PREPARED"> 
+		insert into employee_code
+		values((select c_no
+		        from code 
+		        where c_name = #{c_name}), #{emp_no})
+	</insert>
+	
+	<select id="selectEmployeeList" resultType="Employee" statementType="STATEMENT">
+		select 
+			e.emp_no, 
+			emp_Name,
+			emp_pwd,
+			phone_number,
+			email,
+			hire_date,
+			ec.c_no,
+			c_name
+		from employee e, code c, employee_code ec
+		where e.emp_no = ec.emp_no
+			and c.c_no = ec.c_no
+		order by writeday asc	
+	</select>
+
+</mapper>

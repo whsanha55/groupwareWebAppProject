@@ -24,39 +24,24 @@
 	<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 		<div class="menu_section">
 			<ul class="nav side-menu">
-				<li><h3>인사관리</h3>
-					<ul class="nav child_menu" style="display: block;">
-						<li class=""><a>기안 <span class="fa fa-chevron-down"></span></a>
-							<ul class="nav child_menu" style="display: none;">
-								<li><a href="index2.html">문서 작성</a></li>
-								<li><a href="index3.html">임시 보관함</a></li>
-								<li><a href="index3.html">결재</a></li>
-							</ul></li>
-						<li><a>결재 <span class="fa fa-chevron-down"></span></a>
-							<ul class="nav child_menu">
-								<li><a href="index2.html">결재 대기함</a></li>
-								<li><a href="index3.html">결재 진행함</a></li>
-							</ul></li>
-						<li class=""><a>완료 <span class="fa fa-chevron-down"></span></a>
-							<ul class="nav child_menu" style="display: none;">
-								<li><a href="index2.html">승인 문서함</a></li>
-								<li><a href="index3.html">반려 문서함</a></li>
-								<li><a href="index3.html">결재</a></li>
-							</ul></li>
-					</ul></li>
+				<li><h3>결재관리</h3>
+									<ul class="nav child_menu" style="display: block;">
+										<li><a href='<c:url value="/admin/approval.do" />'>결재조회</a></li>
+										<li><a href='<c:url value="/admin/template.do" />'>양식관리</a></li>
+									</ul></li>
 				<br>
 				<li><h3>권한관리</h3>
 					<ul class="nav child_menu" style="display: block;">
 						<li class=""><a>관리 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu" style="display: none;">
 								<%-- <li><a href="${pageScope.url1 }">권한 관리</a></li> --%>
-								<li><a href='<c:url value="/admin/admin_authorityList.do"/>'>권한 관리</a></li>
-								<li><a href='<c:url value="/admin/admin_roleList.do"/>'>역할 관리</a></li>
+								<li><a href='<c:url value="/admin/authorityList.do"/>'>권한 관리</a></li>
+								<li><a href='<c:url value="/admin/roleList.do"/>'>역할 관리</a></li>
 							</ul></li>
 						<li><a>커뮤니티 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li><a href="index2.html">공지사항 관리</a></li>
-								<li><a href="a_index_board.html">자료실 관리</a></li>
+								<li><a href="a_index_board.html">게시판 관리</a></li>
 							</ul></li>
 					</ul></li>
 				<br>

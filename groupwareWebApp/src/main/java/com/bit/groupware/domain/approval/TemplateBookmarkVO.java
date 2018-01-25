@@ -1,5 +1,7 @@
 package com.bit.groupware.domain.approval;
 
+import com.bit.groupware.domain.employee.EmployeeVO;
+
 public class TemplateBookmarkVO {
 
 	int bookmarkNo;

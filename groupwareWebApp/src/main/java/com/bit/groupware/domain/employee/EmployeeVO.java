@@ -1,5 +1,7 @@
 package com.bit.groupware.domain.employee;
 
+import java.util.*;
+
 public class EmployeeVO {
 	private String empNo;
 	private String empName;
@@ -12,13 +14,16 @@ public class EmployeeVO {
 	private String retireStatus;
 	private String retireDate;
 	private String address;
+	private	List<CodeVO> codes;
+	private List<PhotoVO> photos;
 
 	public EmployeeVO() {
 		super();
 	}
 
 	public EmployeeVO(String empNo, String empName, String empPwd, String engName, String phoneNumber, String email,
-			String regNumber, String hireDate, String retireStatus, String retireDate, String address) {
+			String regNumber, String hireDate, String retireStatus, String retireDate, String address,
+			List<CodeVO> codes, List<PhotoVO> photos) {
 		super();
 		this.empNo = empNo;
 		this.empName = empName;
@@ -31,6 +36,8 @@ public class EmployeeVO {
 		this.retireStatus = retireStatus;
 		this.retireDate = retireDate;
 		this.address = address;
+		this.codes = codes;
+		this.photos = photos;
 	}
 
 	public String getEmpNo() {
@@ -121,12 +128,29 @@ public class EmployeeVO {
 		this.address = address;
 	}
 
+	public List<CodeVO> getCodes() {
+		return codes;
+	}
+
+	public void setCodes(List<CodeVO> codes) {
+		this.codes = codes;
+	}
+
+	public List<PhotoVO> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<PhotoVO> photos) {
+		this.photos = photos;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeVO [empNo=" + empNo + ", empName=" + empName + ", empPwd=" + empPwd + ", engName=" + engName
 				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", regNumber=" + regNumber + ", hireDate="
 				+ hireDate + ", retireStatus=" + retireStatus + ", retireDate=" + retireDate + ", address=" + address
-				+ "]";
+				+ ", codes=" + codes + ", photos=" + photos + "]";
 	}
 
+	
 }
