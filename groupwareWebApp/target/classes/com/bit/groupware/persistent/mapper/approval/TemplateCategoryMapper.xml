@@ -5,7 +5,7 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.approval.TemplateCategoryMapper">
 	
-	<insert id="insertTemplateCategory" parameterType="TemplateCategory" statementType="PREPARED">
+	<insert id="insertTemplateCategory" parameterType="TemplateCategoryVO" statementType="PREPARED">
 		<selectKey keyProperty="categoryNo" resultType="int" statementType="STATEMENT" order="BEFORE">
 			select template_category_seq.nextval from dual
 		</selectKey>
@@ -13,7 +13,7 @@
 		values(#{categoryNo},#{categoryName})
 	</insert>
 	
-	<select id="selectTemplateCategoryList" resultType="TemplateCategory" statementType="STATEMENT"> 
+	<select id="selectTemplateCategoryList" resultType="TemplateCategoryVO" statementType="STATEMENT"> 
 	    select category_name 
 		from template_category
 		order by 1 asc
