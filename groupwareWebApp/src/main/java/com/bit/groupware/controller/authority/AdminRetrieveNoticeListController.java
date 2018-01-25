@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class AdminRetrieveAuthorityListController {
+public class AdminRetrieveNoticeListController {
 
-	@RequestMapping(value="/admin/authorityList.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/notice.do", method=RequestMethod.GET)
 	public String form() {
-		return "authority/admin_authorityList";
+		return "authority/admin_notice";
 	}
 	
 	
