@@ -10,13 +10,13 @@ public class WriteApprovalController {
 	//문서 작성 - 양식 고르기
 	@RequestMapping(value="/selectCategory.do", method=RequestMethod.GET)
 	public String category() {
-		return "/approval/selectCategory";
+		return "approval/selectCategory";
 	}
 	
 	//문서 작성 폼 요청
 	@RequestMapping(value="/writeApproval.do", method=RequestMethod.GET) 
 	public String form() {
-		return "/approval/writeApproval";
+		return "approval/writeApproval";
 	}
 	
 	//문서 상신
