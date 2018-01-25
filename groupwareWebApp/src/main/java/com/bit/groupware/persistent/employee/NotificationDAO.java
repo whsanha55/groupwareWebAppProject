@@ -1,9 +1,9 @@
-package com.bit.groupware.persistent.approval;
+package com.bit.groupware.persistent.employee;
 
 import java.util.List;
 import java.util.Map;
 
-import com.bit.groupware.domain.approval.NotificationVO;
+import com.bit.groupware.domain.employee.NotificationVO;
 
 public interface NotificationDAO {
 

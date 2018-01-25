@@ -1,8 +1,8 @@
-package com.bit.groupware.persistent.approval;
+package com.bit.groupware.persistent.employee;
 
 import java.util.List;
 
-import com.bit.groupware.domain.approval.DelegationVO;
+import com.bit.groupware.domain.employee.DelegationVO;
 
 public interface DelegationDAO {
 
