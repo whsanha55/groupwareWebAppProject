@@ -6,7 +6,7 @@
 	<typeAliases>
 		
 		<typeAlias alias="Template" type="com.bit.groupware.domain.approval.TemplateVO"/> 
-		<typeAlias alias="Template" type="com.bit.groupware.domain.approval.TemplateCategoryVO"/>
+		<typeAlias alias="TemplateCategory" type="com.bit.groupware.domain.approval.TemplateCategoryVO"/>
 		
 	</typeAliases>
 	<mappers>
