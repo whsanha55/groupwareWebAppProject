@@ -12,7 +12,7 @@ import com.bit.groupware.domain.approval.ReceiverVO;
 public class ReceiverDAOImpl implements ReceiverDAO {
 	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ReceiverMapper.xml";
 	
-	@Autowired
+	/*@Autowired*/
 	private SqlSessionTemplate sqlSession;
 
 	public int insertReceiver(ReceiverVO receiver) {
