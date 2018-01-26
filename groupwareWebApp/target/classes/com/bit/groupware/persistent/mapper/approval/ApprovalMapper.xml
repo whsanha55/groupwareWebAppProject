@@ -44,7 +44,7 @@
 			<result property="tmpName" column="tmp_name" />	
 		</association>
 	</resultMap>
-	<select id="selectApprovalList" statementType="PREPARED" parameterType="map"  resultMap="selectTemplateResultMap" > 
+	<select id="selectApprovalList" statementType="PREPARED" parameterType="map"  resultMap="selectApprvalResultMap" > 
 		select appr.appr_no ,appr.appr_date ,appr.urgency ,appr.appr_title, appr.appr_content,
 		appr.appr_final_status, emp.emp_no, emp.emp_name, tmp.tmp_no, tmp.tmp_name,
 		(select c_name from employee_code ec,code c 

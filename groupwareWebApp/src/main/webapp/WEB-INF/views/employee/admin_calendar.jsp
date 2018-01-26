@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>일정조회</title>
+<title>일정목록</title>
 </head>
 <body>
 	<div class="col-md-12">
@@ -16,6 +16,8 @@
 							<div class="col-md-2">
 								<h2>일정목록</h2>
 							</div>
+							<button type="button" class="btn btn-primary" data-toggle="modal"
+								data-target=".bs-example-modal-lg">등록하기</button>
 						</div>
 					</div>
 					<div>
@@ -23,7 +25,7 @@
 							<div class="input-group">
 								<div class="input-group-btn search-panel">
 									<button type="button" class="btn btn-default dropdown-toggle"
-										data-toggle="dropdown">
+										data-toggle="dropdown" aria-expanded="false">
 										<span id="search_concept">검색</span> <span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
