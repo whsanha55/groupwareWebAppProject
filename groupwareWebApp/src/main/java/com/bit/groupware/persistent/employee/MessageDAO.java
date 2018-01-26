@@ -9,9 +9,9 @@ public interface MessageDAO {
 
 	void insertMessage(MessageVO message);
 	
-	void deleteMessageList(Map<String,Object> map);
+	void deleteMessage(List<Integer> msgNos);
 	
 	MessageVO selectMessage(int msgNo);
 	
-	List<MessageVO> SelectMessageList(Map<String,Object> map);
+	List<MessageVO> selectMessageList(Map<String,Object> map);
 }
