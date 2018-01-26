@@ -21,11 +21,22 @@
 		<package name="com.bit.groupware.domain" />
 	</typeAliases>
 	<mappers>
+	
+		<!-- Approval -->
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateCategoryMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateBookmarkMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalFileMapper.xml"/> 
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalCommentMapper.xml"/>
+		
+		
+		<!-- Authority -->
+		
+		 
+		<!-- Employee -->
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/NotificationMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/DelegationMapper.xml"/>
 	</mappers>
 
 </configuration>
