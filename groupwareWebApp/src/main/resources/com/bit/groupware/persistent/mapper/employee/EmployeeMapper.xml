@@ -21,32 +21,6 @@
 		        from code 
 		        where c_name = #{cName}), #{empNo})
 	</insert>
-	
-	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="STATEMENT">
-		select 
-			emp_no, 
-			emp_Name,
-			emp_pwd,
-			email,
-			phone_number,
-			hire_date,
-			(select c.c_name
-             from code c, employee_code ec
-             where c.c_no = ec.c_no
-                and c.relation_code = (select c_no
-                                       from code
-                                       where c_name = '부서')
-                and ec.emp_no = e.emp_no) as department,
-            (select c.c_name
-             from code c, employee_code ec
-             where c.c_no = ec.c_no
-                and c.relation_code = (select c_no
-                                       from code
-                                       where c_name = '직책')
-                and ec.emp_no = e.emp_no) as grade
-		from employee e
-		order by emp_no asc;
-	</select>
 
 	<update id="updateEmployee" parameterType="EmployeeVO" statementType="PREPARED">
 		update Employee
@@ -109,7 +83,8 @@
 		</collection>
 	</resultMap> 
 
-	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" statementType="PREPARED" parameterType="String">
+	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
+							statementType="PREPARED" parameterType="String">
 		select 
 			e.emp_no, 
 			emp_Name,
@@ -141,7 +116,32 @@
             and e.emp_no = #{empNo};
 	</select> 
 	
-	
+	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" 
+									statementType="STATEMENT" resultMap="selectEmployeeResultMap">
+		select 
+			emp_no, 
+			emp_Name,
+			emp_pwd,
+			email,
+			phone_number,
+			hire_date,
+			(select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '부서')
+                and ec.emp_no = e.emp_no) as department,
+            (select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '직책')
+                and ec.emp_no = e.emp_no) as grade
+		from employee e
+		order by emp_no asc;
+	</select>
 	
 
 </mapper>

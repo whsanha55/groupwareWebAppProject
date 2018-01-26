@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.bit.groupware.domain.approval.TemplateCategoryVO;
 @Repository
 public class TemplateCategoryDAOImpl implements TemplateCategoryDAO {
-	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateCategoryMapper.xml";
+	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateCategoryMapper";
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	

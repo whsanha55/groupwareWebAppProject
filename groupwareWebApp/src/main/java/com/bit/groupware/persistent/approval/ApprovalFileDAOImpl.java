@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.bit.groupware.domain.approval.ApprovalFileVO;
 @Repository
 public class ApprovalFileDAOImpl implements ApprovalFileDAO {
-	private static final String NAMESPACE="com.bit.groupware.persistent.mapper.approval.ApprovalFileMapper.xml";
+	private static final String NAMESPACE="com.bit.groupware.persistent.mapper.approval.ApprovalFileMapper";
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	

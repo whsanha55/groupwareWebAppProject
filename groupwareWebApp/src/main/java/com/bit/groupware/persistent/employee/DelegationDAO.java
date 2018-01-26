@@ -8,7 +8,7 @@ public interface DelegationDAO {
 
 	void insertDelegationList(List<DelegationVO> delegations);
 	
-	void deleteDelegations(DelegationVO delegation);
+	void deleteDelegations(List<Integer> deleNo);
 	
 	
 }
