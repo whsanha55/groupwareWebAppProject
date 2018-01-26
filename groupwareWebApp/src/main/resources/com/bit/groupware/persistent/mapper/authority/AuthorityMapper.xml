@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.bit.groupware.persistent.mapper.authority.AuthorityMapper">
+
+  	 <resultMap type="RoleVO" id="selectAuthRoleResultMap">  	 	 
+  	 	<id column="r_id" property="rId"/>
+  	 	 <result column="r_name" property="rName"/>
+  	 	 <collection property="authorities" javaType="list" ofType="AuthorityVO" >
+  	 	    <id column="a_no" property="aNo" /> 
+  	 	 	<result column="a_name" property="aName"/>
+  	 	 </collection>
+  	 </resultMap>
+  	 
+  	 <select id="selectAuthority" resultMap="selectAuthRoleResultMap" statementType="STATEMENT">
+  	 	select  t1.r_id, t1.r_name, t3.a_name, t3.a_no
+		from role t1, authority_role t2, authority t3
+		where t1.r_id = t2.r_id  
+		and t2.a_no = t3.a_no  
+		and t1.r_type = 'url'
+		and t1.ISREGISTRATION = '0'						
+		order by  t3.a_name asc, t1.sort_order asc    
+  	 </select>
+  	
+  </mapper>
