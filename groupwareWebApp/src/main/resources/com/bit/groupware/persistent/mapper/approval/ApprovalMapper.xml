@@ -33,11 +33,12 @@
 		<association property="employee" column="emp_no" javaType="EmployeeVO">
 			<id property="empNo" column="emp_no" />
 			<result property="empName" column="emp_name" />
+		
+			<collection property="codes" javaType="list" ofType="CodeVO">
+				<id column="c_no" property="cNo" />
+				<result column="c_name" property="cName"/>
+			</collection>
 			
-			<association property="codes" column="c_no" javaType="CodeVO">
-				<id property="cNo" column="c_no" />
-				<result property="cName" column="c_name" />	
-			</association>
 		</association>
 		<association property="template" column="tmp_no" javaType="TemplateVO">
 			<id property="tmpNo" column="tmp_no" />
@@ -45,13 +46,23 @@
 		</association>
 	</resultMap>
 	<select id="selectApprovalList" statementType="PREPARED" parameterType="map"  resultMap="selectApprvalResultMap" > 
-		select appr.appr_no ,appr.appr_date ,appr.urgency ,appr.appr_title, appr.appr_content,
-		appr.appr_final_status, emp.emp_no, emp.emp_name, tmp.tmp_no, tmp.tmp_name,
-		(select c_name from employee_code ec,code c 
-		where ec.c_no=c.c_no and ec.emp_no=emp.emp_no and c.c_no like 'A'||'%') as c_name
-		from approval appr, employee emp,template tmp
+		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content,
+		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name,c.c_name,c.c_no
+		from approval appr, employee emp ,template tmp, code c, employee_code ec
 		where appr.emp_no=emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
+		and emp.emp_no=ec.emp_no
+		and ec.c_no=c.c_no
+		and c.c_no like 'A'||'%'
+		<!-- <if test="keyfield=='apprTitle' and keyword!=null">
+			and appr.appr_Title=#{apprTitle}
+		</if>
+		<if test="keyfield=='empName'and keyword!=null">
+			and emp.emp_name=#{empName}
+		</if>
+		<if test="keyfield=='empDept'and keyword!=null">
+			and c.c_name=#{empDept}
+		</if> -->
 	</select>
 	
 	
