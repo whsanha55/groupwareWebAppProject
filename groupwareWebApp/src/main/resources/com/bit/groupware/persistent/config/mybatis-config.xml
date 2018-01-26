@@ -29,6 +29,7 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalFileMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalCommentMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 
 		
 		
 		<!-- Authority -->
@@ -37,6 +38,7 @@
 		<!-- Employee -->
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/NotificationMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/DelegationMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 
 	</mappers>
 
 </configuration>
