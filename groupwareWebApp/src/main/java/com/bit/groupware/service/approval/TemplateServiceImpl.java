@@ -26,7 +26,7 @@ public class TemplateServiceImpl implements TemplateService {
 
 	public void removeTemplate(List<Integer> tempNos) {
 		// TODO Auto-generated method stub
-		templateDAO.deleteTemplate(tempNos); 
+		templateDAO.deleteTemplate(tempNos);
 	}
 
 }
