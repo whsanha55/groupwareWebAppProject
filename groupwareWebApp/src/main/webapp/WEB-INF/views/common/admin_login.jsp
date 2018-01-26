@@ -1,5 +1,6 @@
 <%--login.jsp --%>
 <%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,22 +33,23 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form>
+            <form action="${pageContext.request.contextPath}/j_spring_security_check"  method="POST">
               <h1>로고</h1>
               <div>
             <h2 class="text-left">관리자 아이디</h2>
-                <input type="text" class="form-control" placeholder="아이디를 입력해주세요." required="" />
+                <input type="text" name="id" class="form-control" placeholder="아이디를 입력해주세요." required="" />
               </div>
               <div>
             <h2 class="text-left">비밀번호</h2>   
-                <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" required="" />
+                <input type="password" name="pwd" class="form-control" placeholder="비밀번호를 입력해주세요" required="" />
               </div>
 
               <div class="clearfix"></div>
 
               <div class="separator">
                 <p class="change_link">
-                    <a class="btn btn-default submit" href="index.html">로그인</a>
+                  <%--   <a class="btn btn-default submit" href='<c:url value="/admin/index.do"/>'>로그인</a> --%>
+                  <button class="btn btn-default submit"  type="submit">로그인</button>
                 </p>
 
                 <div class="clearfix"></div>
