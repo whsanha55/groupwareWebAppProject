@@ -9,11 +9,12 @@
 
 	$(document).ready(function(){
 		$('.DetailApproval').click(function(){
-			var apprNo=$(this).attr(id);
+			var apprNo=$(this).attr('id');
 			var url = '${pageContext.request.contextPath}/ApprovalDetail.do?apprNo='+apprNo;
 			window.open(url, "결재문서", "width=1300");
 		});
 	});
+	
 </script>
 </head>
 <body>
@@ -120,6 +121,7 @@
 		<h4 class="modal-title" id="myModalLabel">결재 문서</h4>
 	      </div>
 	      <div class="modal-body">
+	      
 		  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="float:right; width:295px;">
 												<button type="button" class="btn btn-success">결재</button>
 												<button type="button" class="btn btn-success">보류</button>
