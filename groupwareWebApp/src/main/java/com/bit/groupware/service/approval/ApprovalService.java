@@ -14,14 +14,12 @@ public interface ApprovalService {
 	ApprovalVO retrieveApproval(int apprNo);
 	
 	//기안문서 상신
-	void registerApproval(ApprovalVO approvalVO, int lineNo);
+	void registerApproval(ApprovalVO approval, int lineNo);
 
 	//결재문서 회수
-	void modifyApproval(int apprNo);
+	void modifyApproval(ApprovalVO approval);
 	
-	//회수할 문서에 대한 최초 결재자의 결재 여부 확인
-	Boolean isRecallable(int apprNo);
-	
+
 	
 	
 }
