@@ -9,7 +9,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public String form() {
-		return "adminLogin";
+		return "login";
 	}
 
 	
