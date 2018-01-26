@@ -4,28 +4,33 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.bit.groupware.persistent.mapper.ReceiverMapper">
-<!-- 
-	<insert id="insertArticle" parameterType="Article" statementType="PREPARED">			
-		<selectKey keyProperty="no" resultType="int" statementType="STATEMENT" order="BEFORE">
-			select article_seq.nextval from dual		
-		</selectKey>				
-		insert into article (no, writer, subject, content, pwd, writeday, hitcount)
-		values (#{no}, #{writer}, #{subject}, #{content}, #{pwd}, sysdate, 0)	
-	</insert>	
-	
 
-	<select id="selectArticleList" resultType="Article" statementType="STATEMENT">
-		select 
-			no, 
-			writer,
-			subject,
-			to_char(writeday, 'YYYY/MM/DD') as writeday,
-			hitCount 
-		from article
-		order by writeday desc	
-	</select>	
-	 -->
-	
+
+  <insert id="insertReceiver" parameterType="ReceiverVO" statementType="PREPARED">
+          <selectKey keyProperty="recieverNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+               select receiver_no.nextVal from dual
+          </selectKey>
+          insert into receiver(receiver_no, emp_no, receiver_name)
+          values(#{recieverNo}, #{employee.empNo}, #{receiverName})
+      </insert>
+
+
+      <select id="selectReceiverList" statementType="STATEMENT" resultMap="ReceiverVO">
+          select receiver_no, receiver_name
+          from receiver
+          order by receiver_name asc
+      </select>
+
+      <update id="updateReceiver"  parameterType="ReceiverVO" statementType="PREPARED">
+          update receiver
+          set receiver_name = #{receiverName}
+          where receiver_no = #{recieverNo}
+      </update>
+
+      <delete id="deleteReceiver" parameterType="int" statementType="PREPARED">
+          delete from receiver
+          where receiver_no = #{recieverNo}
+      </delete>
 	 
 </mapper>
 

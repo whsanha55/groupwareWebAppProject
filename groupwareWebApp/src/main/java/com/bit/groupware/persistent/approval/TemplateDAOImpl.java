@@ -5,11 +5,12 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.approval.TemplateVO;
-
+@Repository
 public class TemplateDAOImpl implements TemplateDAO{
-private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateMapper.xml";
+private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateMapper";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

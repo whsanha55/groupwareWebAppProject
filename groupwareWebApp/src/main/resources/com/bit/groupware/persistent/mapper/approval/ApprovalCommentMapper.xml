@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.approval.ApprovalCommentMapper">
+	
+	<insert id="insertApprovalComment" parameterType="ApprovalCommentVO" statementType="PREPARED">
+		insert into approval_comment(comment_no, record_no, comment_content)
+		values(APPROVAL_COMMENT_SEQ.NEXTVAL, ${approvalRecord.recordNo}, '승인합니다')
+	</insert>
+	
+	<update id="updateApprovalComment" parameterType="ApprovalCommentVO" statementType="PREPARED">
+		update approval_comment
+		set comment_content = ${commentContent}
+		where comment_no = ${commentNo}
+	</update>
+	
+	<delete id="deleteApprovalComment" parameterType="int" statementType="PREPARED">
+		delete from approval_comment
+		where comment_no = ${commentNo}
+	</delete>
+
+	
+</mapper>

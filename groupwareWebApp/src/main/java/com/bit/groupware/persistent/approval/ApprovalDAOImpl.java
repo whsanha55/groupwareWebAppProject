@@ -5,11 +5,13 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.approval.ApprovalVO;
 
+@Repository
 public class ApprovalDAOImpl implements ApprovalDAO {
-	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ApprovalMapper.xml";
+	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ApprovalMapper";
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
@@ -28,8 +30,8 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		 return approval.getApprNo();
 	}
 
-	public void updateApproval(int apprNo) {
-		sqlSession.update(NAMESPACE+".updateApproval",apprNo);
+	public void updateApproval(ApprovalVO approval) {
+		sqlSession.update(NAMESPACE+".updateApproval", approval);
 	}
 
 }
