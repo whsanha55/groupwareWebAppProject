@@ -10,7 +10,7 @@ public class DelegationDAOImpl implements DelegationDAO {
 
 	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.employee.DelegationMapper"; 
 	
-	private SqlSee
+
 	public void insertDelegationList(List<DelegationVO> delegations) {
 	
 
