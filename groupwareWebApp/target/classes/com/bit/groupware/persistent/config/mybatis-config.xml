@@ -26,6 +26,7 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateBookmarkMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalFileMapper.xml"/> 
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 
 	</mappers>
 
 </configuration>
