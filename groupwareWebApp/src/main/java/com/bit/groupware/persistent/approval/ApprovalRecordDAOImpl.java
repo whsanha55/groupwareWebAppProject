@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.approval.ApprovalRecordVO;
 
+@Repository
 public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 	
 	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ApprovalRecordMapper.xml";

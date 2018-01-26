@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.approval.ApprovalVO;
 
+@Repository
 public class ApprovalDAOImpl implements ApprovalDAO {
 	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ApprovalMapper.xml";
 	@Autowired
