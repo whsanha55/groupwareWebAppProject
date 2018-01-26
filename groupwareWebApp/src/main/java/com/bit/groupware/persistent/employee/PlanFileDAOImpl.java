@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.bit.groupware.domain.employee.PlanFileVO;
 
 @Repository
-public class PlanFileDAOImpl {
+public class PlanFileDAOImpl implements PlanFileDAO {
 	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.employee.PlanFileMapper";
 	
 	@Autowired
