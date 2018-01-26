@@ -11,6 +11,6 @@ public interface ApprovalCommentService {
 	void removeApprovalComment(int commentNo);
 	
 	//코멘트 등록
-	void registerApprovalComment(ApprovalCommentVO approvalCommentVO);
+	void registerApprovalComment(ApprovalCommentVO approvalComment);
 	
 }

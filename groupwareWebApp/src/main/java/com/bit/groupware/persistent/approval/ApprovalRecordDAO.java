@@ -13,4 +13,6 @@ public interface ApprovalRecordDAO {
 	void updateApprovalRecordStatus(ApprovalRecordVO approvalRecord);
 
 	void deleteApprovalRecord(int apprNo);
+	
+	int selectApprovalRecallable(int apprNo);
 }

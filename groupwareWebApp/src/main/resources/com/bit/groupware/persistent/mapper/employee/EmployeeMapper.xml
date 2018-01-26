@@ -75,11 +75,11 @@
 		</collection>
 		
 		<collection property="photos" javaType="list" ofType="PhotoVO">
-			<id column="photo_no" 					property="photoNo"/>
+			<id column="photo_no" 				property="photoNo"/>
 			<result column="photo_name" 		property="photoName" />
 			<result column="system_file_name" 	property="systemFileName" />
-			<result column="file_size" 	property="fileSize" />
-			<result column="emp_no" 	property="empNo" />
+			<result column="file_size" 			property="fileSize" />
+			<result column="emp_no" 			property="empNo" />
 		</collection>
 	</resultMap> 
 
@@ -105,7 +105,7 @@
                 and c.relation_code = (select c_no
                                        from code
                                        where c_name = '직책')
-                and ec.emp_no = e.emp_no) as grade,
+                and ec.emp_no = e.emp_no) as duty,
             photo_no,
             photo_name,
             system_file_name,
@@ -138,11 +138,33 @@
                 and c.relation_code = (select c_no
                                        from code
                                        where c_name = '직책')
-                and ec.emp_no = e.emp_no) as grade
-		from employee e
-		order by emp_no asc;
+                and ec.emp_no = e.emp_no) as duty
+		from (select rownum as rn, emp.*
+              from (select * from employee
+                    order by emp_no asc) emp) e
+        <if test="keyfield==emp_no and keyword!=null">
+		where emp_no like '%' || #{keyword} || '%' 
+		</if>
+		<if test="keyfield==emp_name and keyword!=null">
+		where emp_name like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield==duty and keyword!=null">
+		where duty like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield==department and keyword!=null">
+		where department like '%' || #{keyword} || '%'
+		</if>
+		<![CDATA[
+			and e.rn >= #{startRow} and e.rn <= #{endRow};
+		]]>
 	</select>
 	
+	<select id="checkDeptEmp" resultType="int" parameterType="String" statementType="PREPARED">
+		select count(relation_code)
+		from employee_code ec, code c
+		where ec.c_no = c.c_no
+		    and c.c_name = #{cName};
+	</select>
 
 </mapper>
 

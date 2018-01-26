@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.MessageMapper">
+	<insert id="insertMessage" parameterType="MessageVO" statementType="PREPARED">
+	   <selectKey keyProperty="msgNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+	   		select message_seq.nextval from dual
+	   </selectKey>
+	    insert into message(msg_no,sender_emp_no,recipient_emp_no,msg_title,msg_content)
+		values(#{msgNo},#{senderEmployee.empNo},#{receipientEmployee.empNo},#{msgTitle},#{msgContent});
+	</insert>
+	
+	
+	<delete id="deleteMessage" parameterType="list" statementType="PREPARED" >	<!-- parameterType이상할수도 -->
+		delete from message
+		where msg_no in 
+		<foreach item="msgNo" collection="msgNos" separator="," open="(" close=")">
+			#{msgNo}
+		</foreach>
+	</delete>
+
+
+	<resultMap id="MessageResultMap" type="MessageVO">
+		<id property="msgNo" column="msg_no" />
+		<result property="msgDate" column="msg_Date" />
+		<result property="msgTitle" column="msg_title" />
+		<result property="msgContent" column="msg_content" />
+		
+		<association property="senderEmployee" column="sender_emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="sender_emp_no" />
+			<result property="empName" column="sender_emp_name" />
+		</association>
+		<association property="receipientEmployee" column="recipient_emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="recipient_emp_no" />
+			<result property="empName" column="recipient_emp_name" />
+		</association>
+	</resultMap>
+	<select id="selectMessage" parameterType="int" resultMap="MessageResultMap" statementType="PREPARED" >
+ 		select msg_no, sender_emp_no, recipient_emp_no, msg_content, msg_title, msg_Date,
+		(select emp_name from employee where emp_no=msg.sender_emp_no) as sender_emp_name,
+		(select emp_name from employee where emp_no=msg.recipient_emp_no) as recipient_emp_name
+		from message msg
+		where msg_no=#{msgNo}
+	</select>
+	
+	
+	<resultMap id="MessageListResultMap" type="MessageVO">
+		<id property="msgNo" column="msg_no" />
+		<result property="msgDate" column="msg_Date" />
+		<result property="msgTitle" column="msg_title" />
+		<result property="msgContent" column="msg_content" />
+		<result property="isRead" column="msg_isread" />
+		<result property="senderRemoval" column="sender_removal" />
+		<result property="receipientRemoval" column="recipient_removal" />
+		
+		<association property="senderEmployee" column="sender_emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="sender_emp_no" />
+			<result property="empName" column="sender_emp_name" />
+		</association>
+		<association property="receipientEmployee" column="recipient_emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="recipient_emp_no" />
+			<result property="empName" column="recipient_emp_name" />
+		</association>
+	</resultMap>
+	<select id="selectMessageList" parameterType="map" resultMap="MessageListResultMap" statementType="PREPARED" >
+		select msg_no,msg_date,msg_title,msg_content,msg_isread,sender_removal,recipient_removal,
+		sender_emp_no,recipient_emp_no,
+		(select emp_name from employee where emp_no=msg.sender_emp_no)as sender_emp_name,
+		(select emp_name from employee where emp_no=msg.recipient_emp_no)as recipient_emp_name
+		from (select rownum as rn, mesg.*
+      		  from (select *	
+            	    from message order by msg_date desc) mesg) msg 
+         where <![CDATA[msg.rn>=]]>#{startRow} and <![CDATA[msg.rn<=]]>#{endRow};   	    
+	</select>
+
+
+	
+	
+	
+</mapper>
