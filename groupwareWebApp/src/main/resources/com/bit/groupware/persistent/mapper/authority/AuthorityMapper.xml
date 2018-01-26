@@ -5,18 +5,16 @@
   
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.AuthorityMapper">
 
-      <resultMap type="AuthRoleVO" id="selectAuthRoleResultMap">      
-          
-          <collection property="roles" javaType="list" ofType="RoleVO">
-             <result column="r_name" property="rName"/>
-          </collection>
+      <resultMap type="RoleVO" id="selectAuthRoleResultMap">      
+          <id column="r_id" property="rId"/>
+           <result column="r_name" property="rName"/>
           <collection property="authorities" javaType="list" ofType="AuthorityVO" >
              <result column="a_name" property="aName"/>
           </collection>
       </resultMap>
       
       <select id="selectAuthority" resultMap="selectAuthRoleResultMap" statementType="STATEMENT">
-         select  t1.r_name, t3.a_name
+         select  t1.r_id, t1.r_name, t3.a_name
       from role t1, authority_role t2, authority t3
       where t1.r_id = t2.r_id  
       and t2.a_no = t3.a_no   

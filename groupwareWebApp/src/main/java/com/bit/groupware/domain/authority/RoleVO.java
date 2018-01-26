@@ -1,5 +1,8 @@
 package com.bit.groupware.domain.authority;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RoleVO {
 	private String rId;  			//롤 아이디
 	private String rName; 		//롤명
@@ -9,6 +12,8 @@ public class RoleVO {
 	private String isRegistration; //등록 여부
 	private int sortOrder; 			//정렬 순서
 	
+	 private List<AuthorityVO> authorities = new ArrayList<AuthorityVO>();
+	 
 	public RoleVO() {
 		super();
 	}
@@ -69,10 +74,19 @@ public class RoleVO {
 		this.sortOrder = sortOrder;
 	}
 
+	public List<AuthorityVO> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(List<AuthorityVO> authorities) {
+		this.authorities = authorities;
+	}
+
 	@Override
 	public String toString() {
 		return "RoleVO [rId=" + rId + ", rName=" + rName + ", rType=" + rType + ", rExplan=" + rExplan + ", rDate="
-				+ rDate + ", isRegistration=" + isRegistration + ", sortOrder=" + sortOrder + "]";
+				+ rDate + ", isRegistration=" + isRegistration + ", sortOrder=" + sortOrder + ", authorities="
+				+ authorities + "]";
 	}
 	
 }
