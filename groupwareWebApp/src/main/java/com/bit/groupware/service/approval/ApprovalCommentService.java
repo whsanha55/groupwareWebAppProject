@@ -5,11 +5,12 @@ import com.bit.groupware.domain.approval.ApprovalCommentVO;
 public interface ApprovalCommentService {
 
 	//코멘트 수정
-	void modifyApprovalComment(ApprovalCommentVO approvalCommentVO);
+	void modifyApprovalComment(ApprovalCommentVO approvalComment);
 	
 	//코멘트 삭제
 	void removeApprovalComment(int commentNo);
 	
-	
+	//코멘트 등록
+	void registerApprovalComment(ApprovalCommentVO approvalComment);
 	
 }

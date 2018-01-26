@@ -9,7 +9,7 @@
 		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
 		</selectKey>				
-		insert into article (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
+		insert into employee (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
 								email, reg_number, hire_date, address)
 		values (#{empNo}, #{empName}, #{empPwd}, #{engName}, #{phoneNumber}, 
 					#{email}, #{regNumber}, sysdate, #{address})	
@@ -21,32 +21,6 @@
 		        from code 
 		        where c_name = #{cName}), #{empNo})
 	</insert>
-	
-	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="STATEMENT">
-		select 
-			emp_no, 
-			emp_Name,
-			emp_pwd,
-			email,
-			phone_number,
-			hire_date,
-			(select c.c_name
-             from code c, employee_code ec
-             where c.c_no = ec.c_no
-                and c.relation_code = (select c_no
-                                       from code
-                                       where c_name = '부서')
-                and ec.emp_no = e.emp_no) as department,
-            (select c.c_name
-             from code c, employee_code ec
-             where c.c_no = ec.c_no
-                and c.relation_code = (select c_no
-                                       from code
-                                       where c_name = '직책')
-                and ec.emp_no = e.emp_no) as grade
-		from employee e
-		order by emp_no asc;
-	</select>
 
 	<update id="updateEmployee" parameterType="EmployeeVO" statementType="PREPARED">
 		update Employee
@@ -101,15 +75,16 @@
 		</collection>
 		
 		<collection property="photos" javaType="list" ofType="PhotoVO">
-			<id column="photo_no" 					property="photoNo"/>
+			<id column="photo_no" 				property="photoNo"/>
 			<result column="photo_name" 		property="photoName" />
 			<result column="system_file_name" 	property="systemFileName" />
-			<result column="file_size" 	property="fileSize" />
-			<result column="emp_no" 	property="empNo" />
+			<result column="file_size" 			property="fileSize" />
+			<result column="emp_no" 			property="empNo" />
 		</collection>
 	</resultMap> 
 
-	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" statementType="PREPARED" parameterType="String">
+	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
+							statementType="PREPARED" parameterType="String">
 		select 
 			e.emp_no, 
 			emp_Name,
@@ -130,7 +105,7 @@
                 and c.relation_code = (select c_no
                                        from code
                                        where c_name = '직책')
-                and ec.emp_no = e.emp_no) as grade,
+                and ec.emp_no = e.emp_no) as duty,
             photo_no,
             photo_name,
             system_file_name,
@@ -141,8 +116,57 @@
             and e.emp_no = #{empNo};
 	</select> 
 	
+	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" 
+									statementType="STATEMENT" resultMap="selectEmployeeResultMap">
+		select 
+			emp_no, 
+			emp_Name,
+			emp_pwd,
+			email,
+			phone_number,
+			hire_date,
+			(select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '부서')
+                and ec.emp_no = e.emp_no) as department,
+            (select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '직책')
+                and ec.emp_no = e.emp_no) as duty
+		from (select rownum as rn, emp.*
+              from (select * from employee
+                    order by emp_no asc) emp) e
+        <if test="keyfield==emp_no and keyword!=null">
+		where emp_no like '%' || #{keyword} || '%' 
+		</if>
+		<if test="keyfield==emp_name and keyword!=null">
+		where emp_name like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield==duty and keyword!=null">
+		where duty like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield==department and keyword!=null">
+		where department like '%' || #{keyword} || '%'
+		</if>
+		<![CDATA[
+			and e.rn >= #{startRow} and e.rn <= #{endRow};
+		]]>
+	</select>
 	
 	
+	
+	<select id="checkDeptEmp" resultType="int" parameterType="String" statementType="PREPARED">
+		select count(relation_code)
+		from employee_code ec, code c
+		where ec.c_no = c.c_no
+		    and c.c_name = #{cName};
+	</select>
 
 </mapper>
 

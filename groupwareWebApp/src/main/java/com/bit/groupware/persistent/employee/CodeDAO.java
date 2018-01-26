@@ -23,5 +23,5 @@ public interface CodeDAO {
 	void updateCode(CodeVO code);
 	
 	//코드 삭제
-	void deleteCode(CodeVO code);
+	void deleteCode(String cNo);
 }
