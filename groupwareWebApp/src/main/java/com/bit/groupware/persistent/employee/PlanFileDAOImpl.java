@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.bit.groupware.domain.employee.PlanFileVO;
 
 @Repository
-public class PlanFileDAOImpl {
+public class PlanFileDAOImpl implements PlanFileDAO {
 	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.employee.PlanFileMapper";
 	
 	@Autowired
@@ -17,8 +17,8 @@ public class PlanFileDAOImpl {
 		sqlSession.insert(NAMESPACE + ".insertPlanFile", file);
 	}
 	
-	public void deletePlanFile(PlanFileVO file) {
-		sqlSession.delete(NAMESPACE + ".deletePlanFile", file);
+	public void deletePlanFile(String fileNo) {
+		sqlSession.delete(NAMESPACE + ".deletePlanFile", fileNo);
 	}
 	
 }

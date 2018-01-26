@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.ReceiverLineMapper">
+	<resultMap type="ReceiverLineVO" id="selectReceiverLineListRM">
+		<id column="line_no" property="receiverNo" />
+		<result column="receiver_no" property="receiver.receiverNo" />
+		<result column="line_order" property="lineOrder" />
+		<result column="appr_type" property="apprType" />
+	</resultMap>
+
+	<select id="selectReceiverLineList" parameterType="int"
+		statementType="STATEMENT" resultMap="ReceiverLineVO">
+		select line_no, receiver_no, line_order, appr_type
+		from receiver_line
+		where line_no = #{receiverNo}
+	</select>
+
+	<insert id="insertReceiverLineList" parameterType="receiverLineVO"
+		statementType="PREPARED">
+
+		<foreach item="receiverLine" collection="approvalFiles" open="inset all"
+			close="select * from dual">
+			into receiver_line(line_no, receiver_no, line_emp_no, line_order,
+			appr_type)
+			values(#{lineNo}, #{receiver.receiverNo}, #{lineEmployee.empNo}, #{lineOrder},
+			#{apprType})
+
+		</foreach>
+	</insert>
+
+
+	<delete id="deleteReceiverLines" parameterType="int"
+		statementType="PREPARED">
+
+		delete from receiver_line
+		where receiver_no = #{recieverNo}
+
+	</delete>
+		 
+</mapper>

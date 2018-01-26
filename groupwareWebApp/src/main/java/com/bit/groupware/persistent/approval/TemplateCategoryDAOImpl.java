@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.approval.TemplateCategoryVO;
-
+@Repository
 public class TemplateCategoryDAOImpl implements TemplateCategoryDAO {
-	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateCategoryMapper.xml";
+	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateCategoryMapper";
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
