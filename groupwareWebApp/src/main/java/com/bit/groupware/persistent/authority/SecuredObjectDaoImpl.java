@@ -25,6 +25,7 @@ public class SecuredObjectDaoImpl implements SecuredObjectDao {
 			+ "WHERE t1.r_id = t2.r_id  													   "
 			+ "AND t2.a_no = t3.a_no  													   "	
 			+ "AND t1.r_type = 'url'  														   "	
+			+ "AND t1.ISREGISTRATION = '0'  											   "	
 			+ "ORDER BY  t3.a_name ASC, t1.sort_order ASC                           ";       
 
 	public LinkedHashMap<Object, List<ConfigAttribute>> getRolesAndURL() throws Exception {
