@@ -10,7 +10,7 @@ import com.bit.groupware.domain.approval.ReceiverVO;
 
 @Repository
 public class ReceiverDAOImpl implements ReceiverDAO {
-	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ReceiverMapper.xml";
+	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ReceiverMapper";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

@@ -15,7 +15,7 @@
 	
 	
 	<resultMap id="selectTemplateResultMap" type="TemplateVO">
-		<id property="tmpNO" column="tmp_no" />
+		<id property="tmpNo" column="tmp_no" />
 		<result property="tmpName" column="tmp_name" />
 		<result property="tmpContent" column="tmp_content" />
 		<result property="tmpSummary" column="tmp_summary" />
@@ -46,6 +46,7 @@
 		<![CDATA[
 		and t.rn>=${startRow} and t.rn<=${endRow}]]>
 	</select>
+	
 	
 	
 	<select statementType="PREPARED" parameterType="int" id="selectTemplate" resultMap="selectTemplateResultMap">

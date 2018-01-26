@@ -18,7 +18,7 @@
 	</select> -->
 
 
-	<delete id="" parameterType="Integer">
+	<delete id="deleteDelegation" parameterType="Integer">
 	delete from delegation
 	where dele_no in 
 	<foreach item="deleNo" collection="list" separator="," open="(" close=")">

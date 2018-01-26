@@ -11,7 +11,7 @@ import com.bit.groupware.domain.approval.ApprovalRecordVO;
 @Repository
 public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 	
-	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ApprovalRecordMapper.xml";
+	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.ApprovalRecordMapper";
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	

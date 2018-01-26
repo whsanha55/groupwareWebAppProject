@@ -1,14 +1,15 @@
-package com.bit.groupware.controller.employee;
+package com.bit.groupware.controller.authority;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class RetrieveEmployeeController {
+public class MainController {
 
-	@RequestMapping(value="/profile.do", method=RequestMethod.GET)
+	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public String form() {
-		return "employee/profile";
+		System.out.println("call form!!");
+		return "home";
 	}
 }
