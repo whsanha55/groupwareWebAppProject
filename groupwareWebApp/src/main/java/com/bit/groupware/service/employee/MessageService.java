@@ -9,7 +9,7 @@ public interface MessageService {
 	
 	void registerMessage(MessageVO message);
 	
-	void removeMessage(Map<String,List<Integer>> map);
+	void removeMessage(List<Integer> msgNos);
 	
 	MessageVO retrieveMessage(int msgNo);
 	

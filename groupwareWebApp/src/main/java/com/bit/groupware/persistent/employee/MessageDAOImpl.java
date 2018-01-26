@@ -18,8 +18,8 @@ public class MessageDAOImpl implements MessageDAO {
 		sqlSession.insert(NAMESPACE+".insertMessage",message);
 	}
 
-	public void deleteMessage(Map<String,List<Integer>> map) {	
-		sqlSession.delete(NAMESPACE+".deleteMessage",map);
+	public void deleteMessage(List<Integer> msgNos) {
+		sqlSession.delete(NAMESPACE+".deleteMessage",msgNos);
 	}
 
 	public MessageVO selectMessage(int msgNo) {
