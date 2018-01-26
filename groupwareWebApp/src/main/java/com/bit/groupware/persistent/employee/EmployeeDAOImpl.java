@@ -12,7 +12,7 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
-	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.employee.EmployeeMapper.xml";
+	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.employee.EmployeeMapper";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
