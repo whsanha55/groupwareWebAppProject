@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>이력조회</title>
+<title>사원_이력조회</title>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
