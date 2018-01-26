@@ -23,8 +23,9 @@ public class PlanDAOImpl implements PlanDAO{
 	}
 	
 	//일정 등록
-	public void insertPlan(PlanVO plan) {
+	public String insertPlan(PlanVO plan) {
 		sqlSession.insert(NAMESPACE + ".insertPlan", plan);
+		return plan.getpNo();
 	}
 	
 	//일정번호에 해당하는 일정 상세 조회

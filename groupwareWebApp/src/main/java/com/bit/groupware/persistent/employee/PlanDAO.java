@@ -11,7 +11,7 @@ public interface PlanDAO {
 	List<PlanVO> selectPlanList(Map<String, Object> map);
 	
 	//일정 등록
-	void insertPlan(PlanVO plan);
+	String insertPlan(PlanVO plan);
 	
 	//일정번호에 해당하는 일정 상세 조회
 	PlanVO selectPlan(String pNo);
