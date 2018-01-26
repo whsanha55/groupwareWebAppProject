@@ -20,4 +20,6 @@
 		delete from approval_comment
 		where comment_no = ${commentNo}
 	</delete>
+
+	
 </mapper>

@@ -18,7 +18,7 @@
 		where line_no = #{receiverNo}
 	</select>
 
-	<insert id="insertReceiverLineList" parameterType="receiverLinesVO"
+	<insert id="insertReceiverLineList" parameterType="receiverLineVO"
 		statementType="PREPARED">
 
 		<foreach item="receiverLine" collection="approvalFiles" open="inset all"

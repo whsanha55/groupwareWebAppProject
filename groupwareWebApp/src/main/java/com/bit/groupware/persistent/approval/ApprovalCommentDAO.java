@@ -1,5 +1,7 @@
 package com.bit.groupware.persistent.approval;
 
+import java.util.List;
+
 import com.bit.groupware.domain.approval.ApprovalCommentVO;
 
 public interface ApprovalCommentDAO {
@@ -9,4 +11,6 @@ public interface ApprovalCommentDAO {
 	void updateApprovalComment(ApprovalCommentVO approvalComment);
 
 	void deleteApprovalComment(int commentNo);
+	
+	
 }
