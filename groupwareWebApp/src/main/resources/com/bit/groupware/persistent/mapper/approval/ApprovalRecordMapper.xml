@@ -25,12 +25,22 @@
 		set appr_status=#{apprStatus},
 		check_Date=#{checkDate},
 		confirm_date=#{confirmDate}
-		where record_no=#{recordNo};
+		where record_no=#{recordNo}
    </update>
    
    <delete id="deleteApprovalRecord" parameterType="int" statementType="PREPARED">  
     	delete from approval_record
 		where record_no=#{recordNo}
    </delete>
+   
+   
+   <select id="selectApprovalRecallable" parameterType="int" statementType="PREPARED">
+   		select t2.appr_status
+   		from approval t1, approval_record t2, receiver_line t3
+   		where t1.apprNo = #{apprNo}
+   			and t1.apprNo = t2.apprNo 
+   			and t2.line_no = t3.line_no
+   			and t3.line_order = 1     
+   </select>
    
 </mapper>

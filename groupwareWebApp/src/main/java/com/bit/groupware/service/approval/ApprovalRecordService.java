@@ -12,5 +12,6 @@ public interface ApprovalRecordService {
 	//결재문서 승인.반려.보류
 	void executeApprovalRecord(ApprovalRecordVO approvalRecordVO);
 	
-	
+	//최초 결재자 결재여부 확인
+	int selectApprovalRecallable(int apprNo);
 }

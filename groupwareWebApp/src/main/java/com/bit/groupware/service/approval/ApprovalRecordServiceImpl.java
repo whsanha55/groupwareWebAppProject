@@ -37,6 +37,14 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 		//7. 배정과 동시에 결재자에게 알림 발신: 참조자(결재 요청), 기안자(결재 완료/보류/반려)
 		
 	}
+
+
+	//최초 결재자 결재 여부 확인
+	public int selectApprovalRecallable(int apprNo) {
+		return dao.selectApprovalRecallable(apprNo);
+	}
+	
+	
 	
 
 }
