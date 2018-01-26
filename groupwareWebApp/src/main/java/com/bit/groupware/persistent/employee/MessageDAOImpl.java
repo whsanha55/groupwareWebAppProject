@@ -18,18 +18,17 @@ public class MessageDAOImpl implements MessageDAO {
 		sqlSession.insert(NAMESPACE+".insertMessage",message);
 	}
 
-	public void deleteMessageList(Map<String,Object> map) {	
-		sqlSession.delete(NAMESPACE+".deleteMessageList",map);
+	public void deleteMessage(Map<String,List<Integer>> map) {	
+		sqlSession.delete(NAMESPACE+".deleteMessage",map);
 	}
 
 	public MessageVO selectMessage(int msgNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne(NAMESPACE+".selectMessage",msgNo); 
 	}
 
-	public List<MessageVO> SelectMessageList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MessageVO> selectMessageList(Map<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE+".selectMessageList",map);
 	}
 
+	
 }
