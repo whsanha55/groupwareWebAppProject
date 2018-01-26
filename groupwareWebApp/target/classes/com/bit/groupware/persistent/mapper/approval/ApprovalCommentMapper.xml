@@ -7,18 +7,18 @@
 	
 	<insert id="insertApprovalComment" parameterType="ApprovalCommentVO" statementType="PREPARED">
 		insert into approval_comment(comment_no, record_no, comment_content)
-		values(APPROVAL_COMMENT_SEQ.NEXTVAL, ${approvalRecord.recordNo}, '승인합니다')
+		values(APPROVAL_COMMENT_SEQ.NEXTVAL, #{approvalRecord.recordNo}, '승인합니다')
 	</insert>
 	
 	<update id="updateApprovalComment" parameterType="ApprovalCommentVO" statementType="PREPARED">
 		update approval_comment
-		set comment_content = ${commentContent}
-		where comment_no = ${commentNo}
+		set comment_content = #{commentContent}
+		where comment_no = #{commentNo}
 	</update>
 	
 	<delete id="deleteApprovalComment" parameterType="int" statementType="PREPARED">
 		delete from approval_comment
-		where comment_no = ${commentNo}
+		where comment_no = #{commentNo}
 	</delete>
 
 	
