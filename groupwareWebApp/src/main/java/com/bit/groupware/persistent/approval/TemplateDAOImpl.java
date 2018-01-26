@@ -28,8 +28,10 @@ private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.app
 		return sqlSession.selectOne(NAMESPACE+".selectTemplate",tmpNo);
 	}
 
-	public void deleteTemplate(int tmpNo) {
-		sqlSession.delete(NAMESPACE + ".deleteTemplate", tmpNo);
+	public void deleteTemplate(List<Integer> tmpNos) {
+		sqlSession.delete(NAMESPACE + ".deleteTemplate", tmpNos);
 		
 	}
+
+	
 }

@@ -13,5 +13,5 @@ public interface TemplateDAO {
 
 	void insertTemplate(TemplateVO template);
 
-	void deleteTemplate(int tmpNo);
+	void deleteTemplate(List<Integer> tmpNos);
 }
