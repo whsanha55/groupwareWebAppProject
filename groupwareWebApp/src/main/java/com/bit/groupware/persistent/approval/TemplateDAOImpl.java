@@ -21,7 +21,7 @@ private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.app
 	}
 
 	public List<TemplateVO> selectTemplateList(Map<String, Object> map) {
-		return sqlSession.selectList(NAMESPACE + ".selectTemplateList");
+		return sqlSession.selectList(NAMESPACE + ".selectTemplateList", map);
 	}
 
 	public TemplateVO selectTemplate(int tmpNo) {

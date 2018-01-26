@@ -35,16 +35,16 @@
         where t.category_no=tc.category_no
 
 		<if test="keyfield=='categoryNo' and keyword!=null">
-			and tc.category_no=${categoryNo}
+			and tc.category_no=#{categoryNo}
 		</if>
 		<if test="keyfield=='categoryName'and keyword!=null">
-			and tc.category_name=${categoryName}
+			and tc.category_name=#{categoryName}
 		</if>
 		<if test="keyfield=='tmpName'and keyword!=null">
 			and t.tmp_name=#{tmpName}
 		</if>
 		
-		and t.rn<![CDATA[>=]]>${startRow} and t.rn<![CDATA[<=]]>${endRow}
+		and t.rn<![CDATA[>=]]>#{startRow} and t.rn<![CDATA[<=]]>#{endRow}
 	</select>
 	
 	
@@ -55,7 +55,7 @@
 		 t.category_no as categoryNo,tc.CATEGORY_NAME as categoryName
 		 from template t,template_category tc
 		 where t.category_no=tc.category_no
-		 and t.tmp_no=${tmpNo}
+		 and t.tmp_no=#{tmpNo}
 	</select>
 		
 		
