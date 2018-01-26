@@ -12,10 +12,11 @@
 		values(#{msgNo},#{senderEmployee.empNo},#{receipientEmployee.empNo},#{msgTitle},#{msgContent});
 	</insert>
 	
-	<delete id="deleteMessage" parameterType="map" statementType="PREPARED" >
+	
+	<delete id="deleteMessage" parameterType="list" statementType="PREPARED" >	<!-- parameterType이상할수도 -->
 		delete from message
 		where msg_no in 
-		<foreach item="msgNo" collection="list" separator="," open="(" close=")">
+		<foreach item="msgNo" collection="msgNos" separator="," open="(" close=")">
 			#{msgNo}
 		</foreach>
 	</delete>
