@@ -52,6 +52,7 @@ public class PlanServiceImpl implements PlanService {
 	//일정정보 삭제
 	public void removePlan(String pNo) {
 		planDAO.deletePlan(pNo);
+		planFileDAO.deletePlanFile(pNo);
 	}
 	
 }

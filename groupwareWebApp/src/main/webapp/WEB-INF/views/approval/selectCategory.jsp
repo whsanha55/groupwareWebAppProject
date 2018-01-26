@@ -5,18 +5,48 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <style>
-.btn {
-	width: 120px !important
-}
-
-.col-md-4 {
-	width: 20% !important
-}
-
-.col-md-6 {
-	width: 80% !important
-}
+	.btn {
+		width: 120px !important
+	}
+	
+	.col-md-4 {
+		width: 20% !important
+	}
+	
+	.col-md-6 {
+		width: 80% !important
+	}
 </style>
+<script>
+	$(document).ready(function() {
+		
+		$('.category').on('click',function() {
+			alert($(this).attr('id'));
+			var categoryNo = $(this).attr('id').split('_')[1];
+			
+			$.ajax({
+				url : '${pageContext.request.contextPath}/templateCategoryAjax.do' ,
+				data : {
+					categoryNo : categoryNo
+				} ,
+				type : 'POST' ,
+				cache : false ,
+				dataType : 'json' ,
+				success : function(data) {
+					
+				} ,
+				error : function(jqXHR) {
+					alert(jqXHR.status);
+					console.log(jqXHR);
+				}
+			});
+		});
+		
+		
+		
+		
+	});
+</script>
 </head>
 <body>
 
@@ -38,7 +68,7 @@
 				</table>
 
 				<div class="text-center" width="80px" align="center">
-					<button class="btn btn-primary">양식서 즐겨찾기</button>
+					<button id ='category_0' class="btn btn-primary category">양식서 즐겨찾기</button>
 				</div>
 				<!-- 
 			<div class="text-center" width="80px" align="center">
@@ -47,8 +77,8 @@
 			 -->
 				<c:forEach items="${requestScope.categoryList}" var="category">
 					<div class="text-center" width="80px" align="center">
-						<button id="${pageScope.category.categoryNo}"
-							class="btn btn-primary">
+						<button id="category_${pageScope.category.categoryNo}"
+							class="btn btn-primary category">
 							${pageScope.category.categoryName}</button>
 					</div>
 				</c:forEach>
@@ -94,8 +124,10 @@
 
 							<c:forEach var="template" items="${requestScope.templateList}">
 								<tr>
-									<td><i class="glyphicon glyphicon-star" aria-hidden="true"></i></td>
-									<%-- <td><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i></td> --%>
+									<td>
+										<i class="fa fa-star fa-lg" aria-hidden="true" cursor = 'pointer'/>
+									</td>
+									<%-- <td><i class="fa fa-star-o" aria-hidden="true"></i></td>--%>
 									<td>${pageScope.template.tmpNo }</td>
 									<td>${pageScope.template.templateCategory.categoryName }</td>
 									<td>${pageScope.template.tmpDate }</td>

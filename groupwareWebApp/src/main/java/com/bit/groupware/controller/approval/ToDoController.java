@@ -10,6 +10,8 @@ public class ToDoController {
 	//대기문서함 페이지 요청
 	@RequestMapping(value="/approvalTodo.do", method=RequestMethod.GET)
 	public String form() {
+		
+		
 		return "approval/toDoList";
 	}
 	
