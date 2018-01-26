@@ -52,7 +52,7 @@ public class CodeDAOImpl implements CodeDAO {
 	
 	
 	//코드 삭제
-	public void deleteCode(CodeVO code) {
-		sqlSession.delete(NAMESPACE + ".deleteCode", code);
+	public void deleteCode(String cNo) {
+		sqlSession.delete(NAMESPACE + ".deleteCode", cNo);
 	}
 }
