@@ -10,17 +10,17 @@ public interface EmployeeDAO {
 
 	EmployeeVO selectEmployee(String empNo);
 	
-	Map<String, Object> selectEmployeeList(List<EmployeeVO> employees);
+	List<EmployeeVO> selectEmployeeList(Map<String, Object> map);
 	
 	String insertEmployee(EmployeeVO employee);
 	
 	void updateEmployee(EmployeeVO employee);
 	
-	Map<String,Object> searchByEmployeeList(List<EmployeeVO> employees);
+	List<EmployeeVO> searchByEmployeeList(Map<String, Object> map);
 	
 	void insertEmployeeCode(String empNo);
 	
 	List<EmployeeCodeVO> selectDepartment(Map<String, Object> map);
 	
-	boolean checkDeptEmp(String cNo);
+	int checkDeptEmp(String cNo);
 }

@@ -44,7 +44,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	//결재 문서 회수
-	public void modifyApproval(int apprNo) {
+	public void modifyApproval(ApprovalVO approval) {
 /*		//1. 최초 결재자의 결재 여부 확인
 		boolean isRecallable = recordDAO.selectApprovalRecallable(apprNo);
 		
@@ -53,7 +53,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 			recordDAO.deleteApprovalRecord(apprNo);
 			
 			//3. 결재문서 최종상태 여부 변경 = 회수
-			dao.updateApproval(apprNo);
+			dao.updateApproval(approval);
 		} */
 		
 	}
