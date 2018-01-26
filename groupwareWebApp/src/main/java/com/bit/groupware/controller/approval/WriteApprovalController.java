@@ -18,6 +18,7 @@ public class WriteApprovalController {
 	@Autowired
 	private TemplateCategoryService categoryService;
 	
+	@Autowired
 	private TemplateService templateService;
 	
 	//문서 작성 - 양식 고르기
@@ -30,13 +31,12 @@ public class WriteApprovalController {
 		
 		//양식서 리스트
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("startRow", 1);
+		map.put("startRow", new Integer(1));
 		map.put("endRow", 10);
 		mv.addObject("templateList",templateService.retrieveTemplateList(map));
 		
 		mv.setViewName("approval/selectCategory");
 		return mv;
-		
 	}
 	
 	//문서 작성 폼 요청

@@ -17,8 +17,8 @@ public class PlanFileDAOImpl implements PlanFileDAO {
 		sqlSession.insert(NAMESPACE + ".insertPlanFile", file);
 	}
 	
-	public void deletePlanFile(String fileNo) {
-		sqlSession.delete(NAMESPACE + ".deletePlanFile", fileNo);
+	public void deletePlanFile(String pNo) {
+		sqlSession.delete(NAMESPACE + ".deletePlanFile", pNo);
 	}
 	
 }

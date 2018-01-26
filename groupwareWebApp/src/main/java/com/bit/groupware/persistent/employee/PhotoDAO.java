@@ -6,7 +6,5 @@ public interface PhotoDAO {
 
 	void insertPhoto(PhotoVO photo);
 	
-	void updatePhoto(PhotoVO photo);
-	
 	void deletePhoto(String photoNo);
 }

@@ -14,14 +14,14 @@
 	</insert>
 	
 	<select id="selectTemplateCategoryList" resultType="TemplateCategoryVO" statementType="STATEMENT"> 
-	    select category_name as categoryName
+	    select category_no as categoryNo, category_name as categoryName
 		from template_category
-		order by 1 asc
+		order by category_name asc
 	</select>
 	
 	<delete id="deleteTemplateCategory" parameterType="int" statementType="PREPARED">
 		delete from template_category
-		where category_no=${categoryNo}
+		where category_no=#{categoryNo}
 	</delete>
 	
 </mapper>

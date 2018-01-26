@@ -1,13 +1,7 @@
-<%--admin_index.jsp --%>
-
+<%--index.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
-<%
-	String footer = request.getParameter("footer") + ".jsp";
-	String header = request.getParameter("header") + ".jsp";
-	String content = request.getParameter("content") + ".jsp";
-	String menu = request.getParameter("menu") + ".jsp";
-%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,6 +48,9 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
 	rel="stylesheet">
+<!-- jQuery -->
+<script
+	src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
 </head>
 
 <body class="nav-md">
@@ -70,7 +67,6 @@
 				<tiles:insertAttribute name="header" ignore="true" />
 			</div>
 			<!-- /top navigation -->
-
 			<!-- page content -->
 			<div class="right_col" role="main">	
 			<tiles:insertAttribute name="content" ignore="true" />
@@ -90,9 +86,7 @@
 	</div>
 	</div>
 
-	<!-- jQuery -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
+	
 	<!-- Bootstrap -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
