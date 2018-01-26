@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.approval.ApprovalRecordMapper">
+	
+	<insert id="insertApprovalRecord" parameterType="ApprovalRecordVO" statementType="PREPARED" > 
+		<selectKey keyProperty="recordNo" resultType="int" order="BEFORE" statementType="STATEMENT" >
+			select approval_record_seq.nextval from dual
+		</selectKey>
+		insert into approval_record(record_no,appr_no,line_no,appr_status)
+		values(#{recordNo},#{apprNo},#{lineNo},#{apprStatus})
+ 	</insert>
+
+	<select id="selectApprovlaRecordList" parameterType="int" resultType="ApprovalRecordVO" statementType="PREPARED">
+     	select t1.record_no,  t1.appr_status, t1.assign_date, t1.check_date, t1.confirm_date, t1.appr_no, t1.line_no
+		from approval_record t1, approval t2, receiver_line t3
+		where t1.appr_no = t2.appr_no
+		and t1.line_no = t3.line_no
+   </select>
+   
+   <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
+    	update approval_record
+		set appr_status=#{apprStatus},
+		check_Date=#{checkDate},
+		confirm_date=#{confirmDate}
+		where record_no=#{recordNo};
+   </update>
+   
+   <delete id="deleteApprovalRecord" parameterType="int" statementType="PREPARED">  
+    	delete from approval_record
+		where record_no=#{recordNo}
+   </delete>
+   
+</mapper>

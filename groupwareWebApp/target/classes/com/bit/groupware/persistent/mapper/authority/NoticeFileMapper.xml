@@ -3,8 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.bit.groupware.persistent.mapper.ArticleFileMapper">
-			
+<mapper namespace="com.bit.groupware.persistent.mapper.authority.NoticeFileMapper">
+<!-- 			
 	<insert id="insertArticleFile" parameterType="map" statementType="PREPARED">		
 		<foreach item="articleFile" collection="articleFiles" open="insert all" close="select * from dual">
 		 	into articleFile ( system_file_name, original_file_name, file_size, article_no )
@@ -12,5 +12,5 @@
    			         #{articleFile.fileSize}, #{articleFile.articleNo} )
 		</foreach>	 	
 	</insert>
-	 
+	  -->
 </mapper>
