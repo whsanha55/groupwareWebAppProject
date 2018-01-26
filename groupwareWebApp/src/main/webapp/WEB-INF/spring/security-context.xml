@@ -9,8 +9,8 @@
 	<!-- 
 	<security:http pattern="" security="none" />
 	-->
-<!-- 		
-	<security:http  use-expressions="true">		
+
+<!-- 	<security:http  use-expressions="true">		
 		<security:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
 		로그인폼 커스터마이징
 		<security:form-login login-page="/login.do"
@@ -22,7 +22,16 @@
 		<security:logout invalidate-session="true" logout-success-url="/main.do"/>
 		<security:csrf disabled="true"/>		
 	</security:http>
- -->
+
+ 
+ 
+	 Performs security handling of HTTP resource
+	<bean id="filterSecurityInterceptor" 
+		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">		
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<property name="securityMetadataSource" ref="reloadableFilterInvocationSecurityMetadataSource" />
+	</bean> -->
 </beans>
 
 
