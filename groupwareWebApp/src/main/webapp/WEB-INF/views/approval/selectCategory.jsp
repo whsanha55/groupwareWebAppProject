@@ -35,16 +35,22 @@
 				cache : false ,
 				dataType : 'json' ,
 				success : function(data) {
+					var text = "";
 					for(var i=0;i<data.length;i++) {
-						var text = "<tr> <td> <i class='fa fa-star fa-lg' aria-hidden='true' cursor = 'pointer'/> </td>";
+						if(data[i].templateBookmarks.length == 0) {
+							text += "<tr> <td> <i class='fa fa-star-o fa-lg' aria-hidden='true' cursor = 'pointer'/> </td>";
+						} else {
+							text += "<tr> <td> <i class='fa fa-star fa-lg' aria-hidden='true' cursor = 'pointer'/> </td>";
+							
+						}
 						text += "<td>"+ data[i].tmpNo + "</td>";
 						text += "<td>"+ data[i].templateCategory.categoryName + "</td>";
 						text += "<td>"+ data[i].tmpDate + "</td>";
 						text += "<td>"+ data[i].tmpName + "</td>";
 						text += "<td>"+ data[i].tmpSummary + "</td>";
 						text += "</tr>";
-						$('#datatable').find('tbody').html(text);
 					}
+						$('#datatable').find('tbody').html(text);
 					
 				} ,
 				error : function(jqXHR) {
