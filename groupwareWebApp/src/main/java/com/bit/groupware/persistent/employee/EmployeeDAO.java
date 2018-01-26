@@ -16,8 +16,6 @@ public interface EmployeeDAO {
 	
 	void updateEmployee(EmployeeVO employee);
 	
-	List<EmployeeVO> searchByEmployeeList(Map<String, Object> map);
-	
 	void insertEmployeeCode(String empNo);
 	
 	List<EmployeeCodeVO> selectDepartment(Map<String, Object> map);
