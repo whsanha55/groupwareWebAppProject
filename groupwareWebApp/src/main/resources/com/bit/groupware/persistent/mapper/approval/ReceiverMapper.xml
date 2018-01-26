@@ -15,8 +15,8 @@
       </insert>
 
 
-      <select id="selectReceiverList" statementType="STATEMENT" resultMap="ReceiverVO">
-          select receiver_no, receiver_name
+      <select id="selectReceiverList" statementType="STATEMENT" resultType="ReceiverVO">
+          select receiver_no as recieverNo, receiver_name as receiverName
           from receiver
           order by receiver_name asc
       </select>
