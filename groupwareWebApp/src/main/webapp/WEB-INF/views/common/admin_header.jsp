@@ -1,5 +1,6 @@
 <%--header.jsp --%>
 <%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,7 +19,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="javascript:;">내 정보</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>로그 아웃</a></li>
+                    <li><a href='<c:url value="/login.do" />'><i class="fa fa-sign-out pull-right"></i>로그 아웃</a></li>
                   </ul>
                 </li>
 
