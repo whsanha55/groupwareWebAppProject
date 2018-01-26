@@ -17,8 +17,8 @@ public class MessageServiceImpl implements MessageService {
 		messageDAO.insertMessage(message); 
 	}
 
-	public void removeMessage(Map<String, List<Integer>> map) {
-		messageDAO.deleteMessage(map); 
+	public void removeMessage(List<Integer> msgNos) {
+		messageDAO.deleteMessage(msgNos); 
 	}
 
 	public MessageVO retrieveMessage(int msgNo) {

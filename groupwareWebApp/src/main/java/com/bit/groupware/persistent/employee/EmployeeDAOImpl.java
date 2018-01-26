@@ -34,10 +34,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		sqlSession.update(NAMESPACE + ".updateEmployee", employee);
 	}
 	
-	public List<EmployeeVO> searchByEmployeeList(Map<String,Object> map) {
-		return sqlSession.selectList(NAMESPACE + ".searchByEmployeeList", map);
-	}
-	
 	public void insertEmployeeCode(String empNo) {
 		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", empNo);
 	}

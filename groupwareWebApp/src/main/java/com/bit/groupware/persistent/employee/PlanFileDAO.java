@@ -8,6 +8,6 @@ public interface PlanFileDAO {
 	void insertPlanFile(PlanFileVO file);
 	
 	//일정 파일 삭제
-	void deletePlanFile(String fileNo);
+	void deletePlanFile(String pNo);
 	
 }
