@@ -3,6 +3,8 @@ package com.bit.groupware.domain.approval;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class ApprovalVO {
@@ -16,6 +18,7 @@ public class ApprovalVO {
 	int apprFinalStatus;
 	EmployeeVO employee;
 	TemplateVO template;
+	List<MultipartFile> upload;
 	List<ApprovalFileVO> approvalFiles = new ArrayList<ApprovalFileVO>();
 	List<ApprovalRecordVO> approvalRecords = new ArrayList<ApprovalRecordVO>();
 
@@ -85,6 +88,15 @@ public class ApprovalVO {
 	public void setTemplate(TemplateVO template) {
 		this.template = template;
 	}
+	
+	
+	public List<MultipartFile> getUpload() {
+		return upload;
+	}
+
+	public void setUpload(List<MultipartFile> upload) {
+		this.upload = upload;
+	}
 
 	public List<ApprovalFileVO> getApprovalFiles() {
 		return approvalFiles;
@@ -118,11 +130,13 @@ public class ApprovalVO {
 		this.urgency = urgency;
 	}
 
+	@Override
 	public String toString() {
 		return "ApprovalVO [apprNo=" + apprNo + ", apprDate=" + apprDate + ", validDate=" + validDate + ", urgency="
 				+ urgency + ", apprTitle=" + apprTitle + ", apprContent=" + apprContent + ", apprFinalStatus="
-				+ apprFinalStatus + ", employee=" + employee + ", template=" + template + ", approvalFiles="
-				+ approvalFiles + ", approvalRecords=" + approvalRecords + "]";
+				+ apprFinalStatus + ", employee=" + employee + ", template=" + template + ", upload=" + upload
+				+ ", approvalFiles=" + approvalFiles + ", approvalRecords=" + approvalRecords + "]";
 	}
+
 
 }

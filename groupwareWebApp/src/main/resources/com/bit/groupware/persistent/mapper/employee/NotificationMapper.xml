@@ -25,20 +25,20 @@
 		      from (select t1.note_no, t1.note_date, t1.redirect_path, t1.message, t1.emp_no, t2.emp_name, t2.c_name, rownum rn
 		            from notification t1, employee_view t2
 		            where t1.emp_no = t2.emp_no
-		            and t1.emp_no = ${empNo}
+		            and t1.emp_no = #{empNo}
 		            order by t1.note_date desc)
-		      where rn &lt;= ${endRow})
-	   where rn &gt;= ${startRow}
+		      where rn &lt;= #{endRow})
+	   where rn &gt;= #{startRow}
 	</select>
 	
 	<delete id="deleteNotification" parameterType="map" >
 		delete from notification
 		<choose>
 			<when test="noteNo != null">
-				where note_no = ${noteNo}
+				where note_no = #{noteNo}
 			</when>
 			<otherwise>
-				where emp_no = ${empNo}
+				where emp_no = #{empNo}
 			</otherwise>
 		</choose>
 	</delete>
