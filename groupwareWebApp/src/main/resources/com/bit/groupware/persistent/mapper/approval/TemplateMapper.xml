@@ -43,8 +43,8 @@
 		<if test="keyfield=='tmpName'and keyword!=null">
 			and t.tmp_name=#{tmpName}
 		</if>
-		<![CDATA[
-		and t.rn>=${startRow} and t.rn<=${endRow}]]>
+		
+		and t.rn<![CDATA[>=]]>${startRow} and t.rn<![CDATA[<=]]>${endRow}
 	</select>
 	
 	
@@ -53,15 +53,18 @@
 		 select t.tmp_no as tmpNo,t.tmp_name as tmpName,t.tmp_summary as tmpSummary,
 		 t.tmp_Date as tmpDate ,t.TMP_CONTENT as tmpContent, t.TMP_USING as tmpUsing,
 		 t.category_no as categoryNo,tc.CATEGORY_NAME as categoryName
-		from template t,template_category tc
-		where t.category_no=tc.category_no
-		and t.tmp_no=${tmpNo}
+		 from template t,template_category tc
+		 where t.category_no=tc.category_no
+		 and t.tmp_no=${tmpNo}
 	</select>
 		
 		
 	<delete id="deleteTemplate" parameterType="int" statementType="PREPARED">
 		delete from template
-		where tmp_no=#{tmpNo}
+		where tmp_no in
+		<foreach item="tmpNo" collection="tmpNos" separator="," open="(" close=")">
+			#{tmpNo}
+		</foreach>
 	</delete>	
 	
 	
