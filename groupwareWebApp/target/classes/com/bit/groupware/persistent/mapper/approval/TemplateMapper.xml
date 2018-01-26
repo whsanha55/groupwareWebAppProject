@@ -35,13 +35,13 @@
         where t.category_no=tc.category_no
 
 		<if test="keyfield == 'categoryNo' and keyword != null">
-			and tc.category_no = #{categoryNo}
+			and tc.category_no = #{keyword}
 		</if>
 		<if test="keyfield == 'categoryName' and keyword != null">
-			and tc.category_name = #{categoryName}
+			and tc.category_name = #{keyword}
 		</if>
 		<if test="keyfield == 'tmpName' and keyword != null">
-			and t.tmp_name = #{tmpName}
+			and t.tmp_name = #{keyword}
 		</if>
 		
 		and t.rn<![CDATA[>=]]>#{startRow} and t.rn<![CDATA[<=]]>#{endRow}
