@@ -21,7 +21,7 @@
 	
 	<delete id="deleteTemplateCategory" parameterType="int" statementType="PREPARED">
 		delete from template_category
-		where category_no=${categoryNo}
+		where category_no=#{categoryNo}
 	</delete>
 	
 </mapper>
