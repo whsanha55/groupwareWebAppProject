@@ -34,14 +34,14 @@
               		from template order by tmp_name asc) tmp) t,template_category tc
         where t.category_no=tc.category_no
 
-		<if test="keyfield=='categoryNo' and keyword!=null">
-			and tc.category_no=#{categoryNo}
+		<if test="keyfield == 'categoryNo' and keyword != null">
+			and tc.category_no = #{categoryNo}
 		</if>
-		<if test="keyfield=='categoryName'and keyword!=null">
-			and tc.category_name=#{categoryName}
+		<if test="keyfield == 'categoryName' and keyword != null">
+			and tc.category_name = #{categoryName}
 		</if>
-		<if test="keyfield=='tmpName'and keyword!=null">
-			and t.tmp_name=#{tmpName}
+		<if test="keyfield == 'tmpName' and keyword != null">
+			and t.tmp_name = #{tmpName}
 		</if>
 		
 		and t.rn<![CDATA[>=]]>#{startRow} and t.rn<![CDATA[<=]]>#{endRow}
