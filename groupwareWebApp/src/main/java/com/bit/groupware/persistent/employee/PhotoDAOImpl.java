@@ -1,22 +1,22 @@
 package com.bit.groupware.persistent.employee;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.bit.groupware.domain.employee.PhotoVO;
 
 public class PhotoDAOImpl implements PhotoDAO {
-
+	private final static String NAMESPACE = "com.bit.groupware.persistent.mapper.PhotoMapper";
+	
+	@Autowired
+	private SqlSessionTemplate sqlSession;	
+	
 	public void insertPhoto(PhotoVO photo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void updatePhoto(PhotoVO photo) {
-		// TODO Auto-generated method stub
-
+		sqlSession.insert(NAMESPACE + ".insertPhoto", photo);
 	}
 
 	public void deletePhoto(String photoNo) {
-		// TODO Auto-generated method stub
-
+		sqlSession.delete(NAMESPACE + ".deletePhoto", photoNo);
 	}
 
 }

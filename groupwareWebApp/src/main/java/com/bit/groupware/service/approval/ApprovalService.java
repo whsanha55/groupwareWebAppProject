@@ -14,7 +14,7 @@ public interface ApprovalService {
 	ApprovalVO retrieveApproval(int apprNo);
 	
 	//기안문서 상신
-	void registerApproval(ApprovalVO approval, int lineNo);
+	void registerApproval(ApprovalVO approval);
 
 	//결재문서 회수
 	void modifyApproval(ApprovalVO approval);

@@ -25,12 +25,18 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 
 	public void updateApprovalRecordStatus(ApprovalRecordVO approvalRecord) {
 		sqlSession.update(NAMESPACE+".updateApprovalRecordStatus",approvalRecord);
-
 	}
 
 	public void deleteApprovalRecord(int apprNo) {
 		sqlSession.delete(NAMESPACE+".deleteApprovalRecord",apprNo);
-
 	}
+
+	public int selectApprovalRecallable(int apprNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectApprovalRecallable", apprNo);
+	}
+
+
+	
+
 
 }

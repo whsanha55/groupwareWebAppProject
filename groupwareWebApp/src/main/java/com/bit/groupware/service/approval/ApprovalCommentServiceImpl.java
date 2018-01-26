@@ -18,13 +18,11 @@ public class ApprovalCommentServiceImpl implements ApprovalCommentService{
 	}
 
 	public void removeApprovalComment(int commentNo) {
-		dao.deleteApprovalComment(commentNo);
-		
+		dao.deleteApprovalComment(commentNo);		
 	}
 
-	public void registerApprovalComment(ApprovalCommentVO approvalCommentVO) {
-		// TODO Auto-generated method stub
-		
+	public void registerApprovalComment(ApprovalCommentVO approvalComment) {
+		dao.insertApprovalComment(approvalComment);	
 	}
 
 	
