@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.bit.groupware.service.employee.CodeService;
 
 @Controller
-public class RemoveCodeController {
-	private static final Logger logger = LoggerFactory.getLogger(RemoveCodeController.class);
+public class AdminRemoveCodeController {
+	private static final Logger logger = LoggerFactory.getLogger(AdminRemoveCodeController.class);
 
 	@Autowired
 	private CodeService codeService;

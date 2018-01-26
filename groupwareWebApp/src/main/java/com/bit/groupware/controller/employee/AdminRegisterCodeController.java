@@ -11,8 +11,8 @@ import com.bit.groupware.domain.employee.CodeVO;
 import com.bit.groupware.service.employee.CodeService;
 
 @Controller
-public class RegisterCodeController {
-	private static final Logger logger = LoggerFactory.getLogger(RegisterCodeController.class);
+public class AdminRegisterCodeController {
+	private static final Logger logger = LoggerFactory.getLogger(AdminRegisterCodeController.class);
 	@Autowired
 	private CodeService codeService;
 	

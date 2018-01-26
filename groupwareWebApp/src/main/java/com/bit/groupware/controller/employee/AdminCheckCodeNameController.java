@@ -8,13 +8,13 @@ import org.springframework.stereotype.Controller;
 import com.bit.groupware.service.employee.CodeService;
 
 @Controller
-public class CheckRelationCodeController {
-	private static final Logger logger = LoggerFactory.getLogger(CheckRelationCodeController.class);
+public class AdminCheckCodeNameController {
+	private static final Logger logger = LoggerFactory.getLogger(AdminCheckCodeNameController.class);
 	
 	@Autowired
 	private CodeService codeService;
 	
-	/*//하위 코드 수 확인
-	@RequestMapping(value="/admin/checkRelationCode.do", method=RequestMethod.GET)*/
-	
+	/*//코드명 중복 체크
+	@RequestMapping(value="/admin/checkCodeName.do", method=RequestMethod.POST)
+	public ch*/
 }

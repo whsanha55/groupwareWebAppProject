@@ -14,8 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit.groupware.service.employee.CodeService;
 
 @Controller
-public class ListCodeController {
-	private static final Logger logger = LoggerFactory.getLogger(ListCodeController.class);
+public class AdminListCodeController {
+	private static final Logger logger = LoggerFactory.getLogger(AdminListCodeController.class);
 	@Autowired
 	private CodeService codeService;
 	
@@ -25,7 +25,7 @@ public class ListCodeController {
 		logger.info("map : {}", map);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("codes", codeService.retrieveCodeList(map));
-		mv.setViewName("admin_codeList");
+		mv.setViewName("admin_listCode");
 		return mv;
 	}
 	
