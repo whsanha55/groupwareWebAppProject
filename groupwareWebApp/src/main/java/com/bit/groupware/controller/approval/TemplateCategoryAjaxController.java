@@ -1,6 +1,6 @@
 package com.bit.groupware.controller.approval;
 
-import java.util.ArrayList;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,22 +20,39 @@ public class TemplateCategoryAjaxController {
 
 	@Autowired
 	private TemplateService templateService;
-	
-	@RequestMapping(value="/templateCategoryAjax.do", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/templateCategoryAjax.do", method = RequestMethod.POST)
 	@ResponseBody
 	public List<TemplateVO> getTemplateList(
-			@RequestParam(required=false) int categoryNo ,
-			@RequestParam(required=false) String categoryName ,
-			@RequestParam(required=false) String tmpName) {
+			@RequestParam(required = false) int categoryNo,
+			@RequestParam(required = false) String categoryName, 
+			@RequestParam(required = false) String tmpName ,
+			@RequestParam int startRow,
+			@RequestParam int endRow,
+			Principal principal) {
 		Map<String, Object> map = new HashMap<String, Object>();
+//		 사원번호
+//		map.put("empNo",principal.getName() );
+		map.put("empNo", "2018-00011");
 		
-		map.put("keyfield", "categoryNo");
-		map.put("keyword", categoryNo);
-		map.put("categoryName", categoryName);
-		map.put("tmpName", tmpName);
-		map.put("startRow", 0);
-		map.put("endRow", 10);
+		
+		if (categoryNo != 0) {
+			if(categoryNo >0) {
+				map.put("keyfield", "categoryNo");
+				map.put("keyword", categoryNo);
+			} else {
+				map.put("keyfield", "bookmark");
+			}
+		} else if (categoryName != null) {
+			map.put("keyfield", "categoryName");
+			map.put("keyword", categoryName);
+		} else {
+			map.put("keyfield", "tmpName");
+			map.put("keyword", tmpName);
+		}
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
 		List<TemplateVO> templates = templateService.retrieveTemplateList(map);
-		return templates; 
+		return templates;
 	}
 }

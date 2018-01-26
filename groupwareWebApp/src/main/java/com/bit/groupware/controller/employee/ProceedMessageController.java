@@ -55,7 +55,8 @@ public class ProceedMessageController {
 		
 		//해당 쪽지의 상세정보를 조회한다.
 		
-		@RequestMapping(value="/retrieveMessage.do", method =  RequestMethod.GET)
+//		@RequestMapping(value="/retrieveMessage.do", method =  RequestMethod.GET)
+//		proceedMsgList() 랑 requestMapping 중복이라 오류나서 주석처리했습니다.
 		public ModelAndView SelectMessage(@RequestParam(value="msgNo") int msgNo) {
 			
 			ModelAndView mv = new ModelAndView();

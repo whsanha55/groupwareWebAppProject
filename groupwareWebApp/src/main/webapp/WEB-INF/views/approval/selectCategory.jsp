@@ -27,12 +27,24 @@
 			$.ajax({
 				url : '${pageContext.request.contextPath}/templateCategoryAjax.do' ,
 				data : {
-					categoryNo : categoryNo
+					categoryNo : categoryNo,
+					startRow : 0,
+					endRow : 10
 				} ,
 				type : 'POST' ,
 				cache : false ,
 				dataType : 'json' ,
 				success : function(data) {
+					for(var i=0;i<data.length;i++) {
+						var text = "<tr> <td> <i class='fa fa-star fa-lg' aria-hidden='true' cursor = 'pointer'/> </td>";
+						text += "<td>"+ data[i].tmpNo + "</td>";
+						text += "<td>"+ data[i].templateCategory.categoryName + "</td>";
+						text += "<td>"+ data[i].tmpDate + "</td>";
+						text += "<td>"+ data[i].tmpName + "</td>";
+						text += "<td>"+ data[i].tmpSummary + "</td>";
+						text += "</tr>";
+						$('#datatable').find('tbody').html(text);
+					}
 					
 				} ,
 				error : function(jqXHR) {
@@ -68,8 +80,8 @@
 				</table>
 
 				<div class="text-center" width="80px" align="center">
-					<button id ='category_0' class="btn btn-primary category">양식서 즐겨찾기</button>
-				</div>
+					<button id ='category_-1' class="btn btn-primary category">양식서 즐겨찾기</button>
+				</div>	
 				<!-- 
 			<div class="text-center" width="80px" align="center">
 				<button class="btn btn-primary">기안서</button>
