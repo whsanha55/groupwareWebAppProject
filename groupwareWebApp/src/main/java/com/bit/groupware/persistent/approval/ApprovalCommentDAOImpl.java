@@ -10,7 +10,7 @@ import com.bit.groupware.domain.approval.ApprovalCommentVO;
 
 @Repository
 public class ApprovalCommentDAOImpl implements ApprovalCommentDAO {
-	private final String NAMESPACE="com.bit.groupware.persistent.mapper.approval.ApprovalCommentMapper.xml";
+	private final String NAMESPACE="com.bit.groupware.persistent.mapper.approval.ApprovalCommentMapper";
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
