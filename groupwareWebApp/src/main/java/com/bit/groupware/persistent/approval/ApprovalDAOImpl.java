@@ -28,8 +28,8 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		 return approval.getApprNo();
 	}
 
-	public void updateApproval(int apprNo) {
-		sqlSession.update(NAMESPACE+".updateApproval",apprNo);
+	public void updateApproval(ApprovalVO approval) {
+		sqlSession.update(NAMESPACE+".updateApproval", approval);
 	}
 
 }

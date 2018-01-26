@@ -19,9 +19,7 @@ public interface ApprovalService {
 	//결재문서 회수
 	void modifyApproval(int apprNo);
 	
-	//회수할 문서에 대한 최초 결재자의 결재 여부 확인
-	Boolean isRecallable(int apprNo);
-	
+
 	
 	
 }
