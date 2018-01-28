@@ -19,5 +19,6 @@ public interface TemplateService {
    //양식 삭제
    void removeTemplate(List<Integer> tempNos);
    
+   int retrieveTemplateCount(Map<String, Object> map);
    
 }
