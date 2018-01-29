@@ -35,8 +35,6 @@ public class SecuredObjectDaoImpl implements SecuredObjectDao {
 			 String authority = "";
 			 AntPathRequestMatcher requestMatcher = null;
 		     List<ConfigAttribute> configList = null;
-
-			AuthorityVO auth = null;
 			
 			List<RoleVO> list = sqlSession.selectList(NAMESPACE + ".selectAuthority");	
 			System.out.println("list : " + list);
@@ -51,10 +49,10 @@ public class SecuredObjectDaoImpl implements SecuredObjectDao {
 	            }
 	          
 	            for(AuthorityVO temp1 :a) {
-	            if (authority != temp1.getaName()) {
-	               configList.add(new SecurityConfig(temp1.getaName()));
-	               authority = temp1.getaName();
-	            }
+		            if (authority != temp1.getaName()) {
+		               configList.add(new SecurityConfig(temp1.getaName()));
+		               authority = temp1.getaName();
+		            }
 	            }
 			}
 		} catch (Exception e) {
