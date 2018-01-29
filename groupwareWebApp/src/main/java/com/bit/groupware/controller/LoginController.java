@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.service.employee.EmployeeService;
 
 @Controller
@@ -26,9 +27,11 @@ public class LoginController {
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public ModelAndView submit(@RequestParam(value="id", required=true) String id) {
 		logger.info("id : {}", id);
-		//String isAdmin = employeeService.retrieveEmployee(id);
+		EmployeeVO emp = employeeService.retrieveEmployee(id);
+		logger.info("emp.getIsAdmin() : {}", emp.getIsAdmin());
 		ModelAndView mv = new ModelAndView();
-		if(isAdmin.equals('T')) {
+		
+		if(emp.getIsAdmin().equals("T")) {
 			mv.setViewName("admin/admin_index");
 			mv.addObject("msg", "success");
 		}else {    // 로그인 실패

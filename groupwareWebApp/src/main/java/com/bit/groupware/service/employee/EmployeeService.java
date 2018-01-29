@@ -12,7 +12,7 @@ import com.bit.groupware.domain.employee.PhotoVO;
 @Service
 public interface EmployeeService {
 	
-	/*EmployeeVO retrieveEmployee(String empNo);*/
+	EmployeeVO retrieveEmployee(String empNo);
 	
 	List<EmployeeVO> retrieveEmployeeList(Map<String,Object> map);
 	/*

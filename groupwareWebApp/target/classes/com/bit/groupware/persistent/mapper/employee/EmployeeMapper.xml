@@ -89,13 +89,9 @@
 							statementType="PREPARED" parameterType="String">
 							
 		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
-	        reg_number, hire_date, retire_status, retire_date, address, isAdmin,
-	        c.c_no, c_name, relation_code, photo_no, photo_name,system_file_name,file_size,division
-		from employee_code ec, employee e, code c, photo ph
-		where ec.emp_no = e.emp_no
-		    and ec.c_no = c.c_no
-	        and e.emp_no = ph.emp_no
-	        and e.emp_no = #{empNo}
+	        reg_number, hire_date, retire_status, retire_date, address, isAdmin
+		from employee e
+		where e.emp_no = #{empNo}
 							
 		<!-- select 
 			e.emp_no, 
