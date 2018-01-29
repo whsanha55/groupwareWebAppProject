@@ -11,9 +11,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Cont
-
-ent-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Meta, title, CSS, favicons, etc. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -58,6 +56,10 @@ ent-Type" content="text/html; charset=UTF-8">
 <link
 	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
 	rel="stylesheet">
+	
+	<!-- jQuery -->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -87,9 +89,6 @@ ent-Type" content="text/html; charset=UTF-8">
 
 	</div>
 
-	<!-- jQuery -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
 	<!-- Bootstrap -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
