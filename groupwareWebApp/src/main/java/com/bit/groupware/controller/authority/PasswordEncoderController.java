@@ -17,7 +17,7 @@ public class PasswordEncoderController {
 	
 	@RequestMapping(value="/passwordEncode.do", method=RequestMethod.GET)
 	public String  passwordEncode() {
-		String rawPassword = "adminpassword";
+		String rawPassword = "1234";
 		String encodedPassword = passwordEncoder.encode(rawPassword);
 		logger.info("rawPassword : " + rawPassword);
 		logger.info("encodedPassword : " + encodedPassword);
