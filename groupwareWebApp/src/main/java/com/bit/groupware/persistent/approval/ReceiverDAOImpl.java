@@ -25,12 +25,12 @@ public class ReceiverDAOImpl implements ReceiverDAO {
 	}
 
 	public void updateReceiver(ReceiverVO receiver) {
-		sqlSession.insert(NAMESPACE + ".updateReceiver", receiver);
+		sqlSession.update(NAMESPACE + ".updateReceiver", receiver);
 		
 	}
 
 	public void deleteReceiver(int receiverNo) {
-		sqlSession.insert(NAMESPACE + ".deleteReceiver", receiverNo);
+		sqlSession.delete(NAMESPACE + ".deleteReceiver", receiverNo);
 		
 	}
 	
