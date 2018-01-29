@@ -21,7 +21,7 @@ public class AdminListCodeController {
 	
 	//코드 목록 조회 요청
 	@RequestMapping(value="/admin/listCode.do", method=RequestMethod.GET)
-	public ModelAndView listCode(@RequestParam(value="map") Map<String, Object> map ) {
+	public ModelAndView listCode(@RequestParam(value="map", required=false) Map<String, Object> map ) {
 		logger.info("map : {}", map);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("codes", codeService.retrieveCodeList(map));

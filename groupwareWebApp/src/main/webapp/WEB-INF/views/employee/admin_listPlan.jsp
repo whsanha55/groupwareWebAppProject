@@ -7,6 +7,9 @@
 <title>일정목록</title>
 </head>
 <body>
+<link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar.css" />
+<link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar.min.css" />
+<script type="text/javascript" src="<c:url value='/js/fullcalendar.min.js'/>"></script>
 	<div class="col-md-12">
 		<div class="x_panel">
 			<div class="x_title col-md-12">
