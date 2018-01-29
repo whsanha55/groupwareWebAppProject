@@ -55,10 +55,11 @@
                               <input type="checkbox" class="flat" name="table_records">
                             </td>
 							
-                             <td class=" ">${requestScope.}</td>
-                            <td class=" ">이지희</td>
-                            <td class=" ">2018.01.04</td>
-                          
+							<c:forEach var="message" items="${requestScope.messages}" varStatus="loop">
+                             <td class=" ">${pageScope.message.msgContent}</td>
+                            <td class=" ">${pageScope.message.senderEmployee}</td>
+                            <td class=" ">${pageScope.message.msgDate}</td>
+                          	 </c:forEach>
 							
                             
                             

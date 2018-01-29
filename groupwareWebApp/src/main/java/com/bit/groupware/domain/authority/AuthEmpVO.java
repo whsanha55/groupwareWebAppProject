@@ -10,6 +10,7 @@ public class AuthEmpVO {
 	private String aName; 		//권한명
 	private List<EmployeeVO> emps = new ArrayList<EmployeeVO>(); //사원 목록
 	
+	
 	public AuthEmpVO() {
 		super();
 	}

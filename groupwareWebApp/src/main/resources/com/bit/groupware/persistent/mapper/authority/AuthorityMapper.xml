@@ -22,4 +22,21 @@
       and t1.ISREGISTRATION = '0'                          
       order by  t3.a_name asc, t1.sort_order asc       
       </select>
+      
+      <select id="selectEmployee" parameterType="String" resultType="EmployeeVO" statementType="PREPARED">
+      	select checkAdmin as isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
+      	from employee
+      	where emp_no= #{value}
+      </select>
+      
+      
+  
+      
+      <select id="selectAuthEmp" resultType="string" statementType="PREPARED" parameterType="String">
+      	select t3.a_name as aName
+      	from authority_employee t1, employee t2, authority t3 
+      	where t1.emp_no = t2.emp_no
+      	and t1.a_no = t3.a_no
+      	and t1.emp_no = #{value}
+      </select>
 </mapper>

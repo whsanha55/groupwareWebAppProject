@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.persistent.authority.UserDAO;
 
@@ -35,8 +35,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			authorities.add(new SimpleGrantedAuthority(authority));
 		}
 		
-		User temp = new User(username, user.getEmpPwd(), authorities);
-		System.out.println("User : " + temp);
+	
+		UserVO  temp = new UserVO(user.getEmpNo(), user.getEmpPwd(), authorities);
+		temp.setIsAdmin(user.getIsAdmin());
+		System.out.println("UserVO : " + temp.getIsAdmin());
 		return temp;
 	}
 	
@@ -54,6 +56,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	private List<String> loadPermission(String username) {
 		try {
+			System.out.println("///////////////////////// :" + userDAO.selectAutorities(username));
 			return userDAO.selectAutorities(username);
 		} catch(Exception ex) {
 			logger.error(ex.toString());

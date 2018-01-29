@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,7 +52,7 @@ public class ProceedMessageController {
 		map.put("endRow", 15);
 		
 		mv.addObject("messages", msgService.retrieveMessageList(map));
-		mv.setViewName("messageList");
+		mv.setViewName("employee/messageList");
 		
 		return mv;
 	}
@@ -59,6 +60,7 @@ public class ProceedMessageController {
 	
 	   //메시지 삭제 요청 처리
 		@RequestMapping(value = "/removeMessage.do", method = RequestMethod.GET)
+		@ResponseBody
 		public String removeMessageList(@RequestParam(value="msgNos") List<Integer> msgNos) {
 			
 			//List<Integer> msgNos
@@ -67,7 +69,7 @@ public class ProceedMessageController {
 			msgService.removeMessage(msgNos);
 			}
 			//ajax로 넣어줄 메시지 삭제 성공/실패 jsp		
-			return "isSuccess";
+			return "원래는 돌아왔을때 필요한 객체 --> 다음페이지에 필요한 객체";
 		}
 		
 		
