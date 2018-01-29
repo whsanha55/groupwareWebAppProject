@@ -18,8 +18,15 @@
 							 username-parameter="id" 
 							 password-parameter="pwd" 
 							 login-processing-url="/j_spring_security_check"
-			                 default-target-url="/admin/index.do" 
+			                 default-target-url="/index.do" 
 			                 authentication-failure-url="/login.do?fail=true"/>	
+		<!--관리자 -->
+		<security:form-login login-page="/admin/login.do"
+							 username-parameter="id" 
+							 password-parameter="pwd" 
+							 login-processing-url="/j_spring_security_check"
+			                 default-target-url="/admin/index.do" 
+			                 authentication-failure-url="/admin/login.do?fail=true"/>	
 		<!-- 403페이지 -->              
 		<security:access-denied-handler ref="LoginFailController"/>	
 		
