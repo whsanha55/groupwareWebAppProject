@@ -5,7 +5,7 @@
   
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeMapper">
 	
-	<!-- <insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
+	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
 		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
 		</selectKey>				
@@ -54,7 +54,7 @@
 			</if>
 		</trim>	
 		where emp_no = #{empNo}
-	</update> -->
+	</update>
 	
 	<resultMap id="selectEmployeeResultMap" type="EmployeeVO">
 		<id column="emp_no"				 property="empNo" />
@@ -76,24 +76,28 @@
 			<result column="relation_code" 	property="relationCode" />
 		</collection>
 		
-		<!-- <collection property="photos" javaType="list" ofType="PhotoVO">
+		<collection property="photos" javaType="list" ofType="PhotoVO">
 			<id column="photo_no" 				property="photoNo"/>
 			<result column="photo_name" 		property="photoName" />
 			<result column="system_file_name" 	property="systemFileName" />
 			<result column="file_size" 			property="fileSize" />
 			<result column="emp_no" 			property="empNo" />
-		</collection> -->
+		</collection>
 	</resultMap> 
 
 	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
 							statementType="PREPARED" parameterType="String">
 							
-		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
-	        reg_number, hire_date, retire_status, retire_date, address, isAdmin
-		from employee e
-		where e.emp_no = #{empNo}
+		<!-- select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
+	        reg_number, hire_date, retire_status, retire_date, address, isAdmin,
+	        c.c_no, c_name, relation_code, photo_no, photo_name,system_file_name,file_size,division
+		from employee_code ec, employee e, code c, photo ph
+		where ec.emp_no = e.emp_no
+		    and ec.c_no = c.c_no
+	        and e.emp_no = ph.emp_no
+	        and e.emp_no = #{empNo} -->
 							
-		<!-- select 
+		select 
 			e.emp_no, 
 			emp_Name,
 			emp_pwd,
@@ -121,19 +125,19 @@
             division
 		from employee e , photo ph
         where e.emp_no = ph.emp_no
-            and e.emp_no = #{empNo} -->
+            and e.emp_no = #{empNo}
 	</select> 
 	
 	<select id="selectEmployeeList" parameterType="map" statementType="STATEMENT" 
 													resultMap="selectEmployeeResultMap">
-		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
+		<!-- select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
 		        reg_number, hire_date, retire_status, retire_date, address, isAdmin,
 		        c.c_no, c_name, relation_code
 		from employee_code ec, employee e, code c
 		where ec.emp_no = e.emp_no
-		    and ec.c_no = c.c_no
+		    and ec.c_no = c.c_no -->
 		
-		<!-- select 
+		select 
 			emp_no, 
 			emp_Name,
 			emp_pwd,
@@ -157,7 +161,7 @@
 		from (select rownum as rn, emp.*
               from (select * from employee
                     order by emp_no asc) emp) e
-        <if test="keyfield==emp_no and keyword!=null">
+        <!-- <if test="keyfield==emp_no and keyword!=null">
 		where emp_no like '%' || #{keyword} || '%' 
 		</if>
 		<if test="keyfield==emp_name and keyword!=null">
@@ -168,12 +172,12 @@
 		</if>
 		<if test="keyfield==department and keyword!=null">
 		where department like '%' || #{keyword} || '%'
-		</if> 
+		</if>  -->
 		<![CDATA[
 			where e.rn >= #{startRow} and e.rn <= #{endRow}
-		]]> -->
+		]]>
 	</select>
-	<!-- 
+	
 	<select id="selectEmpCharge" resultType="String" parameterType="String" statementType="PREPARED">
 		select emp_name, phone_number
         from employee e, employee_code ec, code c
@@ -195,6 +199,6 @@
         where c.c_no = rc.relation_code
             and c.c_name = #{cName}
 	</select>
- -->
+
 </mapper>
 
