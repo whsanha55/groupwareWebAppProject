@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.service.employee.EmployeeService;
 
@@ -23,10 +24,18 @@ public class LoginController {
 	
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public String submit(@RequestParam(value="id", required=true) String id) {
+	public ModelAndView submit(@RequestParam(value="id", required=true) String id) {
 		logger.info("id : {}", id);
 		//String isAdmin = employeeService.retrieveEmployee(id);
-		if(isAdmin.equals('T'))
-		return "admin/admin_index";
+		ModelAndView mv = new ModelAndView();
+		if(isAdmin.equals('T')) {
+			mv.setViewName("admin/admin_index");
+			mv.addObject("msg", "success");
+		}else {    // 로그인 실패
+            // login.jsp로 이동
+			mv.setViewName("index");
+			mv.addObject("msg", "failure");
+        }
+		return mv;
 	}
 }
