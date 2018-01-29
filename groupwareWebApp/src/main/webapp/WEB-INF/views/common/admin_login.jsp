@@ -45,8 +45,9 @@
 			<div class="animate form login_form">
 				<section class="login_content">
 					<form
-						action="${pageContext.request.contextPath}/j_spring_security_check"
+						action="${pageContext.request.contextPath}/j_spring_security_check1"
 						method="POST">
+						<input type="hidden" name="spring-security-redirect" >
 						<h1>로고</h1>
 						<div>
 							<h2 class="text-left">관리자 아이디</h2>
