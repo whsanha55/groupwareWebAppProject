@@ -9,6 +9,6 @@ public class DetailEmployeeController {
 
 	@RequestMapping(value="/detailEmployee.do", method=RequestMethod.GET)
 	public String detailEmployee()  {
-		return "/detailEmployee";
+		return "employee/detailEmployee";
 	}
 }
