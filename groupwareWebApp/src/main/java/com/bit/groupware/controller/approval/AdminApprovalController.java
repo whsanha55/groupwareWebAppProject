@@ -10,7 +10,7 @@ public class AdminApprovalController {
 //	@Autowired
 //	private 
 	
-	@RequestMapping(value="admin/approval.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/approval.do", method=RequestMethod.GET)
 	public String approvalList() {
 		return "approval/admin_approvalList";
 	}

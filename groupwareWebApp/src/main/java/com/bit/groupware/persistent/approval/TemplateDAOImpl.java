@@ -33,5 +33,10 @@ private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.app
 		
 	}
 
+	public int selectTemplateCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectTemplateCount", map);
+		
+	}
+
 	
 }

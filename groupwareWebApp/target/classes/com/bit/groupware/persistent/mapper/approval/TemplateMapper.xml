@@ -26,25 +26,64 @@
 			<id property="categoryNo" column="category_no" />
 			<result property="categoryName" column="category_name" />
 		</association>
+		<collection property="templateBookmarks" javaType="list" column="bookmark_no" ofType="TemplateBookmarkVO">
+			<id property="bookmarkNo" column="bookmark_no"/>
+		</collection>
 	</resultMap>
 	<select statementType="PREPARED" parameterType="map" id="selectTemplateList" resultMap="selectTemplateResultMap" > 
-		select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,t.category_no,tc.CATEGORY_NAME
+		<!-- select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,t.category_no,tc.CATEGORY_NAME
 		from (select rownum as rn, tmp.*
     		  from (select *	
               		from template order by tmp_name asc) tmp) t,template_category tc
         where t.category_no=tc.category_no
 
-		<if test="keyfield=='categoryNo' and keyword!=null">
-			and tc.category_no=#{categoryNo}
+		<if test="keyfield == 'categoryNo' and keyword != null">
+			and tc.category_no = #{keyword}
 		</if>
-		<if test="keyfield=='categoryName'and keyword!=null">
-			and tc.category_name=#{categoryName}
+		<if test="keyfield == 'categoryName' and keyword != null">
+			and tc.category_name = #{keyword}
 		</if>
-		<if test="keyfield=='tmpName'and keyword!=null">
-			and t.tmp_name=#{tmpName}
+		<if test="keyfield == 'tmpName' and keyword != null">
+			and t.tmp_name = #{keyword}
 		</if>
 		
 		and t.rn<![CDATA[>=]]>#{startRow} and t.rn<![CDATA[<=]]>#{endRow}
+		 -->
+		select *
+		from (select temp.*, rownum rn
+      		from(select t1.tmp_no, t1.tmp_name, t1.tmp_summary, to_char(t1.tmp_date,'yyyy/mm/dd') as tmp_date,
+      					t1.tmp_using, t1.category_no, t2.CATEGORY_NAME
+      					<if test="empNo != null">
+	      					, (select bookmark_no
+	                         from template_bookmark t3
+	                         where t1.tmp_no = t3.tmp_no
+	                         and emp_no = #{empNo} ) as bookmark_no
+                        </if>
+                        
+                 from template t1, template_category t2
+                 where t1.category_no = t2.category_no
+                 <if test="keyfield == 'categoryNo' and keyword != null">
+					and t1.category_no = #{keyword}
+				</if>
+				<if test="keyfield == 'categoryName' and keyword != null">
+					and t2.category_name like '%'|| #{keyword} ||'%'
+				</if>
+				<if test="keyfield == 'tmpName' and keyword != null">
+					and t1.tmp_name like '%'|| #{keyword} ||'%'
+				</if>
+				<if test="empNo != null">
+					and t1.tmp_using = 1
+				</if>
+				
+                 order by t1.tmp_name asc) temp 
+                 
+			<if test="keyfield == 'bookmark' ">
+				where bookmark_no is not null
+			</if>
+           	)
+       where rn <![CDATA[>=]]> #{startRow} 
+       and rn <![CDATA[<=]]> #{endRow}
+      <!--  and rn &lt; #{endRow} 작동함 ㅋㅋ -->
 	</select>
 	
 	
@@ -57,6 +96,29 @@
 		 where t.category_no=tc.category_no
 		 and t.tmp_no=#{tmpNo}
 	</select>
+
+	<select id="selectTemplateCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(t1.tmp_no)
+		from template t1, template_category t2, template_bookmark t3
+		where t1.category_no = t2.category_no
+		and t1.tmp_no = t3.tmp_no(+)
+			<if test="keyfield == 'categoryNo' and keyword != null">
+				and t1.category_no = #{keyword}
+			</if>
+			<if test="keyfield == 'categoryName' and keyword != null">
+				and t2.category_name like '%'|| #{keyword} ||'%'
+			</if>
+			<if test="keyfield == 'tmpName' and keyword != null">
+				and t1.tmp_name like '%'|| #{keyword} ||'%'
+			</if>
+			<if test="keyfield == 'bookmark' ">
+				and bookmark_no is not null
+			</if>
+			<if test="empNo != null">
+				and t1.tmp_using = 1
+			</if>
+</select>
+	
 		
 		
 	<delete id="deleteTemplate" parameterType="int" statementType="PREPARED">
