@@ -16,14 +16,15 @@ public class EmployeeVO {
 	private String address;
 	private	List<CodeVO> codes;
 	private List<PhotoVO> photos;
+	private String isAdmin;
 
 	public EmployeeVO() {
 		super();
 	}
-
+	
 	public EmployeeVO(String empNo, String empName, String empPwd, String engName, String phoneNumber, String email,
 			String regNumber, String hireDate, String retireStatus, String retireDate, String address,
-			List<CodeVO> codes, List<PhotoVO> photos) {
+			List<CodeVO> codes, List<PhotoVO> photos, String isAdmin) {
 		super();
 		this.empNo = empNo;
 		this.empName = empName;
@@ -38,7 +39,9 @@ public class EmployeeVO {
 		this.address = address;
 		this.codes = codes;
 		this.photos = photos;
+		this.isAdmin = isAdmin;
 	}
+
 
 	public String getEmpNo() {
 		return empNo;
@@ -144,13 +147,23 @@ public class EmployeeVO {
 		this.photos = photos;
 	}
 
+	public String getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(String isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeVO [empNo=" + empNo + ", empName=" + empName + ", empPwd=" + empPwd + ", engName=" + engName
 				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", regNumber=" + regNumber + ", hireDate="
 				+ hireDate + ", retireStatus=" + retireStatus + ", retireDate=" + retireDate + ", address=" + address
-				+ ", codes=" + codes + ", photos=" + photos + "]";
+				+ ", codes=" + codes + ", photos=" + photos + ", isAdmin=" + isAdmin + "]";
 	}
 
+
+	
 	
 }
