@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.authority.BoardMapper">
+
+	<insert id="insertBoard" parameterType="Board" statementType="PREPARED">
+		<selectKey keyProperty="boardNo" resultType="int"
+			statementType="STATEMENT" order="BEFORE">
+			select board_no_seq.nextval from dual
+		</selectKey>
+		insert into board(board_no, board_name, isuse, file_count, isnotice,
+		iscomment, isdeptdivide, isdocutype)
+		values(#{boardNo},#{boardName}, #{isUse}, #{fileCount}, #{isNotice} ,#{isComment}, #{isDeptDivide},
+		#{isDocuType})
+	</insert>
+
+
+</mapper>

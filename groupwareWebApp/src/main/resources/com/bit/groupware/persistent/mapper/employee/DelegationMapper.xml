@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.DelegationMapper">
+
+	
+	<insert id="insertDelegationList" parameterType="DelegationVO" statementType="PREPARED">
+		<foreach item="delegation" collection="list" open="insert all" close="select * from dual">
+			insert into delegation(emp_no, dele_emp_no, tmp_no)
+			values(#{delegation.employee.empNo}, #{delegation.deleEmployee.empNo}, #{delegation.template.tmpNo})
+		</foreach>
+	</insert>
+
+<!-- 	<select id="" parameterType="">
+	
+	</select> -->
+
+
+	<delete id="deleteDelegation" parameterType="Integer">
+	delete from delegation
+	where dele_no in 
+	<foreach item="deleNo" collection="list" separator="," open="(" close=")">
+		#{deleNo}
+	</foreach>
+	</delete>
+
+</mapper>

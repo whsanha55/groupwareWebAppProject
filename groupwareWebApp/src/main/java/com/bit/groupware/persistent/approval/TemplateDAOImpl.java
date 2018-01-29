@@ -5,11 +5,12 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.approval.TemplateVO;
-
+@Repository
 public class TemplateDAOImpl implements TemplateDAO{
-private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateMapper.xml";
+private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateMapper";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -20,15 +21,22 @@ private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.app
 	}
 
 	public List<TemplateVO> selectTemplateList(Map<String, Object> map) {
-		return sqlSession.selectList(NAMESPACE + ".selectTemplateList");
+		return sqlSession.selectList(NAMESPACE + ".selectTemplateList", map);
 	}
 
 	public TemplateVO selectTemplate(int tmpNo) {
 		return sqlSession.selectOne(NAMESPACE+".selectTemplate",tmpNo);
 	}
 
-	public void deleteTemplate(int tmpNo) {
-		sqlSession.delete(NAMESPACE + ".deleteTemplate", tmpNo);
+	public void deleteTemplate(List<Integer> tmpNos) {
+		sqlSession.delete(NAMESPACE + ".deleteTemplate", tmpNos);
 		
 	}
+
+	public int selectTemplateCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectTemplateCount", map);
+		
+	}
+
+	
 }

@@ -13,5 +13,5 @@ public interface ApprovalDAO {
 
 	int insertApproval(ApprovalVO approval);
 
-	void updateApproval(int apprNo);
+	void updateApproval(ApprovalVO approval);
 }

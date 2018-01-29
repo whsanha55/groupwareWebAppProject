@@ -108,7 +108,7 @@ public class PlanVO {
 	public void setEmployee(EmployeeVO employee) {
 		this.employee = employee;
 	}
-
+	
 	public PlanFileVO getFile() {
 		return file;
 	}
