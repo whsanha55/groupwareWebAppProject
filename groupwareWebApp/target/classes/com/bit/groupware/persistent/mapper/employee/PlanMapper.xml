@@ -37,7 +37,7 @@
 			select 'p'||lpad(p_no_seq.nextval,5,0) from dual
 		</selectKey>
 		insert into plan(p_no,p_title,dept_no,p_class,p_impt,rspb_no,p_content,start_date,end_date,latitude,longitude)
-		values (#{pNo},#{pTitle},#{pClass},#{pImpt],#{pContent},#{startDate},#{endDate},#{latitude},#{longitude})
+		values (#{pNo},#{pTitle},#{pClass},#{pImpt},#{pContent},#{startDate},#{endDate},#{latitude},#{longitude})
 	</insert>
 	
 	
