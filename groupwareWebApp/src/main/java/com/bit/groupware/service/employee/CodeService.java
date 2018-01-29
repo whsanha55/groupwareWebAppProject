@@ -10,8 +10,11 @@ public interface CodeService {
 	//코드 등록
 	boolean registerCode(CodeVO code);
 		
+	//최상위 코드 리스트 조회
+	List<CodeVO> retrieveCodeList1(Map<String, Object> map);
+	
 	//코드 리스트 조회
-	List<CodeVO> retrieveCodeList(Map<String, Object> map);
+	List<CodeVO> retrieveCodeList2(Map<String, Object> map);
 		
 	//코드 수정
 	void modifyCode(CodeVO code);

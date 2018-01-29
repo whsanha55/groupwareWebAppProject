@@ -24,7 +24,7 @@ public class AdminListEmployeeController {
 		map.put("startRow", 1);
 		map.put("endRow", 10);
 		mv.addObject("employees",employeeService.retrieveEmployeeList(map));
-		mv.setViewName("admin/admin_listEmployee");
+		mv.setViewName("employee/admin_listEmployee");
 		return mv;
 	}
 }
