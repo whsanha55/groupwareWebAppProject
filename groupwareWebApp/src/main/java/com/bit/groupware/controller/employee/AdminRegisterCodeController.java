@@ -23,7 +23,7 @@ public class AdminRegisterCodeController {
 		logger.info("code : {} ", code);
 		if(codeService.registerCode(code) == true) {
 			codeService.registerCode(code);
-			return "redirect:/admim/listCode.do";
+			return "redirect:/admin/listCode1.do";
 		} else {
 			return "redirect:/admin/registerCode.do?cNo=" + code.getcNo();
 		}

@@ -39,8 +39,13 @@ public class CodeDAOImpl implements CodeDAO {
 	}
 	
 	
-	//코드 리스트 조회
-	public List<CodeVO> selectCodeList(Map<String, Object> map) {
+	//최상위 코드 리스트 조회
+	public List<CodeVO> selectCodeList1(Map<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".selectCodeList" ,map);
+	}
+	
+	//하위 코드 리스트 조회
+	public List<CodeVO> selectCodeList2(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectCodeList" ,map);
 	}
 	
