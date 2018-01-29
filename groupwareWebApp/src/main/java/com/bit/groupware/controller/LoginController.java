@@ -42,10 +42,10 @@ public class LoginController {
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
 	public String form2() {
 		UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    String isAdmin = user.getIsAdmin();
-	    System.out.println("isAdmin : " + isAdmin);
+	    EmployeeVO emp = user.getEmp();
+	   /* System.out.println("isAdmin : " + isAdmin);*/
 	    
-	    if(isAdmin.equals("T")) {
+	    if(emp.getIsAdmin().equals("T")) {
 	    	return "adminMain";
 	    } else {
 	    	return "main";
