@@ -3,66 +3,53 @@ package com.bit.groupware.domain.authority;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bit.groupware.domain.employee.EmployeeVO;
+
 public class AuthRoleVO {
-   private int arNo;           //권한 역할 번호
-   private String rId;             //롤 아이디
-   private String aNo;          //권한 번호
-   
-   private List<AuthorityVO> authorities = new ArrayList<AuthorityVO>();
-   private List<RoleVO> roles = new ArrayList<RoleVO>();
-   
-   public AuthRoleVO() {
-      super();
-   }
+	private String aNo;  			//권한 번호
+	private String aName;			//권한명
+	private String aNote; 			//비고
+	private String aWhether; 		//유무
+	private List<EmployeeVO> emps = new ArrayList<EmployeeVO>(); //사원 목록
+	
+	public AuthRoleVO() {
+		super();
+	}
+	public String getaNo() {
+		return aNo;
+	}
+	public void setaNo(String aNo) {
+		this.aNo = aNo;
+	}
+	public String getaName() {
+		return aName;
+	}
+	public void setaName(String aName) {
+		this.aName = aName;
+	}
+	public String getaNote() {
+		return aNote;
+	}
+	public void setaNote(String aNote) {
+		this.aNote = aNote;
+	}
+	public String getaWhether() {
+		return aWhether;
+	}
+	public void setaWhether(String aWhether) {
+		this.aWhether = aWhether;
+	}
+	public List<EmployeeVO> getEmps() {
+		return emps;
+	}
+	public void setEmps(List<EmployeeVO> emps) {
+		this.emps = emps;
+	}
 
-   public int getArNo() {
-      return arNo;
-   }
-
-   public void setArNo(int arNo) {
-      this.arNo = arNo;
-   }
-
-   public String getrId() {
-      return rId;
-   }
-
-   public void setrId(String rId) {
-      this.rId = rId;
-   }
-
-   public String getaNo() {
-      return aNo;
-   }
-
-   public void setaNo(String aNo) {
-      this.aNo = aNo;
-   }
-
-   
-   
-   public List<AuthorityVO> getAuthorities() {
-      return authorities;
-   }
-
-   public void setAuthorities(List<AuthorityVO> authorities) {
-      this.authorities = authorities;
-   }
-
-   public List<RoleVO> getRoles() {
-      return roles;
-   }
-
-   public void setRoles(List<RoleVO> roles) {
-      this.roles = roles;
-   }
-
-   @Override
-   public String toString() {
-      return "AuthRoleVO [arNo=" + arNo + ", rId=" + rId + ", aNo=" + aNo + ", authorities=" + authorities
-            + ", roles=" + roles + "]";
-   }
-
-   
-   
+	
+	@Override
+	public String toString() {
+		return "AuthorityVO [aNo=" + aNo + ", aName=" + aName + ", aNote=" + aNote + ", aWhether=" + aWhether
+				+ ", emps=" + emps + "]";
+	}
 }
