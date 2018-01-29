@@ -47,15 +47,20 @@
 					</ul></li>
 				<br>
 				<li><h3>인사관리</h3>
+				<c:url var="listEmployee" value="/admin/listEmployee.do" scope="page"/>
+				<c:url var="listCode" value="/admin/listCode1.do" scope="page"/>
+				<c:url var="listCodeHistory" value="/admin/listCodeHistory.do" scope="page"/>
+				<c:url var="listDepartment" value="/admin/listDepartment.do" scope="page"/>
+				<c:url var="callendar" value="/admin/Callendar.do" scope="page"/>
 					<ul class="nav child_menu" style="display: block;">
 						<li><a>사원관리 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="admin_employeeList.html">사원명부</a></li>
-								<li><a href="admin_codeHistory.html">이력조회</a></li>
+								<li><a href='${pageScope.listEmployee }'>사원명부</a></li>
+								<li><a href="${pageScope.listCodeHistory }">이력조회</a></li>
 							</ul>
-						<li><a href="admin_codeList.html">코드관리</a></li>
-						<li><a href="admin_departmentList.html">부서관리</a></li>
-						<li><a href="admin_calendar.html">일정관리</a></li>
+						<li><a href="${pageScope.listCode }">코드관리</a></li>
+						<li><a href="${pageScope.listDepartment }">부서관리</a></li>
+						<li><a href="${pageScope.callendar }">일정관리</a></li>
 					</ul></li>
 			</ul>
 		</div>

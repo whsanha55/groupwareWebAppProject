@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bit.groupware.domain.employee.EmployeeCodeVO;
+import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 
 @Repository
@@ -17,25 +17,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public EmployeeVO selectEmployee(String id) {
-		return sqlSession.selectOne(NAMESPACE + ".selectEmployee", id);
-	}
+
+	/*public EmployeeVO selectEmployee(String empNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectEmployee", empNo);
+
 	
 	public List<EmployeeVO> selectEmployeeList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
 	}
-	/*
-	public String insertEmployee(EmployeeVO employee) {
-		sqlSession.insert(NAMESPACE + ".insertEmployee", employee);
-		return employee.getEmpNo();
-	}
 	
 	public void updateEmployee(EmployeeVO employee) {
 		sqlSession.update(NAMESPACE + ".updateEmployee", employee);
-	}
-	
-	public void insertEmployeeCode(String empNo) {
-		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", empNo);
 	}
 	
 	public List<EmployeeCodeVO> selectDepartment(Map<String, Object> map) {
@@ -46,4 +38,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		int deptEmpCount = sqlSession.selectOne(NAMESPACE + ".checkDeptEmp", cNo);
 		return deptEmpCount;
 	}*/
+	
+	public List<EmployeeCodeViewVO> selectEmployeeList(Map<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
+	}
+	
+	public String insertEmployee(EmployeeVO employee) {
+		sqlSession.insert(NAMESPACE + ".insertEmployee", employee);
+		return employee.getEmpNo();
+	}
+	
+	public void insertEmployeeCode(String empNo) {
+		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", empNo);
+	}
+	
+	
 }
