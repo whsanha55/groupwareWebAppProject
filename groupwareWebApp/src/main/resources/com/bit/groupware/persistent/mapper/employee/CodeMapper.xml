@@ -6,7 +6,7 @@
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.CodeMapper">
 
 	<!-- 코드 등록 -->
-	<insert id="insertCode" parameterType="Code" statementType="PREPARED">					
+	<insert id="insertCode" parameterType="CodeVO" statementType="PREPARED">					
 		insert into code (c_no, c_name, relation_code)
 		values (#{cNo}, #{cName}, #{relationCode})	
 	</insert>
@@ -60,7 +60,7 @@
 	
 	
 	<!-- 코드 수정 -->
-	<update id="updateCode" parameterType="Code" statementType="PREPARED" >
+	<update id="updateCode" parameterType="CodeVO" statementType="PREPARED" >
 		update code
 		<trim prefix="set" suffixOverrides="," >
 			<if test="c_no != null">
@@ -77,7 +77,7 @@
 	</update>
 	
 	<!-- 코드 삭제 -->
-	<delete id="deleteCode" parameterType="Code" statementType="PREPARED" >
+	<delete id="deleteCode" parameterType="CodeVO" statementType="PREPARED" >
 		delete from code
 		where c_no=#{cNo}
 	</delete>
