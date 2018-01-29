@@ -51,7 +51,7 @@ public class ProceedMessageController {
 		map.put("endRow", 15);
 		
 		mv.addObject("messages", msgService.retrieveMessageList(map));
-		mv.setViewName("messageList");
+		mv.setViewName("employee/messageList");
 		
 		return mv;
 	}
