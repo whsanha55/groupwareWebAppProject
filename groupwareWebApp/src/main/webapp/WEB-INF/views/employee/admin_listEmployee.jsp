@@ -1,10 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>사원목록</title>
+<script>
+	$(document).ready(function() {
+		$('#regisBtn').click(function(){
+			location.href="${pageContext.request.contextPath}/admin/registerEmployee.do";
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -21,8 +29,9 @@
 							<div class="col-md-2">
 								<h2>사원명부</h2>
 							</div>
-							<button type="button" class="btn btn-primary" data-toggle="modal">
-								<a href="admin_insertEmployee.html">등록하기</a>
+							<%-- <c:url var=registerEmployee value="/admin/registerEmployee.do" scope="page" /> --%>
+							<button id="regisBtn" type="button" class="btn btn-primary" data-toggle="modal">
+								등록하기
 							</button>
 						</div>
 						<div class="col-md-3 col-xs-offset-2">
@@ -62,96 +71,17 @@
 								</tr>
 							</thead>
 							<tbody>
+								<c:forEach var="employee" items="${requestScope.employees }" varStatus="loop">
 								<tr>
-									<td><a data-toggle="modal" data-target="#myModal">2015-00035</a></td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
+									<td><a data-toggle="modal" data-target="#myModal">${pageScope.employee.empNo}</a></td>
+									<td>${pageScope.employee.empName}</td>
+									<td>${pageScope.employee.duty}</td>
+									<td>${pageScope.employee.department}</td>
+									<td>${pageScope.employee.phoneNumber}</td>
+									<td>${pageScope.employee.hireDate}</td>
+									<td>${pageScope.employee.email}</td>
 								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
-								<tr>
-									<td>2015-00035</td>
-									<td>김대리</td>
-									<td>대리</td>
-									<td>인사부</td>
-									<td>010-2356-7890</td>
-									<td>2015/10/10</td>
-									<td>java@naver.com</td>
-								</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
