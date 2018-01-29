@@ -65,7 +65,7 @@
 	     		 and p1.post_no = #{value}
 	</select> 
 	
-	<update id="updatePost" parameterType="Post" statementType="PREPARED">
+	<update id="updatePost" parameterType="PostVO" statementType="PREPARED">
 		update post
 		<trim prefix="set" suffixOverrides=",">
 			<if test="post_no != null">

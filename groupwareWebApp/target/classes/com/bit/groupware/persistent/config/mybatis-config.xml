@@ -24,6 +24,7 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/AuthorityMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/PostMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/PostFileMapper.xml"/> 
+		<mapper resource="com/bit/groupware/persistent/mapper/authority/DocumentMapper.xml"/> 
 		
 		<!-- Employee -->
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/EmployeeMapper.xml"/>
