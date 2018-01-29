@@ -1,16 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@page import="com.bit.groupware.domain.employee.PlanVO"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>ÀÏÁ¤ »ó¼¼º¸±â</title>
+<title>ì¼ì • ìƒì„¸ë³´ê¸°</title>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>ÀÏÁ¤ »ó¼¼º¸±â</h2>
+				<h2>ì¼ì • ìƒì„¸ë³´ê¸°</h2>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
@@ -20,60 +22,63 @@
 
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">ÀÏÁ¤±¸ºĞ</span>
-						</label>&nbsp;&nbsp; È¸ÀÇ
+							for="last-name">ì¼ì •êµ¬ë¶„</span>
+						</label>&nbsp;&nbsp; ${requestScope.plan.pClass }
 					</div>
 
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">ºÎ¼­</span>
-						</label>&nbsp;&nbsp; °æ¿µ°ü¸®ºÎ
+							for="last-name">ë¶€ì„œ</span>
+						</label>&nbsp;&nbsp; ${requestScope.plan.code.cName }
 					</div>
 
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12">Á¦¸ñ
-						</label> ÀÏÁ¤1
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">ì œëª©
+						</label> ${requestScope.plan.pTitle }
 					</div>
 
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12">±â°£
-						</label> 01/01/2016 11:00 AM - 01/25/2016 13:00 PM
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">ê¸°ê°„
+						</label> ${requestScope.plan.startDate } - ${requestScope.plan.endDate }
 					</div>
 
 
 
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12">Àå¼Ò</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">Àå¼Ò1</div>
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">ì¥ì†Œ</label>
+						<div class="col-md-6 col-sm-6 col-xs-12">${requestScope.plan.latitude },${requestScope.plan.longitude }</div>
 					</div>
 
 
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">³»¿ë </label>
-						°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶¹Ù»ç°¡³ª´Ù¶ó¸¶
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">ë‚´ìš© </label>
+						${requestScope.plan.pContent }
 					</div>
 
 					<div class="col-md-12">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12">Áß¿äµµ
-						</label> ÇÏ
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">ì¤‘ìš”ë„</label> 
+						${requestScope.plan.pImpt }
 					</div>
 
 					<div class="form-group form-inline">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">´ã´çÀÚ </label>&nbsp;&nbsp; ºÎÀå ¿µºÎÀå
+							for="last-name">ë‹´ë‹¹ì </label>&nbsp;&nbsp; ${requestScope.plan.employee.empName }
 					</div>
-
-					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">Ã·ºÎÆÄÀÏ </label>
-						<div class="btn-group">
-							<a class="btn" title="Insert picture (or just drag &amp; drop)"
-								id="pictureBtn"><i class="fa fa-picture-o"></i></a> <input
-								type="file" data-role="magic-overlay" data-target="#pictureBtn"
-								data-edit="insertImage">
+					
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="last-name">ì²¨ë¶€íŒŒì¼ </label>
+							<div class="btn-group">
+								<c:forEach var="planFile" items="${requestScope.plan.file }" varStatus="loop">
+									<c:url var="downloadUrl" value="/download.do">
+										<c:param name="fileName" value="${pageScope.planFile.fileName }" />
+										<c:param name="systemFileName" value="${pageScope.planFile.systemFileName }" />
+									</c:url>
+										<a href = "${pageScope.downloadUrl }">${pageScope.planFile.originalFileName }</a>
+								</c:forEach>
+							</div>
 						</div>
-					</div>
+					
 
 					<div class="ln_solid"></div>
 					<div class="form-group">

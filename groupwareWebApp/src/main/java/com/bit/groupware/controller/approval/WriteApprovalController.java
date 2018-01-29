@@ -1,13 +1,10 @@
 package com.bit.groupware.controller.approval;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.service.approval.TemplateCategoryService;
@@ -38,8 +35,13 @@ public class WriteApprovalController {
 
 	// 문서 작성 폼 요청
 	@RequestMapping(value = "/writeApproval.do", method = RequestMethod.GET)
-	public String form() {
-		return "approval/writeApproval";
+	public ModelAndView form(@RequestParam(required=false, defaultValue="0") int tmpNo ) {
+		ModelAndView mv = new ModelAndView();
+		if(tmpNo > 0) {
+			mv.addObject("template",templateService.retrieveTemplate(tmpNo));
+		}
+		mv.setViewName("approval/writeApproval");
+		return mv;
 	}
 
 	// 문서 상신

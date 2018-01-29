@@ -88,12 +88,13 @@
 	
 	
 	
-	<select statementType="PREPARED" parameterType="int" id="selectTemplate" resultMap="selectTemplateResultMap">
-		 select t.tmp_no as tmpNo,t.tmp_name as tmpName,t.tmp_summary as tmpSummary,
-		 t.tmp_Date as tmpDate ,t.TMP_CONTENT as tmpContent, t.TMP_USING as tmpUsing,
-		 t.category_no as categoryNo,tc.CATEGORY_NAME as categoryName
-		 from template t,template_category tc
-		 where t.category_no=tc.category_no
+	<select id="selectTemplate" statementType="PREPARED" parameterType="int" resultMap="selectTemplateResultMap">
+		 select t.tmp_no, t.tmp_name, t.tmp_summary,
+		 		to_char(t.tmp_date,'yyyy/mm/dd') as tmp_date, 
+		 		t.tmp_content , t.tmp_using,
+		 		t.category_no , tc.category_name
+		 from template t, template_category tc
+		 where t.category_no = tc.category_no
 		 and t.tmp_no=#{tmpNo}
 	</select>
 
