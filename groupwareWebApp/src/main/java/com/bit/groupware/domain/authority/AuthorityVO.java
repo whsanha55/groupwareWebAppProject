@@ -45,11 +45,11 @@ public class AuthorityVO {
 	public void setEmps(List<EmployeeVO> emps) {
 		this.emps = emps;
 	}
+
+	
 	@Override
 	public String toString() {
 		return "AuthorityVO [aNo=" + aNo + ", aName=" + aName + ", aNote=" + aNote + ", aWhether=" + aWhether
 				+ ", emps=" + emps + "]";
 	}
-
-
 }
