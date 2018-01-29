@@ -46,6 +46,23 @@
 	</select>
 	
 	
+	    <update id="updateReceiver"  parameterType="ReceiverVO" statementType="PREPARED">
+          update receiver
+          set receiver_name = #{receiverName}
+          where receiver_no = #{recieverNo}
+      </update>
+	
+	
+	<update id="updateMessageStatus" parameterType="int" statementType="PREPARED">
+		
+		update message
+		set msg_isread = 1
+		where msg_no = #{msgNo} 
+		
+	</update>
+	
+	
+	
 	<resultMap id="MessageListResultMap" type="MessageVO">
 		<id property="msgNo" column="msg_no" />
 		<result property="msgDate" column="msg_Date" />
