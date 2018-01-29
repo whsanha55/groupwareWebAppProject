@@ -24,7 +24,7 @@ public class SecuredObjectDaoImpl implements SecuredObjectDao {
 
 
 	public LinkedHashMap<Object, List<ConfigAttribute>> getRolesAndURL() throws Exception {
-		return getRolesAndResources("URL");
+		return getRolesAndResources("url");
 	}
 
 	public LinkedHashMap<Object, List<ConfigAttribute>> getRolesAndResources(String resourceType)
@@ -36,22 +36,25 @@ public class SecuredObjectDaoImpl implements SecuredObjectDao {
 			 AntPathRequestMatcher requestMatcher = null;
 		     List<ConfigAttribute> configList = null;
 
-			RoleVO role = null;
 			AuthorityVO auth = null;
 			
 			List<RoleVO> list = sqlSession.selectList(NAMESPACE + ".selectAuthority");	
-			
+			System.out.println("list : " + list);
 			for(RoleVO temp :list) {
+				
+				List<AuthorityVO> a = temp.getAuthorities();
 	            if (roleName != temp.getrName()) {
 	               requestMatcher = new AntPathRequestMatcher(temp.getrName()); //URL 
 	               configList = new LinkedList<ConfigAttribute>();              //권한목록
 	               requestMap.put(requestMatcher, configList);
 	               roleName = temp.getrName();
 	            }
-	            auth =new AuthorityVO();
-	            if (authority != auth.getaName()) {
-	               configList.add(new SecurityConfig(auth.getaName()));
-	               authority = auth.getaName();
+	          
+	            for(AuthorityVO temp1 :a) {
+	            if (authority != temp1.getaName()) {
+	               configList.add(new SecurityConfig(temp1.getaName()));
+	               authority = temp1.getaName();
+	            }
 	            }
 			}
 		} catch (Exception e) {
