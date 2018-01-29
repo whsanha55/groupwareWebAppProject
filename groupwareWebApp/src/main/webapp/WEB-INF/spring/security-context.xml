@@ -8,7 +8,9 @@
 	<!-- spring security를 적용하지 않을 경로(url-pattern) 설정 -->
 	<!-- <security:http pattern="" security="none" /> -->
 
-	<security:http use-expressions="true">
+    <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+    
+	<security:http use-expressions="true" pattern="/**">
 		<security:custom-filter ref="filterSecurityInterceptor"
 			before="FILTER_SECURITY_INTERCEPTOR" />
 		<!-- 로그인폼 커스터마이징 -->
@@ -26,6 +28,8 @@
 		<security:csrf disabled="true" />
 	</security:http>
 
+
+
 	<!-- Performs security handling of HTTP resource -->
 	<bean id="filterSecurityInterceptor"
 		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
@@ -38,8 +42,8 @@
 	<bean id="LoginFailController" class="com.bit.groupware.controller.LoginFailController" />
 
 	<!-- ============================ 인증 처리 ================================ -->
-	<bean id="passwordEncoder"
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+<!-- 	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->
 
 	<security:authentication-manager
 		erase-credentials="true" id="authenticationManager">
