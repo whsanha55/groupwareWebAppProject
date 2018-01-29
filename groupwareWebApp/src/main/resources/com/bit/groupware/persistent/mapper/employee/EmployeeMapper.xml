@@ -5,7 +5,7 @@
   
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeMapper">
 	
-	<!-- <insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
+	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
 		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
 		</selectKey>				
@@ -54,7 +54,7 @@
 			</if>
 		</trim>	
 		where emp_no = #{empNo}
-	</update> -->
+	</update>
 	
 	<resultMap id="selectEmployeeResultMap" type="EmployeeVO">
 		<id column="emp_no"				 property="empNo" />
@@ -76,13 +76,13 @@
 			<result column="relation_code" 	property="relationCode" />
 		</collection>
 		
-		<!-- <collection property="photos" javaType="list" ofType="PhotoVO">
+		<collection property="photos" javaType="list" ofType="PhotoVO">
 			<id column="photo_no" 				property="photoNo"/>
 			<result column="photo_name" 		property="photoName" />
 			<result column="system_file_name" 	property="systemFileName" />
 			<result column="file_size" 			property="fileSize" />
 			<result column="emp_no" 			property="empNo" />
-		</collection> -->
+		</collection>
 	</resultMap> 
 
 	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
@@ -177,7 +177,7 @@
 			where e.rn >= #{startRow} and e.rn <= #{endRow}
 		]]> -->
 	</select>
-	<!-- 
+	
 	<select id="selectEmpCharge" resultType="String" parameterType="String" statementType="PREPARED">
 		select emp_name, phone_number
         from employee e, employee_code ec, code c
@@ -199,6 +199,6 @@
         where c.c_no = rc.relation_code
             and c.c_name = #{cName}
 	</select>
- -->
+
 </mapper>
 
