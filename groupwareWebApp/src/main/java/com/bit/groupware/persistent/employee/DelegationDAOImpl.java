@@ -13,7 +13,7 @@ public class DelegationDAOImpl implements DelegationDAO {
 	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.employee.DelegationMapper"; 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
+
 	public void insertDelegationList(List<DelegationVO> delegations) {
 		sqlSession.insert(NAMESPACE+".insertDelegationList",delegations);
 

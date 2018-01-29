@@ -22,7 +22,7 @@ public class AdminRegisterPlanController {
 	//일정 추가 폼 요청
 	@RequestMapping(value="/admin/registerPlan.do", method=RequestMethod.GET)
 	public String form() {
-		return "일정추가폼";
+		return "employee/admin_insertPlan";
 	}
 	
 	//일정 추가 요청

@@ -1,5 +1,6 @@
 package com.bit.groupware.controller.employee;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -22,11 +23,14 @@ public class AdminListPlanController {
 	
 	//일정 목록 조회 요청
 	@RequestMapping(value="/admin/listPlan.do", method=RequestMethod.GET)
-	public ModelAndView listPlan(@RequestParam(value="map") Map<String, Object> map) {
-		logger.info("map : {}", map);
+	public ModelAndView listPlan() {
 		ModelAndView mv = new ModelAndView();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("keyfield", "pTitle");
+		map.put("keyword", "일정1");
+		logger.info("map : {}", map);
 		mv.addObject("plans", planService.retrievePlanList(map));
-		mv.setViewName("admin_listPlan");
+		mv.setViewName("employee/admin_listPlan");
 		return mv;
 	}
 

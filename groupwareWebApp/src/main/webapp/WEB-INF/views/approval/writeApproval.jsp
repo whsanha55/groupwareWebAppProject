@@ -3,208 +3,218 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>문서 작성</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/resources/summernote/summernote.css"
+	rel="stylesheet">
+<script	src="${pageContext.request.contextPath}/resources/summernote/summernote.js"></script>
+<script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
+
 </head>
+
+<script>
+	
+	$(document).ready(function() {
+	
+		//작성 날짜 구하기 function+ text 추가
+		function getDate() {
+			var date = new Date();
+			var todayDate = date.getFullYear() + "년 ";
+			todayDate += date.getMonth() + 1 + "월 ";
+			todayDate += date.getDate() + "일";
+			return todayDate;
+		}
+		$('#dateTableData').text(getDate());
+		
+	    //에디터 호출
+	    $('#summernote').summernote({
+			  lang: 'ko-KR',  // default: 'en-US'
+			  height: 500,                 // set editor height
+			  minHeight: 300,             // set minimum height of editor
+			  maxHeight: 800,             // set maximum height of editor
+			  focus: false ,
+			  toolbar: [
+				    ['style', ['bold', 'italic', 'underline', 'clear']],
+				    ['font', ['strikethrough', 'superscript', 'subscript']],
+				    ['fontsize'],
+				    ['color', ['color']],
+				    ['para', ['ul', 'ol', 'paragraph']],
+				    ['height', ['height']] ,
+				    ['picture'] ,
+				    ['link'] ,
+				    ['table'] ,
+				    ['undo'] ,
+				    ['redo'] 
+				  ] 
+		}); 
+	   
+		//양식서 불러오기
+		if('${requestScope.template}' != "") {
+		 	$('#summernote').summernote('code','${requestScope.template.tmpContent}');
+		}
+	   
+		
+		//기안 이벤트
+		$('.submitAppr').on('click',function() {
+			switch ($(this).attr('id').split('_')[1]) {
+				case '0':	//취소
+					swal({
+						  title: "기안 취소",
+						  text: "정말  취소하시겠습니까?",
+						  icon: "error",
+						  buttons : true 
+						}).then((e) => {
+							if(e) {
+								location.href = '${pageContext.request.contextPath}/approvalMyRequest.do';
+							}	
+						});
+					break;
+				case '1':	//상신
+					swal({
+						  title: "기안서 상신",
+						  text: "기안서를 등록합니다. 계속 진행하시겠습니까?",
+						  icon: "info",
+						  buttons : true 
+						}).then((e) => {
+							if(e) {
+								executeApproval(0);
+								//location.href = '${pageContext.request.contextPath}/approvalMyRequest.do';
+							}	
+						});
+					
+					break;
+				case '2':	//임시저장
+					swal({
+						  title: "기안서 임시저장",
+						  text: "기안서를 임시 저장합니다. 계속 진행하시겠습니까?",
+						  icon: "warning",
+						  buttons : true 
+						}).then((e) => {
+							if(e) {
+								executeApproval(4);
+								//location.href = '${pageContext.request.contextPath}/approvalMyRequest.do';
+							}	
+						});
+					break;
+			}
+			
+		}); //기안이벤트 End
+	   
+		
+		//기안서 등록 ajax function
+		function executeApproval(approvalStatus) {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/approvalAjax.do' ,
+				cache : false ,
+				dataType : 'json' ,
+				type : 'POST' ,
+				data : $('#approvalForm').serialize() ,
+				success : function(data) {
+					
+				} ,
+				error : function(jqXHR) {
+					alert(jqXHR.status);
+					console.log(jqXHR);
+				}
+			});
+		} // 등록 ajax function End
+	
+	});
+</script>
 <body>
+	<form method="post" id='approvalForm'>
+   <span>
+      <span class="col-md-2 col-sm-2 col-xs-2">
+        <select class="form-control" name ="receiverNo">
+          <option value='123'>1번라인</option>
+          <option value='123'>2번라인</option>
+          <option value='123'>4번라인</option>
+        </select>
+      </span>
+	</span>
+	<a class="btn btn-primary" href="a_plain_page.html">관리</a>
 
-          <!--글쓰기-->
+	
+	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_1">상신</button>
+	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_2">임시저장</button>
+	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_0">취소</button>			
+	<table id="approvalLine" class="table table-striped table-bordered">
+		<tbody>
+			<tr>
+				<th rowspan="2">결재</th>
+				<th>사장</th>
+				<th>부장</th>
+				<th>팀장</th>
+				<th>대리</th>
+			</tr>
+			<tr>
+				<td>사ㅇㅇ</td>
+				<td>부ㅇㅇ</td>
+				<td>팀ㅇㅇ</td>
+				<td>대ㅇㅇ</td>
+			</tr>
+			<tr>
+				<th rowspan="2">참조</th>
+				<th>부장</th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>참ㅇㅇ</td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
 
+	<table id="approvalData" class="table table-striped table-bordered">
+		<tr>
+			<th>양식명</th>
+			<td>${requestScope.template.tmpName }</td>
+			<th>보존기한</th>
+			<td><select class="form-control" name="validDate">
+			
+					<option value='1'>1년</option>
+					<option value='3'>3년</option>
+					<option value='5'>5년</option>
+					<option value='10'>10년</option>
+					<option value='0' selected>영구보존</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>작성자</th>
+			<td>김사원</td>
+			<%-- <td>${requestScope.??.name }</td> --%>
+			<th>부서</th>
+			<td>인사1팀</td>
+			<%-- <td>${requestScope.??.cName }</td> --%>
 
-				   <span>
-                        <span class="col-md-2 col-sm-2 col-xs-2">
-                          <select class="form-control">
-                            <option>1번라인</option>
-                            <option>2번라인</option>
-                            <option>3번라인</option>
-                          </select>
-                        </span>
-					</span>
-				  <a class="btn btn-primary" href="a_plain_page.html">관리</a>
+		</tr>
+		<tr>
+			<th>작성일</th>
+			<td id= 'dateTableData'></td>
+			<th>긴급여부</th>
+			<td>
+				<select class="form-control" name = 'urgency'>
+                	<option value='0' selected>일반</option>
+                    <option value='1'>긴급</option>
+                </select>
+		    </td> 
+		</tr>
+		<tr>
+			<th>제목</th>
+			<td colspan="3"><input type="text" name="apprTitle" class="form-control col-md-10"/></td>
+		</tr>
 
-				  <a class="btn btn-primary pull-right" href="a_index_authority.html">임시저장</a>
-				  <a class="btn btn-primary pull-right" href="a_index_authority.html">상신</a>
-				  <a class="btn btn-primary pull-right" href="a_index_authority.html">취소</a>
-				
-
-
-									<table id="approvalLine"
-										class="table table-striped table-bordered">
-										<tbody>
-											<tr>
-												<th rowspan="2">결재</th>
-												<th>사장</th>
-												<th>부장</th>
-												<th>팀장</th>
-												<th>대리</th>
-											</tr>
-											<tr>
-												<td>사ㅇㅇ</td>
-												<td>부ㅇㅇ</td>
-												<td>팀ㅇㅇ</td>
-												<td>대ㅇㅇ</td>
-											</tr>
-											<tr>
-												<th rowspan="2">참조</th>
-												<th>부장</th>
-												<th></th>
-												<th></th>
-												<th></th>
-											</tr>
-											<tr>
-												<td>참ㅇㅇ</td>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-
-									<table id="approvalData"
-										class="table table-striped table-bordered">
-										<tr>
-											<th>양식명</th>
-											<td>기안서</td>
-											<th>보존기한</th>
-											<td><select class="form-control">
-													<option>영구보존</option>
-													<option>10년</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<th>작성자</th>
-											<td>김사원</td>
-											<th>부서</th>
-											<td>인사1팀</td>
-
-										</tr>
-										<tr>
-											<th>작성일</th>
-											<td>2018년 01월 23일</td>
-											<th>긴급여부</th>
-											<td><select class="form-control">
-						                            <option>일반</option>
-						                            <option>긴급</option>
-					                            </select>
-										    </td> 
-
-										</tr>
-										<tr>
-											<th>제목</th>
-											<td colspan="3"><input type="text" name="apprTitle" id="apprTitle" class="form-control col-md-10"/></td>
-										</tr>
-
-
-									</table>
+	</table>
 
 
-
-
-
-			  
-
-
-
-					  <!---->
-		 <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
-                    <div class="btn-group">
-                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                      </ul>
-                    </div>
-
-                    <div class="btn-group">
-                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li>
-                          <a data-edit="fontSize 5">
-                            <p style="font-size:17px">Huge</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a data-edit="fontSize 3">
-                            <p style="font-size:14px">Normal</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a data-edit="fontSize 1">
-                            <p style="font-size:11px">Small</p>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="btn-group">
-                      <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                      <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                      <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                      <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                    </div>
-
-                    <div class="btn-group">
-                      <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                      <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                      <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                      <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                    </div>
-
-                    <div class="btn-group">
-                      <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                      <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                      <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                      <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                    </div>
-
-                    <div class="btn-group">
-                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-                      <div class="dropdown-menu input-append">
-                        <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
-                        <button class="btn" type="button">Add</button>
-                      </div>
-                      <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-                    </div>
-
-                    <div class="btn-group">
-                      <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="fa fa-picture-o"></i></a>
-                    </div>
-
-                    <div class="btn-group">
-                      <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-                      <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-                    </div>
-                  </div>
-                  <div id="editor-one" style="min-height:500px" class="editor-wrapper"></div>		
-
-
-                  <table id="approvalLine" class="table table-striped table-bordered">
-					<tbody>
-						<tr>
-							<th rowspan="4">첨부파일</th>
-							<td><input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" /></td>
-						</tr>
-						<tr>
-							<td><input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" /></td>
-						</tr>
-						<tr>
-							<td><input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" /></td>
-						</tr>
-						<tr>
-							<td><input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" /></td>
-						</tr>					
-					</tbody>
-				  </table>
-
-
-                <!-- end of weather widget -->
-              </div>
-            </div>
-          </div>
-        <!-- /page content -->
-
-
-
-
-
-</body>
+	  <textarea id="summernote" name="apprContent"></textarea>
+	  
+	<input type="hidden" name="tmpNo" value = "${requestScope.template.tmpNo }">
+	</form>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  </body>
 </html>

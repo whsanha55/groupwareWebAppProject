@@ -4,92 +4,100 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostVO {
-	private int boardNo; 					//게시판 번호
-	private String boardName; 			//게시판 이름
-	private String isUse; 					//사용 유무
-	private int fileCount; 					//업로드 파일 개수
+	private int postNo; 					//게시글 번호
+	private String postTiltle; 				//게시글 제목
+	private String writer; 					//작성자
+	private int postDate; 					//게시글 등록일
 	private String postContent; 			//게시글 내용
-	private String isNotice; 				//공지사항 사용 유무
-	private String isComment; 			//코멘트 사용 유무
-	private String isDeptDivide; 			//부서 구분 사용 유무
-	private String isDocuType; 			//문서 종류 사용 유무
+	private String documentNo; 		//문서 종류 번호
+	private String cNo; 					//부서 코드 번호
+	private String boardNo; 				//게시판 번호
 	private List<PostFileVO> postFiles = new ArrayList<PostFileVO>(); //게시글 파일 목록
 	
 	public PostVO() {
 		super();
 	}
 
-	public int getBoardNo() {
-		return boardNo;
+
+	public int getPostNo() {
+		return postNo;
 	}
 
-	public void setBoardNo(int boardNo) {
-		this.boardNo = boardNo;
+
+	public void setPostNo(int postNo) {
+		this.postNo = postNo;
 	}
 
-	public String getBoardName() {
-		return boardName;
+
+	public String getPostTiltle() {
+		return postTiltle;
 	}
 
-	public void setBoardName(String boardName) {
-		this.boardName = boardName;
+
+	public void setPostTiltle(String postTiltle) {
+		this.postTiltle = postTiltle;
 	}
 
-	public String getIsUse() {
-		return isUse;
+
+	public String getWriter() {
+		return writer;
 	}
 
-	public void setIsUse(String isUse) {
-		this.isUse = isUse;
+
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 
-	public int getFileCount() {
-		return fileCount;
+
+	public int getPostDate() {
+		return postDate;
 	}
 
-	public void setFileCount(int fileCount) {
-		this.fileCount = fileCount;
+
+	public void setPostDate(int postDate) {
+		this.postDate = postDate;
 	}
+
 
 	public String getPostContent() {
 		return postContent;
 	}
 
+
 	public void setPostContent(String postContent) {
 		this.postContent = postContent;
 	}
 
-	public String getIsNotice() {
-		return isNotice;
+
+	public String getDocumentNo() {
+		return documentNo;
 	}
 
-	public void setIsNotice(String isNotice) {
-		this.isNotice = isNotice;
+
+	public void setDocumentNo(String documentNo) {
+		this.documentNo = documentNo;
 	}
 
-	public String getIsComment() {
-		return isComment;
+
+	public String getcNo() {
+		return cNo;
 	}
 
-	public void setIsComment(String isComment) {
-		this.isComment = isComment;
+
+	public void setcNo(String cNo) {
+		this.cNo = cNo;
 	}
 
-	public String getIsDeptDivide() {
-		return isDeptDivide;
+
+	public String getBoardNo() {
+		return boardNo;
 	}
 
-	public void setIsDeptDivide(String isDeptDivide) {
-		this.isDeptDivide = isDeptDivide;
+
+	public void setBoardNo(String boardNo) {
+		this.boardNo = boardNo;
 	}
 
-	public String getIsDocuType() {
-		return isDocuType;
-	}
-
-	public void setIsDocuType(String isDocuType) {
-		this.isDocuType = isDocuType;
-	}
 
 	public List<PostFileVO> getPostFiles() {
 		return postFiles;
@@ -103,10 +111,13 @@ public class PostVO {
 		postFiles.add(file);
 	}
 
+
 	@Override
 	public String toString() {
-		return "PostVO [boardNo=" + boardNo + ", boardName=" + boardName + ", isUse=" + isUse + ", fileCount="
-				+ fileCount + ", postContent=" + postContent + ", isNotice=" + isNotice + ", isComment=" + isComment
-				+ ", isDeptDivide=" + isDeptDivide + ", isDocuType=" + isDocuType + ", postFiles=" + postFiles + "]";
+		return "PostVO [postNo=" + postNo + ", postTiltle=" + postTiltle + ", writer=" + writer + ", postDate="
+				+ postDate + ", postContent=" + postContent + ", documentNo=" + documentNo + ", cNo=" + cNo
+				+ ", boardNo=" + boardNo + ", postFiles=" + postFiles + "]";
 	}
+
+
 }

@@ -45,15 +45,33 @@
 			<result property="tmpName" column="tmp_name" />	
 		</association>
 	</resultMap>
+	
 	<select id="selectApprovalList" statementType="PREPARED" parameterType="map"  resultMap="selectApprvalResultMap" > 
 		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content,
 		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name,c.c_name,c.c_no
 		from approval appr, employee emp ,template tmp, code c, employee_code ec
-		where appr.emp_no=emp.emp_no
+		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
 		and emp.emp_no=ec.emp_no
 		and ec.c_no=c.c_no
 		and c.c_no like 'A'||'%'
+		
+		<if test="empNo != null">
+		and emp.emp_no = #{empNo}
+		</if>
+		
+		<choose>
+		
+		
+		</choose> 
+				
+		<if test="apprFinalStatus == 1 || apprFinalStatus == 2 || apprFinalStatus == 3">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>
+		
+		<if test="apprFinalStatus >= 4">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>
 		<!-- <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title=#{apprTitle}
 		</if>

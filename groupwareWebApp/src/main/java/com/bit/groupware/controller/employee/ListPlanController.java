@@ -26,7 +26,7 @@ public class ListPlanController {
 		logger.info("map : {}", map);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("plans", planService.retrievePlanList(map));
-		mv.setViewName("listPlan");
+		mv.setViewName("employee/listPlan");
 		return mv;
 	}
 
