@@ -82,6 +82,7 @@
 		</association>
 	</resultMap>
 	<select id="selectMessageList" parameterType="map" resultMap="MessageListResultMap" statementType="PREPARED" >
+		
 		select msg_no,msg_date,msg_title,msg_content,msg_isread,sender_removal,recipient_removal,
 		sender_emp_no,recipient_emp_no,
 		(select emp_name from employee where emp_no=msg.sender_emp_no)as sender_emp_name,
