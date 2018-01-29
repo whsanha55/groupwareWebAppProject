@@ -67,7 +67,8 @@
 		select 
 			p.p_no,
 			p.p_title,
-			c.c_name,
+            p.dept_no,
+			c1.c_name,
 			p.p_class,
 			p.p_impt,
 			e.emp_name,
@@ -79,8 +80,8 @@
 			f.system_file_name,
 			f.file_size,
 			f.p_no
-        from plan p, plan_file f, code c, employee e
-        where p.dept_no=c.c_no
+        from plan p, plan_file f, code c1, employee e
+        where p.dept_no=c1.c_no
            and p.rspb_no=e.emp_no
            and p.p_no=f.p_no
            and p.p_no=#{value}
