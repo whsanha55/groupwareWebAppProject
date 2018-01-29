@@ -54,7 +54,7 @@
 			</if>
 		</trim>	
 		where emp_no = #{empNo}
-	</update>
+	</update> -->
 	
 	<resultMap id="selectEmployeeResultMap" type="EmployeeVO">
 		<id column="emp_no"				 property="empNo" />
@@ -67,8 +67,8 @@
 		<result column="retire_status" 	 property="retireStatus" />
 		<result column="retire_date" 	 property="retireDate" />
 		<result column="address" 		 property="address" />
-		<result column="isA
-		 1:N 관계	
+		<result column="isadmin"		 property="isAdmin"/>
+		 <!-- 1:N 관계 -->
 		<collection property="codes" javaType="list" ofType="CodeVO">
 			<id column="c_no" 				property="cNo"/>
 			<result column="c_name" 		property="cName" />
@@ -83,7 +83,7 @@
 			<result column="emp_no" 			property="empNo" />
 		</collection>
 	</resultMap> 
-
+<!--
 	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
 							statementType="PREPARED" parameterType="String">
 		select 
@@ -118,14 +118,21 @@
 	</select> 
 	 -->
 	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" 
-									statementType="STATEMENT"> <!-- resultMap="selectEmployeeResultMap" -->
-		select 
+									statementType="STATEMENT" resultMap="selectEmployeeResultMap">
+		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
+		        reg_number, hire_date, retire_status, retire_date, address, isAdmin,
+		        c.c_no, c_name, relation_code
+		from employee_code ec, employee e, code c
+		where ec.emp_no = e.emp_no
+		    and ec.c_no = c.c_no
+		
+		<!-- select 
 			emp_no, 
 			emp_Name,
 			emp_pwd,
 			email,
 			phone_number,
-			hire_date<!-- ,
+			hire_date,
 			(select c.c_name
              from code c, employee_code ec
              where c.c_no = ec.c_no
@@ -139,11 +146,11 @@
                 and c.relation_code = (select c_no
                                        from code
                                        where c_name = '직책')
-               							   and ec.emp_no = e.emp_no) as duty -->
+               							   and ec.emp_no = e.emp_no) as duty
 		from (select rownum as rn, emp.*
               from (select * from employee
                     order by emp_no asc) emp) e
-        <!-- <if test="keyfield==emp_no and keyword!=null">
+        <if test="keyfield==emp_no and keyword!=null">
 		where emp_no like '%' || #{keyword} || '%' 
 		</if>
 		<if test="keyfield==emp_name and keyword!=null">
@@ -157,7 +164,7 @@
 		</if> 
 		<![CDATA[
 			where e.rn >= #{startRow} and e.rn <= #{endRow}
-		]]>-->
+		]]> -->
 	</select>
 	<!-- 
 	<select id="selectEmpCharge" resultType="String" parameterType="String" statementType="PREPARED">
