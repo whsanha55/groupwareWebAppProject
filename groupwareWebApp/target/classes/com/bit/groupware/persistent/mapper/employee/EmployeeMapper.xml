@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.bit.groupware.persistent.mapper.EmployeeMapper">
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeMapper">
 	
 	<!-- <insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
 		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
@@ -60,6 +60,7 @@
 		<id column="emp_no"				 property="empNo" />
 		<result column="emp_name" 		 property="empName" />
 		<result column="emp_pwd" 	  	 property="empPwd" />
+		<result column="eng_name"		 property="engName"/>
 		<result column="phone_number" 	 property="phoneNumber" />
 		<result column="email" 		 	 property="email" />
 		<result column="reg_number"   	 property="regNumber" />
@@ -67,7 +68,7 @@
 		<result column="retire_status" 	 property="retireStatus" />
 		<result column="retire_date" 	 property="retireDate" />
 		<result column="address" 		 property="address" />
-		<result column="isadmin"		 property="isAdmin"/>
+		<result column="isAdmin"		 property="isAdmin"/>
 		 <!-- 1:N 관계 -->
 		<collection property="codes" javaType="list" ofType="CodeVO">
 			<id column="c_no" 				property="cNo"/>
@@ -75,18 +76,28 @@
 			<result column="relation_code" 	property="relationCode" />
 		</collection>
 		
-		<collection property="photos" javaType="list" ofType="PhotoVO">
+		<!-- <collection property="photos" javaType="list" ofType="PhotoVO">
 			<id column="photo_no" 				property="photoNo"/>
 			<result column="photo_name" 		property="photoName" />
 			<result column="system_file_name" 	property="systemFileName" />
 			<result column="file_size" 			property="fileSize" />
 			<result column="emp_no" 			property="empNo" />
-		</collection>
+		</collection> -->
 	</resultMap> 
-<!--
+
 	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
 							statementType="PREPARED" parameterType="String">
-		select 
+							
+		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
+	        reg_number, hire_date, retire_status, retire_date, address, isAdmin,
+	        c.c_no, c_name, relation_code, photo_no, photo_name,system_file_name,file_size,division
+		from employee_code ec, employee e, code c, photo ph
+		where ec.emp_no = e.emp_no
+		    and ec.c_no = c.c_no
+	        and e.emp_no = ph.emp_no
+	        and e.emp_no = #{empNo}
+							
+		<!-- select 
 			e.emp_no, 
 			emp_Name,
 			emp_pwd,
@@ -114,11 +125,11 @@
             division
 		from employee e , photo ph
         where e.emp_no = ph.emp_no
-            and e.emp_no = #{empNo}
+            and e.emp_no = #{empNo} -->
 	</select> 
-	 -->
-	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" 
-									statementType="STATEMENT" resultMap="selectEmployeeResultMap">
+	
+	<select id="selectEmployeeList" parameterType="map" statementType="STATEMENT" 
+													resultMap="selectEmployeeResultMap">
 		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
 		        reg_number, hire_date, retire_status, retire_date, address, isAdmin,
 		        c.c_no, c_name, relation_code
