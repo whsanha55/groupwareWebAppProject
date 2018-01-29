@@ -5,14 +5,14 @@ import java.util.List;
 
 import com.bit.groupware.domain.employee.EmployeeVO;
 
-public class AuthorityVO {
+public class AuthRoleVO {
 	private String aNo;  			//권한 번호
 	private String aName;			//권한명
 	private String aNote; 			//비고
 	private String aWhether; 		//유무
 	private List<EmployeeVO> emps = new ArrayList<EmployeeVO>(); //사원 목록
 	
-	public AuthorityVO() {
+	public AuthRoleVO() {
 		super();
 	}
 	public String getaNo() {
