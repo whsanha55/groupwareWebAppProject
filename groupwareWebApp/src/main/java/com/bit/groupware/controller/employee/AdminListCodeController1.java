@@ -22,7 +22,7 @@ public class AdminListCodeController1 {
 	
 	//최상위 코드 목록 조회 요청
 	@RequestMapping(value="/admin/listCode1.do", method=RequestMethod.GET)
-	public ModelAndView listCode() {
+	public ModelAndView listCode1() {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("startRow", 1);
