@@ -17,14 +17,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public EmployeeVO selectEmployee(String empNo) {
+	/*public EmployeeVO selectEmployee(String empNo) {
 		return sqlSession.selectOne(NAMESPACE + ".selectEmployee", empNo);
-	}
+	}*/
 	
 	public List<EmployeeVO> selectEmployeeList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
 	}
-	
+	/*
 	public String insertEmployee(EmployeeVO employee) {
 		sqlSession.insert(NAMESPACE + ".insertEmployee", employee);
 		return employee.getEmpNo();
@@ -45,5 +45,5 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public int checkDeptEmp(String cNo) {
 		int deptEmpCount = sqlSession.selectOne(NAMESPACE + ".checkDeptEmp", cNo);
 		return deptEmpCount;
-	}
+	}*/
 }
