@@ -7,7 +7,7 @@
 	
 	<insert id="insertTemplateBookmark" parameterType="TemplateBookmarkVO" statementType="PREPARED">
 	 <selectKey keyProperty="bookmarkNo" resultType="int" statementType="STATEMENT" order="BEFORE">
-	 	select template_bookmark_seq from dual
+	 	select template_bookmark_seq.nextval from dual
 	 </selectKey>
 	 	insert into template_bookmark(bookmark_no,emp_no,tmp_no)
 		values(#{bookmarkNo},#{employee.empNo},${template.tmpNo})

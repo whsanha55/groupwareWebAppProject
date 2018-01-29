@@ -9,7 +9,7 @@
 		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
 		</selectKey>				
-		insert into article (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
+		insert into employee (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
 								email, reg_number, hire_date, address)
 		values (#{empNo}, #{empName}, #{empPwd}, #{engName}, #{phoneNumber}, 
 					#{email}, #{regNumber}, sysdate, #{address})	
@@ -158,6 +158,8 @@
 			and e.rn >= #{startRow} and e.rn <= #{endRow};
 		]]>
 	</select>
+	
+	
 	
 	<select id="checkDeptEmp" resultType="int" parameterType="String" statementType="PREPARED">
 		select count(relation_code)

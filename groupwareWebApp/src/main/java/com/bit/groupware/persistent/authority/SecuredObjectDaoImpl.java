@@ -1,97 +1,65 @@
 package com.bit.groupware.persistent.authority;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import javax.sql.DataSource;
+
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Repository;
 
+import com.bit.groupware.domain.authority.AuthorityVO;
+import com.bit.groupware.domain.authority.RoleVO;
+
 @Repository("securedObjectDao")
 public class SecuredObjectDaoImpl implements SecuredObjectDao {
-	@Autowired
-	private DataSource dataSource;
+	private final String NAMESPACE = "com.bit.groupware.persistent.mapper.authority.AuthorityMapper";
 
-	// URL 형식인 보호자원 - Role 매핑 정보를 조회하는 SQL
-	public static final String DEF_ROLES_AND_URL_QUERY = 
-			"SELECT  t1.r_name, t3.a_name                                                "
-			+ "FROM role t1, authority_role t2, authority t3                            "
-			+ "WHERE t1.r_id = t2.r_id  													   "
-			+ "AND t2.a_no = t3.a_no  													   "	
-			+ "AND t1.r_type = 'url'  														   "	
-			+ "ORDER BY  t3.a_name ASC, t1.sort_order ASC                           ";       
+	@Autowired
+	private SqlSessionTemplate sqlSession;
 
 	public LinkedHashMap<Object, List<ConfigAttribute>> getRolesAndURL() throws Exception {
-		return getRolesAndResources("URL");
+		return getRolesAndResources("url");
 	}
 
-	public LinkedHashMap<Object, List<ConfigAttribute>> getRolesAndResources(String resourceType)
-			throws Exception {
+	public LinkedHashMap<Object, List<ConfigAttribute>> getRolesAndResources(String resourceType) throws Exception {
 		LinkedHashMap<Object, List<ConfigAttribute>> requestMap = new LinkedHashMap<Object, List<ConfigAttribute>>();
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;		
 		try {
-			conn = dataSource.getConnection();
-			System.out.println("Connection : " + conn);
-			stmt = conn.createStatement();
-			
-			System.out.println("sql : " + DEF_ROLES_AND_URL_QUERY);
-				
-			rs = stmt.executeQuery(DEF_ROLES_AND_URL_QUERY);
-
 			String roleName = "";
 			String authority = "";
 			AntPathRequestMatcher requestMatcher = null;
 			List<ConfigAttribute> configList = null;
-		
-			while (rs.next()) {
-				if (roleName != rs.getString(1)) {
-					requestMatcher = new AntPathRequestMatcher(rs.getString(1)); //URL 
-					configList = new LinkedList<ConfigAttribute>();              //권한목록
+
+			AuthorityVO auth = null;
+
+			List<RoleVO> list = sqlSession.selectList(NAMESPACE + ".selectAuthority");
+			System.out.println("list : " + list);
+			for (RoleVO temp : list) {
+
+				List<AuthorityVO> a = temp.getAuthorities();
+				if (roleName != temp.getrName()) {
+					requestMatcher = new AntPathRequestMatcher(temp.getrName()); // URL
+					configList = new LinkedList<ConfigAttribute>(); // 권한목록
 					requestMap.put(requestMatcher, configList);
-					roleName = rs.getString(1);
+					roleName = temp.getrName();
 				}
 
-				if (authority != rs.getString(2)) {
-					configList.add(new SecurityConfig(rs.getString(2)));
-					authority = rs.getString(2);
+				for (AuthorityVO temp1 : a) {
+					if (authority != temp1.getaName()) {
+						configList.add(new SecurityConfig(temp1.getaName()));
+						authority = temp1.getaName();
+					}
 				}
 			}
-
-		} finally {
-			if (stmt != null)
-				stmt.close();
-			if (conn != null)
-				conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
+
 		System.out.println("requestMap : " + requestMap);
 		return requestMap;
 
 	}
-
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

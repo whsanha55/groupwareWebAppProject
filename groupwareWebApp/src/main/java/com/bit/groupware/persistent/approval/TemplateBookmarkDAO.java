@@ -4,7 +4,7 @@ import com.bit.groupware.domain.approval.TemplateBookmarkVO;
 
 public interface TemplateBookmarkDAO {
 
-	void insertTemplateBookmark(TemplateBookmarkVO templateBookmark);
+	int insertTemplateBookmark(TemplateBookmarkVO templateBookmark);
 	
 	void deleteTemplateBookmark(int bookmarkNo);
 }
