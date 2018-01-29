@@ -27,9 +27,9 @@ public class UserDAOImpl implements UserDAO {
 			conn = dataSource.getConnection();
 
 			StringBuffer sql = new StringBuffer();
-			sql.append("select emp_no, emp_name, emp_pwd             ");
-			sql.append("from employee					          			  ");
-			sql.append("where emp_no=?        			                  ");
+			sql.append("select emp_no, emp_name, emp_pwd, isAdmin             ");
+			sql.append("from employee					          			 		       ");
+			sql.append("where emp_no=?        			                 			  ");
 			pstmt = conn.prepareStatement(sql.toString());
 					
 			System.out.println(sql.toString());
@@ -58,6 +58,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public List<String> selectAutorities(String id) throws Exception {
 		List<String> authorities = new ArrayList<String>();
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

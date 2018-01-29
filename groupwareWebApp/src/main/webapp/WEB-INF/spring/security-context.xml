@@ -43,7 +43,7 @@
 
 	<security:authentication-manager erase-credentials="true" id="authenticationManager">
 		<security:authentication-provider user-service-ref="userDetailsService">
-			<!-- <security:password-encoder ref="bcryptPasswordEncoder" />  -->
+			<security:password-encoder ref="bcryptPasswordEncoder" /> 
 		</security:authentication-provider>
 	</security:authentication-manager>
 
