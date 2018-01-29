@@ -24,9 +24,18 @@
       </select>
       
       <select id="selectEmployee" parameterType="String" resultType="EmployeeVO" statementType="PREPARED">
-      	select checkAdmin as isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
+      	<!-- select checkAdmin as isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
       	from employee
-      	where emp_no= #{value}
+      	where emp_no= #{value} -->
+      	
+      	select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
+	        reg_number, hire_date, retire_status, retire_date, address, isAdmin,
+	        c.c_no, c_name, relation_code, photo_no, photo_name,system_file_name,file_size,division
+		from employee_code ec, employee e, code c, photo ph
+		where ec.emp_no = e.emp_no
+		    and ec.c_no = c.c_no
+	        and e.emp_no = ph.emp_no
+	        and e.emp_no = #{empNo}
       </select>
       
       

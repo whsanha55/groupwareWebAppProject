@@ -37,8 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 	
 		UserVO  temp = new UserVO(user.getEmpNo(), user.getEmpPwd(), authorities);
-		temp.setIsAdmin(user.getIsAdmin());
-		System.out.println("UserVO : " + temp.getIsAdmin());
+		temp.setEmp(user);
 		return temp;
 	}
 	

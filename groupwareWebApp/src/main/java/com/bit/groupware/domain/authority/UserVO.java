@@ -5,9 +5,11 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import com.bit.groupware.domain.employee.EmployeeVO;
+
 public class UserVO extends User {
 	
-	private String isAdmin; 
+	private EmployeeVO emp;
 	
 	
 	public UserVO(String username, String password, Collection<? extends GrantedAuthority> authorities) {
@@ -16,15 +18,17 @@ public class UserVO extends User {
 	}
 
 
-	public String getIsAdmin() {
-		return isAdmin;
+	public EmployeeVO getEmp() {
+		return emp;
 	}
 
 
-	public void setIsAdmin(String isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setEmp(EmployeeVO emp) {
+		this.emp = emp;
 	}
 
+
+	
 	
 	
 }
