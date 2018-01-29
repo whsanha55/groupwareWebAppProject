@@ -8,11 +8,11 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public interface EmployeeDAO {
 
-	EmployeeVO selectEmployee(String empNo);
+	/*EmployeeVO selectEmployee(String empNo);*/
 	
 	List<EmployeeVO> selectEmployeeList(Map<String, Object> map);
 	
-	String insertEmployee(EmployeeVO employee);
+	/*String insertEmployee(EmployeeVO employee);
 	
 	void updateEmployee(EmployeeVO employee);
 	
@@ -20,5 +20,5 @@ public interface EmployeeDAO {
 	
 	List<EmployeeCodeVO> selectDepartment(Map<String, Object> map);
 	
-	int checkDeptEmp(String cNo);
+	int checkDeptEmp(String cNo);*/
 }
