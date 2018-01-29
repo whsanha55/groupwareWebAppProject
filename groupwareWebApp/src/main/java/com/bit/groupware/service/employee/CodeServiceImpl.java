@@ -25,9 +25,14 @@ public class CodeServiceImpl implements CodeService {
 		}
 	}
 	
-	//코드 리스트 조회
-	public List<CodeVO> retrieveCodeList(Map<String, Object> map) {
-		return codeDAO.selectCodeList(map);
+	//최상위 코드 리스트 조회
+	public List<CodeVO> retrieveCodeList1(Map<String, Object> map) {
+		return codeDAO.selectCodeList1(map);
+	}
+	
+	//하위 코드 리스트 조회
+	public List<CodeVO> retrieveCodeList2(Map<String, Object> map) {
+		return codeDAO.selectCodeList2(map);
 	}
 	
 	//코드 수정

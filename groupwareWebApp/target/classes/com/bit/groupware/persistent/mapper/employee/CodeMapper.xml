@@ -28,8 +28,8 @@
 	</select>
 		
 	
-	<!-- 코드 리스트 조회 -->
-	<select id="selectCodeList" resultType="Code" statementType="STATEMENT">
+	<!-- 하위 코드 리스트 조회 -->
+	<select id="selectCodeList2" parameterType="map" resultType="CodeVO" statementType="STATEMENT" >
 		select
 			c1.c_no,
 			c1.c_name,
@@ -38,12 +38,22 @@
                from code c2
              where c2.relation_code = c1.c_no) as countRelationCode
 		from code c1
-		<if test="relation_code != null">
-			where c1.relation_code=#{relationCode}
-		</if>
-		<if test="relation_code == null">
-			where c1.relation_code is null
-		</if>
+		where c1.relation_code=#{relationCode}
+		group by c1.c_no,c1.c_name,c1.relation_code
+		order by c1.c_no asc
+	</select>
+	
+	<!-- 최상위 코드 리스트 조회 -->
+	<select id="selectCodeList1" parameterType="map" resultType="CodeVO" statementType="STATEMENT" >
+		select
+			c1.c_no,
+			c1.c_name,
+			c1.relation_code,
+			(select count(c2.c_no)
+               from code c2
+             where c2.relation_code = c1.c_no) as countRelationCode
+		from code c1
+		where c1.relation_code is null
 		group by c1.c_no,c1.c_name,c1.relation_code
 		order by c1.c_no asc
 	</select>
