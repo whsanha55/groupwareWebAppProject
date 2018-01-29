@@ -104,22 +104,16 @@
 							<th>삭제</th>
 						</tr>
 					</thead>
-					<c:forEach var="code" items="${requestScope.codes }"
-						varStatus="loop">
-						<c:url var="url" value="/admin/listCode.do" scope="page">
-							<c:param name="cNo" value="${pageScope.code.cNo }" />
-						</c:url>
 						<tbody>
 							<tr>
-								<td>${pageScope.code.cNo }</td>
-								<td>${pageScope.code.cName }</td>
+								<td>${requestScope.code.cNo }</td>
+								<td>${requestScope.code.cName }</td>
 								<td>${pageScope.code.countRelationCode }</td>
 								<td><button type="button" data-toggle="modal"
 										data-target="#myModal">수정</button></td>
 								<td></td>
 							</tr>
 						</tbody>
-					</c:forEach>
 				</table>
 			</div>
 		</div>
