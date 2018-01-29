@@ -12,10 +12,10 @@ import com.bit.groupware.domain.employee.PhotoVO;
 @Service
 public interface EmployeeService {
 	
-	EmployeeVO retrieveEmployee(String empNo);
+	/*EmployeeVO retrieveEmployee(String empNo);*/
 	
 	List<EmployeeVO> retrieveEmployeeList(Map<String,Object> map);
-	
+	/*
 	String registerEmployee(EmployeeVO employee);
 	
 	void modifyEmployee(EmployeeVO employee);
@@ -30,6 +30,6 @@ public interface EmployeeService {
 	
 	void registerDeputy(DeputyVO deputy);
 	
-	List<DeputyVO> retrieveDeputyList(Map<String, Object> map);
+	List<DeputyVO> retrieveDeputyList(Map<String, Object> map);*/
 	
 }

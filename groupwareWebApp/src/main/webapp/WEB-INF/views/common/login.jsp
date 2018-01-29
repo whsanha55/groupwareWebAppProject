@@ -46,7 +46,7 @@
 				<section class="login_content">
 					<form
 						action="${pageContext.request.contextPath}/j_spring_security_check"
-						method="POST">
+						 enctype="multipart/form-data"  method="POST">
 						<h1>로고</h1>
 						<div>
 							<h2 class="text-left">사원 번호</h2>
