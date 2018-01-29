@@ -35,4 +35,10 @@ public class TemplateServiceImpl implements TemplateService {
 		templateDAO.deleteTemplate(tempNos);
 	}
 
+	public int retrieveTemplateCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return templateDAO.selectTemplateCount(map);
+	}
+	
+
 }
