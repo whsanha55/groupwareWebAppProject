@@ -12,8 +12,8 @@
                 <div class="x_panel">
                   <div class="x_title" >
                     <h2>받은 쪽지함</h2>
-                    <a class="btn btn-primary pull-right" href="approval-message.html">받은 쪽지함</a>
-				   <a class="btn btn-primary pull-right" href="approval-message.html">보낸 쪽지함</a>
+                    <a class="btn btn-primary pull-right" href="/retrieveMessage.do">받은 쪽지함</a>
+				   <a class="btn btn-primary pull-right" href="/retrieveMessage.do">보낸 쪽지함</a>
                     <div class="clearfix"></div>
                   </div>
 				  <div >
@@ -21,7 +21,7 @@
                    
 				   </div>
 				   <div>
-                   <a class="btn btn-primary pull-right" href="a_index_authority.html">선택삭제</a>
+                   <a class="btn btn-primary pull-right" href="/removeMessage.do">선택삭제</a>
 				   <a class="btn btn-primary pull-right" href="a_index_authority.html">쪽지보내기</a>
 					</div>
 					</div>
@@ -55,7 +55,7 @@
                               <input type="checkbox" class="flat" name="table_records">
                             </td>
 							
-                             <td class=" ">안녕하세요</td>
+                             <td class=" ">${requestScope.}</td>
                             <td class=" ">이지희</td>
                             <td class=" ">2018.01.04</td>
                           
