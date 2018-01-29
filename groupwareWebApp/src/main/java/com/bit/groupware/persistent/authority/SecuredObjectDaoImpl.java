@@ -38,19 +38,21 @@ public class SecuredObjectDaoImpl implements SecuredObjectDao {
       List<ConfigAttribute> configList = null;
       RoleVO role = new RoleVO();
       AuthorityVO auth = new AuthorityVO();
+      String roleName = "";
+      String authority = "";
       try {
     	  
     	 for(RoleVO authRoles : authRole) {
-        	  if(authRoles.equals(role.getrName())) {
+        	  if(roleName != (role.getrName())) {
         		  requestMatcher = new AntPathRequestMatcher(role.getrName());
         		  configList = new LinkedList<ConfigAttribute>();   
         		  requestMap.put(requestMatcher, configList);
-        		  role.getrName();
+        		  roleName =  role.getrName();
         	  }
         	  
-        	  if(authRoles.equals(auth.getaName())) {
+        	  if(authority != (auth.getaName())) {
         		  configList.add(new SecurityConfig(auth.getaName()));
-        		  auth.getaName();
+        		  authority = auth.getaName();
         	  }
           }
 		
