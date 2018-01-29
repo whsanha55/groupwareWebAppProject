@@ -17,9 +17,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+
 	/*public EmployeeVO selectEmployee(String empNo) {
 		return sqlSession.selectOne(NAMESPACE + ".selectEmployee", empNo);
-	}
+
 	
 	public List<EmployeeVO> selectEmployeeList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);

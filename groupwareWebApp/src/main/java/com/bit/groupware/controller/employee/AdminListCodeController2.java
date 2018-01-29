@@ -20,9 +20,9 @@ public class AdminListCodeController2 {
 	@Autowired
 	private CodeService codeService;
 	
-	//최상위 코드 목록 조회 요청
+	//하위 코드 목록 조회 요청
 	@RequestMapping(value="/admin/listCode2.do", method=RequestMethod.GET)
-	public ModelAndView listCode() {
+	public ModelAndView listCode2() {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map =new HashMap<String, Object>();
 		map.put("relationCode", "A");

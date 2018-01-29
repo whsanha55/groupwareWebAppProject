@@ -8,8 +8,9 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public interface EmployeeDAO {
 
+
 	/*EmployeeVO selectEmployee(String empNo);
-	
+
 	List<EmployeeVO> selectEmployeeList(Map<String, Object> map);
 	
 	void updateEmployee(EmployeeVO employee);

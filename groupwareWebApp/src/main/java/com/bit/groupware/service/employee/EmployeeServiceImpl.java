@@ -22,9 +22,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private PhotoDAO photoDAO;
 	
+
 /*	public EmployeeVO retrieveEmployee(String empNo) {
 		return employeeDAO.selectEmployee(empNo);
-	}
+
 
 	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
 		return employeeDAO.selectEmployeeList(map);

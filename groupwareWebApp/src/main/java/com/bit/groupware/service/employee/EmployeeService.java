@@ -11,8 +11,9 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 @Service
 public interface EmployeeService {
 	
+
 	/*EmployeeVO retrieveEmployee(String empNo);
-	
+
 	List<EmployeeVO> retrieveEmployeeList(Map<String,Object> map);
 		
 	void modifyEmployee(EmployeeVO employee);
