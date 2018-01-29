@@ -13,4 +13,8 @@ public class LoginController {
 	}
 
 	
+	@RequestMapping(value = "admin/login.do", method = RequestMethod.GET)
+	public String form2() {
+		return "adminLogin";
+	}
 }

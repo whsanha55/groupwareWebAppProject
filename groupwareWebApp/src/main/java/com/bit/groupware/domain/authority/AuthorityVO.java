@@ -11,7 +11,6 @@ public class AuthorityVO {
 	private String aNote; 			//비고
 	private String aWhether; 		//유무
 	private List<EmployeeVO> emps = new ArrayList<EmployeeVO>(); //사원 목록
-	private List<RoleVO> roles = new ArrayList<RoleVO>(); 				//역할 목록
 	
 	public AuthorityVO() {
 		super();
@@ -46,20 +45,11 @@ public class AuthorityVO {
 	public void setEmps(List<EmployeeVO> emps) {
 		this.emps = emps;
 	}
-	public List<RoleVO> getRoles() {
-		return roles;
-	}
-	public void setRoles(List<RoleVO> roles) {
-		this.roles = roles;
-	}
-	
-	public void addRole(RoleVO role) {
-		roles.add(role);
-	}
+
 	
 	@Override
 	public String toString() {
 		return "AuthorityVO [aNo=" + aNo + ", aName=" + aName + ", aNote=" + aNote + ", aWhether=" + aWhether
-				+ ", emps=" + emps + ", roles=" + roles + "]";
+				+ ", emps=" + emps + "]";
 	}
 }

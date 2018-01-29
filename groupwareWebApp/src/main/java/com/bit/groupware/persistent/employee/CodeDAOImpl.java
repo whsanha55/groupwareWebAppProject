@@ -35,7 +35,7 @@ public class CodeDAOImpl implements CodeDAO {
 	
 	//하위 코드 수 확인
 	public int checkRelation(String relationCode) {
-		return (Integer)sqlSession.selectOne(NAMESPACE + ".checkRelation", relationCode);	
+		return sqlSession.selectOne(NAMESPACE + ".checkRelation", relationCode);	
 	}
 	
 	
