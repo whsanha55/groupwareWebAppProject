@@ -23,7 +23,7 @@ public class LoginController {
 		return "login";
 	}
 	
-
+/*
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public ModelAndView submit(@RequestParam(value="id", required=true) String id) {
 		logger.info("id : {}", id);
@@ -32,13 +32,13 @@ public class LoginController {
 		ModelAndView mv = new ModelAndView();
 		
 		if(emp.getIsAdmin().equals("T")) {
-			mv.setViewName("admin/admin_index");
+			mv.setViewName("authority/admin_index");
 			mv.addObject("msg", "success");
 		}else {    // 로그인 실패
             // login.jsp로 이동
-			mv.setViewName("index");
+			mv.setViewName("authority/index");
 			mv.addObject("msg", "failure");
         }
 		return mv;
-	}
+	}*/
 }
