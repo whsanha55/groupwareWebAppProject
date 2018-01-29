@@ -31,12 +31,21 @@
 	<!-- 코드 리스트 조회 -->
 	<select id="selectCodeList" resultType="Code" statementType="STATEMENT">
 		select
-			c_no,
-			c_name,
-			relation_code
-		from code
-		where relation_code=#{relationCode}
-		order by c_no asc
+			c1.c_no,
+			c1.c_name,
+			c1.relation_code,
+			(select count(c2.c_no)
+               from code c2
+             where c2.relation_code = c1.c_no) as countRelationCode
+		from code c1
+		<if test="relation_code != null">
+			where c1.relation_code=#{relationCode}
+		</if>
+		<if test="relation_code == null">
+			where c1.relation_code is null
+		</if>
+		group by c1.c_no,c1.c_name,c1.relation_code
+		order by c1.c_no asc
 	</select>
 	
 	
@@ -51,7 +60,7 @@
 				c_name=#{cName} ,
 			</if>
 			<if test="relation_code != null">
-				relation_code=#{relationCode} ,
+				relation_code=#{relationCode} ,	
 			</if>
 		</trim>
 		where c_no=#{cNo}

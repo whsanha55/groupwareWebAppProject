@@ -16,18 +16,13 @@ public class CodeServiceImpl implements CodeService {
 	private CodeDAO codeDAO;
 	
 	//코드를 등록하다.
-	public void registerCode(CodeVO code) {
-		codeDAO.insertCode(code);
-	}
-
-	//코드 이름 중복체크
-	public boolean checkCodeName(String cName) {
-		return codeDAO.checkCode(cName);
-	}
-	
-	//하위 코드 수 확인
-	public int checkRelationCode(String relationCode) {
-		return codeDAO.checkRelation(relationCode);
+	public boolean registerCode(CodeVO code) {
+		if(codeDAO.checkCode(code.getcName()) == true) {
+			codeDAO.insertCode(code);
+			return codeDAO.checkCode(code.getcName());
+		} else {
+			return codeDAO.checkCode(code.getcName());
+		}
 	}
 	
 	//코드 리스트 조회
@@ -41,9 +36,12 @@ public class CodeServiceImpl implements CodeService {
 	}
 	
 	//코드 삭제
-	public void removeCode(String cNo) {
-		codeDAO.deleteCode(cNo);
+	public int removeCode(CodeVO code) {
+		if(codeDAO.checkRelation(code.getRelationCode()) == 0) {
+			codeDAO.deleteCode(code.getcNo());
+			return codeDAO.checkRelation(code.getRelationCode());
+		} else {
+			return codeDAO.checkRelation(code.getRelationCode());
+		}	
 	}
-	
-	
 }

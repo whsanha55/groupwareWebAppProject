@@ -159,13 +159,26 @@
 		]]>
 	</select>
 	
-	
+	<select id="selectEmpCharge" resultType="String" parameterType="String" statementType="PREPARED">
+		select emp_name, phone_number
+        from employee e, employee_code ec, code c
+        where ec.emp_no = e.emp_no
+            and ec.c_no = c.c_no
+            and c.c_name = #{cName}
+	</select>
 	
 	<select id="checkDeptEmp" resultType="int" parameterType="String" statementType="PREPARED">
 		select count(relation_code)
 		from employee_code ec, code c
 		where ec.c_no = c.c_no
-		    and c.c_name = #{cName};
+		    and c.c_name like '%' || #{cName} || '%'
+	</select>
+	
+	<select id="checkRelationDept" resultType="int" parameterType="String" statementType="PREPARED">
+		select count(rc.relation_code)
+        from code c , code rc
+        where c.c_no = rc.relation_code
+            and c.c_name = #{cName}
 	</select>
 
 </mapper>
