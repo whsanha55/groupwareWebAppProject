@@ -13,7 +13,7 @@ public class PlanVO {
 	private String endDate;
 	private int latitude;
 	private int longitude;
-	private CodeVO code;
+	private List<CodeVO> codes;
 	private EmployeeVO employee;
 	private PlanFileVO file;
 	
@@ -93,14 +93,6 @@ public class PlanVO {
 		this.longitude = longitude;
 	}
 
-	public CodeVO getCode() {
-		return code;
-	}
-
-	public void setCode(CodeVO code) {
-		this.code = code;
-	}
-
 	public EmployeeVO getEmployee() {
 		return employee;
 	}
@@ -117,12 +109,22 @@ public class PlanVO {
 		this.file = file;
 	}
 
+	public List<CodeVO> getCodes() {
+		return codes;
+	}
+
+	public void setCodes(List<CodeVO> codes) {
+		this.codes = codes;
+	}
+
 	@Override
 	public String toString() {
 		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", pClass=" + pClass + ", pImpt=" + pImpt + ", pContent="
 				+ pContent + ", startDate=" + startDate + ", endDate=" + endDate + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", code=" + code + ", employee=" + employee + ", file=" + file + "]";
+				+ ", longitude=" + longitude + ", codes=" + codes + ", employee=" + employee + ", file=" + file + "]";
 	}
+
+	
 	
 	
 	

@@ -29,7 +29,7 @@ public class AdminModifyPlanController {
 		logger.info("pNo : ", pNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("plan", planService.retrievePlan(pNo));
-		mv.setViewName("관리자 일정상세조회");
+		mv.setViewName("employee/admin_modifyPlan");
 		return mv;
 	}
 	

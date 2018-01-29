@@ -13,6 +13,9 @@
 <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
 <title>전자결재관리시스템</title>
+<!-- jQuery -->
+<script
+	src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
 
 <!-- Bootstrap -->
 <link
@@ -48,9 +51,9 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
 	rel="stylesheet">
-<!-- jQuery -->
-<script
-	src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
+<!-- bootstrap-wysiwyg -->
+    <link href="${pageContext.request.contextPath}/resources/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+
 </head>
 
 <body class="nav-md">
@@ -68,8 +71,8 @@
 			</div>
 			<!-- /top navigation -->
 			<!-- page content -->
-			<div class="right_col" role="main">	
-			<tiles:insertAttribute name="content" ignore="true" />
+			<div class="right_col" role="main">
+				<tiles:insertAttribute name="content" ignore="true" />
 			</div>
 			<!-- end of weather widget -->
 		</div>
@@ -86,7 +89,7 @@
 	</div>
 	</div>
 
-	
+
 	<!-- Bootstrap -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -148,6 +151,13 @@
 	<!-- Custom Theme Scripts -->
 	<script
 		src="${pageContext.request.contextPath}/resources/js/custom.min.js"></script>
+
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/starrr/dist/starrr.js"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendors/google-code-prettify/src/prettify.js"></script>
 
 </body>
 </html>

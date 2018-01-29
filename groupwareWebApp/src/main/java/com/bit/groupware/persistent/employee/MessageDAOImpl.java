@@ -25,6 +25,14 @@ public class MessageDAOImpl implements MessageDAO {
 	public MessageVO selectMessage(int msgNo) {
 		return sqlSession.selectOne(NAMESPACE+".selectMessage",msgNo); 
 	}
+	
+	
+	//메시지 읽음 여부 변경 DAO
+	
+	public void updateMessageStatus(int msgNO) {
+		sqlSession.update(NAMESPACE+".updateMessageStatus", msgNO);	
+	}
+	
 
 	public List<MessageVO> selectMessageList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE+".selectMessageList",map);

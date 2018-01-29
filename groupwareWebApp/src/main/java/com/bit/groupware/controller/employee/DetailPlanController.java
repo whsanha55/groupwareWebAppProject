@@ -24,7 +24,7 @@ public class DetailPlanController {
 		logger.info("pNo : ", pNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("plan", planService.retrievePlan(pNo));
-		mv.setViewName("일정상세조회");
+		mv.setViewName("employee/detailPlan");
 		return mv;
 	}
 }

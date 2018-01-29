@@ -1,16 +1,24 @@
 package com.bit.groupware.controller.employee;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.MessageVO;
 import com.bit.groupware.service.employee.MessageService;
 
@@ -21,16 +29,26 @@ public class ProceedMessageController {
 	private MessageService msgService;
 	// 쪽지함 페이지 요청
 
-	@RequestMapping(value = "/retrieveMessage.do", method = RequestMethod.GET)
-	public ModelAndView proceedMsgList() {
+	@RequestMapping(value = "/retrieveMessageList.do", method = RequestMethod.GET)
+	public ModelAndView retrieveMessageList(Principal principal) {
 		
 		// 받은쪽지함 리스트를 보여준다.
 		
 		ModelAndView mv = new ModelAndView();
 		
-		Map<String,Object> map = new HashMap<String,Object>();
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		UserDetails user = (UserDetails)authentication.getPrincipal();
 		
-		//사원에서 사원번호, startRow endRow에 해당하는 정보를 매개변수로 넘겨준다 
+		String empName = user.getUsername();
+			
+		// sequrity에 사원정보가 바인딩되어있다 - userDetails -- principal에 있는 정보들을 map에 담아서 넘겨줌.--> **수정필요.
+		// 사원에서 사원번호, startRow endRow에 해당하는 정보를 매개변수로 넘겨준다 
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("empName", empName);
+		map.put("startRow", 1);
+		map.put("endRow", 15);
 		
 		mv.addObject("messages", msgService.retrieveMessageList(map));
 		mv.setViewName("messageList");
@@ -59,13 +77,17 @@ public class ProceedMessageController {
 //		proceedMsgList() 랑 requestMapping 중복이라 오류나서 주석처리했습니다.
 		public ModelAndView SelectMessage(@RequestParam(value="msgNo") int msgNo) {
 			
+			
 			ModelAndView mv = new ModelAndView();
-			//??추가 
+			
+			//쪽지 상세정보를 조회한다. - 쪽지 읽음 여부를 변경한다. 트랜잭션을 수행한다. (서비스에서)
+			
+			msgService.retrieveMessage(msgNo);
+							
 			//팝업페이지
 			mv.setViewName("messagePopup");
 			return mv;
-			
-			
+						
 		}
 	
 

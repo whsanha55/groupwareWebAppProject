@@ -23,14 +23,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private PhotoDAO photoDAO;
 	
-	public EmployeeVO retrieveEmployee(String empNo) {
-		return employeeDAO.selectEmployee(empNo);
+   public EmployeeVO retrieveEmployee(String id) {
+		return employeeDAO.selectEmployee(id);
 	}
 
 	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
 		return employeeDAO.selectEmployeeList(map);
 	}
-
+/*
 	public String registerEmployee(EmployeeVO employee) {
 		return employeeDAO.insertEmployee(employee);
 	}
@@ -57,6 +57,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	public List<DeputyVO> retrieveDeputyList(Map<String, Object> map) {
 		return deputyDAO.selectDeputyList(map);
-	}
+	}*/
 
 }
