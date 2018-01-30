@@ -59,9 +59,9 @@
 		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name,c.c_name,c.c_no
 		from approval appr, employee emp ,template tmp, code c, employee_code ec
 		where appr.emp_no = emp.emp_no
-		and appr.tmp_no=tmp.tmp_no
-		and emp.emp_no=ec.emp_no
-		and ec.c_no=c.c_no
+		and appr.tmp_no = tmp.tmp_no
+		and emp.emp_no = ec.emp_no
+		and ec.c_no = c.c_no
 		and c.c_no like 'A'||'%'
 		
 		<if test="empNo != null">

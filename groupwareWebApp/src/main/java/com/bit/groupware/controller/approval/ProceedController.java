@@ -27,8 +27,6 @@ public class ProceedController {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("empNo", "2018-00011");
-		map.put("keyfield", "empName");
-		map.put("keyword", "¿øÁ¤¿ì");
 		map.put("apprFinalStatus", 0);
 			
 		mv.addObject("approvals", approvalService.retrieveApprovalList(map));
