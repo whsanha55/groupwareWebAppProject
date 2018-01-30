@@ -49,6 +49,11 @@ public class CodeDAOImpl implements CodeDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectCodeList2" ,map);
 	}
 	
+	//하위 코드 리스트 조회
+	public List<CodeVO> selectCodeList3(Map<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".selectCodeList3" ,map);
+	}
+	
 	
 	//코드 수정
 	public void updateCode(CodeVO code) {

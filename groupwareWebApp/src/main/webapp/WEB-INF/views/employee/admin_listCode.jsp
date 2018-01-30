@@ -8,6 +8,40 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>코드 목록 조회</title>
+<script>
+
+	$(document).ready(function() {
+		
+		//검색조건
+		$('.search-panel .dropdown-menu').on('click','a',function(e) {
+				e.preventDefault();
+				$('.keyfield').text($(this).text());
+				$('.keyfield').attr('id',$(this).attr('id'));
+				
+		});
+	
+		//검색조건 엔터키 눌렀을때 트리거 발동
+		$('.keyword').on('keydown', function(e) {
+			if(e.keyCode == 13){
+				$('.findCode').trigger('click');
+	        }
+		});
+	
+		// 검색 실행
+		$('.findCode').on('click', function() {
+			if($('.keyfield').attr('id') == null) {
+				alert('검색조건을 선택해 주세요!');
+				return;
+			}
+	
+			pKeyfield = $('.keyfield').attr('id');
+			pKeyword = $('.keyword').val();
+			
+		});
+		
+	});	//$(document).ready End
+	
+</script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -46,12 +80,12 @@
 											<tbody>
 												<tr>
 													<th>코드번호</th>
-													<td><input type="text" class="form-control"
+													<td><input type="text" id="cNo" name="cNo" class="form-control"
 														required="required"></td>
 												</tr>
 												<tr>
 													<th>코드명</th>
-													<td><input type="text" class="form-control"
+													<td><input type="text" id="cName" name="cName" class="form-control"
 														required="required"></td>
 												</tr>
 											</tbody>
@@ -67,28 +101,28 @@
 							</div>
 						</div>
 						<div>
+							<div>
 							<div class="col-md-3 col-xs-offset-2">
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle"
 											data-toggle="dropdown">
-											<span id="search_concept">검색</span> <span class="caret"></span>
+											<span class="keyfield">검색</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a href="#contains">코드번호</a></li>
-											<li><a href="#its_equal">코드명</a></li>
+											<li><a id="cNo">코드번호</a></li>
+											<li><a id="cName">코드명</a></li>
 										</ul>
 									</div>
-									<input type="hidden" name="search_param" value="all"
-										id="search_param"> <input type="text"
-										class="form-control" name="x" placeholder="Search term...">
+									<input type="text" class="form-control keyword" placeholder="검색어를 입력하세요.">
 									<span class="input-group-btn">
-										<button class="btn btn-default" type="button">
+										<button class="btn btn-default findCode" type="button">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
 								</div>
 							</div>
+						</div>
 						</div>
 					</div>
 					<div class="col-md-6"></div>
@@ -105,14 +139,19 @@
 						</tr>
 					</thead>
 						<tbody>
+						<c:forEach var="code" items="${requestScope.codes }" varStatus="loop">
+							<c:url var="url" value="/admin/listCode2.do" scope="page" >
+								<c:param name="relationCode" value="${pageScope.code.cNo }" />
+							</c:url>
 							<tr>
-								<td>${requestScope.code.cNo }</td>
-								<td>${requestScope.code.cName }</td>
+								<td><a href="${pageScope.url}">${pageScope.code.cNo }</a></td>
+								<td>${pageScope.code.cName }</td>
 								<td>${pageScope.code.countRelationCode }</td>
 								<td><button type="button" data-toggle="modal"
 										data-target="#myModal">수정</button></td>
 								<td></td>
 							</tr>
+						</c:forEach>
 						</tbody>
 				</table>
 			</div>
@@ -134,18 +173,17 @@
 
 				<div class="modal-body">
 					<div></div>
-
 					<table id="datatable" class="table table-striped table-bordered">
 						<tbody>
 							<tr>
 								<th>코드번호</th>
-								<td><input type="text" class="form-control"
-									required="required" value="100"></td>
+								<td><input type="text" name="cNo" class="form-control"
+									required="required" value="${requestScope.code.cNo }"></td>
 							</tr>
 							<tr>
 								<th>코드명</th>
-								<td><input type="text" class="form-control"
-									required="required" value="부서"></td>
+								<td><input type="text" name="cNo" class="form-control"
+									required="required" value="${requestScope.code.cName }"></td>
 							</tr>
 
 						</tbody>

@@ -58,6 +58,11 @@ ent-Type" content="text/html; charset=UTF-8">
 <link
 	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
 	rel="stylesheet">
+	
+	<!-- jQuery -->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
+		
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -68,6 +73,7 @@ ent-Type" content="text/html; charset=UTF-8">
 				</div>
 			</div>
 		</div>
+		
 		<!-- top navigation -->
 		<div class="top_nav">
 			<tiles:insertAttribute name="header" />
@@ -87,9 +93,7 @@ ent-Type" content="text/html; charset=UTF-8">
 
 	</div>
 
-	<!-- jQuery -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
+	
 	<!-- Bootstrap -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
