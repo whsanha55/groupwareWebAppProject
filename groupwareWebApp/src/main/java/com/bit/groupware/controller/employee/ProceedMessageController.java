@@ -90,6 +90,8 @@ public class ProceedMessageController {
 			return mv;
 						
 		}
+		
+		//쪽지함 답장하기
 	
 
 }
