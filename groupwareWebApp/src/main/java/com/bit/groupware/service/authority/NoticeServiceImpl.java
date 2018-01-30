@@ -61,4 +61,10 @@ public class NoticeServiceImpl implements NoticeService {
 		noticeDAO.deleteNotice(noticeNo);
 	}
 
+	public int retrieveNoticeCount() {
+		return noticeDAO.selectNoticeCount();
+	}
+	
+	
+
 }

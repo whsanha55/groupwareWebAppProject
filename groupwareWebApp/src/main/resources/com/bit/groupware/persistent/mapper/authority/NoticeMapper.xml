@@ -10,18 +10,21 @@
            select notice_no_seq.nextval from dual;
       </selectKey>
       insert into notice(notice_no, notice_title, hitcount, notice_date, notice_contents)
-      values(#{noticeNo}, #{noticleTitle}, 0, sysdate, #{noticeContents})
+      values(#{noticeNo}, #{noticeTitle}, 0, sysdate, #{noticeContents})
    </insert>   
    
    <select id="selectNoticeList" statementType="STATEMENT" parameterType="map" resultType="NoticeVO">
-      select notice_no as noticeNo, notice_title as noticeTitle, hitcount as hitCount, notice_date as noticeDate, notice_contents as noticeContents
-       from notice 
-       order by notice_no asc
+      select notice2.*
+	  from( select rownum as rn, notice1.*    									
+  			  from (select *
+                        from notice 	  				
+                        order by notice_no desc )notice1) notice2				
+	   where rn <![CDATA[>=]]> #{startRow} and rn <![CDATA[<=]]> #{endRow}
    </select>
    
    	<resultMap id="selectNoticeResultMap" type="NoticeVO">
 		<id column="notice_no"						 property="noticeNo" />
-		<result column="notice_title" 				 property="noticleTitle" />
+		<result column="notice_title" 				 property="noticeTitle" />
 		<result column="hitcount" 	 				 property="hitCount" />
 		<result column="notice_date" 	 			 property="noticeDate" />
 		<result column="notice_contents" 			 property="noticeContents" />
@@ -44,8 +47,8 @@
    <update id="updateNotice" statementType="PREPARED" parameterType="NoticeVO">
       update notice
       <trim prefix="set" suffixOverrides=",">
-         <if test="noticleTitle">
-            notice_title = #{noticleTitle}
+         <if test="noticeTitle">
+            notice_title = #{noticeTitle}
          </if>
          <if test="noticeContents">
             notice_contents = #{noticeContents}
@@ -73,5 +76,8 @@
 		</choose>
 	</select>
 	
-   
+   <select id="selectNoticeCount" statementType="PREPARED" resultType="int">
+		select count(*)
+		from notice
+</select>
 </mapper>

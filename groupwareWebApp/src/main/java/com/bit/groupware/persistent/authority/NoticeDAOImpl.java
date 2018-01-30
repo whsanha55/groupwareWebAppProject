@@ -41,4 +41,8 @@ public class NoticeDAOImpl implements NoticeDAO {
 		List<NoticeVO> notices = sqlSession.selectList(NAMESPACE + ".findNoticeList", noticeTitle);
 		return notices;
 	}
+
+	public int selectNoticeCount() {
+		return sqlSession.selectOne(NAMESPACE + ".selectNoticeCount");
+	}
 }

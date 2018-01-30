@@ -21,5 +21,6 @@ public interface NoticeService {
 	
 	//공지사항 정보를 삭제한다.
 	void removeNotice(int noticeNo);
-
+	
+	 int retrieveNoticeCount();
 }
