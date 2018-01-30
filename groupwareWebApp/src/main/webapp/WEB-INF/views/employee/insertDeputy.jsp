@@ -1,10 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>대결권자 등록</title>
+<script>
+	$(document).ready(function () {		
+		$('#keyfieldItem li > a').on('click', function() {
+		    $('#keyfieldBtn').text($(this).text());
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -17,26 +26,33 @@
 				<br>
 				<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left">
 					<div class="form-group form-inline">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">대결권자 지정 </label>&nbsp;&nbsp;
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="empName">대결권자 지정 </label>&nbsp;&nbsp;
 						<div class="input-group col-md-6 col-sm-6 col-xs-12">
-							<input type="text" class="form-control"> <span class="input-group-btn">
+							<input type="text" id="empName" name="empName" class="form-control"> <span class="input-group-btn">
 								<button type="button" class="btn btn-primary"
 									data-toggle="modal" data-target="#myModal">검색</button>
-								<button class="btn btn-primary" type="reset">삭제</button>
 							</span>
 						</div>
 					</div>
+					<div class="form-group form-inline col-md-12">
+						<div class="form-group">
+							<label for="ex3">기간지정 :</label> <input type="date" id="startDate"
+								class="form-control" name="startDate">
+						</div>
+						<div class="form-group">
+							<label for="ex4">~</label> <input type="date" id="endDate"
+								class="form-control" name="endDate">
+						</div>
+					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">사유 </label>
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="depReason">사유 </label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="last-name" name="last-name"
+							<input type="text" id="depReason" name="depReason"
 								required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button class="btn btn-primary" type="button">Cancel</button>
-							<button class="btn btn-primary" type="reset">Reset</button>
 							<button type="submit" class="btn btn-success">Submit</button>
 						</div>
 					</div>
@@ -54,33 +70,19 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>2015-00035</td>
-								<td>김대리</td>
-								<td>2018/01/05</td>
-								<td>2018/01/10</td>
-								<td>연차</td>
-								<td>X</td>
-								<td><button type="button">상세보기</button></td>
-							</tr>
-							<tr>
-								<td>2015-00036</td>
-								<td>박대리</td>
-								<td>2018/01/10</td>
-								<td>2018/01/15</td>
-								<td>병가</td>
-								<td>X</td>
-								<td><button type="button">상세보기</button></td>
-							</tr>
-							<tr>
-								<td>2015-00037</td>
-								<td>이대리</td>
-								<td>2018/01/15</td>
-								<td>2018/01/30</td>
-								<td>프로젝트</td>
-								<td>O</td>
-								<td><button type="button">상세보기</button></td>
-							</tr>
+							<c:forEach var="deputy" items="${requestScope.deputies}" varStatus="loop">
+								<c:forEach var="employee" items="${pageScope.deputy.employees }">
+								<tr>
+									<td>${pageScope.deputy.dempNo }</td>
+									<td>${pageScope.employee.empName }</td>
+									<td>${pageScope.deputy.startDate }</td>
+									<td>${pageScope.deputy.endDate }</td>
+									<td>${pageScope.deputy.depReason }</td>
+									<td>${pageScope.deputy.progression }</td>
+									<td><button type="button">상세보기</button></td>
+								</tr>
+								</c:forEach>
+							</c:forEach>
 						</tbody>
 					</table>
 				</form>
@@ -102,16 +104,26 @@
 					<div>
 						<div class="btn-group">
 							<button data-toggle="dropdown"
-								class="btn btn-default dropdown-toggle" type="button"
-								aria-expanded="false">
+								id="keyfieldBtn" value="keyfield" class="btn btn-default dropdown-toggle" type="button"
+								aria-expanded="true">
 								검색조건 <span class="caret"></span>
 							</button>
-							<ul role="menu" class="dropdown-menu">
-								<li><a href="#">경영관리부</a></li>
-								<li><a href="#">인사부</a></li>
-								<li><a href="#">회계부</a></li>
-								<li><a href="#">개발부</a></li>
-								<li><a href="#">영업부</a></li>
+							<ul id="keyfieldItem" role="menu" class="dropdown-menu">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#" value="경영관리부">경영관리부</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#" value="인사부">인사부</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#" value="회계부">회계부</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#" value="영업부">영업부</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#" value="개발부">개발부</a>
+								</li>
 							</ul>
 							<div class="col-sm-6">
 								<div id="imaginary_container">
@@ -136,22 +148,12 @@
 							</thead>
 							<tbody>
 								<tr class="even pointer">
-									<td><a data-toggle="modal" data-target="#myModal">영업부</a><a></a></td>
+									<td>영업부</td>
 									<td class=" ">부장</td>
 									<td class=" ">영부장</td>
 								</tr>
 							</tbody>
 						</table>
-						<div class="form-group form-inline col-md-12">
-							<div class="form-group">
-								<label for="ex3">기간지정 :</label> <input type="date" id="ex3"
-									class="form-control" placeholder=" ">
-							</div>
-							<div class="form-group">
-								<label for="ex4">~</label> <input type="date" id="ex4"
-									class="form-control" placeholder=" ">
-							</div>
-						</div>
 					</div>
 					<br>
 					<div class="text-center">
