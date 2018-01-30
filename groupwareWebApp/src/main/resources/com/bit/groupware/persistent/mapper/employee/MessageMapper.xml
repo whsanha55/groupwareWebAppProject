@@ -46,6 +46,23 @@
 	</select>
 	
 	
+	    <update id="updateReceiver"  parameterType="ReceiverVO" statementType="PREPARED">
+          update receiver
+          set receiver_name = #{receiverName}
+          where receiver_no = #{recieverNo}
+      </update>
+	
+	
+	<update id="updateMessageStatus" parameterType="int" statementType="PREPARED">
+		
+		update message
+		set msg_isread = 1
+		where msg_no = #{msgNo} 
+		
+	</update>
+	
+	
+	
 	<resultMap id="MessageListResultMap" type="MessageVO">
 		<id property="msgNo" column="msg_no" />
 		<result property="msgDate" column="msg_Date" />
@@ -65,6 +82,7 @@
 		</association>
 	</resultMap>
 	<select id="selectMessageList" parameterType="map" resultMap="MessageListResultMap" statementType="PREPARED" >
+		
 		select msg_no,msg_date,msg_title,msg_content,msg_isread,sender_removal,recipient_removal,
 		sender_emp_no,recipient_emp_no,
 		(select emp_name from employee where emp_no=msg.sender_emp_no)as sender_emp_name,

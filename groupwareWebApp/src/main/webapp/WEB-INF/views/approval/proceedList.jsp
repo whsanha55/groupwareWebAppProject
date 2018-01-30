@@ -67,19 +67,22 @@
                         </thead>
 
                         <tbody>
+                        	<c:forEach var="apprInfo" items="${requestScope.approvals}" varStatus="loop"> 
                           <tr class="even pointer">
                             
-                            <td>1</td>
+                          <%--   <td>${pageScope.loop.count}</td> 에러나서 주석처리함.--%>
 							
-                             <td class=" ">지출결의서</td>
-                            <td class=" ">비품 구매 건</td>
-                            <td class=" ">이지희</td>
-                            <td class=" ">영업부</td>
-							<td class=" ">2018.01.03</td>
+							
+                            <td class=" ">${pageScope.apprInfo.template.tmpName }</td>
+                            <td class=" ">${pageScope.apprInfo.apprTitle }</td>
+                            <td class=" ">${pageScope.apprInfo.employee.empName }</td>
+                            <td class=" ">${pageScope.apprInfo.employee.codes.cName }</td>
+							<td class=" ">${pageScope.apprInfo.apprDate }</td>
                             <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
                             
                             
                           </tr>
+                          </c:forEach>
                          <tr class="even pointer">
                            
 							<td>2</td>

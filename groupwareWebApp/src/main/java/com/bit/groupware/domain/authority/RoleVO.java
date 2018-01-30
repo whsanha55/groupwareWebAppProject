@@ -11,13 +11,12 @@ public class RoleVO {
 	private String rDate;			 // 등록 일자 
 	private String isRegistration; //등록 여부
 	private int sortOrder; 			//정렬 순서
-	
+
 	 private List<AuthorityVO> authorities = new ArrayList<AuthorityVO>();
 	 
 	public RoleVO() {
 		super();
 	}
-
 	public String getrId() {
 		return rId;
 	}

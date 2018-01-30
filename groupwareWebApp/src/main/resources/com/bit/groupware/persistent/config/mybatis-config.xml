@@ -22,8 +22,18 @@
 		
 		<!-- Authority -->
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/AuthorityMapper.xml"/> 
+		<mapper resource="com/bit/groupware/persistent/mapper/authority/PostMapper.xml"/> 
+		<mapper resource="com/bit/groupware/persistent/mapper/authority/PostFileMapper.xml"/> 
+		<mapper resource="com/bit/groupware/persistent/mapper/authority/DocumentMapper.xml"/> 
 		
 		<!-- Employee -->
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/EmployeeMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/CodeMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/DeputyMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/PhotoMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/PlanMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/PlanFileMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/MessageMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/NotificationMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/DelegationMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 

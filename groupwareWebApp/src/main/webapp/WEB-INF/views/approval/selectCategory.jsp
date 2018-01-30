@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
 	.btn {
 		width: 120px !important
@@ -30,10 +30,9 @@
 <script>
 		var pKeyfield = 'bookmark'; //로딩첫페이지가 북마크!! 
 		var pKeyword;
-		templatePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ
 	$(document).ready(function() {
 		
-		
+		templatePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ
 		//양식서 카테고리 클릭 이벤트
 		$('.category').on('click',function() {
 			/* var categoryNo = $(this).attr('id').split('_')[1]; */
@@ -50,11 +49,6 @@
 		
 		//즐겨찾기 추가, 삭제 이벤트
 		 $('tbody').on('click','.fa', function() {
-			if(pKeyfield == 'bookmark') { 	
-				if(!confirm('정말삭제하시겠습니까?')) {
-					return false;
-				}; 
-			}
 			
 			var tmpNo = $(this).parent().next().text();
 			var bookmarkNo = 0;
@@ -82,9 +76,13 @@
 							temp.attr('class', 'fa fa-star-o fa-lg');
 							temp.attr('id','');
 						}
+						swal("즐겨찾기 삭제","삭제되었습니다", "success");
+						
 					} else {	//새로운 즐겨찾기 추가 할 때
 						temp.attr('class','fa fa-star fa-lg');
 						temp.attr('id','bookmark_' + data);
+						swal("즐겨찾기 추가", "추가하였습니다", "success");
+						
 					}
 					
 				} ,
@@ -117,7 +115,7 @@
 		// 검색 실행
 		$('.findTemplate').on('click', function() {
 			if($('.keyfield').attr('id') == null) {
-				alert('검색조건을 선택해 주세요!');
+				swal("검색조건를 선택해주세요","", "error");
 				return;
 			}
 
@@ -125,6 +123,21 @@
 			pKeyword = $('.keyword').val();
 			
 			templatePaging(1);
+			
+		});
+		
+		//직접 작성
+		$('#WriteApprovalNoTmp').on('click',function() {
+			swal({
+				  title: "직접 작성",
+				  text: "작성 페이지로 이동하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						location.href = '${pageContext.request.contextPath}/writeApproval.do';
+					}	
+				});
 			
 		});
 		
@@ -169,7 +182,8 @@
 					text += "<td>"+ data.templates[i].tmpNo + "</td>";
 					text += "<td>"+ data.templates[i].templateCategory.categoryName + "</td>";
 					text += "<td>"+ data.templates[i].tmpDate + "</td>";
-					text += "<td>"+ data.templates[i].tmpName + "</td>";
+					text += "<td><a href = '${pageContext.request.contextPath}/writeApproval.do?tmpNo=" + data.templates[i].tmpNo + "'> "; 
+					text += data.templates[i].tmpName + "</a></td>";
 					text += "<td>"+ data.templates[i].tmpSummary + "</td>";
 					text += "</tr>";
 				}
@@ -289,7 +303,7 @@
 				</c:forEach>
 				
 				<div class="text-center" width="80px" align="center">
-					<button class="btn btn-primary">직접 작성</button>
+					<button id="WriteApprovalNoTmp" class="btn btn-primary">직접 작성</button>
 				</div>
 			</div>
 
@@ -301,7 +315,7 @@
 					
 					<div class="container">
 					    <div class="row">    
-					        <div class="col-xs-8 col-xs-offset-4">
+					        <div class="col-xs-7 col-xs-offset-5">
 							    <div class="input-group">
 					                <div class="input-group-btn search-panel">
 					                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -361,6 +375,6 @@
 	<!-- /page content -->
 
 
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

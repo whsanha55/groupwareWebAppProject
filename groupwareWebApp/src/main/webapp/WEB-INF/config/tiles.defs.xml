@@ -20,7 +20,7 @@
 
 	<!-- 로그인 -->
 	<definition name="login" template="/WEB-INF/views/common/login.jsp" />
-	
+
 	
 	<!-- 사용자 -->
 	<definition name="main" template="/WEB-INF/views/common/index.jsp">

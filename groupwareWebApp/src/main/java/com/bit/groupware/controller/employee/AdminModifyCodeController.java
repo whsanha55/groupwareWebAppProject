@@ -25,6 +25,6 @@ public class AdminModifyCodeController {
 		logger.info("code : {}", code);
 		codeService.modifyCode(code);
 		status.setComplete();
-		return "redirect:/admin/listCode.do";
+		return "redirect:/admin/listCode1.do";
 	}
 }

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.bit.groupware.service.employee.PlanService;
 
 @Controller
-public class AdminRemovelPlanController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminRemovelPlanController.class);
+public class AdminRemovePlanController {
+	private static final Logger logger = LoggerFactory.getLogger(AdminRemovePlanController.class);
 	
 	@Autowired
 	private PlanService planService;

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.bit.groupware.persistent.mapper.EmployeeMapper">
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeMapper">
 	
 	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
 		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
@@ -60,6 +60,7 @@
 		<id column="emp_no"				 property="empNo" />
 		<result column="emp_name" 		 property="empName" />
 		<result column="emp_pwd" 	  	 property="empPwd" />
+		<result column="eng_name"		 property="engName"/>
 		<result column="phone_number" 	 property="phoneNumber" />
 		<result column="email" 		 	 property="email" />
 		<result column="reg_number"   	 property="regNumber" />
@@ -67,10 +68,12 @@
 		<result column="retire_status" 	 property="retireStatus" />
 		<result column="retire_date" 	 property="retireDate" />
 		<result column="address" 		 property="address" />
-		<!--  1:N 관계 -->	
+		<result column="checkAdmin"		 property="checkAdmin"/>
+		 <!-- 1:N 관계 -->
 		<collection property="codes" javaType="list" ofType="CodeVO">
 			<id column="c_no" 				property="cNo"/>
-			<result column="c_name" 		property="cName" />
+			<result column="department" 	property="cName" />
+			<result column="duty"			property="cName" />
 			<result column="relation_code" 	property="relationCode" />
 		</collection>
 		
@@ -85,7 +88,17 @@
 
 	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
 							statementType="PREPARED" parameterType="String">
-		select 
+							
+		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
+	        reg_number, hire_date, retire_status, retire_date, address, checkAdmin,
+	        c.c_no, c_name, relation_code, photo_no, photo_name,system_file_name,file_size,division
+		from employee_code ec, employee e, code c, photo ph
+		where ec.emp_no = e.emp_no
+		    and ec.c_no = c.c_no
+	        and e.emp_no = ph.emp_no
+	        and e.emp_no = #{empNo}
+							
+		<!-- select 
 			e.emp_no, 
 			emp_Name,
 			emp_pwd,
@@ -113,12 +126,19 @@
             division
 		from employee e , photo ph
         where e.emp_no = ph.emp_no
-            and e.emp_no = #{empNo};
+            and e.emp_no = #{empNo} -->
 	</select> 
 	
-	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" 
-									statementType="STATEMENT" resultMap="selectEmployeeResultMap">
-		select 
+	<!-- <select id="selectEmployeeList" parameterType="map" statementType="STATEMENT" 
+													resultMap="selectEmployeeResultMap"> -->
+		<!-- select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
+		        reg_number, hire_date, retire_status, retire_date, address, checkAdmin,
+		        c.c_no, c_name, relation_code
+		from employee_code ec, employee e, code c
+		where ec.emp_no = e.emp_no
+		    and ec.c_no = c.c_no -->
+		
+		<!-- select 
 			emp_no, 
 			emp_Name,
 			emp_pwd,
@@ -138,7 +158,7 @@
                 and c.relation_code = (select c_no
                                        from code
                                        where c_name = '직책')
-                and ec.emp_no = e.emp_no) as duty
+               	and ec.emp_no = e.emp_no) as duty
 		from (select rownum as rn, emp.*
               from (select * from employee
                     order by emp_no asc) emp) e
@@ -153,19 +173,48 @@
 		</if>
 		<if test="keyfield==department and keyword!=null">
 		where department like '%' || #{keyword} || '%'
-		</if>
+		</if> 
 		<![CDATA[
-			and e.rn >= #{startRow} and e.rn <= #{endRow};
-		]]>
+			where e.rn >= #{startRow} and e.rn <= #{endRow}
+		]]> -->
+	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeCodeViewVO" statementType="STATEMENT">
+		select 
+			emp_no as empNo, 
+			emp_name as empName, 
+			emp_pwd as empPwd, 
+			phone_number as phoneNumber, 
+			email, 
+			to_char(hire_date, 'yyyy/mm/dd') as hireDate, 
+			department, 
+			duty
+		from (select rownum as rn, emp.*
+		      from (select * from empList_view
+		      order by emp_no asc) emp) e
+		<!-- <![CDATA[
+			where e.rn >= #{startRow} and e.rn <= #{endRow}
+		]]> -->
 	</select>
 	
-	
+	<select id="selectEmpCharge" resultType="String" parameterType="String" statementType="PREPARED">
+		select emp_name, phone_number
+        from employee e, employee_code ec, code c
+        where ec.emp_no = e.emp_no
+            and ec.c_no = c.c_no
+            and c.c_name = #{cName}
+	</select>
 	
 	<select id="checkDeptEmp" resultType="int" parameterType="String" statementType="PREPARED">
 		select count(relation_code)
 		from employee_code ec, code c
 		where ec.c_no = c.c_no
-		    and c.c_name = #{cName};
+		    and c.c_name like '%' || #{cName} || '%'
+	</select>
+	
+	<select id="checkRelationDept" resultType="int" parameterType="String" statementType="PREPARED">
+		select count(rc.relation_code)
+        from code c , code rc
+        where c.c_no = rc.relation_code
+            and c.c_name = #{cName}
 	</select>
 
 </mapper>
