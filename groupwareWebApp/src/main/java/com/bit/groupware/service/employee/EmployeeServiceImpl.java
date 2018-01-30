@@ -60,8 +60,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	public void registerEmployee(EmployeeVO employee) {
-		String empNo = employeeDAO.insertEmployee(employee);
-		employeeDAO.insertEmployeeCode(empNo);
+		employeeDAO.insertEmployee(employee);
+		employeeDAO.insertEmployeeCode(employee.getEmpNo());
 	}
 
 }
