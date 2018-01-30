@@ -48,4 +48,12 @@ public class CodeServiceImpl implements CodeService {
 	public void removeCode(String cNo) {
 		codeDAO.deleteCode(cNo);
 	}
+	
+	public List<CodeVO> retrieveDeptCodeList() {
+		return codeDAO.selectDeptCodeList();
+	}
+	
+	public List<CodeVO> retrieveDutyCodeList() {
+		return codeDAO.selectDutyCodeList();
+	}
 }

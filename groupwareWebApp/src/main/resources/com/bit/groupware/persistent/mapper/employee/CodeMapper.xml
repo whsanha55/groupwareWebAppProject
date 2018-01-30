@@ -5,6 +5,7 @@
   
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.CodeMapper">
 
+	
 	<!-- 코드 등록 -->
 	<insert id="insertCode" parameterType="CodeVO" statementType="PREPARED">					
 		insert into code (c_no, c_name, relation_code)
@@ -78,7 +79,27 @@
 		order by c1.c_no asc
 	</select>
 	
-	<!--  -->
+	<!-- 부서코드 목록 조회 -->
+	<select id="selectDeptCodeList" resultType="CodeVO">
+		select rc.c_no as cNo, rc.c_name as cName
+		from code c ,code rc
+		where c.c_no = rc.relation_code
+		    and rc.relation_code = (select c_no
+		                            from code
+		                            where c_name = '부서')
+		order by rc.c_no asc
+	</select>
+	
+	<!-- 직책코드 목록 조회 -->
+	<select id="selectDutyCodeList" resultType="CodeVO">
+		select rc.c_no as cNo, rc.c_name as cName
+		from code c ,code rc
+		where c.c_no = rc.relation_code
+		    and rc.relation_code = (select c_no
+		                            from code
+		                            where c_name = '직책')
+		order by rc.c_no asc
+	</select>
 	
 	
 	<!-- 코드 수정 -->
