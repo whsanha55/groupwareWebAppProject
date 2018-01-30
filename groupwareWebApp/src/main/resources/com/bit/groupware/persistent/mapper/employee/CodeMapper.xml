@@ -11,6 +11,12 @@
 		values (#{cNo}, #{cName}, #{relationCode})	
 	</insert>
 	
+	<!-- 코드번호 중복체크 -->
+	<select id="checkCodeNo" parameterType="String" resultType="int">
+		select distinct 1
+		from code
+		where c_no=#{cNo}
+	</select>
 	
 	<!-- 코드 이름 중복체크 -->
 	<select id="checkCode" parameterType="String" resultType="int">
@@ -72,6 +78,8 @@
 		order by c1.c_no asc
 	</select>
 	
+	<!--  -->
+	
 	
 	<!-- 코드 수정 -->
 	<update id="updateCode" parameterType="CodeVO" statementType="PREPARED" >
@@ -91,9 +99,9 @@
 	</update>
 	
 	<!-- 코드 삭제 -->
-	<delete id="deleteCode" parameterType="CodeVO" statementType="PREPARED" >
+	<delete id="deleteCode" parameterType="String" statementType="PREPARED" >
 		delete from code
-		where c_no=#{cNo}
+		where c_no = #{cNo}
 	</delete>
 		
 </mapper>

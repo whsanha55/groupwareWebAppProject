@@ -46,15 +46,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 		approval.setApprNo(apprNo);
 
 		// 2. 결재 첨부파일 등록
-		
-		List<MultipartFile> uploadFiles = approval.getUpload();
-		for (MultipartFile file : uploadFiles) {
-			if (!file.isEmpty()) {
-
-			}
-		}
 		List<ApprovalFileVO> files = approval.getApprovalFiles();
-		if (approval.getUpload().size() != 0) {
+		if (files.size() != 0) {
 			for (ApprovalFileVO file : files) {
 				file.setApproval(approval);
 			}
@@ -76,6 +69,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 		// 2. 결재문서 최종상태 여부 변경 = approval.setFinalStatus는 컨트롤러에서?
 		dao.updateApproval(approval);
+	}
+	
+	
+	//갯수 구하기
+	public int retrieveApprovalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.selectApprovalCount(map); 
 	}
 
 }

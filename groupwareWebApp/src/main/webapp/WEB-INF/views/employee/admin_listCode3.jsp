@@ -153,13 +153,18 @@
 					</thead>
 					<tbody>
 						<c:forEach var="code" items='${requestScope.codes }' varStatus="loop" >
-							<tr>
+							<tr>s
 								<td>${pageScope.code.cNo }</a></td>
 								<td>${pageScope.code.cName }</td>
 								<td>${pageScope.code.countEmployee }</td>
 								<td><button type="button" data-toggle="modal"
 										data-target="#myModal">수정1</button></td>
-								<td></td>
+								<c:if test="${pageScope.code.countEmployee == 0 }" >
+									<td><button type="button" >삭제</button></td>
+								</c:if>
+								<c:if test="${pageScope.code.countEmployee != 0 }">
+									<td></td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</tbody>
