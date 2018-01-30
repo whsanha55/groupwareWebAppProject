@@ -5,6 +5,42 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.AuthorityMapper">
 
+<<<<<<< HEAD
+      <resultMap type="RoleVO" id="selectAuthRoleResultMap">      
+          <id column="r_id" property="rId"/>
+           <result column="r_name" property="rName"/>
+          <collection property="authorities" javaType="list" ofType="AuthorityVO" >
+             <result column="a_name" property="aName"/>
+          </collection>
+      </resultMap>
+      
+      <select id="selectAuthority" resultMap="selectAuthRoleResultMap" statementType="STATEMENT">
+         select  t1.r_id, t1.r_name, t3.a_name
+      from role t1, authority_role t2, authority t3
+      where t1.r_id = t2.r_id  
+      and t2.a_no = t3.a_no   
+      and t1.r_type = 'url'     
+      and t1.ISREGISTRATION = '0'                          
+      order by  t3.a_name asc, t1.sort_order asc       
+      </select>
+      
+      <select id="selectEmployee" parameterType="String" resultType="EmployeeVO" statementType="PREPARED">
+      	select isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
+      	from employee
+      	where emp_no= #{value}
+      </select>
+      
+      
+  
+      
+      <select id="selectAuthEmp" resultType="string" statementType="PREPARED" parameterType="String">
+      	select t3.a_name as aName
+      	from authority_employee t1, employee t2, authority t3 
+      	where t1.emp_no = t2.emp_no
+      	and t1.a_no = t3.a_no
+      	and t1.emp_no = #{value}
+      </select>
+=======
    <resultMap type="RoleVO" id="selectAuthRoleResultMap">
       <id column="r_id" property="rId" />
       <result column="r_name" property="rName" />
@@ -75,4 +111,5 @@
       t3.a_no
       and t1.emp_no = #{value}
    </select>
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 </mapper>
