@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.authority.DocumentMapper">
+
+	<select id="selectDocumentList" resultType="DocumentVO" statementType="STATEMENT">
+		select 
+			document_no as documentNo, 
+			document_name as documentName
+		from document
+		order by documentName asc	
+	</select>	
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

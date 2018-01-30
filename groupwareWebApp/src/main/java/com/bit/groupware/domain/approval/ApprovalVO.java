@@ -15,6 +15,7 @@ public class ApprovalVO {
 	int urgency;
 	String apprTitle;
 	String apprContent;
+	//0->진행중, 1->결재, 2->보류, 3->반려, 4->임시보관, 5->회수
 	int apprFinalStatus;
 	EmployeeVO employee;
 	TemplateVO template;

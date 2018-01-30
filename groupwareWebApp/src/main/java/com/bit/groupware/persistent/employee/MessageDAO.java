@@ -13,5 +13,7 @@ public interface MessageDAO {
 	
 	MessageVO selectMessage(int msgNo);
 	
+	void updateMessageStatus(int msgNo); 
+	
 	List<MessageVO> selectMessageList(Map<String,Object> map);
 }

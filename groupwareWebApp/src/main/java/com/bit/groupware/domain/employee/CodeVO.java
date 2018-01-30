@@ -4,6 +4,8 @@ public class CodeVO {
 	private String cNo;
 	private String cName;
 	private String relationCode;
+	private String countRelationCode;
+	private String countEmployee;
 	
 	public CodeVO() {
 		super();
@@ -39,11 +41,33 @@ public class CodeVO {
 	public void setRelationCode(String relationCode) {
 		this.relationCode = relationCode;
 	}
+	
+
+	public String getCountRelationCode() {
+		return countRelationCode;
+	}
+
+	public void setCountRelationCode(String countRelationCode) {
+		this.countRelationCode = countRelationCode;
+	}
+
+	public String getCountEmployee() {
+		return countEmployee;
+	}
+
+	public void setCountEmployee(String countEmployee) {
+		this.countEmployee = countEmployee;
+	}
 
 	@Override
 	public String toString() {
-		return "CodeVO [cNo=" + cNo + ", cName=" + cName + ", relationCode=" + relationCode + "]";
+		return "CodeVO [cNo=" + cNo + ", cName=" + cName + ", relationCode=" + relationCode + ", countRelationCode="
+				+ countRelationCode + ", countEmployee=" + countEmployee + "]";
 	}
+
+	
+
+	
 	
 	
 	

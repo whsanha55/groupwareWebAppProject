@@ -21,8 +21,13 @@ public class AdminRegisterCodeController {
 	@RequestMapping(value="/admin/registerCode.do", method=RequestMethod.POST)
 	public String submit(CodeVO code) {
 		logger.info("code : {} ", code);
-		codeService.registerCode(code);
-		return "redirect:/admim/listCode.do";
+		if(codeService.registerCode(code) == true) {
+			codeService.registerCode(code);
+			return "redirect:/admin/listCode1.do";
+		} else {
+			return "redirect:/admin/registerCode.do?cNo=" + code.getcNo();
+		}
+		
 	}
 	
 }

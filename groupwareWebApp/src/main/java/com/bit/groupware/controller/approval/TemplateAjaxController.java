@@ -1,6 +1,5 @@
 package com.bit.groupware.controller.approval;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,26 +15,37 @@ import com.bit.groupware.domain.approval.TemplateVO;
 import com.bit.groupware.service.approval.TemplateService;
 
 @Controller
-public class TemplateCategoryAjaxController {
+public class TemplateAjaxController {
 
 	@Autowired
 	private TemplateService templateService;
 	
-	@RequestMapping(value="/templateCategoryAjax.do", method=RequestMethod.POST)
+	@RequestMapping(value = "/templatePagingAjax.do", method = RequestMethod.POST)
 	@ResponseBody
-	public List<TemplateVO> getTemplateList(
-			@RequestParam(required=false) int categoryNo ,
-			@RequestParam(required=false) String categoryName ,
-			@RequestParam(required=false) String tmpName) {
+	public Map<String,Object> getTemplateList(
+			@RequestParam String keyfield ,
+			@RequestParam(required=false) String keyword ,
+			@RequestParam int startRow ,
+			@RequestParam int endRow
+			) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("empNo", "2018-00011");
 		
-		map.put("keyfield", "categoryNo");
-		map.put("keyword", categoryNo);
-		map.put("categoryName", categoryName);
-		map.put("tmpName", tmpName);
-		map.put("startRow", 0);
-		map.put("endRow", 10);
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+	
+		int totalCount = templateService.retrieveTemplateCount(map);
+		if(totalCount < endRow) {
+			endRow = totalCount;
+		}
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		
 		List<TemplateVO> templates = templateService.retrieveTemplateList(map);
-		return templates; 
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("totalCount", totalCount);
+		returnMap.put("templates", templates);
+		return returnMap;
 	}
 }

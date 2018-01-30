@@ -1,12 +1,14 @@
 package com.bit.groupware.controller.employee;
 
-/*@Controller
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
 public class DetailEmployeeController {
 
-	@RequestMapping(value="/profile.do", method=RequestMethod.GET)
-	public ModelAndView detailEmployee(@RequestParam(value="empNo") String empNo)  {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("employee", em)
-		return "employee/profile";
+	@RequestMapping(value="/detailEmployee.do", method=RequestMethod.GET)
+	public String detailEmployee()  {
+		return "employee/detailEmployee";
 	}
-}*/
+}

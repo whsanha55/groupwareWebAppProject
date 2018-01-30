@@ -11,8 +11,8 @@ public class TemplateBookmarkServiceImpl implements TemplateBookmarkService {
 	@Autowired
 	private TemplateBookmarkDAO templateBookmark;
 	
-	public void registerTemplateBookmark(TemplateBookmarkVO templateBookmarkVO) {
-		templateBookmark.insertTemplateBookmark(templateBookmarkVO); 
+	public int registerTemplateBookmark(TemplateBookmarkVO templateBookmarkVO) {
+		return templateBookmark.insertTemplateBookmark(templateBookmarkVO); 
 	}
 
 	public void removeTemplateBookmark(int bookmarkNo) {
