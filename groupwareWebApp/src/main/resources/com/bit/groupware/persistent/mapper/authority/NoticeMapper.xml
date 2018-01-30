@@ -9,22 +9,36 @@
       <selectKey keyProperty="noticeNo" resultType="int" order="BEFORE" statementType="STATEMENT">
            select notice_no_seq.nextval from dual;
       </selectKey>
-      insert into board(notice_no, notice_title, hitcount, notice_date, notice_contents)
+      insert into notice(notice_no, notice_title, hitcount, notice_date, notice_contents)
       values(#{noticeNo}, #{noticleTitle}, 0, sysdate, #{noticeContents})
    </insert>   
    
-   <select id="selectNoticeList" statementType="STATEMENT" resultType="NoticeVO">
-      select notice_no, notice_title, hitcount, notice_date, notice_contents
+   <select id="selectNoticeList" statementType="STATEMENT" parameterType="map" resultType="NoticeVO">
+      select notice_no as noticeNo, notice_title as noticeTitle, hitcount as hitCount, notice_date as noticeDate, notice_contents as noticeContents
        from notice 
        order by notice_no asc
    </select>
    
-   <select id="selectNotice" statementType="PREPARED" resultType="NoticeVO" parameterType="int">
-      select n1.notice_no, n1.notice_title, n1.hitcount, n1.notice_date, n1.notice_contents, n2.noticefile_no, 
-       n2.noticefile_original_file_name, n2.noticefile_system_file_name, n2.noticefile_url , n2.notice_no
+   	<resultMap id="selectNoticeResultMap" type="NoticeVO">
+		<id column="notice_no"						 property="noticeNo" />
+		<result column="notice_title" 				 property="noticleTitle" />
+		<result column="hitcount" 	 				 property="hitCount" />
+		<result column="notice_date" 	 			 property="noticeDate" />
+		<result column="notice_contents" 			 property="noticeContents" />
+	
+		<collection property="files" javaType="list" ofType="NoticeFileVO">
+			<id column="noticefile_no" 								property="no"/>
+			<result column="noticefile_original_file_name" 		property="systemFileName" />
+			<result column="noticefile_system_file_name" 		property="originalFileName" />
+		</collection>
+	</resultMap> 
+	 
+   <select id="selectNotice" resultMap="selectNoticeResultMap" statementType="PREPARED" resultType="NoticeVO" parameterType="int">
+      select n1.notice_no, n1.notice_title, n1.hitcount, n1.notice_date, n1.notice_contents, 
+      n2.noticefile_no, n2.noticefile_original_file_name, n2.noticefile_system_file_name, n2.noticefile_url , n2.notice_no
        from notice n1 , noticefile n2
        where n1.notice_no = n2.notice_no(+)
-        and n1.notice_no = 1;
+        and n1.notice_no = #{noticeNo};
    </select>
    
    <update id="updateNotice" statementType="PREPARED" parameterType="NoticeVO">

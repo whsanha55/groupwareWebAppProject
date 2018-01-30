@@ -2,8 +2,10 @@ package com.bit.groupware.service.authority;
 
 import java.util.List;
 
-import com.bit.groupware.domain.authority.BoardVO;
+import org.springframework.stereotype.Service;
 
+import com.bit.groupware.domain.authority.BoardVO;
+@Service
 public class BoardServiceImpl implements BoardService {
 
 	public List<BoardVO> retrieveBoard(List<BoardVO> boards) {

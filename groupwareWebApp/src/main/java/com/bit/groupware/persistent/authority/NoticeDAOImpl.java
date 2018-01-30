@@ -5,16 +5,17 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.authority.NoticeVO;
-
+@Repository
 public class NoticeDAOImpl implements NoticeDAO {
-	private static final String NAMESPACE = "com.bit.article.persistent.mapper.authority.NoticeMapper";	
+	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.authority.NoticeMapper";	
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public List<NoticeVO> selectNoticeList(Map<String, Integer> map) {
+	public List<NoticeVO> selectNoticeList(Map<String, Object> map) {
 		List<NoticeVO> notices = sqlSession.selectList(NAMESPACE + ".selectNoticeList", map);
 		return notices;
 	}
@@ -24,8 +25,8 @@ public class NoticeDAOImpl implements NoticeDAO {
 		return notice;
 	}
 
-	public void insertNotice(NoticeVO notice) {
-		sqlSession.insert(NAMESPACE + ".insertNotice", notice);
+	public int insertNotice(NoticeVO notice) {
+		return sqlSession.insert(NAMESPACE + ".insertNotice", notice);
 	}
 
 	public void updateNotice(NoticeVO notice) {

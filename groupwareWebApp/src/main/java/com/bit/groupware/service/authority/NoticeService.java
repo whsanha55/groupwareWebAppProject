@@ -8,7 +8,7 @@ import com.bit.groupware.domain.authority.NoticeVO;
 public interface NoticeService {
 	
 	//공지사항 정보를 조회한다.
-	List<NoticeVO> retrieveNoticeList(Map<String, Integer> map);
+	List<NoticeVO> retrieveNoticeList(Map<String, Object> map);
 	
 	//공지사항 정보를 상세 조회한다.
 	NoticeVO retrieveNotice(int noticeNo);
