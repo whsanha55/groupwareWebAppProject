@@ -24,7 +24,11 @@
       </select>
       
       <select id="selectEmployee" parameterType="String" resultType="EmployeeVO" statementType="PREPARED">
+<<<<<<< HEAD
       	select isadmin as isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
+=======
+      	select isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
       	from employee
       	where emp_no= #{value}
       </select>
