@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.PostMapper">
-	<insert id="insertPost" parameterType="PostVO" statementType="PREPARED">
+	<!-- <insert id="insertPost" parameterType="PostVO" statementType="PREPARED">
 		<selectKey keyProperty="postNo" resultType="int" statementType="STATEMENT" order="BEFORE">
 			select post_no_seq.nextval from dual		
 		</selectKey>
@@ -36,8 +36,8 @@
 		<result column="document_no"   		 property="documentNo" />
 		<result column="c_no" 					 property="cNo" />
 		<result column="board_no" 				 property="boardNo" />
-		<!--  1:N 관계 -->	
-		<collection property="postFiles" javaType="list" ofType="PostFile">
+		 1:N 관계	
+		<collection property="postFiles" javaType="list" ofType="PostFileVO">
 			<id column="no" 								property="no"/>
 			<result column="system_file_name" 		property="systemFileName" />
 			<result column="original_file_name" 		property="originalFileName" />
@@ -100,7 +100,7 @@
 		delete from post
 		where post_no=#{value}
 	</delete>
-	
+	 -->
 </mapper>
 
 

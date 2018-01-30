@@ -69,12 +69,13 @@
 							<label class="control-label col-md-3 col-sm-3 col-xs-12"
 								for="last-name">첨부파일 </label>
 							<div class="btn-group">
-								<c:forEach var="planFile" items="${requestScope.plan.file }" varStatus="loop">
+								<c:forEach var="file" items="${requestScope.plan.file }" varStatus="loop">
 									<c:url var="downloadUrl" value="/download.do">
-										<c:param name="fileName" value="${pageScope.planFile.fileName }" />
-										<c:param name="systemFileName" value="${pageScope.planFile.systemFileName }" />
+										<c:param name="fileName" value="${pageScope.file.fileName }" />
+										<c:param name="systemFileName" value="${pageScope.file.systemFileName }" />
 									</c:url>
-										<a href = "${pageScope.downloadUrl }">${pageScope.planFile.originalFileName }</a>
+										<img src="${pageContext.request.contextPath}/upload/${pageScope.file.systemFileName}" 
+										width="100%" height="100%" id="img" />
 								</c:forEach>
 							</div>
 						</div>
