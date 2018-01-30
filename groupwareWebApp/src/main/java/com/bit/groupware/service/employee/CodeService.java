@@ -13,8 +13,11 @@ public interface CodeService {
 	//최상위 코드 리스트 조회
 	List<CodeVO> retrieveCodeList1(Map<String, Object> map);
 	
-	//코드 리스트 조회
+	//하위 코드 리스트 조회
 	List<CodeVO> retrieveCodeList2(Map<String, Object> map);
+	
+	//최하위 코드 리스트 조회
+	List<CodeVO> retrieveCodeList3(Map<String, Object> map);
 		
 	//코드 수정
 	void modifyCode(CodeVO code);

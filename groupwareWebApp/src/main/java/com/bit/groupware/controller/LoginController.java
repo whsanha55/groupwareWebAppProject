@@ -18,43 +18,42 @@ import com.bit.groupware.service.employee.EmployeeService;
 @Controller
 public class LoginController {
 
-	//Logging
-	public static final Logger Logger = LoggerFactory.getLogger(LoginController.class);
-	
-/*	@Autowired
-	private EmployeeService employeeService;*/
-	
-	//권한 로그인
-	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
-	public String form() {
-		return "login";
-	}
-	
-	
-	//모든 사용자 로그인
-	@RequestMapping(value = "/loginForm.do", method = RequestMethod.GET)
-	public String form1() {
+   //Logging
+   public static final Logger Logger = LoggerFactory.getLogger(LoginController.class);
+   
+/*   @Autowired
+   private EmployeeService employeeService;*/
+   
+   //권한 로그인
+   @RequestMapping(value = "/login.do", method = RequestMethod.GET)
+   public String form() {
+      return "login";
+   }
+   
+   
+   //모든 사용자 로그인
+   @RequestMapping(value = "/loginForm.do", method = RequestMethod.GET)
+   public String form1() {
 
-		return "login";
-	}
-	
-	//메인
-	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
-	public String form2() {
-		UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    String isAdmin = user.getIsAdmin();
-	    System.out.println("isAdmin : " + isAdmin);
-	    
-	    if(isAdmin.equals("T")) {
-	    	return "adminMain";
-	    } else {
-	    	return "main";
-	    }
-	
-		
-	}
+      return "login";
+   }
+   
+   //메인
+   @RequestMapping(value = "/index.do", method = RequestMethod.GET)
+   public String form2() {
+      UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       String isAdmin = user.getIsAdmin();
+       System.out.println("isAdmin : " + isAdmin);
+       
+       if(isAdmin.equals("T")) {
+          return "adminMain";
+       } else {
+          return "main";
+       }
+   
+      
+   }
 
-	
+   
 
 }
-
