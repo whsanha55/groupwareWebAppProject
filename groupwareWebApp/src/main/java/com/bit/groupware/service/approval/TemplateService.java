@@ -17,7 +17,8 @@ public interface TemplateService {
    void registerTemplate(TemplateVO templateVO);
    
    //양식 삭제
-   void removeTemplate(List<Integer> tempNos);
+   void removeTemplate(Map<String, Object> map);
    
+   int retrieveTemplateCount(Map<String, Object> map);
    
 }

@@ -1,6 +1,5 @@
 package com.bit.groupware.controller.approval;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,43 +15,37 @@ import com.bit.groupware.domain.approval.TemplateVO;
 import com.bit.groupware.service.approval.TemplateService;
 
 @Controller
-public class TemplateCategoryAjaxController {
+public class TemplateAjaxController {
 
 	@Autowired
 	private TemplateService templateService;
-
-	@RequestMapping(value = "/templateCategoryAjax.do", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/templatePagingAjax.do", method = RequestMethod.POST)
 	@ResponseBody
-	public List<TemplateVO> getTemplateList(
-			@RequestParam(required = false) int categoryNo,
-			@RequestParam(required = false) String categoryName, 
-			@RequestParam(required = false) String tmpName ,
-			@RequestParam int startRow,
-			@RequestParam int endRow,
-			Principal principal) {
+	public Map<String,Object> getTemplateList(
+			@RequestParam String keyfield ,
+			@RequestParam(required=false) String keyword ,
+			@RequestParam int startRow ,
+			@RequestParam int endRow
+			) {
 		Map<String, Object> map = new HashMap<String, Object>();
-//		 사원번호
-//		map.put("empNo",principal.getName() );
 		map.put("empNo", "2018-00011");
 		
-		
-		if (categoryNo != 0) {
-			if(categoryNo >0) {
-				map.put("keyfield", "categoryNo");
-				map.put("keyword", categoryNo);
-			} else {
-				map.put("keyfield", "bookmark");
-			}
-		} else if (categoryName != null) {
-			map.put("keyfield", "categoryName");
-			map.put("keyword", categoryName);
-		} else {
-			map.put("keyfield", "tmpName");
-			map.put("keyword", tmpName);
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+	
+		int totalCount = templateService.retrieveTemplateCount(map);
+		if(totalCount < endRow) {
+			endRow = totalCount;
 		}
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
+		
 		List<TemplateVO> templates = templateService.retrieveTemplateList(map);
-		return templates;
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("totalCount", totalCount);
+		returnMap.put("templates", templates);
+		return returnMap;
 	}
 }

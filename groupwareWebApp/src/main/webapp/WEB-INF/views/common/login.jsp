@@ -1,5 +1,6 @@
 <%--login.jsp --%>
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ 
+page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,6 +48,7 @@
 					<form
 						action="${pageContext.request.contextPath}/j_spring_security_check"
 						method="POST">
+						
 						<h1>로고</h1>
 						<div>
 							<h2 class="text-left">사원 번호</h2>
@@ -58,6 +60,7 @@
 							<input type="password" name="pwd" class="form-control"
 								placeholder="비밀번호를 입력해주세요" required="" />
 						</div>
+				
 						<c:if test="${not empty param.fail}">
 							<div style="color: red;">비밀번호가 틀렸습니다.</div>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />

@@ -5,15 +5,128 @@
   
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.PostMapper">
 	<insert id="insertPost" parameterType="PostVO" statementType="PREPARED">
-		<selectKey keyProperty="boardNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+		<selectKey keyProperty="postNo" resultType="int" statementType="STATEMENT" order="BEFORE">
 			select post_no_seq.nextval from dual		
 		</selectKey>
-		<selectKey keyProperty="tmpNo" statementType="STATEMENT" order="BEFORE">
-			select template_seq.nextval from dual
-		</selectKey>
-		insert into template(tmp_no,tmp_name,category_no,tmp_content,tmp_summary,tmp_using)
-		values(#{tmpNo},#{tmpName},#{templateCategory.categoryNo},#{tmpContent},#{tmpSummary},#{tmpUsing});
+
+		insert into post(post_no, post_title, writer, post_date, post_content, document_no, c_no, board_no)
+		values(#{postNo}, #{postTitle}, #{writer}, #{postDate}, #{postContent}, #{documentNo}, #{cNo}, #{boardNo});
 	</insert>
+	
+	<select id="selectPostList" resultType="PostVO" statementType="STATEMENT">
+		select 
+			post_no as postNo, 
+			post_title as postTitle,
+			writer,
+			to_char(post_date, 'YYYY/MM/DD') as postDate,
+			post_content as postContent, 
+			document_no as documentNo,
+			c_no as cNo,
+			board_no as boardNo
+		from post
+		order by postTitle desc	
+	</select>	
+	
+	<resultMap id="selectPostResultMap" type="PostVO">
+		<id column="post_no"						 property="postNo" />
+		<result column="post_title" 				 property="postTitle" />
+		<result column="writer" 	 				 property="writer" />
+		<result column="post_date" 	 			 property="postDate" />
+		<result column="post_content" 			 property="postContent" />
+		<result column="document_no"   		 property="documentNo" />
+		<result column="c_no" 					 property="cNo" />
+		<result column="board_no" 				 property="boardNo" />
+	
+		<collection property="postFiles" javaType="list" ofType="PostFileVO">
+			<id column="no" 								property="no"/>
+			<result column="system_file_name" 		property="systemFileName" />
+			<result column="original_file_name" 		property="originalFileName" />
+		</collection>
+	</resultMap> 
+	 
+	 
+	 
+	<select id="selectPostByTitle" resultMap="selectPostResultMap" statementType="PREPARED" parameterType="string">
+		select 
+			p1.post_no, 
+			p1.post_title,
+			p1.writer,
+			to_char(p1.post_date, 'YYYY/MM/DD'),
+			p1.post_content, 
+			p1.document_no,
+			p1.c_no,
+			p1.board_no,
+			p2.no,
+		    p2.system_file_name,
+		    p2.original_file_name,
+		    p2.post_no as postNo
+		from post p1, postFile p2
+		where p1.post_no = p2.post_no(+)
+	     		 and p1.post_no = #{value}
+	</select> 
+	
+	<update id="updatePost" parameterType="PostVO" statementType="PREPARED">
+		update post
+		<trim prefix="set" suffixOverrides=",">
+			<if test="post_no != null">
+				post_no = #{postNo} ,
+			</if>
+			<if test="post_title != null">
+				post_title = #{postTitle} ,
+			</if>
+			<if test="writer != null">
+				writer = #{writer} ,
+			</if>
+			<if test="post_date != null">
+				post_date = #{postDate} ,
+			</if>
+			<if test="post_content != null">
+				post_content = #{postContent} ,	
+			</if>
+			<if test="document_no != null">
+				document_no = #{documentNo} ,
+			</if>			
+			<if test="c_no != null">
+				c_no = #{cNo} ,
+			</if>			
+			<if test="board_no != null">
+				board_no = #{boardNo} ,
+			</if>
+		</trim>	
+		where post_no = #{value}
+	</update>
+	
+	<delete id="deletePost" parameterType="string" statementType="PREPARED">
+		delete from post
+		where post_no=#{value}
+	</delete>
+	
+	   	<select id="findPostList" parameterType="map" resultType="PostVO">
+		select 
+			post_no as postNo, 
+			post_title as postTitle,
+			writer,
+			to_char(post_date, 'YYYY/MM/DD') as postDate,
+			post_content as postContent, 
+			document_no as documentNo,
+			c_no as cNo,
+			board_no as boardNo
+		from post
+		<choose>
+			<when test="keyfield == 'documentNo' and keyword != null">
+				where document_no like '%' || #{keyword} || '%'
+			</when>	
+			<when test="keyfield == 'postTitle' and keyword != null">
+				where post_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="keyfield == 'cNo' and keyword != null">
+				where c_no like '%' || #{keyword} || '%'
+			</when>
+			<when test="keyfield == 'writer' and keyword != null">
+				where writer like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</select>
 </mapper>
 
 

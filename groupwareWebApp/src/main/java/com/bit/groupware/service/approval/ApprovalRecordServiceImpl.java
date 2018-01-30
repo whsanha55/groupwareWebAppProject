@@ -54,7 +54,7 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 		
 		//5. 최종 결재자가 아닐 경우 다음 결재자 결재이력 등록
 		//추가할 새 결재이력 세팅은 어떻게? 트리거였나?
-		dao.insertApprovalRecord(approvalRecord);	
+//		dao.insertApprovalRecord(approvalRecord);	
 				
 		//6. 최종 결재자일 경우 결재문서 최종상태 여부 변경
 		approval.setApprFinalStatus(1);

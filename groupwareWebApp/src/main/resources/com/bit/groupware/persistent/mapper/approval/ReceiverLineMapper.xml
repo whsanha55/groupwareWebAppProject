@@ -11,11 +11,9 @@
 		<result column="line_order" property="lineOrder" />
 		<result column="appr_type" property="apprType" />
 		<association property="receiver" javaType="ReceiverVO">
-			<id column="receiverNo" property="receiver_no" />
-			<!-- <result column="receiverName" property="receiver_name"/>
-			<association property="">
-			employee갖고 오기
-			</association> -->
+			<id column="receiver_no" property="receiverNo" />
+			<!-- <result column="emp_no" property="empNo"/>
+			<result column="receiver_name" property="receiverName"/> -->
 		</association>
 	</resultMap>
 
@@ -30,7 +28,7 @@
 	<insert id="insertReceiverLineList" parameterType="receiverLineVO"
 		statementType="PREPARED">
 
-		<foreach item="receiverLine" collection="approvalFiles" open="inset all"
+		<foreach item="receiverLine" collection="approvalRecords" open="inset all"
 			close="select * from dual">
 			into receiver_line(line_no, receiver_no, line_emp_no, line_order,
 			appr_type)

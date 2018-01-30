@@ -3,14 +3,19 @@ package com.bit.groupware.service.approval;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.groupware.controller.approval.AdminTemplateController;
 import com.bit.groupware.domain.approval.TemplateVO;
 import com.bit.groupware.persistent.approval.TemplateDAO;
 
 @Service
 public class TemplateServiceImpl implements TemplateService {
+	
+	private final static Logger logger = LoggerFactory.getLogger(AdminTemplateController.class);
 	
 	@Autowired
 	private TemplateDAO templateDAO;
@@ -19,6 +24,7 @@ public class TemplateServiceImpl implements TemplateService {
 		// TODO Auto-generated method stub
 		return templateDAO.selectTemplateList(map); 
 	}
+	
 
 	public TemplateVO retrieveTemplate(int tmpNo) {
 		// TODO Auto-generated method stub
@@ -30,9 +36,16 @@ public class TemplateServiceImpl implements TemplateService {
 		templateDAO.insertTemplate(templateVO);
 	}
 
-	public void removeTemplate(List<Integer> tempNos) {
-		// TODO Auto-generated method stub
-		templateDAO.deleteTemplate(tempNos);
+	public void removeTemplate(Map<String, Object> map) {
+		logger.info("map-service : {} ", map); 
+		
+		templateDAO.deleteTemplate(map);
 	}
+
+	public int retrieveTemplateCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return templateDAO.selectTemplateCount(map);
+	}
+	
 
 }

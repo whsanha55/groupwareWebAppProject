@@ -20,7 +20,7 @@
 
 	<!-- 로그인 -->
 	<definition name="login" template="/WEB-INF/views/common/login.jsp" />
-	
+
 	
 	<!-- 사용자 -->
 	<definition name="main" template="/WEB-INF/views/common/index.jsp">
@@ -32,7 +32,8 @@
 	
 	<definition name="*/*" extends="main">	
 		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
-	</definition>	 
+	</definition>
+			 
 	
 
 </tiles-definitions>

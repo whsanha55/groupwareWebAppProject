@@ -12,8 +12,9 @@ public class TemplateBookmarkDAOImpl implements TemplateBookmarkDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public void insertTemplateBookmark(TemplateBookmarkVO templateBookmark) {
+	public int insertTemplateBookmark(TemplateBookmarkVO templateBookmark) {
 		sqlSession.insert(NAMESPACE+".insertTemplateBookmark",templateBookmark);
+		return templateBookmark.getBookmarkNo();
 	}
 
 	public void deleteTemplateBookmark(int bookmarkNo) {

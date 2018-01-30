@@ -1,16 +1,74 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.bit.groupware.domain.employee.CodeVO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<title>ì½”ë“œ ëª©ë¡ ì¡°íšŒ</title>
+<script>
+
+	$(document).ready(function() {
+		
+		//ê²€ìƒ‰ì¡°ê±´
+		$('.search-panel .dropdown-menu').on('click','a',function(e) {
+				e.preventDefault();
+				$('.keyfield').text($(this).text());
+				$('.keyfield').attr('id',$(this).attr('id'));
+				
+		});
+	
+		//ê²€ìƒ‰ì¡°ê±´ ì—”í„°í‚¤ ëˆŒë €ì„ë•Œ íŠ¸ë¦¬ê±° ë°œë™
+		$('.keyword').on('keydown', function(e) {
+			if(e.keyCode == 13){
+				$('.findCode').trigger('click');
+	        }
+		});
+	
+		// ê²€ìƒ‰ ì‹¤í–‰
+		$('.findCode').on('click', function() {
+			if($('.keyfield').attr('id') == null) {
+				alert('ê²€ìƒ‰ì¡°ê±´ì„ ì„ íƒí•´ ì£¼ì„¸ìš”!');
+				return;
+			}
+	
+			pKeyfield = $('.keyfield').attr('id');
+			pKeyword = $('.keyword').val();
+			
+		});
+		
+		
+		$('#insert').click(function(){
+			var url = '${pageContext.request.contextPath}/admin/registerCode.do';
+			window.open(url, "ì½”ë“œ ë“±ë¡", "width=700, height=600");
+		});
+		
+		$('.modify').click(function(){
+			var c_no = $(this).attr('id');
+			var url = '${pageContext.request.contextPath}/admin/modifyCode.do?cNo='+ c_no;
+
+			window.open(url, "ì½”ë“œ ìˆ˜ì •", "width=700, height=600");
+		});
+		
+		$('#remove').click(function() {	
+			if(confirm("ì´ ì½”ë“œë¥¼ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?") == true) {
+				location.href = "${pageContext.request.contextPath}/admin/removeCode.do?cNo="+ c_no;
+			} else {
+				return;
+			}
+		});
+		
+	});	//$(document).ready End
+	
+</script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>ÄÚµå°ü¸®</h2>
+				<h2>ì½”ë“œê´€ë¦¬</h2>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
@@ -20,74 +78,34 @@
 					<div>
 						<div class="col-md-7">
 							<div class="col-md-2">
-								<h2>ÄÚµå¸ñ·Ï</h2>
+								<h2>ì½”ë“œëª©ë¡</h2>
 							</div>
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target=".bs-example-modal-lg">µî·ÏÇÏ±â</button>
+							<button type="button" id="insert">ë“±ë¡</button>
 						</div>
-						<div class="modal fade bs-example-modal-lg" tabindex="-1"
-							role="dialog" aria-hidden="true">
-							<div class="modal-dialog modal-lg">
-								<div class="modal-content">
-
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">
-											<span aria-hidden="true">¡¿</span>
-										</button>
-										<h4 class="modal-title" id="myModalLabel">ÄÚµå µî·Ï</h4>
-									</div>
-									<div class="modal-body">
-										<div></div>
-
-										<table id="datatable"
-											class="table table-striped table-bordered align-right">
-											<tbody>
-												<tr>
-													<th>ÄÚµå¹øÈ£</th>
-													<td><input type="text" class="form-control"
-														required="required"></td>
-												</tr>
-												<tr>
-													<th>ÄÚµå¸í</th>
-													<td><input type="text" class="form-control"
-														required="required"></td>
-												</tr>
-
-											</tbody>
-										</table>
-										<br>
-										<div class="text-center">
-											<button type="button" class="btn btn-primary">µî·Ï</button>
-											<button type="button" class="btn btn-default"
-												data-dismiss="modal">´İ±â</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						
 						<div>
+							<div>
 							<div class="col-md-3 col-xs-offset-2">
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle"
 											data-toggle="dropdown">
-											<span id="search_concept">°Ë»ö</span> <span class="caret"></span>
+											<span class="keyfield">ê²€ìƒ‰</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a href="#contains">ÄÚµå¹øÈ£</a></li>
-											<li><a href="#its_equal">ÄÚµå¸í</a></li>
+											<li><a id="cNo">ì½”ë“œë²ˆí˜¸</a></li>
+											<li><a id="cName">ì½”ë“œëª…</a></li>
 										</ul>
 									</div>
-									<input type="hidden" name="search_param" value="all"
-										id="search_param"> <input type="text"
-										class="form-control" name="x" placeholder="Search term...">
+									<input type="text" class="form-control keyword" placeholder="ê²€ìƒ‰ì–´ë¥¼ ì…ë ¥í•˜ì„¸ìš”.">
 									<span class="input-group-btn">
-										<button class="btn btn-default" type="button">
+										<button class="btn btn-default findCode" type="button">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
 								</div>
 							</div>
+						</div>
 						</div>
 					</div>
 					<div class="col-md-6"></div>
@@ -96,50 +114,56 @@
 					class="table table-striped table-bordered text-center">
 					<thead>
 						<tr>
-							<th>ÄÚµå¹øÈ£</th>
-							<th>ÄÚµå¸í</th>
-							<th>µî·ÏµÈ ÇÏÀ§ ÄÚµå ¼ö</th>
-							<th>¼öÁ¤</th>
-							<th>»èÁ¦</th>
+							<th>ì½”ë“œë²ˆí˜¸</th>
+							<th>ì½”ë“œëª…</th>
+							<th>ë“±ë¡ëœ í•˜ìœ„ ì½”ë“œ ìˆ˜</th>
+							<th>ìˆ˜ì •</th>
+							<th>ì‚­ì œ</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>100</td>
-							<td>ºÎ¼­</td>
-							<td>5</td>
-							<td><button type="button" data-toggle="modal"
-									data-target="#myModal">¼öÁ¤</button></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>200</td>
-							<td>Á÷Ã¥</td>
-							<td>6</td>
-							<td><button type="button" data-toggle="modal"
-									data-target="#myModal">¼öÁ¤</button></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>300</td>
-							<td>ÈŞ°¡</td>
-							<td>4</td>
-							<td><button type="button" data-toggle="modal"
-									data-target="#myModal">¼öÁ¤</button></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>400</td>
-							<td>ºó ÄÚµå</td>
-							<td>0</td>
-							<td><button type="button" data-toggle="modal"
-									data-target="#myModal">¼öÁ¤</button></td>
-							<td><button type="button">»èÁ¦</button></td>
-						</tr>
-					</tbody>
+						<tbody>
+						<c:forEach var="code" items="${requestScope.codes }" varStatus="loop">
+							<c:url var="url1" value="/admin/listCode2.do" scope="page" >
+								<c:param name="relationCode" value="${pageScope.code.cNo }" />
+							</c:url>
+							<c:url var="url2" value="/admin/listCode3.do" scope="page" >
+								<c:param name="relationCode" value="${pageScope.code.cNo }" />
+							</c:url>
+							<tr>
+							<c:if test="${pageScope.code.cNo == A && pageScope.code.countRelationCode != 0}" >
+								<td><a href="${pageScope.url1}">${pageScope.code.cNo }</a></td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo == A && pageScope.code.countRelationCode == 0 }">
+								<td>${pageScope.code.cNo }</td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo != A && pageScope.code.countRelationCode != 0}" >
+								<td><a href="${pageScope.url2}">${pageScope.code.cNo }</a></td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo != A && pageScope.code.countRelationCode == 0 }">
+								<td>${pageScope.code.cNo }</td>
+							</c:if>
+								<td>${pageScope.code.cName }</td>
+								<td>${pageScope.code.countRelationCode }</td>
+								<td><button class="modify" id="${pageScope.code.cNo }" type="button">ìˆ˜ì •</button>
+								</td>
+								</td>
+								<c:if test="${pageScope.code.countRelationCode == 0 }" >
+									<td><c:url var="removeUrl" value="/admin/removeCode.do" scope="page">
+										 		<c:param name="cNo" value="${pageScope.code.cNo }"/>
+										 	</c:url> 	 	
+											<a href="${pageScope.removeUrl }">ì‚­ì œ</a>
+									</td>
+								</c:if>
+								<c:if test="${pageScope.code.countRelationCode != 0 }">
+									<td></td>
+								</c:if>	
+								</tr>
+						</c:forEach>
+						</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
+</div>
 </body>
 </html>

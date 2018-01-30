@@ -3,18 +3,22 @@ package com.bit.groupware.service.employee;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.groupware.domain.employee.CodeVO;
 import com.bit.groupware.domain.employee.DeputyVO;
+import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
-import com.bit.groupware.domain.employee.PhotoVO;
 import com.bit.groupware.persistent.employee.DeputyDAO;
 import com.bit.groupware.persistent.employee.EmployeeDAO;
 import com.bit.groupware.persistent.employee.PhotoDAO;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 	
 	@Autowired
 	private EmployeeDAO employeeDAO;
@@ -23,16 +27,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private PhotoDAO photoDAO;
 	
-	public EmployeeVO retrieveEmployee(String empNo) {
+
+/*	public EmployeeVO retrieveEmployee(String empNo) {
 		return employeeDAO.selectEmployee(empNo);
-	}
+
 
 	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
 		return employeeDAO.selectEmployeeList(map);
-	}
-
-	public String registerEmployee(EmployeeVO employee) {
-		return employeeDAO.insertEmployee(employee);
 	}
 
 	public void modifyEmployee(EmployeeVO employee) {
@@ -50,7 +51,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void removePhoto(String photoNo) {
 		photoDAO.deletePhoto(photoNo);
 	}
-
+*/
+	public List<EmployeeCodeViewVO> retrieveEmployeeList(Map<String, Object> map) {
+		return employeeDAO.selectEmployeeList(map);
+	}
+	
+	public void registerEmployee(EmployeeVO employee, CodeVO code) {
+		logger.info("employee : {}", employee);
+		String empNo = employeeDAO.insertEmployee(employee);
+		logger.info("empNo : {}", empNo);
+		employeeDAO.insertEmployeeCode(empNo, code);
+	}
+	
 	public void registerDeputy(DeputyVO deputy) {
 		deputyDAO.insertDeputy(deputy);
 	}

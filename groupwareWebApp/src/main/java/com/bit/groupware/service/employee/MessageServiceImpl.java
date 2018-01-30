@@ -22,12 +22,16 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	public MessageVO retrieveMessage(int msgNo) {
-		// TODO Auto-generated method stub
-		return messageDAO.selectMessage(msgNo);
+		
+		// 쪽지 상세정보를 조회한다.
+		MessageVO msg= messageDAO.selectMessage(msgNo);
+		// 쪽지 읽음 상태 여부를 변경한다. 	
+		messageDAO.updateMessageStatus(msgNo);
+		return msg;
 	}
 
 	public List<MessageVO> retrieveMessageList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+	
 		return messageDAO.selectMessageList(map);
 	}
 

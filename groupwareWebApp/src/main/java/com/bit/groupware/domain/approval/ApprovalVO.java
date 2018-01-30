@@ -9,18 +9,19 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class ApprovalVO {
 
-	int apprNo;
-	String apprDate;
-	String validDate;
-	int urgency;
-	String apprTitle;
-	String apprContent;
-	int apprFinalStatus;
-	EmployeeVO employee;
-	TemplateVO template;
-	List<MultipartFile> upload;
-	List<ApprovalFileVO> approvalFiles = new ArrayList<ApprovalFileVO>();
-	List<ApprovalRecordVO> approvalRecords = new ArrayList<ApprovalRecordVO>();
+	private int apprNo;
+	private String apprDate;
+	private String validDate;
+	private int urgency;
+	private String apprTitle;
+	private String apprContent;
+	//0->진행중, 1->결재, 2->보류, 3->반려, 4->임시보관, 5->회수
+	private int apprFinalStatus;
+	private EmployeeVO employee;
+	private TemplateVO template;
+	private List<MultipartFile> upload;
+	private List<ApprovalFileVO> approvalFiles = new ArrayList<ApprovalFileVO>();
+	private List<ApprovalRecordVO> approvalRecords = new ArrayList<ApprovalRecordVO>();
 
 	public ApprovalVO() {
 	}

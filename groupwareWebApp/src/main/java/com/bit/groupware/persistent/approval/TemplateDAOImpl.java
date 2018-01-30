@@ -4,14 +4,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit.groupware.controller.approval.AdminTemplateController;
 import com.bit.groupware.domain.approval.TemplateVO;
 @Repository
 public class TemplateDAOImpl implements TemplateDAO{
 private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.TemplateMapper";
 	
+private final static Logger logger = LoggerFactory.getLogger(AdminTemplateController.class);
+
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
@@ -23,13 +28,19 @@ private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.app
 	public List<TemplateVO> selectTemplateList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectTemplateList", map);
 	}
-
+	
 	public TemplateVO selectTemplate(int tmpNo) {
 		return sqlSession.selectOne(NAMESPACE+".selectTemplate",tmpNo);
 	}
 
-	public void deleteTemplate(List<Integer> tmpNos) {
-		sqlSession.delete(NAMESPACE + ".deleteTemplate", tmpNos);
+	public void deleteTemplate(Map<String, Object> map) {
+		logger.info("map-dao : {} ", map); 
+		sqlSession.delete(NAMESPACE + ".deleteTemplate", map);
+				
+	}
+
+	public int selectTemplateCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectTemplateCount", map);
 		
 	}
 

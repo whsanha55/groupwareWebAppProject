@@ -52,7 +52,7 @@
 		select *
 		from (select temp.*, rownum rn
       		from(select t1.tmp_no, t1.tmp_name, t1.tmp_summary, to_char(t1.tmp_date,'yyyy/mm/dd') as tmp_date,
-      					t1.tmp_content, t1.tmp_using, t1.category_no, t2.CATEGORY_NAME
+      					t1.tmp_using, t1.category_no, t2.CATEGORY_NAME
       					<if test="empNo != null">
 	      					, (select bookmark_no
 	                         from template_bookmark t3
@@ -66,10 +66,13 @@
 					and t1.category_no = #{keyword}
 				</if>
 				<if test="keyfield == 'categoryName' and keyword != null">
-					and t2.category_name = #{keyword}
+					and t2.category_name like '%'|| #{keyword} ||'%'
 				</if>
 				<if test="keyfield == 'tmpName' and keyword != null">
-					and t1.tmp_name = #{keyword}
+					and t1.tmp_name like '%'|| #{keyword} ||'%'
+				</if>
+				<if test="empNo != null">
+					and t1.tmp_using = 1
 				</if>
 				
                  order by t1.tmp_name asc) temp 
@@ -85,14 +88,38 @@
 	
 	
 	
-	<select statementType="PREPARED" parameterType="int" id="selectTemplate" resultMap="selectTemplateResultMap">
-		 select t.tmp_no as tmpNo,t.tmp_name as tmpName,t.tmp_summary as tmpSummary,
-		 t.tmp_Date as tmpDate ,t.TMP_CONTENT as tmpContent, t.TMP_USING as tmpUsing,
-		 t.category_no as categoryNo,tc.CATEGORY_NAME as categoryName
-		 from template t,template_category tc
-		 where t.category_no=tc.category_no
+	<select id="selectTemplate" statementType="PREPARED" parameterType="int" resultMap="selectTemplateResultMap">
+		 select t.tmp_no, t.tmp_name, t.tmp_summary,
+		 		to_char(t.tmp_date,'yyyy/mm/dd') as tmp_date, 
+		 		t.tmp_content , t.tmp_using,
+		 		t.category_no , tc.category_name
+		 from template t, template_category tc
+		 where t.category_no = tc.category_no
 		 and t.tmp_no=#{tmpNo}
 	</select>
+
+	<select id="selectTemplateCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(t1.tmp_no)
+		from template t1, template_category t2, template_bookmark t3
+		where t1.category_no = t2.category_no
+		and t1.tmp_no = t3.tmp_no(+)
+			<if test="keyfield == 'categoryNo' and keyword != null">
+				and t1.category_no = #{keyword}
+			</if>
+			<if test="keyfield == 'categoryName' and keyword != null">
+				and t2.category_name like '%'|| #{keyword} ||'%'
+			</if>
+			<if test="keyfield == 'tmpName' and keyword != null">
+				and t1.tmp_name like '%'|| #{keyword} ||'%'
+			</if>
+			<if test="keyfield == 'bookmark' ">
+				and bookmark_no is not null
+			</if>
+			<if test="empNo != null">
+				and t1.tmp_using = 1
+			</if>
+</select>
+	
 		
 		
 	<delete id="deleteTemplate" parameterType="int" statementType="PREPARED">

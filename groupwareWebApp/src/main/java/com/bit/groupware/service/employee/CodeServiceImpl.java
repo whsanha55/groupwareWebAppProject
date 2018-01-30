@@ -3,15 +3,18 @@ package com.bit.groupware.service.employee;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.groupware.controller.employee.AdminRegisterCodeController;
 import com.bit.groupware.domain.employee.CodeVO;
 import com.bit.groupware.persistent.employee.CodeDAO;
 
 @Service
 public class CodeServiceImpl implements CodeService {
-
+	private static final Logger logger = LoggerFactory.getLogger(CodeServiceImpl.class);
 	@Autowired
 	private CodeDAO codeDAO;
 	
@@ -19,24 +22,30 @@ public class CodeServiceImpl implements CodeService {
 	public void registerCode(CodeVO code) {
 		codeDAO.insertCode(code);
 	}
-
-	//코드 이름 중복체크
-	public boolean checkCodeName(String cName) {
-		return codeDAO.checkCode(cName);
+	
+	//코드를 조회하다.
+	public CodeVO retrieveCode(String cNo) {
+		return codeDAO.selectCode(cNo);
 	}
 	
-	//하위 코드 수 확인
-	public int checkRelationCode(String relationCode) {
-		return codeDAO.checkRelation(relationCode);
+	//최상위 코드 리스트 조회
+	public List<CodeVO> retrieveCodeList1(Map<String, Object> map) {
+		return codeDAO.selectCodeList1(map);
 	}
 	
-	//코드 리스트 조회
-	public List<CodeVO> retrieveCodeList(Map<String, Object> map) {
-		return codeDAO.selectCodeList(map);
+	//하위 코드 리스트 조회
+	public List<CodeVO> retrieveCodeList2(Map<String, Object> map) {
+		return codeDAO.selectCodeList2(map);
+	}
+	
+	//최하위 코드 리스트 조회
+	public List<CodeVO> retrieveCodeList3(Map<String, Object> map) {
+		return codeDAO.selectCodeList3(map);
 	}
 	
 	//코드 수정
 	public void modifyCode(CodeVO code) {
+		logger.info("코드 수정 Code : {}", code);
 		codeDAO.updateCode(code);
 	}
 	
@@ -45,5 +54,11 @@ public class CodeServiceImpl implements CodeService {
 		codeDAO.deleteCode(cNo);
 	}
 	
+	public List<CodeVO> retrieveDeptCodeList() {
+		return codeDAO.selectDeptCodeList();
+	}
 	
+	public List<CodeVO> retrieveDutyCodeList() {
+		return codeDAO.selectDutyCodeList();
+	}
 }

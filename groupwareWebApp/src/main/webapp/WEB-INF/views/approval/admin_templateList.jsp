@@ -1,9 +1,74 @@
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 	<title>관리자 양식 관리</title>
+	
+	
+	<script>
+		$(document).ready(function(){
+			
+			//양식 삭제
+			$('#delete').on('click', function(evnet){
+				event.preventDefault();
+				if(!confirm("정말로 삭제하시겠습니까? 삭제를 원하시면 '확인'을 눌러주세요.")){
+					return;
+				}
+						
+				var checkData = [];
+				$("input[name='tmpNo']:checked").each(function(){
+					alert($(this).val());
+					checkData.push($(this).val());
+				});
+				
+				var tmpNos = {"tmpNo": checkData.join()};
+				
+				
+				$.ajax({
+					url: '${pageContext.request.contextPath}/admin/removeTemplate.do'
+					,
+					method: 'POST'
+					,
+					dataType: 'json'
+					,
+					data: tmpNos
+					,
+					async: true
+					,
+					cache: false
+					,
+					success: function(data, textStatus, jqXHR) {
+		  				alert("선택한 양식이 삭제되었습니다.");
+		  				a href="${pageContext.request.contextPath}/admin/template.do";	//=새로고침
+		  			}
+					,
+					error: function(jqXHR, textStatus, errorThrown) {
+		  				alert('error: ' + jqXHR.status);
+		  			}					
+				});				
+			});	
+			
+			
+			//양식 추가
+			$('#add').on('click', function(event){
+				event.preventDefault();
+				window.open("/approval/admin_addTemplate.jsp", "_blank", "width=400, height=600" );
+			});
+			
+			
+			
+		});
+
+	
+	
+	
+	</script>
+	
+	
+	
 	</head>
 	<body>
 				<div class="">
@@ -26,8 +91,8 @@
 							<div class="x_panel">
 								<div class="x_title">
 									<h2>양식관리</h2>
-									<a data-toggle="modal" data-target="#myModal1" class="btn btn-primary pull-right" href="#">양식추가</a>
-									 <a class="btn btn-primary pull-right" href="approval-message.html">선택삭제</a>
+									<a class="btn btn-primary pull-right" id="add">양식추가</a>
+									 <a class="btn btn-primary pull-right" id="delete">선택삭제</a>
 									<div class="clearfix"></div>
 								</div>
 								<div class="x_content">
@@ -75,6 +140,7 @@
 										<thead>
 											<tr>
 
+												<th></th>
 												<th>번호</th>
 												<th>양식명</th>
 												<th>카테고리</th>
@@ -84,51 +150,21 @@
 
 
 										<tbody>
-											<tr>
-												<td>1</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														기안서</a></td>
-												<td>기안서</td>
-												
-											</tr>
+											<c:forEach var="template" items="${requestScope.templates }" varStatus="loop">
 												<tr>
-												<td>2</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														품위서</a></td>
-												<td>품위서</td>
-												
-											</tr>
-											<tr>
-												<td>3</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														정기휴가</a></td>
-												<td>휴가계</td>
-												
-											</tr>
-												<tr>
-												<td>4</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														결근서</a></td>
-												<td>휴가계</td>
-												
-											</tr>
-											<tr>
-												<td>1</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														출장신청서</a></td>
-												<td>출장계</td>
-												
-											</tr>
-
+													<td><input type="checkbox" id="tmpNo" value="${pageScope.template.tmpNo}"/></td>
+													<td>${fn:length(requestScope.templates) - loop.index} </td>
+													<td><a data-toggle="modal" data-target="#myModal">${pageScope.template.tmpName }</a></td>
+													<td>${pageScope.template.templateCategory.categoryName }</td>
+												</tr>
+											</c:forEach>										
 										</tbody>
 									</table>
-
 								</div>
+								<nav aria-label="Page navigation" id = 'templatePaging'>
+				
+								</nav>
+
 							</div>
 						</div>
 					</div>
@@ -136,6 +172,10 @@
 			</div>
 		</div>
 	<!-- /page content -->
+	
+	
+	
+	
 	<!-- 모달 팝업 -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 	  <div class="modal-dialog">
@@ -197,35 +237,9 @@
 	    </div>
 	  </div>
 	</div>
+	<!-- 모달 끝 -->
 
-
-		<!-- 모달 팝업 -->
-	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-	  <div class="modal-dialog">
-	    <div class="modal-content" style="width:700px;">
-	      <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-		<h4 class="modal-title" id="myModalLabel">양식추가</h4>
-	      </div>
-	      <div class="modal-body">
-		  
-		   <label for="heard" style="width:100px; height:34px;">카테고리:</label>
-					<select id="heard" class="form-control" required="" style="width:150px; margin:1px; display:inline-block;">
-                            <option value="">Choose..</option>
-                            <option value="press">Press</option>
-                            <option value="net">Internet</option>
-                            <option value="mouth">Word of mouth</option>
-                        </select>
-					<a class="btn btn-primary pull-right" href="approval-message.html">등록</a>
-		
-	      </div>
-	      <div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-		
-	      </div>
-	    </div>
-	  </div>
-	</div>
+	
 
 
 
