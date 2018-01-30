@@ -32,7 +32,7 @@ public class AdminTemplateController {
 		return mv;
 	}
 	
-/*	
+	
 	//양식관리 검색 요청
 	@RequestMapping(value="/admin/findTemplate.do")
 	public ModelAndView find(@RequestParam(value="keyfield", required=true)String keyfield, 
@@ -48,7 +48,7 @@ public class AdminTemplateController {
 		return mv;
 	}
 	
-	
+/*	
 	//양식 상세보기
 	@RequestMapping(value="/admin/template.do")
 	public ModelAndView detail(@RequestParam(value="tmpNo", required=true)int tmpNo) {

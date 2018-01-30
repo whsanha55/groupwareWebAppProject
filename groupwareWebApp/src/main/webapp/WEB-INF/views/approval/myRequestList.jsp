@@ -74,6 +74,7 @@
                         </thead>
 
                         <tbody>
+                        
                         <c:forEach var="approval" items="${requestScope.approvals}" >
                         
                           <tr class="even pointer">

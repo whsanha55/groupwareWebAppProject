@@ -25,14 +25,17 @@ public class FinishController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
 		map.put("apprFinalStatus", 1);
+		map.put("empNo", "2018-00011");
+		map.put("keyfield", "empName");
+		map.put("keyword", "원정우");
+		mv.addObject("approvals",apprService.retrieveApprovalList(map));
+		mv.setViewName("approval/finishList");
+		return mv; 
 		
 		/*map.put("tempNo", "카테고리번호");
 		map.put("empNo", "기안자");
 		map.put("empCode", "기안부서(코드에 해당하는 부서번호)");
 	*/
-		mv.addObject("approvals",apprService.retrieveApprovalList(map));
-		
-		return mv;
 	}
 	
 }
