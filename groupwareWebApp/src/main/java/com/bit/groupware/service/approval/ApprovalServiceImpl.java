@@ -46,15 +46,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 		approval.setApprNo(apprNo);
 
 		// 2. 결재 첨부파일 등록
-		
-		List<MultipartFile> uploadFiles = approval.getUpload();
-		for (MultipartFile file : uploadFiles) {
-			if (!file.isEmpty()) {
-
-			}
-		}
 		List<ApprovalFileVO> files = approval.getApprovalFiles();
-		if (approval.getUpload().size() != 0) {
+		if (files.size() != 0) {
 			for (ApprovalFileVO file : files) {
 				file.setApproval(approval);
 			}
