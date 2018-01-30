@@ -6,6 +6,7 @@ public class PlanVO {
 
 	private String pNo;
 	private String pTitle;
+	private String deptNo;
 	private String pClass;
 	private String pImpt;
 	private String pContent;
@@ -35,6 +36,14 @@ public class PlanVO {
 
 	public void setpTitle(String pTitle) {
 		this.pTitle = pTitle;
+	}
+
+	public String getDeptNo() {
+		return deptNo;
+	}
+
+	public void setDeptNo(String deptNo) {
+		this.deptNo = deptNo;
 	}
 
 	public String getpClass() {
@@ -119,10 +128,13 @@ public class PlanVO {
 
 	@Override
 	public String toString() {
-		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", pClass=" + pClass + ", pImpt=" + pImpt + ", pContent="
-				+ pContent + ", startDate=" + startDate + ", endDate=" + endDate + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", codes=" + codes + ", employee=" + employee + ", file=" + file + "]";
+		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", deptNo=" + deptNo + ", pClass=" + pClass + ", pImpt="
+				+ pImpt + ", pContent=" + pContent + ", startDate=" + startDate + ", endDate=" + endDate + ", latitude="
+				+ latitude + ", longitude=" + longitude + ", codes=" + codes + ", employee=" + employee + ", file="
+				+ file + "]";
 	}
+
+	
 
 	
 	

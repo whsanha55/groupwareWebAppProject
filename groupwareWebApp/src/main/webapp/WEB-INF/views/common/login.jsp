@@ -59,6 +59,7 @@
 							<input type="password" name="pwd" class="form-control"
 								placeholder="비밀번호를 입력해주세요" required="" />
 						</div>
+				
 						<c:if test="${not empty param.fail}">
 							<div style="color: red;">비밀번호가 틀렸습니다.</div>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />

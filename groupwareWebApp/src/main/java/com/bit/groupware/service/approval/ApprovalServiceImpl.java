@@ -37,7 +37,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	//기안문서 상신
-	public void registerApproval(ApprovalVO approval) {
+	public void registerApproval(ApprovalVO approval, int receiverNo) {
 		//1. 결재문서 등록
 		int apprNo = dao.insertApproval(approval);
 		approval.setApprNo(apprNo);

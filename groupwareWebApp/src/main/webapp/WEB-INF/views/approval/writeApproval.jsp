@@ -55,6 +55,7 @@
 		
 		//기안 이벤트
 		$('.submitAppr').on('click',function() {
+			
 			switch ($(this).attr('id').split('_')[1]) {
 				case '0':	//취소
 					swal({
@@ -102,6 +103,7 @@
 		
 		//기안서 등록 ajax function
 		function executeApproval(approvalStatus) {
+			$('input[name=apprFinalStatus]').val(approvalStatus);
 			$.ajax({
 				url : '${pageContext.request.contextPath}/approvalAjax.do' ,
 				cache : false ,
@@ -121,7 +123,7 @@
 	});
 </script>
 <body>
-	<form method="post" id='approvalForm'>
+	<form method="post" id='approvalForm' enctype="multipart/form-data">
    <span>
       <span class="col-md-2 col-sm-2 col-xs-2">
         <select class="form-control" name ="receiverNo">
@@ -214,6 +216,7 @@
 	  <textarea id="summernote" name="apprContent"></textarea>
 	  
 	<input type="hidden" name="tmpNo" value = "${requestScope.template.tmpNo }">
+	<input type="hidden" name="apprFinalStatus" >
 	</form>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </body>

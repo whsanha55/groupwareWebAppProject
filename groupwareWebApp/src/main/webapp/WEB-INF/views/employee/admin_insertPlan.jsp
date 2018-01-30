@@ -26,11 +26,12 @@
 							<button data-toggle="dropdown"
 								class="btn btn-default dropdown-toggle" type="button"
 								aria-expanded="false">
-								회의 <span class="caret"></span>
+								일정 <span class="caret"></span>
 							</button>
 							<ul role="menu" class="dropdown-menu">
-								<li>교육</li>
-								<li>기타</li>
+								<li value="회의">회의</li>
+								<li value="교육">교육</li>
+								<li value="기타">기타</li>
 							</ul>
 						</div>
 
@@ -38,18 +39,19 @@
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" for="last-name">부서</label>&nbsp;&nbsp;
 							<button data-toggle="dropdown"
 								class="btn btn-default dropdown-toggle" type="button"
-								aria-expanded="false">전체 <span class="caret"></span>
+								aria-expanded="false">부서 <span class="caret"></span>
 							</button>
 							<ul role="menu" class="dropdown-menu">
-								<li>경영관리부</li>
-								<li>인사부</li>
-								<li>회계부</li>
-								<li>개발부</li>
-								<li>개발1팀</li>
-								<li>개발2팀</li>
-								<li>영업부</li>
-								<li>영업1팀</li>
-								<li>영업2팀</li>
+								<li value="전체">전체</li>
+								<li value="A-01">경영관리부</li>
+								<li value="A-02">인사부</li>
+								<li value="A-03">회계부</li>
+								<li value="A-05">개발부</li>
+								<li value="A-05-01">개발1팀</li>
+								<li value="A-05-02">개발2팀</li>
+								<li value="A-04">영업부</li>
+								<li value="A-04-01">영업1팀</li>
+								<li value="A-04-02">영업2팀</li>
 							</ul>
 						</div>
 
@@ -57,7 +59,7 @@
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">제목
 							</label>
 							<div class="col-md-10 col-sm-6 col-xs-12">
-								<input type="text" class="form-control">
+								<input type="text" name="pTitle" class="form-control" placeholder="일정 제목을 입력해주세요.">
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -96,7 +98,7 @@
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">장소</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<input type="text" id="last-name" name="last-name"
+								<input type="text" id="address" name="address"
 									required="required" class="form-control col-md-10 col-xs-12">
 							</div>
 							<button type="button" class="btn btn-success">주소찾기</button>
@@ -216,11 +218,11 @@
 								</label>
 								<div class="form-group">
 									&nbsp;&nbsp;
-									하:<input type="radio" class="flat" name="gender" id="genderM" value="하" checked="" required="">
+									하:<input type="radio" class="flat" name="low" id="low" value="하" checked="" required="">
 									&nbsp;&nbsp;
-									중: <input type="radio" class="flat" name="gender" id="genderF" value="중">
+									중: <input type="radio" class="flat" name="middle" id="middle" value="중">
 									&nbsp;&nbsp;
-									상: <input type="radio" class="flat" name="gender" id="gender" value="상">
+									상: <input type="radio" class="flat" name="high" id="high" value="상">
 								</div>
 							</div>
 
@@ -228,7 +230,7 @@
 								<label class="control-label col-md-1 col-sm-3 col-xs-12"
 									for="last-name">담당자 지정 </label>&nbsp;&nbsp;
 								<div class="input-group col-md-6 col-sm-6 col-xs-12">
-									<input type="text" class="form-control"> <span
+									<input type="text" name="rspbNo" class="form-control"> <span
 										class="input-group-btn">
 										<button type="button" class="btn btn-primary"
 											data-toggle="modal" data-target="#myModal">검색</button>

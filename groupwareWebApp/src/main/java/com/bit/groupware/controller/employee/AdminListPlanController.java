@@ -26,8 +26,8 @@ public class AdminListPlanController {
 	public ModelAndView listPlan() {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("keyfield", "empName");
-		map.put("keyword", "원정우");
+		map.put("keyfield", "pTitle");
+		map.put("keyword", "일정1");
 		logger.info("map : {}", map);
 		mv.addObject("plans", planService.retrievePlanList(map));
 		mv.setViewName("employee/admin_listPlan");
