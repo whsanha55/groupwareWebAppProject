@@ -40,11 +40,12 @@
 	<bean id="LoginFailController" class="com.bit.groupware.controller.LoginFailController"/>
 	
 	<!-- ============================ 인증 처리 ================================ -->	
-	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
 	
 	<security:authentication-manager erase-credentials="true" id="authenticationManager">
 		<security:authentication-provider user-service-ref="userDetailsService">
-			<!-- <security:password-encoder ref="passwordEncoder" /> -->
+			<security:password-encoder ref="bcryptPasswordEncoder" /> 
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
