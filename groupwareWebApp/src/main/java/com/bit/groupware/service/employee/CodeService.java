@@ -8,7 +8,7 @@ import com.bit.groupware.domain.employee.CodeVO;
 public interface CodeService {
 
 	//코드 등록
-	boolean registerCode(CodeVO code);
+	void registerCode(CodeVO code);
 		
 	//최상위 코드 리스트 조회
 	List<CodeVO> retrieveCodeList1(Map<String, Object> map);
@@ -23,6 +23,6 @@ public interface CodeService {
 	void modifyCode(CodeVO code);
 		
 	//코드 삭제
-	int removeCode(CodeVO code);
+	void removeCode(String cNo);
 	
 }
