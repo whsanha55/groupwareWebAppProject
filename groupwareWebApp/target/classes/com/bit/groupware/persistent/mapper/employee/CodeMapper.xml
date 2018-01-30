@@ -85,13 +85,10 @@
 	<update id="updateCode" parameterType="CodeVO" statementType="PREPARED" >
 		update code
 		<trim prefix="set" suffixOverrides="," >
-			<if test="c_no != null">
-				c_no=#{cNo} ,
-			</if>
-			<if test="c_name != null">
+			<if test="cName != null">
 				c_name=#{cName} ,
 			</if>
-			<if test="relation_code != null">
+			<if test="relationCode != null">
 				relation_code=#{relationCode} ,	
 			</if>
 		</trim>
