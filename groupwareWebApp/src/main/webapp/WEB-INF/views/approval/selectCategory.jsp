@@ -29,7 +29,7 @@
 </style>
 <script>
 		var pKeyfield = 'bookmark'; //로딩첫페이지가 북마크!! 
-		var pKeyword;w
+		var pKeyword;
 	$(document).ready(function() {
 		
 		templatePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ
