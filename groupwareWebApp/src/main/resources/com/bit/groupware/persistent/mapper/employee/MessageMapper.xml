@@ -90,7 +90,7 @@
 		from (select rownum as rn, mesg.*
       		  from (select *	
             	    from message order by msg_date desc) mesg) msg 
-         where <![CDATA[msg.rn>=]]>#{startRow} and <![CDATA[msg.rn<=]]>#{endRow} and recipient_emp_no = #{empName}    
+         where <![CDATA[msg.rn>=]]>#{startRow} and <![CDATA[msg.rn<=]]>#{endRow} and recipient_emp_no = #{empNo}    
 	</select>
 
 
