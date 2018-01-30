@@ -59,11 +59,6 @@
 		<if test="empNo != null">
 		and emp.emp_no = #{empNo}
 		</if>
-		
-		<choose>
-		
-		
-		</choose> 
 				
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 2 || apprFinalStatus == 3">
 		and appr.appr_final_status = #{apprFinalStatus}
