@@ -12,6 +12,14 @@
 		values (#{cNo}, #{cName}, #{relationCode})	
 	</insert>
 	
+	<!-- 코드 이름 조회 -->
+	<select id="selectCode" parameterType="String" resultType="CodeVO" statementType="PREPARED">
+		 select c_name as cName,
+		 		relation_code as relationCode
+       	 from code
+       	 where c_no=#{cNo}
+	</select>
+	
 	<!-- 코드번호 중복체크 -->
 	<select id="checkCodeNo" parameterType="String" resultType="int">
 		select distinct 1

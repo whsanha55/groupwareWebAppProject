@@ -23,6 +23,11 @@ public class CodeServiceImpl implements CodeService {
 		codeDAO.insertCode(code);
 	}
 	
+	//코드를 조회하다.
+	public CodeVO retrieveCode(String cNo) {
+		return codeDAO.selectCode(cNo);
+	}
+	
 	//최상위 코드 리스트 조회
 	public List<CodeVO> retrieveCodeList1(Map<String, Object> map) {
 		return codeDAO.selectCodeList1(map);

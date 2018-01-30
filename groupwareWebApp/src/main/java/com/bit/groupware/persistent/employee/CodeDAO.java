@@ -10,6 +10,9 @@ public interface CodeDAO {
 	//코드 등록
 	void insertCode(CodeVO code);
 	
+	//코드 조회
+	CodeVO selectCode(String cNo);
+	
 	//코드번호 중복체크
 	boolean checkCodeNo(String cNo);
 	

@@ -46,7 +46,7 @@
 		<div class="modal-body">
 			<table id="datatable" class="table table-striped table-bordered">
 				<tbody>
-					<input type="hidden" name="cNo" value="${requestScope.code.cNo }">
+					<input type="hidden" id="cNo" name="cNo" value="${param.cNo}">
 					<input type="hidden" id="relationCode" name="relationCode" value="" >
 					<tr>
 						<th>코드명</th>
