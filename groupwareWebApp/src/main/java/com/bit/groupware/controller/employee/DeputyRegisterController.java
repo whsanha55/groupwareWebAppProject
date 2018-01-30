@@ -35,8 +35,7 @@ public class DeputyRegisterController {
 		}
 		
 		@RequestMapping(value="/registerDeputy.do", method=RequestMethod.POST)
-		public String submit(DeputyVO deputy) throws Exception {
-			ModelAndView mv = new ModelAndView();
+		public String submit(DeputyVO deputy) {
 			employeeService.registerDeputy(deputy);
 			return "redirect:/registerDeputy.do";
 		}

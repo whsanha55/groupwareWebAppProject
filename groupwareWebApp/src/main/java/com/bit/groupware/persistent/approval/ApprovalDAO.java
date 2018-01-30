@@ -14,4 +14,6 @@ public interface ApprovalDAO {
 	int insertApproval(ApprovalVO approval);
 
 	void updateApproval(ApprovalVO approval);
+	
+	int selectApprovalCount(Map<String, Object> map);
 }
