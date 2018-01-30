@@ -4,7 +4,7 @@ public class PhotoVO {
 	private String photoNo;
 	private String photoName;
 	private String systemFileName;
-	private String fileSize;
+	private long fileSize;
 	private String division;
 	private String empNo;
 	
@@ -12,7 +12,7 @@ public class PhotoVO {
 		super();
 	}
 
-	public PhotoVO(String photoNo, String photoName, String systemFileName, String fileSize, String division,
+	public PhotoVO(String photoNo, String photoName, String systemFileName, long fileSize, String division,
 			String empNo) {
 		super();
 		this.photoNo = photoNo;
@@ -47,11 +47,11 @@ public class PhotoVO {
 		this.systemFileName = systemFileName;
 	}
 
-	public String getFileSize() {
+	public long getFileSize() {
 		return fileSize;
 	}
 
-	public void setFileSize(String fileSize) {
+	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
 
@@ -70,7 +70,7 @@ public class PhotoVO {
 	public void setEmpNo(String empNo) {
 		this.empNo = empNo;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "PhotoVO [photoNo=" + photoNo + ", photoName=" + photoName + ", systemFileName=" + systemFileName

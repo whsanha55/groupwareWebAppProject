@@ -23,5 +23,8 @@ public interface NoticeDAO {
 	
 	//공지사항 정보를 삭제한다.
 	void deleteNotice(int noticeNo);
+	
+	//공지사항 정보를 검색한다.
+	List<NoticeVO> findNotice(String noticeTitle);
 
 }
