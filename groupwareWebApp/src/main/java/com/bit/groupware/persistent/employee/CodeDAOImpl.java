@@ -22,6 +22,15 @@ public class CodeDAOImpl implements CodeDAO {
 		sqlSession.insert(NAMESPACE + ".insertCode", code);
 	}
 	
+	//코드번호 중복체크
+	public boolean checkCodeNo(String cNo) {
+		if(sqlSession.selectOne(NAMESPACE + ".checkCodeNo", cNo) == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	
 	//코드 이름 중복체크
 	public boolean checkCode(String cName) {

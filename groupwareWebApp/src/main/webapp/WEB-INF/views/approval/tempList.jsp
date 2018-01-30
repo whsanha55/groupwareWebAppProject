@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,7 +69,7 @@
                               <input type="checkbox" class="flat" name="table_records">
                             </td>
 							
-                             <td class=" ">${pageScope.approval.tmpName }</td>
+                             <td class=" ">${pageScope.approval.template.tmpName }</td>
                             <td id="${pageScope.approval.apprNo}" class="DetailApproval">${pageScope.approval.apprTitle }</td>
                             <td class=" ">${pageScope.approval.apprDate }</td>
                             <td class=" ">${pageScope.approval.apprFinalStatus }</td>
