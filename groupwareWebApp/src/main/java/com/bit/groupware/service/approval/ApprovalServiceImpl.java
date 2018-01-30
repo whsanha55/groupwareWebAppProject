@@ -68,6 +68,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 		//2. 결재문서 최종상태 여부 변경 = approval.setFinalStatus는 컨트롤러에서?
 		dao.updateApproval(approval);		
 	}
+	
+	
+	//갯수 구하기
+	public int retrieveApprovalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.selectApprovalCount(map); 
+	}
 
 
 	

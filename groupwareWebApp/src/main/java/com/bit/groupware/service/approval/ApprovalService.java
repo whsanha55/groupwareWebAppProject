@@ -19,7 +19,8 @@ public interface ApprovalService {
 	//결재문서 회수
 	void modifyApproval(ApprovalVO approval);
 	
-
+	//갯수 구하기
+	int retrieveApprovalCount(Map<String, Object> map);
 	
 	
 }
