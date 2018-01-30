@@ -115,7 +115,7 @@
 		// 검색 실행
 		$('.findTemplate').on('click', function() {
 			if($('.keyfield').attr('id') == null) {
-				alert('검색조건을 선택해 주세요!');
+				swal("검색조건를 선택해주세요","", "error");
 				return;
 			}
 

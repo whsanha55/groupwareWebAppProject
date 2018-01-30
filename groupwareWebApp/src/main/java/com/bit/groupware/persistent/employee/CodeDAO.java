@@ -22,6 +22,9 @@ public interface CodeDAO {
 	//하위 코드 리스트 조회
 	List<CodeVO> selectCodeList2(Map<String, Object> map);
 	
+	//최하위 코드 리스트 조회
+	List<CodeVO> selectCodeList3(Map<String, Object> map);
+	
 	//코드 수정
 	void updateCode(CodeVO code);
 	
