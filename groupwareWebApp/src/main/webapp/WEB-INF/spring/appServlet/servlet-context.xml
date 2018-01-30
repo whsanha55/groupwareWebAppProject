@@ -45,7 +45,14 @@
 		<beans:property name="order" value="3"></beans:property>
 	</beans:bean>
 	
-	
+	<!-- MultipartResolver -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxInMemorySize" value="10240" />
+		<beans:property name="uploadTempDir" value="file:C:/tempUpload" />
+		<beans:property name="maxUploadSizePerFile" value="-1" />
+		<beans:property name="maxUploadSize" value="-1" />
+	</beans:bean>
 	
 	<!-- TilesViewResolver -->
 	<beans:bean

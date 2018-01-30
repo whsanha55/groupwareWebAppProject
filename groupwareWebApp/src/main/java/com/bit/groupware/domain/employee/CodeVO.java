@@ -58,7 +58,7 @@ public class CodeVO {
 	public void setCountEmployee(String countEmployee) {
 		this.countEmployee = countEmployee;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "CodeVO [cNo=" + cNo + ", cName=" + cName + ", relationCode=" + relationCode + ", countRelationCode="

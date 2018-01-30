@@ -1,8 +1,11 @@
 package com.bit.groupware.controller.approval;
 
+import java.io.File;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,14 +24,34 @@ public class ApprovalAjaxController {
 	
 	@RequestMapping(value="/approvalAjax.do", method=RequestMethod.POST)
 	@ResponseBody
-	public boolean approvalAjax(ApprovalVO approval, TemplateVO template, int receiverNo) {
-		//tmpNo 는 Template.tmpNo 에 바인딩
+	public String approvalAjax(ApprovalVO approval, 
+			TemplateVO template, 
+			@RequestParam int receiverNo, 
+			HttpSession session) {
+		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
+		
 		EmployeeVO employee = new EmployeeVO();
 		employee.setEmpNo("2018-00011");
+		
 		approval.setEmployee(employee);
 		approval.setTemplate(template);
+		
+		System.out.println(approval.toString());
+		System.out.println("receiver : " + receiverNo);
+		
+		//파일 저장
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "resources/upload/approvalFile/";
+		
+		File dir = new File(path);
+		if(!dir.isDirectory()) {
+			dir.mkdir();
+		}
+		
+		
 //		approvalService.registerApproval(approval, receiverNo);
 		approvalService.registerApproval(approval, 111111);
-		return true;
+		return "aaa";
 	}
+
 }
