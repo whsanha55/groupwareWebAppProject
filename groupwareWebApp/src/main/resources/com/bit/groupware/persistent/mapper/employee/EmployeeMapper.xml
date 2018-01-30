@@ -6,13 +6,13 @@
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeMapper">
 	
 	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
-		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
+		<selectKey keyProperty="emp_no" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
 		</selectKey>				
 		insert into employee (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
 								email, reg_number, hire_date, address)
-		values (#{empNo}, #{empName}, #{empPwd}, #{engName}, #{phoneNumber}, 
-					#{email}, #{regNumber}, sysdate, #{address})	
+		values (#{emp_no}, #{empName}, #{empPwd}, #{engName}, #{phoneNumber}, 
+					#{email}, #{regNumber}, sysdate, #{address});	
 	</insert>
 	
 	<insert id="insertEmployeeCode" parameterType="EmployeeCodeVO" statementType="PREPARED"> 
