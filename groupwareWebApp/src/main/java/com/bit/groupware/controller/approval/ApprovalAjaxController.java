@@ -51,8 +51,8 @@ public class ApprovalAjaxController {
 			}
 		}
 		
-//		approvalService.registerApproval(approval, receiverNo);
-		approvalService.registerApproval(approval, 111111);
+		approvalService.registerApproval(approval, receiverNo);
+		
 		return "aaa";
 	}
 

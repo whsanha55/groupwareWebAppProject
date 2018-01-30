@@ -51,17 +51,10 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 
 		// 3. 결재 이력 등록(최초 결재자만)
-		/*ApprovalRecordVO approvalRecord = new ApprovalRecordVO();
-		approvalRecord.setApproval(approval);
-		
-		ReceiverLineVO receiverLine = new ReceiverLineVO();
-		receiverLine.set
-		approvalRecord.set
-		recordDAO.insertApprovalRecord(record);*/
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("apprNo", apprNo);
 		map.put("receiverNo", receiverNo);
-		recordDAO.insertApprovalRecord(map);
+		recordDAO.insertApprovalRecordProcedure(map);
 		
 		
 		// 4. 알림 등록-트리거

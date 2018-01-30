@@ -153,9 +153,9 @@
    <span>
       <span class="col-md-2 col-sm-2 col-xs-2">
         <select class="form-control" name ="receiverNo">
-          <option value='123'>1번라인</option>
-          <option value='123'>2번라인</option>
-          <option value='123'>4번라인</option>
+          <option value='111111'>1번라인</option>
+          <option value='111111'>2번라인</option>
+          <option value='111111'>4번라인</option>
         </select>
       </span>
 	</span>
