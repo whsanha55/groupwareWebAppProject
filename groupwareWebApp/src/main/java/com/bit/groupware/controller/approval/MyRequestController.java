@@ -24,8 +24,6 @@ public class MyRequestController {
 		
 		map.put("empNo", "2018-00011");
 		map.put("apprFinalStatus", 0);
-		map.put("keyfield", "empName");
-		map.put("keyword", "¿øÁ¤¿ì");
 		mv.addObject("approvals",approvalService.retrieveApprovalList(map) );
 		mv.setViewName("approval/myRequestList");
 		return mv; 
