@@ -24,7 +24,7 @@
       </select>
       
       <select id="selectEmployee" parameterType="String" resultType="EmployeeVO" statementType="PREPARED">
-      	select checkAdmin as isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
+      	select isadmin as isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
       	from employee
       	where emp_no= #{value}
       </select>
