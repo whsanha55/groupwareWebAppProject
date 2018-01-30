@@ -32,7 +32,7 @@ public class AdminModifyCodeController {
 	@RequestMapping(value="/admin/modifyCode.do", method=RequestMethod.POST)
 	public String submit(CodeVO code) {
 		logger.info("code : {} ", code);
-		if(codeDAO.checkCodeNo(code.getcNo()) == true && codeDAO.checkCode(code.getcName()) == true) {
+		if(codeDAO.checkCode(code.getcName()) == true) {
 			codeService.modifyCode(code);
 			return "redirect:/admin/listCode1.do";
 		} else {

@@ -25,4 +25,7 @@ public interface CodeService {
 	//코드 삭제
 	void removeCode(String cNo);
 	
+	List<CodeVO> retrieveDeptCodeList();
+	
+	List<CodeVO> retrieveDutyCodeList();
 }

@@ -47,9 +47,8 @@
 		
 		$('.modify').click(function(){
 			var c_no = $(this).attr('id');
-			var url = '${pageContext.request.contextPath}/admin/modifyCode.do?cNo=' + c_no;
-			
-			console.log("cNo : " + cNo);
+			var url = '${pageContext.request.contextPath}/admin/modifyCode.do?cNo='+ c_no;
+
 			window.open(url, "코드 수정", "width=700, height=600");
 		});
 		
@@ -124,35 +123,30 @@
 					</thead>
 						<tbody>
 						<c:forEach var="code" items="${requestScope.codes }" varStatus="loop">
-							<c:url var="url2" value="/admin/listCode3.do" scope="page" >
-								<c:param name="relationCode" value="${pageScope.code.cNo }" />
-							</c:url>
 							<c:url var="url1" value="/admin/listCode2.do" scope="page" >
 								<c:param name="relationCode" value="${pageScope.code.cNo }" />
 							</c:url>
+							<c:url var="url2" value="/admin/listCode3.do" scope="page" >
+								<c:param name="relationCode" value="${pageScope.code.cNo }" />
+							</c:url>
 							<tr>
-							<c:if test="${pageScope.code.cNo == A}" >
-								<c:if test="${pageScope.code.countRelationCode != 0 }">
-									<td><a href="${pageScope.url1}">${pageScope.code.cNo }</a></td>
-								</c:if>
-								<c:if test="${pageScope.code.countRelationCode == 0 }">
-									<td>${pageScope.code.cNo }</td>
-								</c:if>
+							<c:if test="${pageScope.code.cNo == A && pageScope.code.countRelationCode != 0}" >
+								<td><a href="${pageScope.url1}">${pageScope.code.cNo }</a></td>
 							</c:if>
-							
-							<c:if test="${pageScope.code.cNo != A}" >
-								<c:if test="${pageScope.code.countRelationCode != 0 }">
-									<td><a href="${pageScope.url2}">${pageScope.code.cNo }</a></td>
-								</c:if>
-								<c:if test="${pageScope.code.countRelationCode == 0 }">
-									<td>${pageScope.code.cNo }</td>
-								</c:if>
+							<c:if test="${pageScope.code.cNo == A && pageScope.code.countRelationCode == 0 }">
+								<td>${pageScope.code.cNo }</td>
 							</c:if>
-									<td>${pageScope.code.cName }</td>
-									<td>${pageScope.code.countRelationCode }</td>
-									<td><button class="modify" id="${pageScope.code.cNo } type="button">수정</button>
-									</td>
-									</td>
+							<c:if test="${pageScope.code.cNo != A && pageScope.code.countRelationCode != 0}" >
+								<td><a href="${pageScope.url2}">${pageScope.code.cNo }</a></td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo != A && pageScope.code.countRelationCode == 0 }">
+								<td>${pageScope.code.cNo }</td>
+							</c:if>
+								<td>${pageScope.code.cName }</td>
+								<td>${pageScope.code.countRelationCode }</td>
+								<td><button class="modify" id="${pageScope.code.cNo }" type="button">수정</button>
+								</td>
+								</td>
 								<c:if test="${pageScope.code.countRelationCode == 0 }" >
 									<td><c:url var="removeUrl" value="/admin/removeCode.do" scope="page">
 										 		<c:param name="cNo" value="${pageScope.code.cNo }"/>

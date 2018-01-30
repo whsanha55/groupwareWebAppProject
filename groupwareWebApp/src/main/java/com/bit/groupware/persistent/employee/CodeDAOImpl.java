@@ -74,4 +74,12 @@ public class CodeDAOImpl implements CodeDAO {
 	public void deleteCode(String cNo) {
 		sqlSession.delete(NAMESPACE + ".deleteCode", cNo);
 	}
+	
+	public List<CodeVO> selectDeptCodeList() {
+		return sqlSession.selectList(NAMESPACE + ".selectDeptCodeList");
+	}
+	
+	public List<CodeVO> selectDutyCodeList() {
+		return sqlSession.selectList(NAMESPACE + ".selectDutyCodeList");
+	}
 }
