@@ -23,7 +23,38 @@
       order by  t3.a_name asc, t1.sort_order asc       
       </select>
       
-      <select id="selectEmployee" parameterType="String" resultType="EmployeeVO" statementType="PREPARED">
+      
+      <resultMap type="UserVO" id="selectEmployeeResultMap">
+      	<association property="employee" javaType="EmployeeVO">
+      		<result property="empNo" column="emp_no"/>
+      		<result property="empName" column="emp_name"/>
+      		<result property="emp_pwd" column="empPwd"/>
+      		<result property="phone_number" column="phoneNumber"/>
+      		<result property="email" column="email"/>
+      		<result property="reg_number" column="regNumber"/>
+      		<result property="hire_date" column="hireDate"/>
+      		<result property="retire_status" column="retireStatus"/>
+      		<result property="retire_date" column="retireDate"/>
+      		<result property="address" column="address"/>
+      		<result property="isAdmin" column="isAdmin"/>
+      		
+      		<collection property="codes" javaType="list" ofType="CodeVO">
+      			<result property="c_no" column="cNo"/>
+      			<result property="c_name" column="cName"/>
+      			<result property="relation_code" column="relationCode"/>
+      		</collection>
+      		
+      		<collection property="photos" javaType="list" ofType="PhotoVO">
+      			<result property="photo_no" column="photoNo" />
+      			<result property="photo_name" column="photoName"/>
+      			<result property="system_file_name" column="systemFileName"/>
+      			<result property="file_size" column="fileSize"/>
+      			<result property="division" column="division"/>
+      		</collection>
+      	</association>
+      </resultMap>
+      
+      <select id="selectEmployee" parameterType="String" resultMap="selectEmployeeResultMap" statementType="PREPARED">
       	<!-- select checkAdmin as isAdmin,emp_no as empNo, emp_name as empName, emp_pwd as empPwd 
       	from employee
       	where emp_no= #{value} -->
