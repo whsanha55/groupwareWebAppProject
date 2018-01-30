@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -90,21 +93,11 @@
 							aria-expanded="true">부서 <span class="caret"></span>
 						</button>
 						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
+						<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="경영관리부">경영관리부</a>
+								<a role="menuitem" tabindex="-1" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
 							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="인사부">인사부</a>
-							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="회계부">회계부</a>
-							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="영업부">영업부</a>
-							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="개발부">개발부</a>
-							</li>
+						</c:forEach>
 						</ul>
 					</div>
 					<div class="form-group">
@@ -116,24 +109,11 @@
 							aria-expanded="true">직책 <span class="caret"></span>
 						</button>
 						<ul id="dutyBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="사장">사장</a>
-							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="부사장">부사장</a>
-							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="부장">부장</a>
-							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="팀장">팀장</a>
-							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="대리">대리</a>
-							</li>
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="사원">사원</a>
-							</li>
+							<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#" value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</a>
+								</li>
+							</c:forEach>
 						</ul>
 					</div>
 					<div class="form-group">

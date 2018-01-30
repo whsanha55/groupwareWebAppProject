@@ -33,4 +33,8 @@ public interface CodeDAO {
 	
 	//코드 삭제
 	void deleteCode(String cNo);
+	
+	List<CodeVO> selectDeptCodeList();
+	
+	List<CodeVO> selectDutyCodeList();
 }
