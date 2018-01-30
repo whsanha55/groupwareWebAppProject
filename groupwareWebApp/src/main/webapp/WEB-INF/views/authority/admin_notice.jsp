@@ -10,7 +10,7 @@
 
 	$(document).ready(function() {
 		
-		templatePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ
+		//templatePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ
 	});
 	
 	function templatePaging(currentPageNo) {
@@ -165,7 +165,8 @@
                   </ul>
                   </div>
                  </div>
-                 <nav aria-label="Page navigation" id = 'templatePaging'>
+                 				
+				<nav aria-label="Page navigation" id = 'templatePaging'>
 				
 				</nav>
        </div>

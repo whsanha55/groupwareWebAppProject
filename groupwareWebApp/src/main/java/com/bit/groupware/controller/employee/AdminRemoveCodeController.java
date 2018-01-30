@@ -21,14 +21,9 @@ public class AdminRemoveCodeController {
 	
 	//코드 삭제 요청
 	@RequestMapping(value="/admin/removeCode.do")
-	public String submit(@ModelAttribute("code") CodeVO code, SessionStatus status) {
-		logger.info("code : {}", code);
-		if(codeService.removeCode(code) == 0) {
-			codeService.removeCode(code);
-			return "redirect:/admin/listCode1.do";
-		} else {
-			return "redirect:/admin/removeCode.do?cNo=" + code.getcNo();
-		}
-		
+	public String submit(@RequestParam(value="cNo", required=true) String cNo) {
+		logger.info("cNo : {}", cNo);
+		codeService.removeCode(cNo);
+		return "redirect:/admin/listCode1.do";
 	}
 }

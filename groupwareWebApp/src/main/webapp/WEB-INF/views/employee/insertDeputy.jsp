@@ -12,6 +12,35 @@
 		$('#keyfieldItem li > a').on('click', function() {
 		    $('#keyfieldBtn').text($(this).text());
 		});
+		
+		$('#pushBtn').click(function() {
+			$('#empName').text($('#deptHead').text());
+		});
+		/* 
+		$('#submitBtn').submit(function() {
+	
+			$.ajax ({
+				url : '${pageContext.request.contextPath}/registerDeputy.do'
+				,
+				method : 'POST'
+				,
+				dataType : 'json'
+				,
+				data : {
+					
+				}
+				,
+				success : function(data) {
+		
+				}
+				,
+				error : function(jqXHR) {
+					
+				}
+					
+			});
+			
+		});	 */
 	});
 </script>
 </head>
@@ -26,9 +55,9 @@
 				<br>
 				<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left">
 					<div class="form-group form-inline">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="empName">대결권자 지정 </label>&nbsp;&nbsp;
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="empName">대결권자 지정 :</label>&nbsp;&nbsp;
 						<div class="input-group col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="empName" name="empName" class="form-control"> <span class="input-group-btn">
+							<input type="text" id="empName" name="empName" class="form-control" readonly><span class="input-group-btn">
 								<button type="button" class="btn btn-primary"
 									data-toggle="modal" data-target="#myModal">검색</button>
 							</span>
@@ -45,7 +74,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="depReason">사유 </label>
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="depReason">사유 :</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="depReason" name="depReason"
 								required="required" class="form-control col-md-7 col-xs-12">
@@ -53,7 +82,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button type="submit" class="btn btn-success">Submit</button>
+							<button id="submitBtn" type="submit" class="btn btn-success">Submit</button>
 						</div>
 					</div>
 					<div class="ln_solid"></div>
@@ -150,14 +179,14 @@
 								<tr class="even pointer">
 									<td>영업부</td>
 									<td class=" ">부장</td>
-									<td class=" ">영부장</td>
+									<td id="deptHead" class=" ">영부장</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<br>
 					<div class="text-center">
-						<button type="button" class="btn btn-primary">설정</button>
+						<button id="pushBtn" type="button" class="btn btn-primary">설정</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 					</div>
 				</div>

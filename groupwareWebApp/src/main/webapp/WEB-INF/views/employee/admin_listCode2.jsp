@@ -39,6 +39,24 @@
 			
 		});
 		
+		$('#insert').click(function(){
+			var url = '${pageContext.request.contextPath}/admin/registerCode.do';
+			window.open(url, "코드 등록", "width=700, height=600");
+		});
+		
+		$('#modify').click(function(){
+			var url = '${pageContext.request.contextPath}/admin/modifyCode.do';
+			window.open(url, "코드 수정", "width=700, height=600");
+		});
+		
+		$('#remove').click(function() {	
+			if(confirm("이 코드를 삭제하시겠습니까?") == true) {
+				location.href = "${pageContext.request.contextPath}/admin/removeCode.do?cNo="+ c_no;
+			} else {
+				return;
+			}
+		});
+		
 	});	//$(document).ready End
 	
 </script>
@@ -157,17 +175,22 @@
 								<c:param name="relationCode" value="${pageScope.code.cNo }" />
 							</c:url>
 							<tr>
-							<c:if test="${pageScope.code.countRelationCode != 0 }">
-								<td><a href="${pageScope.url}">${pageScope.code.cNo }</a></td>
-							</c:if>
-							<c:if test="${pageScope.code.countRelationCode == 0 }">
-								<td>${pageScope.code.cNo }</td>
-							</c:if>
-								<td>${pageScope.code.cName }</td>
-								<td>${pageScope.code.countRelationCode }</td>
-								<td><button type="button" data-toggle="modal"
-										data-target="#myModal">수정1</button></td>
-								<td></td>
+								<c:if test="${pageScope.code.countRelationCode != 0 }">
+									<td><a href="${pageScope.url}">${pageScope.code.cNo }</a></td>
+								</c:if>
+								<c:if test="${pageScope.code.countRelationCode == 0 }">
+									<td>${pageScope.code.cNo }</td>
+								</c:if>
+									<td>${pageScope.code.cName }</td>
+									<td>${pageScope.code.countRelationCode }</td>
+									<td><button type="button" data-toggle="modal"
+											data-target="#myModal">수정1</button></td>
+								<c:if test="${pageScope.code.countRelationCode == 0 }" >
+									<td><button type="button" >삭제</button></td>
+								</c:if>
+								<c:if test="${pageScope.code.countRelationCode != 0 }">
+									<td></td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</tbody>

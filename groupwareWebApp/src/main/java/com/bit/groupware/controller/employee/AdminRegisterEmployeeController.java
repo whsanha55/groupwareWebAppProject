@@ -1,5 +1,6 @@
 package com.bit.groupware.controller.employee;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,7 @@ public class AdminRegisterEmployeeController {
 	
 	@RequestMapping(value="/admin/registerEmployee.do",method=RequestMethod.GET)
 	public String form() {
+
 		return "employee/admin_insertEmployeeForm";
 	}
 	

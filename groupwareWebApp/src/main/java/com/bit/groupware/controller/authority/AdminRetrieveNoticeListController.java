@@ -18,12 +18,11 @@ import com.bit.groupware.service.authority.NoticeService;
 public class AdminRetrieveNoticeListController {
 	@Autowired
 	private NoticeService noticeService;
-
+/*
 	//공지사항 목록 조회 요청
 	@RequestMapping(value = "/PagingAjax.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> getTemplateList(@RequestParam int startRow ,@RequestParam int endRow) {
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		int totalCount = noticeService.retrieveNoticeCount();
@@ -41,6 +40,6 @@ public class AdminRetrieveNoticeListController {
 		
 		return returnMap;
 	}
-	
+	*/
 	
 }
