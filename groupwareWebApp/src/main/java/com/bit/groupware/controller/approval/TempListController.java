@@ -24,10 +24,11 @@ public class TempListController {
 		ModelAndView mv = new ModelAndView();
 
 		Map<String, Object> map = new HashMap<String, Object>();
-
+			
 		map.put("apprFinalStatus", 4);
-
+		
 		mv.addObject("approvals", approvalService.retrieveApprovalList(map));
+		mv.setViewName("approval/tempList");
 		return mv;
 	}
 
