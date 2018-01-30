@@ -26,8 +26,6 @@ public class FinishController {
 		
 		map.put("apprFinalStatus", 1);
 		map.put("empNo", "2018-00011");
-		map.put("keyfield", "empName");
-		map.put("keyword", "¿øÁ¤¿ì");
 		mv.addObject("approvals",apprService.retrieveApprovalList(map));
 		mv.setViewName("approval/finishList");
 		return mv; 
