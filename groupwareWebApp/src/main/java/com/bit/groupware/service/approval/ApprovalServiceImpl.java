@@ -1,17 +1,13 @@
 package com.bit.groupware.service.approval;
 
-import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.groupware.domain.approval.ApprovalFileVO;
-import com.bit.groupware.domain.approval.ApprovalRecordVO;
 import com.bit.groupware.domain.approval.ApprovalVO;
 import com.bit.groupware.persistent.approval.ApprovalDAO;
 import com.bit.groupware.persistent.approval.ApprovalFileDAO;
@@ -55,11 +51,21 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 
 		// 3. 결재 이력 등록(최초 결재자만)
-		List<ApprovalRecordVO> records = approval.getApprovalRecords();
-		ApprovalRecordVO record = records.get(0);
-		recordDAO.insertApprovalRecord(record);
-
+		/*ApprovalRecordVO approvalRecord = new ApprovalRecordVO();
+		approvalRecord.setApproval(approval);
+		
+		ReceiverLineVO receiverLine = new ReceiverLineVO();
+		receiverLine.set
+		approvalRecord.set
+		recordDAO.insertApprovalRecord(record);*/
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("apprNo", apprNo);
+		map.put("receiverNo", receiverNo);
+		recordDAO.insertApprovalRecord(map);
+		
+		
 		// 4. 알림 등록-트리거
+		
 	}
 
 	// 결재 문서 회수
