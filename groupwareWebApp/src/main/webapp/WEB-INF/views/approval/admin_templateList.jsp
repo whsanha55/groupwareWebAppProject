@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -84,47 +85,13 @@
 
 
 										<tbody>
-											<tr>
-												<td>1</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														기안서</a></td>
-												<td>기안서</td>
-												
-											</tr>
+											<c:forEach var="template" items="${requestScope.templates} }">
 												<tr>
-												<td>2</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														품위서</a></td>
-												<td>품위서</td>
-												
-											</tr>
-											<tr>
-												<td>3</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														정기휴가</a></td>
-												<td>휴가계</td>
-												
-											</tr>
-												<tr>
-												<td>4</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														결근서</a></td>
-												<td>휴가계</td>
-												
-											</tr>
-											<tr>
-												<td>1</td>
-												
-												<td><a data-toggle="modal" data-target="#myModal">
-														출장신청서</a></td>
-												<td>출장계</td>
-												
-											</tr>
-
+													<td>${pageScope.template.tmpNo}</td>
+													<td><a data-toggle="modal" data-target="#myModal">${pageScope.template.tmpName }</a></td>
+													<td>${pageScope.template.templateCategory.categoryName }</td>
+												</tr>
+											</c:forEach>
 										</tbody>
 									</table>
 

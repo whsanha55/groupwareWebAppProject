@@ -60,27 +60,25 @@
 		and emp.emp_no = #{empNo}
 		</if>
 		
-		<choose>
-		
-		
-		</choose> 
-				
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 2 || apprFinalStatus == 3">
 		and appr.appr_final_status = #{apprFinalStatus}
 		</if>
 		
 		<if test="apprFinalStatus >= 4">
-		and appr.appr_final_status = #{apprFinalStatus}
+		and appr.appr_final_status in (4,5)
 		</if>
-		<!-- <if test="keyfield=='apprTitle' and keyword!=null">
+		
+		<if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title=#{apprTitle}
 		</if>
 		<if test="keyfield=='empName'and keyword!=null">
 			and emp.emp_name=#{empName}
 		</if>
+		
 		<if test="keyfield=='empDept'and keyword!=null">
 			and c.c_name=#{empDept}
-		</if> -->
+		</if> 
+		
 	</select>
 	
 	

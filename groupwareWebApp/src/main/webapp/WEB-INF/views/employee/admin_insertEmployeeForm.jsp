@@ -5,6 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>사원등록</title>
+<script>
+	$(document).ready(function () {		
+		$('#deptBtnList li > a').on('click', function() {
+		    $('#deptBtn').text($(this).text());
+		});
+		$('#dutyBtnList li > a').on('click', function() {
+		    $('#dutyBtn').text($(this).text());
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -15,7 +25,8 @@
 			</div>
 			<div class="x_content">
 				<br>
-				<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left">
+				<form id="demo-form2" <%-- data-parsley-validate="" --%>class="form-horizontal form-label-left"
+								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post">
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">프로필 사진 </label>
 						<div class="btn-group">
@@ -26,110 +37,117 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12">사번
-						</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" class="form-control" disabled="disabled"
-								placeholder="2018-00050">
-						</div>
-					</div>
-					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">이름 <span class="required">*</span>
+							for="empName">이름 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="last-name" name="last-name"
+							<input type="text" id="empName" name="empName"
 								required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">비밀번호 <span class="required">*</span>
+							for="empPwd">비밀번호 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="last-name" name="last-name"
+							<input type="password" id="empPwd" name="empPwd"
 								required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">비밀번호 확인 <span class="required">*</span>
+							for="empPwdCheck">비밀번호 확인 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="last-name" name="last-name"
+							<input type="password" id="empPwdCheck" name="empPwdCheck"
 								required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">연락처 <span class="required">*</span>
+							for="phoneNumber">연락처 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="last-name" name="last-name"
+							<input type="text" id="phoneNumber" name="phoneNumber"
 								required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">주민번호 <span class="required">*</span>
+							for="regNumber">주민번호 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="last-name" name="last-name"
+							<input type="text" id="regNumber" name="regNumber"
 								required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">부서 <span class="required">*</span>
+							for="deptBtn">부서 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
 						<button data-toggle="dropdown"
-							class="btn btn-default dropdown-toggle" type="button"
-							aria-expanded="false">부서 <span class="caret"></span>
+							class="btn btn-default dropdown-toggle" id="deptBtn" type="button" value="cName"
+							aria-expanded="true">부서 <span class="caret"></span>
 						</button>
-						<ul role="menu" class="dropdown-menu">
-							<li>경영관리부</li>
-							<li>인사부</li>
-							<li>회계부</li>
-							<li>영업부</li>
-							<li>개발부</li>
-						</ul>
-						<button data-toggle="dropdown"
-							class="btn btn-default dropdown-toggle" type="button"
-							aria-expanded="false">부서 <span class="caret"></span>
-						</button>
-						<ul role="menu" class="dropdown-menu">
-							<li>영업1팀</li>
-							<li>영업2팀</li>
+						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="경영관리부">경영관리부</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="인사부">인사부</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="회계부">회계부</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="영업부">영업부</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="개발부">개발부</a>
+							</li>
 						</ul>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">직책 <span class="required">*</span>
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" 
+							for="last-name">직책 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
 						<button data-toggle="dropdown"
-							class="btn btn-default dropdown-toggle" type="button"
-							aria-expanded="false">직책 <span class="caret"></span>
+							class="btn btn-default dropdown-toggle" id="dutyBtn" type="button" value="cName"
+							aria-expanded="true">직책 <span class="caret"></span>
 						</button>
-						<ul role="menu" class="dropdown-menu">
-							<li>사장</li>
-							<li>부사장</li>
-							<li>부장</li>
-							<li>팀장</li>
-							<li>대리</li>
-							<li>사원</li>
+						<ul id="dutyBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="사장">사장</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="부사장">부사장</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="부장">부장</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="팀장">팀장</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="대리">대리</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="사원">사원</a>
+							</li>
 						</ul>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">이메일 <span class="required">*</span>
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">이메일 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+							<input type="text" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">주소 <span class="required">*</span>
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="address">주소 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+							<input type="text" id="address" name="address" required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 						<button type="button" class="btn btn-success">주소찾기</button>
 					</div>
@@ -137,7 +155,6 @@
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 							<button class="btn btn-primary" type="button">Cancel</button>
-							<button class="btn btn-primary" type="reset">Reset</button>
 							<button type="submit" class="btn btn-success">Submit</button>
 						</div>
 					</div>

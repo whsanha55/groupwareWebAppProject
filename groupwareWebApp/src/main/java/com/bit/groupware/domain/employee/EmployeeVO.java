@@ -2,6 +2,8 @@ package com.bit.groupware.domain.employee;
 
 import java.util.*;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class EmployeeVO {
 	private String empNo;
 	private String empName;
@@ -14,6 +16,7 @@ public class EmployeeVO {
 	private String retireStatus;
 	private String retireDate;
 	private String address;
+	private List<MultipartFile> upload;
 	private	List<CodeVO> codes;
 	private List<PhotoVO> photos;
 	private String isAdmin;
@@ -22,9 +25,11 @@ public class EmployeeVO {
 		super();
 	}
 	
+	
+
 	public EmployeeVO(String empNo, String empName, String empPwd, String engName, String phoneNumber, String email,
 			String regNumber, String hireDate, String retireStatus, String retireDate, String address,
-			List<CodeVO> codes, List<PhotoVO> photos, String isAdmin) {
+			List<MultipartFile> upload, List<CodeVO> codes, List<PhotoVO> photos, String isAdmin) {
 		super();
 		this.empNo = empNo;
 		this.empName = empName;
@@ -37,10 +42,24 @@ public class EmployeeVO {
 		this.retireStatus = retireStatus;
 		this.retireDate = retireDate;
 		this.address = address;
+		this.upload = upload;
 		this.codes = codes;
 		this.photos = photos;
 		this.isAdmin = isAdmin;
 	}
+
+
+
+	public List<MultipartFile> getUpload() {
+		return upload;
+	}
+
+
+
+	public void setUpload(List<MultipartFile> upload) {
+		this.upload = upload;
+	}
+
 
 
 	public String getEmpNo() {
@@ -155,14 +174,19 @@ public class EmployeeVO {
 		this.isAdmin = isAdmin;
 	}
 
+	public void addPhoto(PhotoVO photo) {
+		photos.add(photo);
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeVO [empNo=" + empNo + ", empName=" + empName + ", empPwd=" + empPwd + ", engName=" + engName
 				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", regNumber=" + regNumber + ", hireDate="
 				+ hireDate + ", retireStatus=" + retireStatus + ", retireDate=" + retireDate + ", address=" + address
-				+ ", codes=" + codes + ", photos=" + photos + ", isAdmin=" + isAdmin + "]";
+				+ ", upload=" + upload + ", codes=" + codes + ", photos=" + photos + ", isAdmin=" + isAdmin + "]";
 	}
 
+	
 
 	
 	
