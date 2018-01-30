@@ -21,6 +21,10 @@ public class TemplateVO {
 		super();
 	}
 
+	public TemplateVO(int tmpNo) {
+		this.tmpNo = tmpNo;
+	}
+
 	public int getTmpNo() {
 		return tmpNo;
 	}

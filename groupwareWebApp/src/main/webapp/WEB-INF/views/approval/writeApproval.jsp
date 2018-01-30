@@ -6,9 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="${pageContext.request.contextPath}/resources/summernote/summernote.css"
 	rel="stylesheet">
+<script	src="${pageContext.request.contextPath}/resources/js/jquery.form.min.js"></script>
 <script	src="${pageContext.request.contextPath}/resources/summernote/summernote.js"></script>
 <script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
-
 </head>
 
 <script>
@@ -52,6 +52,28 @@
 		 	$('#summernote').summernote('code','${requestScope.template.tmpContent}');
 		}
 	   
+		
+		$('form').on('click', '.btn-add', function(e) {
+			        e.preventDefault();
+
+			        var controlForm = $('.controls:first'),
+			            currentEntry = $(this).parents('.entry:first'),
+			            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+			        newEntry.find('input').val('');
+			        controlForm.find('.entry:not(:last) .btn-add')
+			            .removeClass('btn-add').addClass('btn-remove')
+			            .removeClass('btn-success').addClass('btn-danger')
+			            .html('<span class="glyphicon glyphicon-minus"></span>');
+			    }).on('click', '.btn-remove', function(e) {
+			      $(this).parents('.entry:first').remove();
+
+					e.preventDefault();
+					return false;
+				});
+		
+		
+		
 		
 		//기안 이벤트
 		$('.submitAppr').on('click',function() {
@@ -104,12 +126,16 @@
 		//기안서 등록 ajax function
 		function executeApproval(approvalStatus) {
 			$('input[name=apprFinalStatus]').val(approvalStatus);
+			var _data = new FormData($("#approvalForm")[0]);
+			
 			$.ajax({
 				url : '${pageContext.request.contextPath}/approvalAjax.do' ,
 				cache : false ,
 				dataType : 'json' ,
+				processData :false ,
+				contentType : false ,
 				type : 'POST' ,
-				data : $('#approvalForm').serialize() ,
+				data : _data ,
 				success : function(data) {
 					
 				} ,
@@ -215,9 +241,26 @@
 
 	  <textarea id="summernote" name="apprContent"></textarea>
 	  
+	 <div class="col-md-12">
+      	<div class="row">
+     	  <div class="control-group" id="fields">
+			<div class="controls">
+				<div class="entry input-group col-xs-3">
+					<input type="file" class="btn btn-primary" name="upload" >
+					<span class="input-group-btn">
+						<button class="btn btn-success btn-add" type="button">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+		 </div>
+      </div>
+    </div>
 	<input type="hidden" name="tmpNo" value = "${requestScope.template.tmpNo }">
 	<input type="hidden" name="apprFinalStatus" >
 	</form>
+	
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </body>
 </html>
