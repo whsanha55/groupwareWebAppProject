@@ -28,7 +28,7 @@ public class ApprovalAjaxController {
 	
 	@RequestMapping(value="/approvalAjax.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String approvalAjax(ApprovalVO approval, 
+	public int approvalAjax(ApprovalVO approval, 
 			TemplateVO template, 
 			@RequestParam int receiverNo, 
 			HttpSession session) throws Exception {
@@ -53,7 +53,7 @@ public class ApprovalAjaxController {
 		
 		approvalService.registerApproval(approval, receiverNo);
 		
-		return "aaa";
+		return approval.getApprFinalStatus();
 	}
 
 }
