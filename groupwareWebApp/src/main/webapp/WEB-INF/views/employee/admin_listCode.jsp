@@ -39,6 +39,27 @@
 			
 		});
 		
+		
+		$('#insert').click(function(){
+			var url = '${pageContext.request.contextPath}/admin/registerCode.do';
+			window.open(url, "코드 등록", "width=700, height=600");
+		});
+		
+		$('.modify').click(function(){
+			var c_no = $(this).attr('id');
+			var url = '${pageContext.request.contextPath}/admin/modifyCode.do?cNo='+ c_no;
+
+			window.open(url, "코드 수정", "width=700, height=600");
+		});
+		
+		$('#remove').click(function() {	
+			if(confirm("이 코드를 삭제하시겠습니까?") == true) {
+				location.href = "${pageContext.request.contextPath}/admin/removeCode.do?cNo="+ c_no;
+			} else {
+				return;
+			}
+		});
+		
 	});	//$(document).ready End
 	
 </script>
@@ -59,47 +80,9 @@
 							<div class="col-md-2">
 								<h2>코드목록</h2>
 							</div>
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target=".bs-example-modal-lg">등록하기</button>
+							<button type="button" id="insert">등록</button>
 						</div>
-						<div class="modal fade bs-example-modal-lg" tabindex="-1"
-							role="dialog" aria-hidden="true">
-							<div class="modal-dialog modal-lg">
-								<div class="modal-content">
-
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">
-											<span aria-hidden="true">×</span>
-										</button>
-										<h4 class="modal-title" id="myModalLabel">코드 등록</h4>
-									</div>
-									<div class="modal-body">
-										<div></div>
-										<table id="datatable"
-											class="table table-striped table-bordered align-right">
-											<tbody>
-												<tr>
-													<th>코드번호</th>
-													<td><input type="text" id="cNo" name="cNo" class="form-control"
-														required="required"></td>
-												</tr>
-												<tr>
-													<th>코드명</th>
-													<td><input type="text" id="cName" name="cName" class="form-control"
-														required="required"></td>
-												</tr>
-											</tbody>
-										</table>
-										<br>
-										<div class="text-center">
-											<button type="button" class="btn btn-primary">등록</button>
-											<button type="button" class="btn btn-default"
-												data-dismiss="modal">닫기</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						
 						<div>
 							<div>
 							<div class="col-md-3 col-xs-offset-2">
@@ -140,63 +123,47 @@
 					</thead>
 						<tbody>
 						<c:forEach var="code" items="${requestScope.codes }" varStatus="loop">
-							<c:url var="url" value="/admin/listCode2.do" scope="page" >
+							<c:url var="url1" value="/admin/listCode2.do" scope="page" >
+								<c:param name="relationCode" value="${pageScope.code.cNo }" />
+							</c:url>
+							<c:url var="url2" value="/admin/listCode3.do" scope="page" >
 								<c:param name="relationCode" value="${pageScope.code.cNo }" />
 							</c:url>
 							<tr>
-								<td><a href="${pageScope.url}">${pageScope.code.cNo }</a></td>
+							<c:if test="${pageScope.code.cNo == A && pageScope.code.countRelationCode != 0}" >
+								<td><a href="${pageScope.url1}">${pageScope.code.cNo }</a></td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo == A && pageScope.code.countRelationCode == 0 }">
+								<td>${pageScope.code.cNo }</td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo != A && pageScope.code.countRelationCode != 0}" >
+								<td><a href="${pageScope.url2}">${pageScope.code.cNo }</a></td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo != A && pageScope.code.countRelationCode == 0 }">
+								<td>${pageScope.code.cNo }</td>
+							</c:if>
 								<td>${pageScope.code.cName }</td>
 								<td>${pageScope.code.countRelationCode }</td>
-								<td><button type="button" data-toggle="modal"
-										data-target="#myModal">수정</button></td>
-								<td></td>
-							</tr>
+								<td><button class="modify" id="${pageScope.code.cNo }" type="button">수정</button>
+								</td>
+								</td>
+								<c:if test="${pageScope.code.countRelationCode == 0 }" >
+									<td><c:url var="removeUrl" value="/admin/removeCode.do" scope="page">
+										 		<c:param name="cNo" value="${pageScope.code.cNo }"/>
+										 	</c:url> 	 	
+											<a href="${pageScope.removeUrl }">삭제</a>
+									</td>
+								</c:if>
+								<c:if test="${pageScope.code.countRelationCode != 0 }">
+									<td></td>
+								</c:if>	
+								</tr>
 						</c:forEach>
 						</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-
-	<!-- 모달 팝업 -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">코드 수정</h4>
-				</div>
-
-
-				<div class="modal-body">
-					<div></div>
-					<table id="datatable" class="table table-striped table-bordered">
-						<tbody>
-							<tr>
-								<th>코드번호</th>
-								<td><input type="text" name="cNo" class="form-control"
-									required="required" value="${requestScope.code.cNo }"></td>
-							</tr>
-							<tr>
-								<th>코드명</th>
-								<td><input type="text" name="cNo" class="form-control"
-									required="required" value="${requestScope.code.cName }"></td>
-							</tr>
-
-						</tbody>
-					</table>
-					<br>
-					<div class="text-center">
-						<button type="button" class="btn btn-primary">수정</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
+</div>
 </body>
 </html>

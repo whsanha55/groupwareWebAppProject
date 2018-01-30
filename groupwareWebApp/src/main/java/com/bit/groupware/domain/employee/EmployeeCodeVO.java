@@ -3,6 +3,8 @@ package com.bit.groupware.domain.employee;
 import java.util.List;
 
 public class EmployeeCodeVO {
+	private CodeVO code;
+	private EmployeeVO employee;
 	private List<CodeVO> codes;
 	private List<EmployeeVO> employees;
 	
@@ -10,10 +12,28 @@ public class EmployeeCodeVO {
 		super();
 	}
 
-	public EmployeeCodeVO(List<CodeVO> codes, List<EmployeeVO> employees) {
+	public EmployeeCodeVO(CodeVO code, EmployeeVO employee, List<CodeVO> codes, List<EmployeeVO> employees) {
 		super();
+		this.code = code;
+		this.employee = employee;
 		this.codes = codes;
 		this.employees = employees;
+	}
+
+	public CodeVO getCode() {
+		return code;
+	}
+
+	public void setCode(CodeVO code) {
+		this.code = code;
+	}
+
+	public EmployeeVO getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(EmployeeVO employee) {
+		this.employee = employee;
 	}
 
 	public List<CodeVO> getCodes() {
@@ -34,7 +54,8 @@ public class EmployeeCodeVO {
 
 	@Override
 	public String toString() {
-		return "EmployeeCodeVO [codes=" + codes + ", employees=" + employees + "]";
+		return "EmployeeCodeVO [code=" + code + ", employee=" + employee + ", codes=" + codes + ", employees="
+				+ employees + "]";
 	}
 
 }

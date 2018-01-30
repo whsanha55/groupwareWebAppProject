@@ -9,15 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bit.groupware.domain.approval.ApprovalFileVO;
 
-public class UploadFiles {
 
-	private static final Logger logger = LoggerFactory.getLogger(UploadFiles.class);
+public class UploadApprovalFiles {
+
+	private static final Logger logger = LoggerFactory.getLogger(UploadApprovalFiles.class);
 	private static int count = 1;
 
-/*	public static ArticleFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
-		String path = context.getRealPath("/upload");
-		logger.info("path : {}",path);
+	public static ApprovalFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
+		String root = context.getRealPath("/");
+		String path = root + "resources/upload/approvalFile/";
 		
 		String originalFileName = part.getOriginalFilename();
 		String systemFileName = "";
@@ -33,12 +35,12 @@ public class UploadFiles {
 		File dest = new File(path + File.separator + systemFileName);
 		part.transferTo(dest);
 
-		ArticleFileVO articleFile = new ArticleFileVO();
-		articleFile.setOriginalFileName(originalFileName);
-		articleFile.setSystemFileName(systemFileName);
-		articleFile.setFileSize(part.getSize());
-		return articleFile;
+		ApprovalFileVO approvalFile = new ApprovalFileVO();
+		approvalFile.setOriginalFileName(originalFileName);
+		approvalFile.setSystemFileName(systemFileName);
+		approvalFile.setFileSize(part.getSize());
+		return approvalFile;
 	}
 
-	*/
+	
 }

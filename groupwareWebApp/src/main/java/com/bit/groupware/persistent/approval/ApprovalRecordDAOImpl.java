@@ -1,6 +1,7 @@
 package com.bit.groupware.persistent.approval;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		return sqlSession.selectList(NAMESPACE+".selectApprovlaRecordList",apprNo);
 	}
 
-	public void insertApprovalRecord(ApprovalRecordVO approvalRecord) {
-		sqlSession.insert(NAMESPACE+".insertApprovalRecord",approvalRecord);
+	public void insertApprovalRecord(Map<String, Integer> map) {
+		sqlSession.insert(NAMESPACE+".insertApprovalRecord", map);
 	}
 
 	public void updateApprovalRecordStatus(ApprovalRecordVO approvalRecord) {

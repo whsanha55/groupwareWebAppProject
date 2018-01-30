@@ -3,6 +3,8 @@ package com.bit.groupware.service.approval;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.bit.groupware.domain.approval.ApprovalVO;
 
 public interface ApprovalService {
@@ -19,7 +21,8 @@ public interface ApprovalService {
 	//결재문서 회수
 	void modifyApproval(ApprovalVO approval);
 	
-
+	//갯수 구하기
+	int retrieveApprovalCount(Map<String, Object> map);
 	
 	
 }
