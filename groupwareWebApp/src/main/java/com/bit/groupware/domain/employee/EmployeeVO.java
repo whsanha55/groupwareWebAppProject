@@ -23,9 +23,7 @@ public class EmployeeVO {
 
 	public EmployeeVO() {
 		super();
-	}
-	
-	
+	}	
 
 	public EmployeeVO(String empNo, String empName, String empPwd, String engName, String phoneNumber, String email,
 			String regNumber, String hireDate, String retireStatus, String retireDate, String address,
@@ -176,6 +174,10 @@ public class EmployeeVO {
 
 	public void addPhoto(PhotoVO photo) {
 		photos.add(photo);
+	}
+	
+	public void addCode(CodeVO code) {
+		codes.add(code);
 	}
 
 	@Override

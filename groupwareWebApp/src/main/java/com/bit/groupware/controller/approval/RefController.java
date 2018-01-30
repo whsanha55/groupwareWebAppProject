@@ -27,8 +27,6 @@ public class RefController {
 		
 		map.put("apprFinalStatus", 0);
 		map.put("empNo", "2018-00011");
-		map.put("keyfield", "empName");
-		map.put("keyword", "¿øÁ¤¿ì");
 		mv.addObject("approvals", apprService.retrieveApprovalList(map));
 		mv.setViewName("approval/finishList");
 		

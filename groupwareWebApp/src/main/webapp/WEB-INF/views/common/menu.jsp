@@ -23,8 +23,7 @@
 	<!-- menu profile quick info -->
 	<div class="profile clearfix">
 		<div class="profile_pic">
-			<img
-				src="${pageContext.request.contextPath}/resources/images/img.jpg"
+			<img src="${pageContext.request.contextPath}/resources/images/img.jpg"
 				alt="..." class="img-circle profile_img">
 		</div>
 		<div class="profile_info">
