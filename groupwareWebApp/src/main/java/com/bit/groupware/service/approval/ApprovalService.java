@@ -3,6 +3,8 @@ package com.bit.groupware.service.approval;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.bit.groupware.domain.approval.ApprovalVO;
 
 public interface ApprovalService {

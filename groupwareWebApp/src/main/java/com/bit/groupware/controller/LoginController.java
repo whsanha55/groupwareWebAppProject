@@ -43,8 +43,8 @@ public class LoginController {
    public String form2() {
       UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
        String isAdmin = user.getIsAdmin();
-       System.out.println("isAdmin : " + isAdmin);
-       
+       Logger.info("isAdmin : {}" , isAdmin);
+     
        if(isAdmin.equals("T")) {
           return "adminMain";
        } else {

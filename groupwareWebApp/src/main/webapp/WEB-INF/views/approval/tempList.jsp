@@ -13,7 +13,17 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>임시 보관함</h2>
-       
+                    <script type="text/javascript">
+
+						$(document).ready(function(){
+							$('.DetailApproval').click(function(){
+								var apprNo=$(this).attr('id');
+								var url = '${pageContext.request.contextPath}/ApprovalDetail.do?apprNo='+apprNo;
+								window.open(url, "결재문서", "width=1300");
+							});
+						});
+						
+					</script>
                     <div class="clearfix"></div>
                   </div>
 				  <div style="width:210px;">
