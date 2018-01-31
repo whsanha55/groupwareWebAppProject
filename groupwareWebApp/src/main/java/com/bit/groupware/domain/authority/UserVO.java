@@ -14,6 +14,7 @@ public class UserVO extends User {
 	private String isAdmin;
 	private String deptName; //부서명
 	private String jobName; //직급명
+	private String empName; //사원 이름
 	
 
 	public UserVO(String username, String password, Collection<? extends GrantedAuthority> authorities) {
@@ -62,12 +63,26 @@ public class UserVO extends User {
 	}
 
 
+	
+	
+	public String getEmpName() {
+		return empName;
+	}
+
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
+
 	@Override
 	public String toString() {
 		return "UserVO [photoName=" + photoName + ", isAdmin=" + isAdmin + ", deptName=" + deptName + ", jobName="
-				+ jobName + "]";
+				+ jobName + ", empName=" + empName + "]";
 	}
 
+
+	
 	
 	
 }
