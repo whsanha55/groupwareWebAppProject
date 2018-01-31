@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>최상위 코드 수정</title>
+<title>부서 코드 수정</title>
 </head>
 <body>
 <script type="text/javascript">
@@ -42,7 +42,7 @@
 	<div class="modal-body">
 		<div></div>
 		
-	<form action="${pageContext.request.contextPath }/admin/modifyCode1.do" method="post" >
+	<form action="${pageContext.request.contextPath }/admin/modifyCode2.do" method="post" >
 		<div class="modal-body">
 			<table id="datatable" class="table table-striped table-bordered">
 				<tbody>

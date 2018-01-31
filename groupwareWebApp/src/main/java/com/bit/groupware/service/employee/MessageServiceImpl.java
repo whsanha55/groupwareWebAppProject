@@ -16,6 +16,11 @@ public class MessageServiceImpl implements MessageService {
 	public void registerMessage(MessageVO message) {
 		messageDAO.insertMessage(message); 
 	}
+	
+	public void registerResonseMsg(MessageVO message) {
+		
+		messageDAO.insertMessage(message);
+	}
 
 	public void removeMessage(List<Integer> msgNos) {
 		messageDAO.deleteMessage(msgNos); 
