@@ -2,6 +2,8 @@ package com.bit.groupware.persistent.authority;
 
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+@Repository
 public class PostFileDAOImpl implements PostFileDAO {
 
 	public void insertPostFile(Map<String, Object> map) {

@@ -1,5 +1,8 @@
 package com.bit.groupware.service.authority;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class LoginServiceImpl implements LoginService {
 
 	public boolean loginAdmin(String adminId, String adminPwd) {

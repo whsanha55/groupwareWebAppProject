@@ -53,8 +53,7 @@
 			
 			
 			//양식 추가
-			$('#add').on('click', function(event){
-				event.preventDefault();
+			$('#add').on('click', function(){
 				window.open("/approval/admin_addTemplate.jsp", "_blank", "width=400, height=600" );
 			});
 			
