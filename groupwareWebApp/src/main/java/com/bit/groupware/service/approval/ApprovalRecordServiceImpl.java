@@ -31,11 +31,11 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 	
 	//결재 진행 현황 조회
 	public List<ApprovalRecordVO> retrieveApprovalRecordList(int apprNo) {
-		dao.selectApprovalRecordList(apprNo);
-		return null;
+		
+		return dao.selectApprovalRecordList(apprNo);
 	}
 
-	
+
 	public void executeApprovalRecord(ApprovalRecordVO approvalRecord) {
 		ApprovalVO approval = approvalRecord.getApproval();
 		

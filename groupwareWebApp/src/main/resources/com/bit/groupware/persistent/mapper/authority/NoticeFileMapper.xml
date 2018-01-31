@@ -4,13 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.NoticeFileMapper">
-<!-- 			
-	<insert id="insertArticleFile" parameterType="map" statementType="PREPARED">		
-		<foreach item="articleFile" collection="articleFiles" open="insert all" close="select * from dual">
-		 	into articleFile ( system_file_name, original_file_name, file_size, article_no )
-   			values    ( #{articleFile.systemFileName}, #{articleFile.originalFileName}, 
-   			         #{articleFile.fileSize}, #{articleFile.articleNo} )
+		
+	<insert id="insertNoticeFile" parameterType="map" statementType="PREPARED">		
+		<foreach item="noticeFile" collection="noticeFiles" open="insert all" close="select * from dual">
+		 	into noticeFile ( ORIGINAL_FILE_NAME, SYSTEM_FILE_NAME, URL, NOTICE_NO )
+   			values( #{noticeFile.originalFileName}, #{noticeFile.systemFileName}, 'C:\\io', #{noticeFile.noticeNo} )
 		</foreach>	 	
 	</insert>
-	  -->
+	
 </mapper>

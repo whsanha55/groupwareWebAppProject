@@ -42,7 +42,7 @@
 	<div class="modal-body">
 		<div></div>
 		
-	<form action="${pageContext.request.contextPath }/admin/modifyCode.do" method="post" >
+	<form action="${pageContext.request.contextPath }/admin/modifyCode1.do" method="post" >
 		<div class="modal-body">
 			<table id="datatable" class="table table-striped table-bordered">
 				<tbody>

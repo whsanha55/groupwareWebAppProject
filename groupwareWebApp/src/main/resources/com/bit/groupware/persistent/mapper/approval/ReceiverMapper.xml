@@ -31,9 +31,8 @@
           delete from receiver
           where receiver_no = #{recieverNo}
       </delete>
-	 
+    
 </mapper>
-
 
 
 

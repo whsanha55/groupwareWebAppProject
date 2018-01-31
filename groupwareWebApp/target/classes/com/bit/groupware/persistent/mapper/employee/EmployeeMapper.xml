@@ -6,21 +6,23 @@
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeMapper">
 	
 	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
-		<selectKey keyProperty="emp_no" resultType="String" statementType="STATEMENT" order="BEFORE">
-			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual;		
+		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
+			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual		
 		</selectKey>				
-		insert into employee (emp_no, emp_name, emp_pwd, eng_name, phone_number, 
-								email, reg_number, hire_date, address)
-		values (#{emp_no}, #{empName}, #{empPwd}, #{engName}, #{phoneNumber}, 
-					#{email}, #{regNumber}, sysdate, #{address});	
+		insert into employee (emp_no, emp_name, emp_pwd,
+								 	eng_name, phone_number, email, reg_number, address)
+		values (#{empNo}, #{empName}, #{empPwd}, #{engName},
+					#{phoneNumber},	#{email}, #{regNumber}, #{address})	
 	</insert>
 	
-	<insert id="insertEmployeeCode" parameterType="EmployeeCodeVO" statementType="PREPARED"> 
-		insert into employee_code
-		values((select c_no
-		        from code 
-		        where c_name = #{cName}), #{empNo})
+	<insert id="insertEmployeeCode" parameterType="map" statementType="PREPARED"> 
+		insert all
+		<foreach item="empCode" collection="codeList">
+		   into employee_code(c_no, emp_no)  values(#{empCode.cNo}, #{empCode.empNo})		
+		</foreach>
+		select * from dual		
 	</insert>
+	
 
 	<update id="updateEmployee" parameterType="EmployeeVO" statementType="PREPARED">
 		update Employee
@@ -177,7 +179,7 @@
 		<![CDATA[
 			where e.rn >= #{startRow} and e.rn <= #{endRow}
 		]]> -->
-	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeCodeViewVO" statementType="STATEMENT">
+	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="STATEMENT">
 		select 
 			emp_no as empNo, 
 			emp_name as empName, 

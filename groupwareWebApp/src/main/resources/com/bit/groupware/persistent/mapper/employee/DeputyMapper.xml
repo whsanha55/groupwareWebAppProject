@@ -7,7 +7,7 @@
 	
 	<insert id="insertDeputy" parameterType="DeputyVO" statementType="PREPARED">			
 		<selectKey keyProperty="depNo" resultType="String" statementType="STATEMENT" order="BEFORE">
-			select 'D'||lpad(deputy_no_seq.nextval,5,0) from dual;		
+			select 'D'||lpad(deputy_no_seq.nextval,5,0) from dual		
 		</selectKey>				
 		insert into Deputy (dep_no, start_date, end_date, 
 									dep_reason,	demp_no, emp_no)

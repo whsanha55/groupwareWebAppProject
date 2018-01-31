@@ -3,7 +3,7 @@ package com.bit.groupware.persistent.employee;
 import java.util.List;
 import java.util.Map;
 
-import com.bit.groupware.domain.employee.CodeVO;
+import com.bit.groupware.domain.employee.EmployeeCodeVO;
 import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 
@@ -24,7 +24,6 @@ public interface EmployeeDAO {
 	
 	String insertEmployee(EmployeeVO employee);
 	
-	void insertEmployeeCode(String empNo, CodeVO code);
-	
-	
+	void insertEmployeeCode(Map<String, Object> map);
+	 
 }

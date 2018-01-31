@@ -1,6 +1,7 @@
 package com.bit.groupware.controller.approval;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class WriteApprovalController {
 	public ModelAndView template() {
 
 		ModelAndView mv = new ModelAndView();
-
+		
 		// 카테고리 리스트 조회 및 바인딩
 		mv.addObject("categoryList", categoryService.retrieveTemplateCategoryList());
 
@@ -46,13 +47,29 @@ public class WriteApprovalController {
 		if(tmpNo > 0) {
 			mv.addObject("template",templateService.retrieveTemplate(tmpNo));
 		}
-		
+
+		//로그인없을때 테스트용으로 try catch묶음 
+		try {
+			UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			mv.addObject("user", user);
+		} catch (Exception e) {
+			
+		}
+
 		mv.addObject("receivers",receiverService.retrieveReceiverList());
 		
 		mv.setViewName("approval/writeApproval");
 		return mv;
 		
 		
+	}
+	
+	//결재선 관리 요청 
+	@RequestMapping("/receiverModal.do")
+	public ModelAndView receiverModal() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("receiverModal");
+		return mv;
 	}
 
 	

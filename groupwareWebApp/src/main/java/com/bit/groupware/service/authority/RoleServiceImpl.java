@@ -3,8 +3,10 @@ package com.bit.groupware.service.authority;
 import java.util.List;
 import java.util.Map;
 
-import com.bit.groupware.domain.authority.RoleVO;
+import org.springframework.stereotype.Service;
 
+import com.bit.groupware.domain.authority.RoleVO;
+@Service
 public class RoleServiceImpl implements RoleService {
 
 	public void registerAuthRole(Map<String, Object> map) {

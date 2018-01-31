@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.bit.groupware.domain.employee.CodeVO;
 import com.bit.groupware.domain.employee.DeputyVO;
+import com.bit.groupware.domain.employee.EmployeeCodeVO;
 import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 
@@ -29,7 +29,7 @@ public interface EmployeeService {
 	
 	List<EmployeeCodeViewVO> retrieveEmployeeList(Map<String, Object> map);
 	
-	void registerEmployee(EmployeeVO employee, CodeVO code);
+	void registerEmployee(EmployeeVO employee);
 
 	void registerDeputy(DeputyVO deputy);
 	
