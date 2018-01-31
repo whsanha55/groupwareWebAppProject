@@ -3,18 +3,17 @@ package com.bit.groupware.controller.approval;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.approval.ApprovalFileVO;
 import com.bit.groupware.domain.approval.ApprovalVO;
 import com.bit.groupware.domain.approval.TemplateVO;
-import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.service.approval.ApprovalService;
 import com.bit.groupware.util.UploadApprovalFiles;
@@ -54,5 +53,16 @@ public class ApprovalAjaxController {
 		
 		return approval.getApprFinalStatus();
 	}
-
+	
+	//문서 상세조회
+	@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
+	public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo) {
+		
+		ModelAndView mv =new ModelAndView();
+		
+		mv.addObject("approval",approvalService.retrieveApproval(apprNo));
+		mv.setViewName("approval/approvalDetail/pop");
+		return mv;
+	}
+	
 }

@@ -8,6 +8,8 @@
 </head>
 <body>
 	<!--글쓰기-->
+  <form action="<%=request.getContextPath() %>/admin/addNotice.do" method="post"
+ 	 	enctype="multipart/form-data">
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
@@ -29,7 +31,7 @@
 			<div class="form-group">
 				<label class="control-label col-md-3 col-sm-3 col-xs-12">제목</label>
 				<div class="col-md-9 col-sm-9 col-xs-12">
-					<input type="text" name="country" id="autocomplete-custom-append"
+					<input type="text" name="noticeTitle" id="autocomplete-custom-append"
 						class="form-control col-md-10" />
 				</div>
 				<div class="x_content">
@@ -109,7 +111,7 @@
 						<div class="btn-group">
 							<a class="btn" title="Insert picture (or just drag &amp; drop)"
 								id="pictureBtn"><i class="fa fa-picture-o"></i></a> <input
-								type="file" data-role="magic-overlay" data-target="#pictureBtn"
+								type="file" name="upload" data-role="magic-overlay" data-target="#pictureBtn"
 								data-edit="insertImage">
 						</div>
 
@@ -120,10 +122,9 @@
 						</div>
 					</div>
 
-					<div id="editor-one" class="editor-wrapper placeholderText"
-						contenteditable="true"></div>
-
-					<textarea name="descr" id="descr" style="display: none;"></textarea>
+	
+	
+					<textarea name="noticeContents"  rows="13" cols="100"></textarea><br>
 
 					<br>
 
@@ -132,9 +133,14 @@
 
 				</div>
 			</div>
-			<a class="btn btn-primary pull-right" href="a_index_authority.html">취소</a>
-			<a class="btn btn-primary pull-right" href="a_index_authority.html">등록</a>
+			  <button type="submit">등록</button> &nbsp;
+            <button type="reset">취소</button>
+			
+<!-- 			<a class="btn btn-primary pull-right" href="a_index_authority.html">취소</a>
+			<a class="btn btn-primary pull-right" href="a_index_authority.html">등록</a> -->
 
 		</div>
+		</div>
+		</form>
 </body>
 </html>
