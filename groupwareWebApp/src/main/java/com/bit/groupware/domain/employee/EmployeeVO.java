@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class EmployeeVO {
+public class EmployeeVO extends EmployeeCodeViewVO{
 	private String empNo;
 	private String empName;
 	private String empPwd;

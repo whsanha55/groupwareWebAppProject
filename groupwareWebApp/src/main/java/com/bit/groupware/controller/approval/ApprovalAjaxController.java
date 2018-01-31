@@ -1,8 +1,5 @@
 package com.bit.groupware.controller.approval;
 
-import java.io.File;
-import java.io.IOException;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.approval.ApprovalFileVO;
 import com.bit.groupware.domain.approval.ApprovalVO;
@@ -35,13 +33,13 @@ public class ApprovalAjaxController {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
 		
 		EmployeeVO employee = new EmployeeVO();
+//		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		employee.setEmpNo(user.getUsername());
 		employee.setEmpNo("2018-00011");
 		
 		approval.setEmployee(employee);
 		approval.setTemplate(template);
 		
-		System.out.println(approval.toString());
-		System.out.println("receiver : " + receiverNo);
 		
 		//파일 저장
 		for(MultipartFile file : approval.getUpload()) {
@@ -55,5 +53,16 @@ public class ApprovalAjaxController {
 		
 		return approval.getApprFinalStatus();
 	}
-
+	
+	//문서 상세조회
+	@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
+	public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo) {
+		
+		ModelAndView mv =new ModelAndView();
+		
+		mv.addObject("approval",approvalService.retrieveApproval(apprNo));
+		mv.setViewName("approval/approvalDetail/pop");
+		return mv;
+	}
+	
 }
