@@ -7,31 +7,50 @@
 
    <insert id="insertNotice" statementType="PREPARED" parameterType="NoticeVO">
       <selectKey keyProperty="noticeNo" resultType="int" order="BEFORE" statementType="STATEMENT">
-           select notice_no_seq.nextval from dual;
+           select notice_no_seq.nextval from dual
       </selectKey>
-      insert into board(notice_no, notice_title, hitcount, notice_date, notice_contents)
-      values(#{noticeNo}, #{noticleTitle}, 0, sysdate, #{noticeContents})
+      insert into notice(notice_no, notice_title, hitcount, notice_date, notice_contents)
+      values(#{noticeNo}, #{noticeTitle}, 0, sysdate, #{noticeContents})
    </insert>   
    
-   <select id="selectNoticeList" statementType="STATEMENT" resultType="NoticeVO">
-      select notice_no, notice_title, hitcount, notice_date, notice_contents
-       from notice 
-       order by notice_no asc
+
+	
+   <select id="selectNoticeList" statementType="PREPARED" parameterType="map" resultType="NoticeVO">
+  select NOTICE_NO as noticeNo, NOTICE_TITLE as noticeTitle, HITCOUNT as hitCount, NOTICE_DATE as noticeDate, NOTICE_CONTENTS as noticeContents	
+	  from( select rownum as rn, notice1.*    									
+  			  from (select *
+                        from notice 					
+                        order by notice_no desc )notice1) notice2					
+	   where rn <![CDATA[>=]]> #{startRow} and rn <![CDATA[<=]]> #{endRow}
    </select>
    
-   <select id="selectNotice" statementType="PREPARED" resultType="NoticeVO" parameterType="int">
-      select n1.notice_no, n1.notice_title, n1.hitcount, n1.notice_date, n1.notice_contents, n2.noticefile_no, 
-       n2.noticefile_original_file_name, n2.noticefile_system_file_name, n2.noticefile_url , n2.notice_no
+   	<resultMap id="selectNoticeResultMap" type="NoticeVO">
+		<id column="notice_no"						 property="noticeNo" />
+		<result column="notice_title" 				 property="noticeTitle" />
+		<result column="hitcount" 	 				 property="hitCount" />
+		<result column="notice_date" 	 			 property="noticeDate" />
+		<result column="notice_contents" 			 property="noticeContents" />
+	
+		<collection property="files" javaType="list" ofType="NoticeFileVO">
+			<id column="noticefile_no" 								property="no"/>
+			<result column="noticefile_original_file_name" 		property="systemFileName" />
+			<result column="noticefile_system_file_name" 		property="originalFileName" />
+		</collection>
+	</resultMap> 
+	 
+   <select id="selectNotice" resultMap="selectNoticeResultMap" statementType="PREPARED" resultType="NoticeVO" parameterType="int">
+      select n1.notice_no, n1.notice_title, n1.hitcount, n1.notice_date, n1.notice_contents, 
+      n2.noticefile_no, n2.noticefile_original_file_name, n2.noticefile_system_file_name, n2.noticefile_url , n2.notice_no
        from notice n1 , noticefile n2
        where n1.notice_no = n2.notice_no(+)
-        and n1.notice_no = 1;
+        and n1.notice_no = #{noticeNo};
    </select>
    
    <update id="updateNotice" statementType="PREPARED" parameterType="NoticeVO">
       update notice
       <trim prefix="set" suffixOverrides=",">
-         <if test="noticleTitle">
-            notice_title = #{noticleTitle}
+         <if test="noticeTitle">
+            notice_title = #{noticeTitle}
          </if>
          <if test="noticeContents">
             notice_contents = #{noticeContents}
@@ -44,20 +63,23 @@
       where notice_no = #{noticeNO}
    </delete>
    
-      <select id="findNoticeList" parameterType="map" resultType="NoticeVO">
-      select 
-         notice_no as noticeNo, 
-         notice_title as noticeTitle,
-         hitcount as hitCount,
-         to_char(notice_date, 'YYYY/MM/DD') as noticeDate,
-         notice_contents as noticeContents 
-      from notice
-      <choose>
-         <when test="keyfield == 'noticeTitle' and keyword != null">
-            where notice_title like '%' || #{keyword} || '%'
-         </when>
-      </choose>
-   </select>
-   
-   
+   	<select id="findNoticeList" parameterType="map" resultType="NoticeVO">
+		select 
+			notice_no as noticeNo, 
+			notice_title as noticeTitle,
+			hitcount as hitCount,
+			to_char(notice_date, 'YYYY/MM/DD') as noticeDate,
+			notice_contents as noticeContents 
+		from notice
+		<choose>
+			<when test="keyfield == 'noticeTitle' and keyword != null">
+				where notice_title like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</select>
+	
+   <select id="selectNoticeCount" statementType="STATEMENT" resultType="int">
+		select count(*)
+		from notice
+</select>
 </mapper>

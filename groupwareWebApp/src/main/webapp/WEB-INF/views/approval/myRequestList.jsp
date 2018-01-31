@@ -5,7 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>요청문서함</title>
+<style>
 
+	.column-title{
+		text-align:center;
+	}
+	
+</style>
 <script>
 
 	var pKeyfield;  
@@ -16,20 +22,18 @@
 		templatePaging(1);//최초로드시 페이지처리
 		
 		
+		  $('#datatable').on('click','.currentRecord',function() {
+			 	var apprNo=$(this).attr('id');
+				var url = '${pageContext.request.contextPath}/approvalRecord.do?apprNo='+apprNo;
+				window.open(url, "결재문서","width=750, height=400");
+			}); 
 		
 		 $('#datatable').on("click",'.detailApproval',function(){
-			var apprNo=$(this).attr('id');
-			var url = '${pageContext.request.contextPath}/ApprovalDetail.do?apprNo='+apprNo;
-			window.open(url, "결재문서", "width=1000");
-		}); 
-		
-		 $('#datatable').on('click','#recordModal',function() {
-			 	var apprNo=$(this).attr('name')
-				$('#recordBody').load('${pageContext.request.contextPath}/recordModal.do?apprNo='+apprNo)
-					
-
-				$('#layerpop').modal();
-		});
+				
+				var apprNo=$(this).attr('id');
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo;
+				window.open(url, "결재문서","width=750, height=800");
+			});
 		
 	});
 		
@@ -67,7 +71,7 @@
 						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
 						
-						text += "<td><button class='btn btn-default' id='recordModal' name="+data.approvals[i].apprNo+">보기</button></td>";
+						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
@@ -95,60 +99,55 @@
 		
 		//페이징 처리
 		function jqueryPager(subOption) {
-			
-			var pageBlock = subOption.countPerPage;      
-			var pageSize = subOption.pageSize;        
-			var currentPage = subOption.currentPageNo;   
-			var pageTotal = subOption.totalCount;       
-			
-			var pageTotalCnt = Math.ceil(pageTotal/pageSize);
-			var pageBlockCnt = Math.ceil(currentPage/pageBlock);
-			var sPage, ePage;
-			
-			var html ="<ul class='pagination'>";
-			
-			if(pageBlock > 1) {
-				sPage = (pageBlockCnt-1) * pageBlock + 1;
-			} else {
-				sPage = 1;
-			}
-			
-			if((pageBlockCnt * pageBlock) >= pageTotalCnt) {
-				ePage = pageTotalCnt;
-			} else {
-				ePage = pageBlockCnt * pageBlock;
-			}
-			
-			if(sPage <= 1) {
-				html += '<li class="page-item disabled">';
-				html += '<a class="page-link" aria-label="Previous">' 
-			} else {
-				html += '<li class="page-item ">';
-				html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageBlock) + ')">'; 
-			}
-			html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
-			
-			for(var i=sPage; i<=ePage; i++) {
-				if(currentPage == i) {
-					html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
-				} else {
-					html += '<li class="page-item"><a class="page-link" onclick="templatePaging(' + i + ');">' + i + '</a></li>';
-				}
-			}				
+		
+		var pageBlock = subOption.countPerPage;      
+		var pageSize = subOption.pageSize;        
+		var currentPage = subOption.currentPageNo;   
+		var pageTotal = subOption.totalCount;       
+		var pageTotalCnt = Math.ceil(pageTotal/pageBlock);
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
+		
+		var html ="<ul class='pagination'>";
 
-			if (ePage >= pageTotalCnt) {
-				html += '<li class="page-item disabled">';
-				html += '<a class="page-link" aria-label="Next">';
-			} else {
-				html += '<li class="page-item">';
-				html += '<a class="page-link" aria-label="Next" onclick = "templatePaging(' + (ePage+1) + ')">';
-			}
-			html += '<span aria-hidden="true">&raquo;</span> </a></li>';
-			html += '</ul>';
-			
-			$('#templatePaging').html(html);
-
+		
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
+			ePage = pageTotalCnt;
+		} else {
+			ePage = pageBlockCnt * pageSize;
+		} 
+		
+		if(sPage <= 1) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Previous">' 
+		} else {
+			html += '<li class="page-item ">';
+			html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageSize) + ')">'; 
 		}
+		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
+		
+		for(var i=sPage; i<=ePage; i++) {
+			if(currentPage == i) {
+				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
+			} else {
+				html += '<li class="page-item"><a class="page-link" onclick="templatePaging(' + i + ');">' + i + '</a></li>';
+			}
+		}				
+
+		if (ePage >= pageTotalCnt) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Next">';
+		} else {
+			html += '<li class="page-item">';
+			html += '<a class="page-link" aria-label="Next" onclick = "templatePaging(' + (ePage+1) + ')">';
+		}
+		html += '<span aria-hidden="true">&raquo;</span> </a></li>';
+		html += '</ul>';
+		
+		$('#templatePaging').html(html);
+	
+	}
 
 	
 </script>
@@ -195,9 +194,9 @@
                  
 
                     <div class="table-responsive">
-                      <table  class="table table-striped jambo_table bulk_action">
+                      <table  class="table table-striped jambo_table bulk_action" style="text-align:center;">
                         <thead>
-                          <tr class="headings">
+                          <tr class="headings" >
                             
                             
                             <th class="column-title">문서번호</th>
@@ -210,20 +209,7 @@
                         </thead>
 
                         <tbody id="datatable">
-                        
-                   <%--      <c:forEach var="approval" items="${requestScope.approvals}" >
-                        
-                          <tr class="even pointer">
-	
-                             <td class=" ">${pageScope.approval.apprNo}</td> 
-                            <td class=" ">${pageScope.approval.template.tmpName }</td>
-                            <td id="${pageScope.approval.apprNo}" class="DetailApproval">${pageScope.approval.apprTitle}</td>
-                            <td class=" ">${pageScope.approval.apprDate }</td>
-							<td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
-                            
-                           
-                          </tr>
-                         </c:forEach> --%>
+
                          
                         </tbody>
                       </table>
@@ -246,306 +232,6 @@
               </div>
         <!-- /page content -->
         
-        <!-- 
-         모달
-	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-	  <div class="modal-dialog">
-	    <div class="modal-content" style="width:900px;">
-	      <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-		<h4 class="modal-title" id="myModalLabel">결재 문서</h4>
-	      </div>
-	      <div class="modal-body">
-	      
-		  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="float:right; width:295px;">
-												<button type="button" class="btn btn-success">결재</button>
-												<button type="button" class="btn btn-success">보류</button>
-												<button type="button" class="btn btn-success">반려</button>
-												<button type="button" class="btn btn-success">결재회수</button>
-			</div>
-			결재라인								
-		<table class="table table-striped jambo_table bulk_action" >
-                        <thead>
-                          <tr class="headings">
-                            
-                            <th rowspan="3" class="column-title">결재</th>
-                            <th class="column-title">사장</th>
-                            <th class="column-title">부장</th>
-							<th class="column-title">팀장</th>
-                            <th class="column-title"></th>
-                            <th class="column-title"></th>   
-							<th class="column-title"></th>
-                            <th class="column-title"></th>  
-                            
-                          </tr>
-                        </thead>
-
-                        
-							 <tr class="headings" style="background-color:#3f5367; color:#ECF0F1;">
-                            
-                            <td rowspan="3" class="column-title">결재</td>
-                            <td class="column-title">사장</td>
-                            <td class="column-title">부장</td>
-							<td class="column-title">팀장</td>
-                            <td class="column-title"></td>
-                            <td class="column-title"></td>   
-							<td class="column-title"></td>
-                            <td class="column-title"></td>  
-                            
-                          </tr>
-                          <tr class="even pointer">
-                            
-                          
-                            <td class=" ">박사장</td>
-							<td class=" ">김부장</td>
-                            <td class=" ">최팀장</td>
-                            <td class=" "></td>
-                            <td class=" "></td>
-							<td class=" "></td>
-                            <td class=" "></td>
-                            
-                            
-							
-                          </tr>
-						  <tr class="even pointer">
-                            
-                           
-                           
-                            <td class=" "><img src="images/도장.jpg" style="height:50px; width:50px;"></td>
-							<td class=" "><img src="images/도장.jpg"style="height:50px; width:50px;" ></td>
-                            <td class=" "><img src="images/도장.jpg"style="height:50px; width:50px;" ></td>
-                            <td class=" "></td>
-                            <td class=" "></td>
-							<td class=" "></td>
-                            <td class=" "></td>
-                            
-                            
-							
-                          </tr>
-                          <tr class="headings"style="background-color:#3f5367; color:#ECF0F1;">
-                            
-                            <td rowspan="3" class="column-title">참조</td>
-                            <td class="column-title">팀장</td>
-                            <td class="column-title"></td>
-							<td class="column-title"></td>
-                            <td class="column-title"></td>
-                            <td class="column-title"></td>   
-							<td class="column-title"></td>
-                            <td class="column-title"></td>  
-                            
-                          </tr>
-                        
-                          <tr class="even pointer">
-                            
-                          
-							
-                            <td class=" ">박사장</td>
-							<td class=" "></td>
-                            <td class=" "></td>
-                            <td class=" "></td>
-                            <td class=" "></td>
-							<td class=" "></td>
-                            <td class=" "></td>
-                            
-                            
-							
-                          </tr>
-				
-                      </table>
-	      코멘트
-		  <table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            
-                            <th class="column-title">사원이름</th>
-                            <th class="column-title">코멘트내용</th>
-                            <th class="column-title">작성날짜</th>   
-                            
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          <tr class="even pointer">
-                            
-                           
-							
-                            <td class=" ">이지희</td>
-							<td class=" ">승인합니다.</td>
-                            <td class=" ">2018-01-03 10:30</td>
-                            
-                            
-							
-                          </tr>
-						  <tr class="even pointer">
-
-                           <td class=" ">김부장</td>
-							<td class=" ">잘 알겠습니다.</td>
-                            <td class=" ">2018-01-04 10:30</td>
-                           
-							
-                          </tr>
-				</tbody>
-                      </table>
-                       문서 정보
-					   <table class="table table-striped jambo_table bulk_action">
-                        
-                          <tr class="even pointer">
-                            
-                            <td class="column-title" style="background-color:#3f5367; color:#ECF0F1;">제목</td>
-                            <td colspan="2" style="text-align:center;">금연 캠페인 기안서</td>
-                            <td></td> 
-                            
-                          </tr>
-                     
-
-                    
-                          <tr class="even pointer">
-                            
-                           
-							
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">작성자</td>
-                            <td class=" ">홍길동</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">양식명</td>
-                            <td class=" ">기안서</td>
-                            
-							
-                          </tr>
-						  <tr class="even pointer">
-
-                           <td class=" " style="background-color:#3f5367; color:#ECF0F1;">부서</td>
-							<td class=" ">인사1팀</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">보존기한</td>
-                            <td class=" ">영구보존</td>
-                           
-							
-                          </tr>
-						  <tr class="even pointer">
-
-                           <td class=" " style="background-color:#3f5367; color:#ECF0F1;">작성일</td>
-							<td class=" ">2018.01.03</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">긴급여부</td>
-							<td class=" ">일반</td>
-                           
-							
-                          </tr>
-						 
-							<tr>
-								<td colspan="4">내용넣기</td>
-							</tr>
-                      </table>
-					  </div>
-	      <div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-		
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	모달 끝 -->
-	
-	
-		<div class="modal fade" id="layerpop" >
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      header
-		      <div class="modal-header">
-		        닫기(x) 버튼
-		        <button type="button" class="close" data-dismiss="modal">×</button>
-		        header title
-		        <h4 class="modal-title">Header</h4>
-		      </div>
-		      body
-		      <div class="modal-body test123">
-		           <table class="table table-striped jambo_table bulk_action">
-                       <thead>
-                         <tr class="headings">
-                           
-                           <th class="column-title">순번</th>
-                           <th class="column-title">결재자</th>
-                           <th class="column-title">결재유형</th>
-						   <th class="column-title">배정일시</th>
-                           <th class="column-title">확인일시</th>
-                           <th class="column-title">결재일시</th>      
-                           
-                         </tr>
-                       </thead>
-                        <tbody id=recordBody>
-                        
-	                   </tbody>       
-	              </table> 
-		      </div>
-		      Footer
-		      <div class="modal-footer">
-		        Footer
-		        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-	
-	
-        
-	    <!-- 모달 팝업
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-		  <div class="modal-dialog">
-		    <div class="modal-content" style="width:700px;">
-		      <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-			<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-		      </div>
-		      <div class="modal-body">
-			<table class="table table-striped jambo_table bulk_action">
-	                        <thead>
-	                          <tr class="headings">
-	                            
-	                            <th class="column-title">순번</th>
-	                            <th class="column-title">결재자</th>
-	                            <th class="column-title">결재유형</th>
-								<th class="column-title">배정일시</th>
-	                            <th class="column-title">확인일시</th>
-	                            <th class="column-title">결재일시</th>      
-	                            
-	                          </tr>
-	                        </thead>
-	
-	                        <tbody>
-	                          <tr class="even pointer">
-	                            
-	                            <td><a data-toggle="modal" data-target="#myModal">1</a><a></a></td>
-								
-	                            <td class=" ">이지희 대리 영업부</td>
-								<td class=" ">결재</td>
-	                            <td class=" ">2018-01-03 10:30</td>
-	                            <td class=" ">2018-01-03 13:10</td>
-	                            <td class=" ">2018-01-04 18:30</td>
-	                            
-	                            
-								
-	                          </tr>
-							  <tr class="even pointer">
-	                            
-	                            <td><a data-toggle="modal" data-target="#myModal">2</a><a></a></td>
-								
-	                            <td class=" ">이지희 대리 영업부</td>
-								<td class=" ">진행중</td>
-	                            <td class=" ">2018-01-03 10:30</td>
-	                            <td class=" ">2018-01-03 13:10</td>
-	                            <td class=" "></td>
-	                            
-	                            
-	                            
-								
-	                          </tr>
-					</tbody>
-	                      </table>
-		      </div>
-		      <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-			
-		      </div>
-		    </div>
-		  </div>
-		</div> -->
-		<!-- 모달 팝업 끝 -->
+   
 </body>
 </html>

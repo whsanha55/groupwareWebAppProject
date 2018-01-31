@@ -10,11 +10,15 @@
 <title>사원등록</title>
 <script>
 	$(document).ready(function () {		
-		$('#deptBtnList li > a').on('click', function() {
-		    $('#deptBtn').text($(this).text());
+		$('#deptBtnList li > a').on('click', function() {	
+			$('#deptBtn').text($(this).text());
+		    $('input[name=deptCode]').val($(this).attr('value'));		    
 		});
+		
+		
 		$('#dutyBtnList li > a').on('click', function() {
 		    $('#dutyBtn').text($(this).text());
+		    $('input[name=dutyCode]').val($(this).attr('value'));
 		});
 	});
 </script>
@@ -28,13 +32,15 @@
 			</div>
 			<div class="x_content">
 				<br>
-				<form id="demo-form2" <%-- data-parsley-validate="" --%>class="form-horizontal form-label-left"
-								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post">
+				<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
+								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="deptCode" value="" />
+					<input type="hidden" name="dutyCode" value="" />			
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
 							<a class="btn" title="Insert picture (or just drag &amp; drop)"
-								id="pictureBtn"><i class="fa fa-picture-o"></i></a> <input
+								id="pictureBtn"><i class="fa fa-picture-o"></i></a> <input name="upload"
 								type="file" data-role="magic-overlay" data-target="#pictureBtn"
 								data-edit="insertImage">
 						</div>
@@ -45,6 +51,15 @@
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="empName" name="empName"
+								required="required" class="form-control col-md-7 col-xs-12">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12"
+							for="empName">이름 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<input type="text" id="engName" name="engName"
 								required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
