@@ -29,7 +29,7 @@ public interface EmployeeService {
 	
 	List<EmployeeCodeViewVO> retrieveEmployeeList(Map<String, Object> map);
 	
-	void registerEmployee(EmployeeVO employee, EmployeeCodeVO empcode);
+	void registerEmployee(EmployeeVO employee);
 
 	void registerDeputy(DeputyVO deputy);
 	
