@@ -31,7 +31,12 @@ public class WriteApprovalController {
 	public ModelAndView template() {
 
 		ModelAndView mv = new ModelAndView();
-
+		 UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		 System.out.println(user.getDeptName()+"zzzzzzzzzzzzzzzzzzzzzzzzz");
+		 
+		 
+		 
+		 
 		// 카테고리 리스트 조회 및 바인딩
 		mv.addObject("categoryList", categoryService.retrieveTemplateCategoryList());
 

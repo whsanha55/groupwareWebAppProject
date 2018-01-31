@@ -5,74 +5,74 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.AuthorityMapper">
 
-   <resultMap type="RoleVO" id="selectAuthRoleResultMap">
-      <id column="r_id" property="rId" />
-      <result column="r_name" property="rName" />
-      <collection property="authorities" javaType="list" ofType="AuthorityVO">
-         <result column="a_name" property="aName" />
-      </collection>
-   </resultMap>
+	<resultMap type="RoleVO" id="selectAuthRoleResultMap">
+		<id column="r_id" property="rId" />
+		<result column="r_name" property="rName" />
+		<collection property="authorities" javaType="list" ofType="AuthorityVO">
+			<result column="a_name" property="aName" />
+		</collection>
+	</resultMap>
 
-   <select id="selectAuthority" resultMap="selectAuthRoleResultMap"
-      statementType="STATEMENT">
-      select t1.r_id, t1.r_name, t3.a_name
-      from role t1,
-      authority_role t2, authority t3
-      where t1.r_id = t2.r_id
-      and t2.a_no =
-      t3.a_no
-      and t1.r_type = 'url'
-      and t1.ISREGISTRATION = '0'
-      order by
-      t3.a_name asc, t1.sort_order asc
-   </select>
-
-
-   <resultMap type="EmployeeVO" id="selectEmployeeResultMap">
-      <result column="emp_no" property="empNo" />
-      <result column="emp_name" property="empName" />
-      <result column="emp_pwd" property="empPwd" />
-      <result column="isAdmin" property="isAdmin" />
-
-      <collection property="codes" javaType="list" ofType="CodeVO">
-         <result column="c_no" property="cNo" />
-         <result column="c_name" property="cName" />
-      </collection>
-
-      <collection property="photos" javaType="list" ofType="PhotoVO">
-               <result column="photo_name" property="photoName"/>
-               <result column="division" property="division"/>
-         </collection>
-   </resultMap>
+	<select id="selectAuthority" resultMap="selectAuthRoleResultMap"
+		statementType="STATEMENT">
+		select t1.r_id, t1.r_name, t3.a_name
+		from role t1,
+		authority_role t2, authority t3
+		where t1.r_id = t2.r_id
+		and t2.a_no =
+		t3.a_no
+		and t1.r_type = 'url'
+		and t1.ISREGISTRATION = '0'
+		order by
+		t3.a_name asc, t1.sort_order asc
+	</select>
 
 
-   <select id="selectEmployee" parameterType="String"
-      resultMap="selectEmployeeResultMap" statementType="PREPARED">
-      select e.emp_no,
-      emp_name, emp_pwd, isAdmin,
-      c.c_no, c_name, ph.photo_name, ph.division
-      from employee_code ec, employee e,
-      code c, photo ph
-      where ec.emp_no =
-      e.emp_no
-      and ec.c_no = c.c_no
-      and e.emp_no = ph.emp_no
-      and e.emp_no =
-      #{value}
-      order by c.c_no asc
-   </select>
+	<resultMap type="EmployeeVO" id="selectEmployeeResultMap">
+		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="emp_pwd" property="empPwd" />
+		<result column="isAdmin" property="isAdmin" />
+
+		<collection property="codes" javaType="list" ofType="CodeVO">
+			<result column="c_no" property="cNo" />
+			<result column="c_name" property="cName" />
+		</collection>
+
+		<collection property="photos" javaType="list" ofType="PhotoVO">
+      			<result column="photo_name" property="photoName"/>
+      			<result column="division" property="division"/>
+      	</collection>
+	</resultMap>
+
+
+	<select id="selectEmployee" parameterType="String"
+		resultMap="selectEmployeeResultMap" statementType="PREPARED">
+		select e.emp_no,
+		emp_name, emp_pwd, isAdmin,
+		c.c_no, c_name, ph.photo_name, ph.division
+		from employee_code ec, employee e,
+		code c, photo ph
+		where ec.emp_no =
+		e.emp_no
+		and ec.c_no = c.c_no
+		and e.emp_no = ph.emp_no
+		and e.emp_no =
+		#{value}
+		order by c.c_no asc
+	</select>
 
 
 
 
-   <select id="selectAuthEmp" resultType="string" statementType="PREPARED"
-      parameterType="String">
-      select t3.a_name as aName
-      from authority_employee t1,
-      employee t2, authority t3
-      where t1.emp_no = t2.emp_no
-      and t1.a_no =
-      t3.a_no
-      and t1.emp_no = #{value}
-   </select>
+	<select id="selectAuthEmp" resultType="string" statementType="PREPARED"
+		parameterType="String">
+		select t3.a_name as aName
+		from authority_employee t1,
+		employee t2, authority t3
+		where t1.emp_no = t2.emp_no
+		and t1.a_no =
+		t3.a_no
+		and t1.emp_no = #{value}
+	</select>
 </mapper>
