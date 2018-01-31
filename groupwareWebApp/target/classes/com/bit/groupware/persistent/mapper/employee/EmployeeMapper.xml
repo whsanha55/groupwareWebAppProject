@@ -179,7 +179,7 @@
 		<![CDATA[
 			where e.rn >= #{startRow} and e.rn <= #{endRow}
 		]]> -->
-	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeCodeViewVO" statementType="STATEMENT">
+	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="STATEMENT">
 		select 
 			emp_no as empNo, 
 			emp_name as empName, 
