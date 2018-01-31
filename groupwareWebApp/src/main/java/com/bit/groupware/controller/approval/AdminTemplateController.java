@@ -3,20 +3,24 @@ package com.bit.groupware.controller.approval;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bit.groupware.domain.approval.TemplateVO;
 import com.bit.groupware.service.approval.TemplateService;
 
 
 @Controller
 public class AdminTemplateController {
 
+	private final static Logger logger = LoggerFactory.getLogger(AdminTemplateController.class);
+	
 	@Autowired
 	private TemplateService service;
 
@@ -32,7 +36,7 @@ public class AdminTemplateController {
 		return mv;
 	}
 	
-	
+/*	
 	//양식관리 검색 요청
 	@RequestMapping(value="/admin/findTemplate.do")
 	public ModelAndView find(@RequestParam(value="keyfield", required=true)String keyfield, 
@@ -48,7 +52,7 @@ public class AdminTemplateController {
 		return mv;
 	}
 	
-/*	
+	
 	//양식 상세보기
 	@RequestMapping(value="/admin/template.do")
 	public ModelAndView detail(@RequestParam(value="tmpNo", required=true)int tmpNo) {
@@ -66,18 +70,33 @@ public class AdminTemplateController {
 	@RequestMapping(value="/admin/registerTemplate.do")
 	public void register(TemplateVO templateVO) {
 		
-	}
-	
-	
-	//양식 삭제 폼 요청
+		
+		
+	}*/
 	
 	
 	//양식 삭제 요청
-	@RequestMapping(value="admin/removeTemplate.do", method=RequestMethod.POST)	
-	public String remove(@RequestParam(value="tmpNo", required=true)int tmpNo) {
-		service.removeTemplate(tmpNo);
+	@RequestMapping(value="/admin/removeTemplate.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String remove(@RequestParam(value="tmpNo", required=true)String tmpNos) {
+		
+		String[] values = tmpNos.split(",");
+		
+		int[] nums = new int[values.length];
+		
+		for(int i=0; i<values.length; i++) {
+			nums[i] = Integer.parseInt(values[i]);			
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+				
+		map.put("tmpNos", nums);
+		
+		service.removeTemplate(map);
 		return "approval/admin_templateList";
-	}*/
+		
+		
+	}
 	
 	
 }
