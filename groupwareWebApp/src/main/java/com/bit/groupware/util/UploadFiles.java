@@ -1,7 +1,15 @@
 package com.bit.groupware.util;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.servlet.ServletContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.bit.groupware.domain.authority.PostFileVO;
 
 
 public class UploadFiles {
@@ -9,30 +17,29 @@ public class UploadFiles {
 	private static final Logger logger = LoggerFactory.getLogger(UploadFiles.class);
 	private static int count = 1;
 
-//	public static ArticleFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
-//		String path = context.getRealPath("/upload");
-//		logger.info("path : {}",path);
-//		
-//		String originalFileName = part.getOriginalFilename();
-//		String systemFileName = "";
-//		File file = new File(path + File.separator + originalFileName);
-//		if (file.exists()) {
-//			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) + "_" + count
-//					+ originalFileName.substring(originalFileName.lastIndexOf("."));
-//			count++;
-//		} else {
-//			systemFileName = originalFileName;
-//		}
-//		
-//		File dest = new File(path + File.separator + systemFileName);
-//		part.transferTo(dest);
-//
-//		ArticleFileVO articleFile = new ArticleFileVO();
-//		articleFile.setOriginalFileName(originalFileName);
-//		articleFile.setSystemFileName(systemFileName);
-//		articleFile.setFileSize(part.getSize());
-//		return articleFile;
-//	}
+	public static PostFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
+		String path = context.getRealPath("/upload");
+		logger.info("path : {}",path);
+		
+		String originalFileName = part.getOriginalFilename();
+		String systemFileName = "";
+		File file = new File(path + File.separator + originalFileName);
+		if (file.exists()) {
+			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) + "_" + count
+					+ originalFileName.substring(originalFileName.lastIndexOf("."));
+			count++;
+		} else {
+			systemFileName = originalFileName;
+		}
+		
+		File dest = new File(path + File.separator + systemFileName);
+		part.transferTo(dest);
+
+		PostFileVO postFile = new PostFileVO();
+		postFile.setOriginalFileName(originalFileName);
+		postFile.setSystemFileName(systemFileName);
+		return postFile;
+	}
 
 	
 }

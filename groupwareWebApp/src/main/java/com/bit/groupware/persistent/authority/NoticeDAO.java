@@ -15,7 +15,7 @@ public interface NoticeDAO {
 	
 	//공지사항 정보를 등록한다.
 	//공지사항 번호는 일련번호를 부여한다.
-	void insertNotice(NoticeVO notice);
+	int insertNotice(NoticeVO notice);
 	
 	//공지사항 정보를 수정한다.
 	//권한이 부여된 사원만 공지사항을 수정할 수 있다.

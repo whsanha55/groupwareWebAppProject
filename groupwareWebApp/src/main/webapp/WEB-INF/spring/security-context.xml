@@ -38,17 +38,6 @@
 		<property name="securityMetadataSource"
 			ref="reloadableFilterInvocationSecurityMetadataSource" />
 	</bean>
-<<<<<<< HEAD
-	
-	<bean id="LoginFailController" class="com.bit.groupware.controller.LoginFailController"/>
-	
-	<!-- ============================ 인증 처리 ================================ -->	
-	 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-	
-	
-	<security:authentication-manager erase-credentials="true" id="authenticationManager">
-		<security:authentication-provider user-service-ref="userDetailsService">
-=======
 
 	<bean id="LoginFailController" class="com.bit.groupware.controller.LoginFailController" />
 
@@ -60,7 +49,6 @@
 		erase-credentials="true" id="authenticationManager">
 		<security:authentication-provider
 			user-service-ref="userDetailsService">
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 			<security:password-encoder ref="bcryptPasswordEncoder" /> 
 		</security:authentication-provider>
 	</security:authentication-manager>

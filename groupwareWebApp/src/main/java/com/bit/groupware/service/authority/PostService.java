@@ -14,7 +14,7 @@ public interface PostService {
 	List<PostVO> retrievePostList(Map<String, Integer> map);
 	
 	//게시글 정보를 수정한다.
-	void modifyPost(PostVO Post);
+	void modifyPost(PostVO post);
 	
 	//검색 조건에 해당하는 게시글 정보를 조회한다.
 	List<PostVO> findPost(Map<String , Object> map);
