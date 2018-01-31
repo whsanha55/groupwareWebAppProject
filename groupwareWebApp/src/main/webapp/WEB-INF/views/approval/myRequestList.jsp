@@ -27,12 +27,9 @@
 			 	var apprNo=$(this).attr('name')
 				$('#recordBody').load('${pageContext.request.contextPath}/recordModal.do?apprNo='+apprNo)
 					
-					
-					
-				
 
 				$('#layerpop').modal();
-			});
+		});
 		
 	});
 		
