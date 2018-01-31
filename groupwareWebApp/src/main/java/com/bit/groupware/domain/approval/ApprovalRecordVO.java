@@ -4,16 +4,16 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class ApprovalRecordVO {
 
-	int recordNo;
-	ApprovalVO approval;
-	ReceiverLineVO receiverLine;
-	int apprStatus;
-	String assignDate;
-	String checkDate;
+	private int recordNo;
+	private ApprovalVO approval;
+	private ReceiverLineVO receiverLine;
+	private int apprStatus;
+	private String assignDate;
+	private String checkDate;
 	// ì§„í–‰ì¤?: 0 , ê²°ìž¬: 1, ë³´ë¥˜: 2 , ë°˜ë ¤: 3, ? „ê²? : 4, ??ê²? : 5
-	String confirmDate;
-	ApprovalCommentVO approvalComment;
-	EmployeeVO depEmployee;
+	private String confirmDate;
+	private ApprovalCommentVO approvalComment;
+	private EmployeeVO depEmployee;
 
 	public ApprovalRecordVO() {
 		super();

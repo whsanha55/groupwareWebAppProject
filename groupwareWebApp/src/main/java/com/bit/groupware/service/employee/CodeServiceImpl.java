@@ -3,26 +3,29 @@ package com.bit.groupware.service.employee;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.groupware.controller.employee.AdminRegisterCodeController;
 import com.bit.groupware.domain.employee.CodeVO;
 import com.bit.groupware.persistent.employee.CodeDAO;
 
 @Service
 public class CodeServiceImpl implements CodeService {
-
+	private static final Logger logger = LoggerFactory.getLogger(CodeServiceImpl.class);
 	@Autowired
 	private CodeDAO codeDAO;
 	
 	//코드를 등록하다.
-	public boolean registerCode(CodeVO code) {
-		if(codeDAO.checkCode(code.getcName()) == true) {
-			codeDAO.insertCode(code);
-			return codeDAO.checkCode(code.getcName());
-		} else {
-			return codeDAO.checkCode(code.getcName());
-		}
+	public void registerCode(CodeVO code) {
+		codeDAO.insertCode(code);
+	}
+	
+	//코드를 조회하다.
+	public CodeVO retrieveCode(String cNo) {
+		return codeDAO.selectCode(cNo);
 	}
 	
 	//최상위 코드 리스트 조회
@@ -42,16 +45,20 @@ public class CodeServiceImpl implements CodeService {
 	
 	//코드 수정
 	public void modifyCode(CodeVO code) {
+		logger.info("코드 수정 Code : {}", code);
 		codeDAO.updateCode(code);
 	}
 	
 	//코드 삭제
-	public int removeCode(CodeVO code) {
-		if(codeDAO.checkRelation(code.getRelationCode()) == 0) {
-			codeDAO.deleteCode(code.getcNo());
-			return codeDAO.checkRelation(code.getRelationCode());
-		} else {
-			return codeDAO.checkRelation(code.getRelationCode());
-		}	
+	public void removeCode(String cNo) {
+		codeDAO.deleteCode(cNo);
+	}
+	
+	public List<CodeVO> retrieveDeptCodeList() {
+		return codeDAO.selectDeptCodeList();
+	}
+	
+	public List<CodeVO> retrieveDutyCodeList() {
+		return codeDAO.selectDutyCodeList();
 	}
 }
