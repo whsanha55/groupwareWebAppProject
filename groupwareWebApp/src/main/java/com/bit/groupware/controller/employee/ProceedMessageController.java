@@ -11,17 +11,17 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.MessageVO;
 import com.bit.groupware.service.employee.MessageService;
+
+import ch.qos.logback.core.net.SyslogOutputStream;
 
 @Controller
 public class ProceedMessageController {
@@ -91,7 +91,45 @@ public class ProceedMessageController {
 						
 		}
 		
-		//쪽지함 답장하기
+		//쪽지 DB에 반영 
+		
+		@RequestMapping(value="/registerMessage.do", method= RequestMethod.GET)
+		public void registerMessage(@RequestParam(value="message") MessageVO message) {
+			
+			//쪽지 내용을 DB에 반영한다.
+			
+			msgService.registerMessage(message);		
+			
+		}
+		
+		
+		//답장보내기
+		@RequestMapping(value="/registerReponseMsg", method= RequestMethod.GET)
+		public void registerReponseMsg(@RequestParam(value="message") MessageVO message) {
+			
+			//DB에 있던 발신자 -> 가 수신자가 되고, 수신자-> 발신자로 세팅해준다.
+			EmployeeVO receiptent = message.getReceipientEmployee();
+			EmployeeVO sender = message.getSenderEmployee();
+			
+			if(receiptent.getEmpNo() != sender.getEmpNo()) {
+				
+				//발신자 -> 수신자 , 수신자 -> 발신자
+				
+				message.setSenderEmployee(receiptent);
+				message.setReceipientEmployee(sender);
+				
+				//해당정보로 메시지 등록 
+				msgService.registerMessage(message);
+				
+				
+			} else {
+				//지워주세요
+				System.out.println("erooooooooooooooooooooooooor");
+			}
+			
+		}
+		
+		
 	
 
 }

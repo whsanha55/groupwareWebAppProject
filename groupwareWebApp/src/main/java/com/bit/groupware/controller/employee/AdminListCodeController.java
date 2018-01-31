@@ -29,7 +29,7 @@ public class AdminListCodeController {
 		map.put("endRow", 10);
 		logger.info("map : {}", map);
 		mv.addObject("codes", codeService.retrieveCodeList1(map));
-		mv.setViewName("employee/admin_listCode");
+		mv.setViewName("employee/admin_listCode1");
 		return mv;
 	}
 	
