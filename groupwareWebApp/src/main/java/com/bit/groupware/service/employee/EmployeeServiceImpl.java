@@ -54,24 +54,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDAO.selectEmployeeList(map);
 	}
 	
-	public void registerEmployee(EmployeeVO employee, EmployeeCodeVO empcode) {
+	public void registerEmployee(EmployeeVO employee) {
+		
 		String empNo = employeeDAO.insertEmployee(employee);
 		logger.info("empNo : {}", empNo);
 		
-		employeeDAO.insertEmployeeCode(empcode);
-		logger.info("empCode1 : {}", empcode);
+		List<EmployeeCodeVO> codeList = employee.getCodeList();
+		for(EmployeeCodeVO code : codeList) {
+			code.setEmpNo(empNo);
+		}
 		
-		employeeDAO.insertEmployeeCode(empcode);
-		logger.info("empCode2 : {}", empcode);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("codeList", codeList);
+		
+		employeeDAO.insertEmployeeCode(map);
 		
 		List<PhotoVO> photos = employee.getPhotos();
+		logger.info("photos : {}", photos);
 		if(photos.size() != 0) {
 			for(PhotoVO photo : photos) {
 				photo.setEmpNo(empNo);
 			}
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("photos", photos);
-			photoDAO.insertPhoto(map);
+			Map<String, Object> map1 = new HashMap<String, Object>();
+			map1.put("photos", photos);
+			photoDAO.insertPhoto(map1);
 		}
 	}
 	

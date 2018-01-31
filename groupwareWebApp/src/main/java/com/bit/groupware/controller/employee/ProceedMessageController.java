@@ -104,7 +104,7 @@ public class ProceedMessageController {
 		
 		
 		//답장보내기
-		@RequestMapping(value="/registerReponseMsg", method= RequestMethod.GET)
+		@RequestMapping(value="/registerReponseMsg,do", method= RequestMethod.GET)
 		public void registerReponseMsg(@RequestParam(value="message") MessageVO message) {
 			
 			//DB에 있던 발신자 -> 가 수신자가 되고, 수신자-> 발신자로 세팅해준다.
@@ -126,6 +126,14 @@ public class ProceedMessageController {
 				//지워주세요
 				System.out.println("erooooooooooooooooooooooooor");
 			}
+			
+		}
+		
+		
+		@RequestMapping(value="/writeMessage.do", method= RequestMethod.GET)
+		public String form() {
+		
+			return "writeMessage";
 			
 		}
 		

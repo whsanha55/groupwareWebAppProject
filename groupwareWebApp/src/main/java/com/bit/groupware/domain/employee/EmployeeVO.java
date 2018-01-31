@@ -17,13 +17,14 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 	private String retireDate;
 	private String address;
 	private List<MultipartFile> upload;
-	private	List<CodeVO> codes;
-	private List<PhotoVO> photos;
+	private List<CodeVO> codes;
+	private List<EmployeeCodeVO> codeList;
+	private List<PhotoVO> photos = new ArrayList<PhotoVO>();
 	private String isAdmin;
 
 	public EmployeeVO() {
 		super();
-	}	
+	}
 
 	public EmployeeVO(String empNo, String empName, String empPwd, String engName, String phoneNumber, String email,
 			String regNumber, String hireDate, String retireStatus, String retireDate, String address,
@@ -46,19 +47,21 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 		this.isAdmin = isAdmin;
 	}
 
+	public List<EmployeeCodeVO> getCodeList() {
+		return codeList;
+	}
 
+	public void setCodeList(List<EmployeeCodeVO> codeList) {
+		this.codeList = codeList;
+	}
 
 	public List<MultipartFile> getUpload() {
 		return upload;
 	}
 
-
-
 	public void setUpload(List<MultipartFile> upload) {
 		this.upload = upload;
 	}
-
-
 
 	public String getEmpNo() {
 		return empNo;
@@ -175,7 +178,7 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 	public void addPhoto(PhotoVO photo) {
 		photos.add(photo);
 	}
-	
+
 	public void addCode(CodeVO code) {
 		codes.add(code);
 	}
@@ -188,8 +191,4 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 				+ ", upload=" + upload + ", codes=" + codes + ", photos=" + photos + ", isAdmin=" + isAdmin + "]";
 	}
 
-	
-
-	
-	
 }

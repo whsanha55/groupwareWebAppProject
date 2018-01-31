@@ -14,7 +14,8 @@
 		});
 		
 		$('#pushBtn').click(function() {
-			$('#empName').text($('#deptHead').text());
+			$('#myModal').modal('hide');
+			$('#empName').val($('#deptHead').text());
 		});
 		/* 
 		$('#submitBtn').submit(function() {
@@ -176,7 +177,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="even pointer">
+								<tr id="pushBtn" class="even pointer">
 									<td>영업부</td>
 									<td class=" ">부장</td>
 									<td id="deptHead" class=" ">영부장</td>
@@ -186,7 +187,7 @@
 					</div>
 					<br>
 					<div class="text-center">
-						<button id="pushBtn" type="button" class="btn btn-primary">설정</button>
+						<%-- <button id="pushBtn" type="button" class="btn btn-primary">설정</button> --%>
 						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 					</div>
 				</div>
