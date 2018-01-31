@@ -48,11 +48,7 @@
 				<tbody>
 					<tr>
 						<th>상위코드</th>
-						<td><select id="relationCode" name="relationCode">
-							<c:forEach var="codes" items="${requestScope.codes}" varStatus="loop">
-								<option value="${pageScope.codes.cNo }" }>${pageScope.codes.cName}</option>
-							</c:forEach>
-								</select>
+						<td><input type="text" id="relationCode" name="relationCode" value="${param.relationCode}" readonly >
 						</td>
 					</tr>
 					<tr>
