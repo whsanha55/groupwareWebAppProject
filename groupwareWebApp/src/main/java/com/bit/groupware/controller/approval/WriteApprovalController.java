@@ -63,6 +63,14 @@ public class WriteApprovalController {
 		
 		
 	}
+	
+	//결재선 관리 요청 
+	@RequestMapping("/receiverModal.do")
+	public ModelAndView receiverModal() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("receiverModal");
+		return mv;
+	}
 
 	
 }
