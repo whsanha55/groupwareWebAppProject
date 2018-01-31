@@ -17,9 +17,7 @@
 	
 	<insert id="insertEmployeeCode" parameterType="EmployeeCodeVO" statementType="PREPARED"> 
 		insert into employee_code
-		values((select c_no 
-		        from code 
-		        where c_name = #{cName}), #{empNo})
+		values(#{cNo}, #{empNo})
 	</insert>
 
 	<update id="updateEmployee" parameterType="EmployeeVO" statementType="PREPARED">
