@@ -41,7 +41,7 @@
 							</ul></li>
 						<li><a>커뮤니티 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href='<c:url value="/admin/notice.do"/>'>공지사항 관리</a></li>
+								<li><a href='<c:url value="/admin/noticeList.do"/>'>공지사항 관리</a></li>
 								<li><a href='<c:url value="/admin/board.do"/>'>게시판 관리</a></li>
 							</ul></li>
 					</ul></li>
