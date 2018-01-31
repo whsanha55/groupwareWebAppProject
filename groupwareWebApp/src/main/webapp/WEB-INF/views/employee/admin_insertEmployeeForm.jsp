@@ -31,7 +31,7 @@
 				<form id="demo-form2" <%-- data-parsley-validate="" --%>class="form-horizontal form-label-left"
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post">
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">프로필 사진 </label>
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
 							<a class="btn" title="Insert picture (or just drag &amp; drop)"
 								id="pictureBtn"><i class="fa fa-picture-o"></i></a> <input

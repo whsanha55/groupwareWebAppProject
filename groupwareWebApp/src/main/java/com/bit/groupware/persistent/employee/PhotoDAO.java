@@ -1,10 +1,10 @@
 package com.bit.groupware.persistent.employee;
 
-import com.bit.groupware.domain.employee.PhotoVO;
+import java.util.Map;
 
 public interface PhotoDAO {
 
-	void insertPhoto(PhotoVO photo);
+	void insertPhoto(Map<String, Object> map);
 	
 	void deletePhoto(String photoNo);
 }
