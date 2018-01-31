@@ -27,7 +27,7 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/ApprovalDetail.do?apprNo='+apprNo;
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo;
 				window.open(url, "결재문서","width=700, height=600");
 			});
 		
@@ -95,60 +95,55 @@
 		
 		//페이징 처리
 		function jqueryPager(subOption) {
-			
-			var pageBlock = subOption.countPerPage;      
-			var pageSize = subOption.pageSize;        
-			var currentPage = subOption.currentPageNo;   
-			var pageTotal = subOption.totalCount;       
-			
-			var pageTotalCnt = Math.ceil(pageTotal/pageSize);
-			var pageBlockCnt = Math.ceil(currentPage/pageBlock);
-			var sPage, ePage;
-			
-			var html ="<ul class='pagination'>";
-			
-			if(pageBlock > 1) {
-				sPage = (pageBlockCnt-1) * pageBlock + 1;
-			} else {
-				sPage = 1;
-			}
-			
-			if((pageBlockCnt * pageBlock) >= pageTotalCnt) {
-				ePage = pageTotalCnt;
-			} else {
-				ePage = pageBlockCnt * pageBlock;
-			}
-			
-			if(sPage <= 1) {
-				html += '<li class="page-item disabled">';
-				html += '<a class="page-link" aria-label="Previous">' 
-			} else {
-				html += '<li class="page-item ">';
-				html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageBlock) + ')">'; 
-			}
-			html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
-			
-			for(var i=sPage; i<=ePage; i++) {
-				if(currentPage == i) {
-					html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
-				} else {
-					html += '<li class="page-item"><a class="page-link" onclick="templatePaging(' + i + ');">' + i + '</a></li>';
-				}
-			}				
+		
+		var pageBlock = subOption.countPerPage;      
+		var pageSize = subOption.pageSize;        
+		var currentPage = subOption.currentPageNo;   
+		var pageTotal = subOption.totalCount;       
+		var pageTotalCnt = Math.ceil(pageTotal/pageBlock);
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
+		
+		var html ="<ul class='pagination'>";
 
-			if (ePage >= pageTotalCnt) {
-				html += '<li class="page-item disabled">';
-				html += '<a class="page-link" aria-label="Next">';
-			} else {
-				html += '<li class="page-item">';
-				html += '<a class="page-link" aria-label="Next" onclick = "templatePaging(' + (ePage+1) + ')">';
-			}
-			html += '<span aria-hidden="true">&raquo;</span> </a></li>';
-			html += '</ul>';
-			
-			$('#templatePaging').html(html);
-
+		
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
+			ePage = pageTotalCnt;
+		} else {
+			ePage = pageBlockCnt * pageSize;
+		} 
+		
+		if(sPage <= 1) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Previous">' 
+		} else {
+			html += '<li class="page-item ">';
+			html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageSize) + ')">'; 
 		}
+		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
+		
+		for(var i=sPage; i<=ePage; i++) {
+			if(currentPage == i) {
+				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
+			} else {
+				html += '<li class="page-item"><a class="page-link" onclick="templatePaging(' + i + ');">' + i + '</a></li>';
+			}
+		}				
+
+		if (ePage >= pageTotalCnt) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Next">';
+		} else {
+			html += '<li class="page-item">';
+			html += '<a class="page-link" aria-label="Next" onclick = "templatePaging(' + (ePage+1) + ')">';
+		}
+		html += '<span aria-hidden="true">&raquo;</span> </a></li>';
+		html += '</ul>';
+		
+		$('#templatePaging').html(html);
+	
+	}
 
 	
 </script>
