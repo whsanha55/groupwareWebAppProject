@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.approval.ReceiverMapper">
+
+
+  <insert id="insertReceiver" parameterType="ReceiverVO" statementType="PREPARED">
+          <selectKey keyProperty="recieverNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+               select receiver_no.nextVal from dual
+          </selectKey>
+          insert into receiver(receiver_no, emp_no, receiver_name)
+          values(#{recieverNo}, #{employee.empNo}, #{receiverName})
+      </insert>
+
+
+      <select id="selectReceiverList" statementType="STATEMENT" resultType="ReceiverVO">
+          select receiver_no as receiverNo, receiver_name as receiverName
+          from receiver
+          order by receiver_name asc
+      </select>
+
+      <update id="updateReceiver"  parameterType="ReceiverVO" statementType="PREPARED">
+          update receiver
+          set receiver_name = #{receiverName}
+          where receiver_no = #{recieverNo}
+      </update>
+
+      <delete id="deleteReceiver" parameterType="int" statementType="PREPARED">
+          delete from receiver
+          where receiver_no = #{recieverNo}
+      </delete>
+    
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
