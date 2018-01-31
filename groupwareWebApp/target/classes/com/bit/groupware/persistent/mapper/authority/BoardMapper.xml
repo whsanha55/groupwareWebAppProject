@@ -12,14 +12,13 @@
 		</selectKey>
 		insert into board(board_no, board_name, isuse, file_count, isnotice,
 		iscomment, isdeptdivide, isdocutype)
-		values(#{boardNo},#{boardName}, #{isUse}, #{fileCount}, #{isNotice} ,#{isComment}, #{isDeptDivide},
-		#{isDocuType})
+		values(#{boardNo},#{boardName},#{isUse},#{fileCount},#{isNotice},#{isComment}, #{isDeptDivide},#{isDocuType})
 	</insert>
 
 	<select id="selectBoardList" resultType="BoardVO" statementType="STATEMENT">
 		 select board_no, board_name, isuse, file_count, isnotice, iscomment, isdeptdivide, isdocutype
 		from board
-        order by board_no asc;
+        order by board_no asc
 	</select>
 	
     <update id="updateBoard" parameterType="BoardVO" statementType="PREPARED">
