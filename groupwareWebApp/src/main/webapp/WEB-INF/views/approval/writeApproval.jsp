@@ -275,11 +275,11 @@
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td>김사원</td>
-			<%-- <td>${requestScope.??.name }</td> --%>
+			<!-- <td>김사원</td> -->
+			<td>${requestScope.user.empName }</td>
 			<th>부서</th>
-			<td>인사1팀</td>
-			<%-- <td>${requestScope.??.cName }</td> --%>
+			<!-- <td>인사1팀</td> -->
+			<td>${requestScope.user.deptName }</td>
 
 		</tr>
 		<tr>

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.groupware.domain.approval.TemplateVO;
+import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.service.approval.TemplateService;
 
 @Controller
@@ -29,6 +31,9 @@ public class TemplateAjaxController {
 			@RequestParam int endRow
 			) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+//		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		map.put("empNo", user.getUsername());
 		map.put("empNo", "2018-00011");
 		
 		map.put("keyfield", keyfield);
