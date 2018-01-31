@@ -7,7 +7,7 @@
 
    <insert id="insertNotice" statementType="PREPARED" parameterType="NoticeVO">
       <selectKey keyProperty="noticeNo" resultType="int" order="BEFORE" statementType="STATEMENT">
-           select notice_no_seq.nextval from dual;
+           select notice_no_seq.nextval from dual
       </selectKey>
       insert into notice(notice_no, notice_title, hitcount, notice_date, notice_contents)
       values(#{noticeNo}, #{noticeTitle}, 0, sysdate, #{noticeContents})

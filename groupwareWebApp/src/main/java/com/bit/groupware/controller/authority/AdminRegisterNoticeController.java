@@ -30,11 +30,11 @@ public class AdminRegisterNoticeController {
 	public String form() {
 		return "authority/admin_addNotice";
 	}
-	/*
+
 	//공지사항 글 쓰기 요청
 	@RequestMapping(value="/admin/addNotice.do", method=RequestMethod.POST)
 	public String submit(NoticeVO notice, HttpSession session) throws Exception { 
-		logger.info("notice : {}", notice);
+		logger.info("내용!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", notice.getNoticeContents());
 		List<MultipartFile> uploadFiles = notice.getUpload();
 		for (MultipartFile file : uploadFiles) {
 			if (!file.isEmpty()) {
@@ -46,6 +46,6 @@ public class AdminRegisterNoticeController {
 			}
 		}
 		noticeService.registerNotice(notice);
-		return "redirect:/authority/admin_notice.do";
-	}*/
+		return "redirect:/authority/noticeList.do";
+	}
 }

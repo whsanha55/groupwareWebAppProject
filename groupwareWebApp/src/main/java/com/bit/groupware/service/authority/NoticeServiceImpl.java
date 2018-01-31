@@ -38,6 +38,7 @@ public class NoticeServiceImpl implements NoticeService {
 			}			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("noticeFiles", files);
+			System.out.println("焼たたたたたたたたたたたたたたたた" + files.toString());
 			noticeFileDAO.insertNoticeFile(map);
 		}
 	}

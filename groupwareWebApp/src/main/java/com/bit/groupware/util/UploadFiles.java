@@ -9,13 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bit.groupware.domain.authority.NoticeFileVO;
+
 
 public class UploadFiles {
 
 	private static final Logger logger = LoggerFactory.getLogger(UploadFiles.class);
 	private static int count = 1;
 
-/*	public static ArticleFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
+	public static NoticeFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
 		String path = context.getRealPath("/upload");
 		logger.info("path : {}",path);
 		
@@ -33,12 +35,10 @@ public class UploadFiles {
 		File dest = new File(path + File.separator + systemFileName);
 		part.transferTo(dest);
 
-		ArticleFileVO articleFile = new ArticleFileVO();
-		articleFile.setOriginalFileName(originalFileName);
-		articleFile.setSystemFileName(systemFileName);
-		articleFile.setFileSize(part.getSize());
-		return articleFile;
+		NoticeFileVO noticeFile = new NoticeFileVO();
+		noticeFile.setOriginalFileName(originalFileName);
+		noticeFile.setSystemFileName(systemFileName);
+		return noticeFile;
 	}
 
-	*/
 }
