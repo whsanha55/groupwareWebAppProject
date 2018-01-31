@@ -22,6 +22,20 @@ public class CodeDAOImpl implements CodeDAO {
 		sqlSession.insert(NAMESPACE + ".insertCode", code);
 	}
 	
+	//코드 조회
+	public CodeVO selectCode(String cNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectCode", cNo);
+	}
+	
+	//코드번호 중복체크
+	public boolean checkCodeNo(String cNo) {
+		if(sqlSession.selectOne(NAMESPACE + ".checkCodeNo", cNo) == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	
 	//코드 이름 중복체크
 	public boolean checkCode(String cName) {
@@ -60,9 +74,25 @@ public class CodeDAOImpl implements CodeDAO {
 		sqlSession.update(NAMESPACE + ".updateCode", code);
 	}
 	
-	
 	//코드 삭제
 	public void deleteCode(String cNo) {
 		sqlSession.delete(NAMESPACE + ".deleteCode", cNo);
 	}
+	
+	//부서 코드 목록 조회
+	public List<CodeVO> selectDeptCodeList() {
+		return sqlSession.selectList(NAMESPACE + ".selectDeptCodeList");
+	}
+	
+	//직책 코드 목록 조회
+	public List<CodeVO> selectDutyCodeList() {
+		return sqlSession.selectList(NAMESPACE + ".selectDutyCodeList");
+	}
+	
+	//페이징 처리
+	public int selectCodeCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectCodeCount", map);
+	}
+	
+	
 }

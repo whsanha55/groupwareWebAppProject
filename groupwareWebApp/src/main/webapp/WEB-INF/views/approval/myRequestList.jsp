@@ -5,15 +5,146 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>요청문서함</title>
-<script type="text/javascript">
 
+<script>
+
+	var pKeyfield;  
+	var pKeyword;
+	
 	$(document).ready(function(){
-		$('.DetailApproval').click(function(){
-			var apprNo=$(this).attr('id');
-			var url = '${pageContext.request.contextPath}/ApprovalDetail.do?apprNo='+apprNo;
-			window.open(url, "결재문서", "width=1300");
-		});
+		
+		templatePaging(1);//최초로드시 페이지처리
+		
+		
+		/*  $('#datatable').on('click','#recordModal',function() {
+			 	var apprNo=$(this).attr('name')
+				$('#recordBody').load('${pageContext.request.contextPath}/recordModal.do?apprNo='+apprNo)
+					
+
+				$('#layerpop').modal();
+		}); */
+		
+		 $('#datatable').on("click",'.detailApproval',function(){
+				
+				var apprNo=$(this).attr('id');
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo;
+				window.open(url, "결재문서","width=700, height=600");
+			});
+		
 	});
+		
+	
+		function templatePaging(currentPageNo) {
+			var totalCount =  0;		//총 양식서 수
+			var countPerPage = 10;   //한 페이지당 보여주는 회원 수
+			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
+			var startRow = (currentPageNo - 1) * countPerPage + 1;
+			var endRow = currentPageNo * countPerPage;
+			
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/approvalMyRequestPaging.do' 
+				,
+				data: {
+					keyfield: pKeyfield ,
+					keyword: pKeyword ,	
+					startRow : startRow ,
+					endRow : endRow
+				},
+				type: 'POST' ,
+				cache: false ,
+				dataType: 'json' ,
+				success: function (data, textStatus, jqXHR) {
+					
+					totalCount = data.totalCount;
+					
+					//datatable테이블 변경하기
+					var text = "";
+					for(var i=0;i<data.approvals.length;i++) {
+
+						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
+						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
+						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
+						text += "<td>"+ data.approvals[i].apprDate + "</td>";
+						
+						text += "<td><button class='btn btn-default' id='recordModal' name="+data.approvals[i].apprNo+">보기</button></td>";
+						text += "</tr>";
+					}
+						$('#datatable').html(text);
+						
+						$("#count1").text("-" +data.totalCount+"건의 결재 요청 문서");
+					
+						//페이징 처리
+						jqueryPager({
+							countPerPage : countPerPage,
+							pageSize : pageSize,
+							currentPageNo : currentPageNo,
+							totalCount : totalCount
+						});
+						
+					
+				} ,
+				error: function(jqXHR) {
+					alert("에1러: " + jqXHR.status);
+				}
+				
+			});
+			
+
+		} //end templatePaging function
+		
+		//페이징 처리
+		function jqueryPager(subOption) {
+		
+		var pageBlock = subOption.countPerPage;      
+		var pageSize = subOption.pageSize;        
+		var currentPage = subOption.currentPageNo;   
+		var pageTotal = subOption.totalCount;       
+		var pageTotalCnt = Math.ceil(pageTotal/pageBlock);
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
+		
+		var html ="<ul class='pagination'>";
+
+		
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
+			ePage = pageTotalCnt;
+		} else {
+			ePage = pageBlockCnt * pageSize;
+		} 
+		
+		if(sPage <= 1) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Previous">' 
+		} else {
+			html += '<li class="page-item ">';
+			html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageSize) + ')">'; 
+		}
+		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
+		
+		for(var i=sPage; i<=ePage; i++) {
+			if(currentPage == i) {
+				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
+			} else {
+				html += '<li class="page-item"><a class="page-link" onclick="templatePaging(' + i + ');">' + i + '</a></li>';
+			}
+		}				
+
+		if (ePage >= pageTotalCnt) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Next">';
+		} else {
+			html += '<li class="page-item">';
+			html += '<a class="page-link" aria-label="Next" onclick = "templatePaging(' + (ePage+1) + ')">';
+		}
+		html += '<span aria-hidden="true">&raquo;</span> </a></li>';
+		html += '</ul>';
+		
+		$('#templatePaging').html(html);
+	
+	}
+
 	
 </script>
 </head>
@@ -24,7 +155,7 @@
                   <div class="x_title">
                     <h2>결재 요청함</h2>
                     
-                    <div class="clearfix">&nbsp;&nbsp;1건의 결재 요청 문서<br></div>
+                    <div class="clearfix" id="count1">&nbsp;&nbsp; <br></div>
                   </div>
 				  <div>
 					
@@ -59,12 +190,12 @@
                  
 
                     <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
+                      <table  class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
                             
                             
-                            <th class="column-title">번호</th>
+                            <th class="column-title">문서번호</th>
                             <th class="column-title">양식명</th>
                             <th class="column-title">문서 제목</th>
                             <th class="column-title">기안일</th>
@@ -73,8 +204,9 @@
                           </tr>
                         </thead>
 
-                        <tbody>
-                        <c:forEach var="approval" items="${requestScope.approvals}" >
+                        <tbody id="datatable">
+                        
+                   <%--      <c:forEach var="approval" items="${requestScope.approvals}" >
                         
                           <tr class="even pointer">
 	
@@ -86,18 +218,15 @@
                             
                            
                           </tr>
-                         </c:forEach>
+                         </c:forEach> --%>
+                         
                         </tbody>
                       </table>
 					  <div>
 					  <div class="text-center">
-						<ul class="pagination ">
-							<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-						</ul>
+				 		<nav aria-label="Page navigation" id = 'templatePaging'>
+				
+						</nav> 
 						</div>
 					  </div>
                     </div>
@@ -105,6 +234,7 @@
 						
                   </div>
                 </div>
+                
               </div>
                 </div>
                 <!-- end of weather widget -->
@@ -308,8 +438,49 @@
 	</div>
 	모달 끝 -->
 	
+	
+		<div class="modal fade" id="layerpop" >
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      header
+		      <div class="modal-header">
+		        닫기(x) 버튼
+		        <button type="button" class="close" data-dismiss="modal">×</button>
+		        header title
+		        <h4 class="modal-title">Header</h4>
+		      </div>
+		      body
+		      <div class="modal-body test123">
+		           <table class="table table-striped jambo_table bulk_action">
+                       <thead>
+                         <tr class="headings">
+                           
+                           <th class="column-title">순번</th>
+                           <th class="column-title">결재자</th>
+                           <th class="column-title">결재유형</th>
+						   <th class="column-title">배정일시</th>
+                           <th class="column-title">확인일시</th>
+                           <th class="column-title">결재일시</th>      
+                           
+                         </tr>
+                       </thead>
+                        <tbody id=recordBody>
+                        
+	                   </tbody>       
+	              </table> 
+		      </div>
+		      Footer
+		      <div class="modal-footer">
+		        Footer
+		        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	
+	
         
-	    <!-- 모달 팝업 -->
+	    <!-- 모달 팝업
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 		  <div class="modal-dialog">
 		    <div class="modal-content" style="width:700px;">
@@ -369,7 +540,7 @@
 		      </div>
 		    </div>
 		  </div>
-		</div>
+		</div> -->
 		<!-- 모달 팝업 끝 -->
 </body>
 </html>

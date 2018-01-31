@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public class PostFileDAOImpl implements PostFileDAO {
 	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.authority.PostFileMapper";

@@ -5,16 +5,52 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.BoardMapper">
 
-	<insert id="insertBoard" parameterType="Board" statementType="PREPARED">
+	<insert id="insertBoard" parameterType="BoardVO" statementType="PREPARED">
 		<selectKey keyProperty="boardNo" resultType="int"
 			statementType="STATEMENT" order="BEFORE">
 			select board_no_seq.nextval from dual
 		</selectKey>
 		insert into board(board_no, board_name, isuse, file_count, isnotice,
 		iscomment, isdeptdivide, isdocutype)
-		values(#{boardNo},#{boardName}, #{isUse}, #{fileCount}, #{isNotice} ,#{isComment}, #{isDeptDivide},
-		#{isDocuType})
+		values(#{boardNo},#{boardName},#{isUse},#{fileCount},#{isNotice},#{isComment}, #{isDeptDivide},#{isDocuType})
 	</insert>
 
-
+	<select id="selectBoardList" resultType="BoardVO" statementType="STATEMENT">
+		 select board_no, board_name, isuse, file_count, isnotice, iscomment, isdeptdivide, isdocutype
+		from board
+        order by board_no asc
+	</select>
+	
+    <update id="updateBoard" parameterType="BoardVO" statementType="PREPARED">
+    	update board
+    	<trim prefix="set" suffixOverrides=",">
+    		<if test="boardName != null">
+    			board_name = #{boardName},
+    		</if>
+    		<if test="isUse != null">
+    			isUse = #{isUse},
+    		</if>
+    		<if test="fileCount != null">
+    			file_count = #{fileCount},
+    		</if>
+    		<if test="isNotice != null">
+    			isNotice = #{isNotice},
+    		</if>
+    		<if test="isComment != null">
+    			isComment = #{isComment},
+    		</if>
+    		<if test="isDeptDivide != null">
+    			isDeptDivide = #{isDeptDivide},
+    		</if>
+    		<if test="isDocuType != null">
+    			isDocuType = #{isDocuType},
+    		</if>
+    	</trim>
+    	where board_no = #{boardNo}
+    </update>
+    
+    <delete id="deleteBoard" statementType="PREPARED" parameterType="int">
+    	delete from board
+    	where board_no = #{boardNo}
+    </delete>
 </mapper>

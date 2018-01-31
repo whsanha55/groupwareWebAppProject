@@ -5,19 +5,27 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.approval.ApprovalRecordMapper">
 	
-	<insert id="insertApprovalRecord" parameterType="ApprovalRecordVO" statementType="PREPARED" > 
-		<selectKey keyProperty="recordNo" resultType="int" order="BEFORE" statementType="STATEMENT" >
-			select approval_record_seq.nextval from dual
-		</selectKey>
-		insert into approval_record(record_no,appr_no,line_no,appr_status)
-		values(#{recordNo},#{apprNo},#{lineNo},#{apprStatus})
+<!-- 첫번째만 들가도록 쿼리 설계됨 수정필요함 -->
+	<insert id="insertApprovalRecord" parameterType="map" statementType="PREPARED" > 
+		insert into approval_record(record_no, appr_no, line_no)
+		values(approval_record_seq.nextval, #{apprNo}, 
+				(select min(line_no) 
+				 from receiver_line 
+				 where receiver_no = #{receiverNo}))
+ 	</insert>
+	<insert id="insertApprovalRecordProcedure" parameterType="map" statementType="CALLABLE" > 
+		{
+			call approval_record_procedure (#{apprNo},#{receiverNo})
+		}
  	</insert>
 
 	<select id="selectApprovlaRecordList" parameterType="int" resultType="ApprovalRecordVO" statementType="PREPARED">
-     	select t1.record_no,  t1.appr_status, t1.assign_date, t1.check_date, t1.confirm_date, t1.appr_no, t1.line_no
-		from approval_record t1, approval t2, receiver_line t3
-		where t1.appr_no = t2.appr_no
-		and t1.line_no = t3.line_no
+     	select rec.appr_no, line.line_order, emp.emp_name, rec.appr_status, rec.assign_date,
+		rec.check_date, rec.confirm_date
+		from approval_record rec, receiver_line line, emp_view emp
+		where rec.line_no=line.line_no
+		and line.line_emp_no=emp.emp_no
+		and appr_no=#{apprNo}
    </select>
    
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">

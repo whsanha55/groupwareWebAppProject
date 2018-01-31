@@ -3,9 +3,11 @@ package com.bit.groupware.service.authority;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.bit.groupware.domain.authority.AuthorityVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
-
+@Service
 public class AuthorityServiceImpl implements AuthorityService {
 
 	public List<AuthorityVO> retrieveAuthorityList(Map<String, Integer> map) {

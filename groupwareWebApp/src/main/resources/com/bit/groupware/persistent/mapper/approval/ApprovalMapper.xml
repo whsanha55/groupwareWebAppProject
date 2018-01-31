@@ -9,9 +9,17 @@
 	  	<selectKey keyProperty="apprNo" resultType="int" statementType="STATEMENT" order="BEFORE"> 
 	  		select approval_seq.nextval from dual
 	  	</selectKey>
-	  		insert into approval(appr_no,appr_title,appr_content,
-	                emp_no,tmp_no,valid_date,urgency)
-			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{template.tmpNo},#{validDate},#{urgency})
+	  		insert into approval(appr_no,appr_title,appr_content,emp_no,valid_date,urgency, appr_final_status
+	  		<if test="template.tmpNo != 0">
+	  			,tmp_no
+	  		</if>
+	  		)
+			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency}, #{apprFinalStatus}
+	  		<if test="template.tmpNo != 0">
+	  			,#{template.tmpNo}
+	  		</if>
+			
+			)
 	  </insert>
 
 	
@@ -48,39 +56,141 @@
 	
 	<select id="selectApprovalList" statementType="PREPARED" parameterType="map"  resultMap="selectApprvalResultMap" > 
 		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content,
-		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name,c.c_name,c.c_no
-		from approval appr, employee emp ,template tmp, code c, employee_code ec
+		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty
+		from (select rownum as rn, t1.*
+		      from (select *
+		            from approval order by appr_date asc) t1)appr ,template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
-		and emp.emp_no=ec.emp_no
-		and ec.c_no=c.c_no
-		and c.c_no like 'A'||'%'
 		
 		<if test="empNo != null">
-		and emp.emp_no = #{empNo}
+			and emp.emp_no = #{empNo}
 		</if>
 		
-		<choose>
-		
-		
-		</choose> 
-				
-		<if test="apprFinalStatus == 1 || apprFinalStatus == 2 || apprFinalStatus == 3">
-		and appr.appr_final_status = #{apprFinalStatus}
+		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
+			and appr.appr_final_status = #{apprFinalStatus}
+		</if>
+		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
+			and appr.appr_final_status in (0,2)
+		</if>
+		<if test="apprFinalStatus == 4 ">
+			and appr.appr_final_status in (4,5)
 		</if>
 		
-		<if test="apprFinalStatus >= 4">
-		and appr.appr_final_status = #{apprFinalStatus}
-		</if>
-		<!-- <if test="keyfield=='apprTitle' and keyword!=null">
+		<if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title=#{apprTitle}
 		</if>
 		<if test="keyfield=='empName'and keyword!=null">
 			and emp.emp_name=#{empName}
 		</if>
+		
 		<if test="keyfield=='empDept'and keyword!=null">
 			and c.c_name=#{empDept}
-		</if> -->
+		</if> 
+		and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+	</select>
+	
+	
+	<select id="selectApprovalCount" parameterType="map" resultType="int" statementType="PREPARED"> 
+	 	select count(appr.appr_no)
+		from approval appr,template tmp,emp_view emp
+		where appr.emp_no = emp.emp_no
+		and appr.tmp_no=tmp.tmp_no
+		
+		<if test="empNo != null">
+		and emp.emp_no = #{empNo}
+		</if>
+		
+		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>
+		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
+		and appr.appr_final_status in (0,2)
+		</if>
+		<if test="apprFinalStatus == 4 ">
+		and appr.appr_final_status in (4,5)
+		</if>
+		
+		<if test="keyfield=='apprTitle' and keyword!=null">
+			and appr.appr_Title=#{apprTitle}
+		</if>
+		<if test="keyfield=='empName'and keyword!=null">
+			and emp.emp_name=#{empName}
+		</if>
+		
+		<if test="keyfield=='empDept'and keyword!=null">
+			and c.c_name=#{empDept}
+		</if> 
+	</select>
+	
+	
+	<resultMap id="selectApprvalDetailResultMap" type="ApprovalVO">
+		<id property="apprNo" column="appr_no" />
+		<result property="apprDate" column="appr_date" />
+		<result property="apprTitle" column="appr_title" />
+		<result property="apprContent" column="appr_content" />
+		<result property="validDate" column="valid_date" />
+		<result property="urgency" column="urgency" />
+		
+		<association property="employee" column="emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="emp_no" />
+			<result property="empName" column="emp_name" />
+			<result property="department" column="department" />
+		</association>
+		
+		<association property="template" column="tmp_no" javaType="TemplateVO">
+			<id property="tmpNo" column="tmp_no" />
+			<result property="tmpName" column="tmp_name" />	
+		</association>
+		
+		<collection property="approvalRecords" javaType="list" ofType="ApprovalRecordVO">
+			<id column="record_no" property="recordNo" />
+			<result column="confirm_date" property="confirmDate"/>
+			<result column="appr_status" property="apprStatus"/>
+			
+			<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
+				<id property="commentNo" column="comment_no" />
+				<result property="commentContent" column="comment_content" />	
+				<result property="commentDate" column="comment_date" />	
+			</association>
+
+			<association property="depEmployee" column="linemp_no" javaType="EmployeeVO">
+				<id property="empNo" column="linemp_no" />
+				<result property="empName" column="linemp_name" />	
+				<result property="duty" column="linemp_duty" />
+				
+				<!-- <association property="template" column="tmp_no" javaType="PhotoVO">
+					<id property="tmpNo" column="tmp_no" />
+					<result property="tmpName" column="tmp_name" />	
+				</association> -->
+			</association>	
+		
+			<association property="receiverLine" column="line_no" javaType="ReceiverLineVO">
+				<id property="lineNo" column="line_no" />
+				<result property="lineOrder" column="line_order" />	
+				<result property="apprType" column="appr_type" />	
+			</association>
+								
+		</collection>
+		
+	</resultMap>
+	<select id="selectApproval" parameterType="int" resultMap="selectApprvalDetailResultMap" statementType="PREPARED">  
+		select linemp.emp_name as linemp_name, linemp.duty as linemp_duty, linemp.sign as linemp_sign, 
+		linemp.emp_no as linemp_no, line.line_no, line.line_order, line.appr_type,    
+		rec.record_no, rec.confirm_date, rec.appr_status, comm.comment_no, comm.comment_content, comm.comment_date, emp.emp_no, emp.emp_name, emp.department,
+		appr.appr_no, appr.appr_date, appr.appr_title, appr.valid_date, appr.urgency, appr.appr_content,
+		(select tmp_name from template tmp where tmp.tmp_no=appr.tmp_no) as tmp_name,
+		(select tmp_no from template tmp where tmp.tmp_no=appr.tmp_no) as tmp_no
+		from APPROVAL appr, approval_comment comm, approval_record rec, emp_view emp, 
+		receiver_line line, receiver receiv, emp_view linemp
+		where appr.appr_no=rec.appr_no
+		and rec.record_no=comm.record_no(+)
+		and appr.emp_no=emp.emp_no
+		and rec.line_no=line.line_no
+		and receiv.receiver_no=line.receiver_no
+		and line.line_emp_no=linemp.emp_no
+		and appr.appr_no=#{apprNo}
+		order by line.line_order asc nulls last
 	</select>
 	
 	

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit.groupware.domain.employee.EmployeeCodeVO;
 import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 
@@ -48,9 +49,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return employee.getEmpNo();
 	}
 	
-	public void insertEmployeeCode(String empNo) {
-		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", empNo);
+	public void insertEmployeeCode(EmployeeCodeVO empcodeVO) {
+		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", empcodeVO);
 	}
-	
 	
 }

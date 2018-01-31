@@ -8,7 +8,7 @@ import com.bit.groupware.domain.authority.NoticeVO;
 public interface NoticeDAO {
 	
 	//공지사항 정보를 최근 등록일순으로 조회한다.
-	List<NoticeVO> selectNoticeList(Map<String, Integer> map);
+	List<NoticeVO> selectNoticeList(Map<String, Object> map);
 	
 	//공지사항 정보를 상세 조회한다.
 	NoticeVO selectNotice(int noticeNo);
@@ -23,5 +23,9 @@ public interface NoticeDAO {
 	
 	//공지사항 정보를 삭제한다.
 	void deleteNotice(int noticeNo);
-
+	
+	//공지사항 정보를 검색한다.
+	List<NoticeVO> findNotice(String noticeTitle);
+	
+	int selectNoticeCount(); 
 }

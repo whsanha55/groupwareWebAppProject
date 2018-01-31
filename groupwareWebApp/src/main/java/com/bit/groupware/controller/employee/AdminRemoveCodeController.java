@@ -19,16 +19,27 @@ public class AdminRemoveCodeController {
 	@Autowired
 	private CodeService codeService;
 	
-	//코드 삭제 요청
-	@RequestMapping(value="/admin/removeCode.do")
-	public String submit(@ModelAttribute("code") CodeVO code, SessionStatus status) {
-		logger.info("code : {}", code);
-		if(codeService.removeCode(code) == 0) {
-			codeService.removeCode(code);
-			return "redirect:/admin/listCode1.do";
-		} else {
-			return "redirect:/admin/removeCode.do?cNo=" + code.getcNo();
-		}
-		
+	//최상위 삭제 요청
+	@RequestMapping(value="/admin/removeCode1.do")
+	public String submit1(@RequestParam(value="cNo", required=true) String cNo) {
+		logger.info("cNo : {}", cNo);
+		codeService.removeCode(cNo);
+		return "redirect:/admin/listCode1.do";
+	}
+	
+	//부서 코드 삭제 요청
+	@RequestMapping(value="/admin/removeCode2.do")
+	public String submit2(@RequestParam(value="cNo", required=true) String cNo) {
+		logger.info("cNo : {}", cNo);
+		codeService.removeCode(cNo);
+		return "redirect:/admin/listCode2.do";
+	}
+	
+	//최하위 코드 삭제 요청
+	@RequestMapping(value="/admin/removeCode3.do")
+	public String submit3(@RequestParam(value="cNo", required=true) String cNo) {
+		logger.info("cNo : {}", cNo);
+		codeService.removeCode(cNo);
+		return "redirect:/admin/listCode3.do";
 	}
 }
