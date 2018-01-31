@@ -13,7 +13,6 @@
 <style>
 	.modal-dialog.modal-cSize {
 		width: 90%;
-  		height: 80%;
 	}
 	.modal-content.modal-cSize {
 		height : auto;
@@ -25,10 +24,11 @@
 <script>
 	
 	$(document).ready(function() {
-		
+	
 		var isExist = true;
 		//페이지 이탈 경고창
 		$(window).on('beforeunload', function() {
+			isExist = false;	//테스트용 삭제필요!!!!!!!!!!!!
 			if(isExist) return '';
 		})
 		
@@ -226,7 +226,8 @@
 		})
 		
 		$('#modalCloseBtn').on('click',function() {
-			alert('hi');
+			$('#receiverBody').html("");
+			//alert('hi');
 		})
 		
 		
@@ -237,25 +238,21 @@
 
 
 <!-- <button class="btn btn-default" id='modalReceiver1'>관리</button> -->
-<div class="modal fade" id="layerpop" >
-  <div class="modal-dialog modal-cSize">
-    <div class="modal-content modal-cSize">
-      header
-      <div class="modal-header">
-        header title
-        <h4 class="modal-title">Header</h4>
-      </div>
-      body
-      <div class="modal-body" id="receiverBody">
-      </div>
-      Footer
-      <div class="modal-footer">
-        Footer
-        <button type="button" class="btn btn-default" id="modalCloseBtn" data-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>
+	<div class="modal fade" id="layerpop">
+		<div class="modal-dialog modal-cSize">
+			<div class="modal-content modal-cSize">
+			<div class="modal-header nav_menu">
+				<h3>결재선 지정</h3>
+				</div>
+				<div class="modal-body" id="receiverBody"></div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="modalCloseBtn"
+						data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 
