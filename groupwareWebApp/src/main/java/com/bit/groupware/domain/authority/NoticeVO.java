@@ -69,7 +69,7 @@ public class NoticeVO {
 	
 	@Override
 	public String toString() {
-		return "NoticeVO [noticeNo=" + noticeNo + ", noticleTitle=" + noticeTitle + ", hitCount=" + hitCount
+		return "NoticeVO [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", hitCount=" + hitCount
 				+ ", noticeDate=" + noticeDate + ", noticeContents=" + noticeContents + ", files=" + files + "]";
 	}
 }

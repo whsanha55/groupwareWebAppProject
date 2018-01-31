@@ -14,8 +14,8 @@
    </insert>   
    
 
-	
-   <select id="selectNoticeList" statementType="PREPARED" parameterType="map" resultType="NotcieVO">
+
+   <select id="selectNoticeList" statementType="PREPARED" parameterType="map" resultType="NoticeVO">
   select NOTICE_NO as noticeNo, NOTICE_TITLE as noticeTitle, HITCOUNT as hitCount, NOTICE_DATE as noticeDate, NOTICE_CONTENTS as noticeContents	
 	  from( select rownum as rn, notice1.*    									
   			  from (select *
@@ -23,7 +23,7 @@
                         order by notice_no desc )notice1) notice2					
 	   where rn <![CDATA[>=]]> #{startRow} and rn <![CDATA[<=]]> #{endRow}
    </select>
-   
+
    	<resultMap id="selectNoticeResultMap" type="NoticeVO">
 		<id column="notice_no"						 property="noticeNo" />
 		<result column="notice_title" 				 property="noticeTitle" />
