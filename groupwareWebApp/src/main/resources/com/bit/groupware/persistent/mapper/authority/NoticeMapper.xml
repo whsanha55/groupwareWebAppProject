@@ -13,12 +13,20 @@
       values(#{noticeNo}, #{noticeTitle}, 0, sysdate, #{noticeContents})
    </insert>   
    
-   <select id="selectNoticeList" statementType="STATEMENT" parameterType="map" resultType="NoticeVO">
-      select notice2.*
+   <resultMap id="selectNoticeListResultMap" type="NoticeVO">
+		<id column="notice_no"						 property="noticeNo" />
+		<result column="notice_title" 				 property="noticeTitle" />
+		<result column="hitcount" 	 				 property="hitCount" />
+		<result column="notice_date" 	 			 property="noticeDate" />
+		<result column="notice_contents" 			 property="noticeContents" />
+	</resultMap>
+	
+   <select id="selectNoticeList" statementType="PREPARED" parameterType="map" resultMap="selectNoticeListResultMap" >
+  select NOTICE_NO as noticeNo, NOTICE_TITLE as noticeTitle, HITCOUNT as hitCount, NOTICE_DATE as noticeDate, NOTICE_CONTENTS as noticeContents	
 	  from( select rownum as rn, notice1.*    									
   			  from (select *
-                        from notice 	  				
-                        order by notice_no desc )notice1) notice2				
+                        from notice 					
+                        order by notice_no desc )notice1) notice2					
 	   where rn <![CDATA[>=]]> #{startRow} and rn <![CDATA[<=]]> #{endRow}
    </select>
    

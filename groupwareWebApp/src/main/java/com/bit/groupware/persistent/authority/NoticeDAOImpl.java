@@ -17,6 +17,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 	
 	public List<NoticeVO> selectNoticeList(Map<String, Object> map) {
 		List<NoticeVO> notices = sqlSession.selectList(NAMESPACE + ".selectNoticeList", map);
+		System.out.print("dddddddddd!!!!!!!!!!!!"+notices.toString());
 		return notices;
 	}
 

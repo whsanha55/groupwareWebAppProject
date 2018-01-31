@@ -10,7 +10,7 @@
 
 	$(document).ready(function() {
 		
-		//templatePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ
+		templatePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ
 	});
 	
 	function templatePaging(currentPageNo) {
@@ -137,7 +137,7 @@
                   </div>
 
                     <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
                              <th>

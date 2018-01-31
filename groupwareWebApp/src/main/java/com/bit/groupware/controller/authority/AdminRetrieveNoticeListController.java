@@ -18,7 +18,7 @@ import com.bit.groupware.service.authority.NoticeService;
 public class AdminRetrieveNoticeListController {
 	@Autowired
 	private NoticeService noticeService;
-/*
+
 	//공지사항 목록 조회 요청
 	@RequestMapping(value = "/PagingAjax.do", method = RequestMethod.POST)
 	@ResponseBody
@@ -33,13 +33,13 @@ public class AdminRetrieveNoticeListController {
 		map.put("endRow", endRow);
 		
 		List<NoticeVO> notices = noticeService.retrieveNoticeList(map);
-		
+		System.out.print("아!!!!!!!!!!!!"+notices.toString());
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("notices", notices);
 		
 		return returnMap;
 	}
-	*/
+
 	
 }
