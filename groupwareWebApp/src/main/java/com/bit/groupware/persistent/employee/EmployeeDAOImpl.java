@@ -49,8 +49,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return employee.getEmpNo();
 	}
 	
-	public void insertEmployeeCode(EmployeeCodeVO empcodeVO) {
-		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", empcodeVO);
+	public void insertEmployeeCode(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", map);
 	}
 	
 }
