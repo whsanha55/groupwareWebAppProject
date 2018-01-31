@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.bit.groupware.persistent.mapper.ReceiverMapper">
+<mapper namespace="com.bit.groupware.persistent.mapper.approval.ReceiverMapper">
 
 
   <insert id="insertReceiver" parameterType="ReceiverVO" statementType="PREPARED">
@@ -16,7 +16,7 @@
 
 
       <select id="selectReceiverList" statementType="STATEMENT" resultType="ReceiverVO">
-          select receiver_no as recieverNo, receiver_name as receiverName
+          select receiver_no as receiverNo, receiver_name as receiverName
           from receiver
           order by receiver_name asc
       </select>
