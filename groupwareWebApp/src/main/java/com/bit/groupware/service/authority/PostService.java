@@ -11,7 +11,7 @@ public interface PostService {
 	void registerPost(PostVO post);
 
 	// 게시글을 조회한다.
-	List<PostVO> retrievePostList(Map<String, Integer> map);
+	List<PostVO> retrievePostList(Map<String, Object> map);
 	
 	//게시글 정보를 수정한다.
 	void modifyPost(PostVO post);
@@ -24,5 +24,7 @@ public interface PostService {
 	
 	//게시글을 삭제한다.
 	void removePost(int postNo);
+	
+	int retrievePostCount();
 
 }

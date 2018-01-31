@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 
-	public List<PostVO> retrievePostList(Map<String, Integer> map) {
+	public List<PostVO> retrievePostList(Map<String, Object> map) {
 		return postDAO.selectPostList(map);
 	}
 
@@ -63,6 +63,10 @@ public class PostServiceImpl implements PostService {
 
 	public void removePost(int postNo) {
 		postDAO.deletePost(postNo);
+	}
+	
+	public int retrievePostCount() {
+		return postDAO.selectPostCount();
 	}
 
 }

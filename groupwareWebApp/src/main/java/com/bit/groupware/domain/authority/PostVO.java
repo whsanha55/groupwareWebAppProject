@@ -9,7 +9,7 @@ public class PostVO {
 	private int postNo; 					//게시글 번호
 	private String postTitle; 				//게시글 제목
 	private String writer; 					//작성자
-	private int postDate; 					//게시글 등록일
+	private String postDate; 					//게시글 등록일
 	private String postContent; 			//게시글 내용
 	private String documentNo; 		//문서 종류 번호
 	private String cNo; 					//부서 코드 번호
@@ -50,15 +50,15 @@ public class PostVO {
 
 	public void setWriter(String writer) {
 		this.writer = writer;
-	}
+	}	
 
 
-	public int getPostDate() {
+	public String getPostDate() {
 		return postDate;
 	}
 
 
-	public void setPostDate(int postDate) {
+	public void setPostDate(String postDate) {
 		this.postDate = postDate;
 	}
 
@@ -135,12 +135,5 @@ public class PostVO {
 
 
 	
-	
-	
-	
-
-
-	
-
 
 }

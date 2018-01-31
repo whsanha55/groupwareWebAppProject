@@ -12,7 +12,7 @@ public interface PostDAO {
 	void insertPost(PostVO post);
 	
 	//게시글을 조회한다.
-	List<PostVO> selectPostList(Map<String, Integer> map);
+	List<PostVO> selectPostList(Map<String, Object> map);
 	
 	//게시글 정보를 수정한다.
 	void updatePost(PostVO post);
@@ -25,5 +25,7 @@ public interface PostDAO {
 	
 	//게시글을 검색한다.
 	List<PostVO> searchPost(Map<String, Object> map);
+	
+	int selectPostCount();
 
 }

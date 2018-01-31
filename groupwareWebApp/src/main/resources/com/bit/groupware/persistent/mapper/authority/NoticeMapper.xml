@@ -2,12 +2,6 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<<<<<<< HEAD
-  
-<mapper namespace="com.bit.groupware.persistent.mapper.authority.NoticeMapper">
-
-
-=======
 
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.NoticeMapper">
 
@@ -88,5 +82,4 @@
 		select count(*)
 		from notice
 </select>
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 </mapper>

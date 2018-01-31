@@ -19,7 +19,7 @@ public class PostDAOImpl implements PostDAO {
 		sqlSession.insert(NAMESPACE + ".insertPost", post);
 	}
 
-	public List<PostVO> selectPostList(Map<String, Integer> map) {
+	public List<PostVO> selectPostList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectPostList", map);
 	}
 
@@ -37,6 +37,10 @@ public class PostDAOImpl implements PostDAO {
 
 	public List<PostVO> searchPost(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".deletePost", map);
+	}
+	
+	public int selectPostCount() {
+		return sqlSession.selectOne(NAMESPACE + ".selectPostCount");
 	}
 
 }
