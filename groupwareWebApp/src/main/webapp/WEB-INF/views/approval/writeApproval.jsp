@@ -10,12 +10,29 @@
 <script	src="${pageContext.request.contextPath}/resources/js/jquery.form.min.js"></script>
 <script	src="${pageContext.request.contextPath}/resources/summernote/summernote.js"></script>
 <script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
+<style>
+	.modal-dialog.modal-cSize {
+		width: 90%;
+  		height: 80%;
+	}
+	.modal-content.modal-cSize {
+		height : auto;
+		min-height : 80%;
+	}
+</style>
 </head>
 
 <script>
 	
 	$(document).ready(function() {
-	
+		
+		var isExist = true;
+		//페이지 이탈 경고창
+		$(window).on('beforeunload', function() {
+			if(isExist) return '';
+		})
+		
+		
 		//작성 날짜 구하기
 		function getDate() {
 			var date = new Date();
@@ -28,7 +45,7 @@
 		
 		
 	    //에디터 호출
-	    $('#summernote').summernote({
+	     $('#summernote').summernote({
 			  lang: 'ko-KR',  // default: 'en-US'
 			  height: 500,                 // set editor height
 			  minHeight: 300,             // set minimum height of editor
@@ -47,12 +64,14 @@
 				    ['undo'] ,
 				    ['redo'] 
 				  ] 
-		}); 
+		});  
 	   
 	    
 		//에디터 내부에 양식서 폼 불러오기
 		if('${requestScope.template}' != "") {
 		 	$('#summernote').summernote('code','${requestScope.template.tmpContent}');
+		} else {
+			$('#summernote').summernote('code','');
 		}
 	   
 		
@@ -77,10 +96,9 @@
 		});
 		
 		
-		
-		
 		//기안 이벤트
 		$('.submitAppr').on('click',function() {
+			isExist = false;
 			
 			switch ($(this).attr('id').split('_')[1]) {
 				case '0':	//취소
@@ -96,6 +114,10 @@
 						});
 					break;
 				case '1':	//상신
+					if(validateApproval()) {
+						return false;
+					};
+				
 					swal({
 						  title: "기안서 상신",
 						  text: "기안서를 등록합니다. 계속 진행하시겠습니까?",
@@ -109,6 +131,9 @@
 					
 					break;
 				case '2':	//임시저장
+					if(validateApproval()) {
+						return false;
+					};
 					swal({
 						  title: "기안서 임시저장",
 						  text: "기안서를 임시 저장합니다. 계속 진행하시겠습니까?",
@@ -124,6 +149,24 @@
 			
 		}); //기안이벤트 End
 	   
+		//기안서 제목과 내용 validate function
+		function validateApproval() {
+			if($('select[name=receiverNo]').val() == '0') {
+				swal("결재선을 선택하지 않으셨습니다","");
+				return true;
+			}
+			if($('input[name=apprTitle]').val().trim() == '') {
+				swal("제목을 입력해주세요","");
+				return true;
+			}
+			if($('#summernote').summernote('code') == '') {
+				swal("내용을 입력해주세요","");
+				return true;
+			}
+			
+			return false;
+		}
+		
 		
 		//기안서 등록 ajax function
 		function executeApproval(approvalStatus) {
@@ -170,40 +213,45 @@
 	
 		
 		//결재선 관리 이벤트
-		$('#modalReceiver1').on('click',function() {
-			$('.test123').load('${pageContext.request.contextPath}/selectTemplate.do');
-			$('#layerpop').modal();
+		$('#modalReceiver').on('click',function() {
+			$('#receiverBody').load('${pageContext.request.contextPath}/receiverModal.do');
+			$('#layerpop').modal({
+				backdrop: 'static', 
+				keyboard: false
+			});
 		});
+	
+		$('#receiverContent').on('click',function() {
+			
+		})
+		
+		$('#modalCloseBtn').on('click',function() {
+			alert('hi');
+		})
 		
 		
-		
-		
-		
-		
-	});
+	});	//document ready End
+	
 </script>
 <body>
 
 
-<button class="btn btn-default" id='modalReceiver1'>모달출력버튼</button><br/>
+<!-- <button class="btn btn-default" id='modalReceiver1'>관리</button> -->
 <div class="modal fade" id="layerpop" >
-  <div class="modal-dialog">
-    <div class="modal-content">
+  <div class="modal-dialog modal-cSize">
+    <div class="modal-content modal-cSize">
       header
       <div class="modal-header">
-        닫기(x) 버튼
-        <button type="button" class="close" data-dismiss="modal">×</button>
         header title
         <h4 class="modal-title">Header</h4>
       </div>
       body
-      <div class="modal-body test123">
-            Body
+      <div class="modal-body" id="receiverBody">
       </div>
       Footer
       <div class="modal-footer">
         Footer
-        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-default" id="modalCloseBtn" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
@@ -215,13 +263,15 @@
    <span>
       <span class="col-md-2 col-sm-2 col-xs-2">
         <select class="form-control" name ="receiverNo">
+          <option value='0'>결재선을 선택하세요</option>
           <c:forEach var="receiver" items="${requestScope.receivers}">
           <option value='${pageScope.receiver.receiverNo }'>${pageScope.receiver.receiverName }</option>
           </c:forEach>
         </select>
       </span>
 	</span>
-	<button class="btn btn-primary" id="modalReceiver" type="button">관리</button>
+	<!-- <button class="btn btn-primary" id="modalReceiver" type="button">관리</button> -->
+	<button class="btn btn-primary" id='modalReceiver' type="button">관리</button>
 
 	
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_1">상신</button>
@@ -299,7 +349,6 @@
 		</tr>
 
 	</table>
-
 
 	  <textarea id="summernote" name="apprContent"></textarea>
 	  
