@@ -16,20 +16,20 @@
 		templatePaging(1);//최초로드시 페이지처리
 		
 		
-		
-		 $('#datatable').on("click",'.detailApproval',function(){
-			var apprNo=$(this).attr('id');
-			var url = '${pageContext.request.contextPath}/ApprovalDetail.do?apprNo='+apprNo;
-			window.open(url, "결재문서", "width=1000");
-		}); 
-		
-		 $('#datatable').on('click','#recordModal',function() {
+		/*  $('#datatable').on('click','#recordModal',function() {
 			 	var apprNo=$(this).attr('name')
 				$('#recordBody').load('${pageContext.request.contextPath}/recordModal.do?apprNo='+apprNo)
 					
 
 				$('#layerpop').modal();
-		});
+		}); */
+		
+		 $('#datatable').on("click",'.detailApproval',function(){
+				
+				var apprNo=$(this).attr('id');
+				var url = '${pageContext.request.contextPath}/ApprovalDetail.do?apprNo='+apprNo;
+				window.open(url, "결재문서","width=700, height=600");
+			});
 		
 	});
 		
