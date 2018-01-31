@@ -31,7 +31,6 @@ public class AdminTemplateController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("startRow", 1);
 		map.put("endRow", 10);
-		logger.info("======================" + service.retrieveTemplateList(map).size());
 		mv.addObject("templates", service.retrieveTemplateList(map));
 		mv.setViewName("approval/admin_templateList");
 		return mv;
@@ -80,7 +79,6 @@ public class AdminTemplateController {
 	@RequestMapping(value="/admin/removeTemplate.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String remove(@RequestParam(value="tmpNo", required=true)String tmpNos) {
-		logger.info("tmpNos : {} ", tmpNos); 
 		
 		String[] values = tmpNos.split(",");
 		

@@ -2,6 +2,8 @@ package com.bit.groupware.persistent.authority;
 
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+@Repository
 public class NoticeFileDAOImpl implements NoticeFileDAO {
 
 	public void insertNoticeFile(Map<String, Object> map) {

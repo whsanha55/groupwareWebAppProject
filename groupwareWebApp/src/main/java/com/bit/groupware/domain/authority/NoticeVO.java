@@ -5,7 +5,7 @@ import java.util.List;
 
 public class NoticeVO {
 	private int noticeNo; 			    // 공지사항 번호
-	private String noticleTitle; 		//공지사항 제목
+	private String noticeTitle; 		//공지사항 제목
 	private int hitCount; 				//공지사항 조회수
 	private String noticeDate; 		//공지사항 등록일
 	private String noticeContents;  //공지사항 내용
@@ -24,11 +24,11 @@ public class NoticeVO {
 	}
 
 	public String getNoticleTitle() {
-		return noticleTitle;
+		return noticeTitle;
 	}
 
-	public void setNoticleTitle(String noticleTitle) {
-		this.noticleTitle = noticleTitle;
+	public void setNoticleTitle(String noticeTitle) {
+		this.noticeTitle = noticeTitle;
 	}
 
 	public int getHitCount() {
@@ -69,7 +69,7 @@ public class NoticeVO {
 	
 	@Override
 	public String toString() {
-		return "NoticeVO [noticeNo=" + noticeNo + ", noticleTitle=" + noticleTitle + ", hitCount=" + hitCount
+		return "NoticeVO [noticeNo=" + noticeNo + ", noticleTitle=" + noticeTitle + ", hitCount=" + hitCount
 				+ ", noticeDate=" + noticeDate + ", noticeContents=" + noticeContents + ", files=" + files + "]";
 	}
 }

@@ -3,8 +3,10 @@ package com.bit.groupware.service.authority;
 import java.util.List;
 import java.util.Map;
 
-import com.bit.groupware.domain.authority.PostVO;
+import org.springframework.stereotype.Service;
 
+import com.bit.groupware.domain.authority.PostVO;
+@Service
 public class PostServiceImpl implements PostService {
 
 	public void registerPost(PostVO post) {
