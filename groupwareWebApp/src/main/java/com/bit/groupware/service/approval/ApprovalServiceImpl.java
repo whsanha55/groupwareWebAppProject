@@ -50,12 +50,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 			fileDAO.insertApprovalFileList(files);
 		}
 
-		// 3. 결재 이력 등록(최초 결재자만)
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("apprNo", apprNo);
-		map.put("receiverNo", receiverNo);
-		recordDAO.insertApprovalRecordProcedure(map);
-		
+		// 3. 결재이력 등록 , 임시보관은 이력등록안함
+		if(approval.getApprFinalStatus() ==0) {
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			map.put("apprNo", apprNo);
+			map.put("receiverNo", receiverNo);
+			recordDAO.insertApprovalRecordProcedure(map);
+		}
 		
 		// 4. 알림 등록-트리거
 		

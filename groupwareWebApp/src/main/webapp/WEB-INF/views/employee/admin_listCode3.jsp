@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>코드목록3</title>
+<title>최하위 코드 목록 조회</title>
 <script>
 
 	$(document).ready(function() {
@@ -39,6 +39,28 @@
 			
 		});
 		
+		$('#insert').click(function(){
+			var relationCode = $("#relationCode").val();
+			console.log(relationCode);
+			var url = '${pageContext.request.contextPath}/admin/registerCode3.do?relationCode='+relationCode;
+			window.open(url, "코드 등록", "width=700, height=600");
+		});
+		
+		$('.modify').click(function(){
+			var c_no = $(this).attr('id');
+			var url = '${pageContext.request.contextPath}/admin/modifyCode3.do?cNo='+ c_no;
+
+			window.open(url, "코드 수정", "width=700, height=600");
+		});
+		
+		$('#remove').click(function() {	
+			if(confirm("이 코드를 삭제하시겠습니까?") == true) {
+				location.href = "${pageContext.request.contextPath}/admin/removeCode3.do?cNo="+ c_no;
+			} else {
+				return;
+			}
+		});
+		
 	});	//$(document).ready End
 	
 </script>
@@ -58,64 +80,10 @@
 							<div class="col-md-2">
 								<h2>코드목록</h2>
 							</div>
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target=".bs-example-modal-lg">등록하기</button>
-						</div>
-						<div class="modal fade bs-example-modal-lg" tabindex="-1"
-							role="dialog" aria-hidden="true">
-							<div class="modal-dialog modal-lg">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">
-											<span aria-hidden="true">×</span>
-										</button>
-										<h4 class="modal-title" id="myModalLabel">코드 등록</h4>
-									</div>
-									<div class="modal-body">
-										<div></div>
-										<table id="datatable"
-											class="table table-striped table-bordered align-right">
-											<tbody>
-												<tr>
-													<th>상위코드</th>
-													<td><div class="input-group-btn search-panel">
-															<button type="button"
-																class="btn btn-default dropdown-toggle"
-																data-toggle="dropdown">
-																<span id="search_concept">코드</span> <span class="caret"></span>
-															</button>
-															<ul class="dropdown-menu" role="menu">
-																<li><a href="#경영관리부">경영관리부</a></li>
-																<li><a href="#인사부">인사부</a></li>
-																<li><a href="#회계부">회계부</a></li>
-																<li><a href="#개발부">개발부</a></li>
-																<li><a href="#영업부">영업부</a></li>
-															</ul>
-														</div></td>
-												</tr>
-												<tr>
-													<th>코드번호</th>
-													<td><input type="text" class="form-control"
-														required="required"></td>
-												</tr>
-												<tr>
-													<th>코드명</th>
-													<td><input type="text" class="form-control"
-														required="required"></td>
-												</tr>
-											</tbody>
-										</table>
-										<br>
-										<div class="text-center">
-											<button type="button" class="btn btn-primary">등록</button>
-											<button type="button" class="btn btn-default"
-												data-dismiss="modal">닫기</button>
-										</div>
-									</div>
-								</div>
-							</div>
+							<button type="button" id="insert">등록</button>
 						</div>
 						<div>
+							<div>
 							<div class="col-md-3 col-xs-offset-2">
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
@@ -124,8 +92,8 @@
 											<span class="keyfield">검색</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a href="cNo">코드번호</a></li>
-											<li><a href="cName">코드명</a></li>
+											<li><a id="cNo">코드번호</a></li>
+											<li><a id="cName">코드명</a></li>
 										</ul>
 									</div>
 									<input type="text" class="form-control keyword" placeholder="검색어를 입력하세요.">
@@ -136,6 +104,7 @@
 									</span>
 								</div>
 							</div>
+						</div>
 						</div>
 					</div>
 					<div class="col-md-6"></div>
@@ -152,15 +121,19 @@
 						</tr>
 					</thead>
 					<tbody>
+						<input id="relationCode" type="hidden" value="${param.relationCode }">
 						<c:forEach var="code" items='${requestScope.codes }' varStatus="loop" >
-							<tr>s
+							<tr>
 								<td>${pageScope.code.cNo }</a></td>
 								<td>${pageScope.code.cName }</td>
 								<td>${pageScope.code.countEmployee }</td>
-								<td><button type="button" data-toggle="modal"
-										data-target="#myModal">수정1</button></td>
+								<td><button class="modify" id="${pageScope.code.cNo }" type="button">수정</button></td>
 								<c:if test="${pageScope.code.countEmployee == 0 }" >
-									<td><button type="button" >삭제</button></td>
+									<td><c:url var="removeUrl" value="/admin/removeCode3.do" scope="page">
+											<c:param name="cNo" value="${pageScope.code.cNo }"/>
+									  	  </c:url> 	 	
+											<a href="${pageScope.removeUrl }">삭제</a>
+									</td>
 								</c:if>
 								<c:if test="${pageScope.code.countEmployee != 0 }">
 									<td></td>

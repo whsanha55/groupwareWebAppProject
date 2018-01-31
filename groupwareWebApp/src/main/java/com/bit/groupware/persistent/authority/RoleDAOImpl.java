@@ -3,8 +3,10 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
-import com.bit.groupware.domain.authority.RoleVO;
+import org.springframework.stereotype.Repository;
 
+import com.bit.groupware.domain.authority.RoleVO;
+@Repository
 public class RoleDAOImpl implements RoleDAO {
 
 	public void insertAuthRole(Map<String, Object> map) {

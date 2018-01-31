@@ -32,6 +32,7 @@ ent-Type" content="text/html; charset=UTF-8">
 <link
 	href="${pageContext.request.contextPath}/resources/vendors/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
+	<%-- 
 <!-- NProgress -->
 <link
 	href="${pageContext.request.contextPath}/resources/vendors/nprogress/nprogress.css"
@@ -53,7 +54,7 @@ ent-Type" content="text/html; charset=UTF-8">
 <link
 	href="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.css"
 	rel="stylesheet">
-
+ --%>
 <!-- Custom Theme Style -->
 <link
 	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
@@ -97,7 +98,7 @@ ent-Type" content="text/html; charset=UTF-8">
 	<!-- Bootstrap -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-	<!-- FastClick -->
+	<%-- <!-- FastClick -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/fastclick/lib/fastclick.js"></script>
 	<!-- NProgress -->
@@ -151,7 +152,7 @@ ent-Type" content="text/html; charset=UTF-8">
 		src="${pageContext.request.contextPath}/resources/vendors/moment/min/moment.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+ --%>
 	<!-- Custom Theme Scripts -->
 	<script
 		src="${pageContext.request.contextPath}/resources/js/custom.min.js"></script>
