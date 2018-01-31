@@ -10,7 +10,7 @@
 <style>
 .x_panel {
 	width: 100%;
-	height: 570px;
+	height: 100%;
 	padding: 10px 17px;
 	display: inline-block;
 	background: #fff;
@@ -38,23 +38,29 @@
 
 </style>
 
-<script src="js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" />
-
 <script>
 
 	$(document).ready(function(){
+		var temp = $('.apprLineAppr').length;
+		var text = "";
+		for(var i =temp; i<9;i++) {
+			//$('.apprLineAppr').parent().append('<td></td>');
+			text += "<td></td>";
+		}
+		$('.apprLineAppr').parent().append(text);
+		$('.apprLineAppr').parent().next().next().append(text);
 		
-		$('#button1').on('click',function(){
-			
-			opener.open(); // ㅋㅎ 크롬에선 지원안됨 
-		});
+		temp = $('.apprLineRef').length;
+		text = "";
+		for(var i =temp; i<9;i++) {
+			//$('.apprLineAppr').parent().append('<td></td>');
+			text += "<td></td>";
+		}
+		$('.apprLineRef').parent().append(text);
+		$('.apprLineRef').parent().next().append(text);
 		
-		 $('#button2').on('click',function(){
-			
-			location.href = "${pageContext.request.contextPath}/retreiveMessage.do";
 		
-		}); 
+	
 
 	
 	});
@@ -63,48 +69,6 @@
 </script>
 
 
-<script>
-	src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
-</script>
-
-<!-- Bootstrap -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Font Awesome -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<!-- NProgress -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/nprogress/nprogress.css"
-	rel="stylesheet">
-<!-- iCheck -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css"
-	rel="stylesheet">
-
-<!-- bootstrap-progressbar -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"
-	rel="stylesheet">
-<!-- JQVMap -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/jqvmap/dist/jqvmap.min.css"
-	rel="stylesheet" />
-<!-- bootstrap-daterangepicker -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.css"
-	rel="stylesheet">
-
-<!-- Custom Theme Style -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
-	rel="stylesheet">
-<!-- bootstrap-wysiwyg -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/google-code-prettify/bin/prettify.min.css"
-	rel="stylesheet">
 
 </head>
 
@@ -113,39 +77,59 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>받은 쪽지</h2>
-
+				<h2>결재 현황</h2>
+				
+				<button type="button" class="btn btn-default" style="float:right;">확인</button>
+			
 				<div class="clearfix"></div>
 			</div>
+			
 			<div class="table-responsive" id="datas">
-				<table class="table table-striped jambo_table bulk_action">
-					<tbody>
+			
+				<table class="table table-striped jambo_table bulk_action" style="text-align:center;">
+	                        <thead>
+	                          <tr class="headings">
+	                            
+	                            <th class="column-title">순번</th>
+	                            <th class="column-title">결재자</th>
+	                            <th class="column-title">결재유형</th>
+								<th class="column-title">배정일시</th>
+	                            <th class="column-title">확인일시</th>
+	                            <th class="column-title">결재일시</th>      
+	                            
+	                          </tr>
+	                        </thead>
+	
+	                        <tbody>
+	                         <c:forEach var="record" items="${requestScope.records}" >
+							<c:if test="${pageScope.record.apprStatus<6 }">
+								<tr class="even pointer">
 
-						<tr>
-							<td>발신자</td>
-							<td>${requestScope.message.senderEmployee.empName }</td>
-
-						</tr>
-
-						<tr>
-							<td>제목</td>
-							<td>${requestScope.message.msgTitle }</td>
-
-						</tr>
-
-						<tr height="100">
-							<td>내용</td>
-							<td colspan="2">${requestScope.message.msgContent }</td>
-						</tr>
-					</tbody>
-				</table>
+	                            <td>${pageScope.record.receiverLine.lineOrder}</td>
+	                            <td class=" ">${pageScope.record.receiverLine.lineEmployee.department} ${pageScope.record.receiverLine.lineEmployee.empName} ${pageScope.record.receiverLine.lineEmployee.duty}</td>
+								
+								<td class=" ">
+									<c:if test="${pageScope.record.apprStatus==0}">진행중 </c:if>
+									<c:if test="${pageScope.record.apprStatus==1}">결재 </c:if>
+									<c:if test="${pageScope.record.apprStatus==2}">보류 </c:if>
+									<c:if test="${pageScope.record.apprStatus==3}">반려 </c:if>
+									<c:if test="${pageScope.record.apprStatus==4}">전결 </c:if>
+									<c:if test="${pageScope.record.apprStatus==5}">대결 </c:if>
+								</td>
+	                            <td class=" ">${pageScope.record.assignDate}</td>
+	                            <td class=" ">${pageScope.record.checkDate}</td>
+	                            <td class=" ">${pageScope.record.confirmDate}</td>
+	                                                        
+								
+	                          </tr>
+	                          </c:if>
+						</c:forEach>
 					
+					</tbody> 
+	                      </table>
 			</div>
 				
-				<div class="buttons text-center">
-				<button type="button" id="button1" class="btn btn-success">확인</button>
-				<button type="button" id="button2" class="btn btn-success">답장보내기</button>
-				</div>
+				
 		</div>
 	</div>
 
@@ -155,15 +139,3 @@
 
 </body>
 </html>
-
-      	<!-- <tr class="even pointer">
-	                            
-               <td><a data-toggle="modal" data-target="#myModal">1</a><a></a></td>
-
-               <td class=" ">이지희 대리 영업부</td>
-			   <td class=" ">결재</td>
-               <td class=" ">2018-01-03 10:30</td>
-               <td class=" ">2018-01-03 13:10</td>
-               <td class=" ">2018-01-04 18:30</td>
-                     	                           								
-	     </tr>  -->
