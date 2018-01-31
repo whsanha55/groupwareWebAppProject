@@ -41,6 +41,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		temp.setIsAdmin(user.getIsAdmin());
 		temp.setDeptName(user.getCodes().get(0).getcName());
 		temp.setJobName(user.getCodes().get(1).getcName());
+		temp.setEmpName(user.getEmpName());
 		List<PhotoVO> photoList = user.getPhotos();
 		for (PhotoVO photo : photoList) {
 			if (photo.getDivision().equals("P")) {
