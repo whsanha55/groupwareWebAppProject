@@ -20,10 +20,7 @@ public class UploadApprovalFiles {
 	public static ApprovalFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
 		String root = context.getRealPath("/");
 		String path = root + "resources/upload/approvalFile/";
-		File dir = new File(path);
-		if(!dir.isDirectory()) {
-			dir.mkdir();
-		}
+		
 		String originalFileName = part.getOriginalFilename();
 		String systemFileName = "";
 		File file = new File(path + File.separator + originalFileName);
@@ -34,7 +31,7 @@ public class UploadApprovalFiles {
 		} else {
 			systemFileName = originalFileName;
 		}
-		
+
 		File dest = new File(path + File.separator + systemFileName);
 		part.transferTo(dest);
 

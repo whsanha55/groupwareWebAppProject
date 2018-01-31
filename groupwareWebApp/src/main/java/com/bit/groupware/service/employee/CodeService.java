@@ -9,6 +9,9 @@ public interface CodeService {
 
 	//코드 등록
 	void registerCode(CodeVO code);
+	
+	//코드 이름 조회
+	CodeVO retrieveCode(String cNo);
 		
 	//최상위 코드 리스트 조회
 	List<CodeVO> retrieveCodeList1(Map<String, Object> map);
@@ -25,4 +28,7 @@ public interface CodeService {
 	//코드 삭제
 	void removeCode(String cNo);
 	
+	List<CodeVO> retrieveDeptCodeList();
+	
+	List<CodeVO> retrieveDutyCodeList();
 }

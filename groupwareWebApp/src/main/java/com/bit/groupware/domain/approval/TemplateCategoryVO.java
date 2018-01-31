@@ -5,9 +5,9 @@ import java.util.List;
 
 public class TemplateCategoryVO {
 
-	int categoryNo;
-	String categoryName;
-	List<TemplateVO> templates = new ArrayList<TemplateVO>();
+	private int categoryNo;
+	private String categoryName;
+	private List<TemplateVO> templates = new ArrayList<TemplateVO>();
 
 	public TemplateCategoryVO() {
 	}

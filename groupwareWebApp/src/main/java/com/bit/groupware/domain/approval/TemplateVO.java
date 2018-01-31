@@ -7,15 +7,15 @@ import com.bit.groupware.domain.employee.DelegationVO;
 
 public class TemplateVO {
 
-	int tmpNo;
-	String tmpName;
-	String tmpContent;
-	String tmpSummary;
-	String tmpDate;
-	int tmpUsing;
-	TemplateCategoryVO templateCategory;
-	List<DelegationVO> delegations = new ArrayList<DelegationVO>();
-	List<TemplateBookmarkVO> templateBookmarks = new ArrayList<TemplateBookmarkVO>();
+	private int tmpNo;
+	private String tmpName;
+	private String tmpContent;
+	private String tmpSummary;
+	private String tmpDate;
+	private int tmpUsing;
+	private TemplateCategoryVO templateCategory;
+	private List<DelegationVO> delegations = new ArrayList<DelegationVO>();
+	private List<TemplateBookmarkVO> templateBookmarks = new ArrayList<TemplateBookmarkVO>();
 
 	public TemplateVO() {
 		super();

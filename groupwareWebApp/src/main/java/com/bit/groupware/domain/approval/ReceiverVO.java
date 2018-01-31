@@ -6,10 +6,10 @@ import java.util.List;
 import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class ReceiverVO {
-	int receiverNo;
-	EmployeeVO employee;
-	String receiverName;
-	List<ReceiverLineVO> receiverLines = new ArrayList<ReceiverLineVO>();
+	private int receiverNo;
+	private EmployeeVO employee;
+	private String receiverName;
+	private List<ReceiverLineVO> receiverLines = new ArrayList<ReceiverLineVO>();
 
 	public ReceiverVO() {
 	}
