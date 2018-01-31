@@ -56,7 +56,8 @@
 		
 	    
 	    //양식 등록
-		$('#insert').on('click', function(){
+		$('#register').on('click', function(event){
+			event.preventDefault();
 			swal({
 				  title: "양식 등록",
 				  text: "양식을 등록합니다. 계속 진행하시겠습니까?",
@@ -65,7 +66,6 @@
 				}).then((e) => {
 					if(e) {
 						registerTemplate();
-						location.href="${pageContext.request.contextPath}/admin/template.do";
 					}	
 				});			
 		});
@@ -73,27 +73,44 @@
 	    
 	    
 		//양식 등록 함수
-		function registerTemplate(){
-			
-			var category;
+		function registerTemplate(){			
+			var category = $('#category').val();
 			var tmpName = $('#tmpName').val();
 			var content = $('#summernote').val();
 			var summary = $('#summary').val();
-			var using = $('#using').val();
+			var using = $('#using').val();			
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/registerTemplate.do'
+				url: '${pageContext.request.contextPath}/admin/registerTemplate.do'
 				,
 				method: 'POST'
 				,
 				data: {
-					tmpName: tmpName
+					tmpName: tmpName	,
+					tmpContent: content	,
+					tmpSummary: summary	,
+					tmpUsing: using		,
+					categoryNo: category					
 				}
 				,
 				dataType: 'json'
 				,
 				success: function(data) {
-					swal("등록 완료", "양식 등록이 완료되었습니다.", "success");
+					if(data == "등록 완료") {
+						swal({
+							  title: "등록 완료",
+							  text: "양식이 등록되었습니다.",
+							  icon: "success",
+							  confirmButton: true,
+							  showCancelButton: false
+							}).then((e) => {
+								if(e) {
+									location.href="${pageContext.request.contextPath}/admin/template.do";
+								}	
+							});	
+
+					}
+					
 				},
 				error: function(jqXHR, textStatus, error) {
 					alert("Error : " + jqXHR.status + "," + error);
@@ -104,16 +121,81 @@
 		
 		
 		//카테고리 추가
-		$('#plus').on('click', function(){
+		$('#addCategory').on('click', function(){
 			
-		});
+			var newCategoryName = $('#newCategoryName').val();
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/admin/registerCategory.do'
+				,
+				method: 'POST'
+				,
+				data: {
+					categoryName: newCategoryName
+				},
+				dataType: 'json'
+				,
+				success: function(data) {
+					if(data.length != 0) {
+						swal({
+							  title: "등록 완료",
+							  text: "양식 구분이 등록되었습니다.",
+							  icon: "success",
+							  confirmButton: true,
+							  showCancelButton: false
+							}).then((e) => {
+								if(e) {
+									
+									$('.closeBtnModal').trigger('click');
+									
+									//location.href="${pageContext.request.contextPath}/admin/addTemplateForm.do";
+								}	
+						});	
+					}//end of if
+				},
+				error: function(jqXHR, textStatus, error) {
+					alert("Error : " + jqXHR.status + "," + error);
+				}
+			});
+		});//end of 카테고리 추가
 		
 		
 		
 		//카테고리 삭제
-		$('#minus').on('click', function(){
+		$('#delCategory').on('click', function(){
+			var categoryNo = $('#modalCategory').val();
 			
-		});
+			$.ajax({
+				url: '${pageContext.request.contextPath}/admin/addTemplateForm.do'	//양식 입력 데이터 끌고
+				,
+				method: 'GET'
+				,
+				data: {
+					categoryNo: categoryNo
+				},
+				dataType: 'json'
+				,
+				success: function(data) {
+					if(data == "remove") {
+						swal({
+							  title: "삭제 완료",
+							  text: "양식 구분 삭제가 등록되었습니다.",
+							  icon: "success",
+							  confirmButton: true,
+							  showCancelButton: false
+							}).then((e) => {
+								if(e) {
+									
+									location.href="${pageContext.request.contextPath}/admin/template.do";	//양식 입력 데이터 끌고
+								}	
+						});	
+					}//end of if
+				},
+				error: function(jqXHR, textStatus, error) {
+					alert("Error : " + jqXHR.status + "," + error);
+				}
+			});
+		});//end of 카테고리 삭제
 		
 		
 		
@@ -146,11 +228,11 @@
 			<th>양식 구분</th>
 			<td><select class="form-control" id="category">
 				<c:forEach var="category" items="${requestScope.categories }">
-					<option value="${pageScope.categoryNo }">${pageScope.categoryName }</option>
+					<option value="${pageScope.category.categoryNo }">${pageScope.category.categoryName }</option>
 				</c:forEach>
                	</select></td>
-             	<td><a href="#/plus-circle"><i class="fa fa-plus-circle fa-3x" id="plus"></i></a>
-				 <a href="#/minus-circle"><i class="fa fa-minus-circle fa-3x" id="minus"></i></a></td>
+             	<td><a data-toggle="modal" data-target="#plusModal" id="modal1"><i class="fa fa-plus-circle fa-3x"></i></a>
+				 <a data-toggle="modal" data-target="#minusModal"><i class="fa fa-minus-circle fa-3x"></i></a></td>
 			<th>사용여부</th>
 			<td><select class="form-control" id="using">
 					<option value="1">사용</option>
@@ -173,6 +255,76 @@
 	   </div>
     </div>
   </div>
+  <!-- end of page content -->
+  
+  <!-- 모달 팝업 1 -->
+  <div class="modal fade" id="plusModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	      <div class="modal-header">
+		<h4 class="modal-title" id="myModalLabel">양식 구분 추가</h4>
+	      </div>
+	      <div class="modal-body">
+			<br>
+			<table class="table table-striped jambo_table bulk_action">
+				<thead>
+					<tr class="headings">
+						<th class="column-title">새 양식 구분명</th>
+                    </tr>
+	            </thead>
+                <tbody>
+					<tr class="even pointer">
+						<td class="a-center "><input type="text" id="newCategoryName" name="newCategoryName" class="form-control col-md-10" /></td>
+                    </tr>
+				</tbody>
+           </table>
+	      </div>
+	      <div class="modal-footer">
+			<div class="buttons text-center">
+				<button type="button" class="btn btn-default closeBtnModal" data-dismiss="modal">닫기</button>
+				<button type="button" class="btn btn-primary" id="addCategory">추가</button>
+			</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!--모달 1번 끝-->
+ 
+ 	<!-- 모달 팝업 2 -->
+	<div class="modal fade" id="minusModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	      <div class="modal-header">
+		<h4 class="modal-title" id="myModalLabel">양식 구분 삭제</h4>
+	      </div>
+	      <div class="modal-body">
+			<br>
+			<table class="table table-striped jambo_table bulk_action">
+                <tbody>
+                	<tr class>
+                		<td>양식 구분 선택</td>
+                	</tr>
+					<tr class>
+						<td><select class="form-control col-md-10" id="modalCategory">
+							<c:forEach var="category" items="${requestScope.categories }">
+								<option value="${pageScope.category.categoryNo }">${pageScope.category.categoryName }</option>
+							</c:forEach></select>
+						</td>
+                    </tr>
+				</tbody>
+           </table>
+	      </div>
+	      <div class="modal-footer">
+			<div class="buttons text-center">
+				<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				<button type="button" class="btn btn-primary" id="delCategory">삭제</button>
+			</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!--모달 끝-->
+ 
  
 
 </body>

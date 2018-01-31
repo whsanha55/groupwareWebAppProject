@@ -15,7 +15,7 @@
    
 
 	
-   <select id="selectNoticeList" statementType="PREPARED" parameterType="map" resultType="NotcieVO">
+   <select id="selectNoticeList" statementType="PREPARED" parameterType="map" resultType="NoticeVO">
   select NOTICE_NO as noticeNo, NOTICE_TITLE as noticeTitle, HITCOUNT as hitCount, NOTICE_DATE as noticeDate, NOTICE_CONTENTS as noticeContents	
 	  from( select rownum as rn, notice1.*    									
   			  from (select *

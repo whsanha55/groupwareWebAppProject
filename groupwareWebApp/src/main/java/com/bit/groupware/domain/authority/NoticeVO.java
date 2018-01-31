@@ -77,10 +77,13 @@ public class NoticeVO {
 	public void addNoticeFile(NoticeFileVO file) {
 		files.add(file);
 	}
-	
+
+
 	@Override
 	public String toString() {
 		return "NoticeVO [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", hitCount=" + hitCount
 				+ ", noticeDate=" + noticeDate + ", noticeContents=" + noticeContents + ", files=" + files + "]";
 	}
+	
+
 }

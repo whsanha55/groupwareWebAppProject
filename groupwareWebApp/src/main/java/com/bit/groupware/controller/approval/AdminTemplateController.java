@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.approval.TemplateCategoryVO;
+import com.bit.groupware.domain.approval.TemplateVO;
 import com.bit.groupware.service.approval.TemplateCategoryService;
 import com.bit.groupware.service.approval.TemplateService;
 
@@ -71,7 +73,7 @@ public class AdminTemplateController {
 	
 	
 	
-	//양식 등록창 요청
+	//양식 등록 폼 요청
 	@RequestMapping(value="/admin/addTemplateForm.do", method=RequestMethod.GET)
 	public ModelAndView addForm() {		
 		ModelAndView mv = new ModelAndView();
@@ -82,26 +84,27 @@ public class AdminTemplateController {
 	
 	
 	
-	/*
 	//양식 등록 요청
-	@RequestMapping(value="/admin/registerTemplate.do")
-	public void register(TemplateVO templateVO) {
-		
-		
-	} */
+	@RequestMapping(value="/admin/registerTemplate.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String register(TemplateVO templateVO, TemplateCategoryVO templateCategoryVO) {
+		templateVO.setTemplateCategory(templateCategoryVO);
+		service.registerTemplate(templateVO);
+		return "등록 완료";
+	} 
+	
 	
 	
 	//양식 삭제 요청
 	@RequestMapping(value="/admin/removeTemplate.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String remove(@RequestParam(value="tmpNo", required=true)String tmpNos) {
-		
+	public String remove(@RequestParam(value="tmpNo", required=true)String tmpNos) {		
 		String[] values = tmpNos.split(",");
 		
 		int[] nums = new int[values.length];
 		
 		for(int i=0; i<values.length; i++) {
-			nums[i] = Integer.parseInt(values[i]);			
+			nums[i] = Integer.parseInt(values[i]);
 		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -109,11 +112,27 @@ public class AdminTemplateController {
 		map.put("tmpNos", nums);
 		
 		service.removeTemplate(map);
-		return "approval/admin_templateList";	
+		return "삭제 완료";			
+	}
 		
+	
+	
+	//카테고리 등록 요청
+	@RequestMapping(value="/admin/registerCategory.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String plus(TemplateCategoryVO templateCategoryVO) {
+		categoryService.registerTemplaeCategory(templateCategoryVO);
+		return "register";
 	}
 	
 	
 	
+	//카테고리 삭제 요청
+	@RequestMapping(value="/admin/removeCategory.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String minus(@RequestParam(value="categoryNo", required=true)int categoryNo) {
+		categoryService.removeTemplateCategory(categoryNo);
+		return "remove";
+	}
 	
 }
