@@ -9,12 +9,12 @@
 	  	<selectKey keyProperty="apprNo" resultType="int" statementType="STATEMENT" order="BEFORE"> 
 	  		select approval_seq.nextval from dual
 	  	</selectKey>
-	  		insert into approval(appr_no,appr_title,appr_content,emp_no,valid_date,urgency
+	  		insert into approval(appr_no,appr_title,appr_content,emp_no,valid_date,urgency, appr_final_status
 	  		<if test="template.tmpNo != 0">
 	  			,tmp_no
 	  		</if>
 	  		)
-			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency}
+			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency}, #{apprFinalStatus}
 	  		<if test="template.tmpNo != 0">
 	  			,#{template.tmpNo}
 	  		</if>

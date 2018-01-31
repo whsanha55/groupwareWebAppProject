@@ -43,7 +43,7 @@
 					<ul class="nav child_menu" style="display: block;">
 						<li><a>기안 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href='<c:url value="/selectCategory.do"/>'>문서 작성</a></li>
+								<li><a href='<c:url value="/selectTemplate.do"/>'>문서 작성</a></li>
 								<li><a href='<c:url value="/approvalTemp.do"/>'>임시 보관함</a></li>
 								<li><a href='<c:url value="/approvalMyRequest.do"/>'>결재
 										요청함</a></li>

@@ -7,13 +7,13 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class ReceiverLineVO {
 
-	int lineNo;
-	ReceiverVO receiver;
-	EmployeeVO lineEmployee;
-	int lineOrder;
+	private int lineNo;
+	private ReceiverVO receiver;
+	private EmployeeVO lineEmployee;
+	private int lineOrder;
 	// 결재 : 0 , 참조 : 1
-	int apprType;
-	List<ApprovalRecordVO> approvalRecords = new ArrayList<ApprovalRecordVO>();
+	private int apprType;
+	private List<ApprovalRecordVO> approvalRecords = new ArrayList<ApprovalRecordVO>();
 
 	public ReceiverLineVO() {
 		super();

@@ -2,10 +2,10 @@ package com.bit.groupware.domain.approval;
 
 public class ApprovalCommentVO {
 
-	int commentNo;
-	ApprovalRecordVO approvalRecord;
-	String commentContent;
-	String commentDate;
+	private int commentNo;
+	private ApprovalRecordVO approvalRecord;
+	private String commentContent;
+	private String commentDate;
 
 	public ApprovalCommentVO() {
 	}

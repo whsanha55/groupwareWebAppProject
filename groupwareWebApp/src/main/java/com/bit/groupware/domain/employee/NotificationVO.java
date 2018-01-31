@@ -4,12 +4,12 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class NotificationVO {
 
-	int noteNo;
-	EmployeeVO employee;
+	private int noteNo;
+	private EmployeeVO employee;
 	// 경로미정
-	int redirectPath;
-	String noteDate;
-	String message;
+	private int redirectPath;
+	private String noteDate;
+	private String message;
 
 	public NotificationVO() {
 	}

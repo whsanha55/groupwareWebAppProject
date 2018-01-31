@@ -11,9 +11,12 @@ public interface ApprovalRecordDAO {
 
 	void insertApprovalRecord(Map<String, Integer> map);
 
+	void insertApprovalRecordProcedure(Map<String, Integer> map);
+
 	void updateApprovalRecordStatus(ApprovalRecordVO approvalRecord);
 
 	void deleteApprovalRecord(int apprNo);
-	
+
 	int selectApprovalRecallable(int apprNo);
+
 }

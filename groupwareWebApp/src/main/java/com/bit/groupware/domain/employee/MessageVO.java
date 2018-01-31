@@ -4,15 +4,15 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class MessageVO {
 
-	int msgNo;
-	EmployeeVO senderEmployee;
-	EmployeeVO receipientEmployee;
-	String msgDate;
-	String msgTitle;
-	String msgContent;
-	int isRead;
-	String senderRemoval;
-	String receipientRemoval;
+	private int msgNo;
+	private EmployeeVO senderEmployee;
+	private EmployeeVO receipientEmployee;
+	private String msgDate;
+	private String msgTitle;
+	private String msgContent;
+	private int isRead;
+	private String senderRemoval;
+	private String receipientRemoval;
 
 	public MessageVO() {
 	}
