@@ -215,31 +215,26 @@
 		var pageSize = subOption.pageSize;        
 		var currentPage = subOption.currentPageNo;   
 		var pageTotal = subOption.totalCount;       
-		
-		var pageTotalCnt = Math.ceil(pageTotal/pageSize);
-		var pageBlockCnt = Math.ceil(currentPage/pageBlock);
-		var sPage, ePage;
+		var pageTotalCnt = Math.ceil(pageTotal/pageBlock);
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
 		
 		var html ="<ul class='pagination'>";
+
 		
-		if(pageBlock > 1) {
-			sPage = (pageBlockCnt-1) * pageBlock + 1;
-		} else {
-			sPage = 1;
-		}
-		
-		if((pageBlockCnt * pageBlock) >= pageTotalCnt) {
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
 			ePage = pageTotalCnt;
 		} else {
-			ePage = pageBlockCnt * pageBlock;
-		}
+			ePage = pageBlockCnt * pageSize;
+		} 
 		
 		if(sPage <= 1) {
 			html += '<li class="page-item disabled">';
 			html += '<a class="page-link" aria-label="Previous">' 
 		} else {
 			html += '<li class="page-item ">';
-			html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageBlock) + ')">'; 
+			html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageSize) + ')">'; 
 		}
 		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
 		
