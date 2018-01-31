@@ -7,9 +7,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 	<title>관리자 양식 관리</title>
 	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	
 	<script>
 		$(document).ready(function(){
+			
+			
 			
 			//양식 삭제
 			$('#delete').on('click', function(evnet){
@@ -17,7 +20,20 @@
 				if(!confirm("정말로 삭제하시겠습니까? 삭제를 원하시면 '확인'을 눌러주세요.")){
 					return;
 				}
-						
+			
+				swal({
+					  title: "양식 삭제",
+					  text: "양식을 삭제합니다. 계속 진행하시겠습니까?",
+					  icon: "info",
+					  buttons : true 
+					}).then((e) => {
+						if(e) {
+							swal("등록 성공", "양식이 등록되었습니다.", "success")
+							registerTemplate();
+							location.href="${pageContext.request.contextPath}/admin/template.do";
+						}	
+					});					
+				
 				var checkData = [];
 				$("input[name='tmpNo']:checked").each(function(){
 					alert($(this).val());
@@ -41,20 +57,22 @@
 					cache: false
 					,
 					success: function(data, textStatus, jqXHR) {
-		  				alert("선택한 양식이 삭제되었습니다.");
-		  				a href="${pageContext.request.contextPath}/admin/template.do";	//=새로고침
+						swal("양식 삭제","삭제되었습니다", "success");
+		  				location.href="${pageContext.request.contextPath}/admin/template.do";	//=새로고침
 		  			}
 					,
 					error: function(jqXHR, textStatus, errorThrown) {
 		  				alert('error: ' + jqXHR.status);
 		  			}					
 				});				
-			});	
+			});	//end of delete
 			
 			
-			//양식 추가
+			
+			
+			//양식 등록창으로 이동
 			$('#add').on('click', function(){
-				window.open("/approval/admin_addTemplate.jsp", "_blank", "width=400, height=600" );
+				location.href = "${pageContext.request.contextPath}/admin/addTemplateForm.do";
 			});
 			
 			

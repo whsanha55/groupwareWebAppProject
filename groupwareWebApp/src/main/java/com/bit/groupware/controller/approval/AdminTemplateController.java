@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.service.approval.TemplateCategoryService;
 import com.bit.groupware.service.approval.TemplateService;
 
 
@@ -23,7 +24,12 @@ public class AdminTemplateController {
 	
 	@Autowired
 	private TemplateService service;
+	
+	@Autowired
+	private TemplateCategoryService categoryService;
 
+	
+	
 	//양식관리 폼 요청: 전체 리스트
 	@RequestMapping(value="/admin/template.do", method=RequestMethod.GET)
 	public ModelAndView templateList() {
@@ -50,9 +56,10 @@ public class AdminTemplateController {
 		mv.addObject("templates", service.retrieveTemplateList(map));
 		mv.setViewName("approval/admin_templateList");
 		return mv;
-	}
+	}*/
 	
 	
+	/*
 	//양식 상세보기
 	@RequestMapping(value="/admin/template.do")
 	public ModelAndView detail(@RequestParam(value="tmpNo", required=true)int tmpNo) {
@@ -60,19 +67,28 @@ public class AdminTemplateController {
 		mv.addObject("template", service.retrieveTemplate(tmpNo));
 		mv.setViewName("approval/admin_detailTemplate");
 		return mv;
+	} */
+	
+	
+	
+	//양식 등록창 요청
+	@RequestMapping(value="/admin/addTemplateForm.do", method=RequestMethod.GET)
+	public ModelAndView addForm() {		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("categories", categoryService.retrieveTemplateCategoryList());
+		mv.setViewName("approval/admin_addTemplate");
+		return mv;
 	}
 	
 	
-	//양식 등록 폼 요청
 	
-	
+	/*
 	//양식 등록 요청
 	@RequestMapping(value="/admin/registerTemplate.do")
 	public void register(TemplateVO templateVO) {
 		
 		
-		
-	}*/
+	} */
 	
 	
 	//양식 삭제 요청
@@ -93,10 +109,11 @@ public class AdminTemplateController {
 		map.put("tmpNos", nums);
 		
 		service.removeTemplate(map);
-		return "approval/admin_templateList";
-		
+		return "approval/admin_templateList";	
 		
 	}
+	
+	
 	
 	
 }
