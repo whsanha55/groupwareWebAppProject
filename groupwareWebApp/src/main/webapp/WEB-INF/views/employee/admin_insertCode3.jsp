@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>최상위 코드 등록</title>
+<title>최하위 코드 등록</title>
 </head>
 <body>
 <script type="text/javascript">
@@ -42,11 +42,19 @@
 	<div class="modal-body">
 		<div></div>
 		
-	<form action="${pageContext.request.contextPath }/admin/registerCode1.do" method="post" >
+	<form action="${pageContext.request.contextPath }/admin/registerCode3.do" method="post" >
 		<div class="modal-body">
 			<table id="datatable" class="table table-striped table-bordered">
 				<tbody>
-					<input type="hidden" id="relationCode" name="relationCode" value="" >
+					<tr>
+						<th>상위코드</th>
+						<td><select id="relationCode" name="relationCode">
+							<c:forEach var="codes" items="${requestScope.codes}" varStatus="loop">
+								<option value="${pageScope.codes.cNo }" }>${pageScope.codes.cName}</option>
+							</c:forEach>
+								</select>
+						</td>
+					</tr>
 					<tr>
 						<th>코드번호</th>
 						<td><input type="text" id="cNo" name="cNo" required="required" ></td>

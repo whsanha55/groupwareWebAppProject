@@ -15,45 +15,56 @@ public class NoticeVO {
 		super();
 	}
 
+
 	public int getNoticeNo() {
 		return noticeNo;
 	}
+
 
 	public void setNoticeNo(int noticeNo) {
 		this.noticeNo = noticeNo;
 	}
 
-	public String getNoticleTitle() {
+
+	public String getNoticeTitle() {
 		return noticeTitle;
 	}
 
-	public void setNoticleTitle(String noticeTitle) {
+
+	public void setNoticeTitle(String noticeTitle) {
 		this.noticeTitle = noticeTitle;
 	}
+
 
 	public int getHitCount() {
 		return hitCount;
 	}
 
+
 	public void setHitCount(int hitCount) {
 		this.hitCount = hitCount;
 	}
+
 
 	public String getNoticeDate() {
 		return noticeDate;
 	}
 
+
 	public void setNoticeDate(String noticeDate) {
 		this.noticeDate = noticeDate;
 	}
+
 
 	public String getNoticeContents() {
 		return noticeContents;
 	}
 
+
 	public void setNoticeContents(String noticeContents) {
 		this.noticeContents = noticeContents;
 	}
+
 
 	public List<NoticeFileVO> getFiles() {
 		return files;
@@ -69,7 +80,7 @@ public class NoticeVO {
 	
 	@Override
 	public String toString() {
-		return "NoticeVO [noticeNo=" + noticeNo + ", noticleTitle=" + noticeTitle + ", hitCount=" + hitCount
+		return "NoticeVO [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", hitCount=" + hitCount
 				+ ", noticeDate=" + noticeDate + ", noticeContents=" + noticeContents + ", files=" + files + "]";
 	}
 }

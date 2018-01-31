@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>코드목록2</title>
+<title>부서 코드 목록 조회</title>
 <script>
 
 	$(document).ready(function() {
@@ -40,18 +40,18 @@
 		});
 		
 		$('#insert').click(function(){
-			var url = '${pageContext.request.contextPath}/admin/registerCode.do';
+			var url = '${pageContext.request.contextPath}/admin/registerCode2.do';
 			window.open(url, "코드 등록", "width=700, height=600");
 		});
 		
 		$('#modify').click(function(){
-			var url = '${pageContext.request.contextPath}/admin/modifyCode.do';
+			var url = '${pageContext.request.contextPath}/admin/modifyCode2.do';
 			window.open(url, "코드 수정", "width=700, height=600");
 		});
 		
 		$('#remove').click(function() {	
 			if(confirm("이 코드를 삭제하시겠습니까?") == true) {
-				location.href = "${pageContext.request.contextPath}/admin/removeCode.do?cNo="+ c_no;
+				location.href = "${pageContext.request.contextPath}/admin/removeCode2.do?cNo="+ c_no;
 			} else {
 				return;
 			}
@@ -76,8 +76,7 @@
 							<div class="col-md-2">
 								<h2>코드목록</h2>
 							</div>
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target=".bs-example-modal-lg">등록하기</button>
+							<button type="button" id="insert">등록</button>
 						</div>
 						<div class="modal fade bs-example-modal-lg" tabindex="-1"
 							role="dialog" aria-hidden="true">
@@ -183,10 +182,13 @@
 								</c:if>
 									<td>${pageScope.code.cName }</td>
 									<td>${pageScope.code.countRelationCode }</td>
-									<td><button type="button" data-toggle="modal"
-											data-target="#myModal">수정1</button></td>
+									<td><button class="modify" id="${pageScope.code.cNo }" type="button">수정</button></td>
 								<c:if test="${pageScope.code.countRelationCode == 0 }" >
-									<td><button type="button" >삭제</button></td>
+									<td><c:url var="removeUrl" value="/admin/removeCode2.do" scope="page">
+											<c:param name="cNo" value="${pageScope.code.cNo }"/>
+									  </c:url> 	 	
+											<a href="${pageScope.removeUrl }">삭제</a>
+									</td>
 								</c:if>
 								<c:if test="${pageScope.code.countRelationCode != 0 }">
 									<td></td>

@@ -17,7 +17,7 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverLineMapper.xml"/> 
-		
+
 		<!-- Authority -->
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/AuthorityMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/PostMapper.xml"/> 
