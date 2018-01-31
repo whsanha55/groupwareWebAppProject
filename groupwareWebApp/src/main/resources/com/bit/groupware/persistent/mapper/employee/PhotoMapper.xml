@@ -6,19 +6,18 @@
 <mapper namespace="com.bit.groupware.persistent.mapper.PhotoMapper">
 	
 	<insert id="insertPhoto" parameterType="map" statementType="PREPARED">
-		<selectKey keyProperty="photoNo" resultType="String" statementType="PREPARED" order="BEFORE">
-			select 'P'||lpad(photo_no_seq.nextval,5,0) from dual;		
-		</selectKey>
-		<foreach item="photo" collection="photos" open="insert all" close="select * from dual">
-		 	insert into photo (photo_no, photo_name, system_file_name, file_size, division, emp_no )
-   			values (#{photo.photoNo}, #{photo.photoName}, #{photo.systemFileName}, 
-   			         #{photo.division}, #{photo.fileSize}, #{photo.empNo} )
-		</foreach>	 	
+		insert all
+		<foreach item="photo" collection="photos">
+		   into photo (photo_name, system_file_name, file_size, division, emp_no )
+		   values (#{photo.photoName}, #{photo.systemFileName}, 
+   			         #{photo.fileSize}, 'P', #{photo.empNo} )
+		</foreach>
+		select * from dual
 	</insert>
 	
 	<delete id="deletePhoto" parameterType="String" statementType="PREPARED">
 		delete from photo
-		where photo_no = #{photoNo};
+		where photo_no = #{photoNo}
 	</delete>
 	
 

@@ -3,8 +3,10 @@ package com.bit.groupware.persistent.authority;
 import java.util.List;
 import java.util.Map;
 
-import com.bit.groupware.domain.authority.PostVO;
+import org.springframework.stereotype.Repository;
 
+import com.bit.groupware.domain.authority.PostVO;
+@Repository
 public class PostDAOImpl implements PostDAO {
 
 	public void insertPost(PostVO post) {

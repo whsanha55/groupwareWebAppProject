@@ -3,14 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<typeAliases>
-	
+	<typeAliases> 
 		<package name="com.bit.groupware.domain" />
-		
 	</typeAliases>
 	<mappers>
 		<!-- Approval -->
-		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateMapper.xml"/> 
+	 <mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateCategoryMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/TemplateBookmarkMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalMapper.xml"/> 
@@ -18,8 +16,8 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalCommentMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverMapper.xml"/> 
-		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverLineMapper.xml"/> 
-		
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverLineMapper.xml"/>  
+
 		<!-- Authority -->
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/AuthorityMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/PostMapper.xml"/> 

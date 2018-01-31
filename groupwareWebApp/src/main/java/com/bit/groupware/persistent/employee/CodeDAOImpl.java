@@ -74,17 +74,25 @@ public class CodeDAOImpl implements CodeDAO {
 		sqlSession.update(NAMESPACE + ".updateCode", code);
 	}
 	
-	
 	//코드 삭제
 	public void deleteCode(String cNo) {
 		sqlSession.delete(NAMESPACE + ".deleteCode", cNo);
 	}
 	
+	//부서 코드 목록 조회
 	public List<CodeVO> selectDeptCodeList() {
 		return sqlSession.selectList(NAMESPACE + ".selectDeptCodeList");
 	}
 	
+	//직책 코드 목록 조회
 	public List<CodeVO> selectDutyCodeList() {
 		return sqlSession.selectList(NAMESPACE + ".selectDutyCodeList");
 	}
+	
+	/*//페이징 처리
+	public int selectCodeCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectCodeCount", map);
+	}*/
+	
+	
 }

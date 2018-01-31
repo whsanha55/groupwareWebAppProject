@@ -20,11 +20,7 @@ public class UploadPhotos {
 	public static PhotoVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
 		String root = context.getRealPath("/");
 		String path = root + "resources/upload/Photos/";
-		logger.info("path : {}",path);
-		File dir = new File(path);
-		if(!dir.isDirectory()) {
-			dir.mkdir();
-		}
+
 		String photoName = part.getOriginalFilename();
 		String systemFileName = "";
 		File file = new File(path + File.separator + photoName);
@@ -46,5 +42,4 @@ public class UploadPhotos {
 		return photo;
 	}
 
-	
 }

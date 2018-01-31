@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>코드목록2</title>
+<title>부서 코드 목록 조회</title>
 <script>
 
 	$(document).ready(function() {
@@ -17,7 +17,6 @@
 				e.preventDefault();
 				$('.keyfield').text($(this).text());
 				$('.keyfield').attr('id',$(this).attr('id'));
-				
 		});
 	
 		//검색조건 엔터키 눌렀을때 트리거 발동
@@ -40,18 +39,22 @@
 		});
 		
 		$('#insert').click(function(){
-			var url = '${pageContext.request.contextPath}/admin/registerCode.do';
+			var relationCode = $("#relationCode").val();
+			console.log(relationCode);
+			var url = '${pageContext.request.contextPath}/admin/registerCode2.do?relationCode='+relationCode;
 			window.open(url, "코드 등록", "width=700, height=600");
 		});
 		
-		$('#modify').click(function(){
-			var url = '${pageContext.request.contextPath}/admin/modifyCode.do';
+		$('.modify').click(function(){
+			var c_no = $(this).attr('id');
+			var url = '${pageContext.request.contextPath}/admin/modifyCode2.do?cNo='+ c_no;
+			
 			window.open(url, "코드 수정", "width=700, height=600");
 		});
 		
 		$('#remove').click(function() {	
 			if(confirm("이 코드를 삭제하시겠습니까?") == true) {
-				location.href = "${pageContext.request.contextPath}/admin/removeCode.do?cNo="+ c_no;
+				location.href = "${pageContext.request.contextPath}/admin/removeCode2.do?cNo="+ c_no;
 			} else {
 				return;
 			}
@@ -76,8 +79,7 @@
 							<div class="col-md-2">
 								<h2>코드목록</h2>
 							</div>
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target=".bs-example-modal-lg">등록하기</button>
+							<button type="button" id="insert">등록</button>
 						</div>
 						<div class="modal fade bs-example-modal-lg" tabindex="-1"
 							role="dialog" aria-hidden="true">
@@ -170,23 +172,22 @@
 						</tr>
 					</thead>
 					<tbody>
+						<input id="relationCode" type="hidden" value="${param.relationCode }">
 						<c:forEach var="code" items='${requestScope.codes }' varStatus="loop" >
 							<c:url var="url" value="/admin/listCode3.do" scope="page" >
 								<c:param name="relationCode" value="${pageScope.code.cNo }" />
 							</c:url>
 							<tr>
-								<c:if test="${pageScope.code.countRelationCode != 0 }">
 									<td><a href="${pageScope.url}">${pageScope.code.cNo }</a></td>
-								</c:if>
-								<c:if test="${pageScope.code.countRelationCode == 0 }">
-									<td>${pageScope.code.cNo }</td>
-								</c:if>
 									<td>${pageScope.code.cName }</td>
 									<td>${pageScope.code.countRelationCode }</td>
-									<td><button type="button" data-toggle="modal"
-											data-target="#myModal">수정1</button></td>
+									<td><button class="modify" id="${pageScope.code.cNo }" type="button">수정</button></td>
 								<c:if test="${pageScope.code.countRelationCode == 0 }" >
-									<td><button type="button" >삭제</button></td>
+									<td><c:url var="removeUrl" value="/admin/removeCode2.do" scope="page">
+											<c:param name="cNo" value="${pageScope.code.cNo }"/>
+									  </c:url> 	 	
+											<a href="${pageScope.removeUrl }">삭제</a>
+									</td>
 								</c:if>
 								<c:if test="${pageScope.code.countRelationCode != 0 }">
 									<td></td>
