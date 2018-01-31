@@ -4,10 +4,10 @@ import com.bit.groupware.domain.approval.TemplateVO;
 
 public class DelegationVO {
 
-	int dele_no;
-	EmployeeVO employee;
-	TemplateVO template;
-	EmployeeVO deleEmployee;
+	private int dele_no;
+	private EmployeeVO employee;
+	private TemplateVO template;
+	private EmployeeVO deleEmployee;
 
 	public DelegationVO() {
 		super();

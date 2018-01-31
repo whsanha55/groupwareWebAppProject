@@ -4,9 +4,9 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class TemplateBookmarkVO {
 
-	int bookmarkNo;
-	EmployeeVO employee;
-	TemplateVO template;
+	private int bookmarkNo;
+	private EmployeeVO employee;
+	private TemplateVO template;
 
 	public TemplateBookmarkVO() {
 	}

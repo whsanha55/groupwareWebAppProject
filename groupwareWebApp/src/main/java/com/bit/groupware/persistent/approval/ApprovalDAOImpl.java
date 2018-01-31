@@ -34,4 +34,9 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		sqlSession.update(NAMESPACE+".updateApproval", approval);
 	}
 
+	public int selectApprovalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".selectApprovalCount",map); 
+	}
+
 }

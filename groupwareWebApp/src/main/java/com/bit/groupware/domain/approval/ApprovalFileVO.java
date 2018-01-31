@@ -2,11 +2,11 @@ package com.bit.groupware.domain.approval;
 
 public class ApprovalFileVO {
 
-	int fileNo;
-	String originalFileName;
-	String systemFileName;
-	long fileSize;
-	ApprovalVO approval;
+	private int fileNo;
+	private String originalFileName;
+	private String systemFileName;
+	private long fileSize;
+	private ApprovalVO approval;
 
 	public ApprovalFileVO() {
 		super();
