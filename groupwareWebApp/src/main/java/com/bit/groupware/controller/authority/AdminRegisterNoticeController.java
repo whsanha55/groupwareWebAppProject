@@ -32,7 +32,7 @@ public class AdminRegisterNoticeController {
 	}
 	/*
 	//공지사항 글 쓰기 요청
-	@RequestMapping(value="/admin/addNotice.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/addNotice.do", method=RequestMethod.POST)
 	public String submit(NoticeVO notice, HttpSession session) throws Exception { 
 		logger.info("notice : {}", notice);
 		List<MultipartFile> uploadFiles = notice.getUpload();
