@@ -37,7 +37,13 @@ public interface CodeDAO {
 	//코드 삭제
 	void deleteCode(String cNo);
 	
+	//부서 목록 조회
 	List<CodeVO> selectDeptCodeList();
 	
+	//직책 목록 조회
 	List<CodeVO> selectDutyCodeList();
+	
+	//페이징 처리
+	int selectCodeCount(Map<String, Object> map);
+
 }

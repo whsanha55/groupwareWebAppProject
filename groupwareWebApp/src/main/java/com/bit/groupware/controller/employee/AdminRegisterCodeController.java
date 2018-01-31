@@ -46,11 +46,7 @@ public class AdminRegisterCodeController {
 	@RequestMapping(value="/admin/registerCode2.do", method=RequestMethod.GET)
 	public ModelAndView form2() {
 		ModelAndView mv = new ModelAndView();
-		Map<String, Object> map =new HashMap<String, Object>();
-		map.put("startRow", 1);
-		map.put("endRow", 10);
-		logger.info("map : {}", map);
-		mv.addObject("codes", codeService.retrieveCodeList1(map));
+		mv.addObject("codes", codeService.retrieveDeptCodeList());
 		mv.setViewName("employee/admin_insertCode2");
 		return mv;
 	}
@@ -80,7 +76,7 @@ public class AdminRegisterCodeController {
 		return mv;
 	}
 		
-	//코드 등록 요청
+	//최하위 코드 등록 요청
 	@RequestMapping(value="/admin/registerCode3.do", method=RequestMethod.POST)
 	public String submit3(CodeVO code) {
 		logger.info("code : {} ", code);
