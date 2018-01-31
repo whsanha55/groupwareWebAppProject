@@ -20,10 +20,12 @@
  	</insert>
 
 	<select id="selectApprovlaRecordList" parameterType="int" resultType="ApprovalRecordVO" statementType="PREPARED">
-     	select t1.record_no,  t1.appr_status, t1.assign_date, t1.check_date, t1.confirm_date, t1.appr_no, t1.line_no
-		from approval_record t1, approval t2, receiver_line t3
-		where t1.appr_no = t2.appr_no
-		and t1.line_no = t3.line_no
+     	select rec.appr_no, line.line_order, emp.emp_name, rec.appr_status, rec.assign_date,
+		rec.check_date, rec.confirm_date
+		from approval_record rec, receiver_line line, emp_view emp
+		where rec.line_no=line.line_no
+		and line.line_emp_no=emp.emp_no
+		and appr_no=#{apprNo}
    </select>
    
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">

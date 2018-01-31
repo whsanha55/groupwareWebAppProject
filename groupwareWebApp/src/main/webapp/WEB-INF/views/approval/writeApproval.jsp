@@ -184,7 +184,7 @@
 </script>
 <body>
 
-<%-- 
+
 <button class="btn btn-default" id='modalReceiver1'>모달출력버튼</button><br/>
 <div class="modal fade" id="layerpop" >
   <div class="modal-dialog">
@@ -208,7 +208,7 @@
     </div>
   </div>
 </div>
- --%>
+
 
 
 	<form method="post" id='approvalForm' enctype="multipart/form-data">

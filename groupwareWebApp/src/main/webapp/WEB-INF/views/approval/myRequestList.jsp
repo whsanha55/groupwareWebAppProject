@@ -23,6 +23,17 @@
 			window.open(url, "결재문서", "width=1000");
 		}); 
 		
+		 $('#datatable').on('click','#recordModal',function() {
+			 	var apprNo=$(this).attr('name')
+				$('#recordBody').load('${pageContext.request.contextPath}/recordModal.do?apprNo='+apprNo)
+					
+					
+					
+				
+
+				$('#layerpop').modal();
+			});
+		
 	});
 		
 	
@@ -56,10 +67,10 @@
 
 						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprNo +" class=detailApproval>"+data.approvals[i].apprTitle+"</td>";
+						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
 						
-						text += "<td><a data-toggle='modal' data-target='#myModal' id="+data.approvals[i].apprNo+">보기</a><a></a></td>";
+						text += "<td><button class='btn btn-default' id='recordModal' name="+data.approvals[i].apprNo+">보기</button></td>";
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
@@ -435,8 +446,49 @@
 	</div>
 	모달 끝 -->
 	
+	
+		<div class="modal fade" id="layerpop" >
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      header
+		      <div class="modal-header">
+		        닫기(x) 버튼
+		        <button type="button" class="close" data-dismiss="modal">×</button>
+		        header title
+		        <h4 class="modal-title">Header</h4>
+		      </div>
+		      body
+		      <div class="modal-body test123">
+		           <table class="table table-striped jambo_table bulk_action">
+                       <thead>
+                         <tr class="headings">
+                           
+                           <th class="column-title">순번</th>
+                           <th class="column-title">결재자</th>
+                           <th class="column-title">결재유형</th>
+						   <th class="column-title">배정일시</th>
+                           <th class="column-title">확인일시</th>
+                           <th class="column-title">결재일시</th>      
+                           
+                         </tr>
+                       </thead>
+                        <tbody id=recordBody>
+                        
+	                   </tbody>       
+	              </table> 
+		      </div>
+		      Footer
+		      <div class="modal-footer">
+		        Footer
+		        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	
+	
         
-	    <!-- 모달 팝업 -->
+	    <!-- 모달 팝업
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 		  <div class="modal-dialog">
 		    <div class="modal-content" style="width:700px;">
@@ -496,7 +548,7 @@
 		      </div>
 		    </div>
 		  </div>
-		</div>
+		</div> -->
 		<!-- 모달 팝업 끝 -->
 </body>
 </html>
