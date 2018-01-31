@@ -19,7 +19,17 @@
 				var msgNo = $(this).parent().attr("id");
 				var url = '${pageContext.request.contextPath}/retrieveMessage.do?msgNo='+msgNo;
 				window.open(url,"쪽지상세정보","width=700, height=600");
+				
 			});
+			
+			
+		 	$('#sendMsg').click(function() {
+				
+				var url = "${pageContext.request.contextPath}/writeMessage.do";
+				window.open(url, "쪽지보내기", "width=700, height=600");
+				
+			});
+			 
 		});
 	
 	</script> 
@@ -44,7 +54,7 @@
 				   </div>
 				   <div>
                    <a class="btn btn-primary pull-right" href="/removeMessage.do">선택삭제</a>
-				   <a class="btn btn-primary pull-right" href="a_index_authority.html">쪽지보내기</a>
+				   <a class="btn btn-primary pull-right" id="sendMsg">쪽지보내기</a>
 					</div>
 					</div>
 									  
