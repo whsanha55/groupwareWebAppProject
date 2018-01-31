@@ -35,13 +35,13 @@
     margin-right: 15px;
 }
 
-textarea {
+/* #textarea {
 
     padding: 10px;
     vertical-align: top;
-    width: 550px;
-    height: 400px;
-}
+    width: 550px !important;
+    height: 330px !important;
+} */
 </style>
 
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -49,7 +49,7 @@ textarea {
 
 <script>
 
-	$(document).ready(function(){
+/* 	$(document).ready(function(){
 		
 		$('#button1').on('click',function(){
 			
@@ -58,19 +58,19 @@ textarea {
 		
 		 $('#button2').on('click',function(){
 			
-			location.href = "${pageContext.request.contextPath}/retreiveMessage.do";
+			location.href = "${pageContext.request.contextPath}/registerMessage.do?receipientEmployee&?msgTitle?&msgContent";
 		
 		}); 
 
 	
-	});
+	}); */
 
 
 </script>
 
 
 <script>
-	src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
+	src = <"${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
 </script>
 
 <!-- Bootstrap -->
@@ -119,29 +119,30 @@ textarea {
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>받은 쪽지</h2>
+				<h2>쪽지 작성</h2>
 
 				<div class="clearfix"></div>
 			</div>
-			<div class="table-responsive" id="datas">
+			<form name="message" action="${pageContext.request.contextPath }/registerMessage.do" method="post">
+			<div class="table-responsive" id="datas" style="margin-bottom: 8px">
 				<table class="table table-striped jambo_table bulk_action">
 					<tbody>
 
 						<tr>
-							<td>발신자</td>
-							<td><input type="text" name="senderName" size="20"></input></td>
+							<td>수신자</td>
+							<td><input type="text" name="receipientEmployee" size="20"></input></td>
 
 						</tr>
 
 						<tr>
 							<td>제목</td>
-							<td><input type="text" name="title" size="40"></input></td>
+							<td><input type="text" name="msgTitle" size="40"></input></td>
 
 						</tr>
 
-						<tr height="400px">
+						<tr height="340px">
 							<td>내용</td>
-							<td colspan="2"><textarea name="content"></textarea></td>
+							<td colspan="2"><textarea style="width:550px; height:340px" name="msgContent"></textarea></td>
 						</tr>
 					</tbody>
 				</table>
@@ -149,11 +150,11 @@ textarea {
 			</div>
 				
 				<div class="buttons text-center">
-				<button type="button" id="button1" class="btn btn-success">확인</button>
-				<button type="button" id="button2" class="btn btn-success">답장보내기</button>
+				<button type="submit" class="btn btn-success">작성</button>
 				</div>
 		</div>
 	</div>
+	</form>
 
 
 

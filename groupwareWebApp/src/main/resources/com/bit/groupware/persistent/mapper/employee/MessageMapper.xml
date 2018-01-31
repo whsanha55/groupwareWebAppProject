@@ -5,13 +5,9 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.MessageMapper">
 	<insert id="insertMessage" parameterType="MessageVO" statementType="PREPARED">
-	   <selectKey keyProperty="msgNo" resultType="int" statementType="STATEMENT" order="BEFORE">
-	   		select message_seq.nextval from dual
-	   </selectKey>
 	    insert into message(msg_no,sender_emp_no,recipient_emp_no,msg_title,msg_content)
-		values(#{msgNo},#{senderEmployee.empNo},#{receipientEmployee.empNo},#{msgTitle},#{msgContent});
+		values(message_seq.nextval,#{senderEmployee.empNo},#{receipientEmployee.empNo},#{msgTitle},#{msgContent})
 	</insert>
-	
 	
 	<delete id="deleteMessage" parameterType="list" statementType="PREPARED" >	<!-- parameterType이상할수도 -->
 		delete from message

@@ -52,7 +52,7 @@
 		
 		 $('#button2').on('click',function(){
 			
-			location.href = "${pageContext.request.contextPath}/retreiveMessage.do";
+			location.href = "${pageContext.request.contextPath}/registerReponseMsg.do";
 		
 		}); 
 
