@@ -1,6 +1,6 @@
 package com.bit.groupware.domain.approval;
 
-import com.bit.groupware.domain.employee.EmployeeVO;
+import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 
 public class ApprovalRecordVO {
 
@@ -13,7 +13,7 @@ public class ApprovalRecordVO {
 	// ì§„í–‰ì¤?: 0 , ê²°ìž¬: 1, ë³´ë¥˜: 2 , ë°˜ë ¤: 3, ? „ê²? : 4, ??ê²? : 5
 	private String confirmDate;
 	private ApprovalCommentVO approvalComment;
-	private EmployeeVO depEmployee;
+	private EmployeeCodeViewVO depEmployee;
 
 	public ApprovalRecordVO() {
 		super();
@@ -83,11 +83,11 @@ public class ApprovalRecordVO {
 		this.approvalComment = approvalComment;
 	}
 
-	public EmployeeVO getDepEmployee() {
+	public EmployeeCodeViewVO getDepEmployee() {
 		return depEmployee;
 	}
 
-	public void setDepEmployee(EmployeeVO depEmployee) {
+	public void setDepEmployee(EmployeeCodeViewVO depEmployee) {
 		this.depEmployee = depEmployee;
 	}
 
