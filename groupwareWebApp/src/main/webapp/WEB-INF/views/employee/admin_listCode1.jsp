@@ -17,7 +17,6 @@
 				e.preventDefault();
 				$('.keyfield').text($(this).text());
 				$('.keyfield').attr('id',$(this).attr('id'));
-				
 		});
 	
 		//검색조건 엔터키 눌렀을때 트리거 발동

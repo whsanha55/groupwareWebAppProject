@@ -40,7 +40,9 @@
 		});
 		
 		$('#insert').click(function(){
-			var url = '${pageContext.request.contextPath}/admin/registerCode3.do';
+			var relationCode = $("#relationCode").val();
+			console.log(relationCode);
+			var url = '${pageContext.request.contextPath}/admin/registerCode3.do?relationCode='+relationCode;
 			window.open(url, "코드 등록", "width=700, height=600");
 		});
 		
@@ -119,8 +121,9 @@
 						</tr>
 					</thead>
 					<tbody>
+						<input id="relationCode" type="hidden" value="${param.relationCode }">
 						<c:forEach var="code" items='${requestScope.codes }' varStatus="loop" >
-							<tr>s
+							<tr>
 								<td>${pageScope.code.cNo }</a></td>
 								<td>${pageScope.code.cName }</td>
 								<td>${pageScope.code.countEmployee }</td>
