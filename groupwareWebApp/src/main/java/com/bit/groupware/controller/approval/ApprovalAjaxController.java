@@ -61,7 +61,7 @@ public class ApprovalAjaxController {
 		ModelAndView mv =new ModelAndView();
 		
 		mv.addObject("approval",approvalService.retrieveApproval(apprNo));
-		mv.setViewName("approval/approvalDetail");
+		mv.setViewName("approval/approvalDetail/pop");
 		return mv;
 	}
 	

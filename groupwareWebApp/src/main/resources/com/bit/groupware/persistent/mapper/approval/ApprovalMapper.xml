@@ -154,7 +154,7 @@
 				<result property="commentDate" column="comment_date" />	
 			</association>
 
-			<association property="depEmployee" column="linemp_no" javaType="EmployeeCodeViewVO">
+			<association property="depEmployee" column="linemp_no" javaType="EmployeeVO">
 				<id property="empNo" column="linemp_no" />
 				<result property="empName" column="linemp_name" />	
 				<result property="duty" column="linemp_duty" />
