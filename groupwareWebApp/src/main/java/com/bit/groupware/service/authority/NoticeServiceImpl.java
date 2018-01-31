@@ -29,7 +29,7 @@ public class NoticeServiceImpl implements NoticeService {
 	public void registerNotice(NoticeVO notice) {
 		//공지사항 등록
 		int noticeNo = noticeDAO.insertNotice(notice);
-		
+		System.out.println("번호!!!!!!!!!!!!!!!!!!!!ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ" + noticeNo);
 		//첨부파일 등록
 		List<NoticeFileVO> files = notice.getFiles();
 		if(files.size() != 0) {
