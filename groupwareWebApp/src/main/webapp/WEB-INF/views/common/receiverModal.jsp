@@ -13,21 +13,14 @@
 	margin-top: 10%;
 	text-align: center;
 }
+ul.fancytree-container {
+   height: 500px;
+   overflow : auto; 
+}
 </style>
 <script>
 	$(document).ready(function() {
 
- 	/* 	$("#tree").fancytree({
-			source : [{"title": "Node 1", "key": "1"},
-				 {"title": "Folder 2", "key": "2", "folder": true, "children": [
-					    {"title": "Node 2.1", "key": "4"},
-					    {"title": "Node 2.2", "key": "3"}
-					  ]}
-					]
-			
-			
-			 
-		}); */
 
 		 $("#tree").fancytree({
 			source : {

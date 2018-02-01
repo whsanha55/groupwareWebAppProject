@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.groupware.domain.employee.CodeVO;
+import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.service.employee.CodeService;
 import com.bit.groupware.service.employee.EmployeeService;
 
@@ -21,22 +22,22 @@ public class CodeAjaxController {
 
 	@Autowired
 	private CodeService codeService;
-	
+
 	@Autowired
 	private EmployeeService employeeService;
-	
-	//조직도 부서 리스트 Ajax
-	@RequestMapping(value="/receiverDeptListAjax.do", method=RequestMethod.GET)
+
+	// 조직도 부서 리스트 Ajax
+	@RequestMapping(value = "/receiverDeptListAjax.do", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object> deptList() {
 		List<CodeVO> codes = codeService.retrieveDeptAll();
-		List<Object> oList= new ArrayList<Object>();
-		for(int i=0;i<codes.size()-1;i++) {
-			if(codes.get(i).getcNo().length() == 4) {
+		List<Object> oList = new ArrayList<Object>();
+		for (int i = 0; i < codes.size() - 1; i++) {
+			if (codes.get(i).getcNo().length() == 4) {
 				List<Object> list = new ArrayList<Object>();
-				Map<String,Object> map = new HashMap<String, Object>();
-				for(int j=i+1;j<codes.size();j++) {
-					if(codes.get(j).getcNo().length() != 4) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				for (int j = i + 1; j < codes.size(); j++) {
+					if (codes.get(j).getcNo().length() != 4) {
 						Map<String, Object> map2 = new HashMap<String, Object>();
 						map2.put("title", codes.get(j).getcName());
 						map2.put("lazy", true);
@@ -49,21 +50,28 @@ public class CodeAjaxController {
 				map.put("title", codes.get(i).getcName());
 				map.put("key", codes.get(i).getcNo());
 				map.put("lazy", true);
-				if(!list.isEmpty()) {
+				if (!list.isEmpty()) {
 					map.put("children", list);
 				}
 				oList.add(map);
 			}
-			
+
 		}
-		
+
 		return oList;
 	}
-	
-	@RequestMapping(value="/receiverEmpListAjax.do", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/receiverEmpListAjax.do", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Object> empList(@RequestParam(value="cNo") int cNo) {
-		//employeeService.retrieveEmployeeList(map)
-		return null;
+	public List<Map<String, Object>> empList(@RequestParam(value = "cNo") String cNo) {
+		List<EmployeeVO> employees = employeeService.retrieveEmployeeByDept(cNo);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		for (EmployeeVO employee : employees) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("title", employee.getEmpName() + " " + employee.getDuty());
+			map.put("key", employee.getEmpNo());
+			list.add(map);
+		}
+		return list;
 	}
 }
