@@ -41,6 +41,11 @@
 <script>
 
 	$(document).ready(function(){
+		
+			$('#close').click(function() {
+				window.close();
+			});
+	
 		var temp = $('.apprLineAppr').length;
 		var text = "";
 		for(var i =temp; i<9;i++) {
@@ -79,7 +84,7 @@
 			<div class="x_title">
 				<h2>결재 현황</h2>
 				
-				<button type="button" class="btn btn-default" style="float:right;">확인</button>
+				<button type="button" class="btn btn-default" id="close" style="float:right;">확인</button>
 			
 				<div class="clearfix"></div>
 			</div>
@@ -122,7 +127,7 @@
 	                                                        
 								
 	                          </tr>
-	                          </c:if>
+	                         </c:if>
 						</c:forEach>
 					
 					</tbody> 

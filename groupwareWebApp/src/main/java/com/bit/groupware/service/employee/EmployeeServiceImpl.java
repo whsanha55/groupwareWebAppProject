@@ -50,10 +50,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		photoDAO.deletePhoto(photoNo);
 	}
 */
-	public List<EmployeeCodeViewVO> retrieveEmployeeList(Map<String, Object> map) {
+	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
 		return employeeDAO.selectEmployeeList(map);
 	}
 	
+	
+	public List<EmployeeVO> retrieveEmployeeByDept(String cNo) {
+		return employeeDAO.selectEmployeeByDept(cNo);
+	}
+
+
 	public void registerEmployee(EmployeeVO employee) {
 		
 		String empNo = employeeDAO.insertEmployee(employee);
@@ -87,6 +93,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	public List<DeputyVO> retrieveDeputyList(Map<String, Object> map) {
 		return deputyDAO.selectDeputyList(map);
+	}
+	
+	public int retrieveEmployeeCount(Map<String, Object> map) {
+		return employeeDAO.selectEmployeeCount(map);
+	}
+	
+	public List<EmployeeVO> retrieveDeputyRegisterEmployeeList(Map<String, Object> map) {
+		return deputyDAO.selectDeputyRegisterEmployeeList(map);
+	}
+	
+	public int retrieveDeputyRegisterCount(Map<String, Object> map) {
+		return deputyDAO.selectDeputyRegisterCount(map);
 	}
 
 }
