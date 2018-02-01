@@ -23,4 +23,7 @@ public interface NoticeService {
 	void removeNotice(Map<String, Object> map);
 	
 	 int retrieveNoticeCount(Map<String, Object> map);
+	 
+	 //공지사항 파일을 삭제한다.
+	 void removeNoticeFile(int noticeNo);
 }

@@ -4,105 +4,104 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 <script>
-	$(document).ready(function() {
-		 //첨부파일 추가 및 삭제 이벤트
-		$('form').on('click', '.btn-add', function(e) {
-	        e.preventDefault();
+   $(document).ready(function() {
+       //첨부파일 추가 및 삭제 이벤트
+      $('form').on('click', '.btn-add', function(e) {
+           e.preventDefault();
 
-	        var controlForm = $('.controls:first') ;
-	        var currentEntry = $(this).parents('.entry:first');
-	        var newEntry = $(currentEntry.clone()).appendTo(controlForm);
+           var controlForm = $('.controls:first') ;
+           var currentEntry = $(this).parents('.entry:first');
+           var newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-	        newEntry.find('input').val('');
-	        controlForm.find('.entry:not(:last) .btn-add')
-	            .removeClass('btn-add').addClass('btn-remove')
-	            .removeClass('btn-success').addClass('btn-danger')
-	            .html('<span class="glyphicon glyphicon-minus"></span>');
-		}).on('click', '.btn-remove', function(e) {
-		      $(this).parents('.entry:first').remove();
+           newEntry.find('input').val('');
+           controlForm.find('.entry:not(:last) .btn-add')
+               .removeClass('btn-add').addClass('btn-remove')
+               .removeClass('btn-success').addClass('btn-danger')
+               .html('<span class="glyphicon glyphicon-minus"></span>');
+      }).on('click', '.btn-remove', function(e) {
+            $(this).parents('.entry:first').remove();
 
-				e.preventDefault();
-			return false;
-		});
+            e.preventDefault();
+         return false;
+      });
 
-	});
+   });
 </script>
 <title>Insert title here</title>
 </head>
 <body>
-	<!--글쓰기-->
-	<form action="<%=request.getContextPath()%>/admin/addNotice.do"
-		method="post" enctype="multipart/form-data">
-		<div class="col-md-12 col-sm-12 col-xs-12">
-			<div class="x_panel">
-				<div class="x_title">
-					<h2>공지사항</h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-						</li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-expanded="false"><i
-								class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Settings 1</a></li>
-								<li><a href="#">Settings 2</a></li>
-							</ul></li>
-						<li><a class="close-link"><i class="fa fa-close"></i></a></li>
-					</ul>
-					<div class="clearfix"></div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-md-3 col-sm-3 col-xs-12">제목</label>
-					<div class="col-md-9 col-sm-9 col-xs-12">
-						<input type="text" name="noticeTitle"
-							id="autocomplete-custom-append" class="form-control col-md-10" />
-					</div>
-					<div class="x_content">
+   <!--글쓰기-->
+   <form action="<%=request.getContextPath()%>/admin/addNotice.do"
+      method="post" enctype="multipart/form-data">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+         <div class="x_panel">
+            <div class="x_title">
+               <h2>공지사항</h2>
+               <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+                  <li class="dropdown"><a href="#" class="dropdown-toggle"
+                     data-toggle="dropdown" role="button" aria-expanded="false"><i
+                        class="fa fa-wrench"></i></a>
+                     <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings 1</a></li>
+                        <li><a href="#">Settings 2</a></li>
+                     </ul></li>
+                  <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+               </ul>
+               <div class="clearfix"></div>
+            </div>
+            <div class="form-group">
+               <label class="control-label col-md-3 col-sm-3 col-xs-12">제목</label>
+               <div class="col-md-9 col-sm-9 col-xs-12">
+                  <input type="text" name="noticeTitle"
+                     id="autocomplete-custom-append" class="form-control col-md-10" />
+               </div>
+               <div class="x_content">
 
-						<div id="alerts"></div>
-
-			<textarea id="summernote" name="noticeContents"></textarea>
-             <script>
-                $('#summernote').summernote({
-                   height : 300, // set editor height
-                   minHeight : null, // set minimum height of editor
-                   maxHeight : null, // set maximum height of editor
-                   focus : true
-                // set focus to editable area after initializing summernote
-                });
-              </script>   
+                  <div id="alerts"></div>
+  <script>
+                     $('#summernote').summernote({
+                        height : 300, // set editor height
+                        minHeight : null, // set minimum height of editor
+                        maxHeight : null, // set maximum height of editor
+                        focus : true
+                     // set focus to editable area after initializing summernote
+                     });
+                  </script>        
 
 
+                  <textarea name="noticeContents" rows="20" style="width: 100%"></textarea>
+                  <br> <br>
 
+                  <div class="ln_solid"></div>
+                  <div class="col-md-12">
+                     <div class="row">
+                        <div class="control-group" id="fields">
+                           <div class="controls">
+                              <div class="entry input-group col-xs-3">
+                                 <input type="file" class="btn btn-primary" name="upload">
+                                 <span class="input-group-btn">
+                                    <button class="btn btn-success btn-add" type="button">
+                                       <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
 
-						<div class="ln_solid"></div>
-						<div class="col-md-12">
-							<div class="row">
-								<div class="control-group" id="fields">
-									<div class="controls">
-										<div class="entry input-group col-xs-3">
-											<input type="file" class="btn btn-primary" name="upload">
-											<span class="input-group-btn">
-												<button class="btn btn-success btn-add" type="button">
-													<span class="glyphicon glyphicon-plus"></span>
-												</button>
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<button type="submit" class="btn btn-primary pull-right">등록</button>
-					&nbsp;
-					<button type="reset" class="btn btn-primary pull-right">취소</button>
-				</div>
-			</div>
-	</form>
+               <button type="submit" class="btn btn-primary pull-right">등록</button>
+               &nbsp;
+               <button type="reset" class="btn btn-primary pull-right">취소</button>
+            </div>
+         </div>
+   </form>
 </body>
 </html>
