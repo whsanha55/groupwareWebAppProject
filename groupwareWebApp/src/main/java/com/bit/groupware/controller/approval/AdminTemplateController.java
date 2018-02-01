@@ -35,14 +35,8 @@ public class AdminTemplateController {
 	
 	//양식관리 폼 요청: 전체 리스트
 	@RequestMapping(value="/admin/template.do", method=RequestMethod.GET)
-	public ModelAndView templateList() {
-		ModelAndView mv = new ModelAndView();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("startRow", 1);
-		map.put("endRow", 10);
-		mv.addObject("templates", service.retrieveTemplateList(map));
-		mv.setViewName("approval/admin_templateList");
-		return mv;
+	public String templateList() {
+		return "approval/admin_templateList";
 	}
 	
 /*	
@@ -62,15 +56,16 @@ public class AdminTemplateController {
 	}*/
 	
 	
-	/*
+	
 	//양식 상세보기
-	@RequestMapping(value="/admin/template.do")
+	@RequestMapping(value="/admin/templateDetail.do", method=RequestMethod.GET)
 	public ModelAndView detail(@RequestParam(value="tmpNo", required=true)int tmpNo) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("template", service.retrieveTemplate(tmpNo));
-		mv.setViewName("approval/admin_detailTemplate");
+		logger.info("template : {} ", service.retrieveTemplate(tmpNo));
+		mv.setViewName("approval/admin_templateDetail/pop");
 		return mv;
-	} */
+	}
 	
 	
 	

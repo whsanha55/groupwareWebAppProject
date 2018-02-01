@@ -20,32 +20,32 @@ import com.bit.groupware.util.UploadFiles;
 
 @Controller
 public class AdminRegisterNoticeController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminRegisterNoticeController.class);
+   private static final Logger logger = LoggerFactory.getLogger(AdminRegisterNoticeController.class);
 
-	@Autowired
-	private NoticeService noticeService;
+   @Autowired
+   private NoticeService noticeService;
 
-	//공지사항 글 쓰기 폼 요청
-	@RequestMapping(value="/admin/addNotice.do", method=RequestMethod.GET)
-	public String form() {
-		return "authority/admin_addNotice";
-	}
+   //공지사항 글 쓰기 폼 요청
+   @RequestMapping(value="/admin/addNotice.do", method=RequestMethod.GET)
+   public String form() {
+      return "authority/admin_addNotice";
+   }
 
-	//공지사항 글 쓰기 요청
-	@RequestMapping(value="/admin/addNotice.do", method=RequestMethod.POST)
-	public String submit(NoticeVO notice, HttpSession session) throws Exception { 
-		logger.info("내용!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", notice.getNoticeContents());
-		List<MultipartFile> uploadFiles = notice.getUpload();
-		for (MultipartFile file : uploadFiles) {
-			if (!file.isEmpty()) {
-				logger.info("file : {}", file);
-				ServletContext context = session.getServletContext();
+   //공지사항 글 쓰기 요청
+   @RequestMapping(value="/admin/addNotice.do", method=RequestMethod.POST)
+   public String submit(NoticeVO notice, HttpSession session) throws Exception { 
+      logger.info("내용!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", notice.getNoticeContents());
+      List<MultipartFile> uploadFiles = notice.getUpload();
+      for (MultipartFile file : uploadFiles) {
+         if (!file.isEmpty()) {
+            logger.info("file : {}", file);
+            ServletContext context = session.getServletContext();
 
-				NoticeFileVO noticeFile = UploadFiles.uploadFile(file, context);
-				notice.addNoticeFile(noticeFile);
-			}
-		}
-		noticeService.registerNotice(notice);
-		return "redirect:/admin/noticeList.do";
-	}
+            NoticeFileVO noticeFile = UploadFiles.uploadFile(file, context);
+            notice.addNoticeFile(noticeFile);
+         }
+      }
+      noticeService.registerNotice(notice);
+      return "redirect:/admin/noticeList.do";
+   }
 }

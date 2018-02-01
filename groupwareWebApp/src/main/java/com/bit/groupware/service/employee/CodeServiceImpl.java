@@ -60,6 +60,10 @@ public class CodeServiceImpl implements CodeService {
 		codeDAO.deleteCode(cNo);
 	}
 	
+	public int checkRelationCode(String relationCode) {
+		return codeDAO.checkRelation(relationCode);
+	}
+	
 	public List<CodeVO> retrieveDeptCodeList() {
 		return codeDAO.selectDeptCodeList();
 	}

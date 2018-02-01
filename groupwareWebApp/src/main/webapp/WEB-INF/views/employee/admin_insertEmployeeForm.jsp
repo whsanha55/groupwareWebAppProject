@@ -10,16 +10,52 @@
 <title>사원등록</title>
 <script>
 	$(document).ready(function () {		
-		$('#deptBtnList li > a').on('click', function() {	
-			$('#deptBtn').text($(this).text());
-		    $('input[name=deptCode]').val($(this).attr('value'));		    
-		});
-		
 		
 		$('#dutyBtnList li > a').on('click', function() {
 		    $('#dutyBtn').text($(this).text());
 		    $('input[name=dutyCode]').val($(this).attr('value'));
 		});
+		
+		$('#deptBtnList li > a').on('click', function() {	
+			$('#deptBtn').text($(this).text());
+		    $('input[name=deptCode]').val($(this).attr('value'));		    
+		    
+			$.ajax ({
+				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
+				,
+				method: 'POST'
+				,
+				data: {
+					deptCode: $('input[name=deptCode]').val($(this).attr('value'))
+				}
+				,
+				dataType: 'json'
+				,
+				success: function(data) {
+					alert("hi");
+					if(data == 1) {
+						
+						/* text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="true">팀<span class="caret"></span></button>';
+						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">';
+						text += '<c:forEach var="relationdeptCode" items="${requestScope.relationdeptCodes }" varStatus="loop">';
+						text += '<li role="presentation">';
+						text += '<a role="menuitem" tabindex="-1" href="#" value="${pageScope.relationdeptCode.cNo }">${pageScope.relationdeptCode.cName }</a>';
+						text += '</li>';
+						text += '</c:forEach> ';
+						text += '</ul>';	
+						$('#form-dept').find('ul').html(text); */
+					}
+				}
+				,
+				error: function(jqXHR) {
+					alert('error : ' + jqXHR.status);
+				}
+			}); 
+		});
+		
+		
+		
+		
 	});
 </script>
 </head>
@@ -100,22 +136,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="deptBtn">부서 <span class="required">*</span>
-						</label>&nbsp;&nbsp;
-						<button data-toggle="dropdown"
-							class="btn btn-default dropdown-toggle" id="deptBtn" type="button" value="cName"
-							aria-expanded="true">부서 <span class="caret"></span>
-						</button>
-						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
-						<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
-							</li>
-						</c:forEach>
-						</ul>
-					</div>
-					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" 
 							for="last-name">직책 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
@@ -131,6 +151,25 @@
 							</c:forEach>
 						</ul>
 					</div>
+					<div id="form-dept" class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12"
+							for="deptBtn">부서 <span class="required">*</span>
+						</label>&nbsp;&nbsp;
+						
+						<button data-toggle="dropdown"
+							class="btn btn-default dropdown-toggle" id="deptBtn" type="button"
+							aria-expanded="true">부서 <span class="caret"></span>
+						</button>
+						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
+						<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
+							</li>
+						</c:forEach>
+						</ul>
+						
+					</div>
+
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">이메일 <span class="required">*</span>
 						</label>

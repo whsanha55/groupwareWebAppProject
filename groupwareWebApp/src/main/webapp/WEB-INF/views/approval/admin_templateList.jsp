@@ -10,8 +10,14 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	
 <script>
-	$(document).ready(function(){
 
+	var pKeyfield;  
+	var pKeyword;	
+	
+	$(document).ready(function(){
+		
+		templatePaging(1);//최초 로드시 페이지처리
+		
 		//양식 등록창으로 이동
 		$('#add').on('click', function(){
 			location.href = "${pageContext.request.contextPath}/admin/addTemplateForm.do";
@@ -46,34 +52,162 @@
 		});	//end of delete
 			
 			
-		function deleteTemplate(tmpNos) {						
-			$.ajax({
-				url: '${pageContext.request.contextPath}/admin/removeTemplate.do'
-				,
-				method: 'POST'
-				,
-				dataType: 'json'
-				,
-				data: tmpNos
-				,
-				async: true
-				,
-				cache: false
-				,
-				success: function(data, textStatus, jqXHR) {
-					if(data == "삭제 완료") {
-						swal("삭제 완료", "선택하신 양식이 삭제되었습니다.", "success");
-						location.href="${pageContext.request.contextPath}/admin/template.do";
-					}
-				}
-				,
-				error: function(jqXHR, textStatus, errorThrown) {
-					alert('error: ' + jqXHR.status);
-				}					
-			});				
-		}//end of deleteTemplate()
 
-	});
+		//양식 상세보기		
+		$('.detailTemplate').on('click', function(){
+			var tmpNo = $(this).attr('id');
+			var url = '${pageContext.request.contextPath}/admin/templateDetail.do?tmpNo='+tmpNo;
+			window.open(url, "양식 상세보기","width=750, height=800");
+		});
+
+		
+	});//end of document.ready
+	
+	
+	
+	
+	//양식 삭제 함수
+	function deleteTemplate(tmpNos) {						
+		$.ajax({
+			url: '${pageContext.request.contextPath}/admin/removeTemplate.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: tmpNos
+			,
+			async: true
+			,
+			cache: false
+			,
+			success: function(data, textStatus, jqXHR) {
+				if(data == "삭제 완료") {
+					swal("삭제 완료", "선택하신 양식이 삭제되었습니다.", "success");
+					location.href="${pageContext.request.contextPath}/admin/template.do";
+				}
+			}
+			,
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('error: ' + jqXHR.status);
+			}					
+		});				
+	}//end of deleteTemplate()
+
+	
+		
+	
+	
+	//페이징징징 관련
+	function templatePaging(currentPageNo) {
+		var totalCount =  0;		//총 양식서 수
+		var countPerPage = 10;   //한 페이지당 보여주는 양식서 수
+		var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
+		var startRow = (currentPageNo - 1) * countPerPage + 1;
+		var endRow = currentPageNo * countPerPage;
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/templatePagingAjax.do' 
+			,
+			data: {
+				keyfield: pKeyfield ,
+				keyword: pKeyword ,	
+				startRow : startRow ,
+				endRow : endRow
+			},
+			type: 'POST' ,
+			cache: false ,
+			dataType: 'json' ,
+			success: function (data, textStatus, jqXHR) {
+				
+				totalCount = data.totalCount;
+				
+				//datatable테이블 변경하기
+				var text = "";
+				for(var i=0;i<data.templates.length;i++) {
+
+					text += '<tr>';
+					text += '<td><input type="checkbox" id="tmpNo" name="tmpNo" value="data.templates[i].tmpNo"/></td>';
+					text += '<td>' + data.templates.length - i + '</td>';
+					text += '<td id="data.templates[i].tmpNo" class="detailTemplate">data.templates[i].tmpName</td>';
+					text += '<td>data.templates[i].templateCategory.categoryName</td>';
+				}
+					$('#datatable').html(text);						
+			
+					//페이징 처리
+					jqueryPager({
+						countPerPage : countPerPage,
+						pageSize : pageSize,
+						currentPageNo : currentPageNo,
+						totalCount : totalCount
+					});
+					
+				
+			} ,//end of success
+			error: function(jqXHR) {
+				alert("에러: " + jqXHR.status);
+			}
+			
+		});//end of ajax		
+
+	} //end templatePaging function
+	
+	
+	
+	
+	//페이징 처리
+	function jqueryPager(subOption) {
+	
+		var pageBlock = subOption.countPerPage;      
+		var pageSize = subOption.pageSize;        
+		var currentPage = subOption.currentPageNo;   
+		var pageTotal = subOption.totalCount;       
+		var pageTotalCnt = Math.ceil(pageTotal/pageBlock);
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
+		
+		var html ="<ul class='pagination'>";
+	
+		
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
+			ePage = pageTotalCnt;
+		} else {
+			ePage = pageBlockCnt * pageSize;
+		} 
+		
+		if(sPage <= 1) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Previous">' 
+		} else {
+			html += '<li class="page-item ">';
+			html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageSize) + ')">'; 
+		}
+		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
+		
+		for(var i=sPage; i<=ePage; i++) {
+			if(currentPage == i) {
+				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
+			} else {
+				html += '<li class="page-item"><a class="page-link" onclick="templatePaging(' + i + ');">' + i + '</a></li>';
+			}
+		}				
+	
+		if (ePage >= pageTotalCnt) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Next">';
+		} else {
+			html += '<li class="page-item">';
+			html += '<a class="page-link" aria-label="Next" onclick = "templatePaging(' + (ePage+1) + ')">';
+		}
+		html += '<span aria-hidden="true">&raquo;</span> </a></li>';
+		html += '</ul>';
+		
+		$('#templatePaging').html(html);
+	
+	}
+	
+	
 </script>
 	
 </head>
@@ -141,8 +275,8 @@
 								</div>
 								<div class="col-md-6"></div>
 							</div>
-							<table id="datatable"
-								class="table table-striped table-bordered">
+							
+							<table id="datatable" class="table table-striped table-bordered" style="text-align:center;">
 								<thead>
 									<tr>
 										<th></th>
@@ -152,20 +286,19 @@
 									</tr>
 								</thead>
 
-								<tbody>
-									<c:forEach var="template" items="${requestScope.templates }" varStatus="loop">
-										<tr>
-											<td><input type="checkbox" id="tmpNo" name="tmpNo" value="${pageScope.template.tmpNo}"/></td>
-											<td>${fn:length(requestScope.templates) - loop.index} </td>
-											<td><a data-toggle="modal" data-target="#myModal">${pageScope.template.tmpName }</a></td>
-											<td>${pageScope.template.templateCategory.categoryName }</td>
-										</tr>
-									</c:forEach>										
+								<tbody id="datatable">
+																			
 								</tbody>
 							</table>
 						</div>
-						<nav aria-label="Page navigation" id = 'templatePaging'>
-						</nav>
+						
+						<div class="text-center">
+							<nav aria-label="Page navigation" id = 'templatePaging'>
+							</nav>
+						</div>
+						
+						
+						
 
 					</div>
 				</div>
@@ -173,79 +306,10 @@
 		</div>
 	</div>
 </div>
-<!-- /page content -->
 	
 	
 
 	
-	<!-- 모달 팝업 -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-	  <div class="modal-dialog">
-	    <div class="modal-content" style="width:700px;">
-	      <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-		<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-	      </div>
-	      <div class="modal-body">
-		<table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            
-                            <th class="column-title">순번</th>
-                            <th class="column-title">결재자</th>
-                            <th class="column-title">결재유형</th>
-							<th class="column-title">배정일시</th>
-                            <th class="column-title">확인일시</th>
-                            <th class="column-title">결재일시</th>      
-                            
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          <tr class="even pointer">
-                            
-                            <td><a data-toggle="modal" data-target="#myModal">1</a><a></a></td>
-							
-                            <td class=" ">이지희 대리 영업부</td>
-							<td class=" ">결재</td>
-                            <td class=" ">2018-01-03 10:30</td>
-                            <td class=" ">2018-01-03 13:10</td>
-                            <td class=" ">2018-01-04 18:30</td>
-                            
-                            
-							
-                          </tr>
-						  <tr class="even pointer">
-                            
-                            <td><a data-toggle="modal" data-target="#myModal">2</a><a></a></td>
-							
-                            <td class=" ">이지희 대리 영업부</td>
-							<td class=" ">결재</td>
-                            <td class=" ">2018-01-03 10:30</td>
-                            <td class=" ">2018-01-03 13:10</td>
-                            <td class=" ">2018-01-03 14:10</td>
-                            
-                            
-                            
-							
-                          </tr>
-				</tbody>
-                      </table>
-	      </div>
-	      <div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-		
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- 모달 끝 -->
-
-	
-
-
-
-
 
 </body>
 </html>
