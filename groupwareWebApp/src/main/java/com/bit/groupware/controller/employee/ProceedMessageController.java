@@ -92,7 +92,6 @@ public class ProceedMessageController {
 
 	// 쪽지 DB에 반영
 
-
 	@RequestMapping(value = "/registerMessage.do", method = RequestMethod.POST)
 	public void registerMessage(
 			@RequestParam(value = "receipientEmployee") String empId,
