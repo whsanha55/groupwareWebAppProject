@@ -1,14 +1,18 @@
 package com.bit.groupware.domain.employee;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class PlanVO {
 
 	private String pNo;
 	private String pTitle;
 	private String deptNo;
-	private String pClass;
-	private String pImpt;
+	private int pClass;
+	private int pImpt;
+	private String rspbNo;
 	private String pContent;
 	private String startDate;
 	private String endDate;
@@ -16,7 +20,8 @@ public class PlanVO {
 	private int longitude;
 	private List<CodeVO> codes;
 	private EmployeeVO employee;
-	private PlanFileVO file;
+	private List<MultipartFile> upload;
+	private List<PlanFileVO> files = new ArrayList<PlanFileVO>();
 	
 	public PlanVO() {
 		super();
@@ -46,20 +51,28 @@ public class PlanVO {
 		this.deptNo = deptNo;
 	}
 
-	public String getpClass() {
+	public int getpClass() {
 		return pClass;
 	}
 
-	public void setpClass(String pClass) {
+	public void setpClass(int pClass) {
 		this.pClass = pClass;
 	}
 
-	public String getpImpt() {
+	public int getpImpt() {
 		return pImpt;
 	}
 
-	public void setpImpt(String pImpt) {
+	public void setpImpt(int pImpt) {
 		this.pImpt = pImpt;
+	}
+
+	public String getRspbNo() {
+		return rspbNo;
+	}
+
+	public void setRspbNo(String rspbNo) {
+		this.rspbNo = rspbNo;
 	}
 
 	public String getpContent() {
@@ -109,14 +122,6 @@ public class PlanVO {
 	public void setEmployee(EmployeeVO employee) {
 		this.employee = employee;
 	}
-	
-	public PlanFileVO getFile() {
-		return file;
-	}
-
-	public void setFile(PlanFileVO file) {
-		this.file = file;
-	}
 
 	public List<CodeVO> getCodes() {
 		return codes;
@@ -126,13 +131,34 @@ public class PlanVO {
 		this.codes = codes;
 	}
 
+	public List<MultipartFile> getUpload() {
+		return upload;
+	}
+
+	public void setUpload(List<MultipartFile> upload) {
+		this.upload = upload;
+	}
+	
+	public void addPlanFile(PlanFileVO file) {
+		files.add(file);
+	}
+
+	public List<PlanFileVO> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<PlanFileVO> files) {
+		this.files = files;
+	}
+
 	@Override
 	public String toString() {
 		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", deptNo=" + deptNo + ", pClass=" + pClass + ", pImpt="
-				+ pImpt + ", pContent=" + pContent + ", startDate=" + startDate + ", endDate=" + endDate + ", latitude="
-				+ latitude + ", longitude=" + longitude + ", codes=" + codes + ", employee=" + employee + ", file="
-				+ file + "]";
+				+ pImpt + ", rspbNo=" + rspbNo + ", pContent=" + pContent + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", latitude=" + latitude + ", longitude=" + longitude + ", codes=" + codes + ", employee="
+				+ employee + ", upload=" + upload + ", files=" + files + "]";
 	}
+	
 
 	
 

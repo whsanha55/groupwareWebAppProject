@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.employee.DeputyVO;
+import com.bit.groupware.domain.employee.EmployeeVO;
 
 @Repository
 public class DeputyDAOImpl implements DeputyDAO {
@@ -21,6 +22,14 @@ public class DeputyDAOImpl implements DeputyDAO {
 
 	public List<DeputyVO> selectDeputyList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE+".selectDeputyList",map);
+	}
+	
+	public List<EmployeeVO> selectDeputyRegisterEmployeeList(Map<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".selectDeputyRegisterEmployeeList", map);
+	}
+	
+	public int selectDeputyRegisterCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectDeputyRegisterCount", map);
 	}
 
 }

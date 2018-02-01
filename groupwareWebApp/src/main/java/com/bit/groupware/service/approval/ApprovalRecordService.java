@@ -14,4 +14,6 @@ public interface ApprovalRecordService {
 	
 	//최초 결재자 결재여부 확인
 	int selectApprovalRecallable(int apprNo);
+	
+	
 }

@@ -45,7 +45,7 @@
 	
 	
 	<!-- 하위 코드 수 확인 -->
-	<select id="checkRelation" parameterType="String" resultType="int">
+	<select id="checkRelation" parameterType="String" resultType="int" statementType="PREPARED">
 		select count(*)
       	from code
        	where relation_code=#{relationCode}

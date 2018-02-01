@@ -5,7 +5,7 @@ public class PlanFileVO {
 	private String fileNo;
 	private String fileName;
 	private String systemFileName;
-	private int fileSize;
+	private long fileSize;
 	private String pNo;
 	
 	public PlanFileVO() {
@@ -45,11 +45,11 @@ public class PlanFileVO {
 		this.systemFileName = systemFileName;
 	}
 
-	public int getFileSize() {
+	public long getFileSize() {
 		return fileSize;
 	}
 
-	public void setFileSize(int fileSize) {
+	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
 

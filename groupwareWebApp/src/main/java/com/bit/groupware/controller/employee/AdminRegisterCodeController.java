@@ -1,8 +1,5 @@
 package com.bit.groupware.controller.employee;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.employee.CodeVO;
 import com.bit.groupware.persistent.employee.CodeDAO;
@@ -40,53 +36,44 @@ public class AdminRegisterCodeController {
 			return 1;
 		} else {
 			return 0;
-			//return "redirect:/admin/registerCode1.do";
 		}
 	} 
 	
 	//부서 코드 등록 폼 요청
 	@RequestMapping(value="/admin/registerCode2.do", method=RequestMethod.GET)
-	public ModelAndView form2() {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("codes", codeService.retrieveDeptCodeList());
-		mv.setViewName("employee/admin_insertCode2");
-		return mv;
+	public String form2() {
+		return "employee/admin_insertCode2";
 	}
 			
 	//부서 코드 등록 요청
 	@RequestMapping(value="/admin/registerCode2.do", method=RequestMethod.POST)
-	public String submit2(CodeVO code) {
+	@ResponseBody
+	public int submit2(CodeVO code) {
 		logger.info("code : {} ", code);
 		if(codeDAO.checkCodeNo(code.getcNo()) == true && codeDAO.checkCode(code.getcName()) == true) {
 			codeService.registerCode(code);
-			return "redirect:/admin/listCode2.do?relationCode=" + code.getRelationCode();
+			return 1;
 		} else {
-			return "redirect:/admin/registerCode2.do";
-		} 
+			return 0;
+		}
 	} 
 	
 	//최하위 코드 등록 폼 요청
 	@RequestMapping(value="/admin/registerCode3.do", method=RequestMethod.GET)
-	public ModelAndView form3() {
-		ModelAndView mv = new ModelAndView();
-		Map<String, Object> map =new HashMap<String, Object>();
-		map.put("startRow", 1);
-		map.put("endRow", 10);
-		logger.info("map : {}", map);
-		mv.addObject("codes", codeService.retrieveCodeList1(map));
-		mv.setViewName("employee/admin_insertCode3");
-		return mv;
+	public String form3() {
+		return "employee/admin_insertCode3";
 	}
 		
 	//최하위 코드 등록 요청
 	@RequestMapping(value="/admin/registerCode3.do", method=RequestMethod.POST)
-	public String submit3(CodeVO code) {
+	@ResponseBody
+	public int submit3(CodeVO code) {
 		logger.info("code : {} ", code);
 		if(codeDAO.checkCodeNo(code.getcNo()) == true && codeDAO.checkCode(code.getcName()) == true) {
 			codeService.registerCode(code);
-			return "redirect:/admin/listCode3.do?relationCode=" + code.getRelationCode();
+			return 1;
 		} else {
-			return "redirect:/admin/registerCode3.do";
-		} 
+			return 0;
+		}
 	} 
 }
