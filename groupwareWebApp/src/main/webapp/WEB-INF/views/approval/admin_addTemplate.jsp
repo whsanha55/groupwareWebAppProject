@@ -137,6 +137,17 @@
 				,
 				success: function(data) {
 					if(data.length != 0) {
+						
+						$('#category').empty();
+						$('#modalCategory').empty();
+						var htmlStr = "";
+						for(var i=0; i<data.length; i++) {
+							htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
+							$(htmlStr).appendTo('#category');
+							$(htmlStr).appendTo('#modalCategory');
+							htmlStr = "";
+						}
+						
 						swal({
 							  title: "등록 완료",
 							  text: "양식 구분이 등록되었습니다.",
@@ -145,12 +156,9 @@
 							  showCancelButton: false
 							}).then((e) => {
 								if(e) {
-									
-									$('.closeBtnModal').trigger('click');
-									
-									//location.href="${pageContext.request.contextPath}/admin/addTemplateForm.do";
+									$('.closeBtnModal1').trigger('click');			
 								}	
-						});	
+						});						
 					}//end of if
 				},
 				error: function(jqXHR, textStatus, error) {
@@ -166,7 +174,7 @@
 			var categoryNo = $('#modalCategory').val();
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/admin/addTemplateForm.do'	//양식 입력 데이터 끌고
+				url: '${pageContext.request.contextPath}/admin/removeCategory.do'	//양식 입력 데이터 끌고
 				,
 				method: 'GET'
 				,
@@ -176,7 +184,18 @@
 				dataType: 'json'
 				,
 				success: function(data) {
-					if(data == "remove") {
+					if(data.length != 0) {
+						
+						$('#category').empty();
+						$('#modalCategory').empty();
+						var htmlStr = "";
+						for(var i=0; i<data.length; i++) {
+							htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
+							$(htmlStr).appendTo('#category');
+							$(htmlStr).appendTo('#modalCategory');
+							htmlStr = "";
+						}
+						
 						swal({
 							  title: "삭제 완료",
 							  text: "양식 구분 삭제가 등록되었습니다.",
@@ -185,8 +204,7 @@
 							  showCancelButton: false
 							}).then((e) => {
 								if(e) {
-									
-									location.href="${pageContext.request.contextPath}/admin/template.do";	//양식 입력 데이터 끌고
+									$('.closeBtnModal2').trigger('click');									
 								}	
 						});	
 					}//end of if
@@ -281,7 +299,7 @@
 	      </div>
 	      <div class="modal-footer">
 			<div class="buttons text-center">
-				<button type="button" class="btn btn-default closeBtnModal" data-dismiss="modal">닫기</button>
+				<button type="button" class="btn btn-default closeBtnModal1" data-dismiss="modal">닫기</button>
 				<button type="button" class="btn btn-primary" id="addCategory">추가</button>
 			</div>
 	      </div>
@@ -316,7 +334,7 @@
 	      </div>
 	      <div class="modal-footer">
 			<div class="buttons text-center">
-				<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				<button type="button" class="btn btn-default closeBtnModal2" data-dismiss="modal">닫기</button>
 				<button type="button" class="btn btn-primary" id="delCategory">삭제</button>
 			</div>
 	      </div>
