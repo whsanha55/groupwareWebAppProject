@@ -35,16 +35,17 @@ public class NoticeDAOImpl implements NoticeDAO {
 		sqlSession.update(NAMESPACE + ".updateNotice", notice);	
 	}
 
-	public void deleteNotice(int noticeNo) {
-		sqlSession.delete(NAMESPACE + ".deleteNotice", noticeNo);
+	public void deleteNotice(Map<String, Object> map) {
+		sqlSession.delete(NAMESPACE + ".deleteNotice", map);
 	}
 
 	public List<NoticeVO> findNotice(String noticeTitle) {
 		List<NoticeVO> notices = sqlSession.selectList(NAMESPACE + ".findNoticeList", noticeTitle);
 		return notices;
 	}
-
-	public int selectNoticeCount() {
-		return sqlSession.selectOne(NAMESPACE + ".selectNoticeCount");
+	
+	public int selectNoticeCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectNoticeCount", map);
+		
 	}
 }

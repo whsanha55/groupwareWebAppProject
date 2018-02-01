@@ -12,6 +12,15 @@
 		values (#{cNo}, #{cName}, #{relationCode})	
 	</insert>
 	
+	<!-- 모든 부서 조회 -->
+	<select id="selectDeptAll" resultType="CodeVO" statementType="STATEMENT">
+		select c_no as cNo, c_name as cName
+		from code
+		where c_no like 'A%'
+		and c_no != 'A'
+		order by c_no
+	</select>
+	
 	<!-- 코드 이름 조회 -->
 	<select id="selectCode" parameterType="String" resultType="CodeVO" statementType="PREPARED">
 		 select c_name as cName,
@@ -113,7 +122,7 @@
 		    and rc.relation_code = (select c_no
 		                            from code
 		                            where c_name = '직책')
-		order by rc.c_no asc
+		order by rc.c_name asc
 	</select>
 	
 	

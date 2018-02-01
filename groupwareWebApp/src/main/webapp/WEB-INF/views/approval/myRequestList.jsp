@@ -16,25 +16,56 @@
 
 	var pKeyfield;  
 	var pKeyword;
+	var pKeyword1;
 	
 	$(document).ready(function(){
 		
 		templatePaging(1);//최초로드시 페이지처리
 		
-		
+		//결재현황 팝업창생성
 		  $('#datatable').on('click','.currentRecord',function() {
 			 	var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalRecord.do?apprNo='+apprNo;
-				window.open(url, "결재문서","width=750, height=400");
+				window.open(url, "결재문서","width=750, height=300");
 			}); 
 		
+		//결재문서 상세조회 팝업창 생성
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo;
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=1';
 				window.open(url, "결재문서","width=750, height=800");
+				
 			});
 		
+		//검색창 타입 바꾸기
+		 $('#pKeyfield').on("change",function(){
+			if($(this).val()=='apprDate'){
+				$(this).next().attr('type','date');
+				
+				$(this).next().after("&nbsp;<b id=temp>~</b> ")
+				$(this).next().next().after("<input type=date id=pKeyword1>")
+				console.log($('form').html());
+			}else{
+				$(this).next().attr('type','text');
+				
+				$('#pKeyword1').remove();
+				$('#temp').remove();
+
+				console.log($('form').html());
+			}
+			 
+		 });
+		 
+		//검색
+		 $("#btn3").on("click",function(){
+			 pKeyfield=$('#pKeyfield').val();
+			 pKeyword=$('#pKeyword').val();
+			 pKeyword1=$('#pKeyword1').val();
+			 
+			 templatePaging(1);
+		 });
+		 
 	});
 		
 	
@@ -52,6 +83,7 @@
 				data: {
 					keyfield: pKeyfield ,
 					keyword: pKeyword ,	
+					keyword1: pKeyword1 ,	
 					startRow : startRow ,
 					endRow : endRow
 				},
@@ -164,26 +196,16 @@
 				  <div>
 					
 				   <div class="btn-group" >
-                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-expanded="false">문서 제목 <span class="caret"></span>
-                    </button>
-                    <ul role="menu" class="dropdown-menu">
-                      <li><a href="#">양식명</a>
-                      </li>
-                      <li><a href="#">기간</a>
-                      </li>
-                      
-                    </ul>
+                    <form id="search">
+						<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
+							<option value="apprTitle">제목</option>
+							<option value="tmpName">양식명</option>
+							<option value="apprDate" id="apprDate">기안일</option>
+						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
+						<button id="btn3" type="button">검색</button>
+					</form>
 					<div class="col-sm-3">
-						<div id="imaginary_container"> 
-							<div class="input-group stylish-input-group">
-							<input type="text" class="form-control"  placeholder="Search" >
-						<span class="input-group-addon" style="padding:3px 10px">
-						<button type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>  
-						</span>
-							</div>
-						</div>
+					
 					</div>
 					
                     </div>
