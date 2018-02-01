@@ -35,11 +35,12 @@
 		 });
 		 
 		 //기안페이지로 넘어가기
-		/*  $('#datatable').on('click','#write',function(){
-			var  
-			 
+		  $('#datatable').on('click','#write',function(){
+			var apprNo=$(this).attr('id');  
+			var url='${pageContext.request.contextPath}/writeApproval.do' 
+			location.href(url);
 		 });
-		  */
+		  
 	});		
 	
 		function templatePaging(currentPageNo) {
