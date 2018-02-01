@@ -14,6 +14,8 @@
 	src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/fancytree/jquery.fancytree.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/tablednd/jquery.tablednd.js"></script>
 <style>
 .btns {
 	
@@ -31,6 +33,18 @@ ul.fancytree-container {
 
 input[name=receiverName] {
 	width: 150% !important;
+}
+
+table[id^=tableDnD] span{
+	display : inline-block;
+}
+.dragRow {
+	background-color : #f1f0d8;
+}
+
+table[id^=tableDnD] td:first-child {
+ width: 80px; 
+ padding:0px;
 }
 </style>
 <script>
@@ -100,6 +114,43 @@ input[name=receiverName] {
 				} ,
 				success : function(data) {
 					
+					for(var i=0;i<data.length;i++) {
+						if(data[i].apprType ==0) {
+							var text = "";
+							text += '<td>';
+							text += '<select class="form-control" name="apprType" style="border:0px;">';
+							text += '<option value="0" selected>결재</option>';
+							text += '<option value="1">참조</option>';
+							text += '</select>';
+							text += '</td>';
+							text += '<td>'+ data[i].lineEmployee.department + '</td>';
+							text += '<td>' + data[i].lineEmployee.empName + ' ' + data[i].lineEmployee.duty +'</td>';
+							text += '<td>삭제</td>';
+							
+							var temp = $('#tableDnDAppr').find('tr')[i];
+							$(temp).attr('class','');
+							$(temp).attr('id',data[i].lineEmployee.empNo);
+							$(temp).html(text);
+							
+						} else {
+							var text = "";
+							text += '<tr id=' + data[i].lineEmployee.empNo + '>';
+							text += '<td>';
+							text += '<select class="form-control" name="apprType" style="border:0px;">';
+							text += '<option value="0" >결재</option>';
+							text += '<option value="1" selected>참조</option>';
+							text += '</select>';
+							text += '</td>';
+							text += '<td>'+ data[i].lineEmployee.department + '</td>';
+							text += '<td>' + data[i].lineEmployee.empName + ' ' + data[i].lineEmployee.duty +'</td>';
+							text += '<td>삭제</td>';
+							text += '</tr>';
+							
+							$($('#tableDnDRef')).html(text);
+						}
+					}
+					
+					doTableDnD();
 					
 				} ,
 				error : function(jqXHR) {
@@ -148,11 +199,16 @@ input[name=receiverName] {
 			
 		});
 		
-		 
-		$('#sortable').sortable({
-			axis : "y"
+	function doTableDnD() {
+		$('#tableDnDAppr, #tableDnDRef').tableDnD({
+				onDragClass: "dragRow",
+				onDrop : function(table,row) {
+					  alert($.tableDnD.serialize());
+				}
+				
 		});
-		$( ".sortable-item" ).disableSelection();
+	}
+	
 		
 	}); //document ready End
 	
@@ -232,38 +288,39 @@ input[name=receiverName] {
 				</select>
 				</span>
 				<button class="btn btn-primary" id='selectReceiver' type="button">선택</button>
+				<button class="btn btn-success" id='selectReceiver' type="button">이름변경</button>
 				<button class="btn btn-danger" id='deleteReceiver' type="button">삭제</button>
 
-					<div class="table border border-secondary" style="min-height: 450px;">
-						<table class="table table-bordered" id='sortable'>
-							<c:forEach var="num" begin="1" end="9">
-								<tr class="ui-state-default sortable-item">
-									<td><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>결재</td>
-									<td></td>
-									<td>${num }</td>
-									<td>삭제</td>
-								</tr>
-							 </c:forEach>
-						</table>
+				<div class="table border border-secondary">
+					<table class="table table-bordered" id='tableDnDAppr'>
+						<c:forEach begin="1" end="9">
+							<tr class="nodrag nodrop">
+								<td>
+									<select class="form-control" name="apprType" style="border:0px;">
+										<option value='0'>결재</option>
+										<option value='1'>참조</option>
+									</select>
+								</td>
+								<td></td>
+								<td></td>
+								<td>삭제</td>
+							</tr>
+						</c:forEach>
+					</table>
 
-						<table class="table table-bordered">
-
-							<tbody>
-								<tr>
-									<th scope="row" style="text-align: center">참조</th>
-									<td style="text-align: center">인사 1팀</td>
-									<td style="text-align: center">강호동 부장</td>
-
-									<th style="text-align: center">취소</th>
-
-									<th style="text-align: center">변경</th>
-
-
-								</tr>
-							</tbody>
-
-
-						</table>
+					<table class="table table-bordered" id='tableDnDRef'>
+						<tr class="nodrag nodrop">
+							<td>
+								<select class="form-control" name="apprType" style="border:0px;">
+									<option value='0'>결재</option>
+									<option value='1' selected>참조</option>
+								</select>
+							</td>
+							<td></td>
+							<td></td>
+							<td>삭제</td>
+						</tr>
+					</table>
 				</div>
 
 				<div class="form-inline">
@@ -279,16 +336,6 @@ input[name=receiverName] {
 		</div>
 	</div>
 
-
-<div id="draggable" class="ui-widget-content">
-  <p>Drag me to my target</p>
-</div>
- 
-<div id="droppable" class="ui-widget-header">
-  <p>Drop here</p>
-</div>
-
-
-
+	
 </body>
 </html>
