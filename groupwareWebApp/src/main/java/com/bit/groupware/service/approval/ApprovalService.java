@@ -24,5 +24,9 @@ public interface ApprovalService {
 	//갯수 구하기
 	int retrieveApprovalCount(Map<String, Object> map);
 	
+	//삭제
+	void removeApproval(List<Integer> apprNos);
 	
+	//임시보관함에서 재기안 할 때 조회
+	ApprovalVO retrieveTempApproval(int apprNO);
 }

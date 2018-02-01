@@ -57,6 +57,15 @@
 			 
 		 });
 		 
+		//검색조건 엔터키 눌렀을때 트리거 발동--?
+		$('#pKeyword').on('keydown', function(e) {
+			if(e.keyCode == 13){
+				e.preventDefault();
+				$('#btn3').trigger('click');
+	        }
+		});
+		
+		
 		//검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
@@ -65,7 +74,9 @@
 			 
 			 templatePaging(1);
 		 });
-		 
+		
+		
+	 
 	});
 		
 	
