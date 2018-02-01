@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,11 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.MessageVO;
+import com.bit.groupware.service.authority.UserDetailsServiceImpl;
 import com.bit.groupware.service.employee.MessageService;
 
 @Controller
 public class ProceedMessageController {
-
+	private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+	
 	@Autowired
 	private MessageService msgService;
 	// 쪽지함 페이지 요청
@@ -126,32 +128,88 @@ public class ProceedMessageController {
 		msgService.registerMessage(message);
 
 	}
+	
 
-	// 답장보내기
-	@RequestMapping(value = "/registerReponseMsg.do", method = RequestMethod.GET)
-	public String registerReponseMsg(@RequestParam(value = "message") MessageVO message) {
+	// 답장보내기 폼으로 이동
+	@RequestMapping(value = "/registerReponseMsgForm.do", method = RequestMethod.POST)
+	@ResponseBody
+	public MessageVO registerReponseMsgForm (@RequestParam(value = "recEmpNo") String recEmpNo,
+									 @RequestParam(value = "recEmpName") String recEmpName ) {
+		
+		MessageVO message = new MessageVO();
+		
+		// DB에 있던 발신자 -> 가 수신자가 되고, 현재 로그인한 정보-> 발신자로 세팅해준다.
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		
+		//현재로그인한 정보 의 사원번호 id를 SenderEmployeeVO에 매핑. 
+		
+			
+		String senderNo = user.getUsername();
+		EmployeeVO senderEmployee = new EmployeeVO();
+		EmployeeVO receipientEmployee = new EmployeeVO();
+		
+		
+		senderEmployee.setEmpNo(senderNo);
+		
+		//req에서 받아온 사원번호와 이름을 ReceiptentEmployeeVo에 매핑.
+		
+		receipientEmployee.setEmpNo(recEmpNo);
+		receipientEmployee.setEmpName(recEmpName);
+	
+				
+		if (receipientEmployee != null) {
 
-		// DB에 있던 발신자 -> 가 수신자가 되고, 수신자-> 발신자로 세팅해준다.
-		EmployeeVO receiptent = message.getReceipientEmployee();
-		EmployeeVO sender = message.getSenderEmployee();
+			// 발신자 -> 수신자 , 현재로그인한사용자 -> 발신자
 
-		if (receiptent.getEmpNo() != sender.getEmpNo()) {
-
-			// 발신자 -> 수신자 , 수신자 -> 발신자
-
-			message.setSenderEmployee(receiptent);
-			message.setReceipientEmployee(sender);
-
-			// 해당정보로 메시지 등록
-			msgService.registerMessage(message);
-
-		} else {
-			// 지워주세요
-			System.out.println("erooooooooooooooooooooooooor");
+			message.setSenderEmployee(receipientEmployee);
+			message.setReceipientEmployee(senderEmployee);
+			
 		}
 
-		return "approval/writeApproval/popup";
 
+		return message; //여기엔 ajax연동시 json데이터에 들어갈 객체를 써준다! 
+
+	}
+	
+	//답장 DB에 등록 및 반영 
+	@RequestMapping(value= "/registerResponseMsg.do", method = RequestMethod.POST)
+	@ResponseBody
+	public MessageVO respondForm(
+			                  @RequestParam(value="senderNo") String senderNo,
+							  @RequestParam(value="msgTitle") String msgTitle, 
+							  @RequestParam(value="msgContent") String msgContent) {	  
+		
+		
+		MessageVO msg = new MessageVO();
+		EmployeeVO senderEmployee = new EmployeeVO();
+		EmployeeVO receipientEmployee = new EmployeeVO();
+		
+		// 발신자 아이디, 수신자아이디, 메시지제목, 메시지내용을 MessageVO에 매핑해 DB를 수행한다. 
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				
+		//현재로그인한 정보 의 사원번호 id를 발신자에 매핑. 
+		senderEmployee.setEmpNo(user.getUsername());
+		
+		//수신자 사원번호를 senderEmployeeVO에 매핑.
+		receipientEmployee.setEmpNo(senderNo);
+	
+		
+		//메시지 정보매핑
+		msg.setReceipientEmployee(receipientEmployee);
+		msg.setSenderEmployee(senderEmployee);
+		msg.setMsgTitle(msgTitle);
+		msg.setMsgContent(msgContent);
+		
+		
+		if(msg.getSenderEmployee().getEmpNo()!=null) {
+		
+		//DB에 반영 
+		msgService.registerMessage(msg);
+		}
+		
+		return msg;
+		
 	}
 
 	@RequestMapping(value = "/writeMessage.do", method = RequestMethod.GET)

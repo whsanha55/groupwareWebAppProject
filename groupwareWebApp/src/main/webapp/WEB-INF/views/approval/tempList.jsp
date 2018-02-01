@@ -35,14 +35,41 @@
 		 });
 		 
 		 //기안페이지로 넘어가기
-		  $('#datatable').on('click','#write',function(){
+		  $('#datatable').on('click','.writeButton',function(){
 			var apprNo=$(this).attr('id');  
-			var url='${pageContext.request.contextPath}/writeApproval.do' 
-			location.href(url);
+			var url='${pageContext.request.contextPath}/writeApproval.do?apprNo='+ apprNo;
+			location.href=url;
 		 });
 		  
+		 
+		 //선택삭제
+		 $('#deleteApproval').click(function(){
+			 var checkRow="";
+			 $("input[name='checkRow']:checked").each(function(){
+				 checkRow+= $(this).val()+",";
+			 });
+			 checkRow = checkRow.substring(0,checkRow.lastIndexOf( ",")); 
+
+			 if(checkRow ==''){
+				 swal("삭제할 문서를 선택하세요.","");
+				 return false;
+			 }
+			 swal({
+				  title: "문서 삭제",
+				  text: "선택된 문서를 삭제하시겠습니까?",
+				  icon: "error",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						 location.href="${pageContext.request.contextPath}/deleteApproval.do?checkRow="+checkRow;
+					}	
+				});
+
+		 });
+		 
 	});		
 	
+		//리스트 정보 뿌려주기 & 페이징처리
 		function templatePaging(currentPageNo) {
 			var totalCount =  0;		//총 양식서 수
 			var countPerPage = 10;   //한 페이지당 보여주는 회원 수
@@ -71,15 +98,15 @@
 					//datatable테이블 변경하기
 					var text = "";
 					for(var i=0;i<data.approvals.length;i++) {
-						text += "<tr><td width=50 ><input type=checkbox id="+data.approvals[i].apprNo+" class=flat></td>"
+						text += "<tr><td width=50 ><input type=checkbox value="+data.approvals[i].apprNo+" name=checkRow ></td>"
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
 						text += "<td>"+data.approvals[i].apprTitle+"</td>";
-						text += "<td><button type=button class=write id="+ data.approvals[i].apprNo +" style= 'background-color: #26B99A; border: 1px solid #169F85; height:22px; color:#fff; font-size:12px; padding:1px;'>기안하기</button></td>";
+						text += "<td><button type='button' class='btn btn-primary btn-sm' id="+ data.approvals[i].apprNo +"  >기안하기</button></td>";
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
 						
-					//	$("#count1").text("-" +data.totalCount+"건의 결재 요청 문서");
+	
 					
 						//페이징 처리
 						jqueryPager({
@@ -167,9 +194,9 @@
                 
                     <div class="clearfix" id="count1"></div>
                   </div>
-				  <div style="width:210px;">
+				  <div style="width:100%;">
 				   <div class="btn-group">
-                      &nbsp;&nbsp;1건의 임시보관 문서
+                     
                    
 					<div class="col-sm-3">
 						<div id="imaginary_container"> 
@@ -180,7 +207,7 @@
 					</div>
 					
                     </div>
-				  <a class="btn btn-primary pull-right" href="a_index_authority.html">삭제</a>
+				  <a class="btn btn-primary pull-right" id="deleteApproval" style="float:left!important; margin-left:10px;">선택 삭제</a>
 				  </div>
                   <div class="x_content">
 					
@@ -206,15 +233,18 @@
                         
                         </tbody>
                       </table>
-					  <div>
+					  <div class="text-center">
+						<nav aria-label="Page navigation" id = 'templatePaging'>				
+					
+						</nav> 
 					
 					  </div>
-                    </div>
-							
+                     </div>
 						
-                  </div>
-                </div>
-              </div>
+						
+                   </div>
+               	  </div>
+            	  </div>
                 </div>
                 <!-- end of weather widget -->
               </div>
@@ -222,68 +252,6 @@
         
         <!-- /page content -->
         
-	    <!-- 모달 팝업 -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-		  <div class="modal-dialog">
-		    <div class="modal-content" style="width:700px;">
-		      <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-			<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-		      </div>
-		      <div class="modal-body">
-			<table class="table table-striped jambo_table bulk_action">
-	                        <thead>
-	                          <tr class="headings">
-	                            
-	                            <th class="column-title">순번</th>
-	                            <th class="column-title">결재자</th>
-	                            <th class="column-title">결재유형</th>
-								<th class="column-title">배정일시</th>
-	                            <th class="column-title">확인일시</th>
-	                            <th class="column-title">결재일시</th>      
-	                            
-	                          </tr>
-	                        </thead>
-	
-	                        <tbody>
-	                          <tr class="even pointer">
-	                            
-	                            <td><a data-toggle="modal" data-target="#myModal">1</a><a></a></td>
-								
-	                            <td class=" ">이지희 대리 영업부</td>
-								<td class=" ">결재</td>
-	                            <td class=" ">2018-01-03 10:30</td>
-	                            <td class=" ">2018-01-03 13:10</td>
-	                            <td class=" ">2018-01-04 18:30</td>
-	                            
-	                            
-								
-	                          </tr>
-							  <tr class="even pointer">
-	                            
-	                            <td><a data-toggle="modal" data-target="#myModal">2</a><a></a></td>
-								
-	                            <td class=" ">이지희 대리 영업부</td>
-								<td class=" ">진행중</td>
-	                            <td class=" ">2018-01-03 10:30</td>
-	                            <td class=" ">2018-01-03 13:10</td>
-	                            <td class=" "></td>
-	                            
-	                            
-	                            
-								
-	                          </tr>
-					</tbody>
-	                      </table>
-		      </div>
-		      <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-			
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<!-- 모달 팝업 끝 -->
-        
+	  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

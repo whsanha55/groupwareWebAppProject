@@ -49,6 +49,7 @@
 		})
 		
 		
+		
 		//작성 날짜 구하기
 		function getDate() {
 			var date = new Date();
@@ -135,7 +136,9 @@
 		//에디터 내부에 양식서 폼 불러오기
 		if('${requestScope.template}' != "") {
 		 	$('#summernote').summernote('code','${requestScope.template.tmpContent}');
-		} else {
+		}else if('${requestScope.approval}' != ""){
+			$('#summernote').summernote('code','${requestScope.approval.apprContent}');
+		}else {
 			$('#summernote').summernote('code','');
 		}
 	   
@@ -232,6 +235,12 @@
 			return false;
 		}
 		
+		//hidden tmpNo
+		if('${requestScope.template}' != '') {
+			$('input[name=tmpNo]').val('${requestScope.template.tmpNo}');
+		} else if ('${requestScope.approval}' != '') {
+			$('input[name=tmpNo]').val('${requestScope.approval.template.tmpNo}');
+		}
 		
 		//기안서 등록 ajax function
 		function executeApproval(approvalStatus) {
@@ -294,6 +303,9 @@
 			$('#receiverBody').html("");
 			//alert('hi');
 		})
+		
+		
+		
 		
 		
 	});	//document ready End
@@ -360,9 +372,24 @@
 		<table id="approvalData" class="table table-striped table-bordered">
 		<tr>
 			<th>양식명</th>
-			<td>${requestScope.template.tmpName }</td>
+			<c:choose>
+				<c:when test="${requestScope.template !=null}">
+					<td>${requestScope.template.tmpName }</td>
+				</c:when>
+				<c:when test="${requestScope.approval !=null}">
+					<td>${requestScope.approval.template.tmpName }</td>
+				</c:when>
+				<c:otherwise>
+					<td></td>
+				</c:otherwise>
+			</c:choose>
+				
+				
+			
+			
+			
 			<th>보존기한</th>
-			<td><select class="form-control" name="validDate">
+			<td><select class="form-control" id="validDate" name="validDate">
 			
 					<option value='1'>1년</option>
 					<option value='3'>3년</option>
@@ -386,7 +413,7 @@
 			<td id= 'dateTableData'></td>
 			<th>긴급여부</th>
 			<td>
-				<select class="form-control" name = 'urgency'>
+				<select class="form-control" name = 'urgency' >
                 	<option value='0' selected>일반</option>
                     <option value='1'>긴급</option>
                 </select>
@@ -394,7 +421,16 @@
 		</tr>
 		<tr>
 			<th>제목</th>
-			<td colspan="3"><input type="text" name="apprTitle" class="form-control col-md-10"/></td>
+			<td colspan="3">
+				<c:choose>
+					<c:when test="${requestScope.approval !=null}"> 
+						<input type="text" name="apprTitle" class="form-control col-md-10" value="${requestScope.approval.apprTitle}">
+					</c:when>
+					<c:otherwise >
+						<input type="text" name="apprTitle" class="form-control col-md-10"/>
+					</c:otherwise>
+				</c:choose>
+			</td>
 		</tr>
 
 	</table>
@@ -417,7 +453,8 @@
 		 </div>
       </div>
     </div>
-	<input type="hidden" name="tmpNo" value = "${requestScope.template.tmpNo }">
+ 
+	<input type="hidden" name="tmpNo" >	
 	<input type="hidden" name="apprFinalStatus" >
 	</form>
 	

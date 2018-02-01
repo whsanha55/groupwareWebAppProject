@@ -65,7 +65,7 @@ public class TemplateVO {
 		this.tmpDate = tmpDate;
 	}
 
-	public int isTmpUsing() {
+	public int getTmpUsing() {
 		return tmpUsing;
 	}
 

@@ -14,9 +14,8 @@
 	
 		$(document).ready(function(){
 			
-			$('#details').click(function(){
-				
-				var msgNo = $(this).parent().attr("id");
+			$('table').find('a').click(function() {				
+				var msgNo = $(this).attr("id");
 				var url = '${pageContext.request.contextPath}/retrieveMessage.do?msgNo='+msgNo;
 				window.open(url,"쪽지상세정보","width=700, height=600");
 				
@@ -83,15 +82,11 @@
                         <c:forEach var="message" items="${requestScope.messages }" varStatus="loop">
                            
                           
-                          <tr class="even pointer">                          
-                           
-                           <td class="a-center">
+                          <tr class="even pointer">            
+                            <td class="a-center">
                               <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            
-                      
-                            		
-                             <td id="${pageScope.message.msgNo }"><a id="details">${pageScope.message.msgTitle }</a></td>
+                            </td>                       
+                            <td><a id="${pageScope.message.msgNo }">${pageScope.message.msgTitle }</a></td>
                             <td>${pageScope.message.senderEmployee.empName }</td>
                             <td>${pageScope.message.msgDate }</td>
                                

@@ -70,6 +70,7 @@ public class ApprovalAjaxController {
 		
 		ModelAndView mv =new ModelAndView();
 		mv.addObject("status",status);
+		logger.info("스테이터스 : " +status);
 		mv.addObject("approval",approvalService.retrieveApproval(apprNo));
 		mv.setViewName("approval/approvalDetail/pop");
 		return mv;
@@ -81,7 +82,7 @@ public class ApprovalAjaxController {
 		ModelAndView mv = new ModelAndView();
 		
 		List<ApprovalRecordVO> list=approvalRecordService.retrieveApprovalRecordList(apprNo);
-		logger.info("안녕!!!!"+list.size());
+
  		mv.addObject("records",list);
 		mv.setViewName("approval/approvalRecord/pop"); 
 		return mv;
