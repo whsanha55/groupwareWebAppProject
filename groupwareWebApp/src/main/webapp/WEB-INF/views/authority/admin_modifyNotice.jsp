@@ -5,8 +5,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 	$(document).ready(function() {
+		$('#something').click(function() {
+			location.reload();
+			});
+		
 		 //첨부파일 추가 및 삭제 이벤트
 		$('form').on('click', '.btn-add', function(e) {
 	        e.preventDefault();
@@ -26,6 +31,55 @@
 				e.preventDefault();
 			return false;
 		});
+
+		//파일 삭제 
+		$('#deleteBtn').on('click', function() {	
+			var noticeNo = $(this).val();
+			
+			swal({
+				  title: "파일 삭제",
+				  text: "파일을 삭제합니다. 계속 진행하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+			}).then((e) => {
+			     if(e) {
+			    	 deleteNoticeFile(noticeNo);							
+				 }
+			});		
+			
+			//alert($(this).val());
+			function deleteNoticeFile(noticeNo) {	
+				$.ajax({
+					url: '${pageContext.request.contextPath}/admin/deleteNoticeFile.do'
+					,
+					method: 'GET'
+					,
+					data: {noticeNo}
+					, 
+					async: true
+					,
+					cache: false
+					,
+					success: function(data) {
+						swal({
+							  title: "삭제 완료",
+							  text: "선택하신 파일이 삭제되었습니다.",
+							  icon: "info",
+							  buttons : "확인" 
+						}).then((e) => {
+						     if(e) {
+						    	 location.reload();		
+							 }
+						});		
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);
+					}	 			
+					
+				});	
+			}
+		});	 
 
 	});
 </script>
@@ -156,13 +210,13 @@
 					<c:if test="${fn:length(sessionScope.notice.files) > 0 }">
 						<table border="1">
 							<c:forEach var="noticeFile" items="${sessionScope.notice.files }" varStatus="loop">
-								<c:url var="deleteUrl" value="/removeArticleFile.do" scope="page">
-									<c:param name="no" value="${pageScope.noticeFile.no }"/>
+								<c:url var="deleteUrl" value="/admin/removeNoticeFile.do" scope="page">
+									<c:param name="noticeNo" value="${pageScope.noticeFile.no }"/>
 								</c:url>
 								<tr>
 									<td>파일${pageScope.loop.count }</td>
 									<td>${pageScope.noticeFile.originalFileName }</td>							
-									<td><a href = "${pageScope.deleteUrl}">삭제</a></td>
+									<td><button type="button"  value="${pageScope.noticeFile.no }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td>
 								</tr>
 							</c:forEach>
 						</table>

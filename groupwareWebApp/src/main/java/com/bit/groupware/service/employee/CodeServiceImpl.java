@@ -23,6 +23,12 @@ public class CodeServiceImpl implements CodeService {
 		codeDAO.insertCode(code);
 	}
 	
+	
+	//모든 부서 조회
+	public List<CodeVO> retrieveDeptAll() {
+		return codeDAO.selectDeptAll();
+	}
+
 	//코드를 조회하다.
 	public CodeVO retrieveCode(String cNo) {
 		return codeDAO.selectCode(cNo);
@@ -52,6 +58,10 @@ public class CodeServiceImpl implements CodeService {
 	//코드 삭제
 	public void removeCode(String cNo) {
 		codeDAO.deleteCode(cNo);
+	}
+	
+	public int checkRelationCode(String relationCode) {
+		return codeDAO.checkRelation(relationCode);
 	}
 	
 	public List<CodeVO> retrieveDeptCodeList() {

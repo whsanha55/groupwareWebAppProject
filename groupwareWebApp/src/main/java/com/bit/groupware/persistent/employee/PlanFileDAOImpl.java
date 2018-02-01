@@ -1,5 +1,7 @@
 package com.bit.groupware.persistent.employee;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,8 +15,8 @@ public class PlanFileDAOImpl implements PlanFileDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public void insertPlanFile(PlanFileVO file) {
-		sqlSession.insert(NAMESPACE + ".insertPlanFile", file);
+	public void insertPlanFile(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertPlanFile", map);
 	}
 	
 	public void deletePlanFile(String pNo) {

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.employee.DeputyVO;
 import com.bit.groupware.domain.employee.EmployeeCodeVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.PhotoVO;
@@ -47,17 +48,11 @@ public class AdminRegisterEmployeeController {
 						 @RequestParam("dutyCode")String dutyCode,
 						 				HttpSession session) throws Exception {
 		
-		logger.info("employee : {} ", employee);
-		logger.info("deptCode : {} ", deptCode);
-		logger.info("dutyCode : {} ", dutyCode);
-		
-		
 		List<EmployeeCodeVO> codeList = new ArrayList<EmployeeCodeVO>();
 		codeList.add(new EmployeeCodeVO(deptCode));
 		codeList.add(new EmployeeCodeVO(dutyCode));
 		employee.setCodeList(codeList);
 	
-		
 		List<MultipartFile> uploadPhotos = employee.getUpload();
 		for(MultipartFile file : uploadPhotos) {
 			if(!file.isEmpty()) {
@@ -69,7 +64,9 @@ public class AdminRegisterEmployeeController {
 			}
 		}
 		employeeService.registerEmployee(employee);
-		
 		return "redirect:/admin/listEmployee.do";
 	}
 }
+
+
+

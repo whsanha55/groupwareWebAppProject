@@ -44,10 +44,11 @@ public class MyRequestController {
 	public Map<String,Object> listRequestApproval(
 			@RequestParam(value="keyfield",required=false) String keyfield ,
 			@RequestParam(value="keyword",required=false) String keyword ,
+			@RequestParam(value="keyword1",required=false) String keyword1 ,
 			@RequestParam(value="startRow") int startRow ,
 			@RequestParam(value="endRow") int endRow) {
 		
-		ModelAndView mv=new ModelAndView();
+		
 		Map<String,Object> map=new HashMap<String,Object>();
 		
 		SecurityContext context=SecurityContextHolder.getContext();
@@ -58,10 +59,10 @@ public class MyRequestController {
 		map.put("empNo", id);
 		map.put("apprFinalStatus", 0);
 		map.put("keyfield", keyfield);
-		map.put("keyword", keyword);
+		map.put("keyword", keyword);	
+		map.put("keyword1", keyword1);
 		
-		
-		
+		logger.info("¾È³ç~~~"+keyword); 
 		int totalCount = approvalService.retrieveApprovalCount(map);
 		if(totalCount < endRow) {
 			endRow = totalCount;

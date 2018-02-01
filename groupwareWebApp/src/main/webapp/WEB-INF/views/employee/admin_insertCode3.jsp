@@ -19,17 +19,37 @@
 			close();
 		});
 		
-		
-	
-		/* $('#submit').click(function() {
-			if(confirm("입력한 코드 정보를 등록하시겠습니까?") == true) {
-				 $(opener.location).attr('href', '${pageContext.request.contextPath}/admin/listCode1.do');
-				 self.close();
-			} else {
-				return;
+		$('#button').on('click', function() {
+			if(!confirm("입력한 코드 정보를 등록하시겠습니까?")) {
+				return false;
 			}
-	
-		}); */
+			console.log('cNo : ' + $('#cNo').val());
+			console.log('cName : ' + $('#cName').val());
+			console.log('relationCode : ' + $('#relationCode').val());
+			$.ajax({
+				url: '${pageContext.request.contextPath}/admin/registerCode3.do'
+				,
+				method : 'POST'
+				,
+				dataType : 'json'
+				,
+				data: $('#form').serialize()
+				,
+				success : function(data) {
+					if(data == 1) {
+						alert("코드가 등록되었습니다.")
+						opener.location.reload();
+						window.close();
+					} else {
+						alert("중복된 코드번호나 코드명입니다.")
+					}
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
+		});
 		
 		
 	});
@@ -42,7 +62,7 @@
 	<div class="modal-body">
 		<div></div>
 		
-	<form action="${pageContext.request.contextPath }/admin/registerCode3.do" method="post" >
+	<form id="form" >
 		<div class="modal-body">
 			<table id="datatable" class="table table-striped table-bordered">
 				<tbody>
@@ -53,7 +73,7 @@
 					</tr>
 					<tr>
 						<th>코드번호</th>
-						<td><input type="text" id="cNo" name="cNo" required="required" ></td>
+						<td><input type="text" id="cNo" name="cNo" required="required" value="${param.relationCode}-"></td>
 					</tr>
 					<tr>
 						<th>코드명</th>
@@ -63,7 +83,7 @@
 			</table>
 			<br>
 			<div class="text-center">
-				<button type="submit" id="submit">등록</button>
+				<button type="button" id="button">등록</button>
 				<a href="#" id="close">닫기</a>
 			</div>
 		</div>
