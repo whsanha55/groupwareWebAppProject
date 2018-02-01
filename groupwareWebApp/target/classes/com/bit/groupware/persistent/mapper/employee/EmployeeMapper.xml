@@ -74,9 +74,13 @@
 		 <!-- 1:N 관계 -->
 		<collection property="codes" javaType="list" ofType="CodeVO">
 			<id column="c_no" 				property="cNo"/>
-			<result column="department" 	property="cName" />
-			<result column="duty"			property="cName" />
+			<result column="c_name"	 		property="cName" />
 			<result column="relation_code" 	property="relationCode" />
+		</collection>
+		
+		<collection property="empcodes" javaType="list" ofType="EmployeeCodeVO">
+			<id column="c_no" 			property="cNo"/>
+			<id column="emp_no" 		property="empNo" />
 		</collection>
 		
 		<collection property="photos" javaType="list" ofType="PhotoVO">
@@ -179,8 +183,8 @@
 		<![CDATA[
 			where e.rn >= #{startRow} and e.rn <= #{endRow}
 		]]> -->
-	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="STATEMENT">
-		select 
+	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="PREPARED">
+		<!-- select 
 			emp_no as empNo, 
 			emp_name as empName, 
 			emp_pwd as empPwd, 
@@ -192,9 +196,84 @@
 		from (select rownum as rn, emp.*
 		      from (select * from empList_view
 		      order by emp_no asc) emp) e
-		<!-- <![CDATA[
-			where e.rn >= #{startRow} and e.rn <= #{endRow}
-		]]> -->
+		<if test="keyfield == 'empNo' and keyword != null">
+		where emp_no like '%' || #{keyword} || '%' 
+		</if>
+		<if test="keyfield == 'empName' and keyword != null">
+		where emp_name like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == 'duty' and keyword != null">
+		where duty like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == 'department' and keyword != null">
+		where department like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == null">
+		where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
+		</if>
+		<if test="keyfield != null">
+			and e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
+		</if>
+		 -->
+		 select 
+			empNo, 
+			empName, 
+			empPwd, 
+			phoneNumber, 
+			email, 
+			hireDate, 
+			department, 
+			duty
+		from (select rownum as rn, emp.*
+		      from (select empNo, 
+                    empName, 
+                    empPwd, 
+                    phoneNumber, 
+                    email, 
+                    hireDate, 
+                    department, 
+                    duty from empList_view
+                    <if test="keyfield == 'empNo' and keyword != null">
+					where empNo like '%' || #{keyword} || '%' 
+					</if>
+					<if test="keyfield == 'empName' and keyword != null">
+					where empName like '%' || #{keyword} || '%'
+					</if>
+					<if test="keyfield == 'duty' and keyword != null">
+					where duty like '%' || #{keyword} || '%'
+					</if>
+					<if test="keyfield == 'department' and keyword != null">
+					where department like '%' || #{keyword} || '%'
+					</if>
+                      order by empNo asc
+                    ) emp) e
+        where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
+	</select>
+	
+	<select id="selectEmployeeByDept" statementType="PREPARED" parameterType="String" resultType="EmployeeVO">
+		select emp_no as empNo, duty, emp_name as empName
+		from emp_view
+		where dept_no = #{cNo}
+		order by duty_no asc ,emp_name asc
+	</select>
+	
+	
+	
+	<select id="selectEmployeeCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(*)
+		from empList_view
+		<if test="keyfield == 'empNo' and keyword != null">
+		where empNo like '%' || #{keyword} || '%' 
+		</if>
+		<if test="keyfield == 'empName' and keyword != null">
+		where empName like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == 'duty' and keyword != null">
+		where duty like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == 'department' and keyword != null">
+		where department like '%' || #{keyword} || '%'
+		</if> 
 	</select>
 	
 	<select id="selectEmpCharge" resultType="String" parameterType="String" statementType="PREPARED">

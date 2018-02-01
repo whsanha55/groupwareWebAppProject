@@ -22,6 +22,9 @@ public interface CodeDAO {
 	//하위 코드 수 확인
 	int checkRelation(String relationCode);
 	
+	//모든 부서 조회
+	List<CodeVO> selectDeptAll();
+	
 	//최상위 코드 리스트 조회
 	List<CodeVO> selectCodeList1(Map<String, Object> map);
 	

@@ -27,6 +27,7 @@
 	}
 	table[id^='lineTable'] tr:nth-child(2) {
 		height : 40px;
+		text-align : center;
 	}
 	table[id^='lineTable'] th {
 		background-color: #3f5367; color: #ECF0F1;
@@ -74,6 +75,7 @@
 					receiverNo : receiverNo
 				} ,
 				success : function(data) {
+					console.log(data);
 					var textApprEmpName = "";
 					var textApprDuty = "<th rowspan='2'>결재</th>";
 					var textRefEmpName = "";
@@ -83,12 +85,12 @@
 					for(var i=0;i<data.length;i++) {
 						if(data[i].apprType ==0) {	//결재
 							apprCount++;
-							textApprEmpName += "<th>" + data[i].lineEmployee.empName + "</th>";
-							textApprDuty += "<td>" + data[i].lineEmployee.duty + "</td>";
+							textApprEmpName += "<td>" + data[i].lineEmployee.empName + "</td>";
+							textApprDuty += "<th>" + data[i].lineEmployee.duty + "</th>";
 						} else { //참조
 							refCount++;
-							textRefEmpName += "<th>" + data[i].lineEmployee.empName + "</th>";
-							textRefEmpDuty += "<td>" + data[i].lineEmployee.duty + "</td>";
+							textRefEmpName += "<td>" + data[i].lineEmployee.empName + "</td>";
+							textRefEmpDuty += "<th>" + data[i].lineEmployee.duty + "</th>";
 						}
 					}
 					$('#lineTableA').css('width', (apprCount+1) * 10 + "%");

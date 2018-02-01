@@ -12,7 +12,9 @@ public interface CodeService {
 	
 	//코드 이름 조회
 	CodeVO retrieveCode(String cNo);
-		
+	
+	//모든 부서 조회
+	List<CodeVO> retrieveDeptAll(); 
 	//최상위 코드 리스트 조회
 	List<CodeVO> retrieveCodeList1(Map<String, Object> map);
 	

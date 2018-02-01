@@ -1,6 +1,7 @@
 package com.bit.groupware.controller.approval;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -120,9 +121,9 @@ public class AdminTemplateController {
 	//카테고리 등록 요청
 	@RequestMapping(value="/admin/registerCategory.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String plus(TemplateCategoryVO templateCategoryVO) {
+	public List<TemplateCategoryVO> plus(TemplateCategoryVO templateCategoryVO) {
 		categoryService.registerTemplaeCategory(templateCategoryVO);
-		return "register";
+		return categoryService.retrieveTemplateCategoryList();
 	}
 	
 	
@@ -130,9 +131,9 @@ public class AdminTemplateController {
 	//카테고리 삭제 요청
 	@RequestMapping(value="/admin/removeCategory.do", method=RequestMethod.GET)
 	@ResponseBody
-	public String minus(@RequestParam(value="categoryNo", required=true)int categoryNo) {
+	public List<TemplateCategoryVO> minus(@RequestParam(value="categoryNo", required=true)int categoryNo) {
 		categoryService.removeTemplateCategory(categoryNo);
-		return "remove";
+		return categoryService.retrieveTemplateCategoryList();
 	}
 	
 }
