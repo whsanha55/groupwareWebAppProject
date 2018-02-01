@@ -28,6 +28,8 @@ public interface CodeService {
 	//코드 삭제
 	void removeCode(String cNo);
 	
+	int checkRelationCode(String relationCode);
+	
 	List<CodeVO> retrieveDeptCodeList();
 	
 	List<CodeVO> retrieveDutyCodeList();
