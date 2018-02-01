@@ -11,7 +11,7 @@ public class ReceiverLineVO {
 	private ReceiverVO receiver;
 	private EmployeeVO lineEmployee;
 	private int lineOrder;
-	// ê²°ìž¬ : 0 , ì°¸ì¡° : 1
+	// °áÀç : 0 , ÂüÁ¶ : 1
 	private int apprType;
 	private List<ApprovalRecordVO> approvalRecords = new ArrayList<ApprovalRecordVO>();
 
@@ -51,12 +51,12 @@ public class ReceiverLineVO {
 		this.lineOrder = lineOrder;
 	}
 
-	public int isApprType() {
-		return apprType;
-	}
-
 	public void setApprType(int apprType) {
 		this.apprType = apprType;
+	}
+
+	public int getApprType() {
+		return apprType;
 	}
 
 	public List<ApprovalRecordVO> getApprovalRecords() {

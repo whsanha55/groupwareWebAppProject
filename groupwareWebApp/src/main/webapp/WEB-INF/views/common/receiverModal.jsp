@@ -4,20 +4,60 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/resources/fancytree/skin-win8/ui.fancytree.css"
+	rel="stylesheet">
+<script src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
+<script	src="${pageContext.request.contextPath}/resources/fancytree/jquery.fancytree.js"></script>
 <style>
-
 #apprTypeDiv {
-	margin-top : 10%;
-	text-align : center;
+	margin-top: 10%;
+	text-align: center;
 }
 </style>
+<script>
+	$(document).ready(function() {
+
+ 	/* 	$("#tree").fancytree({
+			source : [{"title": "Node 1", "key": "1"},
+				 {"title": "Folder 2", "key": "2", "folder": true, "children": [
+					    {"title": "Node 2.1", "key": "4"},
+					    {"title": "Node 2.2", "key": "3"}
+					  ]}
+					]
+			
+			
+			 
+		}); */
+
+		 $("#tree").fancytree({
+			source : {
+				url : '${pageContext.request.contextPath}/receiverDeptListAjax.do' ,
+				cache : false ,
+				type : 'GET'
+			},
+			lazyload : function(event,data) {
+				var node = data.node;
+				data.result = {
+					url : '${pageContext.request.contextPath}/receiverEmpListAjax.do' ,
+					cache : false ,
+					type : 'GET' ,
+					data : {
+						cNo : node.key
+					}
+				}
+			}
+			 
+		}); 
+		
+	});
+</script>
 </head>
 
 <body>
 
 	<div class="container-fluid">
 		<div class="row content">
-		
+
 			<div class="col-sm-3 sidenav">
 				<div class="input-group">
 					<input type="text" class="form-control" placeholder="Search Blog..">
@@ -25,94 +65,29 @@
 						<button class="btn btn-default" type="button">
 							<span class="glyphicon glyphicon-search"></span>
 						</button>
-						<button class="btn btn-default" type="button">
-							전체
-						</button>
+						<button class="btn btn-default" type="button">전체</button>
 					</span>
 				</div>
-				<div class="table">
-					<h2>인사</h2>
-					<table class="table table-bordered">
+
+				<div id="tree">
 					
-						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-						</tbody>
-					</table>
-
-					<h2>경영지원</h2>
-					<table class="table table-bordered">
-					
-						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-						</tbody>
-					</table>
-
-					<h2>영업</h2>
-					<table class="table table-bordered">
-						<thead>
-
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: center">1팀 강호동 부장</td>
-
-							</tr>
-						</tbody>
-					</table>
-
-					<!--테이블끝-->
-
 				</div>
+
 			</div>
 
-			<div class="col-sm-2 " id = 'apprTypeDiv'>
+			<div class="col-sm-2 " id='apprTypeDiv'>
 				<div class="btns">
-					<h2><input type="radio" value="0" name="apprType"checked="checked">결재</h2>
-					<h2><input type="radio" value="1" name="apprType">참조</h2>
+					<h2>
+						<input type="radio" value="0" name="apprType" checked="checked">결재
+					</h2>
+					<h2>
+						<input type="radio" value="1" name="apprType">참조
+					</h2>
 					<br>
 					<div>
 						<button type="button" class="btn btn-primary" data-toggle="modal"
 							data-target=".bs-example-modal-lg">&lt;</button>
-							
+
 					</div>
 					<div>
 						<button type="button" class="btn btn-primary" data-toggle="modal"
@@ -210,21 +185,20 @@
 
 					</table>
 					<div class="form-group">
-						<label>결재선 이름:</label> 
-							<input type="text"
-							class="form-control" name="receiverName" placeholder="결재선 이름을 입력해주세요">
+						<label>결재선 이름:</label> <input type="text" class="form-control"
+							name="receiverName" placeholder="결재선 이름을 입력해주세요">
 						<button type="submit" class="btn btn-default">Submit</button>
 					</div>
-					
+
 					<br>
-					
+
 				</div>
 
 			</div>
 		</div>
 	</div>
-	
- 
+
+
 
 </body>
 </html>
