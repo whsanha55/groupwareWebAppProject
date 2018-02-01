@@ -250,6 +250,15 @@
         where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
 	</select>
 	
+	<select id="selectEmployeeByDept" statementType="PREPARED" parameterType="String" resultType="EmployeeVO">
+		select emp_no as empNo, duty, emp_name as empName
+		from emp_view
+		where dept_no = #{cNo}
+		order by duty_no asc ,emp_name asc
+	</select>
+	
+	
+	
 	<select id="selectEmployeeCount" statementType="PREPARED" parameterType="map" resultType="int">
 		select count(*)
 		from empList_view

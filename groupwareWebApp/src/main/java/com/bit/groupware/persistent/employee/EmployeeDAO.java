@@ -20,6 +20,8 @@ public interface EmployeeDAO {
 	
 	int checkDeptEmp(String cNo);*/
 	
+	List<EmployeeVO> selectEmployeeByDept(String cNo);
+	
 	List<EmployeeVO> selectEmployeeList(Map<String, Object> map);
 	
 	String insertEmployee(EmployeeVO employee);

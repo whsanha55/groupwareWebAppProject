@@ -41,7 +41,7 @@ public class TemplateAjaxController {
 	
 		int totalCount = templateService.retrieveTemplateCount(map);
 		if(totalCount < endRow) {
-			endRow = totalCount;
+			endRow = totalCount;				
 		}
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
