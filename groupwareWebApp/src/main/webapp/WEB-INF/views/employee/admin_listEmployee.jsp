@@ -49,7 +49,7 @@
 	});//$(document).ready End
 	
 	function employeePaging(currentPageNo) {
-		var totalCount =  0;		//총 양식서 수
+		var totalCount =  0;		//총  수
 		var countPerPage = 10;   //한 페이지당 보여주는 회원 수
 		var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 		var startRow = (currentPageNo - 1) * countPerPage + 1;
@@ -80,7 +80,7 @@
 				var text = "";
 				for(var i=0;i<data.employees.length;i++) {
 					text += "<tr>";
-					text += "<td><a data-toggle='modal' data-target=''#myModal'>"+ data.employees[i].empNo + "</a></td>";
+					text += "<td><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
 					text += "<td>"+ data.employees[i].empName 		+ "</td>";
 					text += "<td>"+ data.employees[i].duty 			+ "</td>";
 					text += "<td>"+ data.employees[i].department 	+ "</td>";
@@ -245,6 +245,11 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	
+	
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -344,10 +349,21 @@
 															<li><a href="#greather">개발부</a></li>
 														</ul>
 													</div>
+													<div class="input-group-btn search-panel">
+														<button type="button"
+															class="btn btn-default dropdown-toggle"
+															data-toggle="dropdown">
+															<span id="search_concept">팀</span> <span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu" role="menu">
+															<li><a href="#contains">영업1팀</a></li>
+															<li><a href="#its_equal">영업2팀</a></li>
+														</ul>
+													</div>
 												</div>
 											</div>
 										</div>
-										<div>
+										<%-- <div>
 											<div class="col-xs-2 col-xs-offset-2">
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
@@ -363,7 +379,7 @@
 													</div>
 												</div>
 											</div>
-										</div></td>
+										</div> --%></td>
 									<th>이메일</th>
 									<td><input type="text" class="form-control"
 										required="required" value="java1234@naver.com"></td>
