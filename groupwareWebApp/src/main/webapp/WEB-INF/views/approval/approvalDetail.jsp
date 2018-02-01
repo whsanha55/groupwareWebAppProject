@@ -41,6 +41,17 @@
 <script>
 
 	$(document).ready(function(){
+		
+		var status=${requestScope.status};
+		if(status==1){
+			$('#return').attr('disabled',false);
+		}else if(status==2){
+			$('#appr').attr('disabled',false);
+			$('#wait').attr('disabled',false);
+			$('#reject').attr('disabled',false);
+		}
+		
+	
 		var temp = $('.apprLineAppr').length;
 		var text = "";
 		for(var i =temp; i<9;i++) {
@@ -59,6 +70,47 @@
 		$('.apprLineRef').parent().append(text);
 		$('.apprLineRef').parent().next().append(text);
 		
+		
+		$('#return').on('click',function(){
+			swal({
+				  title: "결재 회수",
+				  text: "선택한 문서를 회수 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						executeReturn();
+					}	
+				});
+		})
+			
+		function executeReturn(){
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/returnApproval.do'
+				,
+				method : 'GET'
+				,
+				data: {
+					apprNo : '${requestScope.approval.apprNo}'
+				}
+				,
+				datatype : 'json'
+				,
+				
+				success : function(data) {
+					swal("결재 회수가 완료되었습니다.").then((e)=>{
+						self.close();
+						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+					});
+					
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
+		}
 		
 		
 
@@ -82,10 +134,10 @@
 				<div class="clearfix"></div>
 			</div>
 			 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="float:right; width:295px;">
-												<button type="button" class="btn btn-success">결재</button>
-												<button type="button" class="btn btn-success">보류</button>
-												<button type="button" class="btn btn-success">반려</button>
-												<button type="button" class="btn btn-success">결재회수</button>
+			 		<button type="button" class="btn btn-success" id="appr" disabled='true'>결재</button>
+			 		<button type="button" class="btn btn-success" id="wait" disabled='true'>보류</button>
+			 		<button type="button" class="btn btn-success" id='reject' disabled='true'>반려</button>
+			 		<button type="button" class="btn btn-success" id='return' disabled='true'>결재회수</button>			 		
 			</div>
 			<div class="table-responsive" id="datas">
 				<h2><strong>결재 라인</strong></h2>
@@ -239,7 +291,7 @@
 
 
 
-
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </body>
 </html>

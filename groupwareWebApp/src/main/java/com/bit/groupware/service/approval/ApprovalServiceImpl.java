@@ -78,4 +78,15 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return dao.selectApprovalCount(map); 
 	}
 
+	//ªË¡¶
+	public void removeApproval(List<Integer> apprNos) {
+		// TODO Auto-generated method stub
+		dao.deleteApproval(apprNos); 
+	}
+
+	public ApprovalVO retrieveTempApproval(int apprNO) {
+		// TODO Auto-generated method stub
+		return dao.selectTempApproval(apprNO); 
+	}
+	
 }

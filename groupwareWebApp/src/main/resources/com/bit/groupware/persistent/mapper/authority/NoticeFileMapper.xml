@@ -12,4 +12,9 @@
 		</foreach>	 	
 	</insert>
 	
+	<delete id="deleteNoticeFile" parameterType="int" statementType="PREPARED">
+		delete from noticeFile
+		where no = #{no}
+	</delete>
+
 </mapper>

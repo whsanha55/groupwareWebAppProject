@@ -15,6 +15,15 @@ public class DeputyVO {
 	public DeputyVO() {
 		super();
 	}
+	
+	public DeputyVO(String startDate, String endDate, String depReason, String dempNo, String empNo) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.depReason = depReason;
+		this.dempNo = dempNo;
+		this.empNo = empNo;
+	}
 
 	public DeputyVO(String depNo, String startDate, String endDate, String progression, String depReason, String dempNo,
 			String empNo, List<EmployeeVO> employees) {

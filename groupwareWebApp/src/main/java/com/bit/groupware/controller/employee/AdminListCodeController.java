@@ -25,8 +25,8 @@ public class AdminListCodeController {
 	public ModelAndView listCode1() {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map =new HashMap<String, Object>();
-		map.put("startRow", 1);
-		map.put("endRow", 10);
+		map.put("keyfield", "코드번호");
+		map.put("keyword", "코드명");
 		logger.info("map : {}", map);
 		mv.addObject("codes", codeService.retrieveCodeList1(map));
 		mv.setViewName("employee/admin_listCode1");
@@ -39,8 +39,8 @@ public class AdminListCodeController {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("relationCode", relationCode);
-		map.put("startRow", 1);
-		map.put("endRow", 10);
+		map.put("keyfield", "코드번호");
+		map.put("keyword", "코드명");
 		logger.info("map : {}", map);
 		mv.addObject("codes", codeService.retrieveCodeList2(map));
 		mv.setViewName("employee/admin_listCode2");

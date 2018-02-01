@@ -64,7 +64,7 @@
    
    <delete id="deleteApprovalRecord" parameterType="int" statementType="PREPARED">  
     	delete from approval_record
-		where record_no=#{recordNo}
+		where appr_no=#{apprNo}
    </delete>
    
    
