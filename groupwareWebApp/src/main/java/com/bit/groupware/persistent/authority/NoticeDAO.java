@@ -22,10 +22,10 @@ public interface NoticeDAO {
 	void updateNotice(NoticeVO notice);
 	
 	//공지사항 정보를 삭제한다.
-	void deleteNotice(int noticeNo);
+	void deleteNotice(Map<String, Object> map);
 	
 	//공지사항 정보를 검색한다.
 	List<NoticeVO> findNotice(String noticeTitle);
 	
-	int selectNoticeCount(); 
+	int selectNoticeCount(Map<String, Object> map); 
 }

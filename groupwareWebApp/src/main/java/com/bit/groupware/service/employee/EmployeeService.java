@@ -26,8 +26,9 @@ public interface EmployeeService {
 	
 	void removePhoto(String photoNo);
 	*/
+	List<EmployeeVO> retrieveEmployeeByDept(String cNo);
 	
-	List<EmployeeCodeViewVO> retrieveEmployeeList(Map<String, Object> map);
+	List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map);
 	
 	void registerEmployee(EmployeeVO employee);
 
@@ -35,4 +36,9 @@ public interface EmployeeService {
 	
 	List<DeputyVO> retrieveDeputyList(Map<String, Object> map);
 	
+	int retrieveEmployeeCount(Map<String, Object> map);
+	
+	List<EmployeeVO> retrieveDeputyRegisterEmployeeList(Map<String, Object> map);
+
+	int retrieveDeputyRegisterCount(Map<String, Object> map);
 }

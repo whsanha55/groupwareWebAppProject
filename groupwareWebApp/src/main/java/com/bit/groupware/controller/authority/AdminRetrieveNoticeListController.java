@@ -22,10 +22,18 @@ public class AdminRetrieveNoticeListController {
 	//공지사항 목록 조회 요청
 	@RequestMapping(value = "/PagingAjax.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getTemplateList(@RequestParam int startRow ,@RequestParam int endRow) {
+	public Map<String,Object> getTemplateList(
+			@RequestParam String keyfield ,
+			@RequestParam(required=false) String keyword ,
+			@RequestParam int startRow ,
+			@RequestParam int endRow
+		) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		int totalCount = noticeService.retrieveNoticeCount();
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+		
+		int totalCount = noticeService.retrieveNoticeCount(map);
 		if(totalCount < endRow) {
 			endRow = totalCount;
 		}
