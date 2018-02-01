@@ -27,15 +27,15 @@
 		//검색조건 엔터키 눌렀을때 트리거 발동
 		$('.keyword').on('keydown', function(e) {
 			if(e.keyCode == 13){
-				$('.findTemplate').trigger('click');
+				$('#findEmployee').trigger('click');
 	        }
 		});
 		
 		
 		// 검색 실행
 		$('#findEmployee').on('click', function() {
-			if($('.keyfield').attr('id') == null) {
-				swal("검색조건를 선택해주세요","", "error");
+			if($('.keyfield').attr('id') == "") {
+				alert("검색조건를 선택해주세요");
 				return;
 			}
 	
