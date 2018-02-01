@@ -14,22 +14,28 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDAO boardDAO;
 	
-	public List<BoardVO> retrieveBoard() {
-		return boardDAO.selectBoard();
+	public List<BoardVO> retrieveBoardList() {
+		return boardDAO.selectBoardList();
 	}
 
-	public void registerBoard(BoardVO board) {
-		boardDAO.insertBoard(board);
+	public int registerBoard(BoardVO board) {
+		return boardDAO.insertBoard(board);
 		
 	}
 
-	public void modifyBoard(BoardVO board) {
-		boardDAO.updateBoard(board);
+	public int modifyBoard(BoardVO board) {
+		return boardDAO.updateBoard(board);
 		
 	}
 
 	public void removeBoard(int boardNo) {
 		boardDAO.deleteBoard(boardNo);
 	}
+
+	public BoardVO retrieveBoard(int boardNo) {
+		return boardDAO.selectBoard(boardNo);
+	}
+	
+	
 
 }

@@ -89,10 +89,10 @@ public class CodeDAOImpl implements CodeDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectDutyCodeList");
 	}
 	
-	//其捞隆 贸府
+	/*//其捞隆 贸府
 	public int selectCodeCount(Map<String, Object> map) {
 		return sqlSession.selectOne(NAMESPACE + ".selectCodeCount", map);
-	}
+	}*/
 	
 	
 }

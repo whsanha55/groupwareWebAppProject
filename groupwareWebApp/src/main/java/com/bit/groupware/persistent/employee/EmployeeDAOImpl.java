@@ -40,7 +40,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return deptEmpCount;
 	}*/
 	
-	public List<EmployeeCodeViewVO> selectEmployeeList(Map<String, Object> map) {
+	public List<EmployeeVO> selectEmployeeList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
 	}
 	
@@ -51,6 +51,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 	public void insertEmployeeCode(Map<String, Object> map) {
 		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", map);
+	}
+	
+	public int selectEmployeeCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectEmployeeCount", map);
 	}
 	
 }

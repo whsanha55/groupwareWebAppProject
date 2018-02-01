@@ -14,6 +14,14 @@ public class BoardVO {
 		super();
 	}
 
+	
+	public BoardVO(int boardNo, String boardName) {
+		super();
+		this.boardNo = boardNo;
+		this.boardName = boardName;
+	}
+
+
 	public int getBoardNo() {
 		return boardNo;
 	}
@@ -77,6 +85,8 @@ public class BoardVO {
 	public void setIsDocuType(String isDocuType) {
 		this.isDocuType = isDocuType;
 	}
+	
+	
 
 	@Override
 	public String toString() {
