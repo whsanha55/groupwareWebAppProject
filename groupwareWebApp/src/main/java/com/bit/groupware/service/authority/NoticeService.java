@@ -20,7 +20,7 @@ public interface NoticeService {
 	void modifyNotice(NoticeVO notice);
 	
 	//공지사항 정보를 삭제한다.
-	void removeNotice(int noticeNo);
+	void removeNotice(Map<String, Object> map);
 	
-	 int retrieveNoticeCount();
+	 int retrieveNoticeCount(Map<String, Object> map);
 }

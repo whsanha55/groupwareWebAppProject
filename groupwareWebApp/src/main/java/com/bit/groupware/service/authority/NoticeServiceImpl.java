@@ -58,14 +58,12 @@ public class NoticeServiceImpl implements NoticeService {
 			noticeFileDAO.insertNoticeFile(map);		}
 	}
 
-	public void removeNotice(int noticeNo) {
-		noticeDAO.deleteNotice(noticeNo);
-	}
+	public void removeNotice(Map<String, Object> map) {
+		noticeDAO.deleteNotice(map);
+	} 
 
-	public int retrieveNoticeCount() {
-		return noticeDAO.selectNoticeCount();
+	public int retrieveNoticeCount(Map<String, Object> map) {
+		return noticeDAO.selectNoticeCount(map);
 	}
-	
-	
 
 }
