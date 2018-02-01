@@ -17,7 +17,6 @@
 				e.preventDefault();
 				$('.keyfield').text($(this).text());
 				$('.keyfield').attr('id',$(this).attr('id'));
-				
 		});
 	
 		//검색조건 엔터키 눌렀을때 트리거 발동
@@ -130,10 +129,10 @@
 								<c:param name="relationCode" value="${pageScope.code.cNo }" />
 							</c:url>
 							<tr>
-							<c:if test="${pageScope.code.cNo == A }" >
+							<c:if test="${pageScope.code.cNo == 'A' }" >
 								<td><a href="${pageScope.url1}">${pageScope.code.cNo }</a></td>
 							</c:if>
-							<c:if test="${pageScope.code.cNo != A }" >
+							<c:if test="${pageScope.code.cNo != 'A' }" >
 								<td><a href="${pageScope.url2}">${pageScope.code.cNo }</a></td>
 							</c:if>
 								<td>${pageScope.code.cName }</td>

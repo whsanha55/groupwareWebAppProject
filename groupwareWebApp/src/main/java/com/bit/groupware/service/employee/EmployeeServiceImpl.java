@@ -60,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		logger.info("empNo : {}", empNo);
 		
 		List<EmployeeCodeVO> codeList = employee.getCodeList();
-		for(EmployeeCodeVO code : codeList) {
+		for(EmployeeCodeVO code : codeList) { 
 			code.setEmpNo(empNo);
 		}
 		

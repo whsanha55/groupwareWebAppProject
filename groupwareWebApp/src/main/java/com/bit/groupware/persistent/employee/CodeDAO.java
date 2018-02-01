@@ -43,7 +43,7 @@ public interface CodeDAO {
 	//流氓 格废 炼雀
 	List<CodeVO> selectDutyCodeList();
 	
-	//其捞隆 贸府
-	int selectCodeCount(Map<String, Object> map);
+	/*//其捞隆 贸府
+	int selectCodeCount(Map<String, Object> map);*/
 
 }
