@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.employee.CodeVO;
@@ -26,20 +27,21 @@ public class AdminRegisterCodeController {
 	//최상위 코드 등록 폼 요청
 	@RequestMapping(value="/admin/registerCode1.do", method=RequestMethod.GET)
 	public String form1() {
-		return "employee/admin_insertCode1";
+		return "employee/admin_insertCode1";	
 	}
 	
 	//최상위 코드 등록 요청
 	@RequestMapping(value="/admin/registerCode1.do", method=RequestMethod.POST)
-	public String submit1(CodeVO code) {
+	@ResponseBody
+	public int submit1(CodeVO code) throws Exception {
 		logger.info("code : {} ", code);
 		if(codeDAO.checkCodeNo(code.getcNo()) == true && codeDAO.checkCode(code.getcName()) == true) {
 			codeService.registerCode(code);
-			return "redirect:/admin/listCode1.do";
+			return 1;
 		} else {
-			return "employee/admin_insertCode1";
-			
-		} 
+			return 0;
+			//return "redirect:/admin/registerCode1.do";
+		}
 	} 
 	
 	//부서 코드 등록 폼 요청

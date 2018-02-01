@@ -62,7 +62,7 @@ public class AdminModifyCodeController {
 		logger.info("code : {} ", code);
 		if(codeDAO.checkCode(code.getcName()) == true) {
 			codeService.modifyCode(code);
-			return "redirect:/admin/listCode2.do";
+			return "redirect:/admin/listCode2.do?relationCode=" + code.getRelationCode();
 		} else {
 			return "employee/admin_modifyCode2";
 		}
@@ -84,7 +84,7 @@ public class AdminModifyCodeController {
 		logger.info("code : {} ", code);
 		if(codeDAO.checkCode(code.getcName()) == true) {
 			codeService.modifyCode(code);
-			return "redirect:/admin/listCode3.do";
+			return "redirect:/admin/listCode3.do?relationCode=" + code.getRelationCode();
 		} else {
 			return "employee/admin_modifyCode3";
 		}

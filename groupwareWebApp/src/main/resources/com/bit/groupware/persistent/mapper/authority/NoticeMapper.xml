@@ -32,30 +32,31 @@
 		<result column="notice_contents" 			 property="noticeContents" />
 	
 		<collection property="files" javaType="list" ofType="NoticeFileVO">
-			<id column="noticefile_no" 								property="no"/>
-			<result column="noticefile_original_file_name" 		property="systemFileName" />
-			<result column="noticefile_system_file_name" 		property="originalFileName" />
+			<id column="no" 								property="no"/>
+			<result column="original_file_name" 		property="originalFileName" />
+			<result column="system_file_name" 		property="systemFileName" />
 		</collection>
 	</resultMap> 
 	 
-   <select id="selectNotice" resultMap="selectNoticeResultMap" statementType="PREPARED" resultType="NoticeVO" parameterType="int">
+   <select id="selectNotice" resultMap="selectNoticeResultMap" statementType="PREPARED" parameterType="int">
       select n1.notice_no, n1.notice_title, n1.hitcount, n1.notice_date, n1.notice_contents, 
-      n2.noticefile_no, n2.noticefile_original_file_name, n2.noticefile_system_file_name, n2.noticefile_url , n2.notice_no
+      n2.no, n2.original_file_name, n2.system_file_name, n2.url , n2.notice_no
        from notice n1 , noticefile n2
        where n1.notice_no = n2.notice_no(+)
-        and n1.notice_no = #{noticeNo};
+        and n1.notice_no = #{noticeNo}
    </select>
    
    <update id="updateNotice" statementType="PREPARED" parameterType="NoticeVO">
       update notice
-      <trim prefix="set" suffixOverrides=",">
-         <if test="noticeTitle">
-            notice_title = #{noticeTitle}
-         </if>
-         <if test="noticeContents">
-            notice_contents = #{noticeContents}
-         </if>
-      </trim>
+      <trim prefix="set" prefixOverrides=",">
+			<if test="noticeTitle != null">
+				, notice_title = #{noticeTitle}
+			</if>
+			<if test="noticeContents != null">
+				,notice_contents = #{noticeContents}
+			</if>
+		</trim>	
+      where notice_no = #{noticeNo}
    </update>
    
    <delete id="deleteNotice" statementType="PREPARED"  parameterType="int">

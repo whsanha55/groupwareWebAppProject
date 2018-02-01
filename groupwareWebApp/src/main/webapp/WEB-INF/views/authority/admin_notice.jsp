@@ -40,7 +40,8 @@
 				for(var i=0;i<data.notices.length;i++) {
 					text += "<tr class='even pointer'><td class='a-center '><input type='checkbox' id='ex_chk'></td>";
 					text += "<td>"+ data.notices[i].noticeNo + "</td>";
-					text += "<td>"+ data.notices[i].noticeTitle + "</td>";
+					text += "<td><a href='${pageContext.request.contextPath}/admin/detailNotice.do?noticeNo=" 
+						+data.notices[i].noticeNo +" '>"+ data.notices[i].noticeTitle + "</a></td>";
 					text += "<td>"+ data.notices[i].hitCount + "</td>";
 					text += "<td>"+ data.notices[i].noticeDate + "</td>";
 					text += "</tr>";

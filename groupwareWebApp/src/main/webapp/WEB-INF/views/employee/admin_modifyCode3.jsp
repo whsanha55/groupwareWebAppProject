@@ -47,7 +47,7 @@
 			<table id="datatable" class="table table-striped table-bordered">
 				<tbody>
 					<input type="hidden" id="cNo" name="cNo" value="${param.cNo}">
-					<input type="hidden" id="relationCode" name="relationCode" value="" >
+					<input type="hidden" id="relationCode" name="relationCode" value="${requestScope.code.relationCode}" >
 					<tr>
 						<th>코드명</th>
 						<td><input type="text" id="cName" name="cName" required="required" value="${requestScope.code.cName }" ></td>

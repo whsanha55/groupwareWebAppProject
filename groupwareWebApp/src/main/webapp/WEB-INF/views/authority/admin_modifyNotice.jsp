@@ -1,5 +1,6 @@
 <%@page contentType="text/html; charset=utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,8 +33,8 @@
 </head>
 <body>
 	<!--글쓰기-->
-	<form action="<%=request.getContextPath()%>/admin/addNotice.do"
-		method="post" enctype="multipart/form-data">
+	<form action = "${pageContext.request.contextPath }/admin/modifyNotice.do"  enctype="multipart/form-data" method = "post">
+		<input type = "hidden" name ="noticeNo" value = "${sessionScope.notice.noticeNo}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
@@ -55,7 +56,7 @@
 				<div class="form-group">
 					<label class="control-label col-md-3 col-sm-3 col-xs-12">제목</label>
 					<div class="col-md-9 col-sm-9 col-xs-12">
-						<input type="text" name="noticeTitle"
+						<input type="text" name="noticeTitle" value="${sessionScope.notice.noticeTitle}"
 							id="autocomplete-custom-append" class="form-control col-md-10" />
 					</div>
 					<div class="x_content">
@@ -146,10 +147,26 @@
 
 
 
-						<textarea name="noticeContents" rows="20" style="width: 100%"></textarea>
+						<textarea name="noticeContents" rows="20" style="width: 100%">${sessionScope.notice.noticeContents}</textarea>
 						<br> <br>
-
+						
 						<div class="ln_solid"></div>
+						
+						<%-- 업로드된 파일 목록 조회 --%>
+					<c:if test="${fn:length(sessionScope.notice.files) > 0 }">
+						<table border="1">
+							<c:forEach var="noticeFile" items="${sessionScope.notice.files }" varStatus="loop">
+								<c:url var="deleteUrl" value="/removeArticleFile.do" scope="page">
+									<c:param name="no" value="${pageScope.noticeFile.no }"/>
+								</c:url>
+								<tr>
+									<td>파일${pageScope.loop.count }</td>
+									<td>${pageScope.noticeFile.originalFileName }</td>							
+									<td><a href = "${pageScope.deleteUrl}">삭제</a></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</c:if>
 						<div class="col-md-12">
 							<div class="row">
 								<div class="control-group" id="fields">
