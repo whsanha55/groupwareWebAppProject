@@ -72,10 +72,19 @@
 		
 		
 		$('#return').on('click',function(){
-			if(!confirm("결재문서를 회수 하시겠습니까?")) {
-				return false;
-			}
-		
+			swal({
+				  title: "결재 회수",
+				  text: "선택한 문서를 회수 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						executeReturn();
+					}	
+				});
+		})
+			
+		function executeReturn(){
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/returnApproval.do'
@@ -86,17 +95,22 @@
 					apprNo : '${requestScope.approval.apprNo}'
 				}
 				,
+				datatype : 'json'
+				,
+				
 				success : function(data) {
-					alert('결재 회수가 완료되었습니다.');
-					self.close();
-					opener.location.reload(true);
+					swal("결재 회수가 완료되었습니다.").then((e)=>{
+						self.close();
+						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+					});
+					
 				}
 				,
 				error: function(jqXHR) {
 					alert("error : " + jqXHR.status);
 				}
 			});
-		})
+		}
 		
 		
 
@@ -277,7 +291,7 @@
 
 
 
-
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </body>
 </html>
