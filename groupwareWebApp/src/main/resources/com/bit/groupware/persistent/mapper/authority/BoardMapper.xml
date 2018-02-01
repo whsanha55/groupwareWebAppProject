@@ -5,20 +5,19 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.BoardMapper">
 
-	<insert id="insertBoard" parameterType="BoardVO" statementType="PREPARED">
+	<insert id="insertBoard" parameterType="BoardVO" statementType="PREPARED"  >
 		<selectKey keyProperty="boardNo" resultType="int"
 			statementType="STATEMENT" order="BEFORE">
 			select board_no_seq.nextval from dual
 		</selectKey>
 		insert into board(board_no, board_name, isuse, file_count, isnotice,
 		iscomment, isdeptdivide, isdocutype)
-		values(#{boardNo},#{boardName},#{isUse},#{fileCount},#{isNotice},#{isComment}, #{isDeptDivide},#{isDocuType})
+		values(#{boardNo},#{boardName, },#{isUse},#{fileCount},#{isNotice},#{isComment}, #{isDeptDivide},#{isDocuType})
 	</insert>
 
 	<select id="selectBoardList" resultType="BoardVO" statementType="STATEMENT">
-		 select board_no, board_name, isuse, file_count, isnotice, iscomment, isdeptdivide, isdocutype
+		 select board_no as boardNo , board_name as boardName, isuse, file_count as fileCount, isnotice, iscomment, isdeptdivide, isdocutype
 		from board
-        order by board_no asc
 	</select>
 	
     <update id="updateBoard" parameterType="BoardVO" statementType="PREPARED">
@@ -53,4 +52,10 @@
     	delete from board
     	where board_no = #{boardNo}
     </delete>
+    
+    <select id="selectBoard" resultType="BoardVO" statementType="PREPARED" parameterType="int">
+    	select board_no as boardNo , board_name as boardName, isuse, file_count as fileCount, isnotice,iscomment, isdeptdivide, isdocutype
+    	from board
+    	where board_no = #{boardNo}
+    </select>
 </mapper>
