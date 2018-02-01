@@ -129,10 +129,10 @@
 								<c:param name="relationCode" value="${pageScope.code.cNo }" />
 							</c:url>
 							<tr>
-							<c:if test="${pageScope.code.cNo == A }" >
+							<c:if test="${pageScope.code.cNo == 'A' }" >
 								<td><a href="${pageScope.url1}">${pageScope.code.cNo }</a></td>
 							</c:if>
-							<c:if test="${pageScope.code.cNo != A }" >
+							<c:if test="${pageScope.code.cNo != 'A' }" >
 								<td><a href="${pageScope.url2}">${pageScope.code.cNo }</a></td>
 							</c:if>
 								<td>${pageScope.code.cName }</td>

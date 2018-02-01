@@ -18,10 +18,10 @@
 	</resultMap>
 
 	<select id="selectReceiverLineList" parameterType="int"
-		statementType="STATEMENT" resultMap="selectReceiverLineListResultMap">
-		select line_no as lineNo, receiver_no as , line_order, appr_type
+		statementType="PREPARED" resultMap="selectReceiverLineListResultMap">
+		select line_no , line_order, appr_type
 		from receiver_line
-		where line_no = #{receiverNo}
+		where receiver_no = #{receiverNo}
 		<!-- receiver랑 emp 최소 3개는 조인해서 갖고 와야함 -->
 	</select>
 
