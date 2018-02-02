@@ -6,20 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.bit.groupware.service.authority.NoticeService;
 
 @Controller
 public class AdminDetailNoticeController {
-	/*@Autowired
+	@Autowired
 	private NoticeService noticeService;
-
+	
 	@RequestMapping(value="/admin/detailNotice.do", method=RequestMethod.GET)
-	public ModelAndView adminDetailNotice(@RequestParam(value="noticeNo") int noticeNo) {
+	public ModelAndView form(@RequestParam(value="noticeNo") int noticeNo) {
+		System.out.println("³Ñ¹ö!!!!!!!!!!!!!!!!!!!"+noticeNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("notice", noticeService.retrieveNotice(noticeNo));
-		mv.setViewName("adminDetailNotice");
-		return mv;
-	}*/
-	
-	
+		mv.setViewName("authority/admin_detailNotice");
+		return mv;	
+	}
 }

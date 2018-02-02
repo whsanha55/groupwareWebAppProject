@@ -30,7 +30,7 @@ public class NoticeServiceImpl implements NoticeService {
 	public void registerNotice(NoticeVO notice) {
 		//공지사항 등록
 		int noticeNo = noticeDAO.insertNotice(notice);
-		
+		System.out.println("번호!!!!!!!!!!!!!!!!!!!!ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ" + noticeNo);
 		//첨부파일 등록
 		List<NoticeFileVO> files = notice.getFiles();
 		if(files.size() != 0) {
@@ -39,6 +39,7 @@ public class NoticeServiceImpl implements NoticeService {
 			}			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("noticeFiles", files);
+			System.out.println("아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ" + files.toString());
 			noticeFileDAO.insertNoticeFile(map);
 		}
 	}

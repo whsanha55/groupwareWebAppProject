@@ -43,7 +43,8 @@
 					text += "<tr>";
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
-					text += "<td>" + data.posts[i].postTitle + "</td>";
+					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo=" 
+						+data.posts[i].postNo +" '>"+ data.posts[i].postTitle + "</a></td>";
 					text += "<td>" + data.posts[i].cNo + "</td>";
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";	
@@ -157,7 +158,6 @@
 					<tbody>
 					</tbody>
 				</table>
-				<button class="btn btn-primary pull-right">삭제</button>
 				<div>
 					<div class="text-center">
 						<nav aria-label="Page navigation" id='templatePaging'> </nav>

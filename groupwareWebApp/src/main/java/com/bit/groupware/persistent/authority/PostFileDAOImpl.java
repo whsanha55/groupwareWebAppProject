@@ -18,9 +18,12 @@ public class PostFileDAOImpl implements PostFileDAO {
 		
 	}
 
-	public void removePostFile(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		
+	public void deletePostFile(int postNo) {
+		sqlSession.delete(NAMESPACE+".deletePostFile", postNo);
+	}
+	
+	public void deletePostFile2(int no) {
+		sqlSession.delete(NAMESPACE+".deletePostFile2", no);
 	}
 
 }

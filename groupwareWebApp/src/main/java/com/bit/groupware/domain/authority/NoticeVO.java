@@ -83,11 +83,23 @@ public class NoticeVO {
 	}
 	
 
+	public List<MultipartFile> getUpload() {
+		return upload;
+	}
+
+
+	public void setUpload(List<MultipartFile> upload) {
+		this.upload = upload;
+	}
+
+
 	@Override
 	public String toString() {
 		return "NoticeVO [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", hitCount=" + hitCount
 				+ ", noticeDate=" + noticeDate + ", noticeContents=" + noticeContents + ", files=" + files + "]";
 	}
+
+
 	
 
 }

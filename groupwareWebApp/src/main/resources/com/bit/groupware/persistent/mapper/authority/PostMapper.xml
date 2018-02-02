@@ -17,8 +17,8 @@
 	
 	<select id="selectPostList" resultType="PostVO" statementType="PREPARED" parameterType="map">
 		select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, document_name as documentNo, c_name as cNo
-from( select rownum as rn, post1.*    									
-         from (select  p.post_no, p.post_title, p.writer, p.post_date, d.document_name, c.c_name
+		from( select rownum as rn, post1.*    									
+         	  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.document_name, c.c_name
                     from post p, code c, document d
                     where d.document_no = p.document_no and c.c_no = p.c_no
                     order by post_no desc )post1) post2			
@@ -29,53 +29,26 @@ from( select rownum as rn, post1.*
 		<id column="post_no"						 property="postNo" />
 		<result column="post_title" 				 property="postTitle" />
 		<result column="writer" 	 				 property="writer" />
-		<result column="post_date" 	 			 property="postDate" />
-		<result column="post_content" 			 property="postContent" />
-		<result column="document_no"   		 property="documentNo" />
-		<result column="c_no" 					 property="cNo" />
-		<result column="board_no" 				 property="boardNo" />
+		<result column="post_date" 	 			 	 property="postDate" />
+		<result column="post_content" 			 	 property="postContent" />
+		<result column="document_no"   		 	 	 property="documentNo" />
+		<result column="c_no" 					 	 property="cNo" />
 
 		<collection property="postFiles" javaType="list" ofType="PostFileVO">
-			<id column="no" 								property="no"/>
-			<result column="system_file_name" 		property="systemFileName" />
+			<id column="no" 							property="no"/>
+			<result column="system_file_name" 			property="systemFileName" />
 			<result column="original_file_name" 		property="originalFileName" />
 		</collection>
 	</resultMap> 
 	 
 	 
 	 
-	<select id="selectPost" resultMap="selectPostResultMap" statementType="PREPARED" parameterType="string">
-		select 
-			post_no, 
-			post_title,
-			writer,
-			to_char(post_date, 'YYYY/MM/DD'),
-			post_content, 
-			document_no,
-			c_no,
-			board_no			
-		from post
-		where post_no = #{value}
+	<select id="selectPost" resultMap="selectPostResultMap" statementType="PREPARED" parameterType="int">
+		 select p1.post_no, p1.post_title, p1.writer, p1.post_date, p1.post_content, c.c_name as c_no, d.document_name as document_no, 
+          		p2.no, p2.original_file_name, p2.system_file_name
+		 from post p1 , postfile p2, code c, document d
+		 where p1.post_no = p2.post_no(+) and p1.c_no = c.c_no and p1.document_no = d.document_no and p1.post_no = #{postNo} 
 		
-		
-		
-		
-		<!-- select 
-			p1.post_no, 
-			p1.post_title,
-			p1.writer,
-			to_char(p1.post_date, 'YYYY/MM/DD'),
-			p1.post_content, 
-			p1.document_no,
-			p1.c_no,
-			p1.board_no,
-			p2.no,
-		    p2.system_file_name,
-		    p2.original_file_name,
-		    p2.post_no as postNo
-		from post p1, postFile p2
-		where p1.post_no = p2.post_no(+)
-	     		 and p1.post_no = #{value} -->
 	</select> 
 	
 	<update id="updatePost" parameterType="PostVO" statementType="PREPARED">
@@ -109,9 +82,9 @@ from( select rownum as rn, post1.*
 		where post_no = #{value}
 	</update>
 	
-	<delete id="deletePost" parameterType="string" statementType="PREPARED">
+	<delete id="deletePost" parameterType="int" statementType="PREPARED">
 		delete from post
-		where post_no=#{value}
+		where post_no = #{postNo}
 	</delete>
 	
 	   	<select id="findPostList" parameterType="map" resultType="PostVO">

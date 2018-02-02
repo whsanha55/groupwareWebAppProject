@@ -107,10 +107,12 @@ public class PostVO {
 		return postFiles;
 	}
 
+
 	public void setPostFiles(List<PostFileVO> postFiles) {
 		this.postFiles = postFiles;
 	}
-	
+
+
 	public void addPostFile(PostFileVO file) {
 		postFiles.add(file);
 	}

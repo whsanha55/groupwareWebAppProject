@@ -11,13 +11,14 @@ import com.bit.groupware.service.authority.PostService;
 
 @Controller
 public class DetailPostController {
+	@Autowired
 	private PostService postService;
 
 	@RequestMapping(value="/detailPost.do", method=RequestMethod.GET)
 	public ModelAndView detailPost(@RequestParam(value="postNo") int postNo) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("post", postService.retrievePost(postNo));
-		mv.setViewName("retrievePostList");		
+		mv.setViewName("authority/detailPost");		
 		return mv;
 	}
 	

@@ -144,32 +144,32 @@
 		</association>
 		
 		<collection property="approvalRecords" javaType="list" ofType="ApprovalRecordVO">
-			<id column="record_no" property="recordNo" />
-			<result column="confirm_date" property="confirmDate"/>
-			<result column="appr_status" property="apprStatus"/>
-			
-			<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
-				<id property="commentNo" column="comment_no" />
-				<result property="commentContent" column="comment_content" />	
-				<result property="commentDate" column="comment_date" />	
-			</association>
-
-			<association property="depEmployee" column="linemp_no" javaType="EmployeeVO">
-				<id property="empNo" column="linemp_no" />
-				<result property="empName" column="linemp_name" />	
-				<result property="duty" column="linemp_duty" />
+				<id column="record_no" property="recordNo" />
+				<result column="confirm_date" property="confirmDate"/>
+				<result column="appr_status" property="apprStatus"/>
 				
-				<!-- <association property="template" column="tmp_no" javaType="PhotoVO">
-					<id property="tmpNo" column="tmp_no" />
-					<result property="tmpName" column="tmp_name" />	
-				</association> -->
-			</association>	
-		
-			<association property="receiverLine" column="line_no" javaType="ReceiverLineVO">
-				<id property="lineNo" column="line_no" />
-				<result property="lineOrder" column="line_order" />	
-				<result property="apprType" column="appr_type" />	
-			</association>
+				<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
+					<id property="commentNo" column="comment_no" />
+					<result property="commentContent" column="comment_content" />	
+					<result property="commentDate" column="comment_date" />	
+				</association>
+			
+				<association property="receiverLine" column="line_no" javaType="ReceiverLineVO">
+					<id property="lineNo" column="line_no" />
+					<result property="lineOrder" column="line_order" />	
+					<result property="apprType" column="appr_type" />
+					
+					<association property="lineEmployee" column="linemp_no" javaType="EmployeeVO">
+						<id property="empNo" column="linemp_no" />
+						<result property="empName" column="linemp_name" />	
+						<result property="duty" column="linemp_duty" />
+						
+								<!-- <association property="사인" column="tmp_no" javaType="PhotoVO">
+									<id property="tmpNo" column="tmp_no" />
+									<result property="tmpName" column="tmp_name" />	
+								</association> -->
+					</association>		
+				</association>
 								
 		</collection>
 		

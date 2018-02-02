@@ -12,5 +12,15 @@
 		</foreach>	 	
 	</insert>
 	
+	<delete id="deletePostFile" parameterType="int" statementType="PREPARED">
+		delete from postFile
+		where post_no = #{postNo}
+	</delete>
+	
+	<delete id="deletePostFile2" parameterType="int" statementType="PREPARED">
+		delete from postFile
+		where post_no = #{no}
+	</delete>
+	
 	
 </mapper>

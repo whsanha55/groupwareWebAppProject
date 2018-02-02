@@ -33,7 +33,6 @@ public class RetrievePostListController {
 		map.put("endRow", endRow);
 		
 		List<PostVO> posts = postService.retrievePostList(map);
-		System.out.print("²¥¾Æ¾Æ¾Æ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+posts.toString());
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("posts", posts);

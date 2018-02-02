@@ -29,7 +29,8 @@ public class NoticeDAOImpl implements NoticeDAO {
 	}
 
 	public int insertNotice(NoticeVO notice) {
-		return sqlSession.insert(NAMESPACE + ".insertNotice", notice);
+		sqlSession.insert(NAMESPACE + ".insertNotice", notice);
+		return notice.getNoticeNo();
 	}
 
 	public void updateNotice(NoticeVO notice) {

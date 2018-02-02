@@ -26,5 +26,7 @@ public interface PostService {
 	void removePost(int postNo);
 	
 	int retrievePostCount();
+	
+	void removePostFile(int no);
 
 }

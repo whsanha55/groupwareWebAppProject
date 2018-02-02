@@ -30,7 +30,6 @@ public class PostServiceImpl implements PostService {
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("postFiles", files);
-			System.out.println("ÆÄÀÏ~~~~~~~~~~~~~~~"+files.toString());
 			postFileDAO.insertPostFile(map);
 		}
 	}
@@ -41,7 +40,7 @@ public class PostServiceImpl implements PostService {
 
 	public void modifyPost(PostVO post) {
 		postDAO.updatePost(post);
-		/*List<PostFileVO> files = post.getPostFiles();
+		List<PostFileVO> files = post.getPostFiles();
 		
 		if (files.size() != 0) {
 			for (PostFileVO file : files) {
@@ -49,8 +48,8 @@ public class PostServiceImpl implements PostService {
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("postFiles", files);
-			PostFileDAO.insertPostFile(map);
-		}*/
+			postFileDAO.insertPostFile(map);
+		}
 	}
 
 	public List<PostVO> findPost(Map<String, Object> map) {
@@ -58,15 +57,21 @@ public class PostServiceImpl implements PostService {
 	}
 
 	public PostVO retrievePost(int postNo) {
-		return postDAO.selectPost(postNo);
+		PostVO post = postDAO.selectPost(postNo);
+		return post;
 	}
 
 	public void removePost(int postNo) {
+		postFileDAO.deletePostFile(postNo);
 		postDAO.deletePost(postNo);
 	}
 	
 	public int retrievePostCount() {
 		return postDAO.selectPostCount();
+	}
+	
+	public void removePostFile(int no) {
+		postFileDAO.deletePostFile2(no);
 	}
 
 }
