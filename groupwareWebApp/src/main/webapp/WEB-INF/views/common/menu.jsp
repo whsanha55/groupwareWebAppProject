@@ -8,6 +8,55 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>content</title>
+
+<style>
+	#req, #ref {
+		font-size: 10px;
+		font-weight: bolder;
+		color: red;
+	}
+</style>
+
+<script>
+	$(document).ready(function(){
+	
+		newMark("req");
+		newMark("ref");
+		
+	});//end of document.ready
+
+	function newMark(keyfield) {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/newMark.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: {keyfield: keyfield}
+			,
+			success: function(data){
+				
+				var name = "#" + keyfield;
+				
+				$(name).empty();
+				
+				if(data != 0) {
+					var text = "";
+					text += data;
+					$(name).text(text);
+				} 											
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error: ' + jqXHR.status);
+			}			
+		});		
+	}//end of newMark
+	
+	
+</script>
+
+
 </head>
 <body>
 
@@ -50,13 +99,13 @@
 							</ul>
 						<li><a>결재 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함</a></li>
+								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함&nbsp;&nbsp;<span id="req">3</span></a></li>
 								<li><a href='<c:url value="/approvalProceed.do"/>'>결재
 										진행함</a></li>
 							</ul>
 						<li><a>참조 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href='<c:url value="/approvalRef.do"/>'>참조 문서함</a></li>
+								<li><a href='<c:url value="/approvalRef.do"/>'>참조 문서함&nbsp;&nbsp;<span id="ref">3</span></a></li>
 							</ul>
 						<li><a>완료 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
