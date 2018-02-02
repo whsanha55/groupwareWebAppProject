@@ -40,8 +40,8 @@
 							</div>
 						</div>
 					</div>
-					<button class="btn btn-primary pull-right">삭제</button>
-					<a class="btn btn-primary pull-right"
+					<button class="btn btn-primary">삭제</button>
+					<a class="btn btn-default"
 						href='<c:url value="/admin/authority.do"/>'>추가</a>
 				</div>
 
