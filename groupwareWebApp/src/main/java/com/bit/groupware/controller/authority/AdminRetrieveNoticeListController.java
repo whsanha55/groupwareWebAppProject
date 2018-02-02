@@ -20,9 +20,9 @@ public class AdminRetrieveNoticeListController {
 	private NoticeService noticeService;
 
 	//공지사항 목록 조회 요청
-	@RequestMapping(value = "/PagingAjax.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/AdminPagingAjax.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getTemplateList(
+	public Map<String,Object> getNoticeList(
 			@RequestParam String keyfield ,
 			@RequestParam(required=false) String keyword ,
 			@RequestParam int startRow ,

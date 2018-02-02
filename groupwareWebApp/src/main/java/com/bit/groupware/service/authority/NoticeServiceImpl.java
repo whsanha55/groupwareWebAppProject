@@ -55,10 +55,15 @@ public class NoticeServiceImpl implements NoticeService {
 			}			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("noticeFiles", files);
-			noticeFileDAO.insertNoticeFile(map);		}
+			noticeFileDAO.insertNoticeFile(map);		
+			}
 	}
 
 	public void removeNotice(Map<String, Object> map) {
+		System.out.println("아!!!!!!!!!!!!!!!!!!!!!"+map);
+		//공지사항 파일 삭제
+		noticeFileDAO.deleteNoticeFileList(map);		
+		
 		//공지사항 삭제
 		noticeDAO.deleteNotice(map);
 	} 
@@ -69,6 +74,10 @@ public class NoticeServiceImpl implements NoticeService {
 
 	public void removeNoticeFile(int noticeNo) {
 		noticeFileDAO.deleteNoticeFile(noticeNo);
+	}
+
+	public void upHitCount(int noticeNo) {
+		noticeDAO.upHitCount(noticeNo);
 	}
 
 }

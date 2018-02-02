@@ -49,7 +49,7 @@
 		$('#deleteBtn').on('click', function() {			
 			var arr =[];
 			if($("input[name=selected]").is(':checked') == false) {
-				alert("삭제할 항목을 체크해주세요.");
+				swal("삭제할 항목을 체크해주세요.", "선택된 항목이 없습니다.");
 			} else {
 				$(':checkbox[name=selected]').each(function() {
 					if($(this).is(':checked')) {
@@ -57,26 +57,35 @@
 						console.log(arr.join());
 					}
 				});
-				if(confirm("삭제하시겠습니까?")) {
-					$.ajax({
-						url: '${pageContext.request.contextPath}/admin/deleteNotice.do'
-						,
-						method: 'GET'
-						,
-						data: { noticeNo : arr.join()}
-						, 
-						success: function(data) {
+				swal({
+					  title: "공지사항 삭제",
+					  text: "공지사항을 삭제합니다. 계속 진행하시겠습니까?",
+					  icon: "info",
+					  buttons : true 
+				}).then((e) => {
+				     if(e) {
+						$.ajax({
+							url: '${pageContext.request.contextPath}/admin/deleteNotice.do'
+							,
+							method: 'GET'
+							,
+							data: { noticeNo : arr.join()}
+							, 
+							success: function(data) {
+								
+								swal("삭제 완료", "선택하신 항목이 삭제되었습니다.", "success");
+								 Paging(1); 
+							}
+							, 
+							error: function(jqXHR) {
+								alert('Error : ' + jqXHR.status);
+							}	 			
 							
-							 alert("완료!");
-							 Paging(1); 
-						}
-						, 
-						error: function(jqXHR) {
-							alert('Error : ' + jqXHR.status);
-						}	 			
-						
-					});	
-				}
+						});	
+										
+					 }
+				});		
+				
 			}
 		});	
 		
@@ -84,14 +93,15 @@
 	
 	function Paging(currentPageNo) {
 		var totalCount =  0;		//총 양식서 수
-		var countPerPage = 3;   //한 페이지당 보여주는 회원 수
-		var pageSize = 2;		//페이지 리스트에 게시되는 페이지 수
+		var countPerPage = 10;   //한 페이지당 보여주는 양식서 수
+		var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 		var startRow = (currentPageNo - 1) * countPerPage + 1;
 		var endRow = currentPageNo * countPerPage;
+		var num = 0;	//현재 페이지번호에 속한 게시글의 시작번호
 		
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/PagingAjax.do' 
+			url: '${pageContext.request.contextPath}/admin/AdminPagingAjax.do' 
 			,
 			data: {
 				keyfield: pKeyfield ,
@@ -105,6 +115,7 @@
 			success: function (data, textStatus, jqXHR) {
 				
 				totalCount = data.totalCount;
+				num = totalCount - (currentPageNo - 1) * countPerPage;
 				
 				//datatable테이블 변경하기
 				var text = "";
@@ -138,38 +149,35 @@
 
 	} //end Paging function
 	
+	
 	//페이징 처리
 	function jqueryPager(subOption) {
-		
-		var pageBlock = subOption.countPerPage;      
+	
+		var pageBlock = subOption.countPerPage;   
 		var pageSize = subOption.pageSize;        
-		var currentPage = subOption.currentPageNo;   
+		var currentPage = subOption.currentPageNo;  
 		var pageTotal = subOption.totalCount;       
+ 		var pageTotalCnt = Math.ceil(pageTotal/pageBlock); 	
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
 		
-		var pageTotalCnt = Math.ceil(pageTotal/pageSize);
-		var pageBlockCnt = Math.ceil(currentPage/pageBlock);
-		var sPage, ePage;
 		
 		var html ="<ul class='pagination'>";
+	
 		
-		if(pageBlock > 1) {
-			sPage = (pageBlockCnt-1) * pageBlock + 1;
-		} else {
-			sPage = 1;
-		}
-		
-		if((pageBlockCnt * pageBlock) >= pageTotalCnt) {
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
 			ePage = pageTotalCnt;
 		} else {
-			ePage = pageBlockCnt * pageBlock;
-		}
+			ePage = pageBlockCnt * pageSize;
+		} 
 		
 		if(sPage <= 1) {
 			html += '<li class="page-item disabled">';
 			html += '<a class="page-link" aria-label="Previous">' 
 		} else {
 			html += '<li class="page-item ">';
-			html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageBlock) + ')">'; 
+			html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageSize) + ')">'; 
 		}
 		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
 		
@@ -180,7 +188,7 @@
 				html += '<li class="page-item"><a class="page-link" onclick="Paging(' + i + ');">' + i + '</a></li>';
 			}
 		}				
-
+	
 		if (ePage >= pageTotalCnt) {
 			html += '<li class="page-item disabled">';
 			html += '<a class="page-link" aria-label="Next">';
@@ -193,7 +201,7 @@
 		
 		$('#Paging').html(html);
 	
-	}//end of jqueryPager
+	}
 	
 </script>
 </head>

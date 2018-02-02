@@ -12,7 +12,7 @@
 			<div class="x_title">
 				<h2>공지사항</h2>
 				<div class="text-right">
-                  <a class="btn btn-primary" href='<c:url value="/admin/noticeList.do" />'>목록</a>
+                  <a class="btn btn-primary" href='<c:url value="/noticeList.do" />'>목록</a>
                </div>
 				<div class="clearfix"></div>
 				
@@ -21,19 +21,24 @@
 				<table class="table table-striped jambo_table bulk_action">
 					<tr>
 						<td>제목</td>
-						<td>1월 공지사항입니다.</td>
+						<td>${requestScope.notice.noticeTitle}</td>
 
 					</tr>
 					<tr>
 						<td>첨부파일</td>
-						<td colspan="2"></td>
+						<td colspan="2">
+						<c:forEach var="file" items="${requestScope.notice.files }" varStatus="loop">
+							<c:url var="downloadUrl" value="/downloadFile.do">
+								<c:param name="originalFileName" value="${pageScope.file.originalFileName }"/>
+								<c:param name="systemFileName" value="${pageScope.file.systemFileName }"/>
+							</c:url>
+							<a href = "${pageScope.downloadUrl }">${pageScope.file.originalFileName}</a><br>
+						</c:forEach>
+						</td>
 					</tr>
 					<tr height="100">
 						<td>내용</td>
-						<td colspan="2">아래와 같이 공고 하오니 협조 부탁드립니다.<br>
-						<br> 1. 신청기간: 2018-01-01 ~ 2018-01-18<br> 2. 대상: 일반 사원<br>
-						<br> 문의는 인사과(010-1111-2222)로 연락 바랍니다.
-						</td>
+						<td colspan="2">${requestScope.notice.noticeContents}<br></td>
 					</tr>
 				</table>
 			</div>
