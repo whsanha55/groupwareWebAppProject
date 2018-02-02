@@ -71,8 +71,8 @@
 								<td class=" ">전체관리자</td>
 								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
 								<td class=" ">유</td>
-								<td class=" "><button>역할</button>
-									<button>수정</button></td>
+								<td class="align-center"><a class="btn btn-default" href='<c:url value="/admin/designRole.do"/>'>역할</a>
+									<button  class="btn btn-default">수정</button></td>
 
 								</td>
 							</tr>
