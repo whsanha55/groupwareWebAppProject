@@ -16,5 +16,18 @@
 		delete from noticeFile
 		where no = #{no}
 	</delete>
-
+	
+		
+   <delete id="deleteNoticeFileList" parameterType="int" statementType="PREPARED">
+		DELETE FROM noticeFile nf
+ 		WHERE nf.notice_no in  (
+								        SELECT n.notice_no
+								          FROM notice n
+								         WHERE n.notice_no in
+								         <foreach item="noticeNO" collection="list" separator="," open="(" close=")">
+											#{noticeNO}
+										  </foreach>
+								        )
+	</delete>
+	
 </mapper>
