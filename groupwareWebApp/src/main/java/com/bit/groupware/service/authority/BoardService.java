@@ -23,5 +23,8 @@ public interface BoardService {
 	
 	//게시글 여러개인 게시판 조회하다.
 	int retrieveBoardByBoardNo(int boardNo);
+	
+	//게시판 이름을 조회하다.
+	List<BoardVO> retrieveBoardNameList();
 
 }

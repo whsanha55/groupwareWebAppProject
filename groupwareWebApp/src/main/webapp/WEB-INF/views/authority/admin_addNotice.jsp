@@ -31,7 +31,6 @@
 
    });
 </script>
-<title>Insert title here</title>
 </head>
 <body>
    <!--글쓰기-->
@@ -64,7 +63,9 @@
                <div class="x_content">
 
                   <div id="alerts"></div>
-  <script>
+                   <textarea name="noticeContents" rows="20" style="width: 100%" ></textarea>
+
+				  <script>
                      $('#summernote').summernote({
                         height : 300, // set editor height
                         minHeight : null, // set minimum height of editor
@@ -75,8 +76,7 @@
                   </script>        
 
 
-                  <textarea name="noticeContents" rows="20" style="width: 100%"></textarea>
-                  <br> <br>
+               
 
                   <div class="ln_solid"></div>
                   <div class="col-md-12">

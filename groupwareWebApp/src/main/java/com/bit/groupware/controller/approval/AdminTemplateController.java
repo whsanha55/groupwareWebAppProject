@@ -58,7 +58,7 @@ public class AdminTemplateController {
 	
 	
 	//≈€«√∏¥ ajax
-	@RequestMapping(value = "/templatePaging.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/templatePaging.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> getTemplateList(
 			@RequestParam(required=false) String keyfield,

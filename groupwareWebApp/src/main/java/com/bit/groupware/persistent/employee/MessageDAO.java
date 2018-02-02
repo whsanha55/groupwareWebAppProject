@@ -16,4 +16,6 @@ public interface MessageDAO {
 	void updateMessageStatus(int msgNo); 
 	
 	List<MessageVO> selectMessageList(Map<String,Object> map);
+	
+	int selectNewMessageCount(String empNo);
 }

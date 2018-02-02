@@ -10,7 +10,8 @@ public class AuthorityVO {
 	private String aName;			//권한명
 	private String aNote; 			//비고
 	private String aWhether; 		//유무
-	private List<EmployeeVO> emps = new ArrayList<EmployeeVO>(); //사원 목록
+	private List<AuthEmpVO> authemps = new ArrayList<AuthEmpVO>();
+	private List<AuthRoleVO> authRoles = new ArrayList<AuthRoleVO>();
 	
 	public AuthorityVO() {
 		super();
@@ -39,17 +40,28 @@ public class AuthorityVO {
 	public void setaWhether(String aWhether) {
 		this.aWhether = aWhether;
 	}
-	public List<EmployeeVO> getEmps() {
-		return emps;
-	}
-	public void setEmps(List<EmployeeVO> emps) {
-		this.emps = emps;
-	}
 
+	public List<AuthEmpVO> getAuthemps() {
+		return authemps;
+	}
+	public void setAuthemps(List<AuthEmpVO> authemps) {
+		this.authemps = authemps;
+	}
 	
+	
+	public List<AuthRoleVO> getAuthRoles() {
+		return authRoles;
+	}
+	public void setAuthRoles(List<AuthRoleVO> authRoles) {
+		this.authRoles = authRoles;
+	}
 	@Override
 	public String toString() {
 		return "AuthorityVO [aNo=" + aNo + ", aName=" + aName + ", aNote=" + aNote + ", aWhether=" + aWhether
-				+ ", emps=" + emps + "]";
+				+ ", authemps=" + authemps + ", authRoles=" + authRoles + "]";
 	}
+	
+	
+	
+	
 }

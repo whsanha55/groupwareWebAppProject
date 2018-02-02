@@ -40,4 +40,9 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectApprovalRecallable", apprNo);
 	}
 
+	public int selectNewRecordCount(Map<String, String> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectNewRecordCount", map);
+	}
+
+	
 }

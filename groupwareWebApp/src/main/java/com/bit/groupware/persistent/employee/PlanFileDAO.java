@@ -10,4 +10,7 @@ public interface PlanFileDAO {
 	//일정 파일 삭제
 	void deletePlanFile(String pNo);
 	
+	//일정 파일만 삭제
+	void deletePlanFile2(String fileNo);
+	
 }

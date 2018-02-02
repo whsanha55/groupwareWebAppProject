@@ -21,10 +21,20 @@ public class DetailPlanController {
 	//일정 상세 조회
 	@RequestMapping(value="/detailPlan.do", method=RequestMethod.GET)
 	public ModelAndView detailPlan(@RequestParam(value="pNo") String pNo) {
-		logger.info("pNo : ", pNo);
+		logger.info("pNo : {} ", pNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("plan", planService.retrievePlan(pNo));
 		mv.setViewName("employee/detailPlan");
+		return mv;
+	}
+	
+	//일정 상세 조회
+	@RequestMapping(value="/admin/detailPlan.do", method=RequestMethod.GET)
+	public ModelAndView detailPlan2(@RequestParam(value="pNo") String pNo) {
+		logger.info("pNo : {} ", pNo);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("plan", planService.retrievePlan(pNo));
+		mv.setViewName("employee/admin_detailPlan");
 		return mv;
 	}
 }
