@@ -40,5 +40,10 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectBoard", boardNO);
 	}
 
+	public int selectBoardByBoardNo(int boardNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectBoardByBoardNo" , boardNo);
+	}
+
+	
 	
 }

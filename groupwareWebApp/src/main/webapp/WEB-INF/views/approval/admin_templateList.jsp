@@ -17,6 +17,7 @@
 	$(document).ready(function(){
 		
 		templatePaging(1);//최초 로드시 페이지처리
+
 		
 		//양식 등록창으로 이동
 		$('#add').on('click', function(){
@@ -54,12 +55,20 @@
 			
 
 		//양식 상세보기		
-		$('.detailTemplate').on('click', function(){
+		$(document).on('click', '.detailTemplate', function(){
 			var tmpNo = $(this).attr('id');
 			var url = '${pageContext.request.contextPath}/admin/templateDetail.do?tmpNo='+tmpNo;
 			window.open(url, "양식 상세보기","width=750, height=800");
 		});
 
+		
+		$('#search').on('click', function(){
+			pKeyfield = $('#keyfield').val();
+			pKeyword = $('#keyword').val();
+			templatePaging(1);			
+		});
+		
+		
 		
 	});//end of document.ready
 	
@@ -81,10 +90,19 @@
 			,
 			cache: false
 			,
-			success: function(data, textStatus, jqXHR) {
-				if(data == "삭제 완료") {
-					swal("삭제 완료", "선택하신 양식이 삭제되었습니다.", "success");
-					location.href="${pageContext.request.contextPath}/admin/template.do";
+			success: function(data, textStatus, jqXHR) {				
+				if(data == "삭제 완료"){
+					swal({
+						  title: "삭제 완료",
+						  text: "양식이 삭제되었습니다.",
+						  icon: "success",
+						  confirmButton: true,
+						  showCancelButton: false
+						}).then((e) => {
+							if(e) {
+								location.href="${pageContext.request.contextPath}/admin/template.do";										
+							}	
+					});	
 				}
 			}
 			,
@@ -105,9 +123,12 @@
 		var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 		var startRow = (currentPageNo - 1) * countPerPage + 1;
 		var endRow = currentPageNo * countPerPage;
+		var num = 0;	//현재 페이지번호에 속한 게시글의 시작번호
+		
+		
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/templatePagingAjax.do' 
+			url: '${pageContext.request.contextPath}/templatePaging.do' 
 			,
 			data: {
 				keyfield: pKeyfield ,
@@ -121,16 +142,19 @@
 			success: function (data, textStatus, jqXHR) {
 				
 				totalCount = data.totalCount;
+				num = totalCount - (currentPageNo - 1) * countPerPage;
+									
 				
 				//datatable테이블 변경하기
 				var text = "";
 				for(var i=0;i<data.templates.length;i++) {
 
 					text += '<tr>';
-					text += '<td><input type="checkbox" id="tmpNo" name="tmpNo" value="data.templates[i].tmpNo"/></td>';
-					text += '<td>' + data.templates.length - i + '</td>';
-					text += '<td id="data.templates[i].tmpNo" class="detailTemplate">data.templates[i].tmpName</td>';
-					text += '<td>data.templates[i].templateCategory.categoryName</td>';
+					text += '<td><input type="checkbox" id="tmpNo" name="tmpNo" value="' + data.templates[i].tmpNo + '"/></td>';
+					text += '<td>' + (num - i) + '</td>';
+					text += '<td class="detailTemplate" id="' + data.templates[i].tmpNo + '">' + data.templates[i].tmpName + '</td>';
+					text += '<td>' + data.templates[i].templateCategory.categoryName + '</td>';
+					text += '</tr>';
 				}
 					$('#datatable').html(text);						
 			
@@ -158,14 +182,15 @@
 	//페이징 처리
 	function jqueryPager(subOption) {
 	
-		var pageBlock = subOption.countPerPage;      
+		var pageBlock = subOption.countPerPage;   
 		var pageSize = subOption.pageSize;        
-		var currentPage = subOption.currentPageNo;   
+		var currentPage = subOption.currentPageNo;  
 		var pageTotal = subOption.totalCount;       
-		var pageTotalCnt = Math.ceil(pageTotal/pageBlock);
+ 		var pageTotalCnt = Math.ceil(pageTotal/pageBlock); 	
 		var pageBlockCnt = Math.ceil(currentPage/pageSize);
 		var sPage = (pageBlockCnt-1) * pageSize + 1;
 		var ePage;
+		
 		
 		var html ="<ul class='pagination'>";
 	
@@ -276,7 +301,7 @@
 								<div class="col-md-6"></div>
 							</div>
 							
-							<table id="datatable" class="table table-striped table-bordered" style="text-align:center;">
+							<table class="table table-striped table-bordered" style="text-align:center;">
 								<thead>
 									<tr>
 										<th></th>

@@ -39,4 +39,15 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		return sqlSession.selectOne(NAMESPACE+".selectApprovalCount",map); 
 	}
 
+	public void deleteApproval(List<Integer> apprNos) {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE+".deleteApproval",apprNos);
+	}
+
+	public ApprovalVO selectTempApproval(int apprNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".selectTempApproval", apprNo); 
+	}
+	
+
 }

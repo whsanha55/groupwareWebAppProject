@@ -36,7 +36,7 @@ public class AdminRegisterEmployeeAjaxController {
 	@Autowired
 	private CodeService codeService;
 	
-	/*public List<Object> deptList() {
+	public List<Object> deptList() {
 		List<CodeVO> codes = codeService.retrieveDeptAll();
 		List<Object> oList= new ArrayList<Object>();
 		System.out.println("codes : " + codes);
@@ -65,7 +65,7 @@ public class AdminRegisterEmployeeAjaxController {
 		}
 		return oList;
 	}
-	*//*
+	
 	@RequestMapping(value="/admin/checkRelation.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int checkRelation(@RequestParam String deptCode) {
@@ -79,7 +79,7 @@ public class AdminRegisterEmployeeAjaxController {
 			return 1;
 		}
 		return 0;
-	}*/
+	}
 }
 
 

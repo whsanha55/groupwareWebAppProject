@@ -29,4 +29,14 @@ public class AdminModifyBoardController {
 		return board;
 	}
 	
+	@RequestMapping(value="/modifyAjax.do", method=RequestMethod.POST)
+	@ResponseBody
+	public BoardVO modify(BoardVO board) {
+		 /*= boardService.retrieveBoard(board.getBoardNo());*/
+		logger.info("==========modfiyBoard==========", board);
+		int boardNo = boardService.modifyBoard(board);
+		BoardVO boards = new BoardVO(boardNo, board.getBoardName());
+		return boards;
+	}
+	
 }

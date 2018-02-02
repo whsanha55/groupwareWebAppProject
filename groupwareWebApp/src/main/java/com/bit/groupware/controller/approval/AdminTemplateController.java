@@ -33,7 +33,7 @@ public class AdminTemplateController {
 
 	
 	
-	//양식관리 폼 요청: 전체 리스트
+	//양식관리 폼 요청
 	@RequestMapping(value="/admin/template.do", method=RequestMethod.GET)
 	public String templateList() {
 		return "approval/admin_templateList";
@@ -54,6 +54,47 @@ public class AdminTemplateController {
 		mv.setViewName("approval/admin_templateList");
 		return mv;
 	}*/
+	
+	
+	
+	//템플릿 ajax
+	@RequestMapping(value = "/templatePaging.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> getTemplateList(
+			@RequestParam(required=false) String keyfield,
+			@RequestParam(required=false) String keyword ,
+			@RequestParam int startRow ,
+			@RequestParam int endRow
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+			
+		int totalCount = service.retrieveTemplateCount(map);
+		if(totalCount < endRow) {
+			endRow = totalCount;				
+		}
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		
+		List<TemplateVO> templates = service.retrieveTemplateList(map);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("totalCount", totalCount);
+		returnMap.put("templates", templates);
+		return returnMap;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

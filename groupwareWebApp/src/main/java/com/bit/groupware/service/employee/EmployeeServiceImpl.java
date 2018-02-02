@@ -98,5 +98,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public int retrieveEmployeeCount(Map<String, Object> map) {
 		return employeeDAO.selectEmployeeCount(map);
 	}
+	
+	public List<EmployeeVO> retrieveDeputyRegisterEmployeeList(Map<String, Object> map) {
+		return deputyDAO.selectDeputyRegisterEmployeeList(map);
+	}
+	
+	public int retrieveDeputyRegisterCount(Map<String, Object> map) {
+		return deputyDAO.selectDeputyRegisterCount(map);
+	}
 
 }
