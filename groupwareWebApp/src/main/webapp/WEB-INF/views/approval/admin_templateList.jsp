@@ -128,7 +128,7 @@
 		
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/templatePaging.do' 
+			url: '${pageContext.request.contextPath}/admin/templatePaging.do' 
 			,
 			data: {
 				keyfield: pKeyfield ,
@@ -273,26 +273,17 @@
 									<div>
 										<div class="col-xs-4 col-xs-offset-2">
 											<div class="input-group">
-												<div class="input-group-btn search-panel">
-													<button type="button"
-														class="btn btn-default dropdown-toggle"
-														data-toggle="dropdown">
-														<span id="search_concept">검색</span> <span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu" role="menu">
-														<li><a href="#">양식명</a></li>
-														<li><a href="#">카테고리</a></li>
-													
-													</ul>
-												</div>
-												<input type="hidden" name="search_param" value="all"
-													id="search_param"> <input type="text"
-													class="form-control" name="x"
-													placeholder="Search term..."> <span
-													class="input-group-btn">
-													<button class="btn btn-default" type="button">
+												<span>
+													<select id="keyfield" class="form-control">
+														<option value="tmpName">양식명</option>
+														<option value="categoryName">카테고리</option>
+													</select>
+												</span>
+												<input type="text" class="form-control" id="keyword"> 
+													<span class="input-group-btn">
+													<button class="btn btn-default" type="button" id="search">
 														<span class="glyphicon glyphicon-search"></span>
-													</button>
+													</button>												
 												</span>
 											</div>
 										</div>

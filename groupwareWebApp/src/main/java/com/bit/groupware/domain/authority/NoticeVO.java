@@ -14,6 +14,7 @@ public class NoticeVO {
 	private List<MultipartFile> upload;
 	private List<NoticeFileVO> files = new ArrayList<NoticeFileVO>(); //공지사항 파일 목록
 	
+	
 	public NoticeVO() {
 		super();
 	}
@@ -80,7 +81,7 @@ public class NoticeVO {
 	public void addNoticeFile(NoticeFileVO file) {
 		files.add(file);
 	}
-
+	
 
 	public List<MultipartFile> getUpload() {
 		return upload;

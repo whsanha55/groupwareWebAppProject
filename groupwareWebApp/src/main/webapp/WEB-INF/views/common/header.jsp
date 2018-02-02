@@ -7,6 +7,58 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>header</title>
+
+<script>
+
+	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
+		//var msg = setInterval(newMsg, 2000);
+		//var note = setInterval(newNote, 2000);		
+	});
+
+	
+	function newMsg() {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/newMsg.do'
+			,
+			method: 'GET'
+			,
+			dataType: 'json'
+			,
+			success: function(data){
+				$('#msgNum').empty();
+				if(data != 0) {
+					$('#msgNum').text(data);
+				} 
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error: ' + jqXHR.status);
+			}
+		});	
+	}//end of newMsg	
+	
+	
+	function newNote() {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/newNote.do'
+			,
+			method: 'GET'
+			,
+			dataType: 'json'
+			,
+			success: function(data){
+				$('#noteNum').empty();
+				if(data != 0) {
+					$('#noteNum').text(data);
+				} 
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error: ' + jqXHR.status);
+			}
+		});		
+	}//end of newNote
+
+</script>
+
 </head>
 <body>
  <div class="nav_menu">
@@ -27,7 +79,7 @@
                 <li role="presentation" class="dropdown  pull-left">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-bell-o"></i>
-                    <span class="badge bg-green">6</span>
+                    <span class="badge bg-green" id="noteNum"></span>
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
@@ -93,7 +145,7 @@
                   <li role="presentation" class="dropdown  pull-left">
                  <a href='<c:url value= "/retrieveMessageList.do"/>' class="dropdown-toggle info-number">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">20+</span>
+                    <span class="badge bg-green" id="msgNum"></span>
                   </a>
                   </li>
                          
