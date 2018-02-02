@@ -18,6 +18,7 @@
       <select id="selectReceiverList" statementType="STATEMENT" resultType="ReceiverVO">
           select receiver_no as receiverNo, receiver_name as receiverName
           from receiver
+          where isdelete = 0
           order by receiver_name asc
       </select>
 
@@ -27,11 +28,11 @@
           where receiver_no = #{recieverNo}
       </update>
 
-      <delete id="deleteReceiver" parameterType="int" statementType="PREPARED">
-          delete from receiver
+      <update id="deleteReceiver"  parameterType="int" statementType="PREPARED">
+          update receiver
+          set isdelete = 1
           where receiver_no = #{recieverNo}
-      </delete>
-    
+      </update>
 </mapper>
 
 

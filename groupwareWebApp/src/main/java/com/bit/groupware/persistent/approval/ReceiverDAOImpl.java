@@ -30,7 +30,7 @@ public class ReceiverDAOImpl implements ReceiverDAO {
 	}
 
 	public void deleteReceiver(int receiverNo) {
-		sqlSession.delete(NAMESPACE + ".deleteReceiver", receiverNo);
+		sqlSession.update(NAMESPACE + ".deleteReceiver", receiverNo);
 		
 	}
 	
