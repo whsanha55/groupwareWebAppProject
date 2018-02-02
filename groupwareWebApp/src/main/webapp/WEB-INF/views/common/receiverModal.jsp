@@ -13,7 +13,7 @@
 <script
 	src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/resources/fancytree/jquery.fancytree.js"></script>
+	src="${pageContext.request.contextPath}/resources/fancytree/jquery.fancytree-all.min.js"></script> 
 <script
 	src="${pageContext.request.contextPath}/resources/tablednd/jquery.tablednd.js"></script>
 <style>
@@ -51,32 +51,31 @@ table[id^=tableDnD] td:first-child {
 	$(document).ready(function() {
 		
 		
-		$( "#draggable" ).draggable();
-	    $( "#droppable" ).droppable({
-	      drop: function( event, ui ) {
-	        $( this )
-	          .addClass( "ui-state-highlight" )
-	          .find( "p" )
-	            .html( "Dropped!" );
-	      }
-	    });
-		
-		
-		
-		
-		
-		
 		myReceiverList();
 		
 		var selectedEmpNo = ""; 
 		
 		// 조직도 검색 
 		$("#tree").fancytree({
+			extensions: ["filter"],
+		    icon : false ,
 			source : {
 				url : '${pageContext.request.contextPath}/receiverDeptListAjax.do' ,
 				cache : false ,
 				type : 'GET'
 			},
+			filter: {
+		        autoApply: true,   // Re-apply last filter if lazy data is loaded
+		        autoExpand: true, // Expand all branches that contain matches while filtered
+		        counter: true,     // Show a badge with number of matching child nodes near parent icons
+		        fuzzy: false,      // Match single characters in order, e.g. 'fb' will match 'FooBar'
+		        hideExpandedCounter: true,  // Hide counter badge if parent is expanded
+		        hideExpanders: false,       // Hide expanders if all child nodes are hidden by filter
+		        highlight: true,   // Highlight matches by wrapping inside <mark> tags
+		        leavesOnly: false, // Match end nodes only
+		        nodata: true,      // Display a 'no data' status node if result is empty
+		        mode: "dimm"       // Grayout unmatched nodes (pass "hide" to remove unmatched node instead) dimm
+		    } ,
 			lazyload : function(event,data) {
 				var node = data.node;
 				data.result = {
@@ -89,12 +88,84 @@ table[id^=tableDnD] td:first-child {
 				}
 			} ,
 			click : function(event, data) {
-				if(data.node.key.length ==10)
-				selectedEmpNo = data.node.key;
-			}
+				if(data.node.key.length ==10) {
+					selectedEmpNo = data.node.key;
+					alert(selectedEmpNo);
+				}
+			} ,
+			
 			 
-		}); //조직도 검색 End
+		}); 
 		
+		 var tree = $("#tree").fancytree("getTree");
+		
+		
+		 $("input[name=search]").keyup(function(e){
+		       var tree = $.ui.fancytree.getTree();
+		       tree.reload( {
+		    	   url : '${pageContext.request.contextPath}/retrieveEmployeeCodeList.do' ,
+					cache : false ,
+					type : 'GET'
+		       }).done(function(e) {
+		    	   alert(e + 'done');
+		       })
+			 
+		      /* var n,
+		        tree = $.ui.fancytree.getTree(),
+		        args = "autoApply autoExpand fuzzy hideExpanders highlight leavesOnly nodata".split(" "),
+		        opts = {},
+		        filterFunc = $("#branchMode").is(":checked") ? tree.filterBranches : tree.filterNodes,
+		        match = $(this).val();
+
+		      $.each(args, function(i, o) {
+		        opts[o] = $("#" + o).is(":checked");
+		      });
+		      opts.mode = $("#hideMode").is(":checked") ? "hide" : "dimm";
+
+		      if(e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === ""){
+		        $("button#btnResetSearch").click();
+		        return;
+		      }
+		      if($("#regex").is(":checked")) {
+		        // Pass function to perform match
+		        n = filterFunc.call(tree, function(node) {
+		          return new RegExp(match, "i").test(node.title);
+		        }, opts);
+		      } else {
+		        // Pass a string to perform case insensitive matching
+		        n = filterFunc.call(tree, match, opts);
+		      }
+		      $("button#btnResetSearch").attr("disabled", false);
+		      $("span#matches").text("(" + n + " matches)"); */
+		    }).focus();
+		
+		 $("button#btnResetSearch").click(function(e){
+		      $("input[name=search]").val("");
+		      $("span#matches").text("");
+		      tree.clearFilter();
+		    }).attr("disabled", true);
+		 
+	
+
+		
+		
+		
+		
+		
+		
+		$('button#btnOpenAll').on('click',function() {
+			$("#tree").fancytree("getTree").visit(function(node){
+		        node.setExpanded();
+		    });
+		});
+		
+		$('button#btnCloseAll').on('click',function() {
+			$("#tree").fancytree("getTree").visit(function(node){
+		        node.setExpanded(false);
+		    });
+		});
+		
+		 
 		
 		//결재선 선택 이벤트
 		$('#selectReceiver').on('click',function() {
@@ -245,19 +316,26 @@ table[id^=tableDnD] td:first-child {
 		<div class="row content">
 
 			<div class="col-sm-3 sidenav">
-				<div class="input-group">
+				<!-- <div class="input-group">
 					<input type="text" class="form-control" placeholder="Search Blog..">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="button">
 							<span class="glyphicon glyphicon-search"></span>
 						</button>
 						<button class="btn btn-default" type="button">전체</button>
-					</span>
-				</div>
+					</span> -->
+				<p>
+					<label>검색 :</label> <input name="search" placeholder="Filter..."
+						autocomplete="off">
+					<button id="btnResetSearch">&times;</button>
+					<button id="btnOpenAll">모두 펼치기</button>
+					<button id="btnCloseAll">모두 닫기</button>
+					<span id="matches"></span>
+				</p>
 
-				<div id="tree"></div>
-
+			<div id="tree"></div>
 			</div>
+
 
 			<div class="col-sm-2 " id='apprTypeDiv'>
 				<div class="btns">
