@@ -42,8 +42,13 @@
 					</tr>
 					<tr>
 						<td>첨부파일</td>
-						<td colspan="2"><c:forEach var="file" items="${requestScope.post.postFiles }" varStatus="loop">
-						${pageScope.file.originalFileName}<br>
+						<td colspan="2">
+						<c:forEach var="file" items="${requestScope.post.postFiles }" varStatus="loop">
+						    <c:url var="downloadUrl" value="/downloadFile.do">
+								<c:param name="originalFileName" value="${pageScope.file.originalFileName }"/>
+								<c:param name="systemFileName" value="${pageScope.file.systemFileName }"/>
+							</c:url>
+							<a href = "${pageScope.downloadUrl }">${pageScope.file.originalFileName}</a><br>
 						</c:forEach></td>
 					</tr>
 					<tr height="150">
