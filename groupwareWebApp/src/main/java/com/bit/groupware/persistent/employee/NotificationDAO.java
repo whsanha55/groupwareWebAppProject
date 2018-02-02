@@ -10,4 +10,7 @@ public interface NotificationDAO {
 	List<NotificationVO> selectNotificationList(Map<String, Object> map);
 
 	void deleteNotification(Map<String, Integer> map);
+	
+	int selectNotificationCount(String empNo);
+	
 }

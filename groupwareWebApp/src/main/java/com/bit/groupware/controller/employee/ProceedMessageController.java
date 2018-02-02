@@ -31,11 +31,26 @@ public class ProceedMessageController {
 	
 	@Autowired
 	private MessageService msgService;
-	// 쪽지함 페이지 요청
 
+	
+	//새 쪽지 개수 표시용
+	@RequestMapping(value="/newMsg.do", method=RequestMethod.GET)
+	@ResponseBody
+	public int getNumber() {
+//		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		String empNo = user.getUsername();
+		
+		String empNo = "2018-00011";
+		
+		return msgService.retrieveNewMessageCount(empNo);
+	}	
+	
+	
+	
+	// 쪽지함 페이지 요청
 	@RequestMapping(value = "/retrieveMessageList.do", method = RequestMethod.GET)
 	public ModelAndView retrieveMessageList(Principal principal) {
-
+		
 		// 받은쪽지함 리스트를 보여준다.
 
 		ModelAndView mv = new ModelAndView();
