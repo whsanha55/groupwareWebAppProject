@@ -95,6 +95,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return deputyDAO.selectDeputyList(map);
 	}
 	
+	public int retrieveDeputyListCount(Map<String, Object> map) {
+		return deputyDAO.selectDeputyListCount(map);
+	}
+	
 	public int retrieveEmployeeCount(Map<String, Object> map) {
 		return employeeDAO.selectEmployeeCount(map);
 	}

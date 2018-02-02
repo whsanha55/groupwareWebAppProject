@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class PasswordEncoderController {
 	@Autowired
+
 	private BCryptPasswordEncoder passwordEncoder;
 	private final static Logger logger = LoggerFactory.getLogger(PasswordEncoderController.class);
 	

@@ -9,8 +9,11 @@ import com.bit.groupware.domain.approval.ApprovalVO;
 
 public interface ApprovalService {
 
-	//결재문서 조회
+	//결재문서 조회(내가 쓴거)
 	List<ApprovalVO> retrieveApprovalList(Map<String, Object> map);
+
+	//결재문서 조회 (남이 쓴거)
+	List<ApprovalVO> retrieveAllApprovalList(Map<String, Object> map);
 	
 	//결재문서 상세조회
 	ApprovalVO retrieveApproval(int apprNo);

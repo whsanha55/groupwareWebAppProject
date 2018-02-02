@@ -23,4 +23,9 @@ public class PlanFileDAOImpl implements PlanFileDAO {
 		sqlSession.delete(NAMESPACE + ".deletePlanFile", pNo);
 	}
 	
+	//일정 파일만 삭제
+	public void deletePlanFile2(String fileNo) {
+		sqlSession.delete(NAMESPACE + ".deletePlanFile2", fileNo);
+	}
+	
 }

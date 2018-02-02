@@ -47,16 +47,18 @@
 		<id column="p_no"				property="pNo" />
 		<result column="p_title"			property="pTitle" />
 		<result column="dept_no"		property="deptNo" />
+		<result column="c_name"			property="cName" />
 		<result column="p_class"			property="pClass" />
 		<result column="p_impt"			property="pImpt" />
 		<result column="rspb_no"		property="rspbNo" />
+		<result column="emp_name"		property="empName" />
 		<result column="p_content"		property="pContent" />
 		<result column="start_date"		property="startDate" />
 		<result column="end_date"		property="endDate" />
 		<result column="latitude"			property="latitude" />
 		<result column="longitude"		property="longitude" />
 		<!-- 1:N 관계 -->
-		<collection property="planFiles" javaType="list" column="PlanFileVO">
+		<collection property="files" javaType="list" ofType="PlanFileVO">
 			<id column="file_no"			property="fileNo" />
 			<result column="file_name"	property="fileName" />
 			<result column="system_file_name"		property="systemFileName" />
@@ -72,10 +74,13 @@
 			c1.c_name,
 			p.p_class,
 			p.p_impt,
+			p.rspb_no,
 			e.emp_name,
 			p.p_content,
 			p.start_date,
 			p.end_date,
+			p.latitude,
+			p.longitude,
 			f.file_no,
 			f.file_name,
 			f.system_file_name,
@@ -84,7 +89,7 @@
         from plan p, plan_file f, code c1, employee e
         where p.dept_no=c1.c_no
            and p.rspb_no=e.emp_no
-           and p.p_no=f.p_no
+           and p.p_no=f.p_no(+)
            and p.p_no=#{value}
 	</select>	
 	
@@ -93,32 +98,32 @@
 	<update id="updatePlan" parameterType="PlanVO" statementType="PREPARED" >
 		update plan
 		<trim prefix="set" suffixOverrides=",">
-			<if test="p_no != null" >
+			<if test="pNo != null" >
 				p_no = #{pNo} ,
 			</if>
-			<if test="p_title != null" >
+			<if test="pTitle != null" >
 				p_title = #{pTitle} ,
 			</if>
-			<if test="dept_no != null" >
+			<if test="deptNo != null" >
 				dept_no = #{deptNo} ,
 			</if>
-			<if test="p_class != null" >
+			<if test="pClass != null" >
 				p_class = #{pClass} ,
 			</if>
-			<if test="p_impt != null" >
+			<if test="pImpt != null" >
 				p_impt = #{pImpt} ,
 			</if>
-			<if test="rspb_no != null" >
+			<if test="rspbNo != null" >
 				rspb_no = #{rspbNo} ,
 			</if>
-			<if test="p_content != null" >
+			<if test="pContent != null" >
 				p_content = #{pContent} ,
 			</if>
-			<if test="start_date != null" >
-				start_date = #{startDate} ,
+			<if test="startDate != null" >
+				start_date = to_date(#{startDate}, 'YYYY-MM-DD"T"HH24:mi:ss') ,
 			</if>
-			<if test="end_date != null" >
-				end_date = #{endDate} ,
+			<if test="endDate != null" >
+				end_date = to_date(#{endDate}, 'YYYY-MM-DD"T"HH24:mi:ss') ,
 			</if>
 			<if test="latitude != null" >
 				latitude = #{latitude} ,

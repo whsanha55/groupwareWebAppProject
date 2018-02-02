@@ -19,8 +19,9 @@ public class AdminRemovePlanController {
 	//일정 삭제 요청
 	@RequestMapping(value="/admin/removePlan.do")
 	public String submit(@RequestParam(value="pNo", required=true) String pNo) {
-		logger.info("pNo : ", pNo);
+		logger.info("pNo : {} ", pNo);
 		planService.removePlan(pNo);
 		return "redirect:/admin/listPlan.do";
 	}
+	
 }

@@ -24,6 +24,10 @@ public class DeputyDAOImpl implements DeputyDAO {
 		return sqlSession.selectList(NAMESPACE+".selectDeputyList",map);
 	}
 	
+	public int selectDeputyListCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectDeputyListCount", map);
+	}
+	
 	public List<EmployeeVO> selectDeputyRegisterEmployeeList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectDeputyRegisterEmployeeList", map);
 	}

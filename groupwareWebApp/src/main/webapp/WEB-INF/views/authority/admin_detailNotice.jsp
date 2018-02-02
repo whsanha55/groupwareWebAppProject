@@ -23,14 +23,19 @@
 			<div>
 				<table class="table table-striped jambo_table bulk_action">
 					<tr>
-						<td>${requestScope.notice.noticeNo}</td>
+						<td>제목</td>
 						<td>${requestScope.notice.noticeTitle}</td>
 
 					</tr>
 					<tr>
 						<td>첨부파일</td>
-						<td colspan="2"><c:forEach var="file" items="${requestScope.notice.files }" varStatus="loop">
-						${pageScope.file.originalFileName}<br>
+						<td colspan="2">
+						<c:forEach var="file" items="${requestScope.notice.files }" varStatus="loop">
+							<c:url var="downloadUrl" value="/downloadFile.do">
+								<c:param name="originalFileName" value="${pageScope.file.originalFileName }"/>
+								<c:param name="systemFileName" value="${pageScope.file.systemFileName }"/>
+							</c:url>
+							<a href = "${pageScope.downloadUrl }">${pageScope.file.originalFileName}</a><br>
 						</c:forEach></td>
 					</tr>
 					<tr height="100">

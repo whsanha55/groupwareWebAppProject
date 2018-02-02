@@ -1,55 +1,45 @@
 package com.bit.groupware.domain.authority;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.bit.groupware.domain.employee.EmployeeVO;
-
 public class AuthRoleVO {
-	private String aNo;  			//권한 번호
-	private String aName;			//권한명
-	private String aNote; 			//비고
-	private String aWhether; 		//유무
-	private List<EmployeeVO> emps = new ArrayList<EmployeeVO>(); //사원 목록
+	private String arNo;  			//권한 역할번호
+	private AuthorityVO auth; 
+	private RoleVO role;
 	
 	public AuthRoleVO() {
 		super();
 	}
-	public String getaNo() {
-		return aNo;
+
+	public String getArNo() {
+		return arNo;
 	}
-	public void setaNo(String aNo) {
-		this.aNo = aNo;
+
+	public void setArNo(String arNo) {
+		this.arNo = arNo;
 	}
-	public String getaName() {
-		return aName;
+
+	public AuthorityVO getAuth() {
+		return auth;
 	}
-	public void setaName(String aName) {
-		this.aName = aName;
+
+	public void setAuth(AuthorityVO auth) {
+		this.auth = auth;
 	}
-	public String getaNote() {
-		return aNote;
+
+	public RoleVO getRole() {
+		return role;
 	}
-	public void setaNote(String aNote) {
-		this.aNote = aNote;
+
+	public void setRole(RoleVO role) {
+		this.role = role;
 	}
-	public String getaWhether() {
-		return aWhether;
-	}
-	public void setaWhether(String aWhether) {
-		this.aWhether = aWhether;
-	}
-	public List<EmployeeVO> getEmps() {
-		return emps;
-	}
-	public void setEmps(List<EmployeeVO> emps) {
-		this.emps = emps;
+
+	@Override
+	public String toString() {
+		return "AuthRoleVO [arNo=" + arNo + ", auth=" + auth + ", role=" + role + "]";
 	}
 
 	
-	@Override
-	public String toString() {
-		return "AuthorityVO [aNo=" + aNo + ", aName=" + aName + ", aNote=" + aNote + ", aWhether=" + aWhether
-				+ ", emps=" + emps + "]";
-	}
+
+	
+	
 }
