@@ -42,5 +42,6 @@ public class PlanDAOImpl implements PlanDAO{
 	public void deletePlan(String pNo) {
 		sqlSession.selectOne(NAMESPACE + ".deletePlan", pNo);
 	}
+
 	
 }

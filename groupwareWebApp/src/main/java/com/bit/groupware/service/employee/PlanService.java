@@ -21,4 +21,7 @@ public interface PlanService {
 		
 	//일정정보 삭제
 	void removePlan(String pNo);
+	
+	//일정 파일 삭제
+	void removePlanFile(String fileNo);
 }

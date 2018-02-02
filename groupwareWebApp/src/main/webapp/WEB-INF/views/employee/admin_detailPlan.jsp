@@ -7,6 +7,93 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>일정 상세보기</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+	/* function msg() {
+		if(confirm("이 일정을 삭제하시겠습니까?") == true) {
+			alert("일정이 삭제되었습니다.")
+			return true;
+		} else {
+			return false;
+		}
+	} */
+</script>
+<script>
+	$(document).ready(function(){
+		
+		$('#modify').on('click', function() {
+			var pNo = $(this).val();
+			alert($(this).val());
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/admin/modifyPlan.do'
+				,
+				method: 'GET'
+				,
+				data: {pNo}
+				, 
+				async: true
+				,
+				cache: false
+				,
+				success: function(data) {
+					location.href="${pageContext.request.contextPath}/admin/modifyPlan.do?pNo=" + pNo;
+				}
+				, 
+				error: function(jqXHR) {
+					alert('Error : ' + jqXHR.status);
+				}	 				
+			});	
+		})
+		
+		$('#remove').on('click', function() {
+			var pNo = $(this).val();
+			
+			swal({
+				 title: "일정 삭제",
+				 text: "일정을 삭제합니다. 계속 진행하시겠습니까?",
+				 icon: "info",
+				 buttons : true	
+			}).then((e) => {
+				if(e) {
+					removePlan(pNo);
+				}
+			});
+			
+			alert($(this).val());
+			function removePlan(pNo) {	
+				$.ajax({
+					url: '${pageContext.request.contextPath}/admin/removePlan.do'
+					,
+					method: 'GET'
+					,
+					data: {pNo}
+					, 
+					async: true
+					,
+					cache: false
+					,
+					success: function(data) {
+						swal({
+							  title: "삭제 완료",
+							  text: "일정이 삭제되었습니다.",
+							  icon: "info",
+							  buttons : "확인" 
+						}).then((e) => {
+							if(e) {
+							  	location.reload();
+							}
+						});		
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);
+					}	 				
+				});	
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -106,6 +193,12 @@
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 							<button class="btn btn-primary" type="button">뒤로가기</button>
+							<!-- <button class="btn btn-primary" type="reset">삭제</button> -->
+							<c:url var="removeURL" value="/admin/removePlan.do" scope="page" >
+								<c:param name="pNo" value="${requestScope.plan.pNo }" />
+							</c:url>
+							<button type="button" value="${requestScope.plan.pNo }" id="remove" class="btn btn-primary" >삭제</button>
+							<button type="button" value="${requestScope.plan.pNo }" id="modify" class="btn btn-success" >수정</button>
 						</div>
 					</div>
 				</form>
