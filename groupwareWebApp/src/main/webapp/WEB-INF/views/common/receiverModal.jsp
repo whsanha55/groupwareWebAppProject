@@ -18,7 +18,6 @@
 	src="${pageContext.request.contextPath}/resources/tablednd/jquery.tablednd.js"></script>
 <style>
 .btns {
-	
 }
 
 #apprTypeDiv {
