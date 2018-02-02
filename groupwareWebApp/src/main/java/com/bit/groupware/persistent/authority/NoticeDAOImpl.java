@@ -50,4 +50,8 @@ public class NoticeDAOImpl implements NoticeDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectNoticeCount", map);
 		
 	}
+	
+	public void upHitCount(int noticeNo) {
+		sqlSession.update(NAMESPACE + ".updateNoticeHitCount", noticeNo);
+	}
 }

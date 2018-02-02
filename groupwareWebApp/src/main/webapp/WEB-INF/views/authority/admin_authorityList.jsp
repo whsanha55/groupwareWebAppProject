@@ -71,7 +71,7 @@
 								<td class=" ">전체관리자</td>
 								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
 								<td class=" ">유</td>
-								<td class=" "><button>역할</button>
+								<td class=" ">역할</a>
 									<button>수정</button></td>
 
 								</td>

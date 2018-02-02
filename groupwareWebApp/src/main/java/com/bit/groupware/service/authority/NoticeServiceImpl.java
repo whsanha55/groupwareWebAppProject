@@ -78,4 +78,8 @@ public class NoticeServiceImpl implements NoticeService {
 		noticeFileDAO.deleteNoticeFile(noticeNo);
 	}
 
+	public void upHitCount(int noticeNo) {
+		noticeDAO.upHitCount(noticeNo);
+	}
+
 }

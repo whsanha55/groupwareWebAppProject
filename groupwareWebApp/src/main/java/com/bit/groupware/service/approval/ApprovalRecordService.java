@@ -1,6 +1,7 @@
 package com.bit.groupware.service.approval;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bit.groupware.domain.approval.ApprovalRecordVO;
 
@@ -13,7 +14,8 @@ public interface ApprovalRecordService {
 	void executeApprovalRecord(ApprovalRecordVO approvalRecord);
 	
 	//최초 결재자 결재여부 확인
-	int selectApprovalRecallable(int apprNo);
+	int retrieveApprovalRecallable(int apprNo);
 	
-	
+	//메뉴 새 문서 개수 표시용
+	int retrieveNewRecordCount(Map<String, String> map);
 }
