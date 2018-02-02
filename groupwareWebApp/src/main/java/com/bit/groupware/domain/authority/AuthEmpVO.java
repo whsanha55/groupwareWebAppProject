@@ -1,47 +1,38 @@
 package com.bit.groupware.domain.authority;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class AuthEmpVO {
-	private String aNo;  			//권한 번호
-	private String aName; 		//권한명
-	private List<EmployeeVO> emps = new ArrayList<EmployeeVO>(); //사원 목록
+	private String aeNo;  			//권한사원 번호
+	private EmployeeVO emp;
+	private AuthorityVO auth;
 	
-	
-	public AuthEmpVO() {
-		super();
+	public String getAeNo() {
+		return aeNo;
 	}
-
-	public String getaNo() {
-		return aNo;
+	public void setAeNo(String aeNo) {
+		this.aeNo = aeNo;
 	}
-
-	public void setaNo(String aNo) {
-		this.aNo = aNo;
+	public EmployeeVO getEmp() {
+		return emp;
 	}
-
-	public String getaName() {
-		return aName;
+	public void setEmp(EmployeeVO emp) {
+		this.emp = emp;
 	}
-
-	public void setaName(String aName) {
-		this.aName = aName;
+	public AuthorityVO getAuth() {
+		return auth;
 	}
-
-	public List<EmployeeVO> getEmps() {
-		return emps;
+	public void setAuth(AuthorityVO auth) {
+		this.auth = auth;
 	}
-
-	public void setEmps(List<EmployeeVO> emps) {
-		this.emps = emps;
-	}
-
 	@Override
 	public String toString() {
-		return "AuthEmpVO [aNo=" + aNo + ", aName=" + aName + ", emps=" + emps + "]";
+		return "AuthEmpVO [aeNo=" + aeNo + ", emp=" + emp + ", auth=" + auth + "]";
 	}
+	
+	
+	
+	
+	
 	
 }
