@@ -19,14 +19,15 @@ $(document).ready(function(){
 		$('#modify').css('display','none');
 		$('#submit').css('display','block');	
 		$('#display').on('click','#reset', function(){
-			$('#display').css('display','none');
+			$('#display').css('display','none');	
 		});
+	
 	});	
 	
 	//등록
 	$('#display').on('click','#submit',function(){
-		$('#display').css('display','none'); 
-		var params = jQuery('#serialize\Form').serialize();
+		var params = jQuery('#serializeForm').serialize();
+		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/registerBoardAjax.do'
 			,
@@ -41,10 +42,11 @@ $(document).ready(function(){
 			cache : true
 			,
 			success : function(data, textStatus, jqXHR){
-				
 				var htmlStr = "";
 				htmlStr += "<tr><td id="+ data.boardNo + " class='selectBoard'>" + data.boardName + "</td></tr>";
-				$('#boardList tbody').append(htmlStr);
+				$('#boardList tbody').append(htmlStr);	
+				swal("등록이 완료되었습니다!","");
+				$('#display').css('display','none');
 			}
 			,
 			error : function(jqXHR, textStatus, errorThrown){
@@ -73,17 +75,26 @@ $(document).ready(function(){
 	//게시판 번호에 해당하는 게시판 상세조회
 	$('#boardList').on('click','.selectBoard',function(){ 
 	    boardNo = $(this).attr("id");
-	 /*    alert('boardNo' + boardNo); */
-	    
+
 		$('#display').css('display','block');
 			$('#submit').css('display','none');
 			$('#modify').css('display','block');
 			$('#remove').css('display','block');
 		
-			$('#display').on('click','#reset', function(){
-				$('#display').css('display','none');
-			});
-			
+		$('#plus').on('click','#display1', function(){
+			//추가 클릭시 모든 데이터 초기화
+			$('input[type="text"]').attr("value","");
+			$('input[name="isUse"]:radio').removeAttr('checked');
+			$('input[name="isNotice"]:radio').removeAttr('checked');
+			$('input[name="isComment"]:radio').removeAttr('checked');
+			$('input[name="isDeptDivide"]:radio').removeAttr('checked');
+			$('input[name="isDocuType"]:radio').removeAttr('checked');
+			$('#fileCount option').removeAttr('selected');
+		}); 
+		
+		$('#display').on('click','#reset', function(){
+			$('#display').css('display','none');	
+		});
 		$.ajax({
 			url : '${pageContext.request.contextPath}/retrieveBoardAjax.do'
 			,
@@ -140,6 +151,9 @@ $(document).ready(function(){
 					$('#fileCount').each(function(){
 						$(this).find("option[value="+data.fileCount+"]").attr("selected","selected");
 					})
+					
+					
+					
 			}
 			,
 			error : function(jqXHR, textStatus, errorThrown){
@@ -152,104 +166,95 @@ $(document).ready(function(){
 	//게시판 삭제
 	$('#display').on('click','#remove',function() {
 		
-		var result = confirm("게시판을 삭제하시겠습니까?");
-		
-		if(result == true){
-			$.ajax({
-				url : '${pageContext.request.contextPath}/removeAjax.do'
-					,
-					method : 'POST'
-					,
-					data : {
-						boardNo: boardNo
-					}
-					,
-					dataType: 'json'
-					,
-					async : true
-					,
-					cache : true
-					,
-					success : function(data, textStatus, jqXHR){	
-						
-						if(data.isSuccess == "true"){
-							alert("삭제완료!");	
-							$('#' + boardNo).parent('tr').remove(); 
-							$('#display').css('display','none');
-						}else if(data.isSuccess == "false"){
-							alert("게시글이 존재합니다.")
-							$('#display').css('display','none');
-						} 
-						
-					}
-					,
-					error : function(jqXHR, textStatus, errorThrown){
-						alert('error: ' + jqXHR.status);
-					}
-			
-				});
-			
-		}else{
-				return false;
-	   }				
-
+		swal({
+			  title: "게시판을 삭제하시겠습니까?",
+			  icon: "info",
+			  buttons : true 
+			}).then((e) => {
+				if(e) {
+					$.ajax({
+						url : '${pageContext.request.contextPath}/removeAjax.do'
+							,
+							method : 'POST'
+							,
+							data : {
+								boardNo: boardNo
+							}
+							,
+							dataType: 'json'
+							,
+							async : true
+							,
+							cache : true
+							,
+							success : function(data, textStatus, jqXHR){	
+								
+								if(data.isSuccess == "true"){
+									swal("삭제완료!");	
+									$('#' + boardNo).parent('tr').remove(); 
+									$('#display').css('display','none');
+								}else if(data.isSuccess == "false"){
+									swal("게시글이 존재합니다.")
+								} 
+								
+							}
+							,
+							error : function(jqXHR, textStatus, errorThrown){
+								alert('error: ' + jqXHR.status);
+							}
+					
+					});
+				}	
+			});
 	});
 	
 	//게시글 수정
 	$('#display').on('click','#modify',function(){
-		var params = jQuery('#serialize\Form').serialize();
-
-		var result = confirm("게시판을 수정하시겠습니까?");
+		var params = jQuery('#serializeForm').serialize();
 		
-		if(result == true){
-			$.ajax({
-				url : '${pageContext.request.contextPath}/modifyAjax.do'
-					,
-					method : 'POST'
-					,
-					data : params
-					,
-					dataType: 'json'
-					,
-					async : true 
-					,
-					cache : true
-					,
-					success : function(data, textStatus, jqXHR){	
-						alert(data.boardNo);
-						alert("수정완료!");
-						$('#'+ boardNo).text(data.boardName);
-						
-					}
-					,
-					error : function(jqXHR, textStatus, errorThrown){
-						alert('error: ' + jqXHR.status);
-					}
-			
-				});
-			
-		}else{
-				return false;
-	   }				
+		swal({
+			  title: "게시판을 수정하시겠습니까?",
+			  icon: "info",
+			  buttons : true 
+			}).then((e) => {
+				if(e) {
+					$.ajax({
+						url : '${pageContext.request.contextPath}/modifyAjax.do?boardNo=' + boardNo  
+							,
+							method : 'POST'
+							,
+							data : params
+							,
+							dataType: 'json'
+							,
+							async : true 
+							,
+							cache : true
+							,
+							success : function(data, textStatus, jqXHR){	
+								swal("수정 완료!","");
+								$('#'+ boardNo).text(data.boardName);
+								$('#display').css('display','none');
+								
+							}
+							,
+							error : function(jqXHR, textStatus, errorThrown){
+								alert('error: ' + jqXHR.status);
+							}
+					
+						});
+				}
+			});
+					
 
 		
 	});
 	
 });			
-			
-		
-			
-			
-			
-				
-			
-
-		
-			
 </script>
 </head>
 <body>
-	<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="col-md-12 col-sm-12 col-xs-12" id="all">
 			<input type="hidden" name="boardNo" value="${requestScope.boardNo}" />
 			<input type="hidden" name="boardName" value="${requestScope.boardName}" />
 		<div class="x_panel">
@@ -276,7 +281,7 @@ $(document).ready(function(){
 						</c:forEach>					
 					</tbody>
 				</table>
-				<div class="text-right">
+				<div class="text-right" id="plus">
 					<button class="btn btn-primary" id="display1">추가</button>
 				</div>
 			</div>

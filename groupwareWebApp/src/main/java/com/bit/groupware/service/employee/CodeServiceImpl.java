@@ -24,10 +24,11 @@ public class CodeServiceImpl implements CodeService {
 	}
 	
 	
-	//모든 부서 조회
+	//모든 부서 조회(팀까지)
 	public List<CodeVO> retrieveDeptAll() {
 		return codeDAO.selectDeptAll();
 	}
+
 
 	//코드를 조회하다.
 	public CodeVO retrieveCode(String cNo) {
@@ -71,4 +72,9 @@ public class CodeServiceImpl implements CodeService {
 	public List<CodeVO> retrieveDutyCodeList() {
 		return codeDAO.selectDutyCodeList();
 	}
+	
+	public List<CodeVO> retrieveDeptCodeRelationList(String deptCode) {
+		return codeDAO.selectDeptCodeRelationList(deptCode);
+	}
+	
 }

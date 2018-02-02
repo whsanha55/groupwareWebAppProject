@@ -46,7 +46,7 @@
                </div>   
                   </div>
               <div class="text-center">
-                   <a class="btn btn-primary" href='<c:url value="/admin/designRole.do"/>'>등록</a>
+                   <a class="btn btn-primary" href='<c:url value="/admin/roleList.do"/>'>등록</a>
                   <button class="btn btn-default">취소</button>
                </div>
                 </div>

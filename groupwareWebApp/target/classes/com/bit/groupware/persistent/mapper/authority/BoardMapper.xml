@@ -72,4 +72,11 @@
 		where b.board_no = p.board_no
 		and b.board_no = #{boardNo}
 	</select>
+	
+	
+	<!-- 게시판을 조회하다. -->
+	<select id="selectBoardNameList" statementType="STATEMENT" resultType="BoardVO">
+		select board_no as boardNo, board_name as boardName
+		from board
+	</select>
 </mapper>

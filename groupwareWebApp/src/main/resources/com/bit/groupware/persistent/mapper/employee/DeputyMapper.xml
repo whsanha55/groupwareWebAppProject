@@ -8,11 +8,9 @@
 	<insert id="insertDeputy" parameterType="DeputyVO" statementType="PREPARED">			
 		<selectKey keyProperty="depNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select 'D'||lpad(deputy_no_seq.nextval,5,0) from dual		
-		</selectKey>				
-		insert into Deputy (dep_no, to_char(start_date,'YYYY/MM/DD'),to_char(end_date,'YYYY/MM/DD'), 
-									dep_reason,	demp_no, emp_no)
-		values (#{depNo}, #{startDate}, #{endDate}, 
-						#{depReason},#{dempNo},#{empNo})	
+		</selectKey>
+		insert into Deputy(dep_no, start_date, end_date, dep_reason, demp_no, emp_no)
+		values(#{depNo}, to_date(#{startDate},'yyyy/mm/dd'), to_date(#{endDate},'yyyy/mm/dd'), #{depReason}, #{dempNo}, #{empNo})
 	</insert>
 	
 	<resultMap  id="selectDeputyResultMap" type="DeputyVO">
@@ -37,27 +35,89 @@
 			<result column="retire_date" 	 property="retireDate" />
 			<result column="address" 		 property="address" />
 			<result column="checkAdmin"		 property="checkAdmin"/>
+			<result column="duty"			 property="duty"/>
 		</collection>
 	</resultMap>
 	
 	<select id="selectDeputyList" parameterType="map" statementType="PREPARED" 
 												resultMap="selectDeputyResultMap">
-		select 
-		    dep_no,
-            (select emp_name
-             from employee
-             where emp_no = demp_no) as emp_name,
-		    start_date,
-		    end_date,
-		    progression,
-		    dep_Reason,
-		    demp_No,
-		    d.emp_No
-		from employee e, deputy d
-		where e.emp_no = d.emp_no
-		    and e.emp_no = #{empNo}	
+		select dep_no, duty, emp_name, start_date, end_date, progression, dep_Reason, demp_no, emp_no
+	    from (select rownum as rn, emp.*
+			      from (select dep_no,
+                                (select duty
+                                 from empList_view ev
+                                 where ev.empNo = demp_no) as duty,
+                                (select emp_name
+                                 from employee
+                                 where emp_no = demp_no) as emp_name,
+                                to_char(start_date, 'yyyy/mm/dd') as start_date,
+                                to_char(end_date, 'yyyy/mm/dd') as end_date,
+                                progression,
+                                dep_Reason,
+                                demp_No,
+                                d.emp_No
+                            from employee e, deputy d
+                            where e.emp_no = d.emp_no                               
+								<if test="keyfield == 'dempNo' and keyword != null">
+								and demp_no like '%' || #{keyfield} || '%'
+								</if>
+								<if test="keyfield == 'duty' and keyword != null">
+								and duty like '%' || #{keyfield} || '%'
+								</if>
+								<if test="keyfield == 'empName' and keyword != null">
+								and emp_name like '%' || #{keyfield} || '%'
+								</if>
+								<if test="keyfield == 'startDate' and keyword != null">
+								and to_char(start_date,'yyyy/mm/dd') like '%' || #{keyfield} || '%'
+								</if>
+								<if test="keyfield == 'endDate' and keyword != null">
+								and to_char(end_date,'yyyy/mm/dd') like '%' || #{keyfield} || '%'
+								</if>
+                                and e.emp_no = #{empNo}
+                                              order by dep_no asc
+                                            ) emp) empro
+		    where empro.rn <![CDATA[>=]]> #{startRow} and empro.rn <![CDATA[<=]]> #{endRow}
 	</select>
-
+	
+	<select id="selectDeputyListCount" statementType="PREPARED" parameterType="map" resultType="int">
+	select count(*)
+	    from (select rownum as rn, emp.*
+			      from (select dep_no,
+                                (select duty
+                                 from empList_view ev
+                                 where ev.empNo = demp_no) as duty,
+                                (select emp_name
+                                 from employee
+                                 where emp_no = demp_no) as emp_name,
+                                to_char(start_date, 'yyyy/mm/dd') as start_date,
+                                to_char(end_date, 'yyyy/mm/dd') as end_date,
+                                progression,
+                                dep_Reason,
+                                demp_No,
+                                d.emp_No
+                            from employee e, deputy d
+                            where e.emp_no = d.emp_no                               
+								<if test="keyfield == 'dempNo' and keyword != null">
+								and demp_no like '%' || #{keyfield} || '%'
+								</if>
+								<if test="keyfield == 'duty' and keyword != null">
+								and duty like '%' || #{keyfield} || '%'
+								</if>
+								<if test="keyfield == 'empName' and keyword != null">
+								and emp_name like '%' || #{keyfield} || '%'
+								</if>
+								<if test="keyfield == 'startDate' and keyword != null">
+								and to_char(start_date,'yyyy/mm/dd') like '%' || #{keyfield} || '%'
+								</if>
+								<if test="keyfield == 'endDate' and keyword != null">
+								and to_char(end_date,'yyyy/mm/dd') like '%' || #{keyfield} || '%'
+								</if>
+                                and e.emp_no = #{empNo}
+                                              order by dep_no asc
+                                            ) emp) empro
+	</select>
+	
+	
 
 	<select id="selectDeputyRegisterEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="PREPARED">
 		select department, duty, empName ,empNo

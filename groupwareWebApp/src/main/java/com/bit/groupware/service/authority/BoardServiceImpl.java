@@ -39,9 +39,10 @@ public class BoardServiceImpl implements BoardService {
 	public int retrieveBoardByBoardNo(int boardNo) {
 		return boardDAO.selectBoardByBoardNo(boardNo);
 	}
-	
-	
-	
+
+	public List<BoardVO> retrieveBoardNameList() {
+		return boardDAO.selectBoardNameList();
+	}
 	
 
 }

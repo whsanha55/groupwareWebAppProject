@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+//github.com/whsanha55/groupwareWebAppProject.git
+
 import com.bit.groupware.domain.authority.NoticeVO;
 @Repository
 public class NoticeDAOImpl implements NoticeDAO {
@@ -47,5 +49,9 @@ public class NoticeDAOImpl implements NoticeDAO {
 	public int selectNoticeCount(Map<String, Object> map) {
 		return sqlSession.selectOne(NAMESPACE + ".selectNoticeCount", map);
 		
+	}
+	
+	public void upHitCount(int noticeNo) {
+		sqlSession.update(NAMESPACE + ".updateNoticeHitCount", noticeNo);
 	}
 }

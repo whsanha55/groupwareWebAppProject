@@ -12,7 +12,7 @@
 		values (#{cNo}, #{cName}, #{relationCode})	
 	</insert>
 	
-	<!-- 모든 부서 조회 -->
+	<!-- 모든 부서 조회(팀까지) -->
 	<select id="selectDeptAll" resultType="CodeVO" statementType="STATEMENT">
 		select c_no as cNo, c_name as cName
 		from code
@@ -20,6 +20,7 @@
 		and c_no != 'A'
 		order by c_no
 	</select>
+	
 	
 	<!-- 코드 이름 조회 -->
 	<select id="selectCode" parameterType="String" resultType="CodeVO" statementType="PREPARED">
@@ -118,6 +119,16 @@
 		order by rc.c_name asc
 	</select>
 	
+	<!-- 부서 하위 코드 리스트 조회 -->
+	<select id="selectDeptCodeRelationList" parameterType="String" resultType="CodeVO">
+		select 
+	    c_no as cNo, 
+	    c_name as cName, 
+	    relation_code as relationCode
+	    from code  
+		where relation_code=#{deptCode}
+		   order by c_no asc
+	</select>
 	
 	<!-- 코드 수정 -->
 	<update id="updateCode" parameterType="CodeVO" statementType="PREPARED" >

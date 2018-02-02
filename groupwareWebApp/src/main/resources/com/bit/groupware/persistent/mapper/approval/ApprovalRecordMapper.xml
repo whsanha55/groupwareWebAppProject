@@ -13,6 +13,7 @@
 				 from receiver_line 
 				 where receiver_no = #{receiverNo}))
  	</insert>
+ 	
 	<insert id="insertApprovalRecordProcedure" parameterType="map" statementType="CALLABLE" > 
 		{
 			call approval_record_procedure (#{apprNo},#{receiverNo})
@@ -54,6 +55,7 @@
 		order by line.line_order asc nulls last
    </select>
    
+   
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
     	update approval_record
 		set appr_status=#{apprStatus},
@@ -76,5 +78,22 @@
    			and t2.line_no = t3.line_no
    			and t3.line_order = 1     
    </select>
+   
+   
+   
+   	<select id="selectNewRecordCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(t2.record_no)
+		from receiver_line t1, approval_record t2
+		where t1.line_no = t2.line_no
+		and t1. line_emp_no = #{empNo}
+		and t2.check_date is null
+		<if test="keyfield == 'req' ">
+			and t1.appr_type = 0
+		</if>
+		<if test="keyfield == 'ref' ">
+			and t1.appr_type = 1
+		</if>
+	</select>
+   
    
 </mapper>

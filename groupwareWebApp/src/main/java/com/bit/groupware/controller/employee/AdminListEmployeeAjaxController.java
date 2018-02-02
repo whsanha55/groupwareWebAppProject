@@ -47,6 +47,7 @@ public class AdminListEmployeeAjaxController {
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("employees", employees);
+		logger.info("returnMap : {}", returnMap);
 		return returnMap;
 		
 	}

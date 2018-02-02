@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeCodeMapper">
+	
+	<resultMap id="selectEmployeeCodeListMap" type="EmployeeCodeVO" >
+		<association property="code" column="dept_no" javaType="CodeVO">
+			<id property="cNo" column="dept_no" />
+			<result property="cName" column="department" />
+		</association>
+		<association property="employee" column="emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="emp_no" />
+			<result property="empName" column="emp_name" />
+			<result property="duty" column="duty" />
+		</association>
+	</resultMap>
+	
+	
+	<select id="selectEmployeeCodeList" statementType="STATEMENT" resultMap="selectEmployeeCodeListMap">
+		select dept_no, department, emp_no, emp_name, duty
+		from emp_view
+		where retire_status = 1
+		order by dept_no asc, duty_no asc, emp_name asc
+	</select>
+
+</mapper>
+

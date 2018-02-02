@@ -23,13 +23,23 @@
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="last-name">일정구분</span>
-						</label>&nbsp;&nbsp; ${requestScope.plan.pClass }
+						</label>&nbsp;&nbsp; 
+						<c:choose>
+							<c:when test="${requestScope.plan.pClass == 1}">
+								회의
+							</c:when>
+							<c:when test="${requestScope.plan.pClass == 2}">
+								교육
+							</c:when>
+							<c:otherwise>
+								기타
+							</c:otherwise>
+						</c:choose>
 					</div>
 
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">부서</span>
-						</label>&nbsp;&nbsp; ${requestScope.plan.code.cName }
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">부서</span>
+							</label>&nbsp;&nbsp; ${requestScope.plan.cName }
 					</div>
 
 					<div class="form-group">
@@ -57,25 +67,36 @@
 
 					<div class="col-md-12">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">중요도</label> 
-						${requestScope.plan.pImpt }
+						<c:choose>
+							<c:when test="${requestScope.plan.pImpt == 1}">
+								하
+							</c:when>
+							<c:when test="${requestScope.plan.pImpt == 2}">
+								중
+							</c:when>
+							<c:otherwise>
+								상
+							</c:otherwise>
+						</c:choose>
 					</div>
 
 					<div class="form-group form-inline">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">담당자 </label>&nbsp;&nbsp; ${requestScope.plan.employee.empName }
+							for="last-name">담당자 </label>&nbsp;&nbsp; ${requestScope.plan.empName }
 					</div>
 					
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12"
-								for="last-name">첨부파일 </label>
+								for="last-name">첨부파일 </label>&nbsp;&nbsp;
 							<div class="btn-group">
-								<c:forEach var="file" items="${requestScope.plan.file }" varStatus="loop">
+								<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
 									<c:url var="downloadUrl" value="/download.do">
 										<c:param name="fileName" value="${pageScope.file.fileName }" />
 										<c:param name="systemFileName" value="${pageScope.file.systemFileName }" />
 									</c:url>
-										<img src="${pageContext.request.contextPath}/upload/${pageScope.file.systemFileName}" 
-										width="100%" height="100%" id="img" />
+									<a href = "${pageScope.downloadUrl }">${pageScope.file.fileName }</a>
+										<%-- <img src="${pageContext.request.contextPath}/upload/${pageScope.file.systemFileName}" 
+										width="100%" height="100%" id="img" /> --%>
 								</c:forEach>
 							</div>
 						</div>
@@ -84,9 +105,7 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button class="btn btn-primary" type="button">Cancel</button>
-							<button class="btn btn-primary" type="reset">Reset</button>
-							<button type="submit" class="btn btn-success">Submit</button>
+							<button class="btn btn-primary" type="button">뒤로가기</button>
 						</div>
 					</div>
 				</form>

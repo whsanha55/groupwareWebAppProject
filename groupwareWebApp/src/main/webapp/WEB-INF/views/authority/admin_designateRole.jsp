@@ -1,5 +1,6 @@
 <%--content.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -39,10 +40,7 @@
 							</div>
 						</div>
 					</div>
-					<a class="btn btn-default pull-right"
-						href='<c:url value="/admin/role.do"/>'>역할 등록</a> <a
-						class="btn btn-primary pull-right"
-						href='<c:url value="/admin/role.do"/>'>추가</a>
+					
 
 				</div>
 
@@ -172,9 +170,7 @@
 						</ul>
 
 					</div>
-					<button class="pull-right">역할 지정</button>
-					<button class="pull-right">일괄 수정</button>
-					<button class="pull-right">일괄 삭제</button>
+					<button class="pull-right">일괄 등록</button>
 				</div>
 
 			</div>

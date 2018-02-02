@@ -23,11 +23,10 @@ public class CodeDAOImpl implements CodeDAO {
 	}
 	
 	
-	//모든 부서 조회
+	//모든 부서 조회(팀까지)
 	public List<CodeVO> selectDeptAll() {
 		return sqlSession.selectList(NAMESPACE+".selectDeptAll");
 	}
-
 
 	//코드 조회
 	public CodeVO selectCode(String cNo) {
@@ -89,6 +88,11 @@ public class CodeDAOImpl implements CodeDAO {
 	//부서 코드 목록 조회
 	public List<CodeVO> selectDeptCodeList() {
 		return sqlSession.selectList(NAMESPACE + ".selectDeptCodeList");
+	}
+	
+	//부서 하위 코드 목록 조회
+	public List<CodeVO> selectDeptCodeRelationList(String deptCode) {
+		return sqlSession.selectList(NAMESPACE + ".selectDeptCodeRelationList", deptCode);
 	}
 	
 	//직책 코드 목록 조회
