@@ -38,4 +38,7 @@ public interface EmployeeService {
 	
 	int retrieveEmployeeCount(Map<String, Object> map);
 	
+	List<EmployeeVO> retrieveDeputyRegisterEmployeeList(Map<String, Object> map);
+
+	int retrieveDeputyRegisterCount(Map<String, Object> map);
 }

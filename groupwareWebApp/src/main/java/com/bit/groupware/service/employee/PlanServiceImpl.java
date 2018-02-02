@@ -1,5 +1,7 @@
 package com.bit.groupware.service.employee;
 
+import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +29,14 @@ public class PlanServiceImpl implements PlanService {
 	//일정 등록
 	public void registerPlan(PlanVO plan) {
 		String pNo = planDAO.insertPlan(plan);
-		PlanFileVO file = plan.getFile();
-		if(plan.getFile() != null) {
-			file.setpNo(pNo);
-			planFileDAO.insertPlanFile(file);
+		List<PlanFileVO> files = plan.getFiles();
+		if(files.size() != 0) {
+			for(PlanFileVO file : files) {
+				file.setpNo(pNo);
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("planFiles", files);
+			planFileDAO.insertPlanFile(map);
 		}
 	}
 	
@@ -42,10 +48,14 @@ public class PlanServiceImpl implements PlanService {
 	//일정정보 수정
 	public void modifyPlan(PlanVO plan) {
 		planDAO.updatePlan(plan);
-		PlanFileVO file = plan.getFile();
-		if(plan.getFile() != null) {
-			file.setpNo(plan.getpNo());
-			planFileDAO.insertPlanFile(file);
+		List<PlanFileVO> files = plan.getFiles();
+		if(files.size() != 0) {
+			for(PlanFileVO file : files) {
+				file.setpNo(plan.getpNo());
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("planFiles", files);
+			planFileDAO.insertPlanFile(map);
 		}
 	}
 	

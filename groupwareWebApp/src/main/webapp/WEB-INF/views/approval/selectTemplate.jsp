@@ -142,6 +142,15 @@
 		});
 		
 		
+		//양식서 hover 이벤트
+		$('#datatable tbody').on('mouseover','tr',function() {
+			$(this).css("backgroundColor","#f1f0d8");
+		});
+		$('#datatable tbody').on('mouseleave','tr',function() {
+			$(this).css("backgroundColor","");
+		});
+		
+		
 	});	//$(document).ready End
 	
 	

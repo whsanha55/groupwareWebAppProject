@@ -19,7 +19,7 @@
 		$('#deptBtnList li > a').on('click', function() {	
 			$('#deptBtn').text($(this).text());
 		    $('input[name=deptCode]').val($(this).attr('value'));		    
-		    
+		    /* 
 			$.ajax ({
 				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
 				,
@@ -35,7 +35,7 @@
 					alert("hi");
 					if(data == 1) {
 						
-						/* text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="true">ÆÀ<span class="caret"></span></button>';
+						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="true">ÆÀ<span class="caret"></span></button>';
 						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">';
 						text += '<c:forEach var="relationdeptCode" items="${requestScope.relationdeptCodes }" varStatus="loop">';
 						text += '<li role="presentation">';
@@ -43,14 +43,14 @@
 						text += '</li>';
 						text += '</c:forEach> ';
 						text += '</ul>';	
-						$('#form-dept').find('ul').html(text); */
+						$('#form-dept').find('ul').html(text); 
 					}
 				}
 				,
 				error: function(jqXHR) {
 					alert('error : ' + jqXHR.status);
 				}
-			}); 
+			}); */
 		});
 		
 		

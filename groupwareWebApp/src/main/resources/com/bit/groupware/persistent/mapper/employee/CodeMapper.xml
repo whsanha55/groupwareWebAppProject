@@ -45,7 +45,7 @@
 	
 	
 	<!-- 하위 코드 수 확인 -->
-	<select id="checkRelation" parameterType="String" resultType="int">
+	<select id="checkRelation" parameterType="String" resultType="int" statementType="PREPARED">
 		select count(*)
       	from code
        	where relation_code=#{relationCode}
@@ -105,13 +105,6 @@
 		                            from code
 		                            where c_name = '부서')
 		order by rc.c_no asc
-	</select>
-	
-	<!-- 부서하위코드 수 조회 -->
-	<select id="selectDeptCodeRelationCodeCount" parameterType="String" statementType="PREPARED">
-		select count(c_no)
-		from code
-		where relation_code = #{relationCode}
 	</select>
 	
 	<!-- 직책코드 목록 조회 -->

@@ -12,18 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.employee.DeputyVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.service.employee.EmployeeService;
 
 @Controller
-public class AdminListEmployeeAjaxController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminListEmployeeAjaxController.class);
+public class DeputyRegisterSearchAjaxController {
+	private static final Logger logger = LoggerFactory.getLogger(DeputyRegisterSearchAjaxController.class);
+	
 	@Autowired
 	private EmployeeService employeeService;
-	
-	@RequestMapping(value="/admin/listEmployeeAjax.do", method=RequestMethod.POST)
+
+	@RequestMapping(value="/deputyRegisterSearchAjax.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> form(
 						@RequestParam(required=false) String keyfield,
@@ -34,20 +35,30 @@ public class AdminListEmployeeAjaxController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
-
-		int totalCount = employeeService.retrieveEmployeeCount(map);
+			int totalCount = employeeService.retrieveDeputyRegisterCount(map);
 		if(totalCount < endRow) {
 			endRow = totalCount;
 		}
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		
-		List<EmployeeVO> employees = employeeService.retrieveEmployeeList(map);
-		
+		List<EmployeeVO> employees = employeeService.retrieveDeputyRegisterEmployeeList(map);
+		logger.info("employees : {}",employees);
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("employees", employees);
 		return returnMap;
-		
 	}
+	/*
+	@RequestMapping(value="/registerDeputy.do", method=RequestMethod.POST)
+	public int submit(
+					@RequestParam String dempNo,
+					@RequestParam String startDate,
+					@RequestParam String endDate,
+					@RequestParam String depReason,
+					@RequestParam String empNo) {
+		DeputyVO deputy = new DeputyVO(startDate, endDate, depReason, dempNo, empNo);
+		employeeService.registerDeputy(deputy);
+		return 1;
+	}*/
 }
