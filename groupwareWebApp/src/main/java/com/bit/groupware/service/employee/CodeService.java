@@ -35,4 +35,7 @@ public interface CodeService {
 	List<CodeVO> retrieveDeptCodeList();
 	
 	List<CodeVO> retrieveDutyCodeList();
+	
+	List<CodeVO> retrieveDeptCodeRelationList(String deptCode);
+	
 }

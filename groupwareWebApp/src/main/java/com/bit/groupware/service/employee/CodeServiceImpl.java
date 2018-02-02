@@ -71,4 +71,9 @@ public class CodeServiceImpl implements CodeService {
 	public List<CodeVO> retrieveDutyCodeList() {
 		return codeDAO.selectDutyCodeList();
 	}
+	
+	public List<CodeVO> retrieveDeptCodeRelationList(String deptCode) {
+		return codeDAO.selectDeptCodeRelationList(deptCode);
+	}
+	
 }

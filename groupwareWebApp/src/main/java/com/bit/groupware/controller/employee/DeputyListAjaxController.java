@@ -14,16 +14,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.employee.DeputyVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
+import com.bit.groupware.service.employee.CodeService;
 import com.bit.groupware.service.employee.EmployeeService;
 
 @Controller
-public class AdminListEmployeeAjaxController {
+public class DeputyListAjaxController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminListEmployeeAjaxController.class);
 	@Autowired
 	private EmployeeService employeeService;
+	@Autowired
+	private CodeService codeService;
 	
-	@RequestMapping(value="/admin/listEmployeeAjax.do", method=RequestMethod.POST)
+	@RequestMapping(value="/listDeputyAjax.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> form(
 						@RequestParam(required=false) String keyfield,
@@ -34,19 +38,18 @@ public class AdminListEmployeeAjaxController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
-
-		int totalCount = employeeService.retrieveEmployeeCount(map);
+		map.put("empNo", "2018-00018");
+		int totalCount = employeeService.retrieveDeputyListCount(map);
 		if(totalCount < endRow) {
 			endRow = totalCount;
 		}
+		
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		
-		List<EmployeeVO> employees = employeeService.retrieveEmployeeList(map);
-		
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("totalCount", totalCount);
-		returnMap.put("employees", employees);
+		returnMap.put("deputies", employeeService.retrieveDeputyList(map));
 		logger.info("returnMap : {}", returnMap);
 		return returnMap;
 		

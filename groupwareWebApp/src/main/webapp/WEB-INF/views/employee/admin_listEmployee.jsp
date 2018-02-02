@@ -78,16 +78,20 @@
 				
 				//datatable테이블 변경하기
 				var text = "";
-				for(var i=0;i<data.employees.length;i++) {
-					text += "<tr>";
-					text += "<td><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
-					text += "<td>"+ data.employees[i].empName 		+ "</td>";
-					text += "<td>"+ data.employees[i].duty 			+ "</td>";
-					text += "<td>"+ data.employees[i].department 	+ "</td>";
-					text += "<td>"+ data.employees[i].phoneNumber	+ "</td>";
-					text += "<td>"+ data.employees[i].hireDate		+ "</td>";
-					text += "<td>"+ data.employees[i].email			+ "</td>";
-					text += "</tr>";
+				if(totalCount == 0) {
+					text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+				} else {
+					for(var i=0;i<data.employees.length;i++) {
+						text += "<tr>";
+						text += "<td><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
+						text += "<td>"+ data.employees[i].empName 		+ "</td>";
+						text += "<td>"+ data.employees[i].duty 			+ "</td>";
+						text += "<td>"+ data.employees[i].department 	+ "</td>";
+						text += "<td>"+ data.employees[i].phoneNumber	+ "</td>";
+						text += "<td>"+ data.employees[i].hireDate		+ "</td>";
+						text += "<td>"+ data.employees[i].email			+ "</td>";
+						text += "</tr>";
+					}
 				}
 				$('#datatable').find('tbody').html(text);
 				

@@ -118,6 +118,16 @@
 		order by rc.c_name asc
 	</select>
 	
+	<!-- 부서 하위 코드 리스트 조회 -->
+	<select id="selectDeptCodeRelationList" parameterType="String" resultType="CodeVO">
+		select 
+	    c_no as cNo, 
+	    c_name as cName, 
+	    relation_code as relationCode
+	    from code  
+		where relation_code=#{deptCode}
+		   order by c_no asc
+	</select>
 	
 	<!-- 코드 수정 -->
 	<update id="updateCode" parameterType="CodeVO" statementType="PREPARED" >

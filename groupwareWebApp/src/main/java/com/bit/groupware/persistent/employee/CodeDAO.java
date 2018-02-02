@@ -46,6 +46,8 @@ public interface CodeDAO {
 	//직책 목록 조회
 	List<CodeVO> selectDutyCodeList();
 	
+	List<CodeVO> selectDeptCodeRelationList(String deptCode);
+	
 	/*//페이징 처리
 	int selectCodeCount(Map<String, Object> map);*/
 

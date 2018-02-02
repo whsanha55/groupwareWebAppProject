@@ -91,6 +91,11 @@ public class CodeDAOImpl implements CodeDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectDeptCodeList");
 	}
 	
+	//부서 하위 코드 목록 조회
+	public List<CodeVO> selectDeptCodeRelationList(String deptCode) {
+		return sqlSession.selectList(NAMESPACE + ".selectDeptCodeRelationList", deptCode);
+	}
+	
 	//직책 코드 목록 조회
 	public List<CodeVO> selectDutyCodeList() {
 		return sqlSession.selectList(NAMESPACE + ".selectDutyCodeList");

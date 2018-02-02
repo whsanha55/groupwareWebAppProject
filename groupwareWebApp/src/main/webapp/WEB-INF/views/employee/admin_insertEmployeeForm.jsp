@@ -19,38 +19,49 @@
 		$('#deptBtnList li > a').on('click', function() {	
 			$('#deptBtn').text($(this).text());
 		    $('input[name=deptCode]').val($(this).attr('value'));		    
-		    /* 
+		    
 			$.ajax ({
 				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
 				,
 				method: 'POST'
 				,
 				data: {
-					deptCode: $('input[name=deptCode]').val($(this).attr('value'))
+					deptCode: $('input[name=deptCode]').val()
 				}
 				,
 				dataType: 'json'
 				,
 				success: function(data) {
-					alert("hi");
-					if(data == 1) {
+					var text = "";					
+					
+					if(data.length != 0) {
+						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="false">ÆÀ';
+						text += '<span class="caret"></span></button>';					
+						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu" aria-labelledby="d2Label">';
 						
-						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="true">ÆÀ<span class="caret"></span></button>';
-						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">';
-						text += '<c:forEach var="relationdeptCode" items="${requestScope.relationdeptCodes }" varStatus="loop">';
-						text += '<li role="presentation">';
-						text += '<a role="menuitem" tabindex="-1" href="#" value="${pageScope.relationdeptCode.cNo }">${pageScope.relationdeptCode.cName }</a>';
-						text += '</li>';
-						text += '</c:forEach> ';
+						for (var i = 0; i<data.length; i++) {
+							text += '<li role="presentation">';
+							text += '<a role="menuitem" href="#" value="'+ data[i].cNo +'">'+ data[i].cName +'</a>';
+							text += '</li>';
+						}
+						
 						text += '</ul>';	
-						$('#form-dept').find('ul').html(text); 
+						
+						$(text).appendTo('#form-dept');						
+					} else {
+						return false;
 					}
 				}
 				,
 				error: function(jqXHR) {
 					alert('error : ' + jqXHR.status);
 				}
-			}); */
+			});
+		});
+		
+		$("#form-dept").on('click','#teamBtnList li > a', function () {
+			$("#teamBtn").text($(this).text());
+			$('input[name=deptCode]').val($(this).attr('value'));
 		});
 		
 		
@@ -158,16 +169,15 @@
 						
 						<button data-toggle="dropdown"
 							class="btn btn-default dropdown-toggle" id="deptBtn" type="button"
-							aria-expanded="true">ºÎ¼­ <span class="caret"></span>
+							aria-expanded="false">ºÎ¼­ <span class="caret"></span>
 						</button>
-						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
-						<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
-							</li>
-						</c:forEach>
-						</ul>
-						
+						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="dLabel">
+							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
+								<li role="presentation">
+									<a role="menuitem" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
+								</li>
+							</c:forEach>
+						</ul>						
 					</div>
 
 					<div class="form-group">
