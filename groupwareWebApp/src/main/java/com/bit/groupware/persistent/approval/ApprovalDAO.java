@@ -8,6 +8,9 @@ import com.bit.groupware.domain.approval.ApprovalVO;
 public interface ApprovalDAO {
 
 	List<ApprovalVO> selectApprovalList(Map<String, Object> map);
+	
+	//승인, 반려 문서함에서 조회 
+	List<ApprovalVO> selectAllApprovalList(Map<String, Object> map);
 
 	ApprovalVO selectApproval(int apprNo);
 
@@ -20,4 +23,6 @@ public interface ApprovalDAO {
 	void deleteApproval(List<Integer> apprNos);
 	
 	ApprovalVO selectTempApproval(int apprNo);
+	
+	
 }
