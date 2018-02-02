@@ -1,5 +1,8 @@
 package com.bit.groupware.domain.authority;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoardVO {
 	private int boardNo; 			//게시판 번호
 	private String boardName;  //게시판 이름
@@ -9,10 +12,19 @@ public class BoardVO {
 	private String isComment; 	//코멘트 사용 유무
 	private String isDeptDivide; 	//부서 구분 사용 유무
 	private String isDocuType; 	//문서 종류 사용 유무
-
+	private List<PostVO> posts = new ArrayList<PostVO>();
+	
 	public BoardVO() {
 		super();
 	}
+
+	
+	public BoardVO(int boardNo, String boardName) {
+		super();
+		this.boardNo = boardNo;
+		this.boardName = boardName;
+	}
+
 
 	public int getBoardNo() {
 		return boardNo;
@@ -66,6 +78,18 @@ public class BoardVO {
 		return isDeptDivide;
 	}
 
+
+
+	public List<PostVO> getPosts() {
+		return posts;
+	}
+
+
+	public void setPosts(List<PostVO> posts) {
+		this.posts = posts;
+	}
+
+
 	public void setIsDeptDivide(String isDeptDivide) {
 		this.isDeptDivide = isDeptDivide;
 	}
@@ -78,11 +102,15 @@ public class BoardVO {
 		this.isDocuType = isDocuType;
 	}
 
+
 	@Override
 	public String toString() {
 		return "BoardVO [boardNo=" + boardNo + ", boardName=" + boardName + ", isUse=" + isUse + ", fileCount="
 				+ fileCount + ", isNotice=" + isNotice + ", isComment=" + isComment + ", isDeptDivide=" + isDeptDivide
-				+ ", isDocuType=" + isDocuType + "]";
+				+ ", isDocuType=" + isDocuType + ", posts=" + posts + "]";
 	}
+
+
+	
 	
 }

@@ -10,20 +10,24 @@
 		<id column="line_no" property="lineNo" />
 		<result column="line_order" property="lineOrder" />
 		<result column="appr_type" property="apprType" />
-		<association property="receiver" javaType="ReceiverVO">
-			<id column="receiver_no" property="receiverNo" />
-			<!-- <result column="emp_no" property="empNo"/>
-			<result column="receiver_name" property="receiverName"/> -->
+		<association property="lineEmployee" column="line_emp_no" javaType="EmployeeVO">
+			<id column="line_emp_no" property="empNo" />
+			<result column="emp_name" property="empName"/>
+			<result column="department" property="department"/>
+			<result column="duty" property="duty"/>
 		</association>
 	</resultMap>
 
 	<select id="selectReceiverLineList" parameterType="int"
-		statementType="STATEMENT" resultMap="selectReceiverLineListResultMap">
-		select line_no as lineNo, receiver_no as , line_order, appr_type
-		from receiver_line
-		where line_no = #{receiverNo}
-		<!-- receiver랑 emp 최소 3개는 조인해서 갖고 와야함 -->
-	</select>
+	statementType="PREPARED" resultMap="selectReceiverLineListResultMap">
+		select t1.line_no, t1.line_emp_no, t1.line_order, t1.appr_type,
+		t2.emp_name, t2.department, t2.duty
+		from receiver_line t1, emp_view t2
+		where t1.LINE_EMP_NO= t2.emp_no
+		and t1.receiver_no = #{receiverNo}
+		order by appr_type asc, line_order asc 
+		<!-- 정렬순서 (결재-참조) -->
+</select>
 
 	<insert id="insertReceiverLineList" parameterType="receiverLineVO"
 		statementType="PREPARED">

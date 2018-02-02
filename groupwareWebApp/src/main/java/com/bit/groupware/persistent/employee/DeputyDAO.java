@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bit.groupware.domain.employee.DeputyVO;
+import com.bit.groupware.domain.employee.EmployeeVO;
 
 public interface DeputyDAO {
 
@@ -11,4 +12,7 @@ public interface DeputyDAO {
 	
 	List<DeputyVO> selectDeputyList(Map<String, Object> map);
 
+	List<EmployeeVO> selectDeputyRegisterEmployeeList(Map<String, Object> map);
+	
+	int selectDeputyRegisterCount(Map<String, Object> map);
 }

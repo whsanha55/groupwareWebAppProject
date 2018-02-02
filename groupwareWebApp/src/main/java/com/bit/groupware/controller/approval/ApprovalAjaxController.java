@@ -3,6 +3,7 @@ package com.bit.groupware.controller.approval;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,10 +65,12 @@ public class ApprovalAjaxController {
 	
 	//문서 상세조회
 	@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
-	public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo) {
+	public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
+									   @RequestParam(value="status") int status) {
 		
 		ModelAndView mv =new ModelAndView();
-		
+		mv.addObject("status",status);
+		logger.info("스테이터스 : " +status);
 		mv.addObject("approval",approvalService.retrieveApproval(apprNo));
 		mv.setViewName("approval/approvalDetail/pop");
 		return mv;
@@ -79,10 +82,23 @@ public class ApprovalAjaxController {
 		ModelAndView mv = new ModelAndView();
 		
 		List<ApprovalRecordVO> list=approvalRecordService.retrieveApprovalRecordList(apprNo);
-		logger.info("안녕!!!!"+list.size());
+
  		mv.addObject("records",list);
 		mv.setViewName("approval/approvalRecord/pop"); 
 		return mv;
 	}
 	
+	//결재 회수 처리
+	@RequestMapping(value="/returnApproval.do",method=RequestMethod.GET)
+	@ResponseBody
+	public boolean returnApproval(@RequestParam(value="apprNo") int apprNo) {
+		
+		ApprovalVO appr=new ApprovalVO();
+		appr.setApprNo(apprNo);
+		appr.setApprFinalStatus(4); 
+		approvalService.modifyApproval(appr); 
+		appr=approvalService.retrieveApproval(apprNo);
+		return true;
+		
+	}
 }

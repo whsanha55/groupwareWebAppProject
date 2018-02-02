@@ -8,16 +8,31 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서 코드 목록 조회</title>
+<script type="text/javascript">
+	function msg() {
+		if(confirm("이 코드를 삭제하시겠습니까?") == true) {
+			alert("코드가 삭제되었습니다.")
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
 <script>
 
 	$(document).ready(function() {
+		
+		//검색 조건 선택
+		$('#keyfieldList li > a').on('click', function() {
+			$('#keyfield').text($(this).text());
+			$('input[name=deptCode]').val($(this).attr('value'));
+		})
 		
 		//검색조건
 		$('.search-panel .dropdown-menu').on('click','a',function(e) {
 				e.preventDefault();
 				$('.keyfield').text($(this).text());
 				$('.keyfield').attr('id',$(this).attr('id'));
-				
 		});
 	
 		//검색조건 엔터키 눌렀을때 트리거 발동
@@ -40,22 +55,29 @@
 		});
 		
 		$('#insert').click(function(){
-			var url = '${pageContext.request.contextPath}/admin/registerCode2.do';
+			var relationCode = $("#relationCode").val();
+			console.log(relationCode);
+			var url = '${pageContext.request.contextPath}/admin/registerCode2.do?relationCode='+relationCode;
 			window.open(url, "코드 등록", "width=700, height=600");
 		});
 		
-		$('#modify').click(function(){
-			var url = '${pageContext.request.contextPath}/admin/modifyCode2.do';
+		$('.modify').click(function(){
+			var c_no = $(this).attr('id');
+			var url = '${pageContext.request.contextPath}/admin/modifyCode2.do?cNo='+ c_no;
+			
 			window.open(url, "코드 수정", "width=700, height=600");
 		});
 		
-		$('#remove').click(function() {	
+		/* $('.remove').click(function() {
+			var c_no = $(this).attr('id');
+			var relationCode = $("#relationCode").val();
 			if(confirm("이 코드를 삭제하시겠습니까?") == true) {
 				location.href = "${pageContext.request.contextPath}/admin/removeCode2.do?cNo="+ c_no;
 			} else {
 				return;
 			}
-		});
+		}); */
+		
 		
 	});	//$(document).ready End
 	
@@ -78,71 +100,18 @@
 							</div>
 							<button type="button" id="insert">등록</button>
 						</div>
-						<div class="modal fade bs-example-modal-lg" tabindex="-1"
-							role="dialog" aria-hidden="true">
-							<div class="modal-dialog modal-lg">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">
-											<span aria-hidden="true">×</span>
-										</button>
-										<h4 class="modal-title" id="myModalLabel">코드 등록</h4>
-									</div>
-									<div class="modal-body">
-										<div></div>
-										<table id="datatable"
-											class="table table-striped table-bordered align-right">
-											<tbody>
-												<tr>
-													<th>상위코드</th>
-													<td><div class="input-group-btn search-panel">
-															<button type="button"
-																class="btn btn-default dropdown-toggle"
-																data-toggle="dropdown">
-																<span id="search_concept">코드</span> <span class="caret"></span>
-															</button>
-															<ul class="dropdown-menu" role="menu">
-																<li><a href="#경영관리부">경영관리부</a></li>
-																<li><a href="#인사부">인사부</a></li>
-																<li><a href="#회계부">회계부</a></li>
-																<li><a href="#개발부">개발부</a></li>
-																<li><a href="#영업부">영업부</a></li>
-															</ul>
-														</div></td>
-												</tr>
-												<tr>
-													<th>코드번호</th>
-													<td><input type="text" class="form-control"
-														required="required"></td>
-												</tr>
-												<tr>
-													<th>코드명</th>
-													<td><input type="text" class="form-control"
-														required="required"></td>
-												</tr>
-											</tbody>
-										</table>
-										<br>
-										<div class="text-center">
-											<button type="button" class="btn btn-primary">등록</button>
-											<button type="button" class="btn btn-default"
-												data-dismiss="modal">닫기</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 						<div>
+							<div>
 							<div class="col-md-3 col-xs-offset-2">
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle"
-											data-toggle="dropdown">
-											<span class="keyfield">검색</span> <span class="caret"></span>
+											data-toggle="dropdown" id="keyfield" value="keyfield" aria-expanded="true">
+											<span class="keyfield">검색 <span class="caret"></span></span>
 										</button>
-										<ul class="dropdown-menu" role="menu">
-											<li><a href="cNo">코드번호</a></li>
-											<li><a href="cName">코드명</a></li>
+										<ul id="keyfieldList" class="dropdown-menu" role="menu" aria-labelledby="searchType">
+											<li><a id="cNo">코드번호</a></li>
+											<li><a id="cName">코드명</a></li>
 										</ul>
 									</div>
 									<input type="text" class="form-control keyword" placeholder="검색어를 입력하세요.">
@@ -153,6 +122,7 @@
 									</span>
 								</div>
 							</div>
+						</div>
 						</div>
 					</div>
 					<div class="col-md-6"></div>
@@ -169,25 +139,22 @@
 						</tr>
 					</thead>
 					<tbody>
+						<input id="relationCode" type="hidden" value="${param.relationCode }">
 						<c:forEach var="code" items='${requestScope.codes }' varStatus="loop" >
 							<c:url var="url" value="/admin/listCode3.do" scope="page" >
 								<c:param name="relationCode" value="${pageScope.code.cNo }" />
 							</c:url>
 							<tr>
-								<c:if test="${pageScope.code.countRelationCode != 0 }">
 									<td><a href="${pageScope.url}">${pageScope.code.cNo }</a></td>
-								</c:if>
-								<c:if test="${pageScope.code.countRelationCode == 0 }">
-									<td>${pageScope.code.cNo }</td>
-								</c:if>
 									<td>${pageScope.code.cName }</td>
 									<td>${pageScope.code.countRelationCode }</td>
 									<td><button class="modify" id="${pageScope.code.cNo }" type="button">수정</button></td>
 								<c:if test="${pageScope.code.countRelationCode == 0 }" >
-									<td><c:url var="removeUrl" value="/admin/removeCode2.do" scope="page">
-											<c:param name="cNo" value="${pageScope.code.cNo }"/>
-									  </c:url> 	 	
-											<a href="${pageScope.removeUrl }">삭제</a>
+									<td><c:url var="remove" value="/admin/removeCode2.do" scope="page" >
+											<c:param name="cNo" value="${pageScope.code.cNo }" />
+											<c:param name="relationCode" value="${pageScope.code.relationCode }" />
+										</c:url>
+										<a href="${pageScope.remove }" onclick="return msg();">삭제</a>
 									</td>
 								</c:if>
 								<c:if test="${pageScope.code.countRelationCode != 0 }">

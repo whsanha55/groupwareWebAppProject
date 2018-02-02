@@ -15,10 +15,8 @@ public class NoticeFileDAOImpl implements NoticeFileDAO {
 		sqlSession.insert(NAMESPACE + ".insertNoticeFile", map);		
 		
 	}
-	
-	public void removeNoticeFile(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		
-	}
 
+	public void deleteNoticeFile(int noticeNo) {
+		sqlSession.delete(NAMESPACE + ".deleteNoticeFile", noticeNo);		
+	}
 }

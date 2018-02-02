@@ -22,6 +22,13 @@ public class CodeDAOImpl implements CodeDAO {
 		sqlSession.insert(NAMESPACE + ".insertCode", code);
 	}
 	
+	
+	//모든 부서 조회
+	public List<CodeVO> selectDeptAll() {
+		return sqlSession.selectList(NAMESPACE+".selectDeptAll");
+	}
+
+
 	//코드 조회
 	public CodeVO selectCode(String cNo) {
 		return sqlSession.selectOne(NAMESPACE + ".selectCode", cNo);
@@ -89,10 +96,10 @@ public class CodeDAOImpl implements CodeDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectDutyCodeList");
 	}
 	
-	//페이징 처리
+	/*//페이징 처리
 	public int selectCodeCount(Map<String, Object> map) {
 		return sqlSession.selectOne(NAMESPACE + ".selectCodeCount", map);
-	}
+	}*/
 	
 	
 }

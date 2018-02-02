@@ -29,32 +29,34 @@
 				e.preventDefault();
 			return false;
 		});
+		 
+		//파일 삭제 
+	    $('#deleteBtn').on('click', function() {         
+
+	       location.reload();
+	       alert($(this).val());
+	       $.ajax({
+	          url: '${pageContext.request.contextPath}/deletePostFile.do'
+	          ,
+	          method: 'GET'
+	          ,
+	          data: {noticeNo : $(this).val()}
+	          , 
+	          success: function(data) {
+	              alert("완료!");
+	              
+	          }
+	          , 
+	          error: function(jqXHR) {
+	             alert('Error : ' + jqXHR.status);
+	          }             
+	          
+	       });   
+	    });    
 
 	});
 	
-	//파일 삭제 
-    $('#deleteBtn').on('click', function() {         
-
-       location.reload();
-       alert($(this).val());
-       $.ajax({
-          url: '${pageContext.request.contextPath}/deletePostFile.do'
-          ,
-          method: 'GET'
-          ,
-          data: {noticeNo : $(this).val()}
-          , 
-          success: function(data) {
-              alert("완료!");
-              
-          }
-          , 
-          error: function(jqXHR) {
-             alert('Error : ' + jqXHR.status);
-          }             
-          
-       });   
-    });    
+	
 	</script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
@@ -132,7 +134,7 @@
 								<tr>
 									<td>파일${pageScope.loop.count }</td>
 									<td>${pageScope.postFile.originalFileName }</td>							
-									<td><button type="button"  value="${pageScope.postFile.no }"  id="deleteBtn" class="btn btn-danger" >삭제</button></td>
+									<td><button id="deleteBtn" type="button"  value="${pageScope.postFile.no }" class="btn btn-danger" >삭제</button></td>
 								</tr>
 							</c:forEach>
 						</table>

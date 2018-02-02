@@ -9,7 +9,7 @@
 		<selectKey keyProperty="depNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select 'D'||lpad(deputy_no_seq.nextval,5,0) from dual		
 		</selectKey>				
-		insert into Deputy (dep_no, start_date, end_date, 
+		insert into Deputy (dep_no, to_char(start_date,'YYYY/MM/DD'),to_char(end_date,'YYYY/MM/DD'), 
 									dep_reason,	demp_no, emp_no)
 		values (#{depNo}, #{startDate}, #{endDate}, 
 						#{depReason},#{dempNo},#{empNo})	
@@ -44,7 +44,9 @@
 												resultMap="selectDeputyResultMap">
 		select 
 		    dep_no,
-		    emp_name,
+            (select emp_name
+             from employee
+             where emp_no = demp_no) as emp_name,
 		    start_date,
 		    end_date,
 		    progression,
@@ -56,5 +58,29 @@
 		    and e.emp_no = #{empNo}	
 	</select>
 
+
+	<select id="selectDeputyRegisterEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="PREPARED">
+		select department, duty, empName ,empNo
+	    from (select rownum as rn, emp.*
+			      from (select *
+	                    from emplist_view
+	                    where department = #{keyfield}
+		   					and empName like '%' || #{keyword} || '%'
+	                      order by empNo asc
+	                    ) emp) e
+	    where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow} 
+	</select>
+	
+	<select id="selectDeputyRegisterCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(*)
+	    from (select rownum as rn, emp.*
+			      from (select *
+	                    from emplist_view
+	                    where department = #{keyfield}
+		   					and empName like '%' || #{keyword} || '%'
+	                      order by empNo asc
+	                    ) emp) e
+	</select>
+	
 </mapper>
 

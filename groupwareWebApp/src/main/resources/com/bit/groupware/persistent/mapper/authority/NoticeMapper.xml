@@ -19,8 +19,16 @@
   select NOTICE_NO as noticeNo, NOTICE_TITLE as noticeTitle, HITCOUNT as hitCount, NOTICE_DATE as noticeDate, NOTICE_CONTENTS as noticeContents	
 	  from( select rownum as rn, notice1.*    									
   			  from (select *
-                        from notice 					
-                        order by notice_no desc )notice1) notice2					
+                        from notice 		
+                        <if test="keyfield == 'noticeTitle' and keyword != null">
+                        where NOTICE_TITLE like '%' || #{keyword} || '%'			
+                        </if>
+                        order by notice_no desc )notice1
+                        
+                <if test="keyfield == 'notice' ">
+				where NOTICE_NO is not null
+				</if>
+                  ) notice2					
 	   where rn <![CDATA[>=]]> #{startRow} and rn <![CDATA[<=]]> #{endRow}
    </select>
    
@@ -59,28 +67,20 @@
       where notice_no = #{noticeNo}
    </update>
    
-   <delete id="deleteNotice" statementType="PREPARED"  parameterType="int">
-      delete from notice
-      where notice_no = #{noticeNO}
-   </delete>
+   <delete id="deleteNotice" parameterType="int" statementType="PREPARED">
+		delete from notice
+		where notice_no  in
+		<foreach item="noticeNO" collection="list" separator="," open="(" close=")">
+			#{noticeNO}
+		</foreach>
+	</delete>
    
-   	<select id="findNoticeList" parameterType="map" resultType="NoticeVO">
-		select 
-			notice_no as noticeNo, 
-			notice_title as noticeTitle,
-			hitcount as hitCount,
-			to_char(notice_date, 'YYYY/MM/DD') as noticeDate,
-			notice_contents as noticeContents 
-		from notice
-		<choose>
-			<when test="keyfield == 'noticeTitle' and keyword != null">
-				where notice_title like '%' || #{keyword} || '%'
-			</when>
-		</choose>
-	</select>
-	
-   <select id="selectNoticeCount" statementType="STATEMENT" resultType="int">
+   <select id="selectNoticeCount" statementType="PREPARED" parameterType="map" resultType="int">
 		select count(*)
 		from notice
+		where notice_no is not null
+			<if test="keyfield == 'noticeTitle' and keyword != null">
+				and notice_title like '%'|| #{keyword} ||'%'
+			</if>
 </select>
 </mapper>

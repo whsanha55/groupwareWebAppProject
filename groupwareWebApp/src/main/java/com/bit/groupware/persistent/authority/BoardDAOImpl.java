@@ -17,16 +17,18 @@ public class BoardDAOImpl implements BoardDAO {
 	private SqlSessionTemplate sqlSession;
 	
 	
-	public List<BoardVO> selectBoard() {
+	public List<BoardVO> selectBoardList() {
 		return sqlSession.selectList(NAMESPACE + ".selectBoardList");
 	}
 
-	public void insertBoard(BoardVO board) {
+	public int insertBoard(BoardVO board) {
 		sqlSession.insert(NAMESPACE + ".insertBoard" , board);
+		int boardNo = board.getBoardNo();
+		return boardNo;
 	}
 
-	public void updateBoard(BoardVO board) {
-		sqlSession.update(NAMESPACE + ".updateBoard", board);
+	public int updateBoard(BoardVO board) {
+		return sqlSession.update(NAMESPACE + ".updateBoard", board);
 		
 	}
 
@@ -34,4 +36,14 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.delete(NAMESPACE + ".deleteBoard" , boardNo);
 	}
 
+	public BoardVO selectBoard(int boardNO) {
+		return sqlSession.selectOne(NAMESPACE + ".selectBoard", boardNO);
+	}
+
+	public int selectBoardByBoardNo(int boardNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectBoardByBoardNo" , boardNo);
+	}
+
+	
+	
 }

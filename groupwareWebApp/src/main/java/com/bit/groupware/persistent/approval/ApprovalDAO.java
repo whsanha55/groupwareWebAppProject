@@ -16,4 +16,8 @@ public interface ApprovalDAO {
 	void updateApproval(ApprovalVO approval);
 	
 	int selectApprovalCount(Map<String, Object> map);
+	
+	void deleteApproval(List<Integer> apprNos);
+	
+	ApprovalVO selectTempApproval(int apprNo);
 }

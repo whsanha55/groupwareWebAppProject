@@ -18,6 +18,22 @@
 		height : auto;
 		min-height : 80%;
 	}
+	
+	table[id^='lineTable'] {
+		width : 10%;
+	}
+	table[id^='lineTable'] tr:first-child {
+		height : 20px;
+	}
+	table[id^='lineTable'] tr:nth-child(2) {
+		height : 40px;
+		text-align : center;
+	}
+	table[id^='lineTable'] th {
+		background-color: #3f5367; color: #ECF0F1;
+		text-align: center;
+	}
+	
 </style>
 </head>
 
@@ -33,6 +49,7 @@
 		})
 		
 		
+		
 		//작성 날짜 구하기
 		function getDate() {
 			var date = new Date();
@@ -43,6 +60,55 @@
 		}
 		$('#dateTableData').text(getDate());
 		
+		
+		//결재선 번호(이름) select 이벤트
+		$('select[name=receiverNo]').on('change',function() {
+			var receiverNo = $(this).val();
+			if(receiverNo == 0) {
+				return false;
+			}
+			$.ajax({
+				url : '${pageContext.request.contextPath}/receiverNoAjax.do' ,
+				cache : false ,
+				dataType : 'json' ,
+				type : 'GET' ,
+				data : {
+					receiverNo : receiverNo
+				} ,
+				success : function(data) {
+					console.log(data);
+					var textApprEmpName = "";
+					var textApprDuty = "<th rowspan='2'>결재</th>";
+					var textRefEmpName = "";
+					var textRefEmpDuty = "<th rowspan='2' >참조</th>";
+					var apprCount = 0;
+					var refCount = 0;
+					for(var i=0;i<data.length;i++) {
+						if(data[i].apprType ==0) {	//결재
+							apprCount++;
+							textApprEmpName += "<td>" + data[i].lineEmployee.empName + "</td>";
+							textApprDuty += "<th>" + data[i].lineEmployee.duty + "</th>";
+						} else { //참조
+							refCount++;
+							textRefEmpName += "<td>" + data[i].lineEmployee.empName + "</td>";
+							textRefEmpDuty += "<th>" + data[i].lineEmployee.duty + "</th>";
+						}
+					}
+					$('#lineTableA').css('width', (apprCount+1) * 10 + "%");
+					$('#dutyTableA').html(textApprDuty);
+					$('#empNameTableA').html(textApprEmpName);
+					
+					$('#lineTableR').css('width', (refCount+1) * 10 + "%");
+					$('#dutyTableR').html(textRefEmpDuty);
+					$('#empNameTableR').html(textRefEmpName);
+					
+				} ,
+				error : function(jqXHR) {
+					alert(jqXHR.status);
+					console.log(jqXHR);
+				}
+			});
+		})
 		
 	    //에디터 호출
 	     $('#summernote').summernote({
@@ -70,7 +136,9 @@
 		//에디터 내부에 양식서 폼 불러오기
 		if('${requestScope.template}' != "") {
 		 	$('#summernote').summernote('code','${requestScope.template.tmpContent}');
-		} else {
+		}else if('${requestScope.approval}' != ""){
+			$('#summernote').summernote('code','${requestScope.approval.apprContent}');
+		}else {
 			$('#summernote').summernote('code','');
 		}
 	   
@@ -167,6 +235,12 @@
 			return false;
 		}
 		
+		//hidden tmpNo
+		if('${requestScope.template}' != '') {
+			$('input[name=tmpNo]').val('${requestScope.template.tmpNo}');
+		} else if ('${requestScope.approval}' != '') {
+			$('input[name=tmpNo]').val('${requestScope.approval.template.tmpNo}');
+		}
 		
 		//기안서 등록 ajax function
 		function executeApproval(approvalStatus) {
@@ -231,6 +305,9 @@
 		})
 		
 		
+		
+		
+		
 	});	//document ready End
 	
 </script>
@@ -274,43 +351,45 @@
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_1">상신</button>
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_2">임시저장</button>
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_0">취소</button>			
-	<table id="approvalLine" class="table table-striped table-bordered">
-		<tbody>
-			<tr>
-				<th rowspan="2">결재</th>
-				<th>사장</th>
-				<th>부장</th>
-				<th>팀장</th>
-				<th>대리</th>
+<%-- 	<table id="approvalLine" class="table table-striped table-bordered">
+		--%>
+		<table id='lineTableA' class="table table-striped ">
+			<tr id='dutyTableA'>
+				<th rowspan="2" class="">결재</th>
 			</tr>
-			<tr>
-				<td>사ㅇㅇ</td>
-				<td>부ㅇㅇ</td>
-				<td>팀ㅇㅇ</td>
-				<td>대ㅇㅇ</td>
+			<tr id='empNameTableA'>
 			</tr>
-			<tr>
-				<th rowspan="2">참조</th>
-				<th>부장</th>
-				<th></th>
-				<th></th>
-				<th></th>
+		</table>
+		<table id='lineTableR' class="table table-striped">
+			<tr id='dutyTableR' >
+				<th rowspan="2" >참조</th>
 			</tr>
-			<tr>
-				<td>참ㅇㅇ</td>
-				<td></td>
-				<td></td>
-				<td></td>
+			<tr id='empNameTableR'>
 			</tr>
-		</tbody>
-	</table>
+		</table>
+		
 
-	<table id="approvalData" class="table table-striped table-bordered">
+		<table id="approvalData" class="table table-striped table-bordered">
 		<tr>
 			<th>양식명</th>
-			<td>${requestScope.template.tmpName }</td>
+			<c:choose>
+				<c:when test="${requestScope.template !=null}">
+					<td>${requestScope.template.tmpName }</td>
+				</c:when>
+				<c:when test="${requestScope.approval !=null}">
+					<td>${requestScope.approval.template.tmpName }</td>
+				</c:when>
+				<c:otherwise>
+					<td></td>
+				</c:otherwise>
+			</c:choose>
+				
+				
+			
+			
+			
 			<th>보존기한</th>
-			<td><select class="form-control" name="validDate">
+			<td><select class="form-control" id="validDate" name="validDate">
 			
 					<option value='1'>1년</option>
 					<option value='3'>3년</option>
@@ -334,7 +413,7 @@
 			<td id= 'dateTableData'></td>
 			<th>긴급여부</th>
 			<td>
-				<select class="form-control" name = 'urgency'>
+				<select class="form-control" name = 'urgency' >
                 	<option value='0' selected>일반</option>
                     <option value='1'>긴급</option>
                 </select>
@@ -342,7 +421,16 @@
 		</tr>
 		<tr>
 			<th>제목</th>
-			<td colspan="3"><input type="text" name="apprTitle" class="form-control col-md-10"/></td>
+			<td colspan="3">
+				<c:choose>
+					<c:when test="${requestScope.approval !=null}"> 
+						<input type="text" name="apprTitle" class="form-control col-md-10" value="${requestScope.approval.apprTitle}">
+					</c:when>
+					<c:otherwise >
+						<input type="text" name="apprTitle" class="form-control col-md-10"/>
+					</c:otherwise>
+				</c:choose>
+			</td>
 		</tr>
 
 	</table>
@@ -365,7 +453,8 @@
 		 </div>
       </div>
     </div>
-	<input type="hidden" name="tmpNo" value = "${requestScope.template.tmpNo }">
+ 
+	<input type="hidden" name="tmpNo" >	
 	<input type="hidden" name="apprFinalStatus" >
 	</form>
 	

@@ -73,9 +73,15 @@
 				</if>
 				<if test="empNo != null">
 					and t1.tmp_using = 1
+					order by t1.tmp_name asc) temp
 				</if>
 				
-                 order by t1.tmp_name asc) temp 
+				<if test="empNo == null">
+					order by t1.tmp_No desc) temp
+				</if>
+					
+				
+                  
                  
 			<if test="keyfield == 'bookmark' ">
 				where bookmark_no is not null
