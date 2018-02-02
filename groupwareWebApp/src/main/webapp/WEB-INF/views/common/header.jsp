@@ -1,6 +1,7 @@
 <%--header.jsp --%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,7 +26,7 @@
 				<!-- 알림 -->
                 <li role="presentation" class="dropdown  pull-left">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
+                    <i class="fa fa-bell-o"></i>
                     <span class="badge bg-green">6</span>
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
@@ -87,8 +88,15 @@
                     </li>
                   </ul>
                 </li>
-             
-              
+                
+                <!-- 쪽지함 -->
+                  <li role="presentation" class="dropdown  pull-left">
+                 <a href='<c:url value= "/retrieveMessageList.do"/>' class="dropdown-toggle info-number">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="badge bg-green">20+</span>
+                  </a>
+                  </li>
+                         
               </ul>
             </nav>
           </div>
