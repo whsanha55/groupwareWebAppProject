@@ -42,5 +42,13 @@
 			</otherwise>
 		</choose>
 	</delete>
+	
+	<select id="selectNotificationCount" statementType="PREPARED" parameterType="String" resultType="int">
+		select count(note_no)
+		from notification
+		where emp_no = #{empNo}	
+	</select>
+	
+	
 
 </mapper>

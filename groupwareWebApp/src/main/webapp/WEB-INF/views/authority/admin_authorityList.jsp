@@ -40,7 +40,8 @@
 							</div>
 						</div>
 					</div>
-					<a class="btn btn-primary pull-right"
+					<button class="btn btn-primary">삭제</button>
+					<a class="btn btn-default"
 						href='<c:url value="/admin/authority.do"/>'>추가</a>
 				</div>
 
@@ -66,15 +67,15 @@
 						<tbody>
 							<tr class="even pointer">
 								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td><a data-toggle="modal" data-target="#myModal">A00001<a></td>
-
+								<td><a data-toggle="modal" data-target="#myModal">A00001</a></td>
 								<td class=" ">전체관리자</td>
 								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
 								<td class=" ">유</td>
-								<td class=" ">역할</a>
-									<button>수정</button></td>
+								<td class="align-center"><a class="btn btn-default" href='<c:url value="/admin/designRole.do"/>'>역할</a>
+                           										<button  class="btn btn-default">수정</button>
+                           		</td>
 
-								</td>
+                        </td>
 							</tr>
 							<tr class="even pointer">
 								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
@@ -165,11 +166,9 @@
 					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
 				</div>
 				<div class="modal-body">
-					<table class="table table-striped jambo_table bulk_action">
+					<table class="table table-striped jambo_table bulk_action  text-center">
 						<thead>
-							<tr class="headings">
-								<th><input type="checkbox" id="ex_chk "> 
-								</th>
+							<tr class="headings  text-center text-center">
 								<th class="column-title">사번</th>
 								<th class="column-title">이름</th>
 								<th class="column-title">권한명</th>
@@ -179,23 +178,17 @@
 
 						<tbody>
 							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td><a data-toggle="modal" data-target="#myModal">AAAA1<a></td>
+								<td>AAAA1</td>
 
-								<td class=" ">일길동</td>
-								<td class=" ">전체관리자</td>
-
-								</td>
+								<td>홍길동</td>
+								<td>전체관리자</td>
 
 							</tr>
 							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td><a data-toggle="modal" data-target="#myModal">AAAA1<a></td>
+								<td>AAAA1</td>
 
-								<td class=" ">홍길동</td>
-								<td class=" ">전체관리자</td>
-
-								</td>
+								<td>홍길동</td>
+								<td>전체관리자</td>
 
 							</tr>
 						</tbody>

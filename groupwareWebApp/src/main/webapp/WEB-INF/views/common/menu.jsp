@@ -71,9 +71,7 @@
 				$(name).empty();
 				
 				if(data != 0) {
-					var text = "";
-					text += data;
-					$(name).text(text);
+					$(name).text(data);
 				} 											
 			},
 			error: function(jqXHR, textStatus, errorThrown){
@@ -128,13 +126,13 @@
 							</ul>
 						<li><a>결재 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함&nbsp;&nbsp;<span id="req">3</span></a></li>
+								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함&nbsp;&nbsp;<span id="req"></span></a></li>
 								<li><a href='<c:url value="/approvalProceed.do"/>'>결재
 										진행함</a></li>
 							</ul>
 						<li><a>참조 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href='<c:url value="/approvalRef.do"/>'>참조 문서함&nbsp;&nbsp;<span id="ref">3</span></a></li>
+								<li><a href='<c:url value="/approvalRef.do"/>'>참조 문서함&nbsp;&nbsp;<span id="ref"></span></a></li>
 							</ul>
 						<li><a>완료 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
