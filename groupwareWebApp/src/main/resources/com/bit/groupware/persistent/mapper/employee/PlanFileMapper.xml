@@ -7,11 +7,12 @@
 	
 	<!-- 일정 파일 등록 -->
 	<insert id="insertPlanFile" parameterType="PlanFileVO" statementType="PREPARED">
-		<selectKey keyProperty="no" resultType="String" statementType="STATEMENT" order="BEFORE" >
-			select 'f'||lpad(file_no_seq.nextval,5,0) from dual
-		</selectKey>
-			insert into plan_file(file_no, file_name, system_file_name, file_size, p_no )
-			value ( #{fileNo}, #{planFile.fileName}, #{planFile.systemFileName}, #{planFile.fileSize}, #{planFile.pNo} )
+		insert all
+		<foreach item="planFile" collection="planFiles">
+			into plan_file( file_name, system_file_name, file_size, p_no )
+			values (#{planFile.fileName}, #{planFile.systemFileName}, #{planFile.fileSize}, #{planFile.pNo} )
+		</foreach>
+		select * from dual
 	</insert>
 	
 	<!-- 일정 파일 삭제 -->

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -19,7 +20,7 @@ public class AdminRemoveCodeController {
 	@Autowired
 	private CodeService codeService;
 	
-	//최상위 삭제 요청
+	//최상위 코드 삭제 요청
 	@RequestMapping(value="/admin/removeCode1.do")
 	public String submit1(@ModelAttribute("code")CodeVO code) {
 		logger.info("code : {}", code);

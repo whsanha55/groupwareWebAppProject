@@ -33,11 +33,12 @@
 	
 	<!-- 일정 등록 -->
 	<insert id="insertPlan" parameterType="PlanVO" statementType="PREPARED">
-		<selectKey keyProperty="p_no" resultType="String" statementType="STATEMENT" order="BEFORE">
+		<selectKey keyProperty="pNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select 'p'||lpad(p_no_seq.nextval,5,0) from dual
 		</selectKey>
 		insert into plan(p_no,p_title,dept_no,p_class,p_impt,rspb_no,p_content,start_date,end_date,latitude,longitude)
-		values (#{pNo},#{pTitle},#{pClass},#{pImpt},#{pContent},#{startDate},#{endDate},#{latitude},#{longitude})
+		values ( #{pNo}, #{pTitle}, #{deptNo}, #{pClass}, #{pImpt}, #{rspbNo}, #{pContent}
+					,to_date(#{startDate}, 'YYYY-MM-DD"T"HH24:mi:ss'), to_date(#{endDate}, 'YYYY-MM-DD"T"HH24:mi:ss'), #{latitude}, #{longitude})
 	</insert>
 	
 	
@@ -54,13 +55,13 @@
 		<result column="end_date"		property="endDate" />
 		<result column="latitude"			property="latitude" />
 		<result column="longitude"		property="longitude" />
-		<!-- 1:1 관계 -->
-		<association property="planFile" javaType="PlanFileVO" column="p_no">
+		<!-- 1:N 관계 -->
+		<collection property="planFiles" javaType="list" column="PlanFileVO">
 			<id column="file_no"			property="fileNo" />
 			<result column="file_name"	property="fileName" />
 			<result column="system_file_name"		property="systemFileName" />
 			<result column="file_size"		property="fileSize" />
-		</association>
+		</collection>
 	</resultMap>
 	
 	<select id="selectPlan" resultMap="selectPlanResultMap" statementType="PREPARED" parameterType="String" >

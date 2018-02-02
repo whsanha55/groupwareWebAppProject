@@ -22,4 +22,7 @@ public interface BoardDAO {
 
 	//게시판을 조회하다.
 	BoardVO selectBoard(int boardNO);
+	
+	//게시글이 여러개인 게시판 조회하다.
+	int selectBoardByBoardNo(int boardNo);
 }

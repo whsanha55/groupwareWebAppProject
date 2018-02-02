@@ -8,15 +8,31 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>최상위 코드 목록 조회</title>
+<script type="text/javascript">
+	function msg() {
+		if(confirm("이 코드를 삭제하시겠습니까?") == true) {
+			alert("코드가 삭제되었습니다.")
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
 <script>
 
 	$(document).ready(function() {
 		
+		//검색 조건 선택
+		$('#keyfieldList li > a').on('click', function() {
+			$('#keyfield').text($(this).text());
+			$('input[name=keyfield]').val($(this).attr('value'));
+		})
+		
 		//검색조건
 		$('.search-panel .dropdown-menu').on('click','a',function(e) {
-				e.preventDefault();
-				$('.keyfield').text($(this).text());
-				$('.keyfield').attr('id',$(this).attr('id'));
+			e.preventDefault();
+			$('.keyfield').text($(this).text());
+			$('.keyfield').attr('id',$(this).attr('id'));
 		});
 	
 		//검색조건 엔터키 눌렀을때 트리거 발동
@@ -29,12 +45,9 @@
 		// 검색 실행
 		$('.findCode').on('click', function() {
 			if($('.keyfield').attr('id') == null) {
-				alert('검색조건을 선택해 주세요!');
+				swal("검색조건를 선택해주세요","", "error");
 				return;
 			}
-	
-			pKeyfield = $('.keyfield').attr('id');
-			pKeyword = $('.keyword').val();
 			
 		});
 		
@@ -51,13 +64,40 @@
 			window.open(url, "코드 수정", "width=700, height=600");
 		});
 		
-		$('#remove').click(function() {	
+/* 		$('#button').on('click', function() {
+			if(!confirm("해당 코드를 삭제하시겠습니까?")) {
+				return false;
+			}
+			console.log('cNo : ' + $('#cNo').val());
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/admin/removeCode1.do'
+				,
+				method: 'POST'
+				,
+				dataType: 'json'
+				,
+				data: $('#form').serialize()
+				,
+				success: function(data) {
+					alert("코드가 삭제되었습니다.")
+					location.reload();
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			})
+		}) */
+		
+		/* $('.remove').click(function() {
+			var c_no = $(this).attr('id');
 			if(confirm("이 코드를 삭제하시겠습니까?") == true) {
 				location.href = "${pageContext.request.contextPath}/admin/removeCode1.do?cNo="+ c_no;
 			} else {
 				return;
 			}
-		});
+		}); */
 		
 	});	//$(document).ready End
 	
@@ -88,10 +128,10 @@
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle"
-											data-toggle="dropdown">
-											<span class="keyfield">검색</span> <span class="caret"></span>
+											data-toggle="dropdown" id="keyfield" value="keyfield" aria-expanded="true">
+											<span class="keyfield">검색 <span class="caret"></span></span>
 										</button>
-										<ul class="dropdown-menu" role="menu">
+										<ul id="keyfieldList" class="dropdown-menu" role="menu" aria-labelledby="searchType">
 											<li><a id="cNo">코드번호</a></li>
 											<li><a id="cName">코드명</a></li>
 										</ul>
@@ -109,6 +149,7 @@
 					</div>
 					<div class="col-md-6"></div>
 				</div>
+			<form id="#form">
 				<table id="datatable"
 					class="table table-striped table-bordered text-center">
 					<thead>
@@ -139,19 +180,21 @@
 								<td>${pageScope.code.countRelationCode }</td>
 								<td><button class="modify" id="${pageScope.code.cNo }" type="button">수정</button></td>
 							<c:if test="${pageScope.code.countRelationCode == 0 }" >
-								<td><c:url var="removeUrl" value="/admin/removeCode1.do" scope="page">
-											<c:param name="cNo" value="${pageScope.code.cNo }"/>
-									  </c:url> 	 	
-											<a href="${pageScope.removeUrl }">삭제</a>
-									</td>
-								</c:if>
-								<c:if test="${pageScope.code.countRelationCode != 0 }">
-									<td></td>
-								</c:if>	
+								<td><c:url var="remove" value="/admin/removeCode1.do" scope="page" >
+											<c:param name="cNo" value="${pageScope.code.cNo }" />
+											<c:param name="relationCode" value="${pageScope.code.relationCode }" />
+										</c:url>
+										<a href="${pageScope.remove }" onclick="return msg();">삭제</a>
+								</td>
+							</c:if>
+							<c:if test="${pageScope.code.countRelationCode != 0 }">
+								<td></td>
+							</c:if>	
 								</tr>
 						</c:forEach>
 						</tbody>
 				</table>
+				</form>
 			</div>
 		</div>
 	</div>

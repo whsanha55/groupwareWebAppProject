@@ -20,5 +20,8 @@ public interface BoardService {
 	
 	//게시판을 조회한다. 
 	BoardVO retrieveBoard(int boardNo);
+	
+	//게시글 여러개인 게시판 조회하다.
+	int retrieveBoardByBoardNo(int boardNo);
 
 }
