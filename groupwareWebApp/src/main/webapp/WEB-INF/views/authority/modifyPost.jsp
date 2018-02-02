@@ -14,6 +14,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 	<script>
 	$(document).ready(function() {
+		$('#something').click(function() {
+			location.reload();
+			});
+		
 		 //첨부파일 추가 및 삭제 이벤트
 		$('form').on('click', '.btn-add', function(e) {
 	        e.preventDefault();
@@ -33,13 +37,13 @@
 				e.preventDefault();
 			return false;
 		});
-		 
+
 		//파일 삭제 
 		$('#deleteBtn').on('click', function() {	
 			var no = $(this).val();
 			
 			swal({
-				  title: "파일 삭제",
+				  title: "파일 삭제"+no ,
 				  text: "파일을 삭제합니다. 계속 진행하시겠습니까?",
 				  icon: "info",
 				  buttons : true 
@@ -51,6 +55,7 @@
 			
 			//alert($(this).val());
 			function deletePostFile(no) {	
+				alert(no);
 				$.ajax({
 					url: '${pageContext.request.contextPath}/deletePostFile.do'
 					,
@@ -81,7 +86,7 @@
 					
 				});	
 			}
-		});	   
+		});	 
 
 	});
 	
@@ -90,7 +95,7 @@
     
 </head>
 <body>
-	<form action="<%=request.getContextPath()%>/modifyPost.do" method="post"
+	<form action="${pageContext.request.contextPath }/modifyPost.do" method="post"
 		enctype="multipart/form-data">
 		<input type = "hidden" name ="posteNo" value = "${sessionScope.post.postNo}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
@@ -161,7 +166,7 @@
 								<tr>
 									<td>파일${pageScope.loop.count }</td>
 									<td>${pageScope.postFile.originalFileName }</td>							
-									<td><button id="deleteBtn" type="button"  value="${pageScope.postFile.no }" class="btn btn-danger" >삭제</button></td>
+									<td><button type="button"  value="${pageScope.postFile.no }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td>
 								</tr>
 							</c:forEach>
 						</table>
