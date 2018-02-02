@@ -11,6 +11,7 @@ import com.bit.groupware.domain.authority.NoticeFileVO;
 import com.bit.groupware.domain.authority.NoticeVO;
 import com.bit.groupware.persistent.authority.NoticeDAO;
 import com.bit.groupware.persistent.authority.NoticeFileDAO;
+
 @Service
 public class NoticeServiceImpl implements NoticeService {
 	@Autowired
@@ -71,6 +72,7 @@ public class NoticeServiceImpl implements NoticeService {
 	public int retrieveNoticeCount(Map<String, Object> map) {
 		return noticeDAO.selectNoticeCount(map);
 	}
+	
 
 	public void removeNoticeFile(int noticeNo) {
 		noticeFileDAO.deleteNoticeFile(noticeNo);
