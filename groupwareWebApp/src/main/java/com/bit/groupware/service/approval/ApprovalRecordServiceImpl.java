@@ -2,6 +2,7 @@ package com.bit.groupware.service.approval;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,8 +77,13 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 
 
 	//최초 결재자 결재 여부 확인
-	public int selectApprovalRecallable(int apprNo) {
+	public int retrieveApprovalRecallable(int apprNo) {
 		return dao.selectApprovalRecallable(apprNo);
+	}
+
+	//메뉴 새 문서 개수 표시용
+	public int retrieveNewRecordCount(Map<String, String> map) {
+		return dao.selectNewRecordCount(map);
 	}
 	
 	

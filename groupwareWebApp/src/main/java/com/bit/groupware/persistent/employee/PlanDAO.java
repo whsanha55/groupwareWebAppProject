@@ -21,4 +21,5 @@ public interface PlanDAO {
 	
 	//일정정보 삭제
 	void deletePlan(String pNo);
+	
 }

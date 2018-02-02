@@ -12,5 +12,4 @@ public class AdminRetrieveAuthorityListController {
 		return "authority/admin_authorityList";
 	}
 	
-	
 }

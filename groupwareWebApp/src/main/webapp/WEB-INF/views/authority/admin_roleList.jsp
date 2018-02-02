@@ -143,7 +143,6 @@
                   </ul>
                   
                   </div>
-                  <button class="pull-right">역할 지정</button>
                   <button class="pull-right">일괄 수정</button>
                   <button class="pull-right">일괄 삭제</button>
                </div>

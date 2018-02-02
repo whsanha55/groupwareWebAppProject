@@ -1,6 +1,6 @@
 <%--admin_authority.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -57,8 +57,8 @@
 			</div>
 			<div class="col-md-12">
 				<div class="text-center">
-					<button class="btn btn-primary">등록</button>
-					<button class="btn btn-default">취소</button>
+					<a class="btn btn-primary" href='<c:url value="/admin/authorityList.do"/>'>등록</a>
+					<a class="btn btn-default" href='<c:url value="/admin/authorityAllList.do"/>'>취소</a>
 				</div>
 			</div>
 		</div>

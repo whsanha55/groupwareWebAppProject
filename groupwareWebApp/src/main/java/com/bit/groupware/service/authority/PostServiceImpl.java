@@ -1,42 +1,77 @@
 package com.bit.groupware.service.authority;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.groupware.domain.authority.PostFileVO;
 import com.bit.groupware.domain.authority.PostVO;
+import com.bit.groupware.persistent.authority.PostDAO;
+import com.bit.groupware.persistent.authority.PostFileDAO;
+
 @Service
 public class PostServiceImpl implements PostService {
+	@Autowired
+	private PostDAO postDAO;
+	@Autowired
+	private PostFileDAO postFileDAO;
+	
 
 	public void registerPost(PostVO post) {
-		// TODO Auto-generated method stub
+		postDAO.insertPost(post);
+		List<PostFileVO> files = post.getPostFiles();
 		
+		if (files.size() != 0) {
+			for (PostFileVO file : files) {
+				file.setPostNo(post.getPostNo());
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("postFiles", files);
+			postFileDAO.insertPostFile(map);
+		}
 	}
 
-	public List<PostVO> retrievePostList(Map<String, Integer> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostVO> retrievePostList(Map<String, Object> map) {
+		return postDAO.selectPostList(map);
 	}
 
-	public void modifyPost(PostVO Post) {
-		// TODO Auto-generated method stub
+	public void modifyPost(PostVO post) {
+		postDAO.updatePost(post);
+		List<PostFileVO> files = post.getPostFiles();
 		
+		if (files.size() != 0) {
+			for (PostFileVO file : files) {
+				file.setPostNo(post.getPostNo());
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("postFiles", files);
+			postFileDAO.insertPostFile(map);
+		}
 	}
 
 	public List<PostVO> findPost(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		return postDAO.searchPost(map);
 	}
 
 	public PostVO retrievePost(int postNo) {
-		// TODO Auto-generated method stub
-		return null;
+		PostVO post = postDAO.selectPost(postNo);
+		return post;
 	}
 
 	public void removePost(int postNo) {
-		// TODO Auto-generated method stub
-		
+		postFileDAO.deletePostFile(postNo);
+		postDAO.deletePost(postNo);
+	}
+	
+	public int retrievePostCount() {
+		return postDAO.selectPostCount();
+	}
+	
+	public void removePostFile(int no) {
+		postFileDAO.deletePostFile2(no);
 	}
 
 }

@@ -25,4 +25,7 @@ public interface BoardDAO {
 	
 	//게시글이 여러개인 게시판 조회하다.
 	int selectBoardByBoardNo(int boardNo);
+	
+	//게시판 이름을 조회하다.
+	List<BoardVO> selectBoardNameList();
 }

@@ -9,7 +9,7 @@
 	<insert id="insertPlanFile" parameterType="PlanFileVO" statementType="PREPARED">
 		insert all
 		<foreach item="planFile" collection="planFiles">
-			into plan_file( file_name, system_file_name, file_size, p_no )
+			into plan_file(file_name, system_file_name, file_size, p_no )
 			values (#{planFile.fileName}, #{planFile.systemFileName}, #{planFile.fileSize}, #{planFile.pNo} )
 		</foreach>
 		select * from dual
@@ -19,6 +19,12 @@
 	<delete id="deletePlanFile" parameterType="PlanFileVO" statementType="PREPARED">
 		delete from plan_file
 		where p_no=#{pNo}
+	</delete>
+	
+	<!-- 일정 파일만 삭제 -->
+	<delete id="deletePlanFile2" parameterType="PlanFileVO" statementType="PREPARED">
+		delete from plan_file
+		where file_no=#{fileNo}
 	</delete>
 	
 </mapper>
