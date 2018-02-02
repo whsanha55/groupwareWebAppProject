@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div class="navbar nav_title" style="border: 0;">
-		<a href='<c:url value="/admin/index.do"/>' class="site_title"><i class="fa fa-paw"></i>
+		<a href='<c:url value="/index.do"/>' class="site_title"><i class="fa fa-paw"></i>
 			<span>로고</span></a>
 	</div>
 	<div class="clearfix"></div>
@@ -35,7 +35,7 @@
 						<li class=""><a>관리 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu" style="display: none;">
 								<%-- <li><a href="${pageScope.url1 }">권한 관리</a></li> --%>
-								<li><a href='<c:url value="/admin/authorityAllList.do"/>'>권한
+								<li><a href='<c:url value="/admin/authorityList.do"/>'>권한
 										관리</a></li>
 								<li><a href='<c:url value="/admin/roleList.do"/>'>역할 관리</a></li>
 							</ul></li>
