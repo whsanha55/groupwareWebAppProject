@@ -27,5 +27,9 @@ public interface NoticeDAO {
 	//공지사항 정보를 검색한다.
 	List<NoticeVO> findNotice(String noticeTitle);
 	
-	int selectNoticeCount(Map<String, Object> map); 
+	//총 게시글 수를 구한다.
+	int selectNoticeCount(Map<String, Object> map);
+	
+	//조회수를 증가한다.
+	void upHitCount(int noticeNo);
 }
