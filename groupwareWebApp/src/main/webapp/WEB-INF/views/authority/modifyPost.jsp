@@ -8,6 +8,10 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 	<script>
 	$(document).ready(function() {
 		 //첨부파일 추가 및 삭제 이벤트
@@ -31,39 +35,62 @@
 		});
 		 
 		//파일 삭제 
-	    $('#deleteBtn').on('click', function() {         
-
-	       location.reload();
-	       alert($(this).val());
-	       $.ajax({
-	          url: '${pageContext.request.contextPath}/deletePostFile.do'
-	          ,
-	          method: 'GET'
-	          ,
-	          data: {noticeNo : $(this).val()}
-	          , 
-	          success: function(data) {
-	              alert("완료!");
-	              
-	          }
-	          , 
-	          error: function(jqXHR) {
-	             alert('Error : ' + jqXHR.status);
-	          }             
-	          
-	       });   
-	    });    
+		$('#deleteBtn').on('click', function() {	
+			var no = $(this).val();
+			
+			swal({
+				  title: "파일 삭제",
+				  text: "파일을 삭제합니다. 계속 진행하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+			}).then((e) => {
+			     if(e) {
+			    	 deletePostFile(no);							
+				 }
+			});		
+			
+			//alert($(this).val());
+			function deletePostFile(no) {	
+				$.ajax({
+					url: '${pageContext.request.contextPath}/deletePostFile.do'
+					,
+					method: 'GET'
+					,
+					data: {no}
+					, 
+					async: true
+					,
+					cache: false
+					,
+					success: function(data) {
+						swal({
+							  title: "삭제 완료",
+							  text: "선택하신 파일이 삭제되었습니다.",
+							  icon: "info",
+							  buttons : "확인" 
+						}).then((e) => {
+						     if(e) {
+						    	 location.reload();		
+							 }
+						});		
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);
+					}	 			
+					
+				});	
+			}
+		});	   
 
 	});
 	
 	
 	</script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+    
 </head>
 <body>
-	<form action="<%=request.getContextPath()%>/addPost.do" method="post"
+	<form action="<%=request.getContextPath()%>/modifyPost.do" method="post"
 		enctype="multipart/form-data">
 		<input type = "hidden" name ="posteNo" value = "${sessionScope.post.postNo}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
@@ -127,7 +154,7 @@
 						</script>								
 
 
-						<%-- 업로드된 파일 목록 조회 --%>
+					<%-- 업로드된 파일 목록 조회 --%>
 					<c:if test="${fn: length(sessionScope.post.postFiles) > 0 }">
 						<table border="1">
 							<c:forEach var="postFile" items="${sessionScope.post.postFiles }" varStatus="loop">								

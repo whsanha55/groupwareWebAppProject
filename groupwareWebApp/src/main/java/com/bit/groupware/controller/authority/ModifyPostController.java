@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,11 +26,12 @@ import com.bit.groupware.util.UploadFiles;
 @SessionAttributes("post")
 @Controller
 public class ModifyPostController {
+	private static final Logger logger = LoggerFactory.getLogger(ModifyPostController.class);
 	@Autowired
 	private PostService postService;
 	
 	//게시글 수정 폼 요청
-	@RequestMapping(value="modifyPost.do", method=RequestMethod.GET)
+	@RequestMapping(value="/modifyPost.do", method=RequestMethod.GET)
 	public ModelAndView form(@RequestParam(value="postNo", required = true) int postNo) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("post", postService.retrievePost(postNo));
@@ -37,8 +40,10 @@ public class ModifyPostController {
 	}
 	
 	//게시글 수정 요청
-	public String submit(@ModelAttribute("post") PostVO post,
-			SessionStatus status, HttpSession session) throws Exception {
+	@RequestMapping(value = "/modifyPost.do", method = RequestMethod.POST)
+	public String submit(@ModelAttribute("post") PostVO post, 
+		SessionStatus status, HttpSession session) throws Exception {
+		logger.info("수정@@@@@@@@@@@@@@@ : {}", post);
 		post.getPostFiles().clear();
 		List<MultipartFile> uploadFiles = post.getUpload();
 		ServletContext context = session.getServletContext();
@@ -50,7 +55,8 @@ public class ModifyPostController {
 		}
 		postService.modifyPost(post);
 		status.setComplete();
-		return "redirect:/postList.do?postNo=" + post.getPostNo();
-	}
+		return "redirect:/detailPost.do?postNo=" + post.getPostNo();
+		
+	}	
 
 }

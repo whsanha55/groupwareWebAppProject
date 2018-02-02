@@ -75,9 +75,9 @@
 						</script>								
 
 
-						파 일 : <input type="file" name="upload"> 파 일 : <input
-							type="file" name="upload"> 파 일 : <input type="file"
-							name="upload">
+						파 일 : <input type="file" name="upload"> 
+						파 일 : <input type="file" name="upload"> 
+						파 일 : <input type="file" name="upload">
 
 						<div class="ln_solid"></div>
 

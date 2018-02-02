@@ -16,12 +16,28 @@
 	
 	
 	<select id="selectPostList" resultType="PostVO" statementType="PREPARED" parameterType="map">
-		select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, document_name as documentNo, c_name as cNo
-		from( select rownum as rn, post1.*    									
-         	  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.document_name, c.c_name
+		select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, document_name as documentNo, c_name as cNo  
+	    from( select rownum as rn, post1.*    									
+  			  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.document_name, c.c_name
                     from post p, code c, document d
                     where d.document_no = p.document_no and c.c_no = p.c_no
-                    order by post_no desc )post1) post2			
+                    <if test="keyfield == 'documentNo' and keyword != null">                   
+                       and d.document_name like '%' || #{keyword} || '%'
+                    </if>
+                    <if test="keyfield == 'postTitle' and keyword != null">                    
+                       and p.post_title like '%' || #{keyword} || '%'
+                    </if>
+                    <if test="keyfield == 'cNo' and keyword != null">                   
+                       and c.c_name like '%' || #{keyword} || '%'
+                    </if>
+                    <if test="keyfield == 'writer' and keyword != null">                    
+                       and p.writer like '%' || #{keyword} || '%'
+                    </if>
+                    order by post_no desc )post1 
+              <if test="keyfield == 'post' ">
+              where post_no is not null
+              </if>
+               ) post2		
         where rn <![CDATA[>=]]> #{startRow} and rn <![CDATA[<=]]> #{endRow}	
 	</select>	
 	
@@ -53,33 +69,27 @@
 	
 	<update id="updatePost" parameterType="PostVO" statementType="PREPARED">
 		update post
-		<trim prefix="set" suffixOverrides=",">
-			<if test="post_no != null">
-				post_no = #{postNo} ,
-			</if>
-			<if test="post_title != null">
-				post_title = #{postTitle} ,
+		<trim prefix="set" prefixOverrides=",">
+			<if test="postTitle != null">
+				, post_title = #{postTitle}
 			</if>
 			<if test="writer != null">
-				writer = #{writer} ,
+				, writer = #{writer}
 			</if>
-			<if test="post_date != null">
-				post_date = #{postDate} ,
+			<if test="postDate != null">
+				, post_date = sysdate
 			</if>
-			<if test="post_content != null">
-				post_content = #{postContent} ,	
+			<if test="postContent != null">
+				, post_content = #{postContent}	
 			</if>
-			<if test="document_no != null">
-				document_no = #{documentNo} ,
+			<if test="documentNo != null">
+				, document_no = #{documentNo}
 			</if>			
-			<if test="c_no != null">
-				c_no = #{cNo} ,
-			</if>			
-			<if test="board_no != null">
-				board_no = #{boardNo} ,
-			</if>
+			<if test="cNo != null">
+				, c_no = #{cNo}
+			</if>		
 		</trim>	
-		where post_no = #{value}
+		where post_no = #{postNo}
 	</update>
 	
 	<delete id="deletePost" parameterType="int" statementType="PREPARED">
@@ -87,36 +97,24 @@
 		where post_no = #{postNo}
 	</delete>
 	
-	   	<select id="findPostList" parameterType="map" resultType="PostVO">
-		select 
-			post_no as postNo, 
-			post_title as postTitle,
-			writer,
-			to_char(post_date, 'YYYY/MM/DD') as postDate,
-			post_content as postContent, 
-			document_no as documentNo,
-			c_no as cNo,
-			board_no as boardNo
-		from post
-		<choose>
-			<when test="keyfield == 'documentNo' and keyword != null">
-				where document_no like '%' || #{keyword} || '%'
-			</when>	
-			<when test="keyfield == 'postTitle' and keyword != null">
-				where post_title like '%' || #{keyword} || '%'
-			</when>
-			<when test="keyfield == 'cNo' and keyword != null">
-				where c_no like '%' || #{keyword} || '%'
-			</when>
-			<when test="keyfield == 'writer' and keyword != null">
-				where writer like '%' || #{keyword} || '%'
-			</when>
-		</choose>
-	</select>
+	   
 	
-	<select id="selectPostCount" statementType="STATEMENT" resultType="int">
+	<select id="selectPostCount" statementType="PREPARED" parameterType="map" resultType="int">
 		select count(*)
-		from post
+		from post p, code c, document d
+		where d.document_no = p.document_no and c.c_no = p.c_no and p.post_no is not null 
+			<if test="keyfield == 'documentNo' and keyword != null">
+				and d.document_name like '%'|| #{keyword} ||'%'
+			</if>
+			<if test="keyfield == 'postTitle' and keyword != null">
+				and post_title like '%'|| #{keyword} ||'%'
+			</if>
+			<if test="keyfield == 'cNo' and keyword != null">
+				and c.c_name like '%'|| #{keyword} ||'%'
+			</if>
+			<if test="keyfield == 'writer' and keyword != null">
+				and writer like '%'|| #{keyword} ||'%'
+			</if>
     </select>
 
 </mapper>

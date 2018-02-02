@@ -33,10 +33,10 @@ public class RegisterPostController {
 	// 게시글 쓰기 요청을 처리할 컨틀롤러 메소드
 	@RequestMapping(value = "/addPost.do", method = RequestMethod.POST)
 	public String submit(PostVO post, HttpSession session) throws Exception { 
+		logger.info("입력!!!!!!!!!!!!!!!!! : {}", post);
 		List<MultipartFile> uploadFiles = post.getUpload();
 		for (MultipartFile file : uploadFiles) {
-			if (!file.isEmpty()) {
-				logger.info("file : {}", file);
+			if (!file.isEmpty()) {				
 				ServletContext context = session.getServletContext();
 
 				PostFileVO postFile = UploadFiles.uploadFile2(file, context);

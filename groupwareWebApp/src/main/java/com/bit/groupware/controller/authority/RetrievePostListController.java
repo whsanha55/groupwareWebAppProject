@@ -22,8 +22,16 @@ public class RetrievePostListController {
 	// 게시글 목록 조회 요청
 	@RequestMapping(value = "/PagingAjax1.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getTemplateList(@RequestParam int startRow ,@RequestParam int endRow) {
+	public Map<String,Object> getTemplateList(
+			@RequestParam String keyfield ,
+			@RequestParam(required=false) String keyword ,
+			@RequestParam int startRow ,
+			@RequestParam int endRow ) {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
 		
 		int totalCount = postService.retrievePostCount();
 		if(totalCount < endRow) {
