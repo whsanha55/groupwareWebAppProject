@@ -22,6 +22,8 @@ public interface EmployeeDAO {
 	
 	List<EmployeeVO> selectEmployeeList(Map<String, Object> map);
 	
+	List<EmployeeVO> selectEmployeeNameAndDutyList();
+	
 	String insertEmployee(EmployeeVO employee);
 	
 	void insertEmployeeCode(Map<String, Object> map);
