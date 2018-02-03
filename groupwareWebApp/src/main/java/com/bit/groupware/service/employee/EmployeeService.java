@@ -10,7 +10,6 @@ import com.bit.groupware.domain.employee.EmployeeCodeVO;
 import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 
-@Service
 public interface EmployeeService {
 	
 
@@ -33,6 +32,8 @@ public interface EmployeeService {
 	void registerDeputy(DeputyVO deputy);
 	
 	List<DeputyVO> retrieveDeputyList(Map<String, Object> map);
+	
+	List<EmployeeVO> retrieveEmployeeNameAndDutyList();
 	
 	int retrieveDeputyListCount(Map<String, Object> map);
 	
