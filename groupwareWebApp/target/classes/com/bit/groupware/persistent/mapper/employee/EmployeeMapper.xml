@@ -257,6 +257,11 @@
 		order by duty_no asc ,emp_name asc
 	</select>
 	
+	<select id="selectEmployeeNameAndDutyList" resultType="EmployeeVO" statementType="STATEMENT">
+		select emp_name as empName , duty
+		from emp_view
+		order by emp_name asc, duty_no asc
+	</select>
 	
 	
 	<select id="selectEmployeeCount" statementType="PREPARED" parameterType="map" resultType="int">
@@ -297,6 +302,10 @@
         where c.c_no = rc.relation_code
             and c.c_name = #{cName}
 	</select>
+	
+	
+	
+	
 
 </mapper>
 

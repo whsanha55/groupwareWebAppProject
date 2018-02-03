@@ -10,6 +10,7 @@ public class EmpFancyTreeVO {
 	private List<EmpFancyTreeVO> children;
 	private boolean folder = false;
 	private boolean expanded = false;
+
 	public String getTitle() {
 		return title;
 	}
@@ -58,6 +59,4 @@ public class EmpFancyTreeVO {
 		this.expanded = expanded;
 	}
 
-	
-	
 }

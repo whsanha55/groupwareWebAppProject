@@ -55,6 +55,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 
+	public List<EmployeeVO> retrieveEmployeeNameAndDutyList() {
+		return employeeDAO.selectEmployeeNameAndDutyList();
+	}
+
+
 	public void registerEmployee(EmployeeVO employee) {
 		
 		String empNo = employeeDAO.insertEmployee(employee);

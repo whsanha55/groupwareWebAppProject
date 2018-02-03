@@ -2,7 +2,9 @@ package com.bit.groupware.controller.employee;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,13 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.groupware.domain.employee.EmpFancyTreeVO;
+import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.service.employee.EmployeeFancyTreeService;
+import com.bit.groupware.service.employee.EmployeeService;
 
 @Controller
 public class EmployeeFancyTreeAjaxController {
 
 	@Autowired
 	private EmployeeFancyTreeService fancyTreeService;
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
 	// 조직도 부서 리스트 Ajax
 	@RequestMapping(value = "/retrieveEmployeeDeptList.do", method = RequestMethod.GET)
 	@ResponseBody
@@ -51,5 +59,17 @@ public class EmployeeFancyTreeAjaxController {
 			tree.setFolder(true);
 		}
 		return trees;
+	}
+	
+	
+	@RequestMapping(value="/retrieveEmployeeNameAndDutyList.do", method=RequestMethod.GET)
+	@ResponseBody
+	public Set<String> empNameAndDutyList() {
+		List<EmployeeVO> employees = employeeService.retrieveEmployeeNameAndDutyList();
+		Set<String> set = new HashSet<String>();
+		for(EmployeeVO employee : employees) {
+			set.add(employee.getEmpName() + " " + employee.getDuty());
+		}
+		return set;
 	}
 }

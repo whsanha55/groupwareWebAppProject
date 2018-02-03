@@ -42,19 +42,28 @@ table[id^=tableDnD] span{
 }
 
 table[id^=tableDnD] td:first-child {
- width: 80px; 
- padding:0px;
+	 width: 80px; 
+	 padding:0px;
+}
+
+.ui-autocomplete {
+	z-index: 1051;
+	max-height: 100px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+p {
+	margin : 0px;
 }
 </style>
 <script>
 	$(document).ready(function() {
-		
-		
 		myReceiverList();
 		
 		var selectedEmpNo = ""; 
 		var selectedNameAndDuty = "";
 		var lazyloadList = [];
+		
 		
 		// fancytree 조직도 검색 
 		$("#tree").fancytree({
@@ -90,6 +99,9 @@ table[id^=tableDnD] td:first-child {
 					selectedNameAndDuty = data.node.title;
 					alert(selectedEmpNo + " " + selectedNameAndDuty );
 				}
+			},
+			filter : {
+				autoExpand : true
 			}
 		}); 
 		
@@ -97,7 +109,7 @@ table[id^=tableDnD] td:first-child {
 		//fancytree 검색기능(filter) 깜빡임 문제가 있음
 		var tree = $("#tree").fancytree("getTree");
 		var isTreeFilter = true;
-		$("input[name=search]").on('focus',function() {
+		$("input[name=search]").on('click',function() {
 			if(isTreeFilter) {			
 				tree.reload({
 		    	    url : '${pageContext.request.contextPath}/retrieveEmployeeAllList.do' ,
@@ -105,21 +117,42 @@ table[id^=tableDnD] td:first-child {
 					type : 'GET' ,
 					data : {
 						lazyloadList : lazyloadList.join(',')
-					}
-			     });
+					} 
+			    });
+				
+				$.ajax({
+					 url : '${pageContext.request.contextPath}/retrieveEmployeeNameAndDutyList.do' ,
+					 cache : false ,
+					 type : 'GET' ,
+					 datatype : 'json' ,
+					 success : function(data) {
+						 $("input[name=search]").autocomplete({
+								source : data ,
+								focus : function() {
+									return false;
+								}
+						 });
+					 } ,
+					 error : function(jqXHR) {
+							alert(jqXHR.status);
+							console.log(jqXHR);
+					 }
+					 
+				});	
 			}
 			isTreeFilter = false;
-		})
+		});
 		
 		
-		//fancytree 검색결과
-		$("input[name=search]").keyup(function(e){
+		//fancytree filter 검색
+		/* $("input[name=search]").keyup(function(e){
 	    	   var n,
 		        args = "autoApply autoExpand fuzzy hideExpanders highlight leavesOnly nodata".split(" "),
 		        opts = {},
 		        filterFunc = $("#branchMode").is(":checked") ? tree.filterBranches : tree.filterNodes,
 		        match = $(this).val();
-
+				
+			
 		      $.each(args, function(i, o) {
 		        opts[o] = $("#" + o).is(":checked");
 		      });
@@ -133,7 +166,36 @@ table[id^=tableDnD] td:first-child {
 		      
 		      $("button#btnResetSearch").attr("disabled", false);
 		      $("div#matches").text("(" + n + " 개의 검색결과)");
-		}).focus();
+		}).focus(); */
+		
+		$("input[name=search]").on('keydown',function(e) {
+			$(this).autocomplete("enable");
+			if(e.keyCode == 13 && $('#ui-id-1').css('display') == 'none'){
+				$(this).autocomplete("disable");
+				$('#btnSearch').trigger('click');
+	        }
+		});
+		
+		
+		$("#btnSearch").on('click',function() {
+			var n;
+			var args = "autoApply autoExpand fuzzy hideExpanders highlight leavesOnly nodata".split(" ");
+			var opts = {};
+			var filterFunc = tree.filterNodes;
+			var match = $("input[name=search]").val();
+			$.each(args, function(i, o) {
+		        opts[o] = $("#" + o).is(":checked");
+		      });
+			opts.mode = "hide";
+			opts.autoExpand = true;
+			opts.leavesOnly = true;
+			if($.trim(match) == "") {
+				swal("검색어를 입력하세요","");
+				return;
+			}
+			n = filterFunc.call(tree, match, opts);
+		    $("div#matches").text("(" + n + " 개의 검색결과)");
+		});
 		 
 		 
 		//검색 결과 초기화
@@ -224,6 +286,8 @@ table[id^=tableDnD] td:first-child {
 			});
 		}); //결재선 선택 이벤트 End
 		
+		
+		
 		//결재선 삭제 이벤트
 		$('#deleteReceiver').on('click',function() {
 			var receiverNo = $('select[name=receiverNo]').val();
@@ -311,8 +375,9 @@ table[id^=tableDnD] td:first-child {
 			<div class="col-sm-3 sidenav">
 				
 				<p>
-					<label>검색 :</label> <input name="search" placeholder="검색어를 입력하세요...">
-					<button id="btnResetSearch" class="btn btn-primary btn-sm">&times;</button>
+					<input name="search" placeholder="검색어를 입력하세요...">
+					<button id="btnSearch" class="btn btn-primary btn-sm">검색</button>
+					<button id="btnResetSearch" class="btn btn-primary btn-sm">초기화</button>
 					<div id="matches"></div>
 					<button id="btnOpenAll" class="btn btn-primary btn-sm">모두 펼치기</button>
 					<button id="btnCloseAll" class="btn btn-primary btn-sm">모두 닫기</button>
@@ -342,7 +407,6 @@ table[id^=tableDnD] td:first-child {
 				</div>
 
 			</div>
-
 			<div class="col-sm-7">
 				<span class="col-md-8"> <select class="form-control"
 					name="receiverNo">

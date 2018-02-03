@@ -46,6 +46,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
 	}
 
+	public List<EmployeeVO> selectEmployeeNameAndDutyList() {
+		return sqlSession.selectList(NAMESPACE + ".selectEmployeeNameAndDutyList");
+	}
+
 	public String insertEmployee(EmployeeVO employee) {
 		sqlSession.insert(NAMESPACE + ".insertEmployee", employee);
 		return employee.getEmpNo();
