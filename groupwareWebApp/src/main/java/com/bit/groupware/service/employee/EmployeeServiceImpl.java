@@ -54,11 +54,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDAO.selectEmployeeList(map);
 	}
 	
-	
-	public List<EmployeeVO> retrieveEmployeeByDept(String cNo) {
-		return employeeDAO.selectEmployeeByDept(cNo);
-	}
-
 
 	public void registerEmployee(EmployeeVO employee) {
 		

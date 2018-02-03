@@ -26,8 +26,6 @@ public interface EmployeeService {
 	
 	void removePhoto(String photoNo);
 	*/
-	List<EmployeeVO> retrieveEmployeeByDept(String cNo);
-	
 	List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map);
 	
 	void registerEmployee(EmployeeVO employee);

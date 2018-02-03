@@ -53,64 +53,68 @@ table[id^=tableDnD] td:first-child {
 		myReceiverList();
 		
 		var selectedEmpNo = ""; 
+		var selectedNameAndDuty = "";
+		var lazyloadList = [];
 		
-		// 조직도 검색 
+		// fancytree 조직도 검색 
 		$("#tree").fancytree({
 			extensions: ["filter"],
-		    icon : false ,
+		    //icon : true ,
+			icon: function(event, data){
+		         if( data.node.isFolder() ) {
+		           return "glyphicon glyphicon-book";
+		         } else {
+		        	 return "glyphicon glyphicon-user";
+		         }
+			},
 			source : {
-				url : '${pageContext.request.contextPath}/receiverDeptListAjax.do' ,
+				url : '${pageContext.request.contextPath}/retrieveEmployeeDeptList.do' ,
 				cache : false ,
 				type : 'GET'
 			},
-			filter: {
-		        autoApply: true,   // Re-apply last filter if lazy data is loaded
-		        autoExpand: true, // Expand all branches that contain matches while filtered
-		        counter: true,     // Show a badge with number of matching child nodes near parent icons
-		        fuzzy: false,      // Match single characters in order, e.g. 'fb' will match 'FooBar'
-		        hideExpandedCounter: true,  // Hide counter badge if parent is expanded
-		        hideExpanders: false,       // Hide expanders if all child nodes are hidden by filter
-		        highlight: true,   // Highlight matches by wrapping inside <mark> tags
-		        leavesOnly: false, // Match end nodes only
-		        nodata: true,      // Display a 'no data' status node if result is empty
-		        mode: "dimm"       // Grayout unmatched nodes (pass "hide" to remove unmatched node instead) dimm
-		    } ,
 			lazyload : function(event,data) {
 				var node = data.node;
+				lazyloadList.push(node.key);
 				data.result = {
-					url : '${pageContext.request.contextPath}/receiverEmpListAjax.do' ,
+					url : '${pageContext.request.contextPath}/retrieveEmployeeEmpList.do' ,
 					cache : false ,
 					type : 'GET' ,
 					data : {
-						cNo : node.key
+						dutyNo : node.key
 					}
 				}
 			} ,
 			click : function(event, data) {
 				if(data.node.key.length ==10) {
 					selectedEmpNo = data.node.key;
-					alert(selectedEmpNo);
+					selectedNameAndDuty = data.node.title;
+					alert(selectedEmpNo + " " + selectedNameAndDuty );
 				}
-			} ,
-			
-			 
+			}
 		}); 
 		
-		 var tree = $("#tree").fancytree("getTree");
 		
-		
-		 $("input[name=search]").keyup(function(e){
-		       var tree = $.ui.fancytree.getTree();
-		       tree.reload( {
-		    	   url : '${pageContext.request.contextPath}/retrieveEmployeeCodeList.do' ,
+		//fancytree 검색기능(filter) 깜빡임 문제가 있음
+		var tree = $("#tree").fancytree("getTree");
+		var isTreeFilter = true;
+		$("input[name=search]").on('focus',function() {
+			if(isTreeFilter) {			
+				tree.reload({
+		    	    url : '${pageContext.request.contextPath}/retrieveEmployeeAllList.do' ,
 					cache : false ,
-					type : 'GET'
-		       }).done(function(e) {
-		    	   alert(e + 'done');
-		       })
-			 
-		      /* var n,
-		        tree = $.ui.fancytree.getTree(),
+					type : 'GET' ,
+					data : {
+						lazyloadList : lazyloadList.join(',')
+					}
+			     });
+			}
+			isTreeFilter = false;
+		})
+		
+		
+		//fancytree 검색결과
+		$("input[name=search]").keyup(function(e){
+	    	   var n,
 		        args = "autoApply autoExpand fuzzy hideExpanders highlight leavesOnly nodata".split(" "),
 		        opts = {},
 		        filterFunc = $("#branchMode").is(":checked") ? tree.filterBranches : tree.filterNodes,
@@ -125,44 +129,34 @@ table[id^=tableDnD] td:first-child {
 		        $("button#btnResetSearch").click();
 		        return;
 		      }
-		      if($("#regex").is(":checked")) {
-		        // Pass function to perform match
-		        n = filterFunc.call(tree, function(node) {
-		          return new RegExp(match, "i").test(node.title);
-		        }, opts);
-		      } else {
-		        // Pass a string to perform case insensitive matching
-		        n = filterFunc.call(tree, match, opts);
-		      }
+		      n = filterFunc.call(tree, match, opts);
+		      
 		      $("button#btnResetSearch").attr("disabled", false);
-		      $("span#matches").text("(" + n + " matches)"); */
-		    }).focus();
-		
-		 $("button#btnResetSearch").click(function(e){
-		      $("input[name=search]").val("");
-		      $("span#matches").text("");
-		      tree.clearFilter();
-		    }).attr("disabled", true);
+		      $("div#matches").text("(" + n + " 개의 검색결과)");
+		}).focus();
 		 
-	
-
+		 
+		//검색 결과 초기화
+		$("button#btnResetSearch").click(function(e){
+		      $("input[name=search]").val("");
+		      $("div#matches").text("");
+		      tree.clearFilter();
+		});
 		
 		
-		
-		
-		
-		
+		//fancytree 모두 펼치기
 		$('button#btnOpenAll').on('click',function() {
 			$("#tree").fancytree("getTree").visit(function(node){
 		        node.setExpanded();
 		    });
 		});
 		
+		//fancytree 모두 닫기
 		$('button#btnCloseAll').on('click',function() {
 			$("#tree").fancytree("getTree").visit(function(node){
 		        node.setExpanded(false);
 		    });
-		});
+		});		//여기까지 모든 fancytree 관련 함수
 		
 		 
 		
@@ -315,27 +309,18 @@ table[id^=tableDnD] td:first-child {
 		<div class="row content">
 
 			<div class="col-sm-3 sidenav">
-				<!-- <div class="input-group">
-					<input type="text" class="form-control" placeholder="Search Blog..">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button">
-							<span class="glyphicon glyphicon-search"></span>
-						</button>
-						<button class="btn btn-default" type="button">전체</button>
-					</span> -->
+				
 				<p>
-					<label>검색 :</label> <input name="search" placeholder="Filter..."
-						autocomplete="off">
-					<button id="btnResetSearch">&times;</button>
-					<button id="btnOpenAll">모두 펼치기</button>
-					<button id="btnCloseAll">모두 닫기</button>
-					<span id="matches"></span>
+					<label>검색 :</label> <input name="search" placeholder="검색어를 입력하세요...">
+					<button id="btnResetSearch" class="btn btn-primary btn-sm">&times;</button>
+					<div id="matches"></div>
+					<button id="btnOpenAll" class="btn btn-primary btn-sm">모두 펼치기</button>
+					<button id="btnCloseAll" class="btn btn-primary btn-sm">모두 닫기</button>
 				</p>
 
 			<div id="tree"></div>
 			</div>
-
-
+ 
 			<div class="col-sm-2 " id='apprTypeDiv'>
 				<div class="btns">
 					<h2>
