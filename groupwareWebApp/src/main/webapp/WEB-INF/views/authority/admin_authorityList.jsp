@@ -6,51 +6,202 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>content</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+	var pKeyfield='notice';
+	var pKeyword;
+	$(document).ready(function() {
+		
+		Paging(1); 
+		
+		//	검색조건
+		$('.search-panel .dropdown-menu').on('click','a',function(e) {
+				e.preventDefault();
+				$('.keyfield').text($(this).text());
+				$('.keyfield').attr('id',$(this).attr('id'));
+				
+		});
+		
+		
+		//검색조건 엔터키 눌렀을때 트리거 발동
+		$('.keyword').on('keydown', function(e) {
+			if(e.keyCode == 13){
+				$('.find').trigger('click');
+	        }
+		});
+		
+		
+		// 검색 실행
+		$('.find').on('click', function() {
+			if($('.keyfield').attr('id') == null) {
+				swal("검색조건를 선택해주세요","", "error");
+				return;
+			}
+
+			pKeyfield = $('.keyfield').attr('id');
+			pKeyword = $('.keyword').val();
+			
+			Paging(1);
+			
+		});
+		
+	});
+	
+	function Paging(currentPageNo) {
+		var totalCount =  0;		//총 양식서 수
+		var countPerPage = 7;   //한 페이지당 보여주는 양식서 수
+		var pageSize = 7;		//페이지 리스트에 게시되는 페이지 수
+		var startRow = (currentPageNo - 1) * countPerPage + 1;
+		var endRow = currentPageNo * countPerPage;
+		var num = 0;	//현재 페이지번호에 속한 게시글의 시작번호
+		
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/AuthorityPagingAjax.do' 
+			,
+			data: {
+				keyfield: pKeyfield ,
+				keyword: pKeyword ,	
+				startRow : startRow ,
+				endRow : endRow
+			},
+			type: 'POST' ,
+			cache: false ,
+			dataType: 'json' ,
+			success: function (data, textStatus, jqXHR) {
+				
+				totalCount = data.totalCount;
+				num = totalCount - (currentPageNo - 1) * countPerPage;
+				
+				//datatable테이블 변경하기
+				var text = "";
+				for(var i=0;i<data.authorities.length;i++) {
+					text += "<tr class='even pointer'>";
+					text += "<td class='a-center'><input type='checkbox' id='ex_chk'> </td>";
+					text += "<td><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
+					text += "<td>"+ data.authorities[i].aName + "</td>";
+					text += "<td>"+ data.authorities[i].aNote + "</td>";
+					text += "<td>"+ data.authorities[i].aWhether + "</td>";
+					text += "<td class='align-center'><a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button class='btn btn-default'>수정</button></td>";
+					text += "</tr>";
+				}
+					$('#datatable').find('tbody').html(text);
+				
+					//페이징 처리
+					jqueryPager({
+						countPerPage : countPerPage,
+						pageSize : pageSize,
+						currentPageNo : currentPageNo,
+						totalCount : totalCount
+					});
+					
+				
+			} ,
+			error: function(jqXHR) {
+				alert("에러: " + jqXHR.status);
+			}
+			
+		});
+		
+
+	} //end Paging function
+	
+	
+	//페이징 처리
+	function jqueryPager(subOption) {
+	
+		var pageBlock = subOption.countPerPage;   
+		var pageSize = subOption.pageSize;        
+		var currentPage = subOption.currentPageNo;  
+		var pageTotal = subOption.totalCount;       
+ 		var pageTotalCnt = Math.ceil(pageTotal/pageBlock); 	
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
+		
+		
+		var html ="<ul class='pagination'>";
+	
+		
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
+			ePage = pageTotalCnt;
+		} else {
+			ePage = pageBlockCnt * pageSize;
+		} 
+		
+		if(sPage <= 1) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Previous">' 
+		} else {
+			html += '<li class="page-item ">';
+			html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageSize) + ')">'; 
+		}
+		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
+		
+		for(var i=sPage; i<=ePage; i++) {
+			if(currentPage == i) {
+				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
+			} else {
+				html += '<li class="page-item"><a class="page-link" onclick="Paging(' + i + ');">' + i + '</a></li>';
+			}
+		}				
+	
+		if (ePage >= pageTotalCnt) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Next">';
+		} else {
+			html += '<li class="page-item">';
+			html += '<a class="page-link" aria-label="Next" onclick = "Paging(' + (ePage+1) + ')">';
+		}
+		html += '<span aria-hidden="true">&raquo;</span> </a></li>';
+		html += '</ul>';
+		
+		$('#Paging').html(html);
+	
+	}
+	
+</script>
 </head>
 <body>
 	<!-- 등록된 관리자 리스트 -->
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>등록된 관리자 리스트</h2>
+				<h2>권한 리스트</h2>
 
 				<div class="clearfix"></div>
 			</div>
-			<div>
-				<div class="btn-group">
-					<button data-toggle="dropdown"
-						class="btn btn-default dropdown-toggle" type="button"
-						aria-expanded="false">
-						검색조건 <span class="caret"></span>
-					</button>
-					<ul role="menu" class="dropdown-menu">
-						<li><a href="#">아이디</a></li>
-						<li><a href="#">이름</a></li>
-						<li><a href="#">권한명</a></li>
-					</ul>
-					<div class="col-sm-3">
-						<div id="imaginary_container">
-							<div class="input-group stylish-input-group">
-								<input type="text" class="form-control" placeholder="Search">
-								<span class="input-group-addon" style="padding: 3px 10px">
-									<button type="submit">
-										<span class="glyphicon glyphicon-search"></span>
-									</button>
-								</span>
-							</div>
-						</div>
+			 <div class="container">
+			<div class="row">    
+			        <div class="col-xs-5">
+					    <div class="input-group">
+			                <div class="input-group-btn search-panel">
+			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			                    	<span class="keyfield">검색조건</span> <span class="caret"></span>
+			                    </button>
+			                    <ul class="dropdown-menu" role="menu">
+			                      	<li><a id="empNo">아이디</a></li>
+								  	<li><a id="empName">이름</a></li>
+								  	<li><a id="aName">권한명</a></li>
+			                    </ul>
+			                </div>
+			                <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
+			                <span class="input-group-btn">
+			                    <button class="btn btn-default find" type="button">
+			                    	<span class="glyphicon glyphicon-search"></span>
+			                    </button>
+			                </span>
+			            </div>   
+			        </div>
+			        <div>
+						<button class="btn btn-primary pull-right">삭제</button>
+						<a class="btn btn-default pull-right" href='<c:url value="/admin/authority.do"/>'>추가</a>
 					</div>
-					<button class="btn btn-primary">삭제</button>
-					<a class="btn btn-default"
-						href='<c:url value="/admin/authority.do"/>'>추가</a>
 				</div>
-
-			</div>
+					
+				</div>
 			<div class="x_content">
-
-
-
-				<div class="table-responsive">
+				<div id="datatable" class="table-responsive">
 					<table class="table table-striped jambo_table bulk_action">
 						<thead>
 							<tr class="headings">
@@ -65,86 +216,12 @@
 						</thead>
 
 						<tbody>
-							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td><a data-toggle="modal" data-target="#myModal">A00001</a></td>
-								<td class=" ">전체관리자</td>
-								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
-								<td class=" ">유</td>
-								<td class="align-center"><a class="btn btn-default" href='<c:url value="/admin/designRole.do"/>'>역할</a>
-                           										<button  class="btn btn-default">수정</button>
-                           		</td>
-
-                        </td>
-							</tr>
-							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td class=" ">A00001</td>
-								<td class=" ">전체관리자</td>
-								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
-								<td class=" ">유</td>
-								<td class=" "><button>역할</button>
-									<button>수정</button></td>
-
-								</td>
-							</tr>
-							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td class=" ">A00001</td>
-								<td class=" ">전체관리자</td>
-								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
-								<td class=" ">유</td>
-								<td class=" "><button>역할</button>
-									<button>수정</button></td>
-
-								</td>
-							</tr>
-							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td class=" ">A00001</td>
-								<td class=" ">전체관리자</td>
-								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
-								<td class=" ">유</td>
-								<td class=" "><button>역할</button>
-									<button>수정</button></td>
-
-								</td>
-							</tr>
-							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td class=" ">A00001</td>
-								<td class=" ">전체관리자</td>
-								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
-								<td class=" ">유</td>
-								<td class=" "><button>역할</button>
-									<button>수정</button></td>
-
-								</td>
-							</tr>
-							<tr class="even pointer">
-								<td class="a-center "><input type="checkbox" id="ex_chk"> </td>
-								<td class=" ">A00001</td>
-								<td class=" ">전체관리자</td>
-								<td class=" ">커뮤니티 접근 (** .do 접근 롤 부여)</td>
-								<td class=" ">유</td>
-								<td class=" "><button>역할</button>
-									<button>수정</button></td>
-
-								</td>
-							</tr>
+	
 						</tbody>
 					</table>
 					<div>
 						<div class="text-center">
-							<ul class="pagination ">
-								<li class="disabled"><a href="#"><span
-										class="glyphicon glyphicon-chevron-left"></span></a></li>
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><span
-										class="glyphicon glyphicon-chevron-right"></span></a></li>
-							</ul>
+							<nav aria-label="Page navigation" id = 'Paging'></nav> 
 						</div>
 					</div>
 				</div>

@@ -8,13 +8,9 @@ import com.bit.groupware.domain.authority.AuthorityVO;
 public interface AuthorityDAO {
 	
 	//권한정보를 권한번호순으로 오름차순으로 조회한다.
-	List<AuthorityVO> selectAuthorityListByAdmin(Map<String, Integer> map);
+	List<AuthorityVO> selectAuthorityList(Map<String, Object> map);
 	
-	//검색 조건에 해당하는 정보를 검색한다.
-	//검색 조건에 따라 오름차순으로 정렬하여 보여준다.
-	List<AuthorityVO> searchAuthority(Map<String , Object> map);
-	
-	//권한을 추가한다.
+	//권한을 등록한다.
 	//권한 번호는 A + 일련번호(6자리)로 부여한다.
 	String insertAuthority(AuthorityVO authority);
 	
@@ -24,5 +20,6 @@ public interface AuthorityDAO {
 	//권한을 일괄 삭제한다.
 	void deleteAuthority(Map<String, Object> map);	
 	
-
+	//총 게시글 수를 구한다.
+	int selectAuthorityCount(Map<String, Object> map);
 }
