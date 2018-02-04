@@ -300,8 +300,9 @@
 		})
 		
 		$('#modalCloseBtn').on('click',function() {
+			myReceiverList(false);
 			$('#receiverBody').html("");
-			//alert('hi');
+			 
 		})
 		
 		
