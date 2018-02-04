@@ -37,10 +37,19 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	//총 게시글 수를 구하다.
 	public int selectAuthorityCount(Map<String, Object> map) {
 		return sqlSession.selectOne(NAMESPACE + ".selectAuthorityCount", map);
+	}
+
+	//권한을 조회하다.
+	public AuthorityVO selectAuthorityByaNo(String aNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectAuthorityByaNo" , aNo);
+	}
+
+	public List<AuthorityVO> selectAuthEmpList(String aNo) {
+		return sqlSession.selectList(NAMESPACE + ".selectAuthEmpList", aNo);
 	}
 
 	
