@@ -37,8 +37,8 @@ input[name=receiverName] {
 table[id^=tableDnD] span{
 	display : inline-block;
 }
-tableDnDAppr.dragRow {
-	background-color : #f1f0d8;
+#tableDnDAppr tr.dragRow {
+	background-color : #f1f0d8 !important;
 }
 
 table[id^=tableDnD] td:first-child {
@@ -453,10 +453,7 @@ select[name=apprType] {
 		//tableDnD 함수 (테이블 변동 있을 때 마다 호출해야함)		
 		function doTableDnD() {
 			$('#tableDnDAppr').tableDnD({
-					onDragClass: "dragRow",
-					onDrop : function(table,row) {
-						  console.log($.tableDnD.serialize());
-					}
+					onDragClass: "dragRow"
 					
 			});
 		}
@@ -500,7 +497,7 @@ select[name=apprType] {
 		//새로운 결재선과 결재선 라인 등록 이벤트
 		$('#submitReceiver').on('click',function() {
 			var receiverName = $('input[name=receiverName]').val();
-			if(receiverName == null) {
+			if(receiverName == null || receiverName == '') {
 				swal('등록하실 결재선 이름을 입력해주세요');
 				return;
 			}
@@ -646,7 +643,7 @@ select[name=apprType] {
 				<button class="btn btn-success" id='modifyReceiver' type="button">이름변경</button>
 				<button class="btn btn-danger" id='deleteReceiver' type="button">삭제</button>
 
-				<div class="table border border-secondary">
+				<div class="border border-secondary">
 					<table class="table table-bordered" id='tableDnDAppr'>
 						<c:forEach begin="1" end="9">
 							<tr class="nodrag nodrop">
