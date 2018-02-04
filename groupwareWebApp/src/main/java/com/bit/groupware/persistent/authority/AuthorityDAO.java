@@ -14,8 +14,8 @@ public interface AuthorityDAO {
 	//권한 번호는 A + 일련번호(6자리)로 부여한다.
 	String insertAuthority(AuthorityVO authority);
 	
-	//권한정보를 일괄수정한다.
-	void updateAuthority(List<AuthorityVO> authority);
+	//권한정보를 수정한다.
+	void updateAuthority(AuthorityVO authority);
 	
 	//권한을 일괄 삭제한다.
 	void deleteAuthority(Map<String, Object> map);	

@@ -28,9 +28,9 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 		return null;
 	}
 
-	public void updateAuthority(List<AuthorityVO> authority) {
-		// TODO Auto-generated method stub
-		
+	//권한을 수정하다.
+	public void updateAuthority(AuthorityVO authority) {
+		sqlSession.update(NAMESPACE + ".updateAuthority" , authority);
 	}
 
 	public void deleteAuthority(Map<String, Object> map) {

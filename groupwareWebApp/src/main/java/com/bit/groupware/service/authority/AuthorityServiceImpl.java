@@ -26,7 +26,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return null;
 	}
 
-	public void modifyAuthority(List<AuthorityVO> authority) {
+	public void modifyAuthority(AuthorityVO authority) {
 		// TODO Auto-generated method stub
 		
 	}
