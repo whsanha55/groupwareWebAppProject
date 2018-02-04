@@ -22,4 +22,10 @@ public interface AuthorityDAO {
 	
 	//총 게시글 수를 구한다.
 	int selectAuthorityCount(Map<String, Object> map);
+	
+	//권한을 조회하다.
+	AuthorityVO selectAuthorityByaNo(String aNo);
+	
+	//권한번호에 대한 사원을 조회하다.
+	List<AuthorityVO> selectAuthEmpList(String aNo);
 }
