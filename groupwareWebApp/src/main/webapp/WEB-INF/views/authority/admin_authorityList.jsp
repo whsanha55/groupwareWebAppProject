@@ -45,7 +45,7 @@
 			
 		});
 		
-	});
+
 	
 	function Paging(currentPageNo) {
 		var totalCount =  0;		//총 양식서 수
@@ -78,11 +78,11 @@
 				for(var i=0;i<data.authorities.length;i++) {
 					text += "<tr class='even pointer'>";
 					text += "<td class='a-center'><input type='checkbox' id='ex_chk'> </td>";
-					text += "<td><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
-					text += "<td>"+ data.authorities[i].aName + "</td>";
-					text += "<td>"+ data.authorities[i].aNote + "</td>";
-					text += "<td>"+ data.authorities[i].aWhether + "</td>";
-					text += "<td class='align-center'><a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button class='btn btn-default'>수정</button></td>";
+					text += "<td id="+ data.authorities[i].aNo +" class='aName'><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
+					text += "<td id="+ data.authorities[i].aName +" class='aName'>"+ data.authorities[i].aName + "</td>";
+					text += "<td id="+ data.authorities[i].aNote +"  class='aNote'>"+ data.authorities[i].aNote + "</td>";
+					text += "<td id="+ data.authorities[i].aWhether +" class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
+					text += "<td class='align-center'><a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button id='modify' class='btn btn-default'>수정</button></td>";
 					text += "</tr>";
 				}
 					$('#datatable').find('tbody').html(text);
@@ -159,7 +159,89 @@
 		$('#Paging').html(html);
 	
 	}
+	//권한 조회
+	$('#datatable').on('click','#modify',function (){
+		$.ajax({
+			url : '${pageContext.request.contextPath}/retrieveBoardAjax.do'
+			,
+			method : 'GET'
+			,
+			data : {
+				aNo: $('.aNo').attr("id")
+			}
+			,
+			dataType: 'json'
+			,
+			async : true
+			,
+			cache : true
+			,
+			success : function(data, textStatus, jqXHR){
+				$('.modifyForm tr > td:eq(2)').empty();
+				$('.modifyForm tr > td:eq(2)').append("<input type='text' name="+ data.aName +" value="+ data.aName +" />");
+				$('.modifyForm tr > td:eq(3)').empty();
+				$('.modifyForm tr > td:eq(3)').append("<input type='text' name="+ data.aNote +" value="+ data.aNote +" />");
+				$('.modifyForm tr > td:eq(4)').empty();
+				$('.modifyForm tr > td:eq(4)').append("<label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio1' value='0'> 유 </label> <label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio2' value='1'>무</label>");
+				
+				if(data.aWhether == '0') {
+					$('input[name=aWhether][value=0]').prop('checked',true);
+				}else{
+					$('input[name=aWhether][value=1]').prop('checked',true);
+				}
+				
+			}
+			,
+			error : function(jqXHR, textStatus, errorThrown){
+				alert('error: ' + jqXHR.status);
+			}
+		});
+	});
 	
+	
+	//수정
+	/* $('#datatable').on('click','#modify',function (){
+			
+		 swal({
+			  title: "게시판을 수정하시겠습니까?",
+			  icon: "info",
+			  buttons : true 
+			}).then((e) => {
+				if(e) {
+					$.ajax({
+						url : '${pageContext.request.contextPath}/modifyAuthorityAjax.do'  
+							,
+							method : 'POST'
+							,
+							data : {
+								aName : $('.aName').attr("id"),
+								aNote : $('.aNote').attr("id"),
+								aWhether : $('.aWhether').attr("id")
+							}
+							,
+							dataType: 'json'
+							,
+							async : true 
+							,
+							cache : true
+							,
+							success : function(data, textStatus, jqXHR){
+								
+							
+															
+							}
+							,
+							error : function(jqXHR, textStatus, errorThrown){
+								alert('error: ' + jqXHR.status);
+							}
+					
+						});
+				}
+			}); 
+		
+	}); */
+	
+});
 </script>
 </head>
 <body>
@@ -200,6 +282,7 @@
 				</div>
 					
 				</div>
+			<form name="serializeForm" id="serializeForm">
 			<div class="x_content">
 				<div id="datatable" class="table-responsive">
 					<table class="table table-striped jambo_table bulk_action">
@@ -215,7 +298,7 @@
 							</tr>
 						</thead>
 
-						<tbody>
+						<tbody class="modifyForm">
 	
 						</tbody>
 					</table>
@@ -228,6 +311,7 @@
 
 
 			</div>
+			</form>
 		</div>
 	</div>
 
@@ -273,7 +357,6 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-primary">삭제</button>
 				</div>
 			</div>
 		</div>

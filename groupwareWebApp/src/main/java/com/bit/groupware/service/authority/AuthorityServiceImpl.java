@@ -27,7 +27,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	//권한을 수정한다.
-	public void modifyAuthority(AuthorityVO authority) {
+	public void modifyAuthority(AuthorityVO authority) {	
 		authorityDAO.updateAuthority(authority);	
 	}
 
@@ -46,5 +46,15 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthorityCount(map);
 	}
 
+	public AuthorityVO retrieveAuthorityByaNo(String aNo) {
+		return authorityDAO.selectAuthorityByaNo(aNo);
+	}
 	
+	
+	//권한번호에 대한 사원을 조회하다.
+	public List<AuthorityVO> retrieveAuthEmpList(String aNo) {
+		return authorityDAO.selectAuthEmpList(aNo);
+	}
+
+
 }

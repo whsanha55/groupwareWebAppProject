@@ -172,7 +172,7 @@
 	</select>
 	
 	<!-- 권한 수정-->
-	<update id="updateAuthority" parameterType="AuthorityVO" statementType="PREPARED">
+	<update id="updateAuthority" parameterType="AuthorityVO" statementType="PREPARED" >
 		update authority
 		<trim prefix="set" suffixOverrides=",">
 			<if test="aName != null">
@@ -188,18 +188,26 @@
 	</update>
 	
 	<!-- 권한 조회 -->
-<!-- 	<select id="selectAuthorityByaNo" >
-
+	<select id="selectAuthorityByaNo"  statementType="PREPARED" parameterType="String" resultType="AuthorityVO">
+		select a_no as aNo, a_name as aName, a_note as aNote,a_whether as aWhether
+		from authority
+		where a_no = #{aNo}
 	</select>
- -->	
-	<!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->
+	
+	<!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->	
 	<resultMap type="AuthorityVO" id="selectAuthEmpResultMap">
 		<id column="a_no" property="aNo"/>
+		
+		<!-- 1:N 관계 -->	
+		<collection property="emp" javaType="list" ofType="EmployeeVO">
+			<id column="emp_no" property="empNo"/>
+			<result column="emp_name" property="empName"/>
+		</collection>
+		
 		<collection property="authEmp" javaType="list" ofType="AuthEmpVO">
-			<association property="emp" column="emp_no" javaType="EmployeeVO">
-				<id column="emp_no" property="empNo"/>
-				<result column="emp_name" property="empName"/>
-			</association>
+			<id column="a_no" property="aNo"/>
+			<id column="ae_no" property="aeNo"/>
+			<id column="emp_no" property="empNo"/>
 		</collection>
 	</resultMap>
 	
