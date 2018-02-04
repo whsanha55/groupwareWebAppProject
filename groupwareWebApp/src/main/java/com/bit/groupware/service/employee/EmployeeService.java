@@ -13,9 +13,7 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 public interface EmployeeService {
 	
 
-	/*EmployeeVO retrieveEmployee(String empNo);
-
-	List<EmployeeVO> retrieveEmployeeList(Map<String,Object> map);
+	/*	List<EmployeeVO> retrieveEmployeeList(Map<String,Object> map);
 		
 	void modifyEmployee(EmployeeVO employee);
 	
@@ -25,9 +23,13 @@ public interface EmployeeService {
 	
 	void removePhoto(String photoNo);
 	*/
+	EmployeeVO retrieveEmployee(String empNo);
+
 	List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map);
 	
 	void registerEmployee(EmployeeVO employee);
+	
+	void modifyEmployee(EmployeeVO employee);
 
 	void registerDeputy(DeputyVO deputy);
 	

@@ -30,11 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private PhotoDAO photoDAO;
 	
 
-/*	public EmployeeVO retrieveEmployee(String empNo) {
-		return employeeDAO.selectEmployee(empNo);
-
-
-	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
+/*	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
 		return employeeDAO.selectEmployeeList(map);
 	}
 
@@ -50,15 +46,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		photoDAO.deletePhoto(photoNo);
 	}
 */
+	public EmployeeVO retrieveEmployee(String empNo) {
+		return employeeDAO.selectEmployee(empNo);
+	}
+
 	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
 		return employeeDAO.selectEmployeeList(map);
 	}
 	
-
 	public List<EmployeeVO> retrieveEmployeeNameAndDutyList() {
 		return employeeDAO.selectEmployeeNameAndDutyList();
 	}
-
 
 	public void registerEmployee(EmployeeVO employee) {
 		
@@ -78,6 +76,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<PhotoVO> photos = employee.getPhotos();
 		logger.info("photos : {}", photos);
 		if(photos.size() != 0) {
+			for(PhotoVO photo : photos) {
+				photo.setEmpNo(empNo);
+			}
+			Map<String, Object> map1 = new HashMap<String, Object>();
+			map1.put("photos", photos);
+			photoDAO.insertPhoto(map1);
+		}
+	}
+	
+	public void modifyEmployee(EmployeeVO employee) {
+		String empNo = employeeDAO.updateEmployee(employee);
+		
+		List<EmployeeCodeVO> codeList = employee.getCodeList();
+		if(codeList.size() != 0) {
+			employeeDAO.deleteEmployeeCode(empNo);		
+			for(EmployeeCodeVO code : codeList) { 
+				code.setEmpNo(empNo);
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("codeList", codeList);
+			employeeDAO.insertEmployeeCode(map);
+		}
+		
+		List<PhotoVO> photos = employee.getPhotos();
+		if(photos.size() != 0) {
+			photoDAO.deletePhoto(empNo);
 			for(PhotoVO photo : photos) {
 				photo.setEmpNo(empNo);
 			}

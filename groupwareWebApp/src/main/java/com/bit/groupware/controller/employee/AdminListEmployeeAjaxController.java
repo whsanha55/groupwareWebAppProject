@@ -49,6 +49,5 @@ public class AdminListEmployeeAjaxController {
 		returnMap.put("employees", employees);
 		logger.info("returnMap : {}", returnMap);
 		return returnMap;
-		
 	}
 }

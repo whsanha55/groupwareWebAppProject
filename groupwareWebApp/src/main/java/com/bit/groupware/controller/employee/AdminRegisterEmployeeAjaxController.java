@@ -28,44 +28,9 @@ public class AdminRegisterEmployeeAjaxController {
 	@Autowired
 	private CodeService codeService;
 	
-	/*
-	@RequestMapping(value="/admin/checkRelation.do", method=RequestMethod.POST)
-	@ResponseBody
-	public List<Object> deptList() {
-		List<CodeVO> codes = codeService.retrieveDeptAll();
-		List<Object> oList= new ArrayList<Object>();
-		System.out.println("codes : " + codes);
-		for(int i=0;i<codes.size()-1;i++) {
-			if(codes.get(i).getcNo().length() == 4) {
-				List<Object> list = new ArrayList<Object>();
-				Map<String,Object> map = new HashMap<String, Object>();
-				for(int j=i+1;j<codes.size();j++) {
-					if(codes.get(j).getcNo().length() != 4) {
-						Map<String, Object> map2 = new HashMap<String, Object>();
-						map2.put("title", codes.get(j).getcName());
-						map2.put("lazy", true);
-						map2.put("key", codes.get(j).getcNo());
-						list.add(map2);
-					} else {
-						break;
-					}
-				}
-				map.put("title", codes.get(i).getcName());
-				if(!list.isEmpty()) {
-					map.put("children", list);
-				}
-				oList.add(map);
-				logger.info("map : {}", map);
-			}
-		}
-		return oList;
-	}
-	*/
-	
 	@RequestMapping(value="/admin/checkRelation.do", method=RequestMethod.POST)
 	@ResponseBody
 	public List<CodeVO> checkRelation(@RequestParam String deptCode) {
-		logger.info("deptCode : {}",deptCode);
 		return codeService.retrieveDeptCodeRelationList(deptCode);
 	}
 }
