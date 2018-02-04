@@ -20,8 +20,8 @@ public class ReceiverDAOImpl implements ReceiverDAO {
 		return receiver.getReceiverNo();
 	}
 
-	public List<ReceiverVO> selectReceiverList() {
-		return sqlSession.selectList(NAMESPACE + ".selectReceiverList");
+	public List<ReceiverVO> selectReceiverList(String empNo) {
+		return sqlSession.selectList(NAMESPACE + ".selectReceiverList", empNo);
 	}
 
 	public void updateReceiver(ReceiverVO receiver) {

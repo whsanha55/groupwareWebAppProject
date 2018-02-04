@@ -7,31 +7,32 @@
 
 
   <insert id="insertReceiver" parameterType="ReceiverVO" statementType="PREPARED">
-          <selectKey keyProperty="recieverNo" resultType="int" statementType="STATEMENT" order="BEFORE">
-               select receiver_no.nextVal from dual
+          <selectKey keyProperty="receiverNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+               select receiver_seq.nextVal from dual
           </selectKey>
           insert into receiver(receiver_no, emp_no, receiver_name)
-          values(#{recieverNo}, #{employee.empNo}, #{receiverName})
+          values(#{receiverNo}, #{employee.empNo}, #{receiverName})
       </insert>
 
 
-      <select id="selectReceiverList" statementType="STATEMENT" resultType="ReceiverVO">
+      <select id="selectReceiverList" statementType="PREPARED" parameterType="String" resultType="ReceiverVO" >
           select receiver_no as receiverNo, receiver_name as receiverName
           from receiver
           where isdelete = 0
+          and emp_no = #{empNo}
           order by receiver_name asc
       </select>
 
       <update id="updateReceiver"  parameterType="ReceiverVO" statementType="PREPARED">
           update receiver
           set receiver_name = #{receiverName}
-          where receiver_no = #{recieverNo}
+          where receiver_no = #{receiverNo}
       </update>
 
       <update id="deleteReceiver"  parameterType="int" statementType="PREPARED">
           update receiver
           set isdelete = 1
-          where receiver_no = #{recieverNo}
+          where receiver_no = #{receiverNo}
       </update>
 </mapper>
 

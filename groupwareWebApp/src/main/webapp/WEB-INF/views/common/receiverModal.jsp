@@ -37,7 +37,7 @@ input[name=receiverName] {
 table[id^=tableDnD] span{
 	display : inline-block;
 }
-.dragRow {
+tableDnDAppr.dragRow {
 	background-color : #f1f0d8;
 }
 
@@ -55,13 +55,19 @@ table[id^=tableDnD] td:first-child {
 p {
 	margin : 0px;
 }
+select[name=apprType] {
+	border :0px;
+}
 </style>
 <script>
 	$(document).ready(function() {
-		myReceiverList();
+		myReceiverList(true);
 		
 		var selectedEmpNo = ""; 
 		var selectedNameAndDuty = "";
+		var selectedDepartment = "";
+		var selectedDeptNo = "";
+		var receiverLineApprCount = 0;
 		var lazyloadList = [];
 		
 		
@@ -97,11 +103,15 @@ p {
 				if(data.node.key.length ==10) {
 					selectedEmpNo = data.node.key;
 					selectedNameAndDuty = data.node.title;
-					alert(selectedEmpNo + " " + selectedNameAndDuty );
+					selectedDepartment = data.node.parent.title;
+					selectedDeptNo = data.node.parent.key;
+					//alert(selectedEmpNo + " " + selectedNameAndDuty + " " + selectedDepartment + " "  + selectedDeptNo );
+				} else {
+					selectedEmpNo = "";
+					selectedNameAndDuty = "";
+					selectedDepartment = "";
+					selectedDeptNo = "";
 				}
-			},
-			filter : {
-				autoExpand : true
 			}
 		}); 
 		
@@ -143,31 +153,7 @@ p {
 			isTreeFilter = false;
 		});
 		
-		
-		//fancytree filter 검색
-		/* $("input[name=search]").keyup(function(e){
-	    	   var n,
-		        args = "autoApply autoExpand fuzzy hideExpanders highlight leavesOnly nodata".split(" "),
-		        opts = {},
-		        filterFunc = $("#branchMode").is(":checked") ? tree.filterBranches : tree.filterNodes,
-		        match = $(this).val();
-				
-			
-		      $.each(args, function(i, o) {
-		        opts[o] = $("#" + o).is(":checked");
-		      });
-		      opts.mode = $("#hideMode").is(":checked") ? "hide" : "dimm";
-
-		      if(e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === ""){
-		        $("button#btnResetSearch").click();
-		        return;
-		      }
-		      n = filterFunc.call(tree, match, opts);
-		      
-		      $("button#btnResetSearch").attr("disabled", false);
-		      $("div#matches").text("(" + n + " 개의 검색결과)");
-		}).focus(); */
-		
+		//엔터키 입력시 검색 트리거
 		$("input[name=search]").on('keydown',function(e) {
 			$(this).autocomplete("enable");
 			if(e.keyCode == 13 && $('#ui-id-1').css('display') == 'none'){
@@ -176,7 +162,7 @@ p {
 	        }
 		});
 		
-		
+		//fancytree 검색기능
 		$("#btnSearch").on('click',function() {
 			var n;
 			var args = "autoApply autoExpand fuzzy hideExpanders highlight leavesOnly nodata".split(" ");
@@ -220,15 +206,96 @@ p {
 		    });
 		});		//여기까지 모든 fancytree 관련 함수
 		
-		 
 		
+		
+		//조직도에서 결재라인 등록 이벤트
+		$('#inputReceiverLine').on('click',function() {
+			if(selectedEmpNo == '') {
+				swal('부적절한  요청입니다');
+				return;
+			}
+			var isExist = false;	//이미 존재하는 결재라인 확인여부
+			$('table[id^=tableDnD] tr').each(function() {
+				if($(this).attr('id') == selectedEmpNo) {
+					swal('이미 존재하는 사원입니다 ');
+					isExist = true;
+					return;
+				}
+			});
+			if(isExist) {
+				return;
+			}
+			
+			
+			if($('input[name=apprTypeRadio]:checked').val() == 0) {	//결재
+				if(receiverLineApprCount >=9) {
+					swal("결재자가 너무 많습니다");
+					return;
+				}
+				var text = "";
+				text += '<td>';
+				text += '<select class="form-control" name="apprType">';
+				text += '<option value="0" selected>결재</option>';
+				text += '<option value="1">참조</option>';
+				text += '</select>';
+				text += '</td>';
+				text += '<td>'+ selectedDepartment + '</td>';
+				text += '<td>' + selectedNameAndDuty  +'</td>';
+				text += '<td>삭제</td>';
+				var temp = $('#tableDnDAppr').find('tr')[receiverLineApprCount];
+				$(temp).attr('class','');
+				$(temp).attr('id',selectedEmpNo);
+				$(temp).html(text);
+				receiverLineApprCount++;
+				doTableDnD();
+			} else {	//참조
+				var text = "<tr id='" + selectedEmpNo + "'>";
+				text += '<td>';
+				text += '<select class="form-control" name="apprType">';
+				text += '<option value="0">결재</option>';
+				text += '<option value="1" selected>참조</option>';
+				text += '</select>';
+				text += '</td>';
+				text += '<td>'+ selectedDepartment + '</td>';
+				text += '<td>' + selectedNameAndDuty  +'</td>';
+				text += '<td>삭제</td>';
+				text += "</tr>";
+				
+				$('#tableDnDRef:last-child').append(text);
+			}
+			
+		}); //조직도에서 결재라인 등록 이벤트 End
+		
+		
+		//조직도에서 결재라인 삭제 이벤트
+		$('#outputReceiverLine').on('click',function() {
+			$('table[id^=tableDnD] tr').each(function() {
+				if($(this).attr('id') == selectedEmpNo) {
+					if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//테이블중 결재부분에서 삭제 시도
+						var text = "<tr>";
+						text += '<td></td>';
+						text += '<td></td>';
+						text += '<td></td>';
+						text += '<td></td>';
+						text += '</tr>';
+						$('#tableDnDAppr').append(text);
+						$(this).remove();	
+						receiverLineApprCount--;
+					} else {	//참조에서 삭제 시도
+						$(this).remove();
+					}
+					return;
+				}
+			});
+		});	//조직도에서 결재라인 삭제 이벤트 End
+		
+		
+		
+		
+	
 		//결재선 선택 이벤트
 		$('#selectReceiver').on('click',function() {
-			var receiverNo = $('select[name=receiverNo]').val();
-			if(receiverNo == 0) {
-				swal("결재선을 선택해 주세요","");
-				return; 
-			}
+			var receiverNo = $('select[name=receiverNo2]').val();
 			
 			$.ajax({
 				url : '${pageContext.request.contextPath}/receiverNoAjax.do' ,
@@ -244,7 +311,7 @@ p {
 						if(data[i].apprType ==0) {
 							var text = "";
 							text += '<td>';
-							text += '<select class="form-control" name="apprType" style="border:0px;">';
+							text += '<select class="form-control" name="apprType">';
 							text += '<option value="0" selected>결재</option>';
 							text += '<option value="1">참조</option>';
 							text += '</select>';
@@ -257,12 +324,12 @@ p {
 							$(temp).attr('class','');
 							$(temp).attr('id',data[i].lineEmployee.empNo);
 							$(temp).html(text);
-							
+							receiverLineApprCount = i;
 						} else {
 							var text = "";
 							text += '<tr id=' + data[i].lineEmployee.empNo + '>';
 							text += '<td>';
-							text += '<select class="form-control" name="apprType" style="border:0px;">';
+							text += '<select class="form-control" name="apprType">';
 							text += '<option value="0" >결재</option>';
 							text += '<option value="1" selected>참조</option>';
 							text += '</select>';
@@ -276,6 +343,18 @@ p {
 						}
 					}
 					
+					for(var i=receiverLineApprCount+1;i<=9;i++){
+						var text = "";
+						text += '<td></td>';
+						text += '<td></td>';
+						text += '<td></td>';
+						text += '<td></td>';
+						
+						var temp = $('#tableDnDAppr').find('tr')[i];
+						$(temp).html(text);
+					} 
+					receiverLineApprCount++;
+					
 					doTableDnD();
 					
 				} ,
@@ -287,10 +366,54 @@ p {
 		}); //결재선 선택 이벤트 End
 		
 		
+		//결재선 이름 변경 이벤트
+		$('#modifyReceiver').on('click',function() {
+			var receiverNo = $('select[name=receiverNo2]').val();
+			var receiverName = $('select[name=receiverNo2] option:selected').text();
+			
+			swal({
+				 text: '새로운 결재선 이름을 입력해 주세요',
+				 content: {
+					    element: "input",
+					    attributes: {
+					    	placeholder : receiverName
+					    }
+				 },
+				 buttons: true
+			}).then(newReceiverName =>  {
+				//receiverName : 기존이름 ,newReceiverName : 변경할 새 이름
+				if(newReceiverName) {
+					if(receiverName == newReceiverName) {
+					swal("변경하고자 하는 이름이 기존과 일치합니다");
+					} else {
+						$.ajax({
+							url : '${pageContext.request.contextPath}/modifyReceiverAjax.do' ,
+							cache : false ,
+							dataType : 'json' ,
+							type : 'GET' ,
+							data : {
+								receiverNo : receiverNo ,
+								receiverName : newReceiverName
+							} ,
+							success : function(data) {
+								swal("결재선 이름 변경","성공적으로 이름이 변경되었습니다.","success");
+								myReceiverList(true);								
+							} ,
+							error : function(jqXHR) {
+								alert(jqXHR.status);
+								console.log(jqXHR);
+							}
+						}); 
+					}
+				}
+			});
+		
+		});
+		
 		
 		//결재선 삭제 이벤트
 		$('#deleteReceiver').on('click',function() {
-			var receiverNo = $('select[name=receiverNo]').val();
+			var receiverNo = $('select[name=receiverNo2]').val();
 			if(receiverNo == 0) {
 				swal("삭제할 결재선이 존재하지 않습니다","");
 				return; 
@@ -314,7 +437,7 @@ p {
 							} ,
 							success : function(data) {
 								swal("결재선 삭제","해당 결재선이 삭제되었습니다.","error");
-								myReceiverList();								
+								myReceiverList(true);								
 							} ,
 							error : function(jqXHR) {
 								alert(jqXHR.status);
@@ -327,21 +450,122 @@ p {
 			
 		});
 		
-	function doTableDnD() {
-		$('#tableDnDAppr, #tableDnDRef').tableDnD({
-				onDragClass: "dragRow",
-				onDrop : function(table,row) {
-					  alert($.tableDnD.serialize());
+		//tableDnD 함수 (테이블 변동 있을 때 마다 호출해야함)		
+		function doTableDnD() {
+			$('#tableDnDAppr').tableDnD({
+					onDragClass: "dragRow",
+					onDrop : function(table,row) {
+						  console.log($.tableDnD.serialize());
+					}
+					
+			});
+		}
+		
+		
+		
+		//결재라인 셀렉트박스(결재,참조) 변경 이벤트
+		$("table[id^=tableDnD]").on("change","select[name=apprType]",function() {
+			if($(this).val() ==0) { //참조->결재로 변경
+				if(receiverLineApprCount >=9) {
+					swal("결재자가 너무 많습니다");
+					return;
 				}
 				
+				var temp = $(this).closest('tr');
+				$($('#tableDnDAppr').find('tr')[receiverLineApprCount]).html(temp.html())
+				.attr('class','')
+				.find('select').val('0').prop('selected',true);
+				temp.remove();
+				receiverLineApprCount++;
+				doTableDnD();
+			} else { //결재 -> 참조로 변경
+				var temp = $(this).closest('tr');
+				$('#tableDnDRef:last-child').append(temp)
+				.find('select').val('1').prop('selected',true);
+				$('#tableDnDRef').find('tr').css('cursor','auto');				
+				receiverLineApprCount--;
+				
+				var text = "<tr class='nodrag nodrop'>";
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '</tr>';
+				$('#tableDnDAppr').append(text); 
+			}
 		});
-	}
-	
+ 
+		
+		
+		//새로운 결재선과 결재선 라인 등록 이벤트
+		$('#submitReceiver').on('click',function() {
+			var receiverName = $('input[name=receiverName]').val();
+			if(receiverName == null) {
+				swal('등록하실 결재선 이름을 입력해주세요');
+				return;
+			}
+			
+			var isReceiverNameExist = false;
+			$('select[name=receiverNo2] option').each(function() {
+				if(receiverName == $(this).text()) {
+					swal('이미 존재하는 결재선 이름입니다.','새로운 결재선 이름을 입력해주세요','error');
+					isReceiverNameExist = true;
+					return;
+				}
+			});
+			if(isReceiverNameExist) {
+				return;
+			}
+			
+			var apprLines = [];
+			var refLines = [];
+			$('#tableDnDAppr tr').each(function(){
+				var apprLine = $(this).attr('id');
+				if(apprLine != null) {
+					apprLines.push(apprLine);
+				}
+			});
+			
+			$('#tableDnDRef tr').each(function() {
+				var refLine = $(this).attr('id');
+				if(refLine != null) {
+					refLines.push(refLine);
+				}
+			});
+			
+			if(apprLines == '') {
+				swal("결재자는 최소 1명 등록하셔야 합니다");
+				return;
+			}
+			$.ajax({
+					url : '${pageContext.request.contextPath}/submitReceiverAjax.do' ,
+					cache : false ,
+					dataType : 'json' ,
+					type : 'POST' ,
+					data : {
+						receiverName : receiverName ,
+						apprLines : apprLines.join(',') ,
+						refLines : refLines.join(',')
+					} ,
+					success : function(data) {
+						swal("등록 성공","새로운 결재선이 등록되었습니다","success");
+						myReceiverList(true);								
+					} ,
+					error : function(jqXHR) {
+						alert(jqXHR.status);
+						console.log(jqXHR);
+					}
+			}); 
+			
+			//alert(apprLines);
+			//alert(refLines);
+		});
 		
 	}); //document ready End
 	
-	//결재선 이름 조회 함수
-	function myReceiverList() {
+	//결재선 이름 조회 함수 
+	//modal팝업창 닫을때도 사용하므로 파라미터로 boolean값 받아옴
+	function myReceiverList(isModalPage) {
 
 		$.ajax({
 			url : '${pageContext.request.contextPath}/myReceiverList.do',
@@ -349,12 +573,20 @@ p {
 			dataType : 'json',
 			type : 'GET',
 			success : function(data) {
-				var text = "<option value='0'>내 결재선 전체보기</option>";
+				var text = "";
+				if(!isModalPage) {	//모달창 닫기 클릭시
+					text += "<option value='0'>결재선을 선택하세요</option>";
+				}
 				for (var i = 0; i < data.length; i++) {
 					text += "<option value='"+ data[i].receiverNo + "'>";
 					text += data[i].receiverName + "</option>";
 				}
-				$('select[name=receiverNo]').html(text);
+				if(isModalPage) {
+					$('select[name=receiverNo2]').html(text);
+				} else {	//모달창 닫기 클릭시
+					$('select[name=receiverNo]').html(text);
+					
+				}
 			},
 			error : function(jqXHR) {
 				alert(jqXHR.status);
@@ -389,53 +621,45 @@ p {
 			<div class="col-sm-2 " id='apprTypeDiv'>
 				<div class="btns">
 					<h2>
-						<input type="radio" value="0" name="apprType" checked="checked">결재
+						<input type="radio" value="0" name="apprTypeRadio" checked="checked">결재
 					</h2>
 					<h2>
-						<input type="radio" value="1" name="apprType">참조
+						<input type="radio" value="1" name="apprTypeRadio">참조
 					</h2>
 					<br>
 					<div>
-						<button type="button" class="btn btn-primary" data-toggle="modal"
-							data-target=".bs-example-modal-lg">&lt;</button>
+						<button id= "inputReceiverLine" type="button" class="btn btn-primary" >&gt;</button>
 
 					</div>
 					<div>
-						<button type="button" class="btn btn-primary" data-toggle="modal"
-							data-target=".bs-example-modal-lg">&gt;</button>
+						<button id="outputReceiverLine" type="button" class="btn btn-primary">&lt;</button>
 					</div>
 				</div>
 
 			</div>
 			<div class="col-sm-7">
-				<span class="col-md-8"> <select class="form-control"
-					name="receiverNo">
-
+				<span class="col-md-8"> 
+					<select class="form-control"name="receiverNo2">
 				</select>
 				</span>
-				<button class="btn btn-primary" id='selectReceiver' type="button">선택</button>
-				<button class="btn btn-success" id='selectReceiver' type="button">이름변경</button>
+				<button class="btn btn-primary" id='selectReceiver' type="button">조회</button>
+				<button class="btn btn-success" id='modifyReceiver' type="button">이름변경</button>
 				<button class="btn btn-danger" id='deleteReceiver' type="button">삭제</button>
 
 				<div class="table border border-secondary">
 					<table class="table table-bordered" id='tableDnDAppr'>
 						<c:forEach begin="1" end="9">
 							<tr class="nodrag nodrop">
-								<td>
-									<select class="form-control" name="apprType" style="border:0px;">
-										<option value='0'>결재</option>
-										<option value='1'>참조</option>
-									</select>
-								</td>
+								<td></td>
+								<td>1</td>
 								<td></td>
 								<td></td>
-								<td>삭제</td>
 							</tr>
 						</c:forEach>
 					</table>
 
 					<table class="table table-bordered" id='tableDnDRef'>
-						<tr class="nodrag nodrop">
+						<tr>
 							<td>
 								<select class="form-control" name="apprType" style="border:0px;">
 									<option value='0'>결재</option>
@@ -454,7 +678,7 @@ p {
 						<input type="text" class="form-control" name="receiverName"
 							placeholder="결재선 이름을 입력해주세요">
 					</div>
-					<button type="button" class="btn btn-primary pull-right">신규등록</button>
+					<button type="button" class="btn btn-primary pull-right" id="submitReceiver">신규등록</button>
 				</div>
 
 			</div>
