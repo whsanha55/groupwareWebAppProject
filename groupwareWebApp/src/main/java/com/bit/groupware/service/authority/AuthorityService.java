@@ -14,7 +14,7 @@ public interface AuthorityService {
 	//권한을 추가한다.
 	String registerAuthority(AuthorityVO authority);
 
-	// 권한정보를 일괄 수정한다.
+	// 권한정보를 수정한다.
 	void modifyAuthority(AuthorityVO authority);
 
 	// 권한을 일괄 삭제한다.

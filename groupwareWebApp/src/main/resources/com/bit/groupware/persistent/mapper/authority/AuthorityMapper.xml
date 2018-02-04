@@ -187,8 +187,11 @@
 		</trim>
 	</update>
 	
-	
-	
+	<!-- 권한 조회 -->
+<!-- 	<select id="selectAuthorityByaNo" >
+
+	</select>
+ -->	
 	<!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->
 	<resultMap type="AuthorityVO" id="selectAuthEmpResultMap">
 		<id column="a_no" property="aNo"/>

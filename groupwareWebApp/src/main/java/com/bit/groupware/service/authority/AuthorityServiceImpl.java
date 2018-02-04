@@ -26,9 +26,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return null;
 	}
 
+	//권한을 수정한다.
 	public void modifyAuthority(AuthorityVO authority) {
-		// TODO Auto-generated method stub
-		
+		authorityDAO.updateAuthority(authority);	
 	}
 
 	public void removeAuthority(Map<String, Object> map) {
