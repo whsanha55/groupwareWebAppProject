@@ -129,7 +129,8 @@
 		select a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
 		from (select rownum as rn, t1.*
      			from (select *
-          				from authority order by a_no asc)t1)a, employee e, authority_employee ae
+          				from authority 
+          				order by a_no asc)t1)a, employee e, authority_employee ae
 		where a.a_no = ae.a_no
     		and a.ae_no = ae.ae_no
     		and ae.emp_no = e.emp_no
@@ -143,9 +144,31 @@
  		</if>
  		
  		<if test="keyfield == 'empName' and keyword != null">
- 			and a.emp_name Like '%' || #{keyword} || '%'
+ 			and e.emp_name Like '%' || #{keyword} || '%'
  		</if>
  		and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+	</select>
+	
+	 <select id="selectAuthorityCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(a.a_no)
+		from authority a, employee e, authority_employee ae
+		where a.a_no = ae.a_no
+    		and a.ae_no = ae.ae_no
+    		and ae.emp_no = e.emp_no
+    	<if test = "aNo != null">
+    		amd a.a_no = #{aNo}
+    	</if>
+		<if test="keyfield == 'aName' and keyword != null">
+ 			and a.a_no Like '%' || #{keyword} || '%'
+ 		</if>
+ 		
+ 		<if test="keyfield == 'empNo' and keyword != null">
+ 			and e.emp_no Like '%' || #{keyword} || '%'
+ 		</if>
+ 		
+ 		<if test="keyfield == 'empName' and keyword != null">
+ 			and e.emp_name Like '%' || #{keyword} || '%'
+ 		</if>
 	</select>
 	
 	<!-- 권한 수정-->
@@ -186,5 +209,7 @@
     		and a.a_no = #{aNo}
     	order by a.a_no asc
 	</select> 
+	
+	
 	
 </mapper>
