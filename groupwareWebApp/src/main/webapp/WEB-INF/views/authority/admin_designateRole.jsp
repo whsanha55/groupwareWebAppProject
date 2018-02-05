@@ -205,7 +205,7 @@
 			</div>
 			
 
-			<form id="form">	
+			<form action="<%=request.getContextPath()%>/admin/modifyDesignate.do" method="post">
 			<div class="x_content">
 				<div class="table-responsive">
 					<table  id="datatable"  class="table table-striped jambo_table bulk_action">
@@ -257,7 +257,7 @@
 					<div class="text-center">
 						<nav aria-label="Page navigation" id = 'Paging'></nav> 
          			 </div>
-					<button type="button"  id="deleteBtn"  class="pull-right">일괄 등록</button>
+					<button type="submit"  id="deleteBtn"  class="pull-right">일괄 등록</button>
 			</div>
 			</form>
 		</div>
