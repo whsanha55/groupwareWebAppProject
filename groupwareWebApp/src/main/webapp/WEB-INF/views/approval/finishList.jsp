@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>진행문서함</title>
+<title>승인문서함</title>
 <style>
 
 	.column-title{
@@ -33,14 +33,14 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3';
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=1';
 				window.open(url, "결재문서","width=750, height=800");
 				
 			});
 		
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
-			if($(this).val()=='apprDate'){
+			if($(this).val()=='apprDate'||$(this).val()=='finDate'){
 				$(this).next().attr('type','date');
 				
 				$(this).next().after("&nbsp;<b id=temp>~</b> ")
@@ -86,17 +86,20 @@
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			
+			var apprFinalStatus =1;
+			var apprStatus= 7;
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/approvalFinishPaging.do' 
+				url: '${pageContext.request.contextPath}/approvalPaging.do' 
 				,
 				data: {
 					keyfield: pKeyfield ,
 					keyword: pKeyword ,	
 					keyword1: pKeyword1 ,	
 					startRow : startRow ,
-					endRow : endRow
+					endRow : endRow,
+					apprFinalStatus : apprFinalStatus,
+					apprStatus : apprStatus
 				},
 				type: 'POST' ,
 				cache: false ,
@@ -216,7 +219,8 @@
 							<option value="tmpName">양식명</option>
 							<option value="empName">기안자</option>
 							<option value="department">기안부서</option>
-							<option value="apprDate" id="apprDate">기안일</option>
+							<option value="apprDate" id="apprDate">기안날짜</option>
+							<option value="finDate" id=finDate>승인날짜</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
 						<button id="btn3" type="button">검색</button>
 					</form>
