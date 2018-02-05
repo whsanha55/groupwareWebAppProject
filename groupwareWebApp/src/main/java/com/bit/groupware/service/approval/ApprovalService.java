@@ -26,6 +26,9 @@ public interface ApprovalService {
 	
 	//갯수 구하기
 	int retrieveApprovalCount(Map<String, Object> map);
+
+	//승인,반려문서함 갯수 구하기
+	int retrieveAllApprovalCount(Map<String, Object> map);
 	
 	//삭제
 	void removeApproval(List<Integer> apprNos);

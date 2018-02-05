@@ -95,5 +95,10 @@ public class ApprovalServiceImpl implements ApprovalService {
 		// TODO Auto-generated method stub
 		return dao.selectTempApproval(apprNO); 
 	}
+
+	public int retrieveAllApprovalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.selectAllApprovalCount(map); 
+	}
 	
 }
