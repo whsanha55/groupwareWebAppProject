@@ -46,15 +46,21 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthorityCount(map);
 	}
 
-	public AuthorityVO retrieveAuthorityByaNo(String aNo) {
-		return authorityDAO.selectAuthorityByaNo(aNo);
-	}
-	
-	
+
 	//권한번호에 대한 사원을 조회하다.
 	public List<AuthorityVO> retrieveAuthEmpList(String aNo) {
 		return authorityDAO.selectAuthEmpList(aNo);
 	}
 
+	//권한목록을 조회하다.
+	public AuthorityVO retrieveAuthorityByaNo(String aNo) {
+	   return authorityDAO.selectAuthorityByaNo(aNo);
+	}
 
+	//권한명의 존재여부를 조회하다.
+	public int retrieveAuthorityByAname(String aName) {
+		return authorityDAO.selectAuthorityByAname(aName);
+	}
+
+	
 }

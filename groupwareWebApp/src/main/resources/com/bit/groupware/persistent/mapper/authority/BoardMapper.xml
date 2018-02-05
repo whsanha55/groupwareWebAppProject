@@ -79,4 +79,5 @@
 		select board_no as boardNo, board_name as boardName
 		from board
 	</select>
+	
 </mapper>

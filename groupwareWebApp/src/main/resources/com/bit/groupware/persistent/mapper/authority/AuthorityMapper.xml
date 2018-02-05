@@ -82,8 +82,8 @@
 		<selectKey keyProperty="aNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char('A' || lpad(authority_seq.nextval,'5','0')) from dual
 		</selectKey>
-		insert into authority(a_no, a_name, a_note, a_whether, ae_no)
-		values(#{aNo}, #{aName} , #{aNote} , #{aWhether} , #{aeNo})
+		insert into authority(a_no, a_name, a_note, a_whether)
+		values(#{aNo}, #{aName} , #{aNote} , #{aWhether})
 	</insert>
 	
 	
@@ -92,8 +92,8 @@
 		<selectKey keyProperty="aeNo" resultType="int" statementType="STATEMENT" order="BEFORE">
 			select authority_employee_seq.nextval from dual
 		</selectKey>
-		insert into authority_employee(ae_no, emp_no, a_no)
-		value(#{aeNo},#{emp.empNo}, #{auth.aNo})
+		insert into authority_employee(emp_no, a_no)
+		value(#{emp.empNo}, #{auth.aNo})
 
 	</insert>
 	
@@ -126,13 +126,12 @@
 	
 	<!-- 권한 리스트 조회-->
 	<select id="selectListAuthority" resultType="AuthorityVO" statementType="PREPARED" parameterType="map" >		
-		select a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
+		select distinct a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
 		from (select rownum as rn, t1.*
      			from (select *
           				from authority 
           				order by a_no asc)t1)a, employee e, authority_employee ae
 		where a.a_no = ae.a_no
-    		and a.ae_no = ae.ae_no
     		and ae.emp_no = e.emp_no
  
  		<if test="keyfield == 'aName' and keyword != null">
@@ -153,7 +152,6 @@
 		select count(a.a_no)
 		from authority a, employee e, authority_employee ae
 		where a.a_no = ae.a_no
-    		and a.ae_no = ae.ae_no
     		and ae.emp_no = e.emp_no
     	<if test = "aNo != null">
     		amd a.a_no = #{aNo}
@@ -171,29 +169,32 @@
  		</if>
 	</select>
 	
+	<!-- 권한 조회 -->
+   <select id="selectAuthorityByaNo"  statementType="PREPARED" parameterType="String" resultType="AuthorityVO">
+      select a_no as aNo, a_name as aName, a_note as aNote,a_whether as aWhether
+      from authority
+      where a_no = #{aNo}
+   </select>
+	
+	
 	<!-- 권한 수정-->
 	<update id="updateAuthority" parameterType="AuthorityVO" statementType="PREPARED" >
 		update authority
 		<trim prefix="set" suffixOverrides=",">
-			<if test="aName != null">
-				a_name = #{aName}
+			<if test="aName != null ">
+				a_name = #{aName},
 			</if>
 			<if test="aNote != null">
-				a_note = #{aNote}
+				a_note = #{aNote},
 			</if>
-			<if test="aWhether != null">
+			<if test="aWhether != null ">
 				a_whether = #{aWhether}
 			</if>
 		</trim>
+		where a_no = #{aNo}
 	</update>
 	
-	<!-- 권한 조회 -->
-	<select id="selectAuthorityByaNo"  statementType="PREPARED" parameterType="String" resultType="AuthorityVO">
-		select a_no as aNo, a_name as aName, a_note as aNote,a_whether as aWhether
-		from authority
-		where a_no = #{aNo}
-	</select>
-	
+
 	<!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->	
 	<resultMap type="AuthorityVO" id="selectAuthEmpResultMap">
 		<id column="a_no" property="aNo"/>
@@ -215,12 +216,17 @@
 		select a.a_name as aName, e.emp_no as empNo, e.emp_name as empName
 		from authority a , employee e, authority_employee ae
 		where a.a_no = ae.a_no
-   			and a.ae_no = ae.ae_no
     		and ae.emp_no = e.emp_no
     		and a.a_no = #{aNo}
     	order by a.a_no asc
 	</select> 
 	
-	
+	<!-- 권한명이 있는지 존재여부 -->
+	<select id="selectAuthorityByAname" resultType="int" statementType="PREPARED"  parameterType="String">
+		select count(a.a_name)
+		from authority a, employee e, authority_employee ae
+		where a.a_no = ae.a_no
+    		and ae.emp_no = e.emp_no
+	</select>
 	
 </mapper>

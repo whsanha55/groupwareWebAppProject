@@ -43,15 +43,19 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectAuthorityCount", map);
 	}
 
+	//권한번호에 해당하는 사원을 조회하다.
+	public List<AuthorityVO> selectAuthEmpList(String aNo) {
+		return sqlSession.selectList(NAMESPACE + ".selectAuthEmpList", aNo);
+	}
+
 	//권한을 조회하다.
 	public AuthorityVO selectAuthorityByaNo(String aNo) {
 		return sqlSession.selectOne(NAMESPACE + ".selectAuthorityByaNo" , aNo);
 	}
 
-	public List<AuthorityVO> selectAuthEmpList(String aNo) {
-		return sqlSession.selectList(NAMESPACE + ".selectAuthEmpList", aNo);
+	public int selectAuthorityByAname(String aName) {
+		return sqlSession.selectOne(NAMESPACE + ".selectAuthorityByAname", aName);
 	}
 
-	
 	
 }
