@@ -44,34 +44,33 @@
 		select dep_no, duty, emp_name, start_date, end_date, progression, dep_Reason, demp_no, emp_no
 	    from (select rownum as rn, emp.*
 			      from (select dep_no,
-                                (select duty
-                                 from empList_view ev
-                                 where ev.empNo = demp_no) as duty,
-                                (select emp_name
-                                 from employee
-                                 where emp_no = demp_no) as emp_name,
-                                to_char(start_date, 'yyyy/mm/dd') as start_date,
-                                to_char(end_date, 'yyyy/mm/dd') as end_date,
-                                progression,
-                                dep_Reason,
-                                demp_No,
-                                d.emp_No
-                            from employee e, deputy d
-                            where e.emp_no = d.emp_no                               
+                               duty,
+                               (select emp_name
+                                from employee
+                                where emp_no = demp_no) as emp_name,
+                               to_char(start_date, 'yyyy/mm/dd') as start_date,
+                               to_char(end_date, 'yyyy/mm/dd') as end_date,
+                               progression,
+                               dep_Reason,
+                               demp_No,
+                               d.emp_No
+                            from employee e, deputy d ,empList_view ev
+		                    where e.emp_no = d.emp_no
+		                       and ev.empNo = demp_no                               
 								<if test="keyfield == 'dempNo' and keyword != null">
-								and demp_no like '%' || #{keyfield} || '%'
+								and demp_no like '%' || #{keyword} || '%'
 								</if>
 								<if test="keyfield == 'duty' and keyword != null">
-								and duty like '%' || #{keyfield} || '%'
+								and duty like '%' || #{keyword} || '%'
 								</if>
 								<if test="keyfield == 'empName' and keyword != null">
-								and emp_name like '%' || #{keyfield} || '%'
+								and emp_name like '%' || #{keyword} || '%'
 								</if>
 								<if test="keyfield == 'startDate' and keyword != null">
-								and to_char(start_date,'yyyy/mm/dd') like '%' || #{keyfield} || '%'
+								and to_char(start_date,'yyyy/mm/dd') like '%' || #{keyword} || '%'
 								</if>
 								<if test="keyfield == 'endDate' and keyword != null">
-								and to_char(end_date,'yyyy/mm/dd') like '%' || #{keyfield} || '%'
+								and to_char(end_date,'yyyy/mm/dd') like '%' || #{keyword} || '%'
 								</if>
                                 and e.emp_no = #{empNo}
                                               order by dep_no asc
@@ -83,9 +82,7 @@
 	select count(*)
 	    from (select rownum as rn, emp.*
 			      from (select dep_no,
-                                (select duty
-                                 from empList_view ev
-                                 where ev.empNo = demp_no) as duty,
+                                duty,
                                 (select emp_name
                                  from employee
                                  where emp_no = demp_no) as emp_name,
@@ -95,22 +92,23 @@
                                 dep_Reason,
                                 demp_No,
                                 d.emp_No
-                            from employee e, deputy d
-                            where e.emp_no = d.emp_no                               
+                             from employee e, deputy d ,empList_view ev
+		                     where e.emp_no = d.emp_no
+		                        and ev.empNo = demp_no                               
 								<if test="keyfield == 'dempNo' and keyword != null">
-								and demp_no like '%' || #{keyfield} || '%'
+								and demp_no like '%' || #{keyword} || '%'
 								</if>
 								<if test="keyfield == 'duty' and keyword != null">
-								and duty like '%' || #{keyfield} || '%'
+								and duty like '%' || #{keyword} || '%'
 								</if>
 								<if test="keyfield == 'empName' and keyword != null">
-								and emp_name like '%' || #{keyfield} || '%'
+								and emp_name like '%' || #{keyword} || '%'
 								</if>
 								<if test="keyfield == 'startDate' and keyword != null">
-								and to_char(start_date,'yyyy/mm/dd') like '%' || #{keyfield} || '%'
+								and to_char(start_date,'yyyy/mm/dd') like '%' || #{keyword} || '%'
 								</if>
 								<if test="keyfield == 'endDate' and keyword != null">
-								and to_char(end_date,'yyyy/mm/dd') like '%' || #{keyfield} || '%'
+								and to_char(end_date,'yyyy/mm/dd') like '%' || #{keyword} || '%'
 								</if>
                                 and e.emp_no = #{empNo}
                                               order by dep_no asc

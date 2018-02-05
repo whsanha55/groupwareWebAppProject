@@ -8,7 +8,7 @@ public interface ReceiverDAO {
 
 	int insertReceiver(ReceiverVO receiver);
 
-	List<ReceiverVO> selectReceiverList();
+	List<ReceiverVO> selectReceiverList(String empNo);
 
 	void updateReceiver(ReceiverVO receiver);
 

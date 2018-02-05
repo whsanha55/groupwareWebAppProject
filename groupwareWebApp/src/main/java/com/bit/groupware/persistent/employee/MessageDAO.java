@@ -9,7 +9,7 @@ public interface MessageDAO {
 
 	void insertMessage(MessageVO message);
 	
-	void deleteMessage(List<Integer> msgNos);
+	void deleteMessage(Map<String,Object> map);
 	
 	MessageVO selectMessage(int msgNo);
 	

@@ -6,5 +6,7 @@ public interface PhotoDAO {
 
 	void insertPhoto(Map<String, Object> map);
 	
-	void deletePhoto(String photoNo);
+	void deletePhoto(String empNo);
+	
+	void deleteSign(String empNo);
 }

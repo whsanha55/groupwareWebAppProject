@@ -8,6 +8,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>사원등록</title>
+<style>
+	#img : {
+		max-width : 100%;
+		height : auto;
+	}
+</style>
 <script>
 	$(document).ready(function () {		
 		
@@ -64,10 +70,30 @@
 			$('input[name=deptCode]').val($(this).attr('value'));
 		});
 		
-		
-		
+		$("#upload-image").on("change", handleImgFileSelect);
 		
 	});
+	
+	function handleImgFileSelect(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f) {
+			if(!f.type.match("image.*")) {
+				alert("확장자는 이미지 확장자만 가능합니다.");
+				return;
+			}
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
+	
 </script>
 </head>
 <body>
@@ -83,11 +109,16 @@
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="deptCode" value="" />
 					<input type="hidden" name="dutyCode" value="" />			
-					<div class="form-group">
+					<div class="form-group">		
+						<div class="form-group" id="img_wrap">
+							<%-- <i class="fa fa-picture-o"> --%>
+							<img id="img" width="250px" height="250px" class="img-responsive center-block"/>
+						</div>				
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
 							<a class="btn" title="Insert picture (or just drag &amp; drop)"
-								id="pictureBtn"><i class="fa fa-picture-o"></i></a> <input name="upload"
+								id="pictureBtn"></a> 								
+								<input id="upload-image" name="upload"
 								type="file" data-role="magic-overlay" data-target="#pictureBtn"
 								data-edit="insertImage">
 						</div>

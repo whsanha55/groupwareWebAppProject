@@ -112,7 +112,7 @@
 			eKeyfield = $('.keyfield1').attr('id');
 			eKeyword = $('.keyword1').val();
 
-			employeePaging(1);
+			employeePaging1(1);
 		});
 		
 	});
@@ -159,9 +159,6 @@
 						
 						$('#deputyRegister').on('click','#pushBtn' + i ,function() {
 							alert('hi');
-							console.log($(this));
-							console.log($(this).find('td:nth-child(2)').text());
-							console.log($(this).find('td:nth-child(3)').text());
 							$('#myModal').modal('hide');
 							$('#dempNo').val($(this).find('td:nth-child(2)').text());
 							$('#empName').val($(this).find('td:nth-child(3)').text());
@@ -269,17 +266,18 @@
 						text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
 					} else {
 						for(var i=0;i<data.deputies.length;i++) {
-					
-							text += "<tr>";	
-							text += "<td>"+ data.deputies[i].dempNo +"</td>";
-							text += "<td>"+ data.deputies[i].duty +"</td>";
-							text += "<td>d</td>"/* + data.deputies.employees[i].employees.empName + */;
-							text += "<td>"+ data.deputies[i].startDate +"</td>";
-							text += "<td>"+ data.deputies[i].endDate +"</td>";
-							text += "<td>"+ data.deputies[i].depReason +"</td>";
-							text += "<td>"+ data.deputies[i].progression +"</td>";
-							text += "<td><button type='button'>상세보기</button></td>";
-							text += "</tr>";	
+							for(var j=0;j<data.deputies[i].employees.length;j++) {
+								text += "<tr>";	
+								text += "<td>"+ data.deputies[i].dempNo +"</td>";
+								text += "<td>"+ data.deputies[i].employees[j].duty +"</td>";
+								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
+								text += "<td>"+ data.deputies[i].startDate +"</td>";
+								text += "<td>"+ data.deputies[i].endDate +"</td>";
+								text += "<td>"+ data.deputies[i].depReason +"</td>";
+								text += "<td>"+ data.deputies[i].progression +"</td>";
+								text += "<td><button type='button'>상세보기</button></td>";
+								text += "</tr>";
+							}
 						}					
 					}
 					$('#datatable').find('tbody').html(text);

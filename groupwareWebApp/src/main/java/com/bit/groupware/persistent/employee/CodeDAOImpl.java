@@ -21,12 +21,6 @@ public class CodeDAOImpl implements CodeDAO {
 	public void insertCode(CodeVO code) {
 		sqlSession.insert(NAMESPACE + ".insertCode", code);
 	}
-	
-	
-	//모든 부서 조회(팀까지)
-	public List<CodeVO> selectDeptAll() {
-		return sqlSession.selectList(NAMESPACE+".selectDeptAll");
-	}
 
 	//코드 조회
 	public CodeVO selectCode(String cNo) {
