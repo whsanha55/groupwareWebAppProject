@@ -57,7 +57,7 @@ public class FinishController {
 		
 	
  
-		int totalCount = approvalService.retrieveApprovalCount(map);
+		int totalCount = approvalService.retrieveAllApprovalCount(map);
 		if(totalCount < endRow) {
 			endRow = totalCount;
 		}

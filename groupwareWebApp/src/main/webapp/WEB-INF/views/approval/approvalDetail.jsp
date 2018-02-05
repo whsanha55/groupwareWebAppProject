@@ -399,18 +399,38 @@
 								<c:if test="${requestScope.approval.urgency ==1}">긴급</c:if>
 								<c:if test="${requestScope.approval.urgency ==0}"> 일반</c:if>
 							</td>
-                           
-							
+                       		
                           </tr>
-						 
+					
 							<tr>
 								<td colspan="4">${requestScope.approval.apprContent }</td>
 							</tr>
+						
+							
                       </table>
-					
+						<c:if test="${fn:length(requestScope.approval.approvalFiles) >0 }">
+							<table class="table table-striped jambo_table bulk_action">
+								<tr>
+									<th  class="headings" style="background-color:#3f5367; color:#ECF0F1;">파일번호</th>
+									<th class="headings"style="background-color:#3f5367; color:#ECF0F1;" colspan="2">파일이름</th>							
+								</tr>
+								<c:forEach var="apprFile" items="${requestScope.approval.approvalFiles }" varStatus="loop">
+									<tr>
+										<td>파일${pageScope.loop.count }</td>
+										<c:url var="downloadUrl" value="/downloadApprFile.do">
+											<c:param name="originalFileName" value="${pageScope.apprFile.originalFileName }"/>
+											<c:param name="systemFileName" value="${pageScope.apprFile.systemFileName }"/>
+										</c:url>
+										
+										<td><a href = "${pageScope.downloadUrl }">${pageScope.apprFile.originalFileName }</a></td>
+										
+										<td></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</c:if>					
 			</div>
-				
-				
+								
 		</div>
 	</div>
 

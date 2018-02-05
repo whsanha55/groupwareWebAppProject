@@ -17,16 +17,14 @@ public class ApprovalFileDAOImpl implements ApprovalFileDAO {
 	
 	public void insertApprovalFileList(List<ApprovalFileVO> approvalFiles) {
 		
-		//map 으로 매핑해서 넘김.
-		
+		//map 으로 매핑해서 넘김.		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("approvalFiles", approvalFiles);		
 		sqlSession.insert(NAMESPACE+".insertApprovalFile", map); 
-
 	}
 
-	public void deleteApprovalFiles(int apprNo) {
-		sqlSession.delete(NAMESPACE+".deleteApprovalFile",apprNo);
+	public void deleteApprovalFiles(int fileNo) {
+		sqlSession.delete(NAMESPACE+".deleteApprovalFile",fileNo);
 	}
 
 }
