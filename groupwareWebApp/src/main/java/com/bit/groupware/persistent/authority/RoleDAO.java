@@ -20,15 +20,21 @@ public interface RoleDAO {
 	void nonInsertRole(Map<String, Object> map);
 	
 	//검색 조건에 해당하는 역할목록을 오름차순으로 조회한다.
-	List<RoleVO> searchRole(Map<String , Object> map);
+	List<RoleVO> selectRoleList(Map<String , Object> map);
 	
-	//역할을 롤ID순으로 오름차순 정렬하여 조회한다.
-	List<RoleVO> selectRole(Map<String, Integer> map);
+	//역할 목록 조회하다.
+	List<RoleVO> selectRoleByRname(String aName);
 	
+	//역할 목록 조회하다.
+	List<RoleVO> selectRoleList(String aName);
+
 	//역할 정보를 수정한다.
 	void updateRole(RoleVO role);
 	
 	//역할을 삭제한다
-	void deleteRole(String roleId);
-
+	void deleteRole(Map<String, Object> map);
+	
+	//총 게시글 수를 구한다.
+	int selectRoleCount(Map<String, Object> map);
+	
 }

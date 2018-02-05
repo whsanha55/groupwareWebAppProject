@@ -20,13 +20,14 @@
 			p.latitude,
 			p.longitude,
 			e.emp_name
-		from plan
+		from plan p, employee e
+		where p.rspb_no=e.emp_no
 		<choose>
 			<when test="keyfield == 'p_title'  and keyword != null " >
-				where p.p_title like '%' || #{keyword} || '%'
+				and p.p_title like '%' || #{keyword} || '%'
 			</when>
 			<when test="keyfield == 'emp_name'  and keyword != null ">
-				where e.emp_name like '%' || #{keyword} || '%'
+				and e.emp_name like '%' || #{keyword} || '%'
 			</when>
 		</choose>
 	</select>

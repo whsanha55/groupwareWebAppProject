@@ -194,7 +194,7 @@ $(document).ready(function(){
 									$('#' + boardNo).parent('tr').remove(); 
 									$('#display').css('display','none');
 								}else if(data.isSuccess == "false"){
-									swal("게시글이 존재합니다.")
+									swal("게시글이 존재합니다.");
 								} 
 								
 							}
@@ -338,7 +338,7 @@ $(document).ready(function(){
 								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">공지사항
 								사용 유무</td>
 							<td><div class="radio">
-									<label> <input type="radio" name="isNotice" value="Y"> 사용함</label>
+									<label> <input type="radio" name="isNotice" value="Y" > 사용함</label>
 									<label> <input type="radio" name="isNotice" value="N">사용안함</label>
 									
 								</div></td>

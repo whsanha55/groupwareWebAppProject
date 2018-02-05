@@ -1,5 +1,8 @@
 package com.bit.groupware.controller.authority;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +23,19 @@ public class AdminModifyAuthorityController {
 	
 	private final static Logger logger = LoggerFactory.getLogger(AuthorityService.class);
 	
-	@RequestMapping(value="/retrieveAuthorityAjax.do" , method=RequestMethod.GET)
-	@ResponseBody
-	public AuthorityVO form(@RequestParam(value="aNo") String aNo){
-		AuthorityVO auth = authorityService.retrieveAuthorityByaNo(aNo);
-		return auth;
-	}
-	
-	
 	@RequestMapping(value="/modifyAuthorityAjax.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String modify(AuthorityVO authority){
-		logger.info("/////////retrieveAuthoriryByaNo///////////" , authority);
-	
-		authorityService.modifyAuthority(authority);
-		return null;
+	public Map<String, String> modifyAuth(AuthorityVO authority, @RequestParam(value="aName") String aName){
+		logger.info("/////////retrieveAuthority//////////", authorityService.retrieveAuthorityByaNo(authority.getaNo()));
+		int name = authorityService.retrieveAuthorityByAname(aName); 
+		Map<String, String> map = new HashMap<String, String>();
+		if(name < 0) {
+			logger.info("/////////ModifyAuthority  수정완료 ! ///////////" , authority);	
+			authorityService.modifyAuthority(authority);
+			map.put("isSuccess", "true");
+		} else {
+			map.put("isSuccess", "false");
+		}
+		return map;
 	}
 }

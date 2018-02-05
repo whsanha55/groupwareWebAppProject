@@ -33,9 +33,9 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=1';
-				window.open(url, "결재문서","width=750, height=800");
-				
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
+						   +'&status=1+&finalStatus=0';							
+				window.open(url, "결재문서","width=750, height=800");				
 			});
 		
 		//검색창 타입 바꾸기
@@ -86,17 +86,20 @@
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			
+			var apprFinalStatus=0;
+			var apprStatus = 7;
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/approvalMyRequestPaging.do' 
+				url: '${pageContext.request.contextPath}/approvalPaging.do' 
 				,
 				data: {
 					keyfield: pKeyfield ,
 					keyword: pKeyword ,	
 					keyword1: pKeyword1 ,	
 					startRow : startRow ,
-					endRow : endRow
+					endRow : endRow,
+					apprFinalStatus : apprFinalStatus,
+					apprStatus : apprStatus
 				},
 				type: 'POST' ,
 				cache: false ,
