@@ -8,19 +8,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>최상위 코드 목록 조회</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-	function msg() {
+	/* function msg() {
 		if(confirm("이 코드를 삭제하시겠습니까?") == true) {
 			alert("코드가 삭제되었습니다.")
 			return true;
 		} else {
 			return false;
 		}
-	}
+	} */
 </script>
 <script>
-
+	var eKeyfield;
+	var eKeyword;
 	$(document).ready(function() {
+		
+/* 		employeePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ */
 		
 		//검색 조건 선택
 		$('#keyfieldList li > a').on('click', function() {
@@ -49,7 +53,14 @@
 				return;
 			}
 			
+			eKeyfield = $('.keyfield').attr('id');
+			eKeyword = $('.keyword').val();
+			
+			
 		});
+		
+		
+		
 		
 		
 		$('#insert').click(function(){
@@ -64,41 +75,53 @@
 			window.open(url, "코드 수정", "width=700, height=600");
 		});
 		
-/* 		$('#button').on('click', function() {
-			if(!confirm("해당 코드를 삭제하시겠습니까?")) {
-				return false;
-			}
-			console.log('cNo : ' + $('#cNo').val());
+		$('.removeBtn').on('click', function() {
+			var cNo = $(this).val();
 			
-			$.ajax({
-				url: '${pageContext.request.contextPath}/admin/removeCode1.do'
-				,
-				method: 'POST'
-				,
-				dataType: 'json'
-				,
-				data: $('#form').serialize()
-				,
-				success: function(data) {
-					alert("코드가 삭제되었습니다.")
-					location.reload();
+			swal({
+				 title: "코드 삭제",
+				 text: "코드를 삭제합니다. 계속 진행하시겠습니까?",
+				 icon: "info",
+				 buttons : true	
+			}).then((e) => {
+				if(e) {
+					removeCode1(cNo);
 				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-			})
-		}) */
-		
-		/* $('.remove').click(function() {
-			var c_no = $(this).attr('id');
-			if(confirm("이 코드를 삭제하시겠습니까?") == true) {
-				location.href = "${pageContext.request.contextPath}/admin/removeCode1.do?cNo="+ c_no;
-			} else {
-				return;
+			});
+			
+			
+			function removeCode1(cNo) {	
+				$.ajax({
+					url: '${pageContext.request.contextPath}/admin/removeCode1.do'
+					,
+					method: 'GET'
+					,
+					data: {cNo}
+					, 
+					async: true
+					,
+					cache: false
+					,
+					success: function(data) {
+						swal({
+							  title: "삭제 완료",
+							  text: "코드가 삭제되었습니다.",
+							  icon: "info",
+							  buttons : "확인" 
+						}).then((e) => {
+							if(e) {
+							  	location.reload();
+							}
+						});		
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);
+					}	 				
+				});	
 			}
-		}); */
-		
+		});
+
 	});	//$(document).ready End
 	
 </script>
@@ -119,7 +142,7 @@
 							<div class="col-md-2">
 								<h2>코드목록</h2>
 							</div>
-							<button type="button" id="insert">등록</button>
+							<button type="button" id="insert" class="btn btn-success">등록</button>
 						</div>
 						
 						<div>
@@ -129,11 +152,11 @@
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle"
 											data-toggle="dropdown" id="keyfield" value="keyfield" aria-expanded="true">
-											<span class="keyfield">검색 <span class="caret"></span></span>
+											<span class="keyfield">검색조건 <span class="caret"></span></span>
 										</button>
 										<ul id="keyfieldList" class="dropdown-menu" role="menu" aria-labelledby="searchType">
-											<li><a id="cNo">코드번호</a></li>
-											<li><a id="cName">코드명</a></li>
+											<li><a id="cNo" role="menuitem">코드번호</a></li>
+											<li><a id="cName" role="menuitem">코드명</a></li>
 										</ul>
 									</div>
 									<input type="text" class="form-control keyword" placeholder="검색어를 입력하세요.">
@@ -178,14 +201,9 @@
 							</c:if>
 								<td>${pageScope.code.cName }</td>
 								<td>${pageScope.code.countRelationCode }</td>
-								<td><button class="modify" id="${pageScope.code.cNo }" type="button">수정</button></td>
+								<td><button class="modify btn btn-success" id="${pageScope.code.cNo }" type="button">수정</button></td>
 							<c:if test="${pageScope.code.countRelationCode == 0 }" >
-								<td><c:url var="remove" value="/admin/removeCode1.do" scope="page" >
-											<c:param name="cNo" value="${pageScope.code.cNo }" />
-											<c:param name="relationCode" value="${pageScope.code.relationCode }" />
-										</c:url>
-										<a href="${pageScope.remove }" onclick="return msg();">삭제</a>
-								</td>
+								<td><button type="button" value="${pageScope.code.cNo }" class="btn btn-primary removeBtn" >삭제</button></td>
 							</c:if>
 							<c:if test="${pageScope.code.countRelationCode != 0 }">
 								<td></td>

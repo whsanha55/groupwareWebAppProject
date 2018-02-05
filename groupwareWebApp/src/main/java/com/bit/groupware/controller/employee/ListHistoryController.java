@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class HistoryListController {
+public class ListHistoryController {
 
 	@RequestMapping(value="/listHistory.do", method=RequestMethod.GET)
 	public String form() {
