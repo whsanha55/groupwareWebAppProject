@@ -14,7 +14,7 @@ import com.bit.groupware.service.authority.RoleService;
 
 @Controller
 public class AdminRegisterRoleController {
-	 private static final Logger logger = LoggerFactory.getLogger(AdminRegisterNoticeController.class);
+	 private static final Logger logger = LoggerFactory.getLogger(AdminRegisterRoleController.class);
 	  @Autowired
 	   private RoleService roleService;
 
