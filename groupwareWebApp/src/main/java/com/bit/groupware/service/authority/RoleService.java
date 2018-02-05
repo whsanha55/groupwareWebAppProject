@@ -18,7 +18,10 @@ public interface RoleService {
 	List<RoleVO> retrieveRoleList(Map<String, Object> map);
 	
 	//역할목록을 조회한다.
-	List<RoleVO> retrieveRoleList();
+	List<RoleVO> retrieveRoleByRname(String aName);
+	
+	//역할목록을 조회한다.
+	List<RoleVO> retrieveRoleList(String aName);
 		
 	//역할 정보를 수정한다.
 	void modifyRole(RoleVO role);

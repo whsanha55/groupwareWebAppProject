@@ -23,7 +23,10 @@ public interface RoleDAO {
 	List<RoleVO> selectRoleList(Map<String , Object> map);
 	
 	//역할 목록 조회하다.
-	List<RoleVO> selectRoleList();
+	List<RoleVO> selectRoleByRname(String aName);
+	
+	//역할 목록 조회하다.
+	List<RoleVO> selectRoleList(String aName);
 
 	//역할 정보를 수정한다.
 	void updateRole(RoleVO role);
