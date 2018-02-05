@@ -1,5 +1,6 @@
 package com.bit.groupware.controller.approval;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -41,13 +42,12 @@ public class ApprovalAjaxController {
 	public int approvalAjax(ApprovalVO approval, 
 			TemplateVO template, 
 			@RequestParam int receiverNo, 
-			HttpSession session) throws Exception {
+			HttpSession session,
+			Principal principal) throws Exception {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
 		
 		EmployeeVO employee = new EmployeeVO();
-//		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		employee.setEmpNo(user.getUsername());
-		employee.setEmpNo("2018-00011");
+		employee.setEmpNo(principal.getName());
 		
 		approval.setEmployee(employee);
 		approval.setTemplate(template);
