@@ -42,14 +42,29 @@
 
 	$(document).ready(function(){
 		
-		var status=${requestScope.status};
+		var status = ${requestScope.status};
+		var finalStatus = ${param.finalStatus};
+				
 		if(status==1){
 			$('#return').attr('disabled',false);
-		}else if(status==2){
-			$('#appr').attr('disabled',false);
-			$('#wait').attr('disabled',false);
+			$('#appr').hide();
+			$('#reject').hide();
+			$('#postpone').hide();
+			
+		} else if(status==2){
+			$('#return').hide();
+			$('#appr').attr('disabled',false);	
 			$('#reject').attr('disabled',false);
+			if(finalStatus==0){
+				$('#postpone').attr('disabled',false);
+			}
+		} else if(status==3) {
+			$('#return').hide();
+			$('#appr').hide();
+			$('#reject').hide();
+			$('#postpone').hide();
 		}
+		
 		
 	
 		var temp = $('.apprLineAppr').length;
@@ -83,7 +98,26 @@
 					}	
 				});
 		})
-			
+		
+		
+		$('#postpone').on('click',function(){
+			swal({
+				  title: "결재 보류",
+				  text: "결재를 보류 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						executePostpone();
+					}	
+				});
+		})
+		
+		
+		
+		
+		
+		//결재 회수	
 		function executeReturn(){
 			
 			$.ajax({
@@ -102,7 +136,35 @@
 					swal("결재 회수가 완료되었습니다.").then((e)=>{
 						self.close();
 						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
-					});
+					});					
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
+		}
+		
+		
+		//결재 보류
+		function executePostpone(){
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/postponeApproval.do'
+				,
+				method : 'GET'
+				,
+				data: {
+					apprNo : '${requestScope.approval.apprNo}'
+				}
+				,
+				datatype : 'json'
+				,
+				success : function(data) {
+					swal("결재가 보류되었습니다.").then((e)=>{
+						self.close();
+						opener.location='http://localhost:9000/groupware/approvalTodo.do'
+					});			
 					
 				}
 				,
@@ -111,6 +173,10 @@
 				}
 			});
 		}
+
+		
+		
+		
 		
 		
 
@@ -133,11 +199,11 @@
 
 				<div class="clearfix"></div>
 			</div>
-			 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="float:right; width:295px;">
+			 <span><button type="button" class="btn btn-success" id='return' disabled='true'>결재회수</button></span>
+			 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="float:right; width:210px;">
 			 		<button type="button" class="btn btn-success" id="appr" disabled='true'>결재</button>
-			 		<button type="button" class="btn btn-success" id="wait" disabled='true'>보류</button>
-			 		<button type="button" class="btn btn-success" id='reject' disabled='true'>반려</button>
-			 		<button type="button" class="btn btn-success" id='return' disabled='true'>결재회수</button>			 		
+			 		<button type="button" class="btn btn-success" id="postpone" disabled='true'>보류</button>
+			 		<button type="button" class="btn btn-success" id='reject' disabled='true'>반려</button>			 				 		
 			</div>
 			<div class="table-responsive" id="datas">
 				<h2><strong>결재 라인</strong></h2>
