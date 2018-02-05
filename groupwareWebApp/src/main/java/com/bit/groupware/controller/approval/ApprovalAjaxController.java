@@ -1,6 +1,8 @@
 package com.bit.groupware.controller.approval;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -42,7 +44,7 @@ public class ApprovalAjaxController {
 	public int approvalAjax(ApprovalVO approval, 
 			TemplateVO template, 
 			@RequestParam int receiverNo, 
-			HttpSession session,
+			HttpSession session, 
 			Principal principal) throws Exception {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
 		
@@ -71,9 +73,21 @@ public class ApprovalAjaxController {
 	public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
 									   @RequestParam(value="status") int status) {
 		
+/*		//확인 일시 기록
+		List<ApprovalRecordVO> list=approvalRecordService.retrieveApprovalRecordList(apprNo);
+		if(list.get(0).getCheckDate() == null) {	//사원번호가 있는 인덱스 찾는 구문 추가할 것
+			Date date = new Date();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String checkDate = format.format(date);
+			list.get(0).setCheckDate(checkDate);
+		}
+		ApprovalVO approval = approvalService.retrieveApproval(apprNo);
+		approval.setApprovalRecords(list); */
+			
 		ModelAndView mv =new ModelAndView();
 		mv.addObject("status",status);
 		//1:결재요청함 2:결재대기함 3:나머지
+		//mv.addObject("approval", approval);
 		mv.addObject("approval",approvalService.retrieveApproval(apprNo));
 		mv.setViewName("approval/approvalDetail/pop");
 		return mv;
