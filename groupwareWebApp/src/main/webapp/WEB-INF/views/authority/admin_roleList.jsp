@@ -240,10 +240,7 @@
 			        </div>
 				</div>
 			</div>
-               <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>역할 추가</a>
-        
-              
-     
+                   
                   <div class="x_content">
                
 
