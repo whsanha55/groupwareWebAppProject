@@ -106,4 +106,28 @@ public class ToDoController {
 	
 	}
 	
+	//결재 반려 처리
+	@RequestMapping(value="/executeApprovalAjax.do",method=RequestMethod.GET)
+	@ResponseBody
+	public int executeApprovalAjax(@RequestParam(value="apprNo") int apprNo, 
+				   @RequestParam(value="apprStatus") int apprStatus ,
+			       @RequestParam(value="commentContent") String commentContent,
+			       Principal principal) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("apprNo", apprNo);
+		map.put("apprStatus",apprStatus);
+		map.put("empNo", principal.getName());
+		if(!commentContent.equals("")) {
+			map.put("commentContent", commentContent);
+		}
+		recordService.executeApprovalRecord(map);
+		return apprStatus;
+	
+	}
+	
+	
+	
+	
 }
