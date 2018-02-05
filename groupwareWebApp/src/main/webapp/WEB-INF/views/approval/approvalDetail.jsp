@@ -36,6 +36,7 @@
 }
 
 
+
 </style>
 
 <script>
@@ -50,7 +51,6 @@
 			$('#appr').hide();
 			$('#reject').hide();
 			$('#postpone').hide();
-			
 		} else if(status==2){
 			$('#return').hide();
 			$('#appr').attr('disabled',false);	
@@ -114,6 +114,34 @@
 		})
 		
 		
+		$('#reject').on('click',function(){
+			var commentContent;
+			
+			swal({
+				  title: "결재 반려",
+				  text: "문서를 반려 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {												
+					  swal({
+							  title: "코멘트 입력",
+							  text: "결재 문서에 대한 코멘트를 입력해주세요.",
+							  content: {
+								  element : "input"
+							  } ,
+							  buttons : ['건너뛰기','저장']							  
+						}).then(inputData => {
+							commentContent = inputData;
+							alert(commentContent);
+						});
+			            executeReject(commentContent);						
+					}	
+				});
+		})//end of reject.on
+			
+		
+		
 		
 		
 		
@@ -174,6 +202,33 @@
 			});
 		}
 
+		
+		//결재 반려
+		function executeReject(commentContent){
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/rejectApproval.do'
+				,
+				method : 'GET'
+				,
+				data: {
+					apprNo : '${requestScope.approval.apprNo}',
+					comment: commentContent
+				}
+				,
+				datatype : 'json'
+				,				
+				success : function(data) {
+					swal("결재가 반려되었습니다.").then((e)=>{
+						self.close();
+						opener.location='http://localhost:9000/groupware/approvalTodo.do'
+					});					
+				},
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
+		}
 		
 		
 		
@@ -295,7 +350,7 @@
                           </tr>
                           </c:if>
                          </c:forEach>
-						
+                         					
 				</tbody>
                       </table>
                        <h2><strong>문서 정보</strong></h2>
@@ -340,18 +395,38 @@
 								<c:if test="${requestScope.approval.urgency ==1}">긴급</c:if>
 								<c:if test="${requestScope.approval.urgency ==0}"> 일반</c:if>
 							</td>
-                           
-							
+                       		
                           </tr>
-						 
+					
 							<tr>
 								<td colspan="4">${requestScope.approval.apprContent }</td>
 							</tr>
+						
+							
                       </table>
-					
+						<c:if test="${fn:length(requestScope.approval.approvalFiles) >0 }">
+							<table class="table table-striped jambo_table bulk_action">
+								<tr>
+									<th  class="headings" style="background-color:#3f5367; color:#ECF0F1;">파일번호</th>
+									<th class="headings"style="background-color:#3f5367; color:#ECF0F1;" colspan="2">파일이름</th>							
+								</tr>
+								<c:forEach var="apprFile" items="${requestScope.approval.approvalFiles }" varStatus="loop">
+									<tr>
+										<td>파일${pageScope.loop.count }</td>
+										<c:url var="downloadUrl" value="/downloadApprFile.do">
+											<c:param name="originalFileName" value="${pageScope.apprFile.originalFileName }"/>
+											<c:param name="systemFileName" value="${pageScope.apprFile.systemFileName }"/>
+										</c:url>
+										
+										<td><a href = "${pageScope.downloadUrl }">${pageScope.apprFile.originalFileName }</a></td>
+										
+										<td></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</c:if>					
 			</div>
-				
-				
+								
 		</div>
 	</div>
 

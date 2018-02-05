@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>진행문서함</title>
+<title>승인문서함</title>
 <style>
 
 	.column-title{
@@ -40,7 +40,7 @@
 		
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
-			if($(this).val()=='apprDate'){
+			if($(this).val()=='apprDate'||$(this).val()=='finDate'){
 				$(this).next().attr('type','date');
 				
 				$(this).next().after("&nbsp;<b id=temp>~</b> ")
@@ -216,7 +216,8 @@
 							<option value="tmpName">양식명</option>
 							<option value="empName">기안자</option>
 							<option value="department">기안부서</option>
-							<option value="apprDate" id="apprDate">기안일</option>
+							<option value="apprDate" id="apprDate">기안날짜</option>
+							<option value="finDate" id=finDate>승인날짜</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
 						<button id="btn3" type="button">검색</button>
 					</form>

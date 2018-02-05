@@ -11,6 +11,12 @@
 		text-align:center;
 	}
 	
+	.ui-autocomplete {
+	max-height: 150px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	}
+	
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
@@ -59,13 +65,40 @@
 
 				console.log($('form').html());
 				
-				var autocompleteValue = $(this).val();
-				if(autocompleteValue == 'apprTitle') {
-					autocompleteKeyword([]);
-				} else {
-					
+				//$("input[name=pKeyword]").autocomplete('option','source',
+				//[ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]);
+				var url = ''; 
+				switch ($(this).val()) {
+					case 'apprTitle':
+						$("input[name=pKeyword]").autocomplete('option','source',[]);
+						return;
+					case 'tmpName':
+						url = 'retrieveTemplateNameList.do';
+						break;
+					case 'empName':
+						url = 'retrieveEmployeeNameAndDutyList.do';
+						break;
+					case 'department':
+						url = 'retrieveDepartmentList.do';
+						break;
 				}
-				autocompleteKeyword(['a','aa','ab','abc']);
+				
+				$.ajax({
+					 url : '${pageContext.request.contextPath}/' + url ,
+					 cache : false ,
+					 type : 'GET' ,
+					 datatype : 'json' ,
+					 success : function(data) {
+						 $("input[name=pKeyword]").autocomplete('option','source',data);
+					 } ,
+					 error : function(jqXHR) {
+							alert(jqXHR.status);
+							console.log(jqXHR);
+					 }
+					 
+				});	
+					 
+					
 			}
 			
 			
@@ -73,14 +106,11 @@
 		 });
 		 
 		
-		function autocompleteKeyword(data) {
 			 $("input[name=pKeyword]").autocomplete({
-					source : data ,
 					focus : function() {
 						return false;
 					}
 			 });
-		}
 		
 		
 		//검색조건 엔터키 눌렀을때 트리거 발동--?

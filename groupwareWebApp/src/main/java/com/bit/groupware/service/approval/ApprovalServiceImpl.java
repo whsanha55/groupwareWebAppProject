@@ -70,16 +70,15 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 
-	// 결재 문서 회수/승인/보류/반려
+	// 결재 문서 회수/보류
 	public void modifyApproval(ApprovalVO approval) {
-		
 		//'회수'인 경우 결재 이력 삭제
-		if(approval.getApprFinalStatus() == 4) { //4는 임시인데.. 5 회수 안씀?
+		if(approval.getApprFinalStatus() == 4) {
 			recordDAO.deleteApprovalRecord(approval.getApprNo());	
 		}
-		
 		//결재문서 최종상태 여부 변경
 		dao.updateApproval(approval);
+		
 	}
 	
 	
@@ -98,6 +97,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public ApprovalVO retrieveTempApproval(int apprNO) {
 		// TODO Auto-generated method stub
 		return dao.selectTempApproval(apprNO); 
+	}
+
+	public int retrieveAllApprovalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.selectAllApprovalCount(map); 
 	}
 	
 }

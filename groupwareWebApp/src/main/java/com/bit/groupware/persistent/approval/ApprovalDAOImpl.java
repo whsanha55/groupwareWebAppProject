@@ -52,6 +52,11 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	public List<ApprovalVO> selectAllApprovalList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE+".selectAllApprovalList",map);
+	}
+
+	public int selectAllApprovalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".selectAllApprovalCount", map); 
 	} 
 
 

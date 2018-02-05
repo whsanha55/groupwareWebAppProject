@@ -60,6 +60,7 @@ public class TempListController {
 		
 		Map<String,Object> returnMap=new HashMap<String,Object>();
 		List<ApprovalVO> list=approvalService.retrieveApprovalList(map);
+		
 		logger.info("юс╫ц~"+list.size()); 
 		returnMap.put("approvals",list );
 		returnMap.put("totalCount", totalCount);
