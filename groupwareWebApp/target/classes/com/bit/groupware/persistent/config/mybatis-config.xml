@@ -30,6 +30,7 @@
 		<!-- Employee -->
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/EmployeeMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/CodeMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/employee/EmployeeFancyTreeMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/DeputyMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/PhotoMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/PlanMapper.xml"/>

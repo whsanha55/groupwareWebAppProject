@@ -25,15 +25,22 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Autowired
 	private ApprovalRecordDAO recordDAO;
 
-	// 결재문서 조회
+	// 결재문서 조회(내가쓴거)
 	public List<ApprovalVO> retrieveApprovalList(Map<String, Object> map) {
 		return dao.selectApprovalList(map);
+	}
+	
+	//결재문서 조회(승인,반려문서함)
+	public List<ApprovalVO> retrieveAllApprovalList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.selectAllApprovalList(map); 
 	}
 
 	// 결재문서 상세조회
 	public ApprovalVO retrieveApproval(int apprNo) {
 		return dao.selectApproval(apprNo);
 	}
+
 
 	// 기안문서 상신
 	public void registerApproval(ApprovalVO approval, int receiverNo) {
