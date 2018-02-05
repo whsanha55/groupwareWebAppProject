@@ -16,4 +16,6 @@ public interface TemplateDAO {
 	void deleteTemplate(Map<String, Object> map);
 	
 	int selectTemplateCount(Map<String, Object> map); 
+	
+	List<String> selectTemplateNameList();
 }

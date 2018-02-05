@@ -9,47 +9,53 @@
 </head>
 <body>
 	<!-- 역할 등록 -->
+	<form action="<%=request.getContextPath()%>/admin/role.do" method="post" enctype="multipart/form-data">
 	<div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>역할 등록</h2>
+                    <h2>역할 추가</h2>
                     
                     <div class="clearfix"></div>
                   </div>
               <div class="x_content">
                <div class="col-md-12" style="margin:40px 0;">
-                   <label class="control-label col-md-2" for="first-name">롤 명
+                   <label class="control-label col-md-2" for="first-name" >롤 명
                   </label>
                   <div class="col-md-8">
-                    <input type="text" id="first-name2" required="required" class="form-control col-md-7 col-xs-12">
+                    <input type="text" id="first-name2" name="rName" required="required" class="form-control col-md-7 col-xs-12">
                   </div>
                </div>
                <div class="col-md-12" style="margin-bottom:40px;">
-                  <label class="control-label col-md-2" for="first-name">롤 설명
+                  <label class="control-label col-md-2" for="first-name" >롤 설명
                   </label>
                   <div class="col-md-8">
-                    <input type="text" id="first-name2" required="required" class="form-control col-md-7 col-xs-12">
+                    <input type="text" id="first-name2" name="rExplan" required="required" class="form-control col-md-7 col-xs-12">
                   </div>
                </div>
                <div class="col-md-12" style="margin-bottom:40px;">
-                  <label class="control-label col-md-2" for="first-name">롤 타입
+                  <label class="control-label col-md-2" for="first-name" >롤 Sort
                   </label>
                   <div class="col-md-8">
-                    <label class="radio-inline"> <input
-										type="radio" name="inlineRadioOptions" id="inlineRadio1"
-										value="option1"> url
+                    <input type="number"  min = "1" max = "100" step = "1"  id="first-name2" name="sortOrder" class="form-control col-md-7 col-xs-12">
+                  </div>
+               </div>
+               <div class="col-md-12" style="margin-bottom:40px;">
+                  <label class="control-label col-md-2" for="first-name" >롤 타입</label>
+                  <div class="col-md-8">
+                    <label class="radio-inline"> <input type="radio" name="rType" id="inlineRadio1" value="url"> url
 								</label> <label class="radio-inline"> <input type="radio"
-										name="inlineRadioOptions" id="inlineRadio2" value="option2">
+										name="rType" id="inlineRadio2" value="method">
 									   method
 								</label>
                   </div>
                </div>   
                   </div>
               <div class="text-center">
-                   <a class="btn btn-primary" href='<c:url value="/admin/roleList.do"/>'>등록</a>
+               		 <button type="submit" class="btn btn-primary pull-right">등록</button>&nbsp;
                   <button class="btn btn-default">취소</button>
                </div>
                 </div>
               </div>
+              </form>
 </body>
 </html>

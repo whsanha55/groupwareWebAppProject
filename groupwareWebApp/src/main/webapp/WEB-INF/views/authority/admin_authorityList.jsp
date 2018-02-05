@@ -8,10 +8,14 @@
 <title>content</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-	var pKeyfield='notice';
-	var pKeyword;
-	$(document).ready(function() {
+	
 		
+	
+	$(document).ready(function() {		
+
+		var pKeyfield='';
+		var pKeyword;
+
 		Paging(1); 
 		
 		//	검색조건
@@ -21,8 +25,7 @@
 				$('.keyfield').attr('id',$(this).attr('id'));
 				
 		});
-		
-		
+				
 		//검색조건 엔터키 눌렀을때 트리거 발동
 		$('.keyword').on('keydown', function(e) {
 			if(e.keyCode == 13){
@@ -46,8 +49,10 @@
 		});
 		
 
+	//////////////////////////////////// 페이징 처리 ///////////////////////////////////////////////////////////
 	
 	function Paging(currentPageNo) {
+	
 		var totalCount =  0;		//총 양식서 수
 		var countPerPage = 7;   //한 페이지당 보여주는 양식서 수
 		var pageSize = 7;		//페이지 리스트에 게시되는 페이지 수
@@ -78,15 +83,24 @@
 				for(var i=0;i<data.authorities.length;i++) {
 					text += "<tr class='even pointer'>";
 					text += "<td class='a-center'><input type='checkbox' id='ex_chk'> </td>";
+<<<<<<< HEAD
+					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
+					text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
+					text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
+					text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
+					text += "<td class='align-center selectBtn'><a class='btn btn-primary' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button></td>";
+=======
 					text += "<td id="+ data.authorities[i].aNo +" class='aName'><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
 					text += "<td id="+ data.authorities[i].aName +" class='aName'>"+ data.authorities[i].aName + "</td>";
 					text += "<td id="+ data.authorities[i].aNote +"  class='aNote'>"+ data.authorities[i].aNote + "</td>";
 					text += "<td id="+ data.authorities[i].aWhether +" class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
-					text += "<td class='align-center'><a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button id='modify' class='btn btn-default'>수정</button></td>";
+					text += "<td class='align-center'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+data.authorities[i].aName+"'/>'>역할</a><button id='modify' class='btn btn-default'>수정</button></td>";
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 					text += "</tr>";
 				}
-					$('#datatable').find('tbody').html(text);
 				
+				$('#datatable').find('tbody').html(text);
+					
 					//페이징 처리
 					jqueryPager({
 						countPerPage : countPerPage,
@@ -94,6 +108,7 @@
 						currentPageNo : currentPageNo,
 						totalCount : totalCount
 					});
+					
 					
 				
 			} ,
@@ -106,117 +121,109 @@
 
 	} //end Paging function
 	
-	
+	   
 	//페이징 처리
 	function jqueryPager(subOption) {
+	   
+	      var pageBlock = subOption.countPerPage;   
+	      var pageSize = subOption.pageSize;        
+	      var currentPage = subOption.currentPageNo;  
+	      var pageTotal = subOption.totalCount;       
+	       var pageTotalCnt = Math.ceil(pageTotal/pageBlock);    
+	      var pageBlockCnt = Math.ceil(currentPage/pageSize);
+	      var sPage = (pageBlockCnt-1) * pageSize + 1;
+	      var ePage;
+	      
+	      
+	      var html ="<ul class='pagination'>";
+	   
+	      
+	       if((pageBlockCnt * pageSize) >= pageTotalCnt) {
+	         ePage = pageTotalCnt;
+	      } else {
+	         ePage = pageBlockCnt * pageSize;
+	      } 
+	      
+	      if(sPage <= 1) {
+	         html += '<li class="page-item disabled">';
+	         html += '<a class="page-link" aria-label="Previous">' 
+	      } else {
+	         html += '<li class="page-item ">';
+	         html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageSize) + ')">'; 
+	      }
+	      html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
+	      
+	      for(var i=sPage; i<=ePage; i++) {
+	         if(currentPage == i) {
+	            html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
+	         } else {
+	            html += '<li class="page-item"><a class="page-link" onclick="Paging(' + i + ');">' + i + '</a></li>';
+	         }
+	      }            
+	   
+	      if (ePage >= pageTotalCnt) {
+	         html += '<li class="page-item disabled">';
+	         html += '<a class="page-link" aria-label="Next">';
+	      } else {
+	         html += '<li class="page-item">';
+	         html += '<a class="page-link" aria-label="Next" onclick = "Paging(' + (ePage+1) + ')">';
+	      }
+	      html += '<span aria-hidden="true">&raquo;</span> </a></li>';
+	      html += '</ul>';
+	      
+	      $('#Paging').html(html);
+	   
+	   }
 	
-		var pageBlock = subOption.countPerPage;   
-		var pageSize = subOption.pageSize;        
-		var currentPage = subOption.currentPageNo;  
-		var pageTotal = subOption.totalCount;       
- 		var pageTotalCnt = Math.ceil(pageTotal/pageBlock); 	
-		var pageBlockCnt = Math.ceil(currentPage/pageSize);
-		var sPage = (pageBlockCnt-1) * pageSize + 1;
-		var ePage;
+	//수정 폼 변경
+	$('#datatable').on('click','button:contains(수정)', function () {
 		
 		
-		var html ="<ul class='pagination'>";
+		var aName = $(this).parents("tr").find('.aName').text();		
+		var aNote = $(this).parents("tr").find('.aNote').text();
+		var aWhether = $(this).parents("tr").find('.aWhether').text();
 	
 		
-		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
-			ePage = pageTotalCnt;
-		} else {
-			ePage = pageBlockCnt * pageSize;
-		} 
-		
-		if(sPage <= 1) {
-			html += '<li class="page-item disabled">';
-			html += '<a class="page-link" aria-label="Previous">' 
-		} else {
-			html += '<li class="page-item ">';
-			html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageSize) + ')">'; 
-		}
-		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
-		
-		for(var i=sPage; i<=ePage; i++) {
-			if(currentPage == i) {
-				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
-			} else {
-				html += '<li class="page-item"><a class="page-link" onclick="Paging(' + i + ');">' + i + '</a></li>';
-			}
-		}				
+	    $(this).parents("tr").find('.aName').html("<input type='text' name='aName' value="+aName +" />");	
+	    $(this).parents("tr").find('.aNote').html("<input type='text'' name='aNote'>");	
+	    $(this).parents("tr").find('.aNote').find(':text[name=aNote]').val(aNote);
+	    $(this).parents("tr").find('.aWhether').html("<label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio1' value='0'> 유 </label> <label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio2' value='1'>무</label>");
 	
-		if (ePage >= pageTotalCnt) {
-			html += '<li class="page-item disabled">';
-			html += '<a class="page-link" aria-label="Next">';
-		} else {
-			html += '<li class="page-item">';
-			html += '<a class="page-link" aria-label="Next" onclick = "Paging(' + (ePage+1) + ')">';
-		}
-		html += '<span aria-hidden="true">&raquo;</span> </a></li>';
-		html += '</ul>';
-		
-		$('#Paging').html(html);
-	
-	}
-	//권한 조회
-	$('#datatable').on('click','#modify',function (){
-		$.ajax({
-			url : '${pageContext.request.contextPath}/retrieveBoardAjax.do'
-			,
-			method : 'GET'
-			,
-			data : {
-				aNo: $('.aNo').attr("id")
-			}
-			,
-			dataType: 'json'
-			,
-			async : true
-			,
-			cache : true
-			,
-			success : function(data, textStatus, jqXHR){
-				$('.modifyForm tr > td:eq(2)').empty();
-				$('.modifyForm tr > td:eq(2)').append("<input type='text' name="+ data.aName +" value="+ data.aName +" />");
-				$('.modifyForm tr > td:eq(3)').empty();
-				$('.modifyForm tr > td:eq(3)').append("<input type='text' name="+ data.aNote +" value="+ data.aNote +" />");
-				$('.modifyForm tr > td:eq(4)').empty();
-				$('.modifyForm tr > td:eq(4)').append("<label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio1' value='0'> 유 </label> <label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio2' value='1'>무</label>");
-				
-				if(data.aWhether == '0') {
-					$('input[name=aWhether][value=0]').prop('checked',true);
-				}else{
-					$('input[name=aWhether][value=1]').prop('checked',true);
-				}
-				
-			}
-			,
-			error : function(jqXHR, textStatus, errorThrown){
-				alert('error: ' + jqXHR.status);
-			}
-		});
+	    if(aWhether == 0) {
+            $('input[name=aWhether][value=0]').prop('checked',true);
+         }else{
+            $('input[name=aWhether][value=1]').prop('checked',true);
+         }
+
+	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
+	    $('button:contains(수정)').prop("disabled", true);
 	});
 	
 	
-	//수정
-	/* $('#datatable').on('click','#modify',function (){
-			
-		 swal({
+	//수정 완료
+ 	$('#datatable').on('click','button:contains(완료)', function () {
+ 		
+ 		var aNo = $(this).parents("tr").find('.aNo').text();		
+ 		var aName = $(this).parents("tr").find('input[name=aName]').val();
+ 		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
+ 		var aWhether = $(this).parents("tr").find('input[name=aWhether]').val();		
+ 		
+		swal({
 			  title: "게시판을 수정하시겠습니까?",
 			  icon: "info",
 			  buttons : true 
 			}).then((e) => {
 				if(e) {
 					$.ajax({
-						url : '${pageContext.request.contextPath}/modifyAuthorityAjax.do'  
+						url : '${pageContext.request.contextPath}/modifyAuthorityAjax.do?' 
 							,
 							method : 'POST'
 							,
 							data : {
-								aName : $('.aName').attr("id"),
-								aNote : $('.aNote').attr("id"),
-								aWhether : $('.aWhether').attr("id")
+								aNo : aNo,
+								aName : aName,
+								aNote : aNote,
+								aWhether : aWhether
 							}
 							,
 							dataType: 'json'
@@ -225,10 +232,20 @@
 							,
 							cache : true
 							,
-							success : function(data, textStatus, jqXHR){
+							success : function(data, textStatus, jqXHR){	
+								if(data.isSuccess == "true"){
+									swal("수정 완료!","");
+									 $(this).parents("tr").find('.aName').remove();
+									 $(this).parents("tr").find('.aName').text(data.aName);
+									 $(this).parents("tr").find('.aNote').remove();
+									 $(this).parents("tr").find('.aNote').text(data.aNote);
+									 $(this).parents("tr").find('.aWhether').remove();
+									 $(this).parents("tr").find('.aWhether').text(data.aWhether);
 								
-							
-															
+								
+								}else if(data.isSuccess == "false"){
+									swal("이미 권한이 존재합니다.");
+								} 
 							}
 							,
 							error : function(jqXHR, textStatus, errorThrown){
@@ -237,11 +254,14 @@
 					
 						});
 				}
-			}); 
-		
-	}); */
+			});
+
+	});
 	
 });
+		
+		
+		
 </script>
 </head>
 <body>
@@ -282,7 +302,6 @@
 				</div>
 					
 				</div>
-			<form name="serializeForm" id="serializeForm">
 			<div class="x_content">
 				<div id="datatable" class="table-responsive">
 					<table class="table table-striped jambo_table bulk_action">
@@ -308,10 +327,7 @@
 						</div>
 					</div>
 				</div>
-
-
 			</div>
-			</form>
 		</div>
 	</div>
 

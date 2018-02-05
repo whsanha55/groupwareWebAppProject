@@ -2,6 +2,7 @@ package com.bit.groupware.persistent.approval;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -43,6 +44,11 @@ private final static Logger logger = LoggerFactory.getLogger(AdminTemplateContro
 		return sqlSession.selectOne(NAMESPACE + ".selectTemplateCount", map);
 		
 	}
+
+	public List<String> selectTemplateNameList() {
+		return sqlSession.selectList(NAMESPACE + ".selectTemplateNameList");
+	}
+	
 
 	
 }

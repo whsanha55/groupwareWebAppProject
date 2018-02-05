@@ -374,7 +374,7 @@ function jqueryPager(subOption) {
 										<c:param name="pNo" value="${requestScope.plan.pNo }" />
 									</c:url>
 									<a id="modify" href="${pageScope.detailURL }"  ><button class="btn btn-primary" type="button">뒤로가기</button></a>
-									<button type="submit" class="btn btn-success">등록</button>
+									<button type="submit" class="btn btn-success">수정</button>
 								</div>
 							</div>
 						</div>

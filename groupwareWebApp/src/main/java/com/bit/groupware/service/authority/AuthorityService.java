@@ -26,8 +26,13 @@ public interface AuthorityService {
 	//총 게시글 수를 구한다.
 	int retrieveAuthorityCount(Map<String, Object> map);
 
-	AuthorityVO retrieveAuthorityByaNo(String aNo);
-	
 	//권한번호에 대한 사원을 조회하다.
 	List<AuthorityVO> retrieveAuthEmpList(String aNo);
+	
+	//권한번호에 대한 권한을 조회하다
+	AuthorityVO retrieveAuthorityByaNo(String aNo);
+	
+	//권한명의 존재여부를 조회하다.
+	int retrieveAuthorityByAname(String aName);
+	
 }

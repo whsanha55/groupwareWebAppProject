@@ -24,5 +24,8 @@ public interface ApprovalDAO {
 	
 	ApprovalVO selectTempApproval(int apprNo);
 	
+	//승인,반려 문서함에서 count
+	int selectAllApprovalCount(Map<String,Object> map);
+	
 	
 }

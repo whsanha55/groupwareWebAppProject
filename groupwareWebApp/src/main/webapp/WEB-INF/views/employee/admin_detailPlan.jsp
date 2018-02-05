@@ -192,11 +192,11 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button class="btn btn-primary" type="button">뒤로가기</button>
-							<!-- <button class="btn btn-primary" type="reset">삭제</button> -->
-							<c:url var="removeURL" value="/admin/removePlan.do" scope="page" >
+							<c:url var="listPlanURL" value="/admin/listPlan.do" scope="page" ></c:url>
+									<a id="list" href="${pageScope.listPlanURL }"  ><button class="btn btn-primary" type="button">뒤로가기</button></a>
+							<%-- <c:url var="removeURL" value="/admin/removePlan.do" scope="page" >
 								<c:param name="pNo" value="${requestScope.plan.pNo }" />
-							</c:url>
+							</c:url> --%>
 							<button type="button" value="${requestScope.plan.pNo }" id="remove" class="btn btn-primary" >삭제</button>
 							<button type="button" value="${requestScope.plan.pNo }" id="modify" class="btn btn-success" >수정</button>
 						</div>

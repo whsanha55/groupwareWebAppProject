@@ -29,6 +29,7 @@
 	
 	<!-- 파일 다운로드 뷰 -->
    <beans:bean id="downloadFileView" class="com.bit.groupware.view.DownloadFileView" />
+   <beans:bean id="downloadApprovalFileView" class="com.bit.groupware.view.DownloadApprovalFileView" />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />

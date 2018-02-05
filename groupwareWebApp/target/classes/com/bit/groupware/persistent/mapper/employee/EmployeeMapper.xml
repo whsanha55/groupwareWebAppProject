@@ -9,10 +9,10 @@
 		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual		
 		</selectKey>				
-		insert into employee (emp_no, emp_name, emp_pwd,
-								 	eng_name, phone_number, email, reg_number, address)
+		insert into employee (emp_no, emp_name, emp_pwd, eng_name, 
+								phone_number, email, reg_number, postcode, address, detailaddress)
 		values (#{empNo}, #{empName}, #{empPwd}, #{engName},
-					#{phoneNumber},	#{email}, #{regNumber}, #{address})	
+					#{phoneNumber},	#{email}, #{regNumber}, #{postcode}, #{address}, #{detailAddress})	
 	</insert>
 	
 	<insert id="insertEmployeeCode" parameterType="map" statementType="PREPARED"> 
@@ -22,6 +22,11 @@
 		</foreach>
 		select * from dual		
 	</insert>
+	
+	<delete id="deleteEmployeeCode" parameterType="String" statementType="PREPARED">
+		delete employee_code
+		where emp_no = #{empNo}
+	</delete>
 	
 
 	<update id="updateEmployee" parameterType="EmployeeVO" statementType="PREPARED">
@@ -33,28 +38,43 @@
 			<if test="empPwd != null">
 				, emp_pwd = #{empPwd}
 			</if>
+			<if test="engName != null">
+				, eng_name = #{engName}
+			</if>
 			<if test="phoneNumber != null">
 				, phone_number = #{phoneNumber} 
 			</if>
 			<if test="email != null">
 				, email = #{email}	
 			</if>
-			<if test="regNumber != 0">
+			<if test="regNumber != null">
 				, reg_number = #{regNumber} 
 			</if>
-			<if test="hireDate != 0">
+			<if test="hireDate != null">
 				, hire_date = #{hireDate} 
 			</if>
-			<if test="retireStatus != 0">
+			<if test="retireStatus != null">
 				, retire_status = #{retireStatus} 
 			</if>
-			<if test="retireDate != 0">
+			<if test="retireDate != null">
 				, retire_date = #{retireDate} 
 			</if>
-			<if test="address != 0">
+			<if test="postcode != postcode">
+				, postcode = #{postcode} 
+			</if>
+			<if test="address != address">
 				, address = #{address} 
 			</if>
+			<if test="detailaddress != detailaddress">
+				, detailAddress = #{detailAddress} 
+			</if>
 		</trim>	
+		where emp_no = #{empNo}
+	</update>
+	
+	<update id="retireEmployee" parameterType="String" statementType="PREPARED">
+		update employee
+		set retire_status = 0, retire_date = sysdate
 		where emp_no = #{empNo}
 	</update>
 	
@@ -92,7 +112,7 @@
 		</collection>
 	</resultMap> 
 
-	<select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
+	<!-- <select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
 							statementType="PREPARED" parameterType="String">
 							
 		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
@@ -104,7 +124,7 @@
 	        and e.emp_no = ph.emp_no
 	        and e.emp_no = #{empNo}
 							
-		<!-- select 
+		select 
 			e.emp_no, 
 			emp_Name,
 			emp_pwd,
@@ -132,107 +152,84 @@
             division
 		from employee e , photo ph
         where e.emp_no = ph.emp_no
-            and e.emp_no = #{empNo} -->
-	</select> 
+            and e.emp_no = #{empNo}
+	</select>  -->
 	
-	<!-- <select id="selectEmployeeList" parameterType="map" statementType="STATEMENT" 
-													resultMap="selectEmployeeResultMap"> -->
-		<!-- select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
-		        reg_number, hire_date, retire_status, retire_date, address, checkAdmin,
-		        c.c_no, c_name, relation_code
-		from employee_code ec, employee e, code c
-		where ec.emp_no = e.emp_no
-		    and ec.c_no = c.c_no -->
-		
-		<!-- select 
-			emp_no, 
-			emp_Name,
-			emp_pwd,
-			email,
-			phone_number,
-			hire_date,
-			(select c.c_name
-             from code c, employee_code ec
-             where c.c_no = ec.c_no
-                and c.relation_code = (select c_no
-                                       from code
-                                       where c_name = '부서')
-                and ec.emp_no = e.emp_no) as department,
-            (select c.c_name
-             from code c, employee_code ec
-             where c.c_no = ec.c_no
-                and c.relation_code = (select c_no
-                                       from code
-                                       where c_name = '직책')
-               	and ec.emp_no = e.emp_no) as duty
-		from (select rownum as rn, emp.*
-              from (select * from employee
-                    order by emp_no asc) emp) e
-        <if test="keyfield==emp_no and keyword!=null">
-		where emp_no like '%' || #{keyword} || '%' 
-		</if>
-		<if test="keyfield==emp_name and keyword!=null">
-		where emp_name like '%' || #{keyword} || '%'
-		</if>
-		<if test="keyfield==duty and keyword!=null">
-		where duty like '%' || #{keyword} || '%'
-		</if>
-		<if test="keyfield==department and keyword!=null">
-		where department like '%' || #{keyword} || '%'
-		</if> 
-		<![CDATA[
-			where e.rn >= #{startRow} and e.rn <= #{endRow}
-		]]> -->
+	<select id="selectEmployeeByNo" resultType="EmployeeVO" 
+							statementType="PREPARED" parameterType="String">
+		select 
+			empNo, 
+	        empName,
+	        engName,
+	        empPwd, 
+	        phoneNumber,
+	        regNumber,
+	        email, 
+	        to_char(hireDate,'YYYY/MM/DD') as hireDate,
+	        retireStatus,
+	        retireDate,
+	        postcode,
+	        address,
+	        detailAddress,
+	        deptNo,
+	        department,
+	        dutyNo, 
+	        duty,
+	        photoName, 
+	        systemPhotoName,
+	        signName, 
+	        systemSignName
+		from emplist_view
+		where empNo = #{empNo}
+	</select>
+	
 	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="PREPARED">
-		<!-- select 
-			emp_no as empNo, 
-			emp_name as empName, 
-			emp_pwd as empPwd, 
-			phone_number as phoneNumber, 
-			email, 
-			to_char(hire_date, 'yyyy/mm/dd') as hireDate, 
-			department, 
-			duty
-		from (select rownum as rn, emp.*
-		      from (select * from empList_view
-		      order by emp_no asc) emp) e
-		<if test="keyfield == 'empNo' and keyword != null">
-		where emp_no like '%' || #{keyword} || '%' 
-		</if>
-		<if test="keyfield == 'empName' and keyword != null">
-		where emp_name like '%' || #{keyword} || '%'
-		</if>
-		<if test="keyfield == 'duty' and keyword != null">
-		where duty like '%' || #{keyword} || '%'
-		</if>
-		<if test="keyfield == 'department' and keyword != null">
-		where department like '%' || #{keyword} || '%'
-		</if>
-		<if test="keyfield == null">
-		where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
-		</if>
-		<if test="keyfield != null">
-			and e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
-		</if>
-		 -->
 		 select 
 			empNo, 
-			empName, 
-			empPwd, 
-			phoneNumber, 
-			email, 
-			hireDate, 
-			department, 
-			duty
+	        empName,
+	        engName,
+	        empPwd, 
+	        phoneNumber,
+	        regNumber,
+	        email, 
+	        to_char(hireDate,'YYYY/mm/dd') as hireDate,
+	        retireStatus,
+	        to_char(retireDate,'yyyy/mm/dd') as retireDate,
+	        postcode,
+	        address,
+	        detailAddress,
+	        deptNo,
+	        department,
+	        dutyNo, 
+	        duty,
+	        photoName, 
+	        systemPhotoName,
+	        signName, 
+	        systemSignName
 		from (select rownum as rn, emp.*
-		      from (select empNo, 
-                    empName, 
-                    empPwd, 
-                    phoneNumber, 
-                    email, 
-                    hireDate, 
-                    department, 
-                    duty from empList_view
+		      from (select 
+			      		empNo, 
+	                    empName,
+	                    engName,
+	                    empPwd, 
+	                    phoneNumber,
+	                    regNumber,
+	                    email, 
+	                    hireDate,
+	                    retireStatus,
+	                    retireDate,
+	                    postcode,
+	                    address,
+	                    detailAddress,
+	                    deptNo,
+	                    department,
+	                    dutyNo, 
+	                    duty,
+	                    photoName,
+	                    systemPhotoName,
+	                    signName,
+	                    systemSignName
+                    from empList_view
                     <if test="keyfield == 'empNo' and keyword != null">
 					where empNo like '%' || #{keyword} || '%' 
 					</if>

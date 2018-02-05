@@ -20,7 +20,7 @@
 	}
 	
 	table[id^='lineTable'] {
-		width : 10%;
+		width : 100px;
 	}
 	table[id^='lineTable'] tr:first-child {
 		height : 20px;
@@ -94,11 +94,11 @@
 							textRefEmpDuty += "<th>" + data[i].lineEmployee.duty + "</th>";
 						}
 					}
-					$('#lineTableA').css('width', (apprCount+1) * 10 + "%");
+					$('#lineTableA').css('width', (apprCount+1) * 100 + "px");
 					$('#dutyTableA').html(textApprDuty);
 					$('#empNameTableA').html(textApprEmpName);
 					
-					$('#lineTableR').css('width', (refCount+1) * 10 + "%");
+					$('#lineTableR').css('width', (refCount+1) * 100 + "px");
 					$('#dutyTableR').html(textRefEmpDuty);
 					$('#empNameTableR').html(textRefEmpName);
 					
@@ -352,8 +352,6 @@
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_1">상신</button>
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_2">임시저장</button>
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_0">취소</button>			
-<%-- 	<table id="approvalLine" class="table table-striped table-bordered">
-		--%>
 		<table id='lineTableA' class="table table-striped ">
 			<tr id='dutyTableA'>
 				<th rowspan="2" class="">결재</th>
@@ -402,10 +400,8 @@
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<!-- <td>김사원</td> -->
 			<td>${requestScope.user.empName }</td>
 			<th>부서</th>
-			<!-- <td>인사1팀</td> -->
 			<td>${requestScope.user.deptName }</td>
 
 		</tr>

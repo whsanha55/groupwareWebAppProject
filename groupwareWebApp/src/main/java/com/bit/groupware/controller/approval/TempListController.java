@@ -34,38 +34,7 @@ public class TempListController {
 		return "approval/tempList";
 	}
 	
-	//ajax 처리
-	@RequestMapping(value="/approvalTempPaging.do",method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> listTempApproval(
-			@RequestParam(value="startRow") int startRow,
-			@RequestParam(value="endRow") int endRow ){
-		
-		Map<String,Object> map=new HashMap<String,Object>();
-		logger.info("startRow!!!!"+startRow);
-		SecurityContext context=SecurityContextHolder.getContext();
-		Authentication authentication = context.getAuthentication();
-		UserVO user=(UserVO)authentication.getPrincipal();
-		String id=user.getUsername();
-		
-		map.put("empNo", id);
-		map.put("apprFinalStatus", 4);
-		
-		int totalCount =approvalService.retrieveApprovalCount(map);
-		if(totalCount < endRow) {
-			endRow=totalCount;
-		}
-		map.put("startRow", startRow);
-		map.put("endRow", endRow);
-		
-		Map<String,Object> returnMap=new HashMap<String,Object>();
-		List<ApprovalVO> list=approvalService.retrieveApprovalList(map);
-		logger.info("임시~"+list.size()); 
-		returnMap.put("approvals",list );
-		returnMap.put("totalCount", totalCount);
-		
-		return returnMap;
-	}
+	
 
 	
 	//선택 삭제

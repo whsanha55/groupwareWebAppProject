@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>최상위 코드 수정</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 <script type="text/javascript">
@@ -19,41 +20,69 @@
 			close();
 		});
 		
-		
-	
-		$('#button').on('click', function() {
-			if(!confirm("입력한 코드 정보로 수정하시겠습니까?")) {
-				return false;
-			}
-			console.log('cNo : ' + $('#cNo').val());
-			console.log('cName : ' + $('#cName').val());
-			console.log('relationCode : ' + $('#relationCode').val());
-			$.ajax({
-				url: '${pageContext.request.contextPath}/admin/modifyCode1.do'
-				,
-				method : 'POST'
-				,
-				dataType : 'json'
-				,
-				data: $('#form').serialize()
-				,
-				success : function(data) {
-					if(data == 1) {
-						alert("코드가 수정되었습니다.")
-						opener.location.reload();
-						window.close();
-					} else {
-						alert("중복된 코드명입니다.")
-					}
-				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-			});
+		$('.modifyBtn').on('click', function() {
+			event.preventDefault();
+			swal({
+				  title: "코드 수정",
+				  text: "코드를 수정합니다. 계속 진행하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						modifyCode();
+					}	
+				});			
 		});
-		
-		
+			
+			
+			function modifyCode() {	
+				
+				var cNo = $('#cNo').val();
+				var cName = $('#cName').val();
+				var relationCode = $('#relationCode').val();
+				
+				$.ajax({
+					url: '${pageContext.request.contextPath}/admin/modifyCode1.do'
+					,
+					method: 'POST'
+					,
+					data: {
+						cNo: cNo,
+						cName: cName,
+						relationCode: relationCode
+					}
+					, 
+					dataType:'json'
+					,
+					success: function(data) {
+						if(data == 1) {
+							swal({
+								  title: "수정 완료",
+								  text: "코드가 수정되었습니다.",
+								  icon: "info",
+								  buttons : "확인" 
+							}).then((e) => {
+								if(e) {
+									opener.location.reload();
+									window.close();
+								}
+							});		
+						} else {
+							swal({
+								  title: "수정 실패",
+								  text: "중복된 코드번호나 코드명입니다.",
+								  icon: "info",
+								  buttons : "확인" 
+							})
+						}
+					}
+					, 
+					error: function(jqXHR, textStatus, error) {
+						alert("Error : " + jqXHR.status + "," + error);
+					}	 				
+				});	
+			}
+
 	});
 	</script>
 	
@@ -78,8 +107,8 @@
 			</table>
 			<br>
 			<div class="text-center">
-				<button type="button" id="button">수정</button>
-				<a href="#" id="close">닫기</a>
+				<button type="button"  class="btn btn-success modifyBtn">수정</button>
+				<a href="#" id="close"><button type="button" class="btn btn-primary">닫기</button></a>
 			</div>
 		</div>
 	</form>

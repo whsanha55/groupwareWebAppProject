@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -18,7 +19,7 @@
 		});
 
 		//검색조건
-		$('.search-panel .dropdown-menu').on('click','a',function(e) {
+		$('#search-panel .dropdown-menu').on('click','a',function(e) {
 			e.preventDefault();
 			$('.keyfield').text($(this).text());
 			$('.keyfield').attr('id',$(this).attr('id'));
@@ -46,7 +47,192 @@
 			
 		});
 		
+		$('#dutyBtnList li > a').on('click', function() {
+		    $('#dutyBtn').text($(this).text());
+		    $('input[name=dutyCode]').val($(this).attr('value'));
+		});
+		
+		$('#deptBtnList li > a').on('click', function() {	
+			$('#deptBtn').text($(this).text());
+		    $('input[name=deptCode]').val($(this).attr('value'));		    
+		    
+			$.ajax ({
+				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
+				,
+				method: 'POST'
+				,
+				data: {
+					deptCode: $('input[name=deptCode]').val()
+				}
+				,
+				dataType: 'json'
+				,
+				success: function(data) {
+					var text = "";					
+					
+					if(data.length != 0) {
+						text += '<div class="input-group-btn search-panel">';
+						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="false">팀';
+						text += '<span class="caret"></span></button>';					
+						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu teambtn" aria-labelledby="d2Label">';
+						
+						for (var i = 0; i<data.length; i++) {
+							text += '<li role="presentation">';
+							text += '<a role="menuitem" href="#" value="'+ data[i].cNo +'">'+ data[i].cName +'</a>';
+							text += '</li>';
+						}
+						
+						text += '</ul>';
+						text += '</div>';
+						$('#deptDiv').after(text);						
+					} else {
+						return false;
+					}
+				}
+				,
+				error: function(jqXHR) {
+					alert('error : ' + jqXHR.status);
+				}
+			});
+		});
+		
+		$("#inputDeptDiv").on('click','#teamBtnList li > a', function () {
+			$("#teamBtn").text($(this).text());
+			$('input[name=deptCode]').val($(this).attr('value'));
+		});
+		
+		$('#modifyBtn').click(function () {
+			if($('#modRetireStatus').val()=='X') {
+				$('#modRetireStatus').val('1');	
+			} else {
+				$('#modRetireStatus').val('0');	
+			}
+			/* $.ajax ({
+				url:'${pageContext.request.contextPath}/admin/modifyEmployee.do'
+				,
+				method:'POST'
+				,
+				data: $('#modalForm').serialize()
+				,
+				dataType:'json'
+				,
+				success: function(data) {
+					if(data==0) {
+					swal({
+						title : "사원정보를 수정합니다.",
+						text : "계속 진행하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "확인"] 
+					}).then((e) => {
+					     if(e) {
+						     swal("수정이 완료되었습니다!", {
+						    	 icon : "success"						    	
+						     });
+					     } else {
+					    	 swal("취소되었습니다.");							
+						 }
+					});
+						employeePaging(1);
+						$('#myModal').modal('hide');
+					}
+					
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+					
+			}); */
+		}); 
+		
+		$("#retireBtn").click(function() {
+			$.ajax ({
+				url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
+				method : 'POST',
+				data : {
+					empNo : $('#modifyEmpNo').val()
+				},
+				dateType : 'json',
+				success : function(data) {
+					$('#modRetireStatus').val(data.retireStatus);
+					$('#modRetireDate').val(data.retireDate);
+					$('#myModal').modal('hide');
+					location.reload();
+				},
+				error : function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}				
+			});
+		});
+		
+		$("#upload-image").on("change", handleImgFileSelect);
+	
+		$("#findpostcode").click(execDaumPostcode); 
+		
 	});//$(document).ready End
+	
+	function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = ''; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+
+                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    fullAddr = data.roadAddress;
+
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    fullAddr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                if(data.userSelectedType === 'R'){
+                    //법정동명이 있을 경우 추가한다.
+                    if(data.bname !== ''){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('address').value = fullAddr;
+
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById('address2').focus();
+            }
+        }).open();
+    }
+	
+	
+	function handleImgFileSelect(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		filesArr.forEach(function(f) {
+			if(!f.type.match("image.*")) {
+				alert("확장자는 이미지 확장자만 가능합니다.");
+				return;
+			}
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#photo").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
 	
 	function employeePaging(currentPageNo) {
 		var totalCount =  0;		//총  수
@@ -83,17 +269,55 @@
 				} else {
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
-						text += "<td><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
-						text += "<td>"+ data.employees[i].empName 		+ "</td>";
-						text += "<td>"+ data.employees[i].duty 			+ "</td>";
-						text += "<td>"+ data.employees[i].department 	+ "</td>";
-						text += "<td>"+ data.employees[i].phoneNumber	+ "</td>";
-						text += "<td>"+ data.employees[i].hireDate		+ "</td>";
-						text += "<td>"+ data.employees[i].email			+ "</td>";
+						text += "<input id='submitPhotoName' type='hidden' value='"+ data.employees[i].systemPhotoName +"'>";
+						text += "<td id='submitEmpNo'"+ i +"><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
+						text += "<td id='submitEmpName'"+ i +">"+ data.employees[i].empName 		+ "</td>";
+						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
+						text += "<input id='submitDeptNo' type='hidden' value='"+ data.employees[i].deptNo +"'>";
+						text += "<td id='submitDuty'"+ i +">"+ data.employees[i].duty 			+ "</td>";
+						text += "<input id='submitDutyNo' type='hidden' value='"+ data.employees[i].dutyNo +"'>";
+						text += "<td id='submitDept'"+ i +">"+ data.employees[i].department 	+ "</td>";
+						text += "<td id='submitPhoneNumber'"+ i +">"+ data.employees[i].phoneNumber	+ "</td>";
+						text += "<input id='submitRegNumber' type='hidden' value='"+ data.employees[i].regNumber +"'>";
+						text += "<td id='submitHireDate'"+ i +">"+ data.employees[i].hireDate		+ "</td>";
+						text += "<td id='submitEmail'"+ i +">"+ data.employees[i].email			+ "</td>";
+						text += "<input id='submitRetireStatus' type='hidden' value='"+ data.employees[i].retireStatus +"'>";
+						text += "<input id='submitRetireDate' type='hidden' value='"+ data.employees[i].retireDate +"'>";
+						text += "<input id='submitpostcode' type='hidden' value='"+ data.employees[i].postcode +"'>";
+						text += "<input id='submitAddress' type='hidden' value='"+ data.employees[i].address +"'>";
+						text += "<input id='submitdetailAddress' type='hidden' value='"+ data.employees[i].detailAddress +"'>";
 						text += "</tr>";
+						
+						
+						$('#datatable').on('click','#submitEmpNo', function(){
+							$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
+							console.log($('#photo').attr('src'));
+							$('#modifyEmpNo').val($(this).text());
+							$('#modEmpName').val($(this).next('#submitEmpName').text());							
+							$('#modEngName').val($(this).parent().children('#submitEngName').val());
+							$('input[name=dutyCode]').val($(this).parent().children('#submitDutyNo').val());
+							$('.preDuty').text($(this).nextAll('#submitDuty').text());
+							$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
+							$('.preDept').text($(this).nextAll('#submitDept').text());
+							$('#modPhoneNumber').val($(this).nextAll('#submitPhoneNumber').text());
+							$('#modRegNumber').val($(this).nextAll('#submitRegNumber').val());
+							$('#modEmail').val($(this).nextAll('#submitEmail').text());
+							$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
+							if($(this).nextAll('#submitRetireStatus').val() == 0) {
+								$('#modRetireStatus').val('퇴사');
+								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
+							} else {
+								$('#modRetireStatus').val('X');
+								$('#modRetireDate').val("");
+							}
+							$('#modpostcode').val($(this).parent().children('#submitpostcode').val());
+							$('#modAddress').val($(this).parent().children('#submitAddress').val());	
+							$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
+						})
 					}
 				}
 				$('#datatable').find('tbody').html(text);
+				
 				
 				//페이징 처리
 				jqueryPager({
@@ -187,7 +411,7 @@
 						</div>
 						<div class="col-md-3 col-xs-offset-2">
 							<div class="input-group">
-								<div class="input-group-btn search-panel">
+								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle"
 										data-toggle="dropdown" type="button">
 										<span class="keyfield">검색조건</span><span class="caret"></span>
@@ -228,17 +452,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<%-- <c:forEach var="employee" items="${requestScope.employees }" varStatus="loop">
-								<tr>
-									<td><a data-toggle="modal" data-target="#myModal">${pageScope.employee.empNo}</a></td>
-									<td>${pageScope.employee.empName}</td>
-									<td>${pageScope.employee.duty}</td>
-									<td>${pageScope.employee.department}</td>
-									<td>${pageScope.employee.phoneNumber}</td>
-									<td>${pageScope.employee.hireDate}</td>
-									<td>${pageScope.employee.email}</td>
-								</tr>
-								</c:forEach> --%>
+								
 							</tbody>
 						</table>
 					</div>
@@ -256,6 +470,10 @@
 	
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
+		<form id="modalForm" action="${pageContext.request.contextPath }/admin/modifyEmployee.do"
+				enctype="multipart/form-data" method="POST">
+		<input type="hidden" name="dutyCode" value="">
+		<input type="hidden" name="deptCode" value="">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -270,13 +488,13 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img class="img-responsive avatar-view"
-										src="images/picture.jpg" alt="Avatar"
-										title="Change the avatar">
+									<img id="photo" width="250px" height="250px" 
+									src="" class="img-responsive center-block"/>
 								</div>
 							</div>
-							<br> <input type="file" data-role="magic-overlay"
-								data-target="#pictureBtn" data-edit="insertImage">
+							<br> <input id="upload-image" name="upload"
+								type="file" data-role="magic-overlay" data-target="#pictureBtn"
+								data-edit="insertImage">
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12 profile_left">
 							<div class="profile_img">
@@ -293,25 +511,24 @@
 							<tbody>
 								<tr>
 									<th>사번</th>
-									<td><input type="text" class="form-control"
-										disabled="disabled" placeholder="2018-00001"></td>
+									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
+										readonly readonly value=""></td>
 									<th>직책</th>
 									<td><div>
 											<div class="col-xs-2 col-xs-offset-2">
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
-														<button type="button"
+														<button id="dutyBtn" type="button"
 															class="btn btn-default dropdown-toggle"
 															data-toggle="dropdown">
-															<span id="search_concept">직책</span> <span class="caret"></span>
+															<span id="search_concept" class="preDuty">직책</span><span class="caret"></span>
 														</button>
-														<ul class="dropdown-menu" role="menu">
-															<li><a href="#contains">사장</a></li>
-															<li><a href="#its_equal">부사장</a></li>
-															<li><a href="#greather_than">부장</a></li>
-															<li><a href="#less_than">팀장</a></li>
-															<li><a href="#greather">대리</a></li>
-															<li><a href="#less">사원</a></li>
+														<ul id="dutyBtnList" class="dropdown-menu" role="menu">
+															<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
+																<li role="presentation">
+																	<a role="menuitem" tabindex="-1" href="#" value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</a>
+																</li>
+															</c:forEach>
 														</ul>
 													</div>
 												</div>
@@ -320,99 +537,84 @@
 								</tr>
 								<tr>
 									<th>이름</th>
-									<td><input type="text" class="form-control"
-										required="required" value="김사원"></td>
+									<td><input id="modEmpName" name="empName" type="text" class="form-control"
+										required="required" value=""></td>
 									<th>영문이름</th>
-									<td><input type="text" class="form-control"
-										value="Kim Employee"></td>
+									<td><input id="modEngName" name="engName" type="text" class="form-control"
+										value=""></td>
 								</tr>
 								<tr>
 									<th>연락처</th>
-									<td><input type="text" class="form-control"
-										required="required" value="010-2345-6789"></td>
+									<td><input id="modPhoneNumber" name="phoneNumber" type="text" class="form-control"
+										required="required" value=""></td>
 									<th>주민번호</th>
-									<td><input type="text" class="form-control"
-										required="required" value="920815-1081614"></td>
+									<td><input id="modRegNumber" name="regNumber" type="text" class="form-control"
+										required="required" value=""></td>
 								</tr>
 								<tr>
 									<th>부서</th>
 									<td><div>
 											<div class="col-xs-2 col-xs-offset-2">
-												<div class="input-group">
-													<div class="input-group-btn search-panel">
-														<button type="button"
+												<div id="inputDeptDiv" class="input-group">
+													<div id="deptDiv" class="input-group-btn search-panel">
+														<button id="deptBtn" type="button"
 															class="btn btn-default dropdown-toggle"
 															data-toggle="dropdown">
-															<span id="search_concept">부서</span> <span class="caret"></span>
+															<span id="search_concept" class="preDept">부서</span> <span class="caret"></span>
 														</button>
-														<ul class="dropdown-menu" role="menu">
-															<li><a href="#contains">경영관리부</a></li>
-															<li><a href="#its_equal">인사부</a></li>
-															<li><a href="#greather_than">회계부</a></li>
-															<li><a href="#less_than">영업부</a></li>
-															<li><a href="#greather">개발부</a></li>
-														</ul>
-													</div>
-													<div class="input-group-btn search-panel">
-														<button type="button"
-															class="btn btn-default dropdown-toggle"
-															data-toggle="dropdown">
-															<span id="search_concept">팀</span> <span class="caret"></span>
-														</button>
-														<ul class="dropdown-menu" role="menu">
-															<li><a href="#contains">영업1팀</a></li>
-															<li><a href="#its_equal">영업2팀</a></li>
+														<ul id="deptBtnList" class="dropdown-menu" role="menu">
+															<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
+																<li role="presentation">
+																	<a role="menuitem" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
+																</li>
+															</c:forEach>
 														</ul>
 													</div>
 												</div>
 											</div>
-										</div>
-										<%-- <div>
-											<div class="col-xs-2 col-xs-offset-2">
-												<div class="input-group">
-													<div class="input-group-btn search-panel">
-														<button type="button"
-															class="btn btn-default dropdown-toggle"
-															data-toggle="dropdown">
-															<span id="search_concept">팀</span> <span class="caret"></span>
-														</button>
-														<ul class="dropdown-menu" role="menu">
-															<li><a href="#contains">영업1팀</a></li>
-															<li><a href="#its_equal">영업2팀</a></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div> --%></td>
+										</div></td>
 									<th>이메일</th>
-									<td><input type="text" class="form-control"
-										required="required" value="java1234@naver.com"></td>
+									<td><input id="modEmail" name="email" type="text" class="form-control"
+										required="required" value=""></td>
 								</tr>
 								<tr>
 									<th>입사일</th>
-									<td><input type="text" class="form-control"
-										required="required" value="2018/01/01"></td>
+									<td><input id="modHireDate" name="hireDate" type="text" class="form-control"
+										required="required" value="" readonly></td>
 									<th>계좌번호</th>
-									<td><input type="text" class="form-control"
+									<td><input id="modnull" type="text" class="form-control"
 										required="required" value="110-328-521548"></td>
 								</tr>
 								<tr>
-									<th>퇴사일</th>
-									<td><input type="text" class="form-control" value="X"></td>
 									<th>퇴사여부</th>
-									<td><input type="text" class="form-control"
-										required="required" value="X"></td>
+									<td><input id="modRetireStatus" name="retireStatus" type="text" class="form-control"
+										required="required" readonly value=""></td>
+									<th>퇴사일</th>
+									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value=""></td>
 								</tr>
 								<tr>
 									<th>주소</th>
-									<td colspan="3"><input type="text" class="form-control"
-										required="required" value="서울시 서초구 테헤란로"></td>
+									<td colspan="3">
+									<div class="col-md-6 col-sm-6 col-xs-6">
+										<input type="text" id="modpostcode" name="postcode" placeholder="우편번호" readonly
+												required="required" class="form-control col-sm-6 col-xs-6">
+									</div>
+									<button type="button" id="findpostcode" class="btn btn-success">우편번호 찾기</button><br>
+									<div class="col-md-12 col-sm-6 col-xs-12">
+										<input type="text" id="modAddress" name="address" placeholder="주소" readonly
+												required="required" class="form-control col-md-7 col-xs-12">
+									</div><br>
+									<div class="col-md-12 col-sm-6 col-xs-12">
+										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="상세주소"
+												required="required" class="form-control col-md-7 col-xs-12">
+									</div>
 								</tr>
 							</tbody>
 						</table>
 						<br>
 						<div class="text-center">
-							<button type="button" class="btn btn-primary">수정</button>
+							<button id="modifyBtn" type="submit" class="btn btn-primary">수정</button>
+							<button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">닫기</button>
 						</div>
@@ -420,6 +622,7 @@
 				</div>
 			</div>
 		</div>
+	</form>
 	</div>
 </body>
 </html>
