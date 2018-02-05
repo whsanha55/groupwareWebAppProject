@@ -48,6 +48,13 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE+".selectTempApproval", apprNo); 
 	}
+
+	public List<ApprovalVO> selectAllApprovalList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE+".selectAllApprovalList",map);
+	} 
+
+
 	
 
 }

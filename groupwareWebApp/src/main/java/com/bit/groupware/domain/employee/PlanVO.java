@@ -23,6 +23,9 @@ public class PlanVO {
 	private List<MultipartFile> upload;
 	private List<PlanFileVO> files = new ArrayList<PlanFileVO>();
 	
+	private String cName;
+	private String empName;
+	
 	public PlanVO() {
 		super();
 	}
@@ -151,13 +154,31 @@ public class PlanVO {
 		this.files = files;
 	}
 
+	public String getcName() {
+		return cName;
+	}
+
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
 	@Override
 	public String toString() {
 		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", deptNo=" + deptNo + ", pClass=" + pClass + ", pImpt="
 				+ pImpt + ", rspbNo=" + rspbNo + ", pContent=" + pContent + ", startDate=" + startDate + ", endDate="
 				+ endDate + ", latitude=" + latitude + ", longitude=" + longitude + ", codes=" + codes + ", employee="
-				+ employee + ", upload=" + upload + ", files=" + files + "]";
+				+ employee + ", upload=" + upload + ", files=" + files + ", cName=" + cName + ", empName=" + empName
+				+ "]";
 	}
+
 	
 
 	

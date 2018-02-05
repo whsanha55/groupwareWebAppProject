@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,22 +58,14 @@ public class WriteApprovalController {
 			appr=approvalService.retrieveTempApproval(apprNo); 
 			mv.addObject("approval", appr);
 		}
-		
 
-		//로그인없을때 테스트용으로 try catch묶음  
-		try {
-			UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			mv.addObject("user", user);
-		} catch (Exception e) {
-			
-		}
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		mv.addObject("user", user);
+		mv.addObject("receivers", receiverService.retrieveReceiverList(user.getUsername()));
 
-		mv.addObject("receivers",receiverService.retrieveReceiverList());
-		
 		mv.setViewName("approval/writeApproval");
 		return mv;
-		
-		
+
 	}
 	
 	//결재선 관리 요청 

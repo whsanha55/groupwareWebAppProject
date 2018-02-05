@@ -77,5 +77,150 @@
 	</select>
 	
 	
+	<!-- 권한등록 -->
+	<insert id="insertAuthority" parameterType="AuthorityVO" statementType="PREPARED">
+		<selectKey keyProperty="aNo" resultType="String" statementType="STATEMENT" order="BEFORE">
+			select to_char('A' || lpad(authority_seq.nextval,'5','0')) from dual
+		</selectKey>
+		insert into authority(a_no, a_name, a_note, a_whether, ae_no)
+		values(#{aNo}, #{aName} , #{aNote} , #{aWhether} , #{aeNo})
+	</insert>
+	
+	
+	<!-- 권한사원 등록 -->
+	<insert id="insertAuthEmp" parameterType="AuthEmpVO" statementType="PREPARED">
+		<selectKey keyProperty="aeNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+			select authority_employee_seq.nextval from dual
+		</selectKey>
+		insert into authority_employee(ae_no, emp_no, a_no)
+		value(#{aeNo},#{emp.empNo}, #{auth.aNo})
 
+	</insert>
+	
+	<!-- 권한역할등록 -->
+	<insert id="insertAuthRole" parameterType="AuthRoleVO" statementType="PREPARED">
+		<selectKey keyProperty="arNo" resultType="int" statementType="STATEMENT" order="BEFORE">
+			select authority_role_seq.nextval from dual
+		</selectKey>
+		insert into authority_role(ar_no, r_id, a_no)
+		value(#{arNo},#{role.rId}, #{auth.aNo})
+	</insert>
+	
+	<!--권한삭제  -->
+	<delete id="deleteAuthority" parameterType="String" statementType="PREPARED">
+		delete from authority 
+		where a_no = #{aNo}
+	</delete>
+	
+	<!-- 권한사원 삭제 -->
+	<delete id="deleteAuthEmp" parameterType="int" statementType="PREPARED">
+		delete from authority_employee
+		where ae_no = #{aeNo}
+	</delete>
+	
+	<!-- 권한역할 삭제  -->
+	<delete id="deleteAuthRole" parameterType="int" statementType="PREPARED">
+		 delete from authority_role
+		 where ar_no = #{arNo}
+	</delete>
+	
+	<!-- 권한 리스트 조회-->
+	<select id="selectListAuthority" resultType="AuthorityVO" statementType="PREPARED" parameterType="map" >		
+		select a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
+		from (select rownum as rn, t1.*
+     			from (select *
+          				from authority 
+          				order by a_no asc)t1)a, employee e, authority_employee ae
+		where a.a_no = ae.a_no
+    		and a.ae_no = ae.ae_no
+    		and ae.emp_no = e.emp_no
+ 
+ 		<if test="keyfield == 'aName' and keyword != null">
+ 			and a.a_no Like '%' || #{keyword} || '%'
+ 		</if>
+ 		
+ 		<if test="keyfield == 'empNo' and keyword != null">
+ 			and e.emp_no Like '%' || #{keyword} || '%'
+ 		</if>
+ 		
+ 		<if test="keyfield == 'empName' and keyword != null">
+ 			and e.emp_name Like '%' || #{keyword} || '%'
+ 		</if>
+ 		and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+	</select>
+	
+	 <select id="selectAuthorityCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(a.a_no)
+		from authority a, employee e, authority_employee ae
+		where a.a_no = ae.a_no
+    		and a.ae_no = ae.ae_no
+    		and ae.emp_no = e.emp_no
+    	<if test = "aNo != null">
+    		amd a.a_no = #{aNo}
+    	</if>
+		<if test="keyfield == 'aName' and keyword != null">
+ 			and a.a_no Like '%' || #{keyword} || '%'
+ 		</if>
+ 		
+ 		<if test="keyfield == 'empNo' and keyword != null">
+ 			and e.emp_no Like '%' || #{keyword} || '%'
+ 		</if>
+ 		
+ 		<if test="keyfield == 'empName' and keyword != null">
+ 			and e.emp_name Like '%' || #{keyword} || '%'
+ 		</if>
+	</select>
+	
+	<!-- 권한 수정-->
+	<update id="updateAuthority" parameterType="AuthorityVO" statementType="PREPARED" >
+		update authority
+		<trim prefix="set" suffixOverrides=",">
+			<if test="aName != null">
+				a_name = #{aName}
+			</if>
+			<if test="aNote != null">
+				a_note = #{aNote}
+			</if>
+			<if test="aWhether != null">
+				a_whether = #{aWhether}
+			</if>
+		</trim>
+	</update>
+	
+	<!-- 권한 조회 -->
+	<select id="selectAuthorityByaNo"  statementType="PREPARED" parameterType="String" resultType="AuthorityVO">
+		select a_no as aNo, a_name as aName, a_note as aNote,a_whether as aWhether
+		from authority
+		where a_no = #{aNo}
+	</select>
+	
+	<!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->	
+	<resultMap type="AuthorityVO" id="selectAuthEmpResultMap">
+		<id column="a_no" property="aNo"/>
+		
+		<!-- 1:N 관계 -->	
+		<collection property="emp" javaType="list" ofType="EmployeeVO">
+			<id column="emp_no" property="empNo"/>
+			<result column="emp_name" property="empName"/>
+		</collection>
+		
+		<collection property="authEmp" javaType="list" ofType="AuthEmpVO">
+			<id column="a_no" property="aNo"/>
+			<id column="ae_no" property="aeNo"/>
+			<id column="emp_no" property="empNo"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectAuthEmpList" statementType="PREPARED" resultMap="selectAuthEmpResultMap" parameterType="String">
+		select a.a_name as aName, e.emp_no as empNo, e.emp_name as empName
+		from authority a , employee e, authority_employee ae
+		where a.a_no = ae.a_no
+   			and a.ae_no = ae.ae_no
+    		and ae.emp_no = e.emp_no
+    		and a.a_no = #{aNo}
+    	order by a.a_no asc
+	</select> 
+	
+	
+	
 </mapper>

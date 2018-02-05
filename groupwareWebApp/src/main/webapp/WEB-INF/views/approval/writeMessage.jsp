@@ -44,26 +44,59 @@
 } */
 </style>
 
-<script src="js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" />
+<script
+	src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
+</script>
 
 <script>
 
-/* 	$(document).ready(function(){
+ 	$(document).ready(function(){
+ 		
+ 		
+ 		$('#btnCancle').on('click',function(){
+ 			
+ 			window.close();
+ 		});
+ 		
+ 		
+ 		$('#btnSubmit').on('click',function(){
 		
-		$('#button1').on('click',function(){
+		$.ajax({
 			
-			opener.open(); // ㅋㅎ 크롬에선 지원안됨 
+			
+			url: '${pageContext.request.contextPath}/registerMessage.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: $('#form').serialize()
+			,
+			success: function(data){
+				
+				//성공시 sweetAlert
+				swal({
+				title: "쪽지 전송 완료",
+				text: "확인을 누르시면 받은 쪽지함으로 이동합니다",
+				icon: "success"
+				}).then((s)=>{
+					window.close();
+					location.href='${pageContext.request.contextPath}/retrieveMessageList.do';
+				});
+				
+			}
+			,
+			
+			error: function(jqXHR) {
+			alert("error : " + jqXHR.status);
+			}
+									
+		
 		});
 		
-		 $('#button2').on('click',function(){
-			
-			location.href = "${pageContext.request.contextPath}/registerMessage.do?receipientEmployee&?msgTitle?&msgContent";
-		
-		}); 
-
+ 		});
 	
-	}); */
+	}); 
 
 
 </script>
@@ -123,14 +156,14 @@
 
 				<div class="clearfix"></div>
 			</div>
-			<form name="message" action="${pageContext.request.contextPath }/registerMessage.do" method="post">
+			<form id="form">
 			<div class="table-responsive" id="datas" style="margin-bottom: 8px">
 				<table class="table table-striped jambo_table bulk_action">
 					<tbody>
 
 						<tr>
 							<td>수신자</td>
-							<td><input type="text" name="receipientEmployee" size="20"></input></td>
+							<td><input type="text" name="receipientEmployee" size="15"></input></td>
 
 						</tr>
 
@@ -150,14 +183,15 @@
 			</div>
 				
 				<div class="buttons text-center">
-				<button type="submit" class="btn btn-success">작성</button>
+				<button type="button" id="btnCancle" class="btn btn-success">취소</button>
+				<button type="button" id="btnSubmit" class="btn btn-success">작성</button>
 				</div>
 		</div>
 	</div>
 	</form>
 
 
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
 </body>

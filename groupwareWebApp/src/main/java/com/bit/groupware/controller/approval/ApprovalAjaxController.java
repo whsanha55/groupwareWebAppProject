@@ -70,7 +70,7 @@ public class ApprovalAjaxController {
 		
 		ModelAndView mv =new ModelAndView();
 		mv.addObject("status",status);
-		logger.info("스테이터스 : " +status);
+		//1:결재요청함 2:결재대기함 3:나머지
 		mv.addObject("approval",approvalService.retrieveApproval(apprNo));
 		mv.setViewName("approval/approvalDetail/pop");
 		return mv;
