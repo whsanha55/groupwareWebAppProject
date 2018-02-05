@@ -17,9 +17,13 @@
 	
 	<delete id="deletePhoto" parameterType="String" statementType="PREPARED">
 		delete from photo
-		where photo_no = #{photoNo}
+		where emp_no = #{empNo} and division = 'P'
 	</delete>
 	
+	<delete id="deleteSign" parameterType="String" statementType="PREPARED">
+		delete from photo
+		where emp_no = #{empNo} and division = 'S'
+	</delete>
 
 </mapper>
 

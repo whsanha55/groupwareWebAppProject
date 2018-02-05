@@ -9,11 +9,13 @@ public interface MessageDAO {
 
 	void insertMessage(MessageVO message);
 	
-	void deleteMessage(List<Integer> msgNos);
+	void deleteMessage(Map<String,Object> map);
 	
 	MessageVO selectMessage(int msgNo);
 	
 	void updateMessageStatus(int msgNo); 
 	
 	List<MessageVO> selectMessageList(Map<String,Object> map);
+	
+	int selectNewMessageCount(String empNo);
 }

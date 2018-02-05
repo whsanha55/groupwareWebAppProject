@@ -26,6 +26,10 @@
 	#templatePaging {
 		margin-left : 45%;
 	}
+	
+	#templatePaging li {
+		cursor : pointer;
+	}
 </style>
 <script>
 		var pKeyfield = 'bookmark'; //로딩첫페이지가 북마크!! 

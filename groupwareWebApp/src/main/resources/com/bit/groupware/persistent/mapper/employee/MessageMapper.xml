@@ -9,7 +9,7 @@
 		values(message_seq.nextval,#{senderEmployee.empNo},#{receipientEmployee.empNo},#{msgTitle},#{msgContent})
 	</insert>
 	
-	<delete id="deleteMessage" parameterType="list" statementType="PREPARED" >	<!-- parameterType이상할수도 -->
+	<delete id="deleteMessage" parameterType="map" statementType="PREPARED" >	<!-- parameterType이상할수도 -->
 		delete from message
 		where msg_no in 
 		<foreach item="msgNo" collection="msgNos" separator="," open="(" close=")">
@@ -67,6 +67,7 @@
 		<result property="isRead" column="msg_isread" />
 		<result property="senderRemoval" column="sender_removal" />
 		<result property="receipientRemoval" column="recipient_removal" />
+
 		
 		<association property="senderEmployee" column="sender_emp_no" javaType="EmployeeVO">
 			<id property="empNo" column="sender_emp_no" />
@@ -86,7 +87,23 @@
 		from (select rownum as rn, mesg.*
       		  from (select *	
             	    from message order by msg_date desc) mesg) msg 
-         where <![CDATA[msg.rn>=]]>#{startRow} and <![CDATA[msg.rn<=]]>#{endRow} and recipient_emp_no = #{empNo}    
+         where <![CDATA[msg.rn>=]]>#{startRow} and <![CDATA[msg.rn<=]]>#{endRow}
+         <if test= "empNo != null">
+         	and recipient_emp_no = #{empNo}
+         </if>
+         
+         <if test="senderEmpNo != null">
+         	and sender_emp_no = #{senderEmpNo}
+         </if>
+             
+	</select>
+	
+	<select id="selectNewMessageCount" statementType="PREPARED" parameterType="String" resultType="int">
+		select count(msg_no)
+		from message
+		where recipient_emp_no = #{empNo}
+		and msg_isread = 0
+		and recipient_removal = 0	
 	</select>
 		
 	

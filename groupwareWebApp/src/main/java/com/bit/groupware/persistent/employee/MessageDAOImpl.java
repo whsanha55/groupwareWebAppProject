@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.bit.groupware.domain.employee.MessageVO;
 @Repository
 public class MessageDAOImpl implements MessageDAO {
+	
 	private static final String NAMESPACE="com.bit.groupware.persistent.mapper.employee.MessageMapper";
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -18,8 +19,8 @@ public class MessageDAOImpl implements MessageDAO {
 		sqlSession.insert(NAMESPACE+".insertMessage",message);
 	}
 
-	public void deleteMessage(List<Integer> msgNos) {
-		sqlSession.delete(NAMESPACE+".deleteMessage",msgNos);
+	public void deleteMessage(Map<String,Object> map) {
+		sqlSession.delete(NAMESPACE+".deleteMessage",map);
 	}
 
 	public MessageVO selectMessage(int msgNo) {
@@ -38,5 +39,13 @@ public class MessageDAOImpl implements MessageDAO {
 		return sqlSession.selectList(NAMESPACE+".selectMessageList",map);
 	}
 
+	public int selectNewMessageCount(String empNo) {
+		return sqlSession.selectOne(NAMESPACE+".selectNewMessageCount", empNo);
+	}
+
+
+
+	
+	
 	
 }

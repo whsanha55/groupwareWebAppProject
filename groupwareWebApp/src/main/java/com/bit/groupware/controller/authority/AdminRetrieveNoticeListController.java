@@ -16,6 +16,7 @@ import com.bit.groupware.service.authority.NoticeService;
 
 @Controller
 public class AdminRetrieveNoticeListController {
+
 	@Autowired
 	private NoticeService noticeService;
 
@@ -48,6 +49,7 @@ public class AdminRetrieveNoticeListController {
 		
 		return returnMap;
 	}
+
 
 	
 }

@@ -9,9 +9,11 @@ public interface MessageService {
 	
 	void registerMessage(MessageVO message);
 	
-	void removeMessage(List<Integer> msgNos);
+	void removeMessage(Map<String,Object> map);
 	
 	MessageVO retrieveMessage(int msgNo);
 	
 	List<MessageVO> retrieveMessageList(Map<String,Object> map);
+	
+	int retrieveNewMessageCount(String empNo);
 }

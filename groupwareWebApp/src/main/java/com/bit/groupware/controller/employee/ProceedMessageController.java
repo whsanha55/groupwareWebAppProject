@@ -1,6 +1,7 @@
 package com.bit.groupware.controller.employee;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +32,26 @@ public class ProceedMessageController {
 	
 	@Autowired
 	private MessageService msgService;
-	// 쪽지함 페이지 요청
 
+	
+	//새 쪽지 개수 표시용
+	@RequestMapping(value="/newMsg.do", method=RequestMethod.GET)
+	@ResponseBody
+	public int getNumber() {
+//		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		String empNo = user.getUsername();
+		
+		String empNo = "2018-00011";
+		
+		return msgService.retrieveNewMessageCount(empNo);
+	}	
+	
+	
+	
+	// 쪽지함 페이지 요청
 	@RequestMapping(value = "/retrieveMessageList.do", method = RequestMethod.GET)
 	public ModelAndView retrieveMessageList(Principal principal) {
-
+		
 		// 받은쪽지함 리스트를 보여준다.
 
 		ModelAndView mv = new ModelAndView();
@@ -60,19 +76,59 @@ public class ProceedMessageController {
 
 		return mv;
 	}
+	
+	// 보낸 쪽지함 리스트 조회
+	
+	@RequestMapping(value="retrieveSendMessageList.do", method=RequestMethod.GET)
+	public ModelAndView retrieveSendMessageList(Principal principal) {
+		ModelAndView mv = new ModelAndView();
+		
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+			
+		map.put("startRow", 1);
+		map.put("endRow", 15);
+		map.put("senderEmpNo", user.getUsername());
+		
+		mv.addObject("messages", msgService.retrieveMessageList(map));
+		mv.setViewName("employee/sendMessageList");
+		
+		
+		return mv;
+	}
 
 	// 메시지 삭제 요청 처리
-	@RequestMapping(value = "/removeMessage.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/removeMessage.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String removeMessageList(@RequestParam(value = "msgNos") List<Integer> msgNos) {
-
-		// List<Integer> msgNos
-
-		if (msgNos != null) {
-			msgService.removeMessage(msgNos);
+	public String removeMessageList(@RequestParam(value = "msgNos") String msgNos) {  //1,3,5
+		
+		
+		// List<Integer> msgNos 로 바꿈
+		
+		String[] temp = msgNos.split(","); // "?,?,? 로 온 문자열을 ,을 기준으로 분리해 String 1차원배열에 담아줌"
+		
+		//담아준걸 int로 바꿔줌
+		
+		int[] nums = new int[temp.length];
+		
+		
+		for(int i=0; i<temp.length; i++) {
+			//int[] 에 담아줌
+			nums[i] = Integer.parseInt(temp[i]);			
+		}
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		map.put("msgNos", nums);
+		logger.info("msgNosssss" + msgNos);
+		
+		if (nums != null) {
+			msgService.removeMessage(map);
+			
 		}
 		// ajax로 넣어줄 메시지 삭제 성공/실패 jsp
-		return "원래는 돌아왔을때 필요한 객체 --> 다음페이지에 필요한 객체";
+		return "success";
 	}
 
 	// 해당 쪽지의 상세정보를 조회한다.
@@ -95,7 +151,8 @@ public class ProceedMessageController {
 	// 쪽지 DB에 반영
 
 	@RequestMapping(value = "/registerMessage.do", method = RequestMethod.POST)
-	public void registerMessage(
+	@ResponseBody
+	public String registerMessage(
 			@RequestParam(value = "receipientEmployee") String empId,
 			@RequestParam(value = "msgTitle") String msgTitle, 
 			@RequestParam(value = "msgContent") String msgContent ) {
@@ -126,6 +183,8 @@ public class ProceedMessageController {
 		
 		//DB에 반영 
 		msgService.registerMessage(message);
+		
+		return "success";
 
 	}
 	
@@ -188,17 +247,15 @@ public class ProceedMessageController {
 		// 발신자 아이디, 수신자아이디, 메시지제목, 메시지내용을 MessageVO에 매핑해 DB를 수행한다. 
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				
-		//현재로그인한 정보 의 사원번호 id를 발신자에 매핑. 
+		//이미 전 컨트롤러에서 매핑되어왔음 -> 그냥 세팅만
 		senderEmployee.setEmpNo(user.getUsername());
-		
-		//수신자 사원번호를 senderEmployeeVO에 매핑.
 		receipientEmployee.setEmpNo(senderNo);
 	
 		
 		//메시지 정보매핑
 		msg.setReceipientEmployee(receipientEmployee);
 		msg.setSenderEmployee(senderEmployee);
-		msg.setMsgTitle(msgTitle);
+		msg.setMsgTitle("RE:"+ msgTitle);
 		msg.setMsgContent(msgContent);
 		
 		
@@ -218,5 +275,6 @@ public class ProceedMessageController {
 		return "approval/writeMessage/pop";
 
 	}
+		
 
 }

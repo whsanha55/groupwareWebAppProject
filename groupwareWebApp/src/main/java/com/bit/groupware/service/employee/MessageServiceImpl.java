@@ -22,8 +22,8 @@ public class MessageServiceImpl implements MessageService {
 		messageDAO.insertMessage(message);
 	}
 
-	public void removeMessage(List<Integer> msgNos) {
-		messageDAO.deleteMessage(msgNos); 
+	public void removeMessage(Map<String,Object> map) {
+		messageDAO.deleteMessage(map); 
 	}
 
 	public MessageVO retrieveMessage(int msgNo) {
@@ -36,8 +36,14 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	public List<MessageVO> retrieveMessageList(Map<String, Object> map) {
-	
 		return messageDAO.selectMessageList(map);
 	}
+
+	public int retrieveNewMessageCount(String empNo) {
+		return messageDAO.selectNewMessageCount(empNo);
+	}
+	
+	
+	
 
 }

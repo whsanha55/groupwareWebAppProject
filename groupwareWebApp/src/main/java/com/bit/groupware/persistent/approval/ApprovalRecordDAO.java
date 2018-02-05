@@ -18,5 +18,7 @@ public interface ApprovalRecordDAO {
 	void deleteApprovalRecord(int apprNo);
 
 	int selectApprovalRecallable(int apprNo);
+	
+	int selectNewRecordCount(Map<String, String> map);
 
 }

@@ -14,6 +14,9 @@
 	
 		$(document).ready(function(){
 			
+			
+		
+			
 			$('table').find('a').click(function() {				
 				var msgNo = $(this).attr("id");
 				var url = '${pageContext.request.contextPath}/retrieveMessage.do?msgNo='+msgNo;
@@ -28,6 +31,76 @@
 				window.open(url, "쪽지보내기", "width=700, height=600");
 				
 			});
+		 	
+		 	$('#removeMsg').click(function(){
+		 		
+		 		//List<Integer>타입으로 체크박스에서 선택된 값들을 데이터 매핑해주기 
+		 		
+		 		var msgNos = [];
+		 		
+		 		$(':checkbox[name=table_records]:checked').each(function(){
+		
+		 			msgNos.push($(this).attr('id'));
+		 		});
+		 		
+		 		/* $('checkbox[name=table_records]:checked').each(function(){
+		 			var msgNos.(this).val());
+		 			alert(msgNos);
+		 		}); */ 
+		 		
+		 		/* $('checkbox[name=table_records]:checked').each(function(){
+		 			
+		 			$(this).map(function(){
+		 				return this.val();
+		 			})
+		 			.get()
+		 			.join(",");
+		 			
+		 		}); */
+		 		
+		 		$.ajax({
+		 			
+		 			url: '${pageContext.request.contextPath}/removeMessage.do'
+		 			,
+		 			method: 'POST'
+		 			,
+		 			dataType: 'json'
+		 			,
+		 			data: {
+		 				
+		 			 msgNos : msgNos.join(",")
+		 				
+		 			}		 				
+		 			,
+		 			
+		 		success: function(data){
+		 			
+		 			
+					swal({
+						
+						title: "쪽지 삭제 완료",
+						text: "확인을 누르시면 받은 쪽지함으로 이동합니다",
+						icon: "success"
+						
+																		
+					}).then((s) => {
+						window.close();
+						location.href= '${pageContext.request.contextPath}/retrieveMessageList.do';
+					});
+					
+		 			}
+		 			,
+		 		
+		 		error: function(jqXHR) {
+		 			alert("error : " + jqXHR.status);
+		 		}
+		 		
+		 		
+		 			
+		 		});
+		 		
+		 	});
+		 	
 			 
 		});
 	
@@ -43,8 +116,8 @@
                 <div class="x_panel">
                   <div class="x_title" >
                     <h2>받은 쪽지함</h2>
-                    <a class="btn btn-primary pull-right" href="/retrieveMessage.do">받은 쪽지함</a>
-				   <a class="btn btn-primary pull-right" href="/retrieveMessage.do">보낸 쪽지함</a>
+                    <a class="btn btn-primary pull-right" href="<c:url value="/retrieveMessageList.do"/>">받은 쪽지함</a>
+				   <a class="btn btn-primary pull-right" href="<c:url value="/retrieveSendMessageList.do"/>">보낸 쪽지함</a>
                     <div class="clearfix"></div>
                   </div>
 				  <div >
@@ -52,7 +125,7 @@
                    
 				   </div>
 				   <div>
-                   <a class="btn btn-primary pull-right" href="/removeMessage.do">선택삭제</a>
+                   <a class="btn btn-primary pull-right" id="removeMsg">선택삭제</a>
 				   <a class="btn btn-primary pull-right" id="sendMsg">쪽지보내기</a>
 					</div>
 					</div>
@@ -84,7 +157,7 @@
                           
                           <tr class="even pointer">            
                             <td class="a-center">
-                              <input type="checkbox" class="flat" name="table_records">
+                              <input type="checkbox" class="flat" name="table_records" id="${pageScope.message.msgNo }">
                             </td>                       
                             <td><a id="${pageScope.message.msgNo }">${pageScope.message.msgTitle }</a></td>
                             <td>${pageScope.message.senderEmployee.empName }</td>
@@ -118,7 +191,7 @@
 		<!-- /page content -->
 		
 
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </body>
 </html>
