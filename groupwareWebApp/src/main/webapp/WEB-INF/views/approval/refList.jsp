@@ -12,6 +12,11 @@
 	}
 	
 </style>
+<link
+	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script>
 
 	var pKeyfield;  
@@ -46,17 +51,38 @@
 				$(this).next().after("&nbsp;<b id=temp>~</b> ")
 				$(this).next().next().after("<input type=date id=pKeyword1>")
 				console.log($('form').html());
-			}else{
+			} else{
 				$(this).next().attr('type','text');
 				
 				$('#pKeyword1').remove();
 				$('#temp').remove();
 
 				console.log($('form').html());
+				
+				var autocompleteValue = $(this).val();
+				if(autocompleteValue == 'apprTitle') {
+					autocompleteKeyword([]);
+				} else {
+					
+				}
+				autocompleteKeyword(['a','aa','ab','abc']);
 			}
+			
+			
 			 
 		 });
 		 
+		
+		function autocompleteKeyword(data) {
+			 $("input[name=pKeyword]").autocomplete({
+					source : data ,
+					focus : function() {
+						return false;
+					}
+			 });
+		}
+		
+		
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
 		$('#pKeyword').on('keydown', function(e) {
 			if(e.keyCode == 13){
