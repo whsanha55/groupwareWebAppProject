@@ -8,6 +8,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>사원등록</title>
+<style>
+	#img : {
+		max-width : 100%;
+		height : auto;
+	}
+</style>
 <script>
 	$(document).ready(function () {		
 		
@@ -19,44 +25,75 @@
 		$('#deptBtnList li > a').on('click', function() {	
 			$('#deptBtn').text($(this).text());
 		    $('input[name=deptCode]').val($(this).attr('value'));		    
-		    /* 
+		    
 			$.ajax ({
 				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
 				,
 				method: 'POST'
 				,
 				data: {
-					deptCode: $('input[name=deptCode]').val($(this).attr('value'))
+					deptCode: $('input[name=deptCode]').val()
 				}
 				,
 				dataType: 'json'
 				,
 				success: function(data) {
-					alert("hi");
-					if(data == 1) {
+					var text = "";					
+					
+					if(data.length != 0) {
+						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="false">팀';
+						text += '<span class="caret"></span></button>';					
+						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu" aria-labelledby="d2Label">';
 						
-						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="true">팀<span class="caret"></span></button>';
-						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">';
-						text += '<c:forEach var="relationdeptCode" items="${requestScope.relationdeptCodes }" varStatus="loop">';
-						text += '<li role="presentation">';
-						text += '<a role="menuitem" tabindex="-1" href="#" value="${pageScope.relationdeptCode.cNo }">${pageScope.relationdeptCode.cName }</a>';
-						text += '</li>';
-						text += '</c:forEach> ';
+						for (var i = 0; i<data.length; i++) {
+							text += '<li role="presentation">';
+							text += '<a role="menuitem" href="#" value="'+ data[i].cNo +'">'+ data[i].cName +'</a>';
+							text += '</li>';
+						}
+						
 						text += '</ul>';	
-						$('#form-dept').find('ul').html(text); 
+						
+						$(text).appendTo('#form-dept');						
+					} else {
+						return false;
 					}
 				}
 				,
 				error: function(jqXHR) {
 					alert('error : ' + jqXHR.status);
 				}
-			}); */
+			});
 		});
 		
+		$("#form-dept").on('click','#teamBtnList li > a', function () {
+			$("#teamBtn").text($(this).text());
+			$('input[name=deptCode]').val($(this).attr('value'));
+		});
 		
-		
+		$("#upload-image").on("change", handleImgFileSelect);
 		
 	});
+	
+	function handleImgFileSelect(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f) {
+			if(!f.type.match("image.*")) {
+				alert("확장자는 이미지 확장자만 가능합니다.");
+				return;
+			}
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
+	
 </script>
 </head>
 <body>
@@ -72,11 +109,16 @@
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="deptCode" value="" />
 					<input type="hidden" name="dutyCode" value="" />			
-					<div class="form-group">
+					<div class="form-group">		
+						<div class="form-group" id="img_wrap">
+							<%-- <i class="fa fa-picture-o"> --%>
+							<img id="img" width="250px" height="250px" class="img-responsive center-block"/>
+						</div>				
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
 							<a class="btn" title="Insert picture (or just drag &amp; drop)"
-								id="pictureBtn"><i class="fa fa-picture-o"></i></a> <input name="upload"
+								id="pictureBtn"></a> 								
+								<input id="upload-image" name="upload"
 								type="file" data-role="magic-overlay" data-target="#pictureBtn"
 								data-edit="insertImage">
 						</div>
@@ -158,16 +200,15 @@
 						
 						<button data-toggle="dropdown"
 							class="btn btn-default dropdown-toggle" id="deptBtn" type="button"
-							aria-expanded="true">부서 <span class="caret"></span>
+							aria-expanded="false">부서 <span class="caret"></span>
 						</button>
-						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
-						<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
-							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
-							</li>
-						</c:forEach>
-						</ul>
-						
+						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="dLabel">
+							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
+								<li role="presentation">
+									<a role="menuitem" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
+								</li>
+							</c:forEach>
+						</ul>						
 					</div>
 
 					<div class="form-group">

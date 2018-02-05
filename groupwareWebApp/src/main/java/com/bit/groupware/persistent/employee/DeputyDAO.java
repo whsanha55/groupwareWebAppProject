@@ -11,6 +11,8 @@ public interface DeputyDAO {
 	void insertDeputy(DeputyVO deputy);
 	
 	List<DeputyVO> selectDeputyList(Map<String, Object> map);
+	
+	int selectDeputyListCount(Map<String, Object> map);
 
 	List<EmployeeVO> selectDeputyRegisterEmployeeList(Map<String, Object> map);
 	
