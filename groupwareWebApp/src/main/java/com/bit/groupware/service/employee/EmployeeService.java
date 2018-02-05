@@ -30,6 +30,10 @@ public interface EmployeeService {
 	void registerEmployee(EmployeeVO employee);
 	
 	void modifyEmployee(EmployeeVO employee);
+	
+	void modifyEmployeeAdmin(EmployeeVO employee);
+	
+	void retireEmployee(String empNo);
 
 	void registerDeputy(DeputyVO deputy);
 	

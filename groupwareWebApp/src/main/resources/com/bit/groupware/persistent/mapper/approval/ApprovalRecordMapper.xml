@@ -70,7 +70,7 @@
    </delete>
    
    
-   <select id="selectApprovalRecallable" parameterType="int" statementType="PREPARED">
+   <select id="selectApprovalRecallable" statementType="PREPARED" parameterType="int" resultType="int">
    		select t2.appr_status
    		from approval t1, approval_record t2, receiver_line t3
    		where t1.apprNo = #{apprNo}
@@ -83,10 +83,12 @@
    
    	<select id="selectNewRecordCount" statementType="PREPARED" parameterType="map" resultType="int">
 		select count(t2.record_no)
-		from receiver_line t1, approval_record t2
+		from receiver_line t1, approval_record t2, approval t3
 		where t1.line_no = t2.line_no
-		and t1. line_emp_no = #{empNo}
+		and t2.appr_no = t3.appr_no
+		and t1.line_emp_no = #{empNo}
 		and t2.check_date is null
+		and t3.appr_final_status = 0
 		<if test="keyfield == 'req' ">
 			and t1.appr_type = 0
 		</if>

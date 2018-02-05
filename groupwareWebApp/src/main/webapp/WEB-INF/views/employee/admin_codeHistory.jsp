@@ -1,16 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.bit.groupware.domain.employee.CodeHistoryVO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>°ü¸®ÀÚ_ÀÌ·ÂÁ¶È¸</title>
+<title>ê´€ë¦¬ì_ì´ë ¥ì¡°íšŒ</title>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>ÀÌ·ÂÁ¶È¸</h2>
+				<h2>ì´ë ¥ì¡°íšŒ</h2>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
@@ -26,11 +29,10 @@
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle"
 											data-toggle="dropdown">
-											<span id="search_concept">°Ë»ö</span> <span class="caret"></span>
+											<span id="search_concept">ê²€ìƒ‰</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a href="#contains">ÄÚµå¹øÈ£</a></li>
-											<li><a href="#its_equal">ÄÚµå¸í</a></li>
+											<li><a href="#contains">ì´ë¦„</a></li>
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all"
@@ -51,51 +53,25 @@
 					class="table table-striped table-bordered text-center">
 					<thead>
 						<tr>
-							<th>»ç¹ø</th>
-							<th>ÀÌ¸§</th>
-							<th>ºÎ¼­</th>
-							<th>Á÷Ã¥</th>
-							<th>º¯°æ ÀÏÀÚ</th>
+							<th>ì‚¬ë²ˆ</th>
+							<th>ì´ë¦„</th>
+							<th>ë¶€ì„œ</th>
+							<th>ì§ì±…</th>
+							<th>ì‹œì‘ì¼</th>
+							<th>ì¢…ë£Œì¼</th>
 						</tr>
 					</thead>
-
-
 					<tbody>
-						<tr>
-							<td>2007-00001</td>
-							<td>¹Úº´Áø</td>
-							<td>°æ¿µ°ü¸®ºÎ</td>
-							<td>»ç¿ø</td>
-							<td>2018/01/01</td>
-						</tr>
-						<tr>
-							<td>2007-00002</td>
-							<td>¿øÁ¤¿ì</td>
-							<td>°æ¿µ°ü¸®ºÎ</td>
-							<td>»ç¿ø</td>
-							<td>2018/01/05</td>
-						</tr>
-						<tr>
-							<td>2007-00003</td>
-							<td>±è»ç¿ø</td>
-							<td>È¸°èºÎ</td>
-							<td>»ç¿ø</td>
-							<td>2018/01/15</td>
-						</tr>
-						<tr>
-							<td>2007-00004</td>
-							<td>¹Ú´ë¸®</td>
-							<td>°³¹ß1ÆÀ</td>
-							<td>´ë¸®</td>
-							<td>2018/01/20</td>
-						</tr>
-						<tr>
-							<td>2007-00005</td>
-							<td>ÀÌºÎÀå</td>
-							<td>°³¹ßºÎ</td>
-							<td>ºÎÀå</td>
-							<td>2018/01/22</td>
-						</tr>
+						<c:forEach var="codeHistory" items="${requestScope.codeHistories }" varStatus="loop" >
+							<tr>
+								<td>${pageScope.codeHistory.empNo }</td>
+								<td>${pageScope.codeHistory.empName }</td>
+								<td>${pageScope.codeHistory.deptName }</td>
+								<td>${pageScope.codeHistory.dutyName }</td>
+								<td>${pageScope.codeHistory.startDate }</td>
+								<td>${pageScope.codeHistory.endDate }</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>

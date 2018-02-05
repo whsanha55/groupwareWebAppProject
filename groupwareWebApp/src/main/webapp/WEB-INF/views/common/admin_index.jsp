@@ -149,11 +149,11 @@ ent-Type" content="text/html; charset=UTF-8">
 		src="${pageContext.request.contextPath}/resources/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
 	<!-- bootstrap-daterangepicker -->
 	<script
-		src="${pageContext.request.contextPath}/resources/vendors/moment/min/moment.min.js"></script>
-	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
  --%>
 	<!-- Custom Theme Scripts -->
+	<script
+		src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/custom.min.js"></script>
 

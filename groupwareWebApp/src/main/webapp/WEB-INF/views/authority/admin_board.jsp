@@ -338,7 +338,7 @@ $(document).ready(function(){
 								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">공지사항
 								사용 유무</td>
 							<td><div class="radio">
-									<label> <input type="radio" name="isNotice" value="Y"> 사용함</label>
+									<label> <input type="radio" name="isNotice" value="Y" > 사용함</label>
 									<label> <input type="radio" name="isNotice" value="N">사용안함</label>
 									
 								</div></td>

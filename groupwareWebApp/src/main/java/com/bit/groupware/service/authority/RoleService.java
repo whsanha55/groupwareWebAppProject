@@ -14,18 +14,23 @@ public interface RoleService {
 	//역할을 추가한다.
 	void registerRole(RoleVO role);
 	
-	//검색 조건에 해당하는 역할목록을 오름차순으로조회한다.
-	List<RoleVO> findRole(Map<String , Object> map);
+	//역할목록을 조회한다.
+	List<RoleVO> retrieveRoleList(Map<String, Object> map);
 	
 	//역할목록을 조회한다.
-	List<RoleVO> retrieveRole(Map<String, Integer> map);
+	List<RoleVO> retrieveRoleByRname(String aName);
 	
+	//역할목록을 조회한다.
+	List<RoleVO> retrieveRoleList(String aName);
+		
 	//역할 정보를 수정한다.
 	void modifyRole(RoleVO role);
 	
 	//역할을 삭제한다.
-	void removeRole(String roleId);
+	void removeRole(Map<String, Object> map);
 	
-	
+	//총 게시글 수를 구한다.
+	int retrieveRoleCount(Map<String, Object> map);
+		 
 
 }

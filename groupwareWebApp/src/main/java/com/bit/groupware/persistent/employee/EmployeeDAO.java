@@ -25,6 +25,8 @@ public interface EmployeeDAO {
 	
 	String updateEmployee(EmployeeVO employee);
 	
+	void retireEmployee(String empNo);
+	
 	String insertEmployee(EmployeeVO employee);
 	
 	void insertEmployeeCode(Map<String, Object> map);

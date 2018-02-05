@@ -342,8 +342,9 @@ function jqueryPager(subOption) {
 						<div class="ln_solid"></div>
 							<div class="form-group">
 								<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-									<button class="btn btn-primary" type="button">Cancel</button>
-									<button type="submit" class="btn btn-success">Submit</button>
+									<c:url var="listPlanURL" value="/admin/listPlan.do" scope="page" ></c:url>
+									<a id="list" href="${pageScope.listPlanURL }"  ><button class="btn btn-primary" type="button">뒤로가기</button></a>
+									<button type="submit" class="btn btn-success">등록</button>
 								</div>
 							</div>
 						</div>

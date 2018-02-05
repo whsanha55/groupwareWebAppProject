@@ -101,7 +101,7 @@
 		
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/admin/AdminPagingAjax.do' 
+			url: '${pageContext.request.contextPath}/admin/NoticePagingAjax.do' 
 			,
 			data: {
 				keyfield: pKeyfield ,

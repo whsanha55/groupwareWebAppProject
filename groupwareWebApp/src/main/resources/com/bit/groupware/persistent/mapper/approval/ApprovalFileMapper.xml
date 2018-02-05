@@ -14,6 +14,6 @@
 	
 	<delete id="deleteApprovalFile" parameterType="int" statementType="PREPARED" >
 		delete from approval_File 
-		where appr_No=#{apprNo}
+		where file_No=#{fileNo}
 	</delete>
 </mapper>

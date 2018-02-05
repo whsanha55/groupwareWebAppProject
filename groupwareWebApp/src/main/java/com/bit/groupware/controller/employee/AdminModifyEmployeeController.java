@@ -23,33 +23,27 @@ import com.bit.groupware.service.employee.EmployeeService;
 import com.bit.groupware.util.UploadPhotos;
 
 @Controller
-public class AdminModifyEmployeeAjaxController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminModifyEmployeeAjaxController.class);
+public class AdminModifyEmployeeController {
+	private static final Logger logger = LoggerFactory.getLogger(AdminModifyEmployeeController.class);
 	
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@Autowired
-	private CodeService codeService;
-	
-	@RequestMapping(value="/admin/modifyEmployee", method=RequestMethod.POST)
-	public int modifyController(EmployeeVO employee,
+	@RequestMapping(value="/admin/modifyEmployee.do", method=RequestMethod.POST)
+	public String modifyController(EmployeeVO employee,
 			 @RequestParam(value="deptCode", required=false)String deptCode,
 			 @RequestParam(value="dutyCode", required=false)String dutyCode,
 			 					HttpSession session) throws Exception {
 
 		logger.info("deptCode : {}", deptCode);
 		logger.info("dutyCode : {}", dutyCode);
-		if(deptCode!=null || dutyCode!=null) {
+		
 		List<EmployeeCodeVO> codeList = new ArrayList<EmployeeCodeVO>();
-			if(deptCode != null) {
-				codeList.add(new EmployeeCodeVO(deptCode));
-			}
-			if(dutyCode != null) {
-				codeList.add(new EmployeeCodeVO(dutyCode));
-			}
-			employee.setCodeList(codeList);
-		}
+		codeList.add(new EmployeeCodeVO(deptCode));
+		codeList.add(new EmployeeCodeVO(dutyCode));
+		logger.info("codeList : {}", codeList);
+		employee.setCodeList(codeList);
+
 		
 		List<MultipartFile> uploadPhotos = employee.getUpload();
 		for(MultipartFile file : uploadPhotos) {
@@ -61,7 +55,8 @@ public class AdminModifyEmployeeAjaxController {
 				employee.addPhoto(photo);
 			}
 		}
-		employeeService.modifyEmployee(employee);
-		return 0;
+		logger.info("employee : {}", employee);
+		employeeService.modifyEmployeeAdmin(employee);
+		return "redirect:/admin/listEmployee.do";
 	}
 }

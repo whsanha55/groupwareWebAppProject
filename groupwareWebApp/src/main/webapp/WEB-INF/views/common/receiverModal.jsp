@@ -17,8 +17,6 @@
 <script
 	src="${pageContext.request.contextPath}/resources/tablednd/jquery.tablednd.js"></script>
 <style>
-.btns {
-}
 
 #apprTypeDiv {
 	margin-top: 10%;
@@ -33,18 +31,26 @@ ul.fancytree-container {
 input[name=receiverName] {
 	width: 150% !important;
 }
+#submitReceiver {
+	margin-left : 200px;
+}
 
 table[id^=tableDnD] span{
 	display : inline-block;
 }
 #tableDnDAppr tr.dragRow {
-	background-color : #f1f0d8 !important;
+	background-color : #f1f0d8;
 }
 
 table[id^=tableDnD] td:first-child {
 	 width: 80px; 
 	 padding:0px;
 }
+
+#tableDnDAppr tr.nodrag {
+	visibility : hidden;
+}
+
 
 .ui-autocomplete {
 	z-index: 1051;
@@ -57,6 +63,17 @@ p {
 }
 select[name=apprType] {
 	border :0px;
+}
+.btn-link {
+	padding : 0px;
+	margin : 0px;
+}
+.col-sm-7 {
+	height: 600px;
+	overflow-y : auto;
+}
+.col-sm-7 h3 {
+	margin-left : 20px;	
 }
 </style>
 <script>
@@ -155,9 +172,7 @@ select[name=apprType] {
 		
 		//엔터키 입력시 검색 트리거
 		$("input[name=search]").on('keydown',function(e) {
-			$(this).autocomplete("enable");
 			if(e.keyCode == 13 && $('#ui-id-1').css('display') == 'none'){
-				$(this).autocomplete("disable");
 				$('#btnSearch').trigger('click');
 	        }
 		});
@@ -172,7 +187,7 @@ select[name=apprType] {
 			$.each(args, function(i, o) {
 		        opts[o] = $("#" + o).is(":checked");
 		      });
-			opts.mode = "hide";
+			opts.mode = "dimm";
 			opts.autoExpand = true;
 			opts.leavesOnly = true;
 			if($.trim(match) == "") {
@@ -241,7 +256,7 @@ select[name=apprType] {
 				text += '</td>';
 				text += '<td>'+ selectedDepartment + '</td>';
 				text += '<td>' + selectedNameAndDuty  +'</td>';
-				text += '<td>삭제</td>';
+				text += '<td><button class="btn btn-link btn-sm">삭제</button></td>';
 				var temp = $('#tableDnDAppr').find('tr')[receiverLineApprCount];
 				$(temp).attr('class','');
 				$(temp).attr('id',selectedEmpNo);
@@ -258,7 +273,7 @@ select[name=apprType] {
 				text += '</td>';
 				text += '<td>'+ selectedDepartment + '</td>';
 				text += '<td>' + selectedNameAndDuty  +'</td>';
-				text += '<td>삭제</td>';
+				text += '<td><button class="btn btn-link btn-sm">삭제</button></td>';
 				text += "</tr>";
 				
 				$('#tableDnDRef:last-child').append(text);
@@ -296,7 +311,6 @@ select[name=apprType] {
 		//결재선 선택 이벤트
 		$('#selectReceiver').on('click',function() {
 			var receiverNo = $('select[name=receiverNo2]').val();
-			
 			$.ajax({
 				url : '${pageContext.request.contextPath}/receiverNoAjax.do' ,
 				cache : false ,
@@ -318,7 +332,7 @@ select[name=apprType] {
 							text += '</td>';
 							text += '<td>'+ data[i].lineEmployee.department + '</td>';
 							text += '<td>' + data[i].lineEmployee.empName + ' ' + data[i].lineEmployee.duty +'</td>';
-							text += '<td>삭제</td>';
+							text += '<td><button class="btn btn-link btn-sm">삭제</button></td>';
 							
 							var temp = $('#tableDnDAppr').find('tr')[i];
 							$(temp).attr('class','');
@@ -336,7 +350,7 @@ select[name=apprType] {
 							text += '</td>';
 							text += '<td>'+ data[i].lineEmployee.department + '</td>';
 							text += '<td>' + data[i].lineEmployee.empName + ' ' + data[i].lineEmployee.duty +'</td>';
-							text += '<td>삭제</td>';
+							text += '<td><button class="btn btn-link btn-sm">삭제</button></td>';
 							text += '</tr>';
 							
 							$($('#tableDnDRef')).html(text);
@@ -382,7 +396,9 @@ select[name=apprType] {
 				 buttons: true
 			}).then(newReceiverName =>  {
 				//receiverName : 기존이름 ,newReceiverName : 변경할 새 이름
-				if(newReceiverName) {
+				if(newReceiverName == '') {
+					swal("변경할 이름을 입력해주세요");
+				} else if(newReceiverName) {
 					if(receiverName == newReceiverName) {
 					swal("변경하고자 하는 이름이 기존과 일치합니다");
 					} else {
@@ -444,6 +460,7 @@ select[name=apprType] {
 								console.log(jqXHR);
 							}
 						}); 
+						 
 					}	
 				});
 		
@@ -554,9 +571,27 @@ select[name=apprType] {
 					}
 			}); 
 			
-			//alert(apprLines);
-			//alert(refLines);
 		});
+		
+		
+		//결재라인테이블안 삭제 버튼 선택하는 이벤트
+		$('table').on('click','button.btn-link',function() {
+			if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//결재 테이블 삭제 요청
+				$(this).closest('tr').remove();
+				receiverLineApprCount--;
+				var text = "<tr>";
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '</tr>';
+				$('#tableDnDAppr').append(text);
+			} else {	//참조 테이블 삭제 요청
+				$(this).closest('tr').remove();
+			}
+			
+		});
+		
 		
 	}); //document ready End
 	
@@ -635,7 +670,7 @@ select[name=apprType] {
 
 			</div>
 			<div class="col-sm-7">
-				<span class="col-md-8"> 
+				<span class="col-xs-5"> 
 					<select class="form-control"name="receiverNo2">
 				</select>
 				</span>
@@ -644,38 +679,30 @@ select[name=apprType] {
 				<button class="btn btn-danger" id='deleteReceiver' type="button">삭제</button>
 
 				<div class="border border-secondary">
+					<h3>결재</h3>
 					<table class="table table-bordered" id='tableDnDAppr'>
 						<c:forEach begin="1" end="9">
 							<tr class="nodrag nodrop">
 								<td></td>
-								<td>1</td>
+								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 						</c:forEach>
 					</table>
 
+					<h3>참조</h3>
 					<table class="table table-bordered" id='tableDnDRef'>
-						<tr>
-							<td>
-								<select class="form-control" name="apprType" style="border:0px;">
-									<option value='0'>결재</option>
-									<option value='1' selected>참조</option>
-								</select>
-							</td>
-							<td></td>
-							<td></td>
-							<td>삭제</td>
-						</tr>
+						
 					</table>
 				</div>
 
 				<div class="form-inline">
-					<div class="form-group col-md-6">
+					<div class="form-group col-xs-5">
 						<input type="text" class="form-control" name="receiverName"
 							placeholder="결재선 이름을 입력해주세요">
 					</div>
-					<button type="button" class="btn btn-primary pull-right" id="submitReceiver">신규등록</button>
+					<button type="button" class="btn btn-primary" id="submitReceiver">신규등록</button>
 				</div>
 
 			</div>
