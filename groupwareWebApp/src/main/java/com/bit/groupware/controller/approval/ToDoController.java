@@ -28,6 +28,7 @@ public class ToDoController {
 	@Autowired
 	private CodeService codeService;
 	
+	
 	//대기문서함 페이지 요청
 	@RequestMapping(value="/approvalTodo.do", method=RequestMethod.GET)
 	public ModelAndView form() {
@@ -37,6 +38,7 @@ public class ToDoController {
 		mv.setViewName("approval/toDoList");
 		return mv;
 	}
+	
 	
 	//데이터 & 페이지 처리
 	@RequestMapping(value="/approvalTodoPaging.do", method=RequestMethod.POST)
@@ -79,4 +81,20 @@ public class ToDoController {
 		return returnMap;
 		
 	}
+	
+	
+	//결재 보류 처리
+	@RequestMapping(value="/postponeApproval.do",method=RequestMethod.GET)
+	@ResponseBody
+	public boolean approve(@RequestParam(value="apprNo") int apprNo) {
+		ApprovalVO appr=new ApprovalVO();
+		appr=approvalService.retrieveApproval(apprNo);
+		appr.setApprFinalStatus(2); 
+		approvalService.modifyApproval(appr);
+		return true;
+	}
+	
+	
+	
+	
 }

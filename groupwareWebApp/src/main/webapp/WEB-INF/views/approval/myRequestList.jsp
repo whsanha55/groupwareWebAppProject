@@ -33,9 +33,9 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=1';
-				window.open(url, "결재문서","width=750, height=800");
-				
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
+						   +'&status=1+&finalStatus=0';							
+				window.open(url, "결재문서","width=750, height=800");				
 			});
 		
 		//검색창 타입 바꾸기
