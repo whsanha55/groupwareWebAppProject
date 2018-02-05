@@ -38,46 +38,7 @@ public class MyRequestController {
 		return "approval/myRequestList";
 	}
 	
-	//ajax 페이지 처리
-	@RequestMapping(value="/approvalMyRequestPaging.do", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> listRequestApproval(
-			@RequestParam(value="keyfield",required=false) String keyfield ,
-			@RequestParam(value="keyword",required=false) String keyword ,
-			@RequestParam(value="keyword1",required=false) String keyword1 ,
-			@RequestParam(value="startRow") int startRow ,
-			@RequestParam(value="endRow") int endRow) {
-		
-		
-		Map<String,Object> map=new HashMap<String,Object>();
-		
-		SecurityContext context=SecurityContextHolder.getContext();
-		Authentication authentication = context.getAuthentication();
-		UserVO user=(UserVO)authentication.getPrincipal();
-		String id=user.getUsername();
-		
-		map.put("empNo", id);
-		map.put("apprFinalStatus", 0);
-		map.put("keyfield", keyfield);
-		map.put("keyword", keyword);	
-		map.put("keyword1", keyword1);
-		
-		logger.info("안녕~~~"+keyword); 
-		int totalCount = approvalService.retrieveApprovalCount(map);
-		if(totalCount < endRow) {
-			endRow = totalCount;
-		}
-		map.put("startRow", startRow);
-		map.put("endRow", endRow);
-		
-		List<ApprovalVO> approvals = approvalService.retrieveApprovalList(map);
-		
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		returnMap.put("totalCount", totalCount);
-		returnMap.put("approvals", approvals);
-		return returnMap;
-		
-	}
+
 	
 	//결재 현황 모달 처리
 	@RequestMapping(value="/recordModal.do",method=RequestMethod.GET)
