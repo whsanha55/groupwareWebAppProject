@@ -46,6 +46,13 @@ public class TemplateServiceImpl implements TemplateService {
 		// TODO Auto-generated method stub
 		return templateDAO.selectTemplateCount(map);
 	}
+
+
+	public List<String> retrieveTemplateNameList() {
+		return templateDAO.selectTemplateNameList();
+	}
+	
+	
 	
 
 }

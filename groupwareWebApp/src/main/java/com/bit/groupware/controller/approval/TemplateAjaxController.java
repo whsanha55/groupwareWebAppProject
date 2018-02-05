@@ -3,6 +3,7 @@ package com.bit.groupware.controller.approval;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,4 +54,12 @@ public class TemplateAjaxController {
 		returnMap.put("templates", templates);
 		return returnMap;
 	}
+	
+	@RequestMapping(value = "/retrieveTemplateNameList.do", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> retrieveTemplateNameList() {
+		return templateService.retrieveTemplateNameList();
+	}
+			
+	
 }
