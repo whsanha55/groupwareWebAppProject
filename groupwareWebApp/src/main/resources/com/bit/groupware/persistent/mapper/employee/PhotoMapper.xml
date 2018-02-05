@@ -15,6 +15,12 @@
 		select * from dual
 	</insert>
 	
+	<select id="checkSign" resultType="String" parameterType="String" statementType="PREPARED">
+		select signName
+		from emplist_view
+		where empNo = #{empNo}
+	</select>
+	
 	<delete id="deletePhoto" parameterType="String" statementType="PREPARED">
 		delete from photo
 		where emp_no = #{empNo} and division = 'P'

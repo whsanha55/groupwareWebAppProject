@@ -13,16 +13,13 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 public interface EmployeeService {
 	
 
-	/*	List<EmployeeVO> retrieveEmployeeList(Map<String,Object> map);
-		
-	void modifyEmployee(EmployeeVO employee);
-	
-	int checkDeptEmployee(String cNo);
-	
+	/*	
 	void registerPhoto(PhotoVO photo);
 	
 	void removePhoto(String photoNo);
 	*/
+	String checkSignCount(String empNo);
+	
 	EmployeeVO retrieveEmployee(String empNo);
 
 	List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map);
