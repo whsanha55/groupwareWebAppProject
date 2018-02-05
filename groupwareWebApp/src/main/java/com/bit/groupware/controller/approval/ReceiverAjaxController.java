@@ -22,31 +22,31 @@ public class ReceiverAjaxController {
 
 	@Autowired
 	private ReceiverService receiverService;
-	
 	@Autowired
 	private ReceiverLineService receiverLineService;
 	
 	@RequestMapping(value = "/receiverNoAjax.do", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ReceiverLineVO> receiverLineAjax(@RequestParam(value = "receiverNo", required = true) int receiverNo) {
-
+	public List<ReceiverLineVO> receiverLineAjax(
+			@RequestParam(value = "receiverNo", required = true) int receiverNo) {
 		return receiverLineService.retrieveReceiverLineList(receiverNo);
 	}
 
+	
 	@RequestMapping(value = "/myReceiverList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ReceiverVO> myReceiverList(Principal principal) {
-		
 		return receiverService.retrieveReceiverList(principal.getName());
 	}
 
+	
 	@RequestMapping(value = "/deleteReceiverAjax.do", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean deleteReceiver(@RequestParam(value = "receiverNo", required = true) int receiverNo) {
-
 		receiverService.removeReceiver(receiverNo);
 		return true;
 	}
+	
 	
 	@RequestMapping(value = "/modifyReceiverAjax.do", method = RequestMethod.GET)
 	@ResponseBody
@@ -62,6 +62,7 @@ public class ReceiverAjaxController {
 		return true;
 	}
 
+	
 	@RequestMapping(value = "/submitReceiverAjax.do", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean submitReceiver(
