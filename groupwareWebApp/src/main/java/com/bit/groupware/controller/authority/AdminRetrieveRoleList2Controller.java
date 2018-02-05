@@ -22,9 +22,11 @@ public class AdminRetrieveRoleList2Controller {
 	
 	//역할 지정목록 조회 요청
 	@RequestMapping(value="/admin/designRole.do", method=RequestMethod.GET)
-	public ModelAndView form() {
+	public ModelAndView form(@RequestParam(value="aName") String aName) {
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("roles", roleService.retrieveRoleList());
+	
+		mv.addObject("aroles", roleService.retrieveRoleByRname(aName));
+		mv.addObject("roles", roleService.retrieveRoleList(aName));
 		mv.setViewName("authority/admin_designateRole");
 		return mv;
 	}

@@ -82,7 +82,7 @@
 					text += "<td id="+ data.authorities[i].aName +" class='aName'>"+ data.authorities[i].aName + "</td>";
 					text += "<td id="+ data.authorities[i].aNote +"  class='aNote'>"+ data.authorities[i].aNote + "</td>";
 					text += "<td id="+ data.authorities[i].aWhether +" class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
-					text += "<td class='align-center'><a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button id='modify' class='btn btn-default'>수정</button></td>";
+					text += "<td class='align-center'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+data.authorities[i].aName+"'/>'>역할</a><button id='modify' class='btn btn-default'>수정</button></td>";
 					text += "</tr>";
 				}
 					$('#datatable').find('tbody').html(text);

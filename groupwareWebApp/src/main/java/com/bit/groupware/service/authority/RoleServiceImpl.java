@@ -18,8 +18,12 @@ public class RoleServiceImpl implements RoleService {
 		
 	}
 
-	public List<RoleVO> retrieveRoleList() {
-		return roleDAO.selectRoleList();
+	public List<RoleVO> retrieveRoleList(String aName) {
+		return roleDAO.selectRoleList(aName);
+	}
+
+	public List<RoleVO> retrieveRoleByRname(String aName) {
+		return roleDAO.selectRoleByRname(aName);
 	}
 
 	public void registerRole(RoleVO role) {

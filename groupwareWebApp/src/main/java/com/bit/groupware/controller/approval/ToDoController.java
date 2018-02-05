@@ -1,5 +1,6 @@
 package com.bit.groupware.controller.approval;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.approval.ApprovalCommentVO;
+import com.bit.groupware.domain.approval.ApprovalRecordVO;
 import com.bit.groupware.domain.approval.ApprovalVO;
 import com.bit.groupware.domain.authority.UserVO;
+import com.bit.groupware.service.approval.ApprovalCommentService;
 import com.bit.groupware.service.approval.ApprovalRecordService;
 import com.bit.groupware.service.approval.ApprovalService;
 import com.bit.groupware.service.employee.CodeService;
@@ -33,6 +36,8 @@ public class ToDoController {
 	private CodeService codeService;
 	@Autowired
 	private ApprovalRecordService recordService;
+	@Autowired
+	private ApprovalCommentService commentService;
 	
 	//대기문서함 페이지 요청
 	@RequestMapping(value="/approvalTodo.do", method=RequestMethod.GET)
@@ -51,8 +56,22 @@ public class ToDoController {
 	@RequestMapping(value="/postponeApproval.do",method=RequestMethod.GET)
 	@ResponseBody
 	public boolean approve(@RequestParam(value="apprNo") int apprNo) {
+		
+		SecurityContext context=SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		UserVO user=(UserVO)authentication.getPrincipal();
+		String id=user.getUsername();
+				
 		ApprovalVO appr = approvalService.retrieveApproval(apprNo);
 		appr.setApprFinalStatus(2); 
+		List<ApprovalRecordVO> list = appr.getApprovalRecords();
+		int recNo=0;
+		for(int i=0; i<list.size(); i++) {
+			String empNo = list.get(i).getReceiverLine().getLineEmployee().getEmpNo();
+			if(empNo == id) {
+				list.get(i).setApprStatus(2); 
+			}
+		}
 		approvalService.modifyApproval(appr);
 		return true;
 	}
@@ -62,26 +81,27 @@ public class ToDoController {
 	@RequestMapping(value="/rejectApproval.do",method=RequestMethod.GET)
 	@ResponseBody
 	public boolean reject(@RequestParam(value="apprNo") int apprNo, 
-			       @RequestParam(value="commentContent", required=false) String commentContent) {
+				   @RequestParam(value="apprStatus") int apprStatus ,
+			       @RequestParam(value="commentContent", required=false) String commentContent,
+			       Principal principal) {
 
-		logger.info("=============content : {}", commentContent);
+/*		
+		ApprovalVO approval = approvalService.retrieveApproval(apprNo);
 		
-/*		ApprovalVO appr = approvalService.retrieveApproval(apprNo);
-		appr.setApprFinalStatus(3); 
 		
-	appr.getApprovalRecords().
+		Map<String, Object> map = new HashMap<String, Object>();
 		
+		map.put("apprNo", apprNo);
+		map.put("apprStatus",apprStatus);
+		map.put("empNo", principal.getName());
 		if(commentContent != null) {
-			ApprovalCommentVO comment = new ApprovalCommentVO();
-			comment.setCommentContent(commentContent);
-			comment.setApprovalRecord(approvalRecord);
+			map.put("commentContent", commentContent);
 		}
+		recordService.executeApprovalRecord(map);
 		
-		recordService.
+		*/
 		
-		approvalService.modifyApproval(appr); 
 
-*/		
 		return true;
 	
 	}

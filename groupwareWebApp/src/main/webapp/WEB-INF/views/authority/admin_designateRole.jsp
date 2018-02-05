@@ -45,7 +45,30 @@
 			Paging(1);
 			
 		});
-	
+		
+		/* //등록
+		$('#deleteBtn').on('click', function() {			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/admin/modifyDesignate.do'
+				,
+				method: 'POST'
+				,
+				data: {
+					$('#form').serialize()		
+				}
+				,
+				dataType: 'json'
+				,
+				success: function(data) {
+					
+					
+				},
+				error: function(jqXHR, textStatus, error) {
+					alert("Error : " + jqXHR.status + "," + error);
+				}
+			});
+		});	 */
+	});
 	function Paging(currentPageNo) {
 		var totalCount =  0;		//총 양식서 수
 		var countPerPage = 10;   //한 페이지당 보여주는 양식서 수
@@ -68,19 +91,6 @@
 			cache: false ,
 			dataType: 'json' ,
 			success: function (data, textStatus, jqXHR) {
-				
-		 /* 	for(var i=0;i<data.roles.length;i++) {
-		 		console.log(i);
-		 		//alert(data.roles[i].isRegistration);
-			 	if(data.roles[i].isRegistration == '0') {
-			 	
-					$('input[name=tests['+i+']][value=0]').prop('checked', true);
-				}else if(data.roles[i].isRegistration == '1'){
-				
-					$('input[name=tests['+i+']][value=1]').prop('checked', true);
-					
-				} 
-			}  */
 				
 				totalCount = data.totalCount;
 				num = totalCount - (currentPageNo - 1) * countPerPage;
@@ -156,7 +166,6 @@
 		$('#Paging').html(html);
 	
 	}
-	});
 	
 </script>
 <title>content</title>
@@ -167,12 +176,13 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>역할 등록리스트</h2>
-
+				
 				<div class="clearfix"></div>
-			</div>
+			</div>권한명 : ${param.aName}
 			 	<div class="container">
 			    <div class="row">    
 			        <div class="col-xs-7 col-xs-offset-5">
+			        
 					    <div class="input-group">
 			                <div class="input-group-btn search-panel">
 			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -193,10 +203,10 @@
 			        </div>
 				</div>
 			</div>
+			
+
+			<form action="<%=request.getContextPath()%>/admin/modifyDesignate.do" method="post">
 			<div class="x_content">
-
-
-
 				<div class="table-responsive">
 					<table  id="datatable"  class="table table-striped jambo_table bulk_action">
 						<thead>
@@ -213,7 +223,21 @@
 
 						 <tbody>
 						 
-                    <c:forEach var="role" items="${requestScope.roles}" varStatus="loop">
+                    <c:forEach var="arole" items="${requestScope.aroles}" varStatus="loop">
+	                     <tr class="even pointer">
+	                        <td>${pageScope.arole.rId}</td>
+	
+	                        <td>${pageScope.arole.rName}</td>
+	                        <td>${pageScope.arole.rType}</td>
+	                        <td>${pageScope.arole.rExplan}</td>
+	                        <td>${pageScope.arole.rDate}</td>
+	                        <td><label> <input type="radio"  name="test[${loop.index}]" value="0" checked="checked"> 등록</label>
+									<label> <input type="radio"  name="test[${loop.index}]"  value="1">미등록</label>
+	                         </td>
+	                     </tr>
+                     	</c:forEach>	
+                     	
+                     	 <c:forEach var="role" items="${requestScope.roles}" varStatus="loop">
 	                     <tr class="even pointer">
 	                        <td>${pageScope.role.rId}</td>
 	
@@ -221,30 +245,21 @@
 	                        <td>${pageScope.role.rType}</td>
 	                        <td>${pageScope.role.rExplan}</td>
 	                        <td>${pageScope.role.rDate}</td>
-	                        <td><c:choose>
-									<c:when test="${pageScope.role.isRegistration eq '0'}">
-										<label> <input type="radio"  name="tests[${loop.index}]" value="0" checked="checked"> 등록</label>
-										<label> <input type="radio"  name="tests[${loop.index}]"  value="1">미등록</label>
-									</c:when>
-									<c:otherwise>
-										<label> <input type="radio"  name="tests[${loop.index}]" value="0" > 등록</label>
-										<label> <input type="radio"  name="tests[${loop.index}]"  value="1" checked="checked">미등록</label>
-									</c:otherwise>
-								</c:choose>
+	                        <td><label> <input type="radio"  name="tests[${loop.index}]"" value="0" > 등록</label>
+									<label> <input type="radio"  name="tests[${loop.index}]""  value="1" checked="checked">미등록</label>
 	                         </td>
 	                     </tr>
-                     	</c:forEach>	
+                     	</c:forEach>
                   </tbody>
 					</table>
 				</div>
-				<div>
+				
 					<div class="text-center">
 						<nav aria-label="Page navigation" id = 'Paging'></nav> 
          			 </div>
-					<button class="pull-right">일괄 등록</button>
-				</div>
-
+					<button type="submit"  id="deleteBtn"  class="pull-right">일괄 등록</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </body>

@@ -30,8 +30,13 @@ public class RoleDAOImpl implements RoleDAO {
 		
 	}
 
-	public List<RoleVO> selectRoleList() {
-		List<RoleVO> roles = sqlSession.selectList(NAMESPACE + ".selectRoleListt");
+	public List<RoleVO> selectRoleByRname(String aName) {
+		List<RoleVO> roles = sqlSession.selectList(NAMESPACE + ".selectRoleByRname", aName);
+		return roles;
+	}
+
+	public List<RoleVO> selectRoleList(String aName) {
+		List<RoleVO> roles = sqlSession.selectList(NAMESPACE + ".selectRoleReList", aName);
 		return roles;
 	}
 

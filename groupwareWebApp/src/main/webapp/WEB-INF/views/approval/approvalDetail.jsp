@@ -123,20 +123,19 @@
 				  icon: "info",
 				  buttons : true 
 				}).then((e) => {
-					if(e) {		
-											
+					if(e) {												
 					  swal({
 							  title: "코멘트 입력",
 							  text: "결재 문서에 대한 코멘트를 입력해주세요.",
 							  content: {
 								  element : "input"
 							  } ,
-							  buttons : ['건너뛰기','저장']
-							  
-							}).then(inputData => {
-								commentContent = inputData;
-                      })
-                      	executeReject(commnetContent);						
+							  buttons : ['건너뛰기','저장']							  
+						}).then(inputData => {
+							commentContent = inputData;
+							alert(commentContent);
+						});
+			            executeReject(commentContent);						
 					}	
 				});
 		})//end of reject.on
@@ -205,7 +204,7 @@
 
 		
 		//결재 반려
-		function executeReject(commnetContent){
+		function executeReject(commentContent){
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/rejectApproval.do'
@@ -218,16 +217,13 @@
 				}
 				,
 				datatype : 'json'
-				,
-				
+				,				
 				success : function(data) {
 					swal("결재가 반려되었습니다.").then((e)=>{
 						self.close();
 						opener.location='http://localhost:9000/groupware/approvalTodo.do'
-					});
-					
-				}
-				,
+					});					
+				},
 				error: function(jqXHR) {
 					alert("error : " + jqXHR.status);
 				}

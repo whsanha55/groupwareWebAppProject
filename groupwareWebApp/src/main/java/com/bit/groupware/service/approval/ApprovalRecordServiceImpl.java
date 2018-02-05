@@ -37,15 +37,22 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 	}
 
 
+	//결재 승인, 반려
 	public void executeApprovalRecord(ApprovalRecordVO approvalRecord) {
 		ApprovalVO approval = approvalRecord.getApproval();
-		
+		List<ApprovalRecordVO> approvalRecords = approval.getApprovalRecords();
 		//1. 전결 여부 확인
 		
 		//2. 최종 결재자인 경우 대결 여부 확인
-		int lineOrder = approvalRecord.getReceiverLine().getLineOrder();		//결재자 우선순위	
-		int last = approvalRecord.getApproval().getApprovalRecords().size();	//최종 결재자 순위
-		//if(lineOrder == last) ~~~ 사장님 대결자 있나~~~
+		//int lineOrder = approvalRecord.getReceiverLine().getLineOrder();		//결재자 우선순위	
+		//int last = approvalRecord.getApproval().getApprovalRecords().size();	//최종 결재자 순위
+		//if(lineOrder == 9) ~~~ 사장님 대결자 있나~~~
+		
+		//이사람이 우선순위 9번인지 아닌지 확인하는 매퍼가 필요합니다
+		//if(9번이면 최종 아니면 다음사람 진행)
+		if(approvalRecords.get(approvalRecords.size()-1).getApprStatus() == 9) {	//최종
+			
+		}	
 		
 		//3. 결재이력 진행상태 변경, 결재 일시 기록-> 컨트롤러에서 .set해서 보냄?
 		dao.updateApprovalRecordStatus(approvalRecord);
@@ -61,9 +68,7 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 		approval.setApprFinalStatus(1);
 		//진행상태 보류, 반려면 최종 상태도 변경
 		int apprStatus = approvalRecord.getApprStatus();
-		if(apprStatus == 2) {
-			approval.setApprFinalStatus(2);
-		} else if(apprStatus == 3) {
+		if(apprStatus == 3) {
 			approval.setApprFinalStatus(3);
 		}
 		
