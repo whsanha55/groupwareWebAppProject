@@ -19,16 +19,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private SqlSessionTemplate sqlSession;
 	
 
-	/*public EmployeeVO selectEmployee(String empNo) {
-		return sqlSession.selectOne(NAMESPACE + ".selectEmployee", empNo);
-
-	
+	/*
 	public List<EmployeeVO> selectEmployeeList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
-	}
-	
-	public void updateEmployee(EmployeeVO employee) {
-		sqlSession.update(NAMESPACE + ".updateEmployee", employee);
 	}
 	
 	public List<EmployeeCodeVO> selectDepartment(Map<String, Object> map) {
@@ -40,23 +33,34 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return deptEmpCount;
 	}*/
 	
-	
+	public EmployeeVO selectEmployee(String empNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectEmployeeByNo", empNo);
+	}
 	
 	public List<EmployeeVO> selectEmployeeList(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
 	}
-	
-	public List<EmployeeVO> selectEmployeeByDept(String cNo) {
-		return sqlSession.selectList(NAMESPACE+".selectEmployeeByDept", cNo);
+
+	public List<EmployeeVO> selectEmployeeNameAndDutyList() {
+		return sqlSession.selectList(NAMESPACE + ".selectEmployeeNameAndDutyList");
 	}
 
 	public String insertEmployee(EmployeeVO employee) {
 		sqlSession.insert(NAMESPACE + ".insertEmployee", employee);
 		return employee.getEmpNo();
 	}
-	
+
+	public String updateEmployee(EmployeeVO employee) {
+		sqlSession.update(NAMESPACE + ".updateEmployee", employee);
+		return employee.getEmpNo();
+	}
+
 	public void insertEmployeeCode(Map<String, Object> map) {
 		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", map);
+	}
+	
+	public void deleteEmployeeCode(String empNo) {
+		sqlSession.delete(NAMESPACE + ".deleteEmployeeCode", empNo);
 	}
 	
 	public int selectEmployeeCount(Map<String, Object> map) {

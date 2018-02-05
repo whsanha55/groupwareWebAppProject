@@ -29,15 +29,11 @@
 		<!-- 정렬순서 (결재-참조) -->
 </select>
 
-	<insert id="insertReceiverLineList" parameterType="receiverLineVO"
-		statementType="PREPARED">
+	<insert id="insertReceiverLineList" parameterType="ReceiverLineVO" statementType="PREPARED">
 
-		<foreach item="receiverLine" collection="approvalRecords" open="inset all"
-			close="select * from dual">
-			into receiver_line(line_no, receiver_no, line_emp_no, line_order,
-			appr_type)
-			values(#{lineNo}, #{receiver.receiverNo}, #{lineEmployee.empNo}, #{lineOrder},
-			#{apprType})
+		<foreach item="line" collection="list" open="insert all" close="select * from dual">
+			into receiver_line(receiver_no, line_emp_no, line_order, appr_type)
+			values(#{line.receiver.receiverNo}, #{line.lineEmployee.empNo}, #{line.lineOrder}, #{line.apprType})
 
 		</foreach>
 	</insert>

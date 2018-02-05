@@ -27,6 +27,16 @@ public class DeputyRegisterController {
 	private CodeService codeService;
 	
 	@RequestMapping(value="/registerDeputy.do",method=RequestMethod.GET)
+	public ModelAndView form() {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("deptCodes", codeService.retrieveDeptCodeList());
+		mv.addObject("empNo", "2018-00018");
+		mv.setViewName("employee/insertDeputy");
+		return mv;
+	}
+	
+/*	
+	@RequestMapping(value="/registerDeputy.do",method=RequestMethod.GET)
 	public ModelAndView form(EmployeeVO employee) {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -37,7 +47,7 @@ public class DeputyRegisterController {
 		mv.setViewName("employee/insertDeputy");
 		return mv;
 	}
-
+*/
 	@RequestMapping(value="/registerDeputy.do", method=RequestMethod.POST)
 	public String submit(DeputyVO deputy) {
 		logger.info("deputy : {}", deputy);

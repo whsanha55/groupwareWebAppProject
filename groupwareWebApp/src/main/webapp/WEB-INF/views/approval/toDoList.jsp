@@ -1,9 +1,17 @@
 <%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>대기문서함</title>
+<title>결재 대기함</title>
+<style>
+
+	.column-title{
+		text-align:center;
+	}
+	
+</style>
 <script>
 
 	var pKeyfield;  
@@ -25,39 +33,58 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=1';
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=2';
 				window.open(url, "결재문서","width=750, height=800");
 				
 			});
 		
 		//검색창 타입 바꾸기
-		 $('#pKeyfield').on("change",function(){
+		  $('#pKeyfield').on("change",function(){
 			if($(this).val()=='apprDate'){
 				$(this).next().attr('type','date');
+			//	$('#deptSelect').remove();
+				$(this).next().after("&nbsp;<b id=temp>~</b> ");
+				$(this).next().next().after("<input type=date id=pKeyword1>");
 				
-				$(this).next().after("&nbsp;<b id=temp>~</b> ")
-				$(this).next().next().after("<input type=date id=pKeyword1>")
 				console.log($('form').html());
+		 	/*} else if($(this).val()=='department'){
+		 		$('.pKeyword').remove();
+				$('#pKeyword1').remove();
+				$('#temp').remove()
+				$(this).next().after("<select id=deptSelect class=pKeyword name=pKeyword height=25px > </select>");
+				 */
 			}else{
 				$(this).next().attr('type','text');
 				
 				$('#pKeyword1').remove();
+		//		$('#deptSelect').remove();
 				$('#temp').remove();
 
 				console.log($('form').html());
 			}
 			 
-		 });
+		 }); 
 		 
+		//검색조건 엔터키 눌렀을때 트리거 발동--?
+		$('.pKeyword').on('keydown', function(e) {
+			if(e.keyCode == 13){
+				e.preventDefault();
+				$('#btn3').trigger('click');
+	        }
+		});
+		
+		
 		//검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
-			 pKeyword=$('#pKeyword').val();
+			 pKeyword=$('.pKeyword').val();
 			 pKeyword1=$('#pKeyword1').val();
 			 
 			 templatePaging(1);
 		 });
-		 
+		
+		
+	 
 	});
 		
 	
@@ -70,7 +97,7 @@
 			
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/approvalMyRequestPaging.do' 
+				url: '${pageContext.request.contextPath}/approvalTodoPaging.do' 
 				,
 				data: {
 					keyfield: pKeyfield ,
@@ -93,6 +120,8 @@
 						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
 						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
+						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
+						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
 						
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";
@@ -100,7 +129,7 @@
 					}
 						$('#datatable').html(text);
 						
-						$("#count1").text("-" +data.totalCount+"건의 결재 요청 문서");
+						$("#count1").text("-" +data.totalCount+"건의 결재 대기 문서");
 					
 						//페이징 처리
 						jqueryPager({
@@ -177,40 +206,31 @@
 </script>
 </head>
 <body>
-          
 		  <!-- 등록된 관리자 리스트 -->
-          <div class="col-md-12 col-sm-12 col-xs-12">
+         <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>결재 대기함</h2>
                     
-                    <div class="clearfix"></div>
+                    <div class="clearfix" id="count1">&nbsp;&nbsp; <br></div>
                   </div>
 				  <div>
-				   <div class="btn-group">
-                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-expanded="false">제목 <span class="caret"></span>
-                    </button>
-                    <ul role="menu" class="dropdown-menu">
-                       <li><a href="#">기안자</a>
-                      </li>
-                      <li><a href="#">기안부서</a>
-                      </li>
-                       <li><a href="#">양식명</a>
-                      </li>
-                      <li><a href="#">기간</a>
-                      </li>
-                    </ul>
+					
+				   <div class="btn-group" >
+                    <form id="search">
+						<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
+							<option value="apprTitle">제목</option>
+							<option value="tmpName">양식명</option>
+							<option value="empName">기안자</option>
+							<option value="department">기안부서</option>
+							<option value="apprDate" id="apprDate">기안일</option>
+						</select>
+						 <input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
+						 
+						<button id="btn3" type="button">검색</button>
+					</form>
 					<div class="col-sm-3">
-						<div id="imaginary_container"> 
-							<div class="input-group stylish-input-group">
-							<input type="text" class="form-control" placeholder="Search">
-						<span class="input-group-addon" style="padding:3px 10px">
-						<button type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>  
-						</span>
-							</div>
-						</div>
+					
 					</div>
 					
                     </div>
@@ -221,9 +241,10 @@
                  
 
                     <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
+                      <table  class="table table-striped jambo_table bulk_action" style="text-align:center;">
                         <thead>
-                          <tr class="headings">
+                          <tr class="headings" >
+                            
                             
                             <th class="column-title">번호 </th>
                             <th class="column-title">양식명</th>
@@ -233,94 +254,20 @@
                             <th class="column-title">기안일</th>
                             <th class="column-title">결재현황</th>
                             
+                            
                           </tr>
                         </thead>
 
-                        <tbody>
-                          <tr class="even pointer">
-                            
-                            <td>1</td>
-							
-                             <td class=" ">지출결의서</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal1">비품 구매 건</a></td>
-                            <td class=" ">이지희</td>
-                            <td class=" ">영업부</td>
-							<td class=" ">2018.01.03</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
-                            
-                            
-                          </tr>
-                         <tr class="even pointer">
-                           
-							<td>2</td>
-                            <td class=" ">지출결의서</td>
-                            <td class=" ">비품 구매 건</td>
-                            <td class=" ">이지희</td>
-                            <td class=" ">영업부</td>
-							<td class=" ">2018.01.03</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
-                            
-                            
-                          </tr>
-						  <tr class="even pointer">
-                           
-							<td>3</td>
-                            <td class=" ">지출결의서</td>
-                            <td class=" ">비품 구매 건</td>
-                            <td class=" ">이지희</td>
-                            <td class=" ">영업부</td>
-							<td class=" ">2018.01.03</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
-                            
-                            
-                          </tr>
-						  <tr class="even pointer">
-                            
-							<td>4</td>
-                            <td class=" ">지출결의서</td>
-                            <td class=" ">비품 구매 건</td>
-                            <td class=" ">이지희</td>
-                            <td class=" ">영업부</td>
-							<td class=" ">2018.01.03</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
-                            
-                            
-                          </tr>
-						  <tr class="even pointer">
-                            
-							<td>5</td>
-                           <td class=" ">지출결의서</td>
-                            <td class=" ">비품 구매 건</td>
-                            <td class=" ">이지희</td>
-                            <td class=" ">영업부</td>
-							<td class=" ">2018.01.03</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
-                            
-                            
-                          </tr>
-						  <tr class="even pointer">
-                           
-							<td>6</td>
-                            <td class=" ">지출결의서</td>
-                            <td class=" ">비품 구매 건</td>
-                            <td class=" ">이지희</td>
-                            <td class=" ">영업부</td>
-							<td class=" ">2018.01.03</td>
-                            <td class=" "><a data-toggle="modal" data-target="#myModal">보기</a><a></a></td>
-                            
-                            
-                          </tr>
+                        <tbody id="datatable">
+
+                         
                         </tbody>
                       </table>
 					  <div>
 					  <div class="text-center">
-						<ul class="pagination ">
-							<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-						</ul>
+				 		<nav aria-label="Page navigation" id = 'templatePaging'>
+				
+						</nav> 
 						</div>
 					  </div>
                     </div>
@@ -328,272 +275,13 @@
 						
                   </div>
                 </div>
+                
               </div>
                 </div>
                 <!-- end of weather widget -->
               </div>
         <!-- /page content -->
         
-        
-        <!--모달-->
-		<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-	  <div class="modal-dialog">
-	    <div class="modal-content" style="width:900px;">
-	      <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-		<h4 class="modal-title" id="myModalLabel">결재 문서</h4>
-	      </div>
-	      <div class="modal-body">
-		  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="float:right; width:295px;">
-												<button type="button" class="btn btn-success">결재</button>
-												<button type="button" class="btn btn-success">보류</button>
-												<button type="button" class="btn btn-success">반려</button>
-												<button type="button" class="btn btn-success">결재회수</button>
-			</div>
-			결재라인								
-		<table class="table table-striped jambo_table bulk_action" >
-                        <!--<thead>
-                          <tr class="headings">
-                            
-                            <th rowspan="3" class="column-title">결재</th>
-                            <th class="column-title">사장</th>
-                            <th class="column-title">부장</th>
-							<th class="column-title">팀장</th>
-                            <th class="column-title"></th>
-                            <th class="column-title"></th>   
-							<th class="column-title"></th>
-                            <th class="column-title"></th>  
-                            
-                          </tr>
-                        </thead>-->
-
-                        
-							 <tr class="headings" style="background-color:#3f5367; color:#ECF0F1;">
-                            
-                            <td rowspan="3" class="column-title">결재</td>
-                            <td class="column-title">사장</td>
-                            <td class="column-title">부장</td>
-							<td class="column-title">팀장</td>
-                            <td class="column-title"></td>
-                            <td class="column-title"></td>   
-							<td class="column-title"></td>
-                            <td class="column-title"></td>  
-                            
-                          </tr>
-                          <tr class="even pointer">
-                            
-                          
-                            <td class=" ">박사장</td>
-							<td class=" ">김부장</td>
-                            <td class=" ">최팀장</td>
-                            <td class=" "></td>
-                            <td class=" "></td>
-							<td class=" "></td>
-                            <td class=" "></td>
-                            
-                            
-							
-                          </tr>
-						  <tr class="even pointer">
-                            
-                           
-                           
-                            <td class=" "><img src="images/도장.jpg" style="height:50px; width:50px;"></td>
-							<td class=" "><img src="images/도장.jpg"style="height:50px; width:50px;" ></td>
-                            <td class=" "><img src="images/도장.jpg"style="height:50px; width:50px;" ></td>
-                            <td class=" "></td>
-                            <td class=" "></td>
-							<td class=" "></td>
-                            <td class=" "></td>
-                            
-                            
-							
-                          </tr>
-                          <tr class="headings"style="background-color:#3f5367; color:#ECF0F1;">
-                            
-                            <td rowspan="3" class="column-title">참조</td>
-                            <td class="column-title">팀장</td>
-                            <td class="column-title"></td>
-							<td class="column-title"></td>
-                            <td class="column-title"></td>
-                            <td class="column-title"></td>   
-							<td class="column-title"></td>
-                            <td class="column-title"></td>  
-                            
-                          </tr>
-                        
-                          <tr class="even pointer">
-                            
-                          
-							
-                            <td class=" ">박사장</td>
-							<td class=" "></td>
-                            <td class=" "></td>
-                            <td class=" "></td>
-                            <td class=" "></td>
-							<td class=" "></td>
-                            <td class=" "></td>
-                            
-                            
-							
-                          </tr>
-				
-                      </table>
-	      코멘트
-		  <table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            
-                            <th class="column-title">사원이름</th>
-                            <th class="column-title">코멘트내용</th>
-                            <th class="column-title">작성날짜</th>   
-                            
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          <tr class="even pointer">
-                            
-                           
-							
-                            <td class=" ">이지희</td>
-							<td class=" ">승인합니다.</td>
-                            <td class=" ">2018-01-03 10:30</td>
-                            
-                            
-							
-                          </tr>
-						  <tr class="even pointer">
-
-                           <td class=" ">김부장</td>
-							<td class=" ">잘 알겠습니다.</td>
-                            <td class=" ">2018-01-04 10:30</td>
-                           
-							
-                          </tr>
-				</tbody>
-                      </table>
-                       문서 정보
-					   <table class="table table-striped jambo_table bulk_action">
-                        
-                          <tr class="even pointer">
-                            
-                            <td class="column-title" style="background-color:#3f5367; color:#ECF0F1;">제목</td>
-                            <td colspan="2" style="text-align:center;">금연 캠페인 기안서</td>
-                            <td></td> 
-                            
-                          </tr>
-                     
-
-                    
-                          <tr class="even pointer">
-                            
-                           
-							
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">작성자</td>
-                            <td class=" ">홍길동</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">양식명</td>
-                            <td class=" ">기안서</td>
-                            
-							
-                          </tr>
-						  <tr class="even pointer">
-
-                           <td class=" " style="background-color:#3f5367; color:#ECF0F1;">부서</td>
-							<td class=" ">인사1팀</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">보존기한</td>
-                            <td class=" ">영구보존</td>
-                           
-							
-                          </tr>
-						  <tr class="even pointer">
-
-                           <td class=" " style="background-color:#3f5367; color:#ECF0F1;">작성일</td>
-							<td class=" ">2018.01.03</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">긴급여부</td>
-							<td class=" ">일반</td>
-                           
-							
-                          </tr>
-						 
-							<tr>
-								<td colspan="4">내용넣기</td>
-							</tr>
-                      </table>
-					  </div>
-	      <div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-		
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- 모달 끝 -->
-	
-	
-	<!-- 모달 팝업 -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-	  <div class="modal-dialog">
-	    <div class="modal-content" style="width:700px;">
-	      <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-		<h4 class="modal-title" id="myModalLabel">결재 현재 상황</h4>
-	      </div>
-	      <div class="modal-body">
-		<table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            
-                            <th class="column-title">순번</th>
-                            <th class="column-title">결재자</th>
-                            <th class="column-title">결재유형</th>
-							<th class="column-title">배정일시</th>
-                            <th class="column-title">확인일시</th>
-                            <th class="column-title">결재일시</th>      
-                            
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          <tr class="even pointer">
-                            
-                            <td><a data-toggle="modal" data-target="#myModal">1</a><a></a></td>
-							
-                            <td class=" ">이지희 대리 영업부</td>
-							<td class=" ">결재</td>
-                            <td class=" ">2018-01-03 10:30</td>
-                            <td class=" ">2018-01-03 13:10</td>
-                            <td class=" ">2018-01-04 18:30</td>
-                            
-                            
-							
-                          </tr>
-						  <tr class="even pointer">
-                            
-                            <td><a data-toggle="modal" data-target="#myModal">2</a><a></a></td>
-							
-                            <td class=" ">이지희 대리 영업부</td>
-							<td class=" ">진행중</td>
-                            <td class=" ">2018-01-03 10:30</td>
-                            <td class=" ">2018-01-03 13:10</td>
-                            <td class=" "></td>
-                            
-                            
-                            
-							
-                          </tr>
-				</tbody>
-                      </table>
-	      </div>
-	      <div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-		
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	
-	<!-- 모달 팝업 끝 -->
-	
-	</body>
+   
+</body>
 </html>

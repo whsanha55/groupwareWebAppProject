@@ -13,6 +13,7 @@
 				 from receiver_line 
 				 where receiver_no = #{receiverNo}))
  	</insert>
+ 	
 	<insert id="insertApprovalRecordProcedure" parameterType="map" statementType="CALLABLE" > 
 		{
 			call approval_record_procedure (#{apprNo},#{receiverNo})
@@ -53,6 +54,7 @@
 		and appr_no=#{apprNo}
 		order by line.line_order asc nulls last
    </select>
+   
    
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
     	update approval_record

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeFancyTreeMapper">
+
+	<select id="selectFancyTreeDeptList" statementType="STATEMENT" resultType="EmpFancyTreeVO">
+		select c_no as key, c_name as title
+		from code
+		where c_no like 'A%'
+		and c_no != 'A'
+		order by c_no
+	</select>
+
+	<select id="selectFancyTreeEmpList" parameterType="String" statementType="PREPARED" resultType="EmpFancyTreeVO" >
+		select emp_no as key, emp_name || ' ' || duty as title
+		from emp_view
+		where dept_no = #{deptNo}
+		order by duty_no asc, emp_name asc
+		
+	</select>
+
+	<resultMap id="selectFancyTreeAllListMap" type="EmpFancyTreeVO" >
+		<id property="key" column="dept_no"/>
+		<result property="title" column="department"/>
+		<collection property="children" column="dept_no" ofType="EmpFancyTreeVO"  javaType="list" >
+			<result property="title" column="name_and_duty"/>
+			<result property="key" column="emp_no"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectFancyTreeAllList" statementType="STATEMENT" resultMap="selectFancyTreeAllListMap">
+		select dept_no, department, emp_no, emp_name || ' ' || duty as name_and_Duty
+		from emp_view
+		where retire_status = 1
+		order by dept_no asc, duty_no asc, emp_name asc
+	</select>
+	
+
+</mapper>
+

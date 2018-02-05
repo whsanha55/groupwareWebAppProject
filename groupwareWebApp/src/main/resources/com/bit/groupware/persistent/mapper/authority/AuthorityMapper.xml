@@ -129,7 +129,8 @@
 		select a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
 		from (select rownum as rn, t1.*
      			from (select *
-          				from authority order by a_no asc)t1)a, employee e, authority_employee ae
+          				from authority 
+          				order by a_no asc)t1)a, employee e, authority_employee ae
 		where a.a_no = ae.a_no
     		and a.ae_no = ae.ae_no
     		and ae.emp_no = e.emp_no
@@ -143,13 +144,35 @@
  		</if>
  		
  		<if test="keyfield == 'empName' and keyword != null">
- 			and a.emp_name Like '%' || #{keyword} || '%'
+ 			and e.emp_name Like '%' || #{keyword} || '%'
  		</if>
  		and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
 	</select>
 	
+	 <select id="selectAuthorityCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(a.a_no)
+		from authority a, employee e, authority_employee ae
+		where a.a_no = ae.a_no
+    		and a.ae_no = ae.ae_no
+    		and ae.emp_no = e.emp_no
+    	<if test = "aNo != null">
+    		amd a.a_no = #{aNo}
+    	</if>
+		<if test="keyfield == 'aName' and keyword != null">
+ 			and a.a_no Like '%' || #{keyword} || '%'
+ 		</if>
+ 		
+ 		<if test="keyfield == 'empNo' and keyword != null">
+ 			and e.emp_no Like '%' || #{keyword} || '%'
+ 		</if>
+ 		
+ 		<if test="keyfield == 'empName' and keyword != null">
+ 			and e.emp_name Like '%' || #{keyword} || '%'
+ 		</if>
+	</select>
+	
 	<!-- 권한 수정-->
-	<update id="updateAuthority" parameterType="AuthorityVO" statementType="PREPARED">
+	<update id="updateAuthority" parameterType="AuthorityVO" statementType="PREPARED" >
 		update authority
 		<trim prefix="set" suffixOverrides=",">
 			<if test="aName != null">
@@ -164,16 +187,27 @@
 		</trim>
 	</update>
 	
+	<!-- 권한 조회 -->
+	<select id="selectAuthorityByaNo"  statementType="PREPARED" parameterType="String" resultType="AuthorityVO">
+		select a_no as aNo, a_name as aName, a_note as aNote,a_whether as aWhether
+		from authority
+		where a_no = #{aNo}
+	</select>
 	
-	
-	<!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->
+	<!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->	
 	<resultMap type="AuthorityVO" id="selectAuthEmpResultMap">
 		<id column="a_no" property="aNo"/>
+		
+		<!-- 1:N 관계 -->	
+		<collection property="emp" javaType="list" ofType="EmployeeVO">
+			<id column="emp_no" property="empNo"/>
+			<result column="emp_name" property="empName"/>
+		</collection>
+		
 		<collection property="authEmp" javaType="list" ofType="AuthEmpVO">
-			<association property="emp" column="emp_no" javaType="EmployeeVO">
-				<id column="emp_no" property="empNo"/>
-				<result column="emp_name" property="empName"/>
-			</association>
+			<id column="a_no" property="aNo"/>
+			<id column="ae_no" property="aeNo"/>
+			<id column="emp_no" property="empNo"/>
 		</collection>
 	</resultMap>
 	
@@ -186,5 +220,7 @@
     		and a.a_no = #{aNo}
     	order by a.a_no asc
 	</select> 
+	
+	
 	
 </mapper>
