@@ -155,6 +155,7 @@
 				<c:url var="detailEmployee" value="/detailEmployee.do" scope="page"/>
 				<c:url var="registerSign" value="/registerSign.do" scope="page"/>
 				<c:url var="registerDeputy" value="/registerDeputy.do" scope="page"/>
+				<c:url var="registerDelegation" value="/registerDelegation.do" scope="page"/>
 				<c:url var="listPlan" value="/listPlan.do" scope="page"/>
 				<c:url var="listHistory" value="/listHistory.do" scope="page"/>
 				<li><h3>마이페이지</h3>
@@ -164,6 +165,7 @@
 							<ul class="nav child_menu">
 								<li><a href="${pageScope.registerSign }">서명설정</a></li>
 								<li><a href="${pageScope.registerDeputy }">대결권자 설정</a></li>
+								<li><a href="${pageScope.registerDelegation }">전결권자 설정</a></li>
 							</ul>
 						<li><a href="${pageScope.listPlan }">일정조회</a></li>
 						<li><a href="${pageScope.listHistory }">이력조회</a></li>

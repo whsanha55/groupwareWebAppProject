@@ -66,7 +66,10 @@
 			c1.relation_code as relationCode,
 			(select count(c2.c_no)
                from code c2
-             where c2.relation_code = c1.c_no) as countRelationCode
+             where c2.relation_code = c1.c_no) as countRelationCode,
+             (select count(ec.EMP_NO)
+               from employee_code ec
+             where ec.C_NO = c1.c_no) as countEmployee
 		from code c1
 		where c1.relation_code=#{relationCode}
 		group by c1.c_no,c1.c_name,c1.relation_code
@@ -140,6 +143,39 @@
 		delete from code
 		where c_no = #{cNo}
 	</delete>
+	
+	<!-- 코드 변경 이력 조회 (사용자) -->
+	<select id="selectCodeHistory" parameterType="map" resultType="CodeHistoryVO" statementType="PREPARED" >
+		select ch.no as no,
+				ch.emp_no as empNo,
+				e.emp_name as empName,
+				ch.start_date as startDate,
+				ch.end_date as endDate,
+				c1.c_name as deptName,
+				c2.c_name as dutyName
+        from code_history ch, employee e, code c1, code c2
+        where ch.emp_no = e.emp_no
+        and c1.c_no=ch.dept_no
+        and c2.c_no=ch.duty_no
+        and ch.emp_no=#{empNo}
+        order by start_date asc 
+	</select>
+	
+	<!-- 코드 변경 이력 조회 (관리자) -->
+	<select id="selectCodeHistoryByAdmin" parameterType="map" resultType="CodeHistoryVO" statementType="STATEMENT" >
+		select ch.no as no,
+				ch.emp_no as empNo,
+				e.emp_name as empName,
+				ch.start_date as startDate,
+				ch.end_date as endDate,
+				c1.c_name as deptName,
+				c2.c_name as dutyName
+        from code_history ch, employee e, code c1, code c2
+        where ch.emp_no = e.emp_no
+        and c1.c_no=ch.dept_no
+        and c2.c_no=ch.duty_no
+        order by start_date asc 
+	</select>
 		
 </mapper>
 

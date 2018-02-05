@@ -128,13 +128,14 @@
 		
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/admin/templatePaging.do' 
+			url: '${pageContext.request.contextPath}/templatePagingAjax.do' 
 			,
 			data: {
 				keyfield: pKeyfield ,
 				keyword: pKeyword ,	
 				startRow : startRow ,
-				endRow : endRow
+				endRow : endRow,
+				isAdmin : true
 			},
 			type: 'POST' ,
 			cache: false ,

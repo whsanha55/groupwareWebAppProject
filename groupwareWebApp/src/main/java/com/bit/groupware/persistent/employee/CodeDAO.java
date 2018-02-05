@@ -3,6 +3,7 @@ package com.bit.groupware.persistent.employee;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.employee.CodeHistoryVO;
 import com.bit.groupware.domain.employee.CodeVO;
 
 public interface CodeDAO {
@@ -45,7 +46,13 @@ public interface CodeDAO {
 	
 	List<CodeVO> selectDeptCodeRelationList(String deptCode);
 	
-	/*//페이징 처리
-	int selectCodeCount(Map<String, Object> map);*/
+	//코드 변경 이력 조회하기 (사용자)
+	List<CodeHistoryVO> selectCodeHistoryList(Map<String, Object> map);
+	
+	//코드 변경 이력 조회하기 (관리자)
+	List<CodeHistoryVO> selectCodeHistoryListByAdmin(Map<String,Object> map);
+	
+	//페이징 처리
+	int selectCodeCount(Map<String, Object> map);
 
 }

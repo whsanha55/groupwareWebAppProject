@@ -21,11 +21,14 @@ public interface ApprovalService {
 	//기안문서 상신
 	void registerApproval(ApprovalVO approval, int receiverNo);
 
-	//결재문서 회수
+	//결재문서 회수/승인/보류/반려
 	void modifyApproval(ApprovalVO approval);
 	
 	//갯수 구하기
 	int retrieveApprovalCount(Map<String, Object> map);
+
+	//승인,반려문서함 갯수 구하기
+	int retrieveAllApprovalCount(Map<String, Object> map);
 	
 	//삭제
 	void removeApproval(List<Integer> apprNos);

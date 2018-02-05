@@ -3,6 +3,7 @@ package com.bit.groupware.service.employee;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.employee.CodeHistoryVO;
 import com.bit.groupware.domain.employee.CodeVO;
 
 public interface CodeService {
@@ -35,5 +36,11 @@ public interface CodeService {
 	List<CodeVO> retrieveDutyCodeList();
 	
 	List<CodeVO> retrieveDeptCodeRelationList(String deptCode);
+	
+	List<CodeHistoryVO> retrieveCodeHistoryList(Map<String, Object> map);
+	
+	List<CodeHistoryVO> retrieveCodeHistoryListByAdmin(Map<String, Object> map);
+	
+	int retrieveCodeCount(Map<String, Object> map);
 	
 }
