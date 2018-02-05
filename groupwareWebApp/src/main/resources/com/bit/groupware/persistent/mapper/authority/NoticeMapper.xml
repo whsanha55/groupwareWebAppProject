@@ -82,15 +82,12 @@
 			<if test="keyfield == 'noticeTitle' and keyword != null">
 				and notice_title like '%'|| #{keyword} ||'%'
 			</if>
-<<<<<<< HEAD
+
 </select>
-=======
-	</select>
 	
 	 <update id="updateNoticeHitCount" statementType="PREPARED" parameterType="int">
       update notice
       set hitcount = hitCount+1
       where notice_no = #{noticeNo}
    </update>
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 </mapper>
