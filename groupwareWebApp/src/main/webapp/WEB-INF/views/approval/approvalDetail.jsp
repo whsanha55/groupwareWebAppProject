@@ -36,6 +36,7 @@
 }
 
 
+
 </style>
 
 <script>
@@ -50,7 +51,6 @@
 			$('#appr').hide();
 			$('#reject').hide();
 			$('#postpone').hide();
-			
 		} else if(status==2){
 			$('#return').hide();
 			$('#appr').attr('disabled',false);	
@@ -114,6 +114,35 @@
 		})
 		
 		
+		$('#reject').on('click',function(){
+			var commentContent;
+			
+			swal({
+				  title: "결재 반려",
+				  text: "문서를 반려 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {		
+											
+					  swal({
+							  title: "코멘트 입력",
+							  text: "결재 문서에 대한 코멘트를 입력해주세요.",
+							  content: {
+								  element : "input"
+							  } ,
+							  buttons : ['건너뛰기','저장']
+							  
+							}).then(inputData => {
+								commentContent = inputData;
+                      })
+                      	executeReject(commnetContent);						
+					}	
+				});
+		})//end of reject.on
+			
+		
+		
 		
 		
 		
@@ -174,6 +203,36 @@
 			});
 		}
 
+		
+		//결재 반려
+		function executeReject(commnetContent){
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/rejectApproval.do'
+				,
+				method : 'GET'
+				,
+				data: {
+					apprNo : '${requestScope.approval.apprNo}',
+					comment: commentContent
+				}
+				,
+				datatype : 'json'
+				,
+				
+				success : function(data) {
+					swal("결재가 반려되었습니다.").then((e)=>{
+						self.close();
+						opener.location='http://localhost:9000/groupware/approvalTodo.do'
+					});
+					
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
+		}
 		
 		
 		
@@ -295,7 +354,7 @@
                           </tr>
                           </c:if>
                          </c:forEach>
-						
+                         					
 				</tbody>
                       </table>
                        <h2><strong>문서 정보</strong></h2>
