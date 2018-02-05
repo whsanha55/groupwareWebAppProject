@@ -1,5 +1,8 @@
 package com.bit.groupware.controller.approval;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -31,23 +34,19 @@ public class ApprovalAjaxController {
 	
 	@Autowired
 	private ApprovalService approvalService;
-	@Autowired
-	private ApprovalRecordService approvalRecordService;
 
-	
 	
 	@RequestMapping(value="/approvalAjax.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int approvalAjax(ApprovalVO approval, 
 			TemplateVO template, 
 			@RequestParam int receiverNo, 
-			HttpSession session) throws Exception {
+			HttpSession session, 
+			Principal principal) throws Exception {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
 		
 		EmployeeVO employee = new EmployeeVO();
-//		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		employee.setEmpNo(user.getUsername());
-		employee.setEmpNo("2018-00011");
+		employee.setEmpNo(principal.getName());
 		
 		approval.setEmployee(employee);
 		approval.setTemplate(template);
@@ -66,46 +65,6 @@ public class ApprovalAjaxController {
 		return approval.getApprFinalStatus();
 	}
 	
-	//문서 상세조회
-	@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
-	public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
-									   @RequestParam(value="status") int status) {
-		
-		ModelAndView mv =new ModelAndView();
-		mv.addObject("status",status);
-		//1:결재요청함 2:결재대기함 3:나머지
-		mv.addObject("approval",approvalService.retrieveApproval(apprNo));
-		mv.setViewName("approval/approvalDetail/pop");
-		return mv;
-	}
-	
-	//문서 첨부파일 다운로드
-	@RequestMapping(value="/downloadApprFile.do",method=RequestMethod.GET)
-	public ModelAndView downloadFile(
-			@RequestParam("originalFileName")String originalFileName,
-			@RequestParam("systemFileName")String systemFileName) {
-
-		ModelAndView mv=new ModelAndView();
-		mv.addObject("originalFileName",originalFileName);
-		mv.addObject("systemFileName",systemFileName);
-		mv.setViewName("downloadApprovalFileView"); 
-		
-		return mv;
-		
-	}
-	
-	
-	//문서 현황 조회
-	@RequestMapping(value="/approvalRecord.do",method=RequestMethod.GET)
-	public ModelAndView approvalRecord(@RequestParam(value="apprNo") int apprNo) {
-		ModelAndView mv = new ModelAndView();
-		
-		List<ApprovalRecordVO> list=approvalRecordService.retrieveApprovalRecordList(apprNo);
-
- 		mv.addObject("records",list);
-		mv.setViewName("approval/approvalRecord/pop"); 
-		return mv;
-	}
 	
 	//결재 회수 처리
 	@RequestMapping(value="/returnApproval.do",method=RequestMethod.GET)

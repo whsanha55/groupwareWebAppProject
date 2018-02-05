@@ -37,7 +37,6 @@
 				var finalStatus = $('.detailApproval').attr('id');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
 							+'&status='+status+'&finalStatus='+finalStatus;
-				alert("final: " + finalStatus + "status: " + status);
 				window.open(url, "결재문서","width=750, height=800");
 				
 			});
