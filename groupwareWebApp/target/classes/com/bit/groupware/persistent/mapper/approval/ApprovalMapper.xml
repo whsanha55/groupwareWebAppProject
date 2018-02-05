@@ -414,7 +414,7 @@
 		and rec.line_no=line.line_no
 		and receiv.receiver_no=line.receiver_no
 		and line.line_emp_no=linemp.emp_no
-		and appr.appr_no=files.appr_no
+		and appr.appr_no=files.appr_no(+)
 		and appr.appr_no=#{apprNo}
 		order by line.line_order asc nulls last
 	</select>
