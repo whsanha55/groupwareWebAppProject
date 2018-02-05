@@ -68,7 +68,7 @@ public class EmployeeFancyTreeAjaxController {
 		List<EmployeeVO> employees = employeeService.retrieveEmployeeNameAndDutyList();
 		Set<String> set = new HashSet<String>();
 		for(EmployeeVO employee : employees) {
-			set.add(employee.getEmpName() + " " + employee.getDuty());
+			set.add(employee.getEmpName());
 		}
 		return set;
 	}

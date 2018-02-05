@@ -205,7 +205,7 @@
 						<br> <br>
 						
 						<div class="ln_solid"></div>
-						
+			
 						<%-- 업로드된 파일 목록 조회 --%>
 					<c:if test="${fn:length(sessionScope.notice.files) > 0 }">
 						<table border="1">

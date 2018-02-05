@@ -11,7 +11,18 @@
 		text-align:center;
 	}
 	
+	.ui-autocomplete {
+	max-height: 150px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	}
+	
 </style>
+<link
+	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script>
 
 	var pKeyfield;  
@@ -33,7 +44,7 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3';
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=0';
 				window.open(url, "결재문서","width=750, height=800");
 				
 			});
@@ -46,17 +57,62 @@
 				$(this).next().after("&nbsp;<b id=temp>~</b> ")
 				$(this).next().next().after("<input type=date id=pKeyword1>")
 				console.log($('form').html());
-			}else{
+			} else{
 				$(this).next().attr('type','text');
 				
 				$('#pKeyword1').remove();
 				$('#temp').remove();
 
 				console.log($('form').html());
+				
+				//$("input[name=pKeyword]").autocomplete('option','source',
+				//[ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]);
+				var url = ''; 
+				switch ($(this).val()) {
+					case 'apprTitle':
+						$("input[name=pKeyword]").autocomplete('option','source',[]);
+						return;
+					case 'tmpName':
+						url = 'retrieveTemplateNameList.do';
+						break;
+					case 'empName':
+						url = 'retrieveEmployeeNameAndDutyList.do';
+						break;
+					case 'department':
+						url = 'retrieveDepartmentList.do';
+						break;
+				}
+				
+				$.ajax({
+					 url : '${pageContext.request.contextPath}/' + url ,
+					 cache : false ,
+					 type : 'GET' ,
+					 datatype : 'json' ,
+					 success : function(data) {
+						 $("input[name=pKeyword]").autocomplete('option','source',data);
+					 } ,
+					 error : function(jqXHR) {
+							alert(jqXHR.status);
+							console.log(jqXHR);
+					 }
+					 
+				});	
+					 
+					
 			}
+			
+			
 			 
 		 });
 		 
+		
+			 $("input[name=pKeyword]").autocomplete({
+					focus : function() {
+						return false;
+					}
+			 });
+		
+		
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
 		$('#pKeyword').on('keydown', function(e) {
 			if(e.keyCode == 13){

@@ -69,12 +69,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 	}
 
-	// 결재 문서 회수
-	public void modifyApproval(ApprovalVO approval) {
-		// 1. 결재 이력 삭제
-		recordDAO.deleteApprovalRecord(approval.getApprNo());
 
-		// 2. 결재문서 최종상태 여부 변경 = approval.setFinalStatus는 컨트롤러에서?
+	// 결재 문서 회수/승인/보류/반려
+	public void modifyApproval(ApprovalVO approval) {
+		
+		//'회수'인 경우 결재 이력 삭제
+		if(approval.getApprFinalStatus() == 4) { //4는 임시인데.. 5 회수 안씀?
+			recordDAO.deleteApprovalRecord(approval.getApprNo());	
+		}
+		
+		//결재문서 최종상태 여부 변경
 		dao.updateApproval(approval);
 	}
 	
