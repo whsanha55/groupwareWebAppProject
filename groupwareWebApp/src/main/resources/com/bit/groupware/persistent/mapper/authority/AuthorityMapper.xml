@@ -76,6 +76,8 @@
       and t1.emp_no = #{value}
    </select>
    
+
+   
    
    <!-- 권한등록 -->
    <insert id="insertAuthority" parameterType="AuthorityVO" statementType="PREPARED">
@@ -211,21 +213,16 @@
          <id column="emp_no" property="empNo"/>
          <result column="emp_name" property="empName"/>
       </collection>
-      
-      <collection property="authEmp" javaType="list" ofType="AuthEmpVO">
-         <id column="a_no" property="aNo"/>
-         <id column="ae_no" property="aeNo"/>
-         <id column="emp_no" property="empNo"/>
-      </collection>
+
    </resultMap>
    
    <select id="selectAuthEmpList" statementType="PREPARED" resultMap="selectAuthEmpResultMap" parameterType="String">
-      select a.a_name as aName, e.emp_no as empNo, e.emp_name as empName
+      select e.emp_no as empNo, e.emp_name as empName,a.a_name as aName  
       from authority a , employee e, authority_employee ae
       where a.a_no = ae.a_no
           and ae.emp_no = e.emp_no
           and a.a_no = #{aNo}
-       order by a.a_no asc
+       order by e.emp_no asc   
    </select> 
    
    

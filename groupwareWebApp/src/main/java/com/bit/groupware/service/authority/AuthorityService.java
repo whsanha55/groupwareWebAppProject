@@ -21,14 +21,11 @@ public interface AuthorityService {
 	void removeAuthority(Map<String, Object> map);
 
 	// 권한번호에 해당하는 사원정보를 사번 순으로 오름차순 정렬하여 조회한다.
-	List<EmployeeVO> retrieveAuthEmp(String aNo);
+	List<AuthorityVO> retrieveAuthEmpList(String aNo);
 
 	//총 게시글 수를 구한다.
 	int retrieveAuthorityCount(Map<String, Object> map);
 
-	//권한번호에 대한 사원을 조회하다.
-	List<AuthorityVO> retrieveAuthEmpList(String aNo);
-	
 	//권한번호에 대한 권한을 조회하다
 	AuthorityVO retrieveAuthorityByaNo(String aNo);
 	
