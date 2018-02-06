@@ -49,11 +49,20 @@
 		<result column="post_content" 			 	 property="postContent" />
 		<result column="document_no"   		 	 	 property="documentNo" />
 		<result column="c_no" 					 	 property="cNo" />
-
+		
+		<!--  1:N 관계 -->
 		<collection property="postFiles" javaType="list" ofType="PostFileVO">
 			<id column="no" 							property="no"/>
 			<result column="system_file_name" 			property="systemFileName" />
 			<result column="original_file_name" 		property="originalFileName" />
+		</collection>
+		
+		<!--  1:N 관계 -->
+		<collection property="cmts" javaType="list" ofType="CmtVO">
+			<id column="cmt_no" 					property="cmtNo"/>
+			<result column="cmt_content" 			property="cmtContent" />
+			<result column="cmt_writer" 			property="cmtWriter" />
+			<result column="cmt_date" 				property="cmtDate" />
 		</collection>
 	</resultMap> 
 	 
@@ -61,10 +70,10 @@
 	 
 	<select id="selectPost" resultMap="selectPostResultMap" statementType="PREPARED" parameterType="int">
 		 select p1.post_no, p1.post_title, p1.writer, p1.post_date, p1.post_content, c.c_name as c_no, d.document_name as document_no, 
-          		p2.no, p2.original_file_name, p2.system_file_name
-		 from post p1 , postfile p2, code c, document d
-		 where p1.post_no = p2.post_no(+) and p1.c_no = c.c_no and p1.document_no = d.document_no and p1.post_no = #{postNo} 
-		
+          		p2.no, p2.original_file_name, p2.system_file_name, cm.cmt_no, cm.cmt_content, cm.cmt_writer, cm.cmt_date 
+		 from post p1 , postfile p2, code c, document d, cmt cm
+		 where p1.post_no = p2.post_no(+) and p1.c_no = c.c_no and p1.document_no = d.document_no 
+                  and p1.post_no = cm.post_no and p1.post_no = #{postNo} 		
 	</select> 
 	
 	<update id="updatePost" parameterType="PostVO" statementType="PREPARED">

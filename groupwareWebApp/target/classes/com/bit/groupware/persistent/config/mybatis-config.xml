@@ -26,6 +26,7 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/NoticeMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/NoticeFileMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/BoardMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/authority/CmtMapper.xml"/>
 		
 		<!-- Employee -->
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/EmployeeMapper.xml"/>
