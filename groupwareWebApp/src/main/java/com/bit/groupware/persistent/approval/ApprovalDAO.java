@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bit.groupware.domain.approval.ApprovalVO;
+import com.bit.groupware.domain.approval.ReceiverLineVO;
 
 public interface ApprovalDAO {
 
@@ -23,6 +24,10 @@ public interface ApprovalDAO {
 	void deleteApproval(List<Integer> apprNos);
 	
 	ApprovalVO selectTempApproval(int apprNo);
+	
+	//승인,반려 문서함에서 count
+	int selectAllApprovalCount(Map<String,Object> map);
+	
 	
 	
 }

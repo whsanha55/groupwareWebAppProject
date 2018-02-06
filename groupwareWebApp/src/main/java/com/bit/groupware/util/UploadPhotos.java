@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.PhotoVO;
 
 
@@ -16,10 +17,10 @@ public class UploadPhotos {
 
 	private static final Logger logger = LoggerFactory.getLogger(UploadPhotos.class);
 	private static int count = 1;
-
+	
 	public static PhotoVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
 		String root = context.getRealPath("/");
-		String path = root + "resources/upload/Photos/";
+		String path = root + "resources/upload/employeeFiles/photos/";
 
 		String photoName = part.getOriginalFilename();
 		String systemFileName = "";
@@ -41,5 +42,4 @@ public class UploadPhotos {
 		photo.setFileSize(part.getSize());
 		return photo;
 	}
-
 }

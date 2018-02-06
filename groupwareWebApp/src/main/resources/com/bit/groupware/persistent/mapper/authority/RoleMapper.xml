@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.authority.RoleMapper">
+
+	 <insert id="addRole" statementType="PREPARED" parameterType="RoleVO">
+      <selectKey keyProperty="rId" resultType="string" order="BEFORE" statementType="STATEMENT">
+           select 'R' || lpad(ROLE_SEQ.Nextval,6,'0') from dual
+      </selectKey>
+      insert into role(r_id, r_name, r_type, r_explan, r_date, sort_order)
+      values(#{rId}, #{rName}, #{rType}, #{rExplan}, sysdate, #{sortOrder})
+   </insert>   
+   
+   <select id="selectRoleList" statementType="PREPARED" parameterType="map" resultType="RoleVO">
+ 	 select r_id as rId, r_name as rName, r_type as rType, r_explan as rExplan, r_date as rDate, isRegistration, sort_order as sortOrder	
+	  from( select rownum as rn, role1.*    									
+  			  from (select *
+                        from role 		
+                        <if test="keyfield == 'rName' and keyword != null">
+                        where r_name like '%' || #{keyword} || '%'			
+                        </if>
+                        <if test="keyfield == 'rExplan' and keyword != null">
+                        where r_explan like '%' || #{keyword} || '%'			
+                        </if>
+                        order by r_id desc )role1
+                        
+                <if test="keyfield == 'role' || keyfield =='desigRole'">
+				where r_id is not null
+				</if>
+                  ) role2					
+	   where rn <![CDATA[>=]]> #{startRow} and rn <![CDATA[<=]]> #{endRow}
+   </select>
+   
+   <resultMap type="RoleVO" id="selectRoleByRnameMap">
+		<id column="r_id" property="rId" />
+		<result column="r_name" property="rName" />
+		<result column="r_type" property="rType" />
+		<result column="r_explan" property="rExplan" />
+		<result column="r_date" property="rDate" />
+		<result column="isregistration" property="isRegistration" />
+		<result column="sort_order" property="sortOrder" />
+		<collection property="authorities" javaType="list" ofType="AuthorityVO">
+			<result column="a_name" property="aName" />
+		</collection>
+	</resultMap>
+	
+   <select id="selectRoleByRname" statementType="PREPARED" resultMap="selectRoleByRnameMap" parameterType="string" > 
+ 		 select t3.a_name, t1.*
+		from role t1, authority_role t2, authority t3
+		where t1.r_id = t2.r_id and t2.a_no =t3.a_no
+		and t3.a_name = #{value}
+
+   </select>
+   
+   <resultMap type="RoleVO" id="selectRoleMap">
+		<id column="r_id" property="rId" />
+		<result column="r_name" property="rName" />
+		<result column="r_type" property="rType" />
+		<result column="r_explan" property="rExplan" />
+		<result column="r_date" property="rDate" />
+		<result column="isregistration" property="isRegistration" />
+		<result column="sort_order" property="sortOrder" />
+	</resultMap>
+	
+    <select id="selectRoleReList" statementType="PREPARED" resultMap="selectRoleMap"  parameterType="string" >
+ 		 select *
+		from role 
+		minus
+		select t1.*
+		from role t1, authority_role t2, authority t3
+		where t1.r_id = t2.r_id and t2.a_no =t3.a_no
+		and t3.a_name = #{value}
+   </select>
+   
+   <delete id="deleteRole" parameterType="string" statementType="PREPARED">
+		delete from role
+		where r_id  in
+		<foreach item="rId" collection="list" separator="," open="(" close=")">
+			#{rId}
+		</foreach>
+	</delete>
+   
+   <select id="selectRoleCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(*)
+		from role
+		where r_id is not null
+			<if test="keyfield == 'rName' and keyword != null">
+				and r_name like '%'|| #{keyword} ||'%'
+			</if>
+			<if test="keyfield == 'rExplan' and keyword != null">
+				and r_explan like '%'|| #{keyword} ||'%'
+			</if>
+	</select>
+	
+	
+</mapper>

@@ -5,8 +5,12 @@ public class EmployeeCodeViewVO {
 	private String checkAdmin;
 	private String department;
 	private String duty;
-	private PhotoVO sign;
-	private PhotoVO picture;
+	private String signName;
+	private String systemSignName;
+	private String photoName;
+	private String systemPhotoName;
+	private String deptNo;
+	private String dutyNo;
 	
 	public EmployeeCodeViewVO() {
 		super();
@@ -37,30 +41,61 @@ public class EmployeeCodeViewVO {
 		this.duty = duty;
 	}
 
-	public PhotoVO getSign() {
-		return sign;
+	
+
+	public String getSystemSignName() {
+		return systemSignName;
 	}
 
-	public void setSign(PhotoVO sign) {
-		this.sign = sign;
+	public void setSystemSignName(String systemSignName) {
+		this.systemSignName = systemSignName;
 	}
 
-	public PhotoVO getPicture() {
-		return picture;
+	public String getSystemPhotoName() {
+		return systemPhotoName;
 	}
 
-	public void setPicture(PhotoVO picture) {
-		this.picture = picture;
+	public void setSystemPhotoName(String systemPhotoName) {
+		this.systemPhotoName = systemPhotoName;
+	}
+
+	public String getDeptNo() {
+		return deptNo;
+	}
+
+	public void setDeptNo(String deptNo) {
+		this.deptNo = deptNo;
+	}
+
+	public String getDutyNo() {
+		return dutyNo;
+	}
+
+	public void setDutyNo(String dutyNo) {
+		this.dutyNo = dutyNo;
+	}
+	
+	public String getSignName() {
+		return signName;
+	}
+
+	public void setSignName(String signName) {
+		this.signName = signName;
+	}
+
+	public String getPhotoName() {
+		return photoName;
+	}
+
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
 	}
 
 	@Override
 	public String toString() {
 		return "EmployeeCodeViewVO [checkAdmin=" + checkAdmin + ", department=" + department + ", duty=" + duty
-				+ ", sign=" + sign + ", picture=" + picture + "]";
+				+ ", signName=" + signName + ", systemSignName=" + systemSignName + ", photoName=" + photoName
+				+ ", systemPhotoName=" + systemPhotoName + ", deptNo=" + deptNo + ", dutyNo=" + dutyNo + "]";
 	}
-
-	
-	
-	
 
 }

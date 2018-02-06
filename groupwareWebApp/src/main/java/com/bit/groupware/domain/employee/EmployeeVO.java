@@ -15,20 +15,25 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 	private String hireDate;
 	private String retireStatus;
 	private String retireDate;
+	private String postcode;
 	private String address;
+	private String detailAddress;
+	private String isAdmin;	
 	private List<MultipartFile> upload;
 	private List<CodeVO> codes;
 	private List<EmployeeCodeVO> codeList;
 	private List<PhotoVO> photos = new ArrayList<PhotoVO>();
-	private String isAdmin;
+	
 
 	public EmployeeVO() {
 		super();
 	}
 
+	
 	public EmployeeVO(String empNo, String empName, String empPwd, String engName, String phoneNumber, String email,
-			String regNumber, String hireDate, String retireStatus, String retireDate, String address,
-			List<MultipartFile> upload, List<CodeVO> codes, List<PhotoVO> photos, String isAdmin) {
+			String regNumber, String hireDate, String retireStatus, String retireDate, String postcode, String address,
+			String detailAddress, String isAdmin, List<MultipartFile> upload, List<CodeVO> codes,
+			List<EmployeeCodeVO> codeList, List<PhotoVO> photos) {
 		super();
 		this.empNo = empNo;
 		this.empName = empName;
@@ -40,12 +45,16 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 		this.hireDate = hireDate;
 		this.retireStatus = retireStatus;
 		this.retireDate = retireDate;
+		this.postcode = postcode;
 		this.address = address;
+		this.detailAddress = detailAddress;
+		this.isAdmin = isAdmin;
 		this.upload = upload;
 		this.codes = codes;
+		this.codeList = codeList;
 		this.photos = photos;
-		this.isAdmin = isAdmin;
 	}
+
 
 	public List<EmployeeCodeVO> getCodeList() {
 		return codeList;
@@ -183,12 +192,34 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 		codes.add(code);
 	}
 
+	public String getPostcode() {
+		return postcode;
+	}
+
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+
+	public String getDetailAddress() {
+		return detailAddress;
+	}
+
+
+	public void setDetailAddress(String detailAddress) {
+		this.detailAddress = detailAddress;
+	}
+
+
 	@Override
 	public String toString() {
 		return "EmployeeVO [empNo=" + empNo + ", empName=" + empName + ", empPwd=" + empPwd + ", engName=" + engName
 				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", regNumber=" + regNumber + ", hireDate="
-				+ hireDate + ", retireStatus=" + retireStatus + ", retireDate=" + retireDate + ", address=" + address
-				+ ", upload=" + upload + ", codes=" + codes + ", photos=" + photos + ", isAdmin=" + isAdmin + "]";
+				+ hireDate + ", retireStatus=" + retireStatus + ", retireDate=" + retireDate + ", postcode=" + postcode
+				+ ", address=" + address + ", detailAddress=" + detailAddress + ", isAdmin=" + isAdmin + ", upload="
+				+ upload + ", codes=" + codes + ", codeList=" + codeList + ", photos=" + photos + "]";
 	}
+
 
 }

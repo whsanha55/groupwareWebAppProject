@@ -20,10 +20,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 
 	/*
-	public List<EmployeeVO> selectEmployeeList(Map<String, Object> map) {
-		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
-	}
-	
 	public List<EmployeeCodeVO> selectDepartment(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectDepartment", map);
 	}
@@ -53,6 +49,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public String updateEmployee(EmployeeVO employee) {
 		sqlSession.update(NAMESPACE + ".updateEmployee", employee);
 		return employee.getEmpNo();
+	}
+	
+	public void retireEmployee(String empNo) {
+		sqlSession.update(NAMESPACE + ".retireEmployee", empNo);
 	}
 
 	public void insertEmployeeCode(Map<String, Object> map) {

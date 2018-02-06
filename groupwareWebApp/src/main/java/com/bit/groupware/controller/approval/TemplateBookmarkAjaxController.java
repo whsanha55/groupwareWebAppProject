@@ -25,12 +25,15 @@ public class TemplateBookmarkAjaxController {
 
 	@RequestMapping(value = "/templateBookmarkAjax.do", method = RequestMethod.GET)
 	@ResponseBody
-	public int getTemplateList(@RequestParam int tmpNo, @RequestParam int bookmarkNo) {
+	public int getTemplateList(
+			@RequestParam int tmpNo, 
+			@RequestParam int bookmarkNo,
+			Principal principal) {
 		TemplateBookmarkVO templateBookmarkVO = new TemplateBookmarkVO();
 		
 		if (bookmarkNo == 0) { // 신규 즐겨찾기 등록
 			EmployeeVO employeeVO = new EmployeeVO();
-			employeeVO.setEmpNo("2018-00011");
+			employeeVO.setEmpNo(principal.getName());
 
 			templateBookmarkVO.setEmployee(employeeVO);
 			TemplateVO templateVO = new TemplateVO();

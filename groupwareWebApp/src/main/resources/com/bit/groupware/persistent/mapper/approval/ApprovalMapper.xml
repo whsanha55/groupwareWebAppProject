@@ -17,7 +17,7 @@
 			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency}, #{apprFinalStatus}
 	  		<if test="template.tmpNo != 0">
 	  			,#{template.tmpNo}
-	  		</if>
+	  		</if> 
 			
 			)
 	  </insert>
@@ -65,19 +65,23 @@
 	</resultMap>
 	
 	<select id="selectApprovalList" statementType="PREPARED" parameterType="map"  resultMap="selectApprvalResultMap" > 
-		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content,
-		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty ,appr.complete_date
+		select t2.*
+		from (select rownum as rn, t1.* 
+		      from (select  appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content, 
+		            appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department,emp.duty
 		<if test="linempNo != null">
 		,rec.record_no, rec.check_date
 		</if>
-		from (select rownum as rn, t1.*
-		      from (select *
-		            from approval order by appr_date asc) t1)appr ,template tmp, emp_view emp 
+		
+		 from approval appr,template tmp, emp_view emp 
+		
 		<if test="linempNo != null">
 		,approval_record rec ,receiver_line line
 		</if>
+		
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
+		
 		<if test="linempNo != null">
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
@@ -109,8 +113,9 @@
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
 		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
-			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD') and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
 		</if>
+		
 		<if test="keyfield=='empName'and keyword!=null">
 			and emp.emp_name Like '%' || #{keyword} ||'%'
 		</if>
@@ -124,12 +129,149 @@
 		<if test="keyfield=='empDept'and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if> 
-		and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+		order by appr.appr_date desc
+		) t1  )t2 
+		where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
 	</select>
 	
 	
 	<select id="selectAllApprovalList" parameterType="map" resultMap="selectApprvalResultMap" statementType="PREPARED">
+		select t2.* from(
+		select rownum as rn, t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
+		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
+		from approval appr, template tmp, emp_view emp
+		where appr.emp_no = emp.emp_no
+		and appr.tmp_no=tmp.tmp_no
+		and emp.emp_no=#{empNo}
+		and appr.appr_final_status = #{apprFinalStatus}  
+		 <if test="keyfield=='apprTitle' and keyword!=null">
+			and appr.appr_Title Like '%' || #{keyword} ||'%' 
+		</if>
+		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
+			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+		</if>
+		<if test="keyfield=='empName'and keyword!=null">
+			and emp.emp_name Like '%' || #{keyword} ||'%'
+		</if>
+		<if test="keyfield=='tmpName' and keyword!=null">
+			and tmp.tmp_name Like '%' || #{keyword} ||'%'
+		</if>
+		<if test="keyfield=='department' and keyword!=null">
+			and emp.department Like '%' || #{keyword} ||'%'
+		</if>
+		<if test="keyfield=='finDate' and keyword!=null and keyword1!=null">
+			and appr.complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+		</if>
+		<if test="keyfield=='empDept'and keyword!=null">
+			and emp.department Like '%' || #{keyword} ||'%'
+		</if> 
+		union
 		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
+		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date 
+		from approval appr,	template tmp, emp_view emp,approval_record rec ,receiver_line line
+		where appr.emp_no = emp.emp_no
+		and appr.tmp_no=tmp.tmp_no
+		and rec.appr_no=appr.appr_no
+		and rec.line_no=line.line_no
+		and line.line_emp_no=#{empNo} 
+		and appr.appr_final_status = #{apprFinalStatus} 
+		 <if test="keyfield=='apprTitle' and keyword!=null">
+			and appr.appr_Title Like '%' || #{keyword} ||'%' 
+		</if>
+		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
+			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+		</if>
+		<if test="keyfield=='empName'and keyword!=null">
+			and emp.emp_name Like '%' || #{keyword} ||'%'
+		</if>
+		<if test="keyfield=='tmpName' and keyword!=null">
+			and tmp.tmp_name Like '%' || #{keyword} ||'%'
+		</if>
+		<if test="keyfield=='department' and keyword!=null">
+			and emp.department Like '%' || #{keyword} ||'%'
+		</if>
+		<if test="keyfield=='finDate' and keyword!=null and keyword1!=null">
+			and appr.complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+		</if>
+		<if test="keyfield=='empDept'and keyword!=null">
+			and emp.department Like '%' || #{keyword} ||'%'
+		</if>  
+		)t1    order by appr_date desc )t2
+		where rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+	</select>
+	
+	
+	<select id="selectApprovalCount" parameterType="map" resultType="int" statementType="PREPARED"> 
+	 	select count(*) from(select  appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content, 
+		 appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department,emp.duty
+		 
+		<if test="linempNo != null">
+		,rec.record_no, rec.check_date
+		</if>
+		
+		from approval appr,template tmp, emp_view emp 
+		
+		<if test="linempNo != null">
+		,approval_record rec ,receiver_line line
+		</if>
+		
+		where appr.emp_no = emp.emp_no
+		and appr.tmp_no=tmp.tmp_no
+		
+		<if test="linempNo != null">
+		and rec.appr_no=appr.appr_no
+		and rec.line_no=line.line_no
+		</if>
+		
+		<if test="empNo != null">
+			and emp.emp_no = #{empNo}
+		</if>
+		<if test="linempNo != null">
+			and line.line_emp_no = #{linempNo}
+		</if>
+		
+		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
+			and appr.appr_final_status = #{apprFinalStatus}
+		</if>
+		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
+			and appr.appr_final_status in (0,2)
+		</if>
+		<if test="apprFinalStatus == 4 ">
+			and appr.appr_final_status in (4,5)
+		</if>
+		<if test="apprStatus == 0 and apprStatus!=null">
+			and rec.appr_status in (0,2)
+		</if>
+		<if test="apprStatus == 1 || apprStatus == 6 and apprStatus!=null">
+			and rec.appr_status =#{apprStatus}
+		</if>
+		<if test="keyfield=='apprTitle' and keyword!=null">
+			and appr.appr_Title Like '%' || #{keyword} ||'%' 
+		</if>
+		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
+			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+		</if>
+		
+		<if test="keyfield=='empName'and keyword!=null">
+			and emp.emp_name Like '%' || #{keyword} ||'%'
+		</if>
+		<if test="keyfield=='tmpName' and keyword!=null">
+			and tmp.tmp_name Like '%' || #{keyword} ||'%'
+		</if>
+		<if test="keyfield=='department' and keyword!=null">
+			and emp.department Like '%' || #{keyword} ||'%'
+		</if>
+		
+		<if test="keyfield=='empDept'and keyword!=null">
+			and emp.department Like '%' || #{keyword} ||'%'
+		</if> 
+		)
+	</select>
+	
+	
+	<select id="selectAllApprovalCount" parameterType="map" resultType="int" statementType="PREPARED">
+		select count(*)
+		from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
 		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
 		from (select rownum as rn, t1.*
 		      from (select *
@@ -143,7 +285,7 @@
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
 		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
-			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD') and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
 		</if>
 		<if test="keyfield=='empName'and keyword!=null">
 			and emp.emp_name Like '%' || #{keyword} ||'%'
@@ -154,7 +296,9 @@
 		<if test="keyfield=='department' and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if>
-		
+		<if test="keyfield=='finDate' and keyword!=null and keyword1!=null">
+			and appr.complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+		</if>
 		<if test="keyfield=='empDept'and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if> 
@@ -175,7 +319,7 @@
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
 		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
-			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD') and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
 		</if>
 		<if test="keyfield=='empName'and keyword!=null">
 			and emp.emp_name Like '%' || #{keyword} ||'%'
@@ -186,63 +330,15 @@
 		<if test="keyfield=='department' and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if>
-		
+		<if test="keyfield=='finDate' and keyword!=null and keyword1!=null">
+			and appr.complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+		</if>
 		<if test="keyfield=='empDept'and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if>  
-		<!--and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}-->
+
+		)
 	</select>
-	
-	<select id="selectApprovalCount" parameterType="map" resultType="int" statementType="PREPARED"> 
-	 	select count(appr.appr_no)
-		from approval appr,template tmp,emp_view emp ,approval_record rec ,receiver_line line
-		where appr.emp_no = emp.emp_no
-		and appr.tmp_no=tmp.tmp_no
-		and rec.appr_no=appr.appr_no
-		and rec.line_no=line.line_no
-		
-		<if test="empNo != null">
-			and emp.emp_no = #{empNo}
-		</if>
-		
-		<if test="linempNo != null">
-			and line.line_emp_no = #{linempNo}
-		</if>
-		
-		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
-		and appr.appr_final_status = #{apprFinalStatus}
-		</if>
-		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
-		and appr.appr_final_status in (0,2)
-		</if>
-		<if test="apprFinalStatus == 4 ">
-		and appr.appr_final_status in (4,5)
-		</if>
-		<if test="apprStatus == 0  and apprStatus!=null">
-			and rec.appr_status in (0,2)
-		</if>
-		<if test="apprStatus == 1 || apprStatus == 6 and apprStatus!=null ">
-			and rec.appr_status =#{apprStatus}
-		</if>
-		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
-			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD') and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
-		</if>
-		<if test="keyfield=='apprTitle' and keyword!=null">
-			and appr.appr_Title Like '%' || #{keyword} ||'%'
-		</if>
-		<if test="keyfield=='tmpName' and keyword!=null">
-			and tmp.tmp_name Like '%' || #{keyword} ||'%'
-		</if>
-		<if test="keyfield=='empName'and keyword!=null">
-			and emp.emp_name Like '%' || #{keyword} ||'%'
-		</if>
-		
-		<if test="keyfield=='empDept'and keyword!=null">
-			and emp.department Like '%' || #{keyword} ||'%'
-		</if> 
-	</select>
-	
-	
 	
 	
 	<resultMap id="selectApprvalDetailResultMap" type="ApprovalVO">
@@ -263,56 +359,29 @@
 			<id property="tmpNo" column="tmp_no" />
 			<result property="tmpName" column="tmp_name" />	
 		</association>
-		
-		<collection property="approvalRecords" javaType="list" ofType="ApprovalRecordVO">
-				<id column="record_no" property="recordNo" />
-				<result column="confirm_date" property="confirmDate"/>
-				<result column="appr_status" property="apprStatus"/>
-				
-				<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
-					<id property="commentNo" column="comment_no" />
-					<result property="commentContent" column="comment_content" />	
-					<result property="commentDate" column="comment_date" />	
-				</association>
-			
-				<association property="receiverLine" column="line_no" javaType="ReceiverLineVO">
-					<id property="lineNo" column="line_no" />
-					<result property="lineOrder" column="line_order" />	
-					<result property="apprType" column="appr_type" />
-					
-					<association property="lineEmployee" column="linemp_no" javaType="EmployeeVO">
-						<id property="empNo" column="linemp_no" />
-						<result property="empName" column="linemp_name" />	
-						<result property="duty" column="linemp_duty" />
-						
-								<!-- <association property="사인" column="tmp_no" javaType="PhotoVO">
-									<id property="tmpNo" column="tmp_no" />
-									<result property="tmpName" column="tmp_name" />	
-								</association> -->
-					</association>		
-				</association>
-								
+		<collection property="approvalFiles" javaType="list" ofType="ApprovalFileVO">
+				<id column="file_no" property="fileNo" />
+				<result column="file_size" property="fileSize"/>
+				<result column="system_file_name" property="systemFileName"/>
+				<result column="original_file_name" property="originalFileName"/>
 		</collection>
 		
 	</resultMap>
 	<select id="selectApproval" parameterType="int" resultMap="selectApprvalDetailResultMap" statementType="PREPARED">  
-		select linemp.emp_name as linemp_name, linemp.duty as linemp_duty, linemp.sign as linemp_sign, 
-		linemp.emp_no as linemp_no, line.line_no, line.line_order, line.appr_type,    
-		rec.record_no, rec.confirm_date, rec.appr_status, comm.comment_no, comm.comment_content, comm.comment_date, emp.emp_no, emp.emp_name, emp.department,
-		appr.appr_no, appr.appr_date, appr.appr_title, appr.valid_date, appr.urgency, appr.appr_content,
+		select appr.appr_no,emp.emp_no, emp.emp_name, emp.department,
+		 appr.appr_date, appr.appr_title, appr.valid_date, appr.urgency, appr.appr_content, 
+		files.system_file_name, files.file_no, files.file_size,
 		(select tmp_name from template tmp where tmp.tmp_no=appr.tmp_no) as tmp_name,
 		(select tmp_no from template tmp where tmp.tmp_no=appr.tmp_no) as tmp_no
-		from APPROVAL appr, approval_comment comm, approval_record rec, emp_view emp, 
-		receiver_line line, receiver receiv, emp_view linemp
-		where appr.appr_no=rec.appr_no
-		and rec.record_no=comm.record_no(+)
-		and appr.emp_no=emp.emp_no
-		and rec.line_no=line.line_no
-		and receiv.receiver_no=line.receiver_no
-		and line.line_emp_no=linemp.emp_no
+		from APPROVAL appr, emp_view emp ,approval_file files
+		where appr.emp_no=emp.emp_no
+		and appr.appr_no=files.appr_no(+)
 		and appr.appr_no=#{apprNo}
-		order by line.line_order asc nulls last
+		order by appr.appr_no asc nulls last
 	</select>
+	
+	
+	
 	
 	
 	<resultMap id="selectTempApprovalResultMap" type="ApprovalVO" >

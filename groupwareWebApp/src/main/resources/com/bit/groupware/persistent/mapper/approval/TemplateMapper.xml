@@ -31,24 +31,7 @@
 		</collection>
 	</resultMap>
 	<select statementType="PREPARED" parameterType="map" id="selectTemplateList" resultMap="selectTemplateResultMap" > 
-		<!-- select t.tmp_no,t.tmp_name,t.tmp_summary,t.tmp_Date,t.TMP_CONTENT,t.TMP_USING,t.category_no,tc.CATEGORY_NAME
-		from (select rownum as rn, tmp.*
-    		  from (select *	
-              		from template order by tmp_name asc) tmp) t,template_category tc
-        where t.category_no=tc.category_no
-
-		<if test="keyfield == 'categoryNo' and keyword != null">
-			and tc.category_no = #{keyword}
-		</if>
-		<if test="keyfield == 'categoryName' and keyword != null">
-			and tc.category_name = #{keyword}
-		</if>
-		<if test="keyfield == 'tmpName' and keyword != null">
-			and t.tmp_name = #{keyword}
-		</if>
 		
-		and t.rn<![CDATA[>=]]>#{startRow} and t.rn<![CDATA[<=]]>#{endRow}
-		 -->
 		select *
 		from (select temp.*, rownum rn
       		from(select t1.tmp_no, t1.tmp_name, t1.tmp_summary, to_char(t1.tmp_date,'yyyy/mm/dd') as tmp_date,
@@ -126,7 +109,12 @@
 			</if>
 	</select>
 	
-		
+	<select id="selectTemplateNameList" statementType="STATEMENT" resultType='TemplateVO'>
+		 select tmp_name as tmpName, tmp_no as tmpNo
+		 from template
+		 where tmp_using = 1
+		 order by tmpName asc
+	</select>	
 		
 	<delete id="deleteTemplate" parameterType="int" statementType="PREPARED">
 		delete from template
@@ -136,6 +124,16 @@
 		</foreach>
 	</delete>	
 	
+	<update id="updateTemplateUsing" statementType="PREPARED" parameterType="map">
+		update template
+		<if test="tmpUsing == 1">
+			set tmp_using = 0
+		</if>
+		<if test="tmpUsing == 0">
+			set tmp_using = 1
+		</if>
+		where tmp_no = #{tmpNo}
+	</update>
 	
 	
 

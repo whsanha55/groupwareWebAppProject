@@ -9,10 +9,10 @@
 		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual		
 		</selectKey>				
-		insert into employee (emp_no, emp_name, emp_pwd,
-								 	eng_name, phone_number, email, reg_number, address)
+		insert into employee (emp_no, emp_name, emp_pwd, eng_name, 
+								phone_number, email, reg_number, postcode, address, detailAddress)
 		values (#{empNo}, #{empName}, #{empPwd}, #{engName},
-					#{phoneNumber},	#{email}, #{regNumber}, #{address})	
+					#{phoneNumber},	#{email}, #{regNumber}, #{postcode}, #{address}, #{detailAddress})	
 	</insert>
 	
 	<insert id="insertEmployeeCode" parameterType="map" statementType="PREPARED"> 
@@ -38,34 +38,43 @@
 			<if test="empPwd != null">
 				, emp_pwd = #{empPwd}
 			</if>
+			<if test="engName != null">
+				, eng_name = #{engName}
+			</if>
 			<if test="phoneNumber != null">
 				, phone_number = #{phoneNumber} 
 			</if>
 			<if test="email != null">
 				, email = #{email}	
 			</if>
-			<if test="regNumber != 0">
+			<if test="regNumber != null">
 				, reg_number = #{regNumber} 
 			</if>
-			<if test="hireDate != 0">
+			<if test="hireDate != null">
 				, hire_date = #{hireDate} 
 			</if>
-			<if test="retireStatus != 0">
+			<if test="retireStatus != null">
 				, retire_status = #{retireStatus} 
 			</if>
-			<if test="retireDate != 0">
+			<if test="retireDate != null">
 				, retire_date = #{retireDate} 
 			</if>
-			<if test="address != 0">
+			<if test="postcode != null">
+				, postcode = #{postcode} 
+			</if>
+			<if test="address != null">
 				, address = #{address} 
+			</if>
+			<if test="detailAddress != null">
+				, detailAddress = #{detailAddress} 
 			</if>
 		</trim>	
 		where emp_no = #{empNo}
 	</update>
 	
-	<update id="retireEmployee" parameterType="EmployeeVO" statementType="PREPARED">
+	<update id="retireEmployee" parameterType="String" statementType="PREPARED">
 		update employee
-		set retireStatus = 0 and retireDate = sysdate
+		set retire_status = 0, retire_date = sysdate
 		where emp_no = #{empNo}
 	</update>
 	
@@ -159,11 +168,17 @@
 	        to_char(hireDate,'YYYY/MM/DD') as hireDate,
 	        retireStatus,
 	        retireDate,
+	        postcode,
 	        address,
-	        department, 
+	        detailAddress,
+	        deptNo,
+	        department,
+	        dutyNo, 
 	        duty,
-	        picture,
-	        sign
+	        photoName, 
+	        systemPhotoName,
+	        signName, 
+	        systemSignName
 		from emplist_view
 		where empNo = #{empNo}
 	</select>
@@ -177,12 +192,20 @@
 	        phoneNumber,
 	        regNumber,
 	        email, 
-	        hireDate,
+	        to_char(hireDate,'YYYY/mm/dd') as hireDate,
 	        retireStatus,
-	        retireDate,
+	        to_char(retireDate,'yyyy/mm/dd') as retireDate,
+	        postcode,
 	        address,
-	        department, 
-	        duty 
+	        detailAddress,
+	        deptNo,
+	        department,
+	        dutyNo, 
+	        duty,
+	        photoName, 
+	        systemPhotoName,
+	        signName, 
+	        systemSignName
 		from (select rownum as rn, emp.*
 		      from (select 
 			      		empNo, 
@@ -195,9 +218,17 @@
 	                    hireDate,
 	                    retireStatus,
 	                    retireDate,
+	                    postcode,
 	                    address,
-	                    department, 
-	                    duty 
+	                    detailAddress,
+	                    deptNo,
+	                    department,
+	                    dutyNo, 
+	                    duty,
+	                    photoName,
+	                    systemPhotoName,
+	                    signName,
+	                    systemSignName
                     from empList_view
                     <if test="keyfield == 'empNo' and keyword != null">
 					where empNo like '%' || #{keyword} || '%' 

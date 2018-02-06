@@ -76,17 +76,20 @@
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			
+			var apprFinalStatus=4;
+			var apprStatus=7;
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/approvalTempPaging.do' 
+				url: '${pageContext.request.contextPath}/approvalPaging.do' 
 				,
 				data: {
 					keyfield: pKeyfield ,
 					keyword: pKeyword ,	
 					keyword1: pKeyword1 ,	
 					startRow : startRow ,
-					endRow : endRow
+					endRow : endRow ,
+					apprFinalStatus : apprFinalStatus,
+					apprStatus : apprStatus
 				},
 				type: 'POST' ,
 				cache: false ,
@@ -101,7 +104,7 @@
 						text += "<tr><td width=50 ><input type=checkbox value="+data.approvals[i].apprNo+" name=checkRow ></td>"
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
 						text += "<td>"+data.approvals[i].apprTitle+"</td>";
-						text += "<td><button type='button' class='btn btn-primary btn-sm' id="+ data.approvals[i].apprNo +"  >기안하기</button></td>";
+						text += "<td><button type='button' class='btn btn-primary btn-sm' id="+ data.approvals[i].apprNo +" style='border-bottom-width:0px; margin-bottom: 0px; padding-top: 3px; padding-bottom: 1px;' >기안하기</button></td>";
 						text += "</tr>";
 					}
 						$('#datatable').html(text);

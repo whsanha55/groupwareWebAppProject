@@ -82,7 +82,7 @@
 			<if test="keyfield == 'noticeTitle' and keyword != null">
 				and notice_title like '%'|| #{keyword} ||'%'
 			</if>
-	</select>
+</select>
 	
 	 <update id="updateNoticeHitCount" statementType="PREPARED" parameterType="int">
       update notice

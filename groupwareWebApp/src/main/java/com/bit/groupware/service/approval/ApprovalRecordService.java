@@ -11,11 +11,14 @@ public interface ApprovalRecordService {
 	List<ApprovalRecordVO> retrieveApprovalRecordList(int apprNo);
 	
 	//결재문서 승인.반려.보류
-	void executeApprovalRecord(ApprovalRecordVO approvalRecord);
+	void executeApprovalRecord(Map<String, Object> map);
 	
 	//최초 결재자 결재여부 확인
 	int retrieveApprovalRecallable(int apprNo);
 	
 	//메뉴 새 문서 개수 표시용
-	int retrieveNewRecordCount(Map<String, String> map);
+	List<Integer> retrieveNewRecordCount(String empNo);
+	
+	//확인일시 기록
+	void modifyCheckDate(int recordNo);
 }

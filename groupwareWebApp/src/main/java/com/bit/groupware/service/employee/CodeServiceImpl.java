@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bit.groupware.controller.employee.AdminRegisterCodeController;
+import com.bit.groupware.domain.employee.CodeHistoryVO;
 import com.bit.groupware.domain.employee.CodeVO;
 import com.bit.groupware.persistent.employee.CodeDAO;
 
@@ -70,4 +71,15 @@ public class CodeServiceImpl implements CodeService {
 		return codeDAO.selectDeptCodeRelationList(deptCode);
 	}
 	
+	public List<CodeHistoryVO> retrieveCodeHistoryList(Map<String, Object> map) {
+		return codeDAO.selectCodeHistoryList(map);
+	}
+
+	public List<CodeHistoryVO> retrieveCodeHistoryListByAdmin(Map<String, Object> map) {
+		return codeDAO.selectCodeHistoryListByAdmin(map);
+	}
+
+	public int retrieveCodeCount(Map<String, Object> map) {
+		return codeDAO.selectCodeCount(map);
+	}
 }

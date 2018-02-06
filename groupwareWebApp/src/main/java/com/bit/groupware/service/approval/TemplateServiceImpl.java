@@ -37,14 +37,21 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 	public void removeTemplate(Map<String, Object> map) {
-		logger.info("map-service : {} ", map); 
-		
 		templateDAO.deleteTemplate(map);
 	}
 
 	public int retrieveTemplateCount(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return templateDAO.selectTemplateCount(map);
+	}
+
+
+	public List<TemplateVO> retrieveTemplateNameList() {
+		return templateDAO.selectTemplateNameList();
+	}
+	
+	public void updateTemplateUsing(Map<String, Object> map) {
+		templateDAO.updateTemplateUsing(map);
 	}
 	
 

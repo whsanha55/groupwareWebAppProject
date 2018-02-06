@@ -21,4 +21,8 @@ public interface TemplateService {
    
    int retrieveTemplateCount(Map<String, Object> map);
    
+   List<TemplateVO> retrieveTemplateNameList();
+   
+   void updateTemplateUsing(Map<String, Object> map);
+   
 }
