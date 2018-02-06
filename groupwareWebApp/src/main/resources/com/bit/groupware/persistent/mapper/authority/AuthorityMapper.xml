@@ -126,16 +126,15 @@
    
    <!-- 권한 리스트 조회-->
    <select id="selectListAuthority" resultType="AuthorityVO" statementType="PREPARED" parameterType="map" >      
-      select a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
+      select distinct a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
       from (select rownum as rn, t1.*
               from (select *
                       from authority 
                       order by a_no asc)t1)a, employee e, authority_employee ae
       where a.a_no = ae.a_no
           and ae.emp_no = e.emp_no
- 
        <if test="keyfield == 'aName' and keyword != null">
-          and a.a_no Like '%' || #{keyword} || '%'
+          and a.a_name Like '%' || #{keyword} || '%'
        </if>
        
        <if test="keyfield == 'empNo' and keyword != null">
@@ -146,6 +145,7 @@
           and e.emp_name Like '%' || #{keyword} || '%'
        </if>
        and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+       order by a.a_no asc
    </select>
    
     <select id="selectAuthorityCount" statementType="PREPARED" parameterType="map" resultType="int">
@@ -157,7 +157,7 @@
           amd a.a_no = #{aNo}
        </if>
       <if test="keyfield == 'aName' and keyword != null">
-          and a.a_no Like '%' || #{keyword} || '%'
+          and a.a_name Like '%' || #{keyword} || '%'
        </if>
        
        <if test="keyfield == 'empNo' and keyword != null">
@@ -174,15 +174,16 @@
       update authority
       <trim prefix="set" suffixOverrides=",">
          <if test="aName != null">
-            a_name = #{aName}
+            a_name = #{aName},
          </if>
          <if test="aNote != null">
-            a_note = #{aNote}
+            a_note = #{aNote},
          </if>
          <if test="aWhether != null">
             a_whether = #{aWhether}
          </if>
       </trim>
+      where a_no = #{aNo}
    </update>
    
    <!-- 권한 조회 -->
@@ -190,6 +191,15 @@
       select a_no as aNo, a_name as aName, a_note as aNote,a_whether as aWhether
       from authority
       where a_no = #{aNo}
+   </select>
+   
+   <!-- 권한명에  존재여부 -->
+   <select id="selectAuthorityByAname" statementType="PREPARED"  resultType="int" parameterType="String">
+   		select count(*)
+		from authority a, employee e, authority_employee ae
+		where a.a_no = ae.a_no
+   		 	and ae.emp_no = e.emp_no
+   		 	and a.a_name = #{aName}
    </select>
    
    <!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->   

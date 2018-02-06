@@ -2,6 +2,7 @@ package com.bit.groupware.controller.approval;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -111,8 +112,13 @@ public class TemplateAjaxController {
 	//자동완성에 필요한 양식서 목록들
 	@RequestMapping(value = "/retrieveTemplateNameList.do", method = RequestMethod.GET)
 	@ResponseBody
-	public List<String> retrieveTemplateNameList() {
-		return templateService.retrieveTemplateNameList();
+	public Set<String> retrieveTemplateNameList() {
+		List<TemplateVO> templates = templateService.retrieveTemplateNameList();
+		Set<String> set = new HashSet<String>();
+		for(TemplateVO template : templates) {
+			set.add(template.getTmpName());
+		}
+		return set;
 	}
 			
 	

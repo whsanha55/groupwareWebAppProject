@@ -155,6 +155,7 @@
 					
 					//datatable테이블 변경하기
 					var text = "";
+					
 					for(var i=0;i<data.approvals.length;i++) {
 						
 						if(data.approvals[i].approvalRecords[0].checkDate !=null){

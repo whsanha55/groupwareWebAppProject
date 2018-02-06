@@ -20,11 +20,11 @@
 					<div class="profile_img">
 						<div id="crop-avatar">
 							<!-- Current avatar -->
-							<img class="img-responsive avatar-view" src="images/iu.jpg"
+							<img class="img-responsive avatar-view" src="${pageContext.request.contextPath}/resources/upload/employeeFiles/signs/${requestScope.employee.photoName}"
 								alt="Avatar" title="Change the avatar">
 						</div>
 					</div>
-					<h3>¿Ã¡ˆ¿∫</h3>
+					<h3>${requestScope.employee.empName }</h3>
 					
 					<%-- <script>
 						$(document).ready(function() {

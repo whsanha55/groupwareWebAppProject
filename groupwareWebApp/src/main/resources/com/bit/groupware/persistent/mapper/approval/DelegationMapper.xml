@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.DelegationMapper">
+
+	
+	<insert id="insertDelegationList" parameterType="map" statementType="PREPARED">
+			insert into delegation(dele_no, tmp_no, duty_no, dele_date)
+			values(delegation_seq.nextval,#{tmpNo},#{cNo},sysdate)
+		
+	</insert>
+
+
+	<resultMap id="delegationRM"  type="DelegationVO" >
+		<id column="dele_no" property="deleNo"/>
+		<result column="dele_date" property="deleDate"/>
+		
+		<association property="duty" column="duty_no" javaType="CodeVO">
+			<id column="duty_no" property="cNo"/>
+			<result column="c_name" property="cName"/>
+		</association>	
+		<association property="template" column="tmp_no" javaType="TemplateVO">
+			<id column="tmp_no" property="tmpNo"/>
+			<result column="tmp_name" property="tmpName"/>
+		</association>		
+	</resultMap>
+	
+	<select id="selectDeleg" parameterType="map" resultMap="delegationRM" statementType="PREPARED"> 
+		select t2.*
+		from (select rownum as rn, t1.* 
+		      from (select del.tmp_no, del.duty_no, del.dele_date, c.c_name, tmp.tmp_name ,del.dele_no
+		            from delegation del, template tmp, code c
+		            where del.tmp_no=tmp.tmp_no
+		            and del.duty_no=c.c_no
+		            <if test="keyfield=='template' and keyword!=null">
+	         	  	  and tmp.tmp_name like '%'|| #{keyword} ||'%'
+	         	    </if>
+	         	    <if test="keyfield=='duty' and keyword!=null">
+	         	    	and c.c_name like '%'|| #{keyword} ||'%'
+	         	    </if>
+	         	    order by del.dele_date desc
+	        ) t1  )t2
+		where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
+	</select> 
+	
+	<select id="selectDelegCount" parameterType="map"  resultType="int" statementType="PREPARED"> 
+		select count(*) from(select t2.*
+		from (select rownum as rn, t1.* 
+		      from (select del.tmp_no, del.duty_no, del.dele_date, c.c_name, tmp.tmp_name
+		            from delegation del, template tmp, code c
+		            where del.tmp_no=tmp.tmp_no
+		            and del.duty_no=c.c_no
+		            <if test="keyfield=='template' and keyword!=null">
+	         	  	  and tmp.tmp_name like '%'|| #{keyword} ||'%'
+	         	    </if>
+	         	    <if test="keyfield=='duty' and keyword!=null">
+	         	    	and c.c_name like '%'|| #{keyword} ||'%'
+	         	    </if>
+	         ) t1  )t2)
+	</select> 
+	
+
+
+
+	<delete id="deleteDelegation" parameterType="int" statementType="PREPARED" >
+		delete from delegation 
+		where dele_no = #{deleNo} 
+	</delete>
+
+</mapper>

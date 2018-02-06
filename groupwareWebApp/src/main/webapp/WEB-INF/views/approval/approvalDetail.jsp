@@ -395,7 +395,14 @@
                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">부서</td>
 							<td class=" ">${requestScope.approval.employee.department }</td>
                             <td class=" " style="background-color:#3f5367; color:#ECF0F1;">보존기한</td>
-                            <td class=" ">${requestScope.approval.validDate }일</td>
+                            <td class=" ">
+                            	<c:choose>
+                            		<c:when test="${requestScope.approval.validDate != 0}">
+                            			${requestScope.approval.validDate}년
+                            		</c:when>
+                            		<c:otherwise>영구보존</c:otherwise>
+                            	</c:choose>
+                            </td>
                            
 							
                           </tr>
