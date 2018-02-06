@@ -22,7 +22,7 @@ public class AdminListPlanController {
 	private PlanService planService;
 	
 	//일정 목록 조회 요청
-	@RequestMapping(value="/admin/listPlan.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/listPlan.do")
 	public ModelAndView listPlan() {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();

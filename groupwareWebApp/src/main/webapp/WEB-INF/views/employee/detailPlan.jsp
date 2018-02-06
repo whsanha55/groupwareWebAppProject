@@ -90,7 +90,7 @@
 								for="last-name">첨부파일 </label>&nbsp;&nbsp;
 							<div class="btn-group">
 								<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
-									<c:url var="downloadUrl" value="/download.do">
+									<c:url var="downloadUrl" value="/downloadPlanFile.do">
 										<c:param name="fileName" value="${pageScope.file.fileName }" />
 										<c:param name="systemFileName" value="${pageScope.file.systemFileName }" />
 									</c:url>
@@ -105,7 +105,8 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button class="btn btn-primary" type="button">뒤로가기</button>
+							<c:url var="listPlanURL" value="/listPlan.do" scope="page" ></c:url>
+								<a id="list" href="${pageScope.listPlanURL }"  ><button class="btn btn-primary" type="button">뒤로가기</button></a>
 						</div>
 					</div>
 				</form>

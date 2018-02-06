@@ -1,12 +1,84 @@
 <%--content.jsp --%>
-<%@ page contentType="text/html; charset=utf-8" %>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.bit.groupware.domain.employee.CodeVO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<link href="${pageContext.request.contextPath}/resources/js/fullcalendar/fullcalendar.min.css" rel="stylesheet">
 <title>content</title>
 </head>
 <body>
+<script src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/fullcalendar/fullcalendar.min.js"></script>
+<style type="text/css">
+    .fc-sun {color:#e31b23}
+	.fc-sat {color:#007dc3}
+</style>
+<style>
+	#calendar {
+		margin:0px 20px;
+		padding: 30px;
+		border: 1px solid gray;
+	}
+</style>
+<script>
+$(document).ready(function(){ 
+	
+	var dataset =
+		[
+			<c:forEach var="plan" items="${plans}" varStatus="loop">
+				{
+					id : '${plan.pNo}'
+					,
+					title : "${plan.pTitle}"
+					,
+					start : "${plan.startDate}"
+					,
+					end : "${plan.endDate}"
+					,
+					url : "${pageContext.request.contextPath}/detailPlan.do?pNo=${plan.pNo}"
+				} <c:if test="${!loop.last}" >,</c:if>
+			</c:forEach>
+		];
+	
+	$('#calendar').fullCalendar ({
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,basicWeek,basicDay'
+		},
+		eventClick : function(calEvent,jsEvent,view) {  //달력 이벤트 클릭 - 이 소스에서는 false
+			if (event.url) {
+				 return event.url;
+			 }
+		},
+		defaultDate: new Date(),
+		lang : "ko",
+		navLinks: true,
+		editable: false,
+		eventLimit: true,
+		height: 450,
+		monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+		monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+		dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
+		dayNamesShort: ["일","월","화","수","목","금","토"],
+		buttonText: {
+			   today : "오늘",
+			   month : "월별",
+			   week : "주별",
+			   day : "일별",
+		},
+		events : dataset
+			  
+	});
+});
+    
+
+</script>
 
           <!-- top tiles -->
           
@@ -72,9 +144,9 @@
           <div class="row">
           	<!-- 캘린더  -->
             <div class="col-md-8 col-sm-4 col-xs-12">
-				캘린더 넣는 곳
+				<div id='calendar'></div>
             </div>
-            <!-- 캘린터 end  -->
+            <!-- 캘린더 end  -->
 			<div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
