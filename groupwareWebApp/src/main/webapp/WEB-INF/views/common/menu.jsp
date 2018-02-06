@@ -56,9 +56,8 @@
 			dataType: 'json'
 			,
 			success: function(data){
-				
-				$('#todo').text(data.todoCount);
-				$('#ref').text(data.refCount);
+				if(data.todoCount != 0) $('#todo').text(data.todoCount);
+				if(data.refCount != 0) $('#ref').text(data.refCount);
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error: ' + jqXHR.status);
