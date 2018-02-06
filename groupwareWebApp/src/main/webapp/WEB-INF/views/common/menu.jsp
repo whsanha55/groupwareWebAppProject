@@ -39,7 +39,7 @@
 <title>content</title>
 
 <style>
-	#req, #ref {
+	#todo, #ref {
 		font-size: 10px;
 		font-weight: bolder;
 		color: red;
@@ -48,13 +48,6 @@
 
 <script>
 	$(document).ready(function(){
-	
-		newMark("req");
-		newMark("ref");
-		
-	});//end of document.ready
-
-	function newMark(keyfield) {
 		$.ajax({
 			url: '${pageContext.request.contextPath}/newMark.do'
 			,
@@ -62,23 +55,17 @@
 			,
 			dataType: 'json'
 			,
-			data: {keyfield: keyfield}
-			,
 			success: function(data){
 				
-				var name = "#" + keyfield;
-				
-				$(name).empty();
-				
-				if(data != 0) {
-					$(name).text(data);
-				} 											
+				$('#todo').text(data.todoCount);
+				$('#ref').text(data.refCount);
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error: ' + jqXHR.status);
 			}			
-		});		
-	}//end of newMark
+		});	
+	});//end of document.ready
+
 	
 	
 </script>
@@ -126,7 +113,7 @@
 							</ul>
 						<li><a>결재 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함&nbsp;&nbsp;<span id="req"></span></a></li>
+								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함&nbsp;&nbsp;<span id="todo"></span></a></li>
 								<li><a href='<c:url value="/approvalProceed.do"/>'>결재
 										진행함</a></li>
 							</ul>

@@ -23,4 +23,6 @@ public interface TemplateService {
    
    List<String> retrieveTemplateNameList();
    
+   void updateTemplateUsing(Map<String, Object> map);
+   
 }

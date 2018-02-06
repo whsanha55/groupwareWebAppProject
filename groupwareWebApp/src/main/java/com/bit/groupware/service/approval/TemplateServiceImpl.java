@@ -37,8 +37,6 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 	public void removeTemplate(Map<String, Object> map) {
-		logger.info("map-service : {} ", map); 
-		
 		templateDAO.deleteTemplate(map);
 	}
 
@@ -52,7 +50,9 @@ public class TemplateServiceImpl implements TemplateService {
 		return templateDAO.selectTemplateNameList();
 	}
 	
-	
+	public void updateTemplateUsing(Map<String, Object> map) {
+		templateDAO.updateTemplateUsing(map);
+	}
 	
 
 }

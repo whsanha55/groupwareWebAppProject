@@ -1,5 +1,6 @@
 package com.bit.groupware.controller.approval;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class ApprovalController {
 	//문서 상세조회
 		@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
 		public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
-										   @RequestParam(value="status") int status) {
+										   @RequestParam(value="status") int status,
+										   Principal principal) {
 			
 	/*		//확인 일시 기록
 			List<ApprovalRecordVO> list=approvalRecordService.retrieveApprovalRecordList(apprNo);
@@ -42,6 +44,7 @@ public class ApprovalController {
 			//1:결재요청함 2:결재대기함 3:나머지
 			//mv.addObject("approval", approval);
 			mv.addObject("approval",approvalService.retrieveApproval(apprNo));
+			mv.addObject("empNo", principal.getName());
 			mv.setViewName("approval/approvalDetail/pop");
 			return mv;
 		}
