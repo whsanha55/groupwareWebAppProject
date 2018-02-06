@@ -19,6 +19,10 @@ public class ApprovalRecordVO {
 		super();
 	}
 
+	public ApprovalRecordVO(int recordNo) {
+		this.recordNo = recordNo;
+	}
+
 	public int getRecordNo() {
 		return recordNo;
 	}
