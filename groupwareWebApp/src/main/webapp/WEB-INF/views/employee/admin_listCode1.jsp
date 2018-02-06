@@ -116,7 +116,7 @@
 					}
 					, 
 					error: function(jqXHR) {
-						alert('Error : ' + jqXHR.status);
+						
 					}	 				
 				});	
 			}

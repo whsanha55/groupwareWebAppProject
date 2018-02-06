@@ -51,7 +51,7 @@
 				<c:url var="listCode" value="/admin/listCode1.do" scope="page"/>
 				<c:url var="listCodeHistory" value="/admin/listCodeHistory.do" scope="page"/>
 				<c:url var="listDepartment" value="/admin/listDepartment.do" scope="page"/>
-				<c:url var="callendar" value="/admin/Callendar.do" scope="page"/>
+				<c:url var="listPlan" value="/admin/listPlan.do" scope="page"/>
 					<ul class="nav child_menu" style="display: block;">
 						<li><a>사원관리 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
@@ -60,7 +60,7 @@
 							</ul>
 						<li><a href="${pageScope.listCode }">코드관리</a></li>
 						<li><a href="${pageScope.listDepartment }">부서관리</a></li>
-						<li><a href="${pageScope.callendar }">일정관리</a></li>
+						<li><a href="${pageScope.listPlan }">일정관리</a></li>
 					</ul></li>
 			</ul>
 		</div>
