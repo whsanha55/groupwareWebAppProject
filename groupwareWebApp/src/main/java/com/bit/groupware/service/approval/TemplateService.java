@@ -21,6 +21,6 @@ public interface TemplateService {
    
    int retrieveTemplateCount(Map<String, Object> map);
    
-   List<String> retrieveTemplateNameList();
+   List<TemplateVO> retrieveTemplateNameList();
    
 }

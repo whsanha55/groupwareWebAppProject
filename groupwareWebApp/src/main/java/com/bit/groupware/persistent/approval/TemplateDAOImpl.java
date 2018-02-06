@@ -45,7 +45,7 @@ private final static Logger logger = LoggerFactory.getLogger(AdminTemplateContro
 		
 	}
 
-	public List<String> selectTemplateNameList() {
+	public List<TemplateVO> selectTemplateNameList() {
 		return sqlSession.selectList(NAMESPACE + ".selectTemplateNameList");
 	}
 	

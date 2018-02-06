@@ -48,7 +48,7 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 
-	public List<String> retrieveTemplateNameList() {
+	public List<TemplateVO> retrieveTemplateNameList() {
 		return templateDAO.selectTemplateNameList();
 	}
 	

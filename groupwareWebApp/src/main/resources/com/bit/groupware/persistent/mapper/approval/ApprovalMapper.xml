@@ -371,7 +371,8 @@
 				<id column="record_no" property="recordNo" />
 				<result column="confirm_date" property="confirmDate"/>
 				<result column="appr_status" property="apprStatus"/>
-				
+
+
 				<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
 					<id property="commentNo" column="comment_no" />
 					<result property="commentContent" column="comment_content" />	

@@ -110,7 +110,7 @@
 		    and rc.relation_code = (select c_no
 		                            from code
 		                            where c_name = '직책')
-		order by rc.c_name asc
+		order by rc.c_no asc
 	</select>
 	
 	<!-- 부서 하위 코드 리스트 조회 -->
