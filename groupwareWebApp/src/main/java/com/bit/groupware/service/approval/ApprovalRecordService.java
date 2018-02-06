@@ -17,5 +17,8 @@ public interface ApprovalRecordService {
 	int retrieveApprovalRecallable(int apprNo);
 	
 	//메뉴 새 문서 개수 표시용
-	int retrieveNewRecordCount(Map<String, String> map);
+	List<Integer> retrieveNewRecordCount(String empNo);
+	
+	//확인일시 기록
+	void modifyCheckDate(int recordNo);
 }

@@ -2,6 +2,7 @@ package com.bit.groupware.controller.approval;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,7 +22,7 @@ import com.bit.groupware.service.approval.TemplateService;
 
 @Controller
 public class TemplateAjaxController {
-	
+	private final static Logger logger = LoggerFactory.getLogger(TemplateAjaxController.class);
 	@Autowired
 	private TemplateService templateService;
 	
@@ -87,16 +88,37 @@ public class TemplateAjaxController {
 				
 		map.put("tmpNos", nums);
 		
-		templateService.removeTemplate(map);
+		templateService.updateTemplateUsing(map);
 		return "삭제 완료";			
 	}
+	
+	
+	//양식 사용여부 변경
+	@RequestMapping(value="/admin/updateTmpUsing.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String updateTmpUsing(@RequestParam(value="tmpNo", required=true)int tmpNo, 
+								 @RequestParam(value="tmpUsing", required=true)int tmpUsing) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tmpNo", tmpNo);
+		map.put("tmpUsing", tmpUsing);
+		
+		templateService.updateTemplateUsing(map);
+		
+		return "변경 완료";
+	}
+	
 	
 	
 	//자동완성에 필요한 양식서 목록들
 	@RequestMapping(value = "/retrieveTemplateNameList.do", method = RequestMethod.GET)
 	@ResponseBody
-	public List<String> retrieveTemplateNameList() {
-		return templateService.retrieveTemplateNameList();
+	public Set<String> retrieveTemplateNameList() {
+		List<TemplateVO> templates = templateService.retrieveTemplateNameList();
+		Set<String> set = new HashSet<String>();
+		for(TemplateVO template : templates) {
+			set.add(template.getTmpName());
+		}
+		return set;
 	}
 			
 	

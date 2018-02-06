@@ -177,7 +177,7 @@
 								for="last-name">첨부파일 </label>&nbsp;&nbsp;
 							<div class="btn-group">
 								<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
-									<c:url var="downloadUrl" value="/download.do">
+									<c:url var="downloadUrl" value="/downloadPlanFile.do">
 										<c:param name="fileName" value="${pageScope.file.fileName }" />
 										<c:param name="systemFileName" value="${pageScope.file.systemFileName }" />
 									</c:url>

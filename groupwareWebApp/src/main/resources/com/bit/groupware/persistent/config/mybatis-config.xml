@@ -18,7 +18,7 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverLineMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/NotificationMapper.xml"/> 
-
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/DelegationMapper.xml"/>
 		<!-- Authority -->
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/RoleMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/AuthorityMapper.xml"/> 

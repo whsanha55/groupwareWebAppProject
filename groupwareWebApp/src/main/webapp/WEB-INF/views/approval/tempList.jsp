@@ -104,7 +104,7 @@
 						text += "<tr><td width=50 ><input type=checkbox value="+data.approvals[i].apprNo+" name=checkRow ></td>"
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
 						text += "<td>"+data.approvals[i].apprTitle+"</td>";
-						text += "<td><button type='button' class='btn btn-primary btn-sm' id="+ data.approvals[i].apprNo +"  >기안하기</button></td>";
+						text += "<td><button type='button' class='btn btn-primary btn-sm' id="+ data.approvals[i].apprNo +" style='border-bottom-width:0px; margin-bottom: 0px; padding-top: 3px; padding-bottom: 1px;' >기안하기</button></td>";
 						text += "</tr>";
 					}
 						$('#datatable').html(text);

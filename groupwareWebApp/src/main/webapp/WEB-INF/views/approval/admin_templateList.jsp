@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>관리자 양식 관리</title>
 	
+	
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	
 <script>
@@ -25,43 +26,17 @@
 		});
 			
 		
-		//양식 삭제
-		$('#delete').on('click', function(){
-				
-			var checkData = [];
-			$("input[name='tmpNo']:checked").each(function(){
-				checkData.push($(this).val());
-			});
-			
-			if(checkData.length == 0) {
-				swal("삭제할 양식을 선택해주세요.", "선택된 양식이 없습니다.");
-				return;
-			}
-
-			var tmpNos = {'tmpNo': checkData.join()};
-			
-			swal({
-				  title: "양식 삭제",
-				  text: "양식을 삭제합니다. 계속 진행하시겠습니까?",
-				  icon: "info",
-				  buttons : true 
-			}).then((e) => {
-			     if(e) {
-					deleteTemplate(tmpNos);							
-				 }
-			});				
-		});	//end of delete
-			
-			
+	
 
 		//양식 상세보기		
 		$(document).on('click', '.detailTemplate', function(){
 			var tmpNo = $(this).attr('id');
 			var url = '${pageContext.request.contextPath}/admin/templateDetail.do?tmpNo='+tmpNo;
-			window.open(url, "양식 상세보기","width=750, height=800");
+			window.open(url, "양식 상세보기","width=1200, height=900");
 		});
 
 		
+		//검색
 		$('#search').on('click', function(){
 			pKeyfield = $('#keyfield').val();
 			pKeyword = $('#keyword').val();
@@ -73,47 +48,6 @@
 	});//end of document.ready
 	
 	
-	
-	
-	//양식 삭제 함수
-	function deleteTemplate(tmpNos) {						
-		$.ajax({
-			url: '${pageContext.request.contextPath}/admin/removeTemplate.do'
-			,
-			method: 'POST'
-			,
-			dataType: 'json'
-			,
-			data: tmpNos
-			,
-			async: true
-			,
-			cache: false
-			,
-			success: function(data, textStatus, jqXHR) {				
-				if(data == "삭제 완료"){
-					swal({
-						  title: "삭제 완료",
-						  text: "양식이 삭제되었습니다.",
-						  icon: "success",
-						  confirmButton: true,
-						  showCancelButton: false
-						}).then((e) => {
-							if(e) {
-								location.href="${pageContext.request.contextPath}/admin/template.do";										
-							}	
-					});	
-				}
-			}
-			,
-			error: function(jqXHR, textStatus, errorThrown) {
-				alert('error: ' + jqXHR.status);
-			}					
-		});				
-	}//end of deleteTemplate()
-
-	
-		
 	
 	
 	//페이징징징 관련
@@ -151,10 +85,16 @@
 				for(var i=0;i<data.templates.length;i++) {
 
 					text += '<tr>';
-					text += '<td><input type="checkbox" id="tmpNo" name="tmpNo" value="' + data.templates[i].tmpNo + '"/></td>';
 					text += '<td>' + (num - i) + '</td>';
 					text += '<td class="detailTemplate" id="' + data.templates[i].tmpNo + '">' + data.templates[i].tmpName + '</td>';
 					text += '<td>' + data.templates[i].templateCategory.categoryName + '</td>';
+					
+					if(data.templates[i].tmpUsing == 1) {
+						text += '<td>사용</td>';	
+					} else {
+						text += "<td>미사용</td>";
+					}
+										
 					text += '</tr>';
 				}
 					$('#datatable').html(text);						
@@ -258,7 +198,6 @@
 						<div class="x_title">
 							<h2>양식관리</h2>
 							<a class="btn btn-primary pull-right" id="add">양식추가</a>
-							 <a class="btn btn-primary pull-right" id="delete">선택삭제</a>
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
@@ -274,32 +213,32 @@
 									<div>
 										<div class="col-xs-4 col-xs-offset-2">
 											<div class="input-group">
-												<span>
-													<select id="keyfield" class="form-control">
+												<form id="search">
+													<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
+														<option value="apprTitle">제목</option>
 														<option value="tmpName">양식명</option>
-														<option value="categoryName">카테고리</option>
+														<option value="empName">기안자</option>
+														<option value="department">기안부서</option>
+														<option value="apprDate" id="apprDate">기안일</option>
 													</select>
-												</span>
-												<input type="text" class="form-control" id="keyword"> 
-													<span class="input-group-btn">
-													<button class="btn btn-default" type="button" id="search">
-														<span class="glyphicon glyphicon-search"></span>
-													</button>												
-												</span>
-											</div>
+						 							<input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
+						 							<button id="btn3" type="button">검색</button>
+													</form>
+											
+										</div>
 										</div>
 									</div>
 								</div>
 								<div class="col-md-6"></div>
 							</div>
 							
-							<table class="table table-striped table-bordered" style="text-align:center;">
+							<table id="table" class="table table table-striped jambo_table bulk_action">
 								<thead>
-									<tr>
-										<th></th>
+									<tr align="center">
 										<th>번호</th>
 										<th>양식명</th>
 										<th>카테고리</th>
+										<th>사용여부</th>
 									</tr>
 								</thead>
 

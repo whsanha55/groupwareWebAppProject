@@ -12,12 +12,10 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public interface EmployeeService {
 	
-
-	/*	
-	void registerPhoto(PhotoVO photo);
+	void registerSign(EmployeeVO employee);
 	
-	void removePhoto(String photoNo);
-	*/
+	//void updateSign(String photoNo);
+	
 	String checkSignCount(String empNo);
 	
 	EmployeeVO retrieveEmployee(String empNo);

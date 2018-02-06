@@ -5,13 +5,25 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.approval.ApprovalRecordMapper">
 	
-<!-- 첫번째만 들가도록 쿼리 설계됨 수정필요함 -->
 	<insert id="insertApprovalRecord" parameterType="map" statementType="PREPARED" > 
 		insert into approval_record(record_no, appr_no, line_no)
 		values(approval_record_seq.nextval, #{apprNo}, 
-				(select min(line_no) 
-				 from receiver_line 
-				 where receiver_no = #{receiverNo}))
+				(select line_no                                                
+				from (select t2.line_no
+				      from receiver_line t1, receiver_line t2
+				      where t1.receiver_no = t2.receiver_no
+				      and t1.line_no = (select line_no
+				                        from approval_record
+				                        where record_no = #{recordNo})
+				 	  and t1.line_order <![CDATA[<]]> t2.line_order
+				      order by t2.line_order asc ) 
+				where rownum = 1))
+ 	</insert>
+ 	
+ 	<insert id="insertApprovalRecordProceedProcedure" statementType="CALLABLE" parameterType="map">
+ 		{
+ 			call approval_record_proceed_proc(#{apprNo},#{recordNo})
+ 		}
  	</insert>
  	
 	<insert id="insertApprovalRecordProcedure" parameterType="map" statementType="CALLABLE" > 
@@ -59,9 +71,8 @@
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
     	update approval_record
 		set appr_status=#{apprStatus},
-		check_Date=#{checkDate},
-		confirm_date=#{confirmDate}
-		where record_no=#{recordNo}
+		confirm_date= sysdate
+		where record_no= #{recordNo}
    </update>
    
    <delete id="deleteApprovalRecord" parameterType="int" statementType="PREPARED">  
@@ -81,21 +92,42 @@
    
    
    
-   	<select id="selectNewRecordCount" statementType="PREPARED" parameterType="map" resultType="int">
-		select count(t2.record_no)
-		from receiver_line t1, approval_record t2, approval t3
+   	<select id="selectNewRecordCount" statementType="PREPARED" parameterType="String" resultType="int">
+		select nvl(count(appr_status),0)
+		from approval_record t1, receiver_line t2
 		where t1.line_no = t2.line_no
-		and t2.appr_no = t3.appr_no
-		and t1.line_emp_no = #{empNo}
-		and t2.check_date is null
-		and t3.appr_final_status = 0
-		<if test="keyfield == 'req' ">
-			and t1.appr_type = 0
-		</if>
-		<if test="keyfield == 'ref' ">
-			and t1.appr_type = 1
-		</if>
+		and t2.LINE_EMP_NO = #{empNo}
+		and t1.check_date is null
+		and appr_status =0
+		union all
+		select nvl(count(appr_status),0)
+		from approval_record t1, receiver_line t2
+		where t1.line_no = t2.line_no
+		and t2.LINE_EMP_NO = #{empNo}
+		and t1.check_date is null
+		and appr_status =6
 	</select>
+   
+    <select id="checkisFinalApprovalLine" statementType="PREPARED" parameterType="int" resultType="int">
+   		select case 
+	        	when t2.line_order = 9 then 1
+	        	when t3.duty_no = t6.duty_no then 1
+	        	else 0
+       		end
+		from approval_record t1, receiver_line t2, emp_view t3, approval t4, template t5, DELEGATION t6
+		where t1.LINE_NO = t2.line_no
+		and t2.line_emp_no = t3.emp_no
+		and t1.appr_no = t4.appr_no
+		and t4.tmp_no = t5.tmp_no
+		and t5.tmp_no = t6.tmp_no(+)
+		and t1.record_no = #{recordNo}   
+   </select>
+   
+   <update id="updateCheckDate" statementType="PREPARED" parameterType="int">
+  		update approval_record
+  		set check_date = sysdate
+  		where record_no = #{recordNo}
+   </update>
    
    
 </mapper>
