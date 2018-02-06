@@ -86,6 +86,7 @@
 		$('.apprLineRef').parent().next().append(text);
 		
 		
+		//결재 회수
 		$('#return').on('click',function(){
 			swal({
 				  title: "결재 회수",
@@ -99,7 +100,7 @@
 				});
 		})
 		
-		
+		//결재 보류
 		$('#postpone').on('click',function(){
 			swal({
 				  title: "결재 보류",
@@ -113,10 +114,8 @@
 				});
 		})
 		
-		
+		//결재 반려
 		$('#reject').on('click',function(){
-			var commentContent;
-			
 			swal({
 				  title: "결재 반려",
 				  text: "문서를 반려 하시겠습니까?",
@@ -131,17 +130,36 @@
 								  element : "input"
 							  } ,
 							  buttons : ['건너뛰기','저장']							  
-						}).then(inputData => {
-							commentContent = inputData;
-							alert(commentContent);
+						}).then(commentContent => {
+				            executeApproval(commentContent,3);						
 						});
-			            executeReject(commentContent);						
 					}	
 				});
 		})//end of reject.on
 			
 		
-		
+		//결재문서 결재
+		$('#appr').on('click',function() {
+			swal({
+				  title: "결재 승인",
+				  text: "문서를 승인 하시겠습니까?",
+				  icon: "success",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {												
+					  swal({
+							  title: "코멘트 입력",
+							  text: "결재 문서에 대한 코멘트를 입력해주세요.",
+							  content: {
+								  element : "input"
+							  } ,
+							  buttons : ['건너뛰기','저장']							  
+						}).then(commentContent => {
+				            executeApproval(commentContent,1);						
+						});
+					}	
+				});
+		});
 		
 		
 		
@@ -203,17 +221,18 @@
 		}
 
 		
-		//결재 반려
-		function executeReject(commentContent){
+		//결재 반려 또는 승인 
+		function executeApproval(commentContent,apprStatus) {
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/rejectApproval.do'
+				url: '${pageContext.request.contextPath}/executeApprovalAjax.do'
 				,
 				method : 'GET'
 				,
 				data: {
 					apprNo : '${requestScope.approval.apprNo}',
-					comment: commentContent
+					commentContent: commentContent ,
+					apprStatus : apprStatus 
 				}
 				,
 				datatype : 'json'

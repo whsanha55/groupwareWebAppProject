@@ -30,22 +30,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private PhotoDAO photoDAO;
 	
 
-/*	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
-		return employeeDAO.selectEmployeeList(map);
-	}
-
-	public void modifyEmployee(EmployeeVO employee) {
-		employeeDAO.updateEmployee(employee);
-	}
-
-	public int checkDeptEmployee(String cNo) {
-		return employeeDAO.checkDeptEmp(cNo);
-	}
-
+/*	
 	public void removePhoto(String photoNo) {
 		photoDAO.deletePhoto(photoNo);
 	}
 */
+	public String checkSignCount(String empNo) {
+		return photoDAO.checkSign(empNo);
+	}
+	
 	public EmployeeVO retrieveEmployee(String empNo) {
 		return employeeDAO.selectEmployee(empNo);
 	}
