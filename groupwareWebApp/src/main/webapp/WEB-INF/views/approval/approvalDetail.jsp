@@ -86,6 +86,8 @@
 		$('.apprLineRef').parent().next().append(text);
 		
 		
+	
+		
 		//결재 회수
 		$('#return').on('click',function(){
 			swal({
@@ -231,6 +233,11 @@
 					alert("error : " + jqXHR.status);
 				}
 			});
+		}
+		
+		
+		function checkDate() {
+			
 		}
 		
 		
