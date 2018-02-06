@@ -15,6 +15,16 @@
 		select * from dual
 	</insert>
 	
+	<insert id="insertSign" parameterType="map" statementType="PREPARED">
+		insert all
+		<foreach item="photo" collection="photos">
+		into photo (photo_name, system_file_name, file_size, division, emp_no)
+		values(#{photo.photoName}, #{photo.systemFileName},
+				#{photo.fileSize}, 'S', #{photo.empNo})
+		</foreach>
+		select * from dual
+	</insert>
+	
 	<select id="checkSign" resultType="String" parameterType="String" statementType="PREPARED">
 		select signName
 		from emplist_view
