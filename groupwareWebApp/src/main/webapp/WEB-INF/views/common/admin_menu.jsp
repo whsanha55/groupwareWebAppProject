@@ -27,6 +27,7 @@
 				<li><h3>결재관리</h3>
 					<ul class="nav child_menu" style="display: block;">
 						<li><a href='<c:url value="/admin/approval.do" />'>결재조회</a></li>
+						<li><a href='<c:url value="/admin/delegation.do" />'>전결관리</a></li>
 						<li><a href='<c:url value="/admin/template.do" />'>양식관리</a></li>
 					</ul></li>
 				<br>

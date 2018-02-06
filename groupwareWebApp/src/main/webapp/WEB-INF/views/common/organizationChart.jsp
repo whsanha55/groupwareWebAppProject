@@ -90,6 +90,9 @@ p {
 					selectedDepartment = "";
 					selectedDeptNo = "";
 				}
+				//사원관리 - 대결권자설정
+				$('input[name=dempNo]').val(selectedEmpNo);
+				$('input[name=empName]').val(selectedNameAndDuty);
 			}
 		}); 
 		

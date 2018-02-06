@@ -188,9 +188,9 @@
 						
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";
 						if(data.approvals[i].approvalRecords[0].checkDate !=null){
-							text += "<td>읽음</td>"
+							text += "<td class='isRead'>읽음</td>"
 						}else{
-							text += "<td>안읽음</td>"			
+							text += "<td class='isNotRead'>안읽음</td>"			
 						}
 						
 						text += "</tr>";

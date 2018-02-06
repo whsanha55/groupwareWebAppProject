@@ -10,7 +10,7 @@
 			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual		
 		</selectKey>				
 		insert into employee (emp_no, emp_name, emp_pwd, eng_name, 
-								phone_number, email, reg_number, postcode, address, detailaddress)
+								phone_number, email, reg_number, postcode, address, detailAddress)
 		values (#{empNo}, #{empName}, #{empPwd}, #{engName},
 					#{phoneNumber},	#{email}, #{regNumber}, #{postcode}, #{address}, #{detailAddress})	
 	</insert>
@@ -59,13 +59,13 @@
 			<if test="retireDate != null">
 				, retire_date = #{retireDate} 
 			</if>
-			<if test="postcode != postcode">
+			<if test="postcode != null">
 				, postcode = #{postcode} 
 			</if>
-			<if test="address != address">
+			<if test="address != null">
 				, address = #{address} 
 			</if>
-			<if test="detailaddress != detailaddress">
+			<if test="detailAddress != null">
 				, detailAddress = #{detailAddress} 
 			</if>
 		</trim>	
