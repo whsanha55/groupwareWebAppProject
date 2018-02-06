@@ -20,22 +20,31 @@
 	
 	$(document).ready(function(){
 		
+		console.log("페이지 로드");
+		
 		templatePaging(1);//최초로드시 페이지처리
 		
 		//결재현황 팝업창생성
-		  $('#datatable').on('click','.currentRecord',function() {
-			 	var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalRecord.do?apprNo='+apprNo;
-				window.open(url, "결재문서","width=750, height=300");
-			}); 
+		 $('#datatable').on('click','.currentRecord',function() {
+			var apprNo=$(this).attr('id');
+			var url = '${pageContext.request.contextPath}/approvalRecord.do?apprNo='+apprNo;
+			window.open(url, "결재문서","width=750, height=300");
+		}); 
 		
 		//결재문서 상세조회 팝업창 생성
 		 $('#datatable').on("click",'.detailApproval',function(){
-				
-				var apprNo = $('.apprNo').attr('id');
-				var status = 2;
-				var finalStatus = $('.detailApproval').attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
+	 		  	
+			  var check = $(this).parent().children(":last").attr('class');
+	 		  	 
+			  if(check == 'isNotRead') {
+				var recordNo = $(this).parent().children(":last").attr('id');
+			  	checkDate(recordNo);
+			  } 
+			 
+			  var apprNo = $('.apprNo').attr('id');
+	  		  var status = 2;
+			  var finalStatus = $('.detailApproval').attr('id');
+			  var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
 							+'&status='+status+'&finalStatus='+finalStatus;
 				window.open(url, "결재문서","width=750, height=800");
 				
@@ -91,6 +100,31 @@
 	});
 		
 	
+		function checkDate(recordNo) {
+			$.ajax({
+				url: '${pageContext.request.contextPath}/checkDate.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				data: {
+					recordNo: recordNo				
+				},
+				success: function (data, textStatus, jqXHR) {
+					location.href='${pageContext.request.contextPath}/approvalTodo.do';
+				},
+				error: function(jqXHR) {
+					alert("에러: " + jqXHR.status);
+				}
+			});			
+		}	
+	
+	
+	
+	
+	
+	
 		function templatePaging(currentPageNo) {
 			var totalCount =  0;		//총 양식서 수
 			var countPerPage = 10;   //한 페이지당 보여주는 회원 수
@@ -122,8 +156,14 @@
 					//datatable테이블 변경하기
 					var text = "";
 					for(var i=0;i<data.approvals.length;i++) {
+						
+						if(data.approvals[i].approvalRecords[0].checkDate !=null){
+							text += "<tr class=apprRow  style='color:#9e9e9e' >";
+						}else{
+							text += "<tr class=apprRow style='color:#0459c1' >";		
+						}
 
-						text += "<tr><td id="+ data.approvals[i].apprNo +" class='apprNo'>"+ data.approvals[i].apprNo + "</td>";
+						text += "<td id="+ data.approvals[i].apprNo +" class='apprNo'>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
 						text += "<td id="+ data.approvals[i].apprFinalStatus +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
@@ -131,6 +171,11 @@
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
 						
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";
+						if(data.approvals[i].approvalRecords[0].checkDate !=null){
+							text += "<td class='isRead' id='"+ data.approvals[i].approvalRecords[0].recordNo +"'>읽음</td>";	
+						}else{
+							text += "<td class='isNotRead' id='"+ data.approvals[i].approvalRecords[0].recordNo +"'>안읽음</td>";			
+						}
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
@@ -259,6 +304,7 @@
                             <th class="column-title">기안부서</th>
                             <th class="column-title">기안일</th>
                             <th class="column-title">결재현황</th>
+                            <th class="column-title">읽음여부</th>
                             
                             
                           </tr>

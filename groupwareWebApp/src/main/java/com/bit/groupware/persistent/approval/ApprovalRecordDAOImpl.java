@@ -49,5 +49,11 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		return sqlSession.selectOne(NAMESPACE + ".checkisFinalApprovalLine", recordNo) ;
 	}
 
+	public void updateCheckData(int recordNo) {
+		sqlSession.selectOne(NAMESPACE + ".updateCheckDate", recordNo);		
+	}
+	
+	
+
 	
 }
