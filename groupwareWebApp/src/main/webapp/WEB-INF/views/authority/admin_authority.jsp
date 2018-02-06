@@ -58,7 +58,7 @@
 			<div class="col-md-12">
 				<div class="text-center">
 					<a class="btn btn-primary" href='<c:url value="/admin/authorityList.do"/>'>등록</a>
-					<a class="btn btn-default" href='<c:url value="/admin/authorityAllList.do"/>'>취소</a>
+					<a class="btn btn-default" href='<c:url value="/admin/authorityList.do"/>'>취소</a>
 				</div>
 			</div>
 		</div>

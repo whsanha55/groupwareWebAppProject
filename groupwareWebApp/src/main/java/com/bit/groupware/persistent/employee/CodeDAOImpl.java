@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit.groupware.domain.employee.CodeHistoryVO;
 import com.bit.groupware.domain.employee.CodeVO;
 
 @Repository
@@ -94,10 +95,21 @@ public class CodeDAOImpl implements CodeDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectDutyCodeList");
 	}
 	
-	/*//페이징 처리
+	//코드 변경 이력 조회하기
+	public	 List<CodeHistoryVO> selectCodeHistoryList(Map<String,Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".selectCodeHistory", map);
+	}
+	
+
+	//코드 변경 이력 조회하기 (관리자)
+	public	 List<CodeHistoryVO> selectCodeHistoryListByAdmin(Map<String,Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".selectCodeHistoryByAdmin", map);
+	}
+	
+	//페이징 처리
 	public int selectCodeCount(Map<String, Object> map) {
 		return sqlSession.selectOne(NAMESPACE + ".selectCodeCount", map);
-	}*/
+	}
 	
 	
 }

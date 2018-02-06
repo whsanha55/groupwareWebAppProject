@@ -11,7 +11,7 @@ public interface ApprovalRecordService {
 	List<ApprovalRecordVO> retrieveApprovalRecordList(int apprNo);
 	
 	//결재문서 승인.반려.보류
-	void executeApprovalRecord(ApprovalRecordVO approvalRecord);
+	void executeApprovalRecord(Map<String, Object> map);
 	
 	//최초 결재자 결재여부 확인
 	int retrieveApprovalRecallable(int apprNo);

@@ -194,7 +194,7 @@ $(document).ready(function(){
 									$('#' + boardNo).parent('tr').remove(); 
 									$('#display').css('display','none');
 								}else if(data.isSuccess == "false"){
-									swal("게시글이 존재합니다.")
+									swal("게시글이 존재합니다.");
 								} 
 								
 							}

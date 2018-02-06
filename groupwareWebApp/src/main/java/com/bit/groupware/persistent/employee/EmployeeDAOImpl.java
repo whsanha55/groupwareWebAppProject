@@ -54,6 +54,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		sqlSession.update(NAMESPACE + ".updateEmployee", employee);
 		return employee.getEmpNo();
 	}
+	
+	public void retireEmployee(String empNo) {
+		sqlSession.update(NAMESPACE + ".retireEmployee", empNo);
+	}
 
 	public void insertEmployeeCode(Map<String, Object> map) {
 		sqlSession.insert(NAMESPACE + ".insertEmployeeCode", map);

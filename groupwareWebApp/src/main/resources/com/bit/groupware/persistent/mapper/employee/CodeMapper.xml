@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.CodeMapper">
+
+	
+	<!-- 코드 등록 -->
+	<insert id="insertCode" parameterType="CodeVO" statementType="PREPARED">					
+		insert into code (c_no, c_name, relation_code)
+		values (#{cNo}, #{cName}, #{relationCode})	
+	</insert>
+	
+	
+	<!-- 코드 이름 조회 -->
+	<select id="selectCode" parameterType="String" resultType="CodeVO" statementType="PREPARED">
+		 select c_name as cName,
+		 		relation_code as relationCode
+       	 from code
+       	 where c_no=#{cNo}
+	</select>
+	
+	<!-- 코드번호 중복체크 -->
+	<select id="checkCodeNo" parameterType="String" resultType="int">
+		select distinct 1
+		from code
+		where c_no=#{cNo}
+	</select>
+	
+	<!-- 코드 이름 중복체크 -->
+	<select id="checkCode" parameterType="String" resultType="int">
+		select distinct 1
+		from code
+		where c_name=#{cName}
+	</select>
+	
+	
+	<!-- 하위 코드 수 확인 -->
+	<select id="checkRelation" parameterType="String" resultType="int" statementType="PREPARED">
+		select count(*)
+      	from code
+       	where relation_code=#{relationCode}
+	</select>
+	
+	<!-- 최하위 코드 리스트 조회 -->
+	<select id="selectCodeList3" parameterType="map" resultType="CodeVO" statementType="PREPARED" >
+		select c1.c_no as cNo,
+			c1.c_name as cName,
+			c1.relation_code as relationCode,
+			(select count(ec.EMP_NO)
+               from employee_code ec
+             where ec.C_NO = c1.c_no) as countEmployee
+		from code c1
+		where c1.relation_code=#{relationCode}
+		group by c1.c_no,c1.c_name,c1.relation_code
+		order by c1.c_no asc
+	</select>
+		
+	
+	<!-- 하위 코드 리스트 조회 -->
+	<select id="selectCodeList2" parameterType="map" resultType="CodeVO" statementType="PREPARED" >
+		select
+			c1.c_no as cNo,
+			c1.c_name as cName,
+			c1.relation_code as relationCode,
+			(select count(c2.c_no)
+               from code c2
+             where c2.relation_code = c1.c_no) as countRelationCode,
+             (select count(ec.EMP_NO)
+               from employee_code ec
+             where ec.C_NO = c1.c_no) as countEmployee
+		from code c1
+		where c1.relation_code=#{relationCode}
+		group by c1.c_no,c1.c_name,c1.relation_code
+		order by c1.c_no asc
+	</select>
+	
+	<!-- 최상위 코드 리스트 조회 -->
+	<select id="selectCodeList1" parameterType="map" resultType="CodeVO" statementType="STATEMENT" >
+		select
+			c1.c_no as cNo,
+			c1.c_name as cName,
+			c1.relation_code as relationCode,
+			(select count(c2.c_no)
+               from code c2
+             where c2.relation_code = c1.c_no) as countRelationCode
+		from code c1
+		where c1.relation_code is null
+		group by c1.c_no,c1.c_name,c1.relation_code
+		order by c1.c_no asc
+	</select>
+	
+	<!-- 부서코드 목록 조회 -->
+	<select id="selectDeptCodeList" resultType="CodeVO">
+		select rc.c_no as cNo, rc.c_name as cName
+		from code c ,code rc
+		where c.c_no = rc.relation_code
+		    and rc.relation_code = (select c_no
+		                            from code
+		                            where c_name = '부서')
+		order by rc.c_no asc
+	</select>
+	
+	<!-- 직책코드 목록 조회 -->
+	<select id="selectDutyCodeList" resultType="CodeVO">
+		select rc.c_no as cNo, rc.c_name as cName
+		from code c ,code rc
+		where c.c_no = rc.relation_code
+		    and rc.relation_code = (select c_no
+		                            from code
+		                            where c_name = '직책')
+		order by rc.c_name asc
+	</select>
+	
+	<!-- 부서 하위 코드 리스트 조회 -->
+	<select id="selectDeptCodeRelationList" parameterType="String" resultType="CodeVO">
+		select 
+	    c_no as cNo, 
+	    c_name as cName, 
+	    relation_code as relationCode
+	    from code  
+		where relation_code=#{deptCode}
+		   order by c_no asc
+	</select>
+	
+	<!-- 코드 수정 -->
+	<update id="updateCode" parameterType="CodeVO" statementType="PREPARED" >
+		update code
+		<trim prefix="set" suffixOverrides="," >
+			<if test="cName != null">
+				c_name=#{cName} ,
+			</if>
+			<if test="relationCode != null">
+				relation_code=#{relationCode} ,	
+			</if>
+		</trim>
+		where c_no=#{cNo}
+	</update>
+	
+	<!-- 코드 삭제 -->
+	<delete id="deleteCode" parameterType="String" statementType="PREPARED" >
+		delete from code
+		where c_no = #{cNo}
+	</delete>
+	
+	<!-- 코드 변경 이력 조회 (사용자) -->
+	<select id="selectCodeHistory" parameterType="map" resultType="CodeHistoryVO" statementType="PREPARED" >
+		select ch.no as no,
+				ch.emp_no as empNo,
+				e.emp_name as empName,
+				ch.start_date as startDate,
+				ch.end_date as endDate,
+				c1.c_name as deptName,
+				c2.c_name as dutyName
+        from code_history ch, employee e, code c1, code c2
+        where ch.emp_no = e.emp_no
+        and c1.c_no=ch.dept_no
+        and c2.c_no=ch.duty_no
+        and ch.emp_no=#{empNo}
+        order by start_date asc 
+	</select>
+	
+	<!-- 코드 변경 이력 조회 (관리자) -->
+	<select id="selectCodeHistoryByAdmin" parameterType="map" resultType="CodeHistoryVO" statementType="STATEMENT" >
+		select ch.no as no,
+				ch.emp_no as empNo,
+				e.emp_name as empName,
+				ch.start_date as startDate,
+				ch.end_date as endDate,
+				c1.c_name as deptName,
+				c2.c_name as dutyName
+        from code_history ch, employee e, code c1, code c2
+        where ch.emp_no = e.emp_no
+        and c1.c_no=ch.dept_no
+        and c2.c_no=ch.duty_no
+        order by start_date asc 
+	</select>
+		
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

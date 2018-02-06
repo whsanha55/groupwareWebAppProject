@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeMapper">
+	
+	<insert id="insertEmployee" parameterType="EmployeeVO" statementType="PREPARED">			
+		<selectKey keyProperty="empNo" resultType="String" statementType="STATEMENT" order="BEFORE">
+			select to_char(sysdate,'yyyy')||'-'||lpad(emp_no_seq.nextval,5,0) from dual		
+		</selectKey>				
+		insert into employee (emp_no, emp_name, emp_pwd, eng_name, 
+								phone_number, email, reg_number, postcode, address, detailaddress)
+		values (#{empNo}, #{empName}, #{empPwd}, #{engName},
+					#{phoneNumber},	#{email}, #{regNumber}, #{postcode}, #{address}, #{detailAddress})	
+	</insert>
+	
+	<insert id="insertEmployeeCode" parameterType="map" statementType="PREPARED"> 
+		insert all
+		<foreach item="empCode" collection="codeList">
+		   into employee_code(c_no, emp_no)  values(#{empCode.cNo}, #{empCode.empNo})		
+		</foreach>
+		select * from dual		
+	</insert>
+	
+	<delete id="deleteEmployeeCode" parameterType="String" statementType="PREPARED">
+		delete employee_code
+		where emp_no = #{empNo}
+	</delete>
+	
+
+	<update id="updateEmployee" parameterType="EmployeeVO" statementType="PREPARED">
+		update Employee
+		<trim prefix="set" prefixOverrides=",">
+			<if test="empName != null">
+				, emp_name = #{empName} 
+			</if>
+			<if test="empPwd != null">
+				, emp_pwd = #{empPwd}
+			</if>
+			<if test="engName != null">
+				, eng_name = #{engName}
+			</if>
+			<if test="phoneNumber != null">
+				, phone_number = #{phoneNumber} 
+			</if>
+			<if test="email != null">
+				, email = #{email}	
+			</if>
+			<if test="regNumber != null">
+				, reg_number = #{regNumber} 
+			</if>
+			<if test="hireDate != null">
+				, hire_date = #{hireDate} 
+			</if>
+			<if test="retireStatus != null">
+				, retire_status = #{retireStatus} 
+			</if>
+			<if test="retireDate != null">
+				, retire_date = #{retireDate} 
+			</if>
+			<if test="postcode != postcode">
+				, postcode = #{postcode} 
+			</if>
+			<if test="address != address">
+				, address = #{address} 
+			</if>
+			<if test="detailaddress != detailaddress">
+				, detailAddress = #{detailAddress} 
+			</if>
+		</trim>	
+		where emp_no = #{empNo}
+	</update>
+	
+	<update id="retireEmployee" parameterType="String" statementType="PREPARED">
+		update employee
+		set retire_status = 0, retire_date = sysdate
+		where emp_no = #{empNo}
+	</update>
+	
+	<resultMap id="selectEmployeeResultMap" type="EmployeeVO">
+		<id column="emp_no"				 property="empNo" />
+		<result column="emp_name" 		 property="empName" />
+		<result column="emp_pwd" 	  	 property="empPwd" />
+		<result column="eng_name"		 property="engName"/>
+		<result column="phone_number" 	 property="phoneNumber" />
+		<result column="email" 		 	 property="email" />
+		<result column="reg_number"   	 property="regNumber" />
+		<result column="hire_date" 	 	 property="hireDate" />
+		<result column="retire_status" 	 property="retireStatus" />
+		<result column="retire_date" 	 property="retireDate" />
+		<result column="address" 		 property="address" />
+		<result column="checkAdmin"		 property="checkAdmin"/>
+		 <!-- 1:N 관계 -->
+		<collection property="codes" javaType="list" ofType="CodeVO">
+			<id column="c_no" 				property="cNo"/>
+			<result column="c_name"	 		property="cName" />
+			<result column="relation_code" 	property="relationCode" />
+		</collection>
+		
+		<collection property="empcodes" javaType="list" ofType="EmployeeCodeVO">
+			<id column="c_no" 			property="cNo"/>
+			<id column="emp_no" 		property="empNo" />
+		</collection>
+		
+		<collection property="photos" javaType="list" ofType="PhotoVO">
+			<id column="photo_no" 				property="photoNo"/>
+			<result column="photo_name" 		property="photoName" />
+			<result column="system_file_name" 	property="systemFileName" />
+			<result column="file_size" 			property="fileSize" />
+			<result column="emp_no" 			property="empNo" />
+		</collection>
+	</resultMap> 
+
+	<!-- <select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
+							statementType="PREPARED" parameterType="String">
+							
+		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
+	        reg_number, hire_date, retire_status, retire_date, address, checkAdmin,
+	        c.c_no, c_name, relation_code, photo_no, photo_name,system_file_name,file_size,division
+		from employee_code ec, employee e, code c, photo ph
+		where ec.emp_no = e.emp_no
+		    and ec.c_no = c.c_no
+	        and e.emp_no = ph.emp_no
+	        and e.emp_no = #{empNo}
+							
+		select 
+			e.emp_no, 
+			emp_Name,
+			emp_pwd,
+			email,
+			phone_number,
+			hire_date,
+			(select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '부서')
+                and ec.emp_no = e.emp_no) as department,
+            (select c.c_name
+             from code c, employee_code ec
+             where c.c_no = ec.c_no
+                and c.relation_code = (select c_no
+                                       from code
+                                       where c_name = '직책')
+                and ec.emp_no = e.emp_no) as duty,
+            photo_no,
+            photo_name,
+            system_file_name,
+            file_size,
+            division
+		from employee e , photo ph
+        where e.emp_no = ph.emp_no
+            and e.emp_no = #{empNo}
+	</select>  -->
+	
+	<select id="selectEmployeeByNo" resultType="EmployeeVO" 
+							statementType="PREPARED" parameterType="String">
+		select 
+			empNo, 
+	        empName,
+	        engName,
+	        empPwd, 
+	        phoneNumber,
+	        regNumber,
+	        email, 
+	        to_char(hireDate,'YYYY/MM/DD') as hireDate,
+	        retireStatus,
+	        retireDate,
+	        postcode,
+	        address,
+	        detailAddress,
+	        deptNo,
+	        department,
+	        dutyNo, 
+	        duty,
+	        photoName, 
+	        systemPhotoName,
+	        signName, 
+	        systemSignName
+		from emplist_view
+		where empNo = #{empNo}
+	</select>
+	
+	<select id="selectEmployeeList" parameterType="map" resultType="EmployeeVO" statementType="PREPARED">
+		 select 
+			empNo, 
+	        empName,
+	        engName,
+	        empPwd, 
+	        phoneNumber,
+	        regNumber,
+	        email, 
+	        to_char(hireDate,'YYYY/mm/dd') as hireDate,
+	        retireStatus,
+	        to_char(retireDate,'yyyy/mm/dd') as retireDate,
+	        postcode,
+	        address,
+	        detailAddress,
+	        deptNo,
+	        department,
+	        dutyNo, 
+	        duty,
+	        photoName, 
+	        systemPhotoName,
+	        signName, 
+	        systemSignName
+		from (select rownum as rn, emp.*
+		      from (select 
+			      		empNo, 
+	                    empName,
+	                    engName,
+	                    empPwd, 
+	                    phoneNumber,
+	                    regNumber,
+	                    email, 
+	                    hireDate,
+	                    retireStatus,
+	                    retireDate,
+	                    postcode,
+	                    address,
+	                    detailAddress,
+	                    deptNo,
+	                    department,
+	                    dutyNo, 
+	                    duty,
+	                    photoName,
+	                    systemPhotoName,
+	                    signName,
+	                    systemSignName
+                    from empList_view
+                    <if test="keyfield == 'empNo' and keyword != null">
+					where empNo like '%' || #{keyword} || '%' 
+					</if>
+					<if test="keyfield == 'empName' and keyword != null">
+					where empName like '%' || #{keyword} || '%'
+					</if>
+					<if test="keyfield == 'duty' and keyword != null">
+					where duty like '%' || #{keyword} || '%'
+					</if>
+					<if test="keyfield == 'department' and keyword != null">
+					where department like '%' || #{keyword} || '%'
+					</if>
+                      order by empNo asc
+                    ) emp) e
+        where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
+	</select>
+	
+	<select id="selectEmployeeByDept" statementType="PREPARED" parameterType="String" resultType="EmployeeVO">
+		select emp_no as empNo, duty, emp_name as empName
+		from emp_view
+		where dept_no = #{cNo}
+		order by duty_no asc ,emp_name asc
+	</select>
+	
+	<select id="selectEmployeeNameAndDutyList" resultType="EmployeeVO" statementType="STATEMENT">
+		select emp_name as empName , duty
+		from emp_view
+		order by emp_name asc, duty_no asc
+	</select>
+	
+	
+	<select id="selectEmployeeCount" statementType="PREPARED" parameterType="map" resultType="int">
+		select count(*)
+		from empList_view
+		<if test="keyfield == 'empNo' and keyword != null">
+		where empNo like '%' || #{keyword} || '%' 
+		</if>
+		<if test="keyfield == 'empName' and keyword != null">
+		where empName like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == 'duty' and keyword != null">
+		where duty like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == 'department' and keyword != null">
+		where department like '%' || #{keyword} || '%'
+		</if> 
+	</select>
+	
+	<select id="selectEmpCharge" resultType="String" parameterType="String" statementType="PREPARED">
+		select emp_name, phone_number
+        from employee e, employee_code ec, code c
+        where ec.emp_no = e.emp_no
+            and ec.c_no = c.c_no
+            and c.c_name = #{cName}
+	</select>
+	
+	<select id="checkDeptEmp" resultType="int" parameterType="String" statementType="PREPARED">
+		select count(relation_code)
+		from employee_code ec, code c
+		where ec.c_no = c.c_no
+		    and c.c_name like '%' || #{cName} || '%'
+	</select>
+	
+	<select id="checkRelationDept" resultType="int" parameterType="String" statementType="PREPARED">
+		select count(rc.relation_code)
+        from code c , code rc
+        where c.c_no = rc.relation_code
+            and c.c_name = #{cName}
+	</select>
+	
+	
+	
+	
+
+</mapper>
+

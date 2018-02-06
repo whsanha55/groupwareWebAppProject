@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>전결권자 등록</title>
+<title>대결권자 등록</title>
 
 <script>
 	var eKeyfield;
@@ -125,7 +125,7 @@
 		var endRow = currentPageNo * countPerPage;
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/delegationRegisterSearchAjax.do' 
+			url: '${pageContext.request.contextPath}/deputyRegisterSearchAjax.do' 
 			,
 			data: {
 				keyfield: eKeyfield ,

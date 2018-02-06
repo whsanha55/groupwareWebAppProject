@@ -128,7 +128,7 @@
 		
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/admin/templatePagingAjax.do' 
+			url: '${pageContext.request.contextPath}/templatePagingAjax.do' 
 			,
 			data: {
 				keyfield: pKeyfield ,
