@@ -29,12 +29,21 @@
 		<!-- 정렬순서 (결재-참조) -->
 	</select>
 
-	<resultMap id="selectApprovalLineRM" type="ReceiverLineVO" >
-			<id property="lineNo" column="line_no" />
-			<result property="lineOrder" column="line_order" />	
-			<result property="apprType" column="appr_type" />
-	
-			<association property="approvalRecords" column="record_no" javaType="ApprovalRecordVO">
+	<resultMap id="selectApprovalLineRM"  type="ReceiverLineVO">
+		<id property="lineNo" column="line_no" />
+		<result property="lineOrder" column="line_order" />	
+		<result property="apprType" column="appr_type" />
+		
+		<association property="lineEmployee" column="linemp_no" javaType="EmployeeVO">
+				<id property="empNo" column="linemp_no" />
+				<result property="empName" column="linemp_name" />	
+				<result property="duty" column="linemp_duty" />
+				<result property="systemSignName" column="SYSTEMSIGNNAME" />
+				<result property="signName" column="linemp_sign" />	
+					
+		</association>	
+		
+		<collection  property="approvalRecords" javaType="list" column="record_no" ofType="ApprovalRecordVO">	
 				<id column="record_no" property="recordNo" />
 				<result column="confirm_date" property="confirmDate"/>
 				<result column="appr_status" property="apprStatus"/>
@@ -44,20 +53,8 @@
 					<result property="commentContent" column="comment_content" />	
 					<result property="commentDate" column="comment_date" />	
 				</association>
-				
-			</association>
-
-
-			<association property="lineEmployee" column="linemp_no" javaType="EmployeeVO">
-				<id property="empNo" column="linemp_no" />
-				<result property="empName" column="linemp_name" />	
-				<result property="duty" column="linemp_duty" />
-				
-						 <association property="sign" javaType="PhotoVO">
-							<result property="systemFileName" column="SYSTEMSIGNNAME" />
-							<result property="photoName" column="linemp_sign" />	
-						</association> 
-			</association>					
+		</collection>
+		
 	</resultMap>
 	
 	<select id="selectApprovalLine" parameterType="int" resultMap="selectApprovalLineRM" statementType="PREPARED">  

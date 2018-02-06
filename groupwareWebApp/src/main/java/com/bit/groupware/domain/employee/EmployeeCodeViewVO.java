@@ -5,9 +5,9 @@ public class EmployeeCodeViewVO {
 	private String checkAdmin;
 	private String department;
 	private String duty;
-	private PhotoVO signName;
+	private String signName;
 	private String systemSignName;
-	private PhotoVO photoName;
+	private String photoName;
 	private String systemPhotoName;
 	private String deptNo;
 	private String dutyNo;
@@ -75,19 +75,19 @@ public class EmployeeCodeViewVO {
 		this.dutyNo = dutyNo;
 	}
 
-	public PhotoVO getSignName() {
+	public String getSignName() {
 		return signName;
 	}
 
-	public void setSignName(PhotoVO signName) {
+	public void setSignName(String signName) {
 		this.signName = signName;
 	}
 
-	public PhotoVO getPhotoName() {
+	public String getPhotoName() {
 		return photoName;
 	}
 
-	public void setPhotoName(PhotoVO photoName) {
+	public void setPhotoName(String photoName) {
 		this.photoName = photoName;
 	}
 

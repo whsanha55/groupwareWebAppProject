@@ -279,17 +279,17 @@
 							 <tr class="headings" style="background-color:#3f5367; color:#ECF0F1;">
                             	<td rowspan="4" class="">결재</td>
                             <c:forEach var="line" items="${requestScope.receiverLine}" >
-	                            <c:if test="${pageScope.line.approvalRecords.apprStatus < 6 }">
+	                            <c:if test="${ line.apprType == 0}">
 	                           		 <td class="apprLineAppr">${pageScope.line.lineEmployee.duty }</td>
 	                      		</c:if>
 	                      	    <c:if test="${line.lineEmployee.empNo == empNo}">
-	                      			<input type="hidden" name='recordNo' value="${line.approvalRecords.recordNo}">
+	                      			<input type="hidden" name='recordNo' value="${line.approvalRecords[0].recordNo}">
 	                      		</c:if> 
                             </c:forEach>
                           </tr>
                           <tr class="even pointer">                      
                            <c:forEach var="line" items="${requestScope.receiverLine}" >
-	                           <c:if test="${pageScope.line.approvalRecords.apprStatus < 6 }">
+	                           <c:if test="${ line.apprType == 0}">
 	                           	 <td>${pageScope.line.lineEmployee.empName }</td>
 	                           </c:if>	 
 						   </c:forEach>					
@@ -300,8 +300,8 @@
                            <c:forEach var="line" items="${requestScope.receiverLine}" >
                            	<c:choose>
 	                           <c:when test="${pageScope.line.approvalRecords!=null }">
-	                             <c:if test="${pageScope.line.approvalRecords.apprStatus < 6}">
-                           			 <td class=" "><img src="${line.lineEmployee.sign.systemFileName }" style="height:50px; width:50px;"></td>
+	                             <c:if test="${pageScope.line.approvalRecords[0].apprStatus < 6}">
+                           			 <td class=" "><img src="${line.lineEmployee.systemSignName }" style="height:50px; width:50px;"></td>
 								 </c:if>
 								</c:when>
 								<c:otherwise>
@@ -314,8 +314,8 @@
                            <tr class="even pointer">
                             
                            <c:forEach var="line" items="${requestScope.receiverLine}" >
-	                           <c:if test="${pageScope.line.approvalRecords!=null || pageScope.line.approvalRecords.apprStatus < 6 }">
-	                           	 <td>${line.approvalRecords.confirmDate }</td>
+	                           <c:if test="${pageScope.line.approvalRecords!=null && pageScope.line.approvalRecords[0].apprStatus < 6 }">
+	                           	 <td>${line.approvalRecords[0].confirmDate }</td>
 	                           </c:if>	 
 						   </c:forEach>
   			              </tr>
@@ -323,7 +323,7 @@
                             
                             <td rowspan="3" class="">참조</td>
                           <c:forEach var="line" items="${requestScope.receiverLine}" >
-	                            <c:if test="${pageScope.line.approvalRecords!=null || pageScope.line.approvalRecords.apprStatus == 6 }">
+	                            <c:if test="${ line.apprType == 1}">
 	                           		 <td class="apprLineRef">${pageScope.line.lineEmployee.duty }</td>
 	                      		</c:if>
                             </c:forEach>
@@ -333,7 +333,7 @@
                           <tr class="even pointer">
                             
                           <c:forEach var="line" items="${requestScope.receiverLine}" >
-	                            <c:if test="${pageScope.line.approvalRecords!=null || pageScope.line.approvalRecords.apprStatus == 6 }">
+	                            <c:if test="${ line.apprType == 1}">
 	                           		 <td class="apprLineRef">${pageScope.line.lineEmployee.empName }</td>
 	                      		</c:if>
                             </c:forEach>
@@ -358,14 +358,14 @@
 
                         <tbody>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
-                        <c:if test="${line.approvalComment != null }">
+                        <c:if test="${line.approvalRecords[0].approvalComment != null }">
                           <tr class="even pointer">
                             
                            
 							
                             <td class=" ">${line.lineEmployee.empName}</td>
-							<td class=" ">${line.approvalComment.commentContent }</td>
-                            <td class=" ">${line.approvalComment.commentDate }</td>
+							<td class=" ">${line.approvalRecords[0].approvalComment.commentContent }</td>
+                            <td class=" ">${line.approvalRecords[0].approvalComment.commentDate }</td>
                             
                             
 							
