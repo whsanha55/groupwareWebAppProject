@@ -49,6 +49,10 @@
 		where emp_no = #{empNo}	
 	</select>
 	
+	<insert id="insertNotification" statementType="PREPARED" parameterType="map">
+		insert notification(note_no, emp_no, redirect_path, message, note_date)
+	</insert>
+	
 	
 
 </mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.groupware.persistent.mapper.authority.CmtMapper">
+
+	<select id="cmtCount" resultType="int">
+		select count(*)
+		from cmt
+	</select>
+
+	<select id="selectCmtList" resultType="CmtVO" parameterType="int" statementType="PREPARED">
+		select cmt_no as cmtNo, post_no as postNo, cmt_content as cmtContent, 
+		       cmt_writer as cmtWriter, cmt_date as cmtDate
+		from cmt
+		where post_no = #{cmtNo}
+	</select>
+
+
+	<insert id="insertCmt" parameterType="CmtVO" statementType="PREPARED">		
+		insert into	cmt (cmt_no, post_no, cmt_content, cmt_writer, cmt_date)
+		values(cmt_no_seq.nextval, #{postNo}, #{cmtContent}, #{cmtWriter}, sysdate)
+	</insert>
+
+	<update id="updateCmt" parameterType="CmtVO" statementType="PREPARED">
+		update cmt
+		set
+		cmt_content = #{cmtContent}
+		where cmt_no = #{cmtNo}
+	</update>
+
+	<delete id="deleteCmt" parameterType="int" statementType="PREPARED">
+		delete from cmt where cmt_no = #{cmtNo}
+	</delete>
+
+
+
+
+</mapper>
