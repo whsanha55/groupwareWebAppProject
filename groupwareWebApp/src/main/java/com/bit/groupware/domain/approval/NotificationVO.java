@@ -1,12 +1,11 @@
-package com.bit.groupware.domain.employee;
+package com.bit.groupware.domain.approval;
 
 import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class NotificationVO {
 
 	private int noteNo;
-	private EmployeeVO employee;
-	// 경로미정
+	private EmployeeVO empNoForAlert;
 	private int redirectPath;
 	private String noteDate;
 	private String message;
@@ -23,11 +22,11 @@ public class NotificationVO {
 	}
 
 	public EmployeeVO getEmployee() {
-		return employee;
+		return empNoForAlert;
 	}
 
-	public void setEmployee(EmployeeVO employee) {
-		this.employee = employee;
+	public void setEmployee(EmployeeVO empNoForAlert) {
+		this.empNoForAlert = empNoForAlert;
 	}
 
 	public int getRedirectPath() {
@@ -56,7 +55,7 @@ public class NotificationVO {
 
 	@Override
 	public String toString() {
-		return "NotificationVO [noteNo=" + noteNo + ", employee=" + employee + ", redirectPath=" + redirectPath
+		return "NotificationVO [noteNo=" + noteNo + ", empNoForAlert=" + empNoForAlert + ", redirectPath=" + redirectPath
 				+ ", noteDate=" + noteDate + ", message=" + message + "]";
 	}
 

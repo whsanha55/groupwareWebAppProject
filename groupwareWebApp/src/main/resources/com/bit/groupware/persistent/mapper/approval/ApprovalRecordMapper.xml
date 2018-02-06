@@ -16,7 +16,7 @@
  	
 	<insert id="insertApprovalRecordProcedure" parameterType="map" statementType="CALLABLE" > 
 		{
-			call approval_record_procedure (#{apprNo},#{receiverNo})
+			call approval_record_first_proc (#{apprNo},#{receiverNo})
 		}
  	</insert>
 	

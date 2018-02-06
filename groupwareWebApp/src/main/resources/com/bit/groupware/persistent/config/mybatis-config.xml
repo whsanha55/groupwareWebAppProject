@@ -16,7 +16,8 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalCommentMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverMapper.xml"/> 
-		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverLineMapper.xml"/>  
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/ReceiverLineMapper.xml"/> 
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/NotificationMapper.xml"/> 
 
 		<!-- Authority -->
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/RoleMapper.xml"/> 
@@ -37,7 +38,6 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/PlanMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/PlanFileMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/MessageMapper.xml"/>
-		<mapper resource="com/bit/groupware/persistent/mapper/employee/NotificationMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/DelegationMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 
 	</mappers>
