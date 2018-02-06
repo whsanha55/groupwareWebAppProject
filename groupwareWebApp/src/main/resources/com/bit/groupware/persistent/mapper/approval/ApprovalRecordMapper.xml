@@ -123,4 +123,11 @@
 		and t1.record_no = #{recordNo}   
    </select>
    
+   <update id="updateCheckDate" statementType="PREPARED" parameterType="int">
+  		update approval_record
+  		set check_date = sysdate
+  		where record_no = #{recordNo}
+   </update>
+   
+   
 </mapper>

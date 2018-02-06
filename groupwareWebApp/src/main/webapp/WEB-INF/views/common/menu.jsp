@@ -139,9 +139,8 @@
 					</ul></li>
 				<br>
 				<c:url var="detailEmployee" value="/detailEmployee.do" scope="page"/>
-				<c:url var="registerSign" value="/registerSign.do" scope="page"/>
+				<c:url var="retrieveSign" value="/retrieveSign.do" scope="page"/>
 				<c:url var="registerDeputy" value="/registerDeputy.do" scope="page"/>
-				<c:url var="registerDelegation" value="/registerDelegation.do" scope="page"/>
 				<c:url var="listPlan" value="/listPlan.do" scope="page"/>
 				<c:url var="listHistory" value="/listHistory.do" scope="page"/>
 				<li><h3>마이페이지</h3>
@@ -149,9 +148,8 @@
 						<li><a href="${pageScope.detailEmployee }">내 정보 조회/수정</a></li>
 						<li><a>개인설정 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="${pageScope.registerSign }">서명설정</a></li>
+								<li><a href="${pageScope.retrieveSign }">서명설정</a></li>
 								<li><a href="${pageScope.registerDeputy }">대결권자 설정</a></li>
-								<li><a href="${pageScope.registerDelegation }">전결권자 설정</a></li>
 							</ul>
 						<li><a href="${pageScope.listPlan }">일정조회</a></li>
 						<li><a href="${pageScope.listHistory }">이력조회</a></li>

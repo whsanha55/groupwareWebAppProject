@@ -24,5 +24,7 @@ public interface ApprovalRecordDAO {
 	List<Integer> selectNewRecordCount(String empNo);
 	
 	int checkisFinalApprovalLine(int recordNo);
+	
+	void updateCheckData(int recordNo);
 
 }

@@ -86,6 +86,8 @@
 		$('.apprLineRef').parent().next().append(text);
 		
 		
+	
+		
 		//결재 회수
 		$('#return').on('click',function(){
 			swal({
@@ -234,6 +236,11 @@
 		}
 		
 		
+		function checkDate() {
+			
+		}
+		
+		
 		
 		
 		
@@ -270,39 +277,41 @@
 
                         
 							 <tr class="headings" style="background-color:#3f5367; color:#ECF0F1;">
-                            	<td rowspan="3" class="">결재</td>
+                            	<td rowspan="4" class="">결재</td>
                             <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
 	                            <c:if test="${pageScope.record.apprStatus < 6 }">
 	                           		 <td class="apprLineAppr">${pageScope.record.receiverLine.lineEmployee.duty }</td>
 	                      		</c:if>
-	                      		<c:if test="${record.receiverLine.lineEmployee.empNo == empNo}">
+	                      		<%-- <c:if test="${record.receiverLine.lineEmployee.empNo == empNo}">
 	                      			<input type="hidden" name='recordNo' value="${record.recordNo}">
-	                      		</c:if>
+	                      		</c:if> --%>
                             </c:forEach>
                           </tr>
-                          <tr class="even pointer">
-                            
+                          <tr class="even pointer">                      
                            <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
 	                           <c:if test="${pageScope.record.apprStatus < 6 }">
 	                           	 <td>${pageScope.record.receiverLine.lineEmployee.empName }</td>
 	                           </c:if>	 
-						   </c:forEach>
-                            
-                            
-							
+						   </c:forEach>					
                           </tr>
+                         
 						  <tr class="even pointer">
-                            
-                           
+              
                            <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
 	                           <c:if test="${pageScope.record.apprStatus < 6 }">
                            			 <td class=" "><img src="images/도장.jpg" style="height:50px; width:50px;"></td>
 								</c:if>
 							</c:forEach>
-                            
-                            
-							
+
                           </tr>
+                           <tr class="even pointer">
+                            
+                           <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
+	                           <c:if test="${pageScope.record.apprStatus < 6 }">
+	                           	 <td>${pageScope.record.confirmDate }</td>
+	                           </c:if>	 
+						   </c:forEach>
+  			              </tr>
                           <tr class="headings"style="background-color:#3f5367; color:#ECF0F1;">
                             
                             <td rowspan="3" class="">참조</td>
