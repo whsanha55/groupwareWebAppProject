@@ -206,18 +206,19 @@
    
    <!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->   
    <resultMap type="AuthorityVO" id="selectAuthEmpResultMap">
-      <id column="a_no" property="aNo"/>
+      <id column="aNo" property="aNo"/>
+      <result column="aName" property="aName"/>
       
       <!-- 1:N 관계 -->   
       <collection property="emp" javaType="list" ofType="EmployeeVO">
-         <id column="emp_no" property="empNo"/>
-         <result column="emp_name" property="empName"/>
+         <result column="empNo" property="empNo"/>
+         <result column="empName" property="empName"/>
       </collection>
 
    </resultMap>
    
    <select id="selectAuthEmpList" statementType="PREPARED" resultMap="selectAuthEmpResultMap" parameterType="String">
-      select e.emp_no as empNo, e.emp_name as empName,a.a_name as aName  
+      select e.emp_no as empNo, e.emp_name as empName,a.a_name as aName, a.a_no as aNo  
       from authority a , employee e, authority_employee ae
       where a.a_no = ae.a_no
           and ae.emp_no = e.emp_no

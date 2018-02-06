@@ -80,7 +80,7 @@
 				for(var i=0;i<data.authorities.length;i++) {
 					text += "<tr class='even pointer'>";
 					text += "<td class='a-center'><input type='checkbox' id='ex_chk'> </td>";
-					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
+					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal' class='myModal''>"+ data.authorities[i].aNo + "</a></td>";
 					text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
 					text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
 					text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
@@ -264,9 +264,9 @@
 	
 	
 	//사원정보 조회
-	$('#datatable').on('click','#myModal',function(){
-		var aNo = $(this).parents("tr").find('.aNo').text();		
-		alert(aNo);
+	//$('#myModal').click(function(){
+	$("#datatable").on('click','.myModal',function() {
+		var aNo = $(this).text();		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/retrieveAuthEmpAjax.do' 
 			,
@@ -281,17 +281,18 @@
 			dataType: 'json' 
 			,
 			success: function (data, textStatus, jqXHR) {
-				
 				//modal테이블 변경하기
 				var text = "";
 				for(var i=0;i<data.authorities.length;i++) {
+					for(var j = 0; j<data.authorities[i].emp.length; j++){
 					text += "<tr class='even pointer'>";
-					text += "<td>"+ data.authorities[i].emp.empNo + "</td>";
-					text += "<td>"+ data.authorities[i].emp.empName + "</td>";
-					text += "<td>"+ data.authorities[i].aName + "</td>";
+					text += "<td>"+ data.authorities[i].aName + "</td>";	
+					text += "<td>"+ data.authorities[i].emp[j].empNo + "</td>";
+					text += "<td>"+ data.authorities[i].emp[j].empName + "</td>";
 					text += "</tr>";
-				}
-				
+					}
+					
+				} 
 				$('#authEmp').find('tbody').html(text);			
 				
 			} ,
@@ -397,13 +398,7 @@
 						</thead>
 
 						<tbody>
-							<tr class="even pointer">
-<!-- 								<td>AAAA1</td>
 
-								<td>홍길동</td>
-								<td>전체관리자</td>
- -->
-							</tr>
 						</tbody>
 					</table>
 				</div>

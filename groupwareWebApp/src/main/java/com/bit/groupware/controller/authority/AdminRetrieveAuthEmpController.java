@@ -1,5 +1,6 @@
 package com.bit.groupware.controller.authority;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +28,10 @@ public class AdminRetrieveAuthEmpController {
 	@RequestMapping(value="/retrieveAuthEmpAjax.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> form(@RequestParam(value="aNo") String aNo){
-		Map<String, Object> map = new HashMap<String, Object>();
 		logger.info("////////////retrieveAuthEmp///////////////", authorityService.retrieveAuthEmpList(aNo));
-		List<AuthorityVO> authorities = authorityService.retrieveAuthEmpList(aNo);
+		List<AuthorityVO> authorities = new ArrayList<AuthorityVO>();
+		authorities =  authorityService.retrieveAuthEmpList(aNo);		
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("authorities", authorities);
 		return map;
 	}

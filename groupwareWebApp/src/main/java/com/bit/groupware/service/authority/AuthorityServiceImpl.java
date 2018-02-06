@@ -21,6 +21,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthorityList(map);
 	}
 
+	//권한을 등록하다.
 	public String registerAuthority(AuthorityVO authority) {
 		// TODO Auto-generated method stub
 		return null;
