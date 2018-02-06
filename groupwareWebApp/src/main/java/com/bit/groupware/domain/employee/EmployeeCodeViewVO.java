@@ -74,7 +74,7 @@ public class EmployeeCodeViewVO {
 	public void setDutyNo(String dutyNo) {
 		this.dutyNo = dutyNo;
 	}
-
+	
 	public String getSignName() {
 		return signName;
 	}
