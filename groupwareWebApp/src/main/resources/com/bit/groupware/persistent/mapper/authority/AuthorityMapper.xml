@@ -126,7 +126,7 @@
 	
 	<!-- 권한 리스트 조회-->
 	<select id="selectListAuthority" resultType="AuthorityVO" statementType="PREPARED" parameterType="map" >		
-		select distinct a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
+		select a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
 		from (select rownum as rn, t1.*
      			from (select *
           				from authority 
