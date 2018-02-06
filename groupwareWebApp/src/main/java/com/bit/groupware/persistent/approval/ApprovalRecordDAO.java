@@ -9,16 +9,18 @@ public interface ApprovalRecordDAO {
 
 	List<ApprovalRecordVO> selectApprovalRecordList(int apprNo);
 
-	void insertApprovalRecord(Map<String, Integer> map);
+	void insertApprovalRecord(Map<String, Object> map);
 
 	void insertApprovalRecordProcedure(Map<String, Integer> map);
 
-	void updateApprovalRecordStatus(ApprovalRecordVO approvalRecord);
+	void updateApprovalRecordStatus(Map<String, Object> map);
 
 	void deleteApprovalRecord(int apprNo);
 
 	int selectApprovalRecallable(int apprNo);
 	
 	int selectNewRecordCount(Map<String, String> map);
+	
+	int checkisFinalApprovalLine(int recordNo);
 
 }

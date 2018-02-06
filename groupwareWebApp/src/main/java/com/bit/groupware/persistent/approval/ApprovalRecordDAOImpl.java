@@ -20,7 +20,7 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectApprovlaRecordList", apprNo);
 	}
 
-	public void insertApprovalRecord(Map<String, Integer> map) {
+	public void insertApprovalRecord(Map<String, Object> map) {
 		sqlSession.insert(NAMESPACE + ".insertApprovalRecord", map);
 	}
 
@@ -28,8 +28,8 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		sqlSession.insert(NAMESPACE + ".insertApprovalRecordProcedure", map);
 	}
 
-	public void updateApprovalRecordStatus(ApprovalRecordVO approvalRecord) {
-		sqlSession.update(NAMESPACE + ".updateApprovalRecordStatus", approvalRecord);
+	public void updateApprovalRecordStatus(Map<String, Object> map) {
+		sqlSession.update(NAMESPACE + ".updateApprovalRecordStatus", map);
 	}
 
 	public void deleteApprovalRecord(int apprNo) {
@@ -42,6 +42,11 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 
 	public int selectNewRecordCount(Map<String, String> map) {
 		return sqlSession.selectOne(NAMESPACE + ".selectNewRecordCount", map);
+	}
+
+	//최종 결재자인지 아닌지 확인하는 dao (0->다음 진행자 있음, 1->종결)
+	public int checkisFinalApprovalLine(int recordNo) {
+		return sqlSession.selectOne(NAMESPACE + ".checkisFinalApprovalLine", recordNo) ;
 	}
 
 	

@@ -5,13 +5,19 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.approval.ApprovalRecordMapper">
 	
-<!-- 첫번째만 들가도록 쿼리 설계됨 수정필요함 -->
 	<insert id="insertApprovalRecord" parameterType="map" statementType="PREPARED" > 
 		insert into approval_record(record_no, appr_no, line_no)
 		values(approval_record_seq.nextval, #{apprNo}, 
-				(select min(line_no) 
-				 from receiver_line 
-				 where receiver_no = #{receiverNo}))
+				(select line_no                                                
+				from (select t2.line_no
+				      from receiver_line t1, receiver_line t2
+				      where t1.receiver_no = t2.receiver_no
+				      and t1.line_no = (select line_no
+				                        from approval_record
+				                        where record_no = #{recordNo})
+				 	  and t1.line_order <![CDATA[<]]> t2.line_order
+				      order by t2.line_order asc ) 
+				where rownum = 1))
  	</insert>
  	
 	<insert id="insertApprovalRecordProcedure" parameterType="map" statementType="CALLABLE" > 
@@ -59,9 +65,8 @@
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
     	update approval_record
 		set appr_status=#{apprStatus},
-		check_Date=#{checkDate},
-		confirm_date=#{confirmDate}
-		where record_no=#{recordNo}
+		confirm_date= sysdate
+		where record_no= #{recordNo}
    </update>
    
    <delete id="deleteApprovalRecord" parameterType="int" statementType="PREPARED">  
@@ -97,5 +102,19 @@
 		</if>
 	</select>
    
+    <select id="checkisFinalApprovalLine" statementType="PREPARED" parameterType="int" resultType="int">
+   		select case 
+	        	when t2.line_order = 9 then 1
+	        	when t3.duty_no = t6.duty_no then 1
+	        	else 0
+       		end
+		from approval_record t1, receiver_line t2, emp_view t3, approval t4, template t5, DELEGATION t6
+		where t1.LINE_NO = t2.line_no
+		and t2.line_emp_no = t3.emp_no
+		and t1.appr_no = t4.appr_no
+		and t4.tmp_no = t5.tmp_no
+		and t5.tmp_no = t6.tmp_no(+)
+		and t1.record_no = #{recordNo}   
+   </select>
    
 </mapper>
