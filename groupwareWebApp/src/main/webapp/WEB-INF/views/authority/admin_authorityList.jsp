@@ -8,15 +8,12 @@
 <title>content</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-	
-		
-	
 	$(document).ready(function() {		
 
 		var pKeyfield='';
 		var pKeyword;
 
-		Paging(1); 
+		Paging(1);
 		
 		//	검색조건
 		$('.search-panel .dropdown-menu').on('click','a',function(e) {
@@ -83,19 +80,11 @@
 				for(var i=0;i<data.authorities.length;i++) {
 					text += "<tr class='even pointer'>";
 					text += "<td class='a-center'><input type='checkbox' id='ex_chk'> </td>";
-<<<<<<< HEAD
 					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
 					text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
 					text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
 					text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
 					text += "<td class='align-center selectBtn'><a class='btn btn-primary' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button></td>";
-=======
-					text += "<td id="+ data.authorities[i].aNo +" class='aName'><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
-					text += "<td id="+ data.authorities[i].aName +" class='aName'>"+ data.authorities[i].aName + "</td>";
-					text += "<td id="+ data.authorities[i].aNote +"  class='aNote'>"+ data.authorities[i].aNote + "</td>";
-					text += "<td id="+ data.authorities[i].aWhether +" class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
-					text += "<td class='align-center'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+data.authorities[i].aName+"'/>'>역할</a><button id='modify' class='btn btn-default'>수정</button></td>";
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 					text += "</tr>";
 				}
 				
@@ -270,9 +259,6 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>권한 리스트</h2>
-
-				<div class="clearfix"></div>
-			</div>
 			 <div class="container">
 			<div class="row">    
 			        <div class="col-xs-5">
@@ -302,9 +288,11 @@
 				</div>
 					
 				</div>
-			<div class="x_content">
-				<div id="datatable" class="table-responsive">
-					<table class="table table-striped jambo_table bulk_action">
+			<div class="clearfix"></div>
+			</div>
+
+				<div class="table-responsive">
+					<table id="datatable"  class="table table-striped jambo_table bulk_action">
 						<thead>
 							<tr class="headings">
 								<th><input type="checkbox" id="ex_chk"> </th>
