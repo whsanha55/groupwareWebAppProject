@@ -18,4 +18,7 @@ public interface ApprovalRecordService {
 	
 	//메뉴 새 문서 개수 표시용
 	List<Integer> retrieveNewRecordCount(String empNo);
+	
+	//확인일시 기록
+	void modifyCheckDate(int recordNo);
 }

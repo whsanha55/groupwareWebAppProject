@@ -24,4 +24,9 @@ public class ReceiverLineServiceImpl implements ReceiverLineService {
 		receiverLine.deleteReceiverLines(receiverNo);
 	}
 
+	public List<ReceiverLineVO> retrieveApprovalLineList(int apprNo) {
+		// TODO Auto-generated method stub
+		return receiverLine.selectApprovalLineList(apprNo); 
+	}
+
 }

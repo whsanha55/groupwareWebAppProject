@@ -20,10 +20,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 
 	/*
-	public List<EmployeeVO> selectEmployeeList(Map<String, Object> map) {
-		return sqlSession.selectList(NAMESPACE + ".selectEmployeeList", map);
-	}
-	
 	public List<EmployeeCodeVO> selectDepartment(Map<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectDepartment", map);
 	}

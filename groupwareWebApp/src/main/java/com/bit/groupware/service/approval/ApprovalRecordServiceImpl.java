@@ -80,8 +80,15 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 	public List<Integer> retrieveNewRecordCount(String empNo) {
 		return approvalRecordDAO.selectNewRecordCount(empNo);
 	}
+
+	//확인일시 입력
+	public void modifyCheckDate(int recordNo) {
+		approvalRecordDAO.updateCheckData(recordNo);		
+	}
 	
 	
+	
+
 	
 
 }

@@ -87,14 +87,19 @@
    
    
    	<select id="selectNewRecordCount" statementType="PREPARED" parameterType="String" resultType="int">
-		select count(appr_status)
+		select nvl(count(appr_status),0)
 		from approval_record t1, receiver_line t2
 		where t1.line_no = t2.line_no
 		and t2.LINE_EMP_NO = #{empNo}
 		and t1.check_date is null
-		and appr_status in (0,6)
-		group by appr_status
-		order by appr_status asc
+		and appr_status =0
+		union
+		select nvl(count(appr_status),0)
+		from approval_record t1, receiver_line t2
+		where t1.line_no = t2.line_no
+		and t2.LINE_EMP_NO = #{empNo}
+		and t1.check_date is null
+		and appr_status =6
 	</select>
    
     <select id="checkisFinalApprovalLine" statementType="PREPARED" parameterType="int" resultType="int">
@@ -111,5 +116,12 @@
 		and t5.tmp_no = t6.tmp_no(+)
 		and t1.record_no = #{recordNo}   
    </select>
+   
+   <update id="updateCheckDate" statementType="PREPARED" parameterType="int">
+  		update approval_record
+  		set check_date = sysdate
+  		where record_no = #{recordNo}
+   </update>
+   
    
 </mapper>

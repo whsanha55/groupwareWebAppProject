@@ -8,6 +8,8 @@ public interface ReceiverLineDAO {
 
 	List<ReceiverLineVO> selectReceiverLineList(int receiverNo);
 	
+	List<ReceiverLineVO> selectApprovalLineList(int apprNo);
+	
 	void insertReceiverLineList(List<ReceiverLineVO> receiverLines);
 	
 	void deleteReceiverLines(int receiverNo);
