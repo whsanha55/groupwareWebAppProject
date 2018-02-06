@@ -33,6 +33,7 @@ public class ModifyPostController {
 	//게시글 수정 폼 요청
 	@RequestMapping(value="/modifyPost.do", method=RequestMethod.GET)
 	public ModelAndView form(@RequestParam(value="postNo", required = true) int postNo) {
+		logger.info("수정1@@@@@@@@@@@@@@@ : {}", postNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("post", postService.retrievePost(postNo));
 		mv.setViewName("authority/modifyPost");
@@ -43,7 +44,7 @@ public class ModifyPostController {
 	@RequestMapping(value = "/modifyPost.do", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("post") PostVO post, 
 		SessionStatus status, HttpSession session) throws Exception {
-		logger.info("수정@@@@@@@@@@@@@@@ : {}", post);
+		logger.info("수정2@@@@@@@@@@@@@@@ : {}", post);
 		post.getPostFiles().clear();
 		List<MultipartFile> uploadFiles = post.getUpload();
 		ServletContext context = session.getServletContext();
