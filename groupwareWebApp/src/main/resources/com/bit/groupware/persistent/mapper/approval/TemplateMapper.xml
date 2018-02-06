@@ -124,6 +124,16 @@
 		</foreach>
 	</delete>	
 	
+	<update id="updateTemplateUsing" statementType="PREPARED" parameterType="map">
+		update template
+		<if test="tmpUsing == 1">
+			set tmp_using = 0
+		</if>
+		<if test="tmpUsing == 0">
+			set tmp_using = 1
+		</if>
+		where tmp_no = #{tmpNo}
+	</update>
 	
 	
 

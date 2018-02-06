@@ -18,4 +18,6 @@ public interface TemplateDAO {
 	int selectTemplateCount(Map<String, Object> map); 
 	
 	List<TemplateVO> selectTemplateNameList();
+	
+	void updateTemplateUsing(Map<String, Object> map);
 }

@@ -32,22 +32,6 @@ public class AdminTemplateController {
 		return "approval/admin_templateList";
 	}
 	
-/*	
-	//양식관리 검색 요청
-	@RequestMapping(value="/admin/findTemplate.do")
-	public ModelAndView find(@RequestParam(value="keyfield", required=true)String keyfield, 
-									 @RequestParam(value="keyword")String keyword) {
-		ModelAndView mv = new ModelAndView();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("keyfield", keyfield);
-		map.put("keyword", keyword);
-		map.put("startRow", 1);
-		map.put("endRow", 10);
-		mv.addObject("templates", service.retrieveTemplateList(map));
-		mv.setViewName("approval/admin_templateList");
-		return mv;
-	}*/
-	
 	
 	//양식 상세보기
 	@RequestMapping(value="/admin/templateDetail.do", method=RequestMethod.GET)
