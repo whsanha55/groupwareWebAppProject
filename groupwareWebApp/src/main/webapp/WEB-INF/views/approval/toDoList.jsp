@@ -112,7 +112,7 @@
 					recordNo: recordNo				
 				},
 				success: function (data, textStatus, jqXHR) {
-					location.href='${pageContext.request.contextPath}/approvalTodo.do';
+					templatePaging(1);
 				},
 				error: function(jqXHR) {
 					alert("에러: " + jqXHR.status);
