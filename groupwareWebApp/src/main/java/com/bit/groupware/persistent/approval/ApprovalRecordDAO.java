@@ -19,7 +19,7 @@ public interface ApprovalRecordDAO {
 
 	int selectApprovalRecallable(int apprNo);
 	
-	int selectNewRecordCount(Map<String, String> map);
+	List<Integer> selectNewRecordCount(String empNo);
 	
 	int checkisFinalApprovalLine(int recordNo);
 

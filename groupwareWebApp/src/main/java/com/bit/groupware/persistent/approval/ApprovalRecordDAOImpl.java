@@ -40,8 +40,8 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectApprovalRecallable", apprNo);
 	}
 
-	public int selectNewRecordCount(Map<String, String> map) {
-		return sqlSession.selectOne(NAMESPACE + ".selectNewRecordCount", map);
+	public List<Integer> selectNewRecordCount(String empNo) {
+		return sqlSession.selectList(NAMESPACE + ".selectNewRecordCount", empNo);
 	}
 
 	//최종 결재자인지 아닌지 확인하는 dao (0->다음 진행자 있음, 1->종결)

@@ -77,8 +77,8 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 	}
 
 	//메뉴 새 문서 개수 표시용
-	public int retrieveNewRecordCount(Map<String, String> map) {
-		return approvalRecordDAO.selectNewRecordCount(map);
+	public List<Integer> retrieveNewRecordCount(String empNo) {
+		return approvalRecordDAO.selectNewRecordCount(empNo);
 	}
 	
 	
