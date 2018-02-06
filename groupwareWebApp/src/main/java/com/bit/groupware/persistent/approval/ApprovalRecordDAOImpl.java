@@ -27,6 +27,11 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 	public void insertApprovalRecordProcedure(Map<String, Integer> map) {
 		sqlSession.insert(NAMESPACE + ".insertApprovalRecordProcedure", map);
 	}
+	
+	
+	public void insertApprovalRecordProceedProcedure(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertApprovalRecordProceedProcedure", map);
+	}
 
 	public void updateApprovalRecordStatus(Map<String, Object> map) {
 		sqlSession.update(NAMESPACE + ".updateApprovalRecordStatus", map);

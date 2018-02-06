@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit.groupware.domain.approval.ApprovalRecordVO;
 import com.bit.groupware.service.approval.ApprovalRecordService;
 import com.bit.groupware.service.approval.ApprovalService;
+import com.bit.groupware.service.approval.ReceiverLineService;
 
 @Controller
 public class ApprovalController {
@@ -24,22 +25,27 @@ public class ApprovalController {
 	private ApprovalService approvalService;
 	@Autowired
 	private ApprovalRecordService approvalRecordService;
-
-	//문서 상세조회
+	@Autowired
+	private ReceiverLineService receiverLineService;
+	
+		//문서 상세조회
 		@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
 		public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
 										   @RequestParam(value="status") int status,
 										   Principal principal) {
+
 				
 			ModelAndView mv =new ModelAndView();
 			mv.addObject("status",status);
 			//1:결재요청함 2:결재대기함 3:나머지
-			//mv.addObject("approval", approval);
+			
 			mv.addObject("approval",approvalService.retrieveApproval(apprNo));
+			mv.addObject("receiverLine",receiverLineService.retrieveApprovalLineList(apprNo));
 			mv.addObject("empNo", principal.getName());
 			mv.setViewName("approval/approvalDetail/pop");
 			return mv;
 		}
+		
 		
 		//문서 첨부파일 다운로드
 		@RequestMapping(value="/downloadApprFile.do",method=RequestMethod.GET)

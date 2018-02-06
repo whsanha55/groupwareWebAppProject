@@ -29,4 +29,9 @@ public class ReceiverLineDAOImpl implements ReceiverLineDAO{
 		
 	}
 
+	public List<ReceiverLineVO> selectApprovalLineList(int apprNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE+".selectApprovalLine",apprNo); 
+	}
+
 }
