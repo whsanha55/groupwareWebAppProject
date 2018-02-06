@@ -109,7 +109,7 @@
 				  buttons : true 
 				}).then((e) => {
 					if(e) {
-						executePostpone();
+						executeApproval('',2);
 					}	
 				});
 		})
@@ -191,36 +191,6 @@
 			});
 		}
 		
-		
-		//결재 보류
-		function executePostpone(){
-			
-			$.ajax({
-				url: '${pageContext.request.contextPath}/postponeApproval.do'
-				,
-				method : 'GET'
-				,
-				data: {
-					apprNo : '${requestScope.approval.apprNo}'
-				}
-				,
-				datatype : 'json'
-				,
-				success : function(data) {
-					swal("결재가 보류되었습니다.").then((e)=>{
-						self.close();
-						opener.location='http://localhost:9000/groupware/approvalTodo.do'
-					});			
-					
-				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-			});
-		}
-
-		
 		//결재 반려 또는 승인 
 		function executeApproval(commentContent,apprStatus) {
 			
@@ -232,16 +202,30 @@
 				data: {
 					apprNo : '${requestScope.approval.apprNo}',
 					commentContent: commentContent ,
-					apprStatus : apprStatus 
+					apprStatus : apprStatus ,
+					recordNo : $('input[name=recordNo]').val()
 				}
 				,
 				datatype : 'json'
 				,				
 				success : function(data) {
-					swal("결재가 반려되었습니다.").then((e)=>{
-						self.close();
-						opener.location='http://localhost:9000/groupware/approvalTodo.do'
-					});					
+					if(data == 1) { // 결재 승인
+						swal("결재가 승인되었습니다.").then((e)=>{
+							self.close();
+							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+						});
+					} else if(data ==2) { //결재 보류
+						swal("결재가 보류되었습니다.").then((e)=>{
+							self.close();
+							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+						});	
+					} else  {		//반려
+						swal("결재가 반려되었습니다.").then((e)=>{
+							self.close();
+							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+						});
+					}
+										
 				},
 				error: function(jqXHR) {
 					alert("error : " + jqXHR.status);
@@ -290,6 +274,9 @@
                             <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
 	                            <c:if test="${pageScope.record.apprStatus < 6 }">
 	                           		 <td class="apprLineAppr">${pageScope.record.receiverLine.lineEmployee.duty }</td>
+	                      		</c:if>
+	                      		<c:if test="${record.receiverLine.lineEmployee.empNo == empNo}">
+	                      			<input type="hidden" name='recordNo' value="${record.recordNo}">
 	                      		</c:if>
                             </c:forEach>
                           </tr>
@@ -401,7 +388,14 @@
                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">부서</td>
 							<td class=" ">${requestScope.approval.employee.department }</td>
                             <td class=" " style="background-color:#3f5367; color:#ECF0F1;">보존기한</td>
-                            <td class=" ">${requestScope.approval.validDate }일</td>
+                            <td class=" ">
+                            	<c:choose>
+                            		<c:when test="${requestScope.approval.validDate != 0}">
+                            			${requestScope.approval.validDate}년
+                            		</c:when>
+                            		<c:otherwise>영구보존</c:otherwise>
+                            	</c:choose>
+                            </td>
                            
 							
                           </tr>

@@ -121,6 +121,7 @@
 					
 					//datatable테이블 변경하기
 					var text = "";
+					
 					for(var i=0;i<data.approvals.length;i++) {
 
 						text += "<tr><td id="+ data.approvals[i].apprNo +" class='apprNo'>"+ data.approvals[i].apprNo + "</td>";
