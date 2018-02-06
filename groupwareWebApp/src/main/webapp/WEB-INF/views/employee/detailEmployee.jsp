@@ -19,44 +19,11 @@
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left">
 					<div class="profile_img">
 						<div id="crop-avatar">
-							<!-- Current avatar -->
-							<img class="img-responsive avatar-view" src="${pageContext.request.contextPath}/resources/upload/employeeFiles/signs/${requestScope.employee.photoName}"
-								alt="Avatar" title="Change the avatar">
+							<img class="img-responsive avatar-view" 
+								src="${pageContext.request.contextPath}/resources/upload/employeeFiles/photos/${requestScope.employee.photoName}">
 						</div>
 					</div>
 					<h3>${requestScope.employee.empName }</h3>
-					
-					<%-- <script>
-						$(document).ready(function() {
-							var employee = {
-								empNo : $('#empNo').text(),
-								empName : $('#empName').text(),
-								hireDate : $('#hireDate').text(),
-								department : $('#department').text(),
-								duty : $('#duty').text(),
-								phoneNumber : $('#phoneNumber').text(),
-								email : $('#email').text(),
-								address : $('#address').text()								
-							}
-
-							$('#mod-emp').click(function() {
-								$.ajax ({
-									url:"${pageContext.request.contextPath }/modifyEmployee.do",
-									method:"POST",
-									data:{
-										employee : employee
-									},
-									dataType:'json',
-									success: function(data) {
-										
-									},
-									error: function(jqXHR) {
-										alert("error:"+jqXHR.status);
-									}
-								});
-							});							
-						});
-					</script> --%>
 					<br> <a id="mod-emp" href="${pageContext.request.contextPath }/modifyEmployee.do" class="btn btn-success"><i
 						class="fa fa-edit m-right-xs"></i>사원 정보 수정</a> <br>
 				</div>

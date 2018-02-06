@@ -12,8 +12,55 @@
 
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
 		//var msg = setInterval(newMsg, 2000);
-		//var note = setInterval(newNote, 2000);		
+		//var note = setInterval(newNote, 2000);
+				
+		//알림 조회 컨트롤러로 이동
+		
+		//var alarm = setInterval(newAlarm, 3000);
+		
+		
+		
+		
 	});
+	
+	function newAlarm() {
+		
+		$.ajax({
+			
+			url: '${pageContext.request.contextPath}/retrieveNotifications.do'
+			,
+			method : 'GET'
+			,
+			dataType: 'json'
+			,
+			success: function(data) {
+				
+				$('#menu1').empty();
+				
+				var htmlStr = "";
+				
+				htmlStr += '<ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">';
+				htmlStr += '<li>';
+				htmlStr += '<a>';
+				htmlStr += '<span>';
+				htmlStr += '<span>${pageScope.notification.noteNo }</span>';
+				htmlStr += '<span class="time">${pageScope.notification.noteDate }</span>';
+				htmlStr += '</span>';
+				htmlStr += '<span class="message">';
+				htmlStr += '${pageScope.notification.message }';
+				htmlStr += '</span>';
+				htmlStr += '</a>';
+				htmlStr += '</li>';
+				
+								
+			},
+			
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error: ' + jqXHR.status);
+			}
+						
+		});
+	}
 
 	
 	function newMsg() {
@@ -81,64 +128,22 @@
                     <i class="fa fa-bell-o"></i>
                     <span class="badge bg-green" id="noteNum"></span>
                   </a>
+                  <c:forEach var="notification" items="${requestScope.notifications }" varStatus="loop" >
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
                       <a>
-                        <span class="image"><img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
+                      
+                          <span>${pageScope.notification.noteNo }</span>
+                          <span class="time">${pageScope.notification.noteDate }</span>
+                        </span> 
                         <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                          ${pageScope.notification.message }
                         </span>
                       </a>
                     </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
+                   
                   </ul>
+                  </c:forEach>
                 </li>
                 
                 <!-- 쪽지함 -->

@@ -1,16 +1,16 @@
-package com.bit.groupware.service.employee;
+package com.bit.groupware.service.approval;
 
 import java.util.List;
 import java.util.Map;
 
-import com.bit.groupware.domain.employee.NotificationVO;
+import com.bit.groupware.domain.approval.NotificationVO;
 
 public interface NotificationService {
 
 	List<NotificationVO> retrieveNotificationList(Map<String, Object> map);
 	
-	void removeNotification(Map<String, Integer> map);
-	
 	int retrieveNotificationCount(String empNo);
+
+	void removeNotifications(Map<String, Object> map);
 	
 }

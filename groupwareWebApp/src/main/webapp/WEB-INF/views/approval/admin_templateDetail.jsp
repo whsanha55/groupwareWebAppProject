@@ -79,7 +79,8 @@
 						  showCancelButton: false
 						}).then((e) => {
 							if(e) {
-								location.href="${pageContext.request.contextPath}/admin/templateDetail.do?tmpNo="+tmpNo;										
+								location.href="${pageContext.request.contextPath}/admin/templateDetail.do?tmpNo="+tmpNo;
+								opener.templatePaging(1);
 							}	
 					});	
 				}

@@ -1,4 +1,4 @@
-package com.bit.groupware.persistent.employee;
+package com.bit.groupware.persistent.approval;
 
 import java.util.List;
 import java.util.Map;
@@ -7,12 +7,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bit.groupware.domain.employee.NotificationVO;
+import com.bit.groupware.domain.approval.NotificationVO;
 
 @Repository
 public class NotificationDAOImpl implements NotificationDAO {
 	
-	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.employee.NotificationMapper";
+	private static final String NAMESPACE = "com/bit/groupware/persistent/mapper/approval/NotificationMapper";
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -21,7 +21,7 @@ public class NotificationDAOImpl implements NotificationDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectNotificationList", map);
 	}
 
-	public void deleteNotification(Map<String, Integer> map) {
+	public void deleteNotification(Map<String, Object> map) {
 		sqlSession.delete(NAMESPACE + ".deleteNotification", map);
 		
 	}
@@ -29,6 +29,16 @@ public class NotificationDAOImpl implements NotificationDAO {
 	public int selectNotificationCount(String empNo) {
 		return sqlSession.selectOne(NAMESPACE + ".selectNotificationCount", empNo);
 	}
+	
+	//알림사항 DB에 반영
+	public void insertNotification(Map<String, Object> map) {
+		
+		sqlSession.insert(NAMESPACE + ".insertNotification", map);
+		
+	}
+	
+	
+	
 	
 	
 

@@ -78,7 +78,12 @@
 					}
 					, 
 					error: function(jqXHR, textStatus, error) {
-						alert("Error : " + jqXHR.status + "," + error);
+						swal({
+							  title: "등록 실패",
+							  text: "정보를 모두 입력해주세요.",
+							  icon: "info",
+							  buttons : "확인" 
+						})
 					}	 				
 				});	
 			}

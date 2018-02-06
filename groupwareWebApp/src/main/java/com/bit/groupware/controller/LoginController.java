@@ -1,28 +1,34 @@
 package com.bit.groupware.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.UserVO;
-import com.bit.groupware.domain.employee.EmployeeVO;
-import com.bit.groupware.service.employee.EmployeeService;
+import com.bit.groupware.domain.employee.PlanVO;
+import com.bit.groupware.service.employee.PlanService;
 
 /*@SessionAttributes("id")*/
 @Controller
 public class LoginController {
 
    //Logging
-   public static final Logger Logger = LoggerFactory.getLogger(LoginController.class);
+   public static final Logger logger = LoggerFactory.getLogger(LoginController.class);
    
 /*   @Autowired
    private EmployeeService employeeService;*/
+   
+   @Autowired
+	private PlanService planService;
    
    //권한 로그인
    @RequestMapping(value = "/login.do", method = RequestMethod.GET)
@@ -40,19 +46,27 @@ public class LoginController {
    
    //메인
    @RequestMapping(value = "/index.do", method = RequestMethod.GET)
-   public String form2() {
-      UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+   public ModelAndView form2() {
+       UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
        String isAdmin = user.getIsAdmin();
-       Logger.info("isAdmin : {}" , isAdmin);
-     
+       logger.info("isAdmin : {}" , isAdmin);
+       
+       Map<String, Object> map = new HashMap<String, Object>();
+       ModelAndView mv = new ModelAndView();
+       
        if(isAdmin.equals("T")) {
-          return "adminMain";
+          mv.setViewName("adminMain");
        } else {
-          return "main";
+          mv.setViewName("main");
+          List<PlanVO> plans = planService.retrievePlanList(map);
+          mv.addObject("plans",plans);
        }
    
+       return mv;
       
    }
+   
+      
 
    
 
