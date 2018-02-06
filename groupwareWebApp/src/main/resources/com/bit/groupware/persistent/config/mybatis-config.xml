@@ -38,7 +38,6 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/PlanMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/PlanFileMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/employee/MessageMapper.xml"/>
-		<mapper resource="com/bit/groupware/persistent/mapper/employee/DelegationMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalRecordMapper.xml"/> 
 	</mappers>
 
