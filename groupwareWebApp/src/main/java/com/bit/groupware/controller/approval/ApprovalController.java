@@ -28,7 +28,7 @@ public class ApprovalController {
 	@Autowired
 	private ReceiverLineService receiverLineService;
 	
-	//문서 상세조회
+		//문서 상세조회
 		@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
 		public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
 										   @RequestParam(value="status") int status,
@@ -45,6 +45,7 @@ public class ApprovalController {
 			mv.setViewName("approval/approvalDetail/pop");
 			return mv;
 		}
+		
 		
 		//문서 첨부파일 다운로드
 		@RequestMapping(value="/downloadApprFile.do",method=RequestMethod.GET)

@@ -278,46 +278,53 @@
                         
 							 <tr class="headings" style="background-color:#3f5367; color:#ECF0F1;">
                             	<td rowspan="4" class="">결재</td>
-                            <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
-	                            <c:if test="${pageScope.record.apprStatus < 6 }">
-	                           		 <td class="apprLineAppr">${pageScope.record.receiverLine.lineEmployee.duty }</td>
+                            <c:forEach var="line" items="${requestScope.receiverLine}" >
+	                            <c:if test="${pageScope.line.approvalRecords.apprStatus < 6 }">
+	                           		 <td class="apprLineAppr">${pageScope.line.lineEmployee.duty }</td>
 	                      		</c:if>
-	                      		<%-- <c:if test="${record.receiverLine.lineEmployee.empNo == empNo}">
-	                      			<input type="hidden" name='recordNo' value="${record.recordNo}">
-	                      		</c:if> --%>
+	                      	    <c:if test="${line.lineEmployee.empNo == empNo}">
+	                      			<input type="hidden" name='recordNo' value="${line.approvalRecords.recordNo}">
+	                      		</c:if> 
                             </c:forEach>
                           </tr>
                           <tr class="even pointer">                      
-                           <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
-	                           <c:if test="${pageScope.record.apprStatus < 6 }">
-	                           	 <td>${pageScope.record.receiverLine.lineEmployee.empName }</td>
+                           <c:forEach var="line" items="${requestScope.receiverLine}" >
+	                           <c:if test="${pageScope.line.approvalRecords.apprStatus < 6 }">
+	                           	 <td>${pageScope.line.lineEmployee.empName }</td>
 	                           </c:if>	 
 						   </c:forEach>					
                           </tr>
-                         
+                        
 						  <tr class="even pointer">
               
-                           <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
-	                           <c:if test="${pageScope.record.apprStatus < 6 }">
-                           			 <td class=" "><img src="images/도장.jpg" style="height:50px; width:50px;"></td>
-								</c:if>
+                           <c:forEach var="line" items="${requestScope.receiverLine}" >
+                           	<c:choose>
+	                           <c:when test="${pageScope.line.approvalRecords!=null }">
+	                             <c:if test="${pageScope.line.approvalRecords.apprStatus < 6}">
+                           			 <td class=" "><img src="${line.lineEmployee.sign.systemFileName }" style="height:50px; width:50px;"></td>
+								 </c:if>
+								</c:when>
+								<c:otherwise>
+									<td></td>
+								</c:otherwise>
+							 </c:choose>
 							</c:forEach>
 
                           </tr>
                            <tr class="even pointer">
                             
-                           <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
-	                           <c:if test="${pageScope.record.apprStatus < 6 }">
-	                           	 <td>${pageScope.record.confirmDate }</td>
+                           <c:forEach var="line" items="${requestScope.receiverLine}" >
+	                           <c:if test="${pageScope.line.approvalRecords!=null || pageScope.line.approvalRecords.apprStatus < 6 }">
+	                           	 <td>${line.approvalRecords.confirmDate }</td>
 	                           </c:if>	 
 						   </c:forEach>
   			              </tr>
                           <tr class="headings"style="background-color:#3f5367; color:#ECF0F1;">
                             
                             <td rowspan="3" class="">참조</td>
-                          <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
-	                            <c:if test="${pageScope.record.apprStatus == 6 }">
-	                           		 <td class="apprLineRef">${pageScope.record.receiverLine.lineEmployee.duty }</td>
+                          <c:forEach var="line" items="${requestScope.receiverLine}" >
+	                            <c:if test="${pageScope.line.approvalRecords!=null || pageScope.line.approvalRecords.apprStatus == 6 }">
+	                           		 <td class="apprLineRef">${pageScope.line.lineEmployee.duty }</td>
 	                      		</c:if>
                             </c:forEach>
                             
@@ -325,11 +332,11 @@
                         
                           <tr class="even pointer">
                             
-                           <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
-	                           <c:if test="${pageScope.record.apprStatus == 6 }">
-	                           	 <td>${pageScope.record.receiverLine.lineEmployee.empName }</td>
-	                           </c:if>	 
-						   </c:forEach>
+                          <c:forEach var="line" items="${requestScope.receiverLine}" >
+	                            <c:if test="${pageScope.line.approvalRecords!=null || pageScope.line.approvalRecords.apprStatus == 6 }">
+	                           		 <td class="apprLineRef">${pageScope.line.lineEmployee.empName }</td>
+	                      		</c:if>
+                            </c:forEach>
                             
                             
 							
@@ -350,15 +357,15 @@
                         </thead>
 
                         <tbody>
-                        <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
-                        <c:if test="${pageScope.record.approvalComment != null }">
+                        <c:forEach var="line" items="${requestScope.receiverLine}" >
+                        <c:if test="${line.approvalComment != null }">
                           <tr class="even pointer">
                             
                            
 							
-                            <td class=" ">${pageScope.record.receiverLine.lineEmployee.empName}</td>
-							<td class=" ">${pageScope.record.approvalComment.commentContent }</td>
-                            <td class=" ">${pageScope.record.approvalComment.commentDate }</td>
+                            <td class=" ">${line.lineEmployee.empName}</td>
+							<td class=" ">${line.approvalComment.commentContent }</td>
+                            <td class=" ">${line.approvalComment.commentDate }</td>
                             
                             
 							
