@@ -1,4 +1,4 @@
-package com.bit.groupware.persistent.employee;
+package com.bit.groupware.persistent.approval;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +41,11 @@ public class MessageDAOImpl implements MessageDAO {
 
 	public int selectNewMessageCount(String empNo) {
 		return sqlSession.selectOne(NAMESPACE+".selectNewMessageCount", empNo);
+	}
+
+	public int selectMessageCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".selectMessageListCount",map);
 	}
 
 

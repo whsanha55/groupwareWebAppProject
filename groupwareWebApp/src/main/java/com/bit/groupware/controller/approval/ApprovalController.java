@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.approval.ApprovalRecordVO;
+import com.bit.groupware.domain.approval.ReceiverLineVO;
 import com.bit.groupware.service.approval.ApprovalRecordService;
 import com.bit.groupware.service.approval.ApprovalService;
 import com.bit.groupware.service.approval.ReceiverLineService;
@@ -38,9 +39,28 @@ public class ApprovalController {
 			ModelAndView mv =new ModelAndView();
 			mv.addObject("status",status);
 			//1:결재요청함 2:결재대기함 3:나머지
+			List<ReceiverLineVO> lines=receiverLineService.retrieveApprovalLineList(apprNo);
+			int apprCount=0;
+			int refCount=0;
+			int recCount=0;
+			for(ReceiverLineVO line:lines) {
+				if(line.getApprType()==0) {
+					apprCount++;
+				}else {
+					refCount++;
+				}
+				
+				if(line.getApprovalRecords()!=null) {
+					recCount++;
+				}
+			}
+
 			
+			mv.addObject("apprCount",apprCount);
+			mv.addObject("refCount",refCount);
+			mv.addObject("recCount",refCount);
 			mv.addObject("approval",approvalService.retrieveApproval(apprNo));
-			mv.addObject("receiverLine",receiverLineService.retrieveApprovalLineList(apprNo));
+			mv.addObject("receiverLine",lines);
 			mv.addObject("empNo", principal.getName());
 			mv.setViewName("approval/approvalDetail/pop");
 			return mv;

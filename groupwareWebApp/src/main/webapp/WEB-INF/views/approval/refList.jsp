@@ -42,6 +42,13 @@
 		
 		//결재문서 상세조회 팝업창 생성
 		 $('#datatable').on("click",'.detailApproval',function(){
+			 
+				//최초 확인시 확인일자 기록
+				var check = $(this).parent().children(":last").attr('class');	 		  	 
+				if(check == 'isNotRead') {
+					var recordNo = $(this).parent().children(":last").attr('id');
+				  	checkDate(recordNo);
+				} 
 				
 				var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=0';
@@ -139,7 +146,27 @@
 		}  */
 	 
 	});
-		
+	
+		function checkDate(recordNo) {
+			$.ajax({
+				url: '${pageContext.request.contextPath}/checkDate.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				data: {
+					recordNo: recordNo				
+				},
+				success: function (data, textStatus, jqXHR) {
+					templatePaging(1);
+				},
+				error: function(jqXHR) {
+					alert("에러: " + jqXHR.status);
+				}
+			});			
+		}	
+				
 	
 		function templatePaging(currentPageNo) {
 			var totalCount =  0;		//총 양식서 수
@@ -190,7 +217,7 @@
 						if(data.approvals[i].approvalRecords[0].checkDate !=null){
 							text += "<td class='isRead'>읽음</td>"
 						}else{
-							text += "<td class='isNotRead'>안읽음</td>"			
+							text += "<td class='isNotRead' id='" + data.approvals[i].approvalRecords[0].recordNo + "'>안읽음</td>"			
 						}
 						
 						text += "</tr>";

@@ -23,8 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.MessageVO;
+
+import com.bit.groupware.service.approval.MessageService;
 import com.bit.groupware.service.authority.UserDetailsServiceImpl;
-import com.bit.groupware.service.employee.MessageService;
 
 @Controller
 public class ProceedMessageController {
@@ -50,36 +51,16 @@ public class ProceedMessageController {
 	
 	// 쪽지함 페이지 요청
 	@RequestMapping(value = "/retrieveMessageList.do", method = RequestMethod.GET)
-	public ModelAndView retrieveMessageList(Principal principal) {
+	public String retrieveMessageList(Principal principal) {
 		
-		// 받은쪽지함 리스트를 보여준다.
 
-		ModelAndView mv = new ModelAndView();
 
-		SecurityContext context = SecurityContextHolder.getContext();
-		Authentication authentication = context.getAuthentication();
-		UserDetails user = (UserDetails) authentication.getPrincipal();
-
-		String empNo = user.getUsername();
-
-		// sequrity에 사원정보가 바인딩되어있다 - userDetails -- principal에 있는 정보들을 map에 담아서 넘겨줌.-->
-		// **수정필요.
-		// 사원에서 사원번호, startRow endRow에 해당하는 정보를 매개변수로 넘겨준다
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("empNo", empNo);
-		map.put("startRow", 1);
-		map.put("endRow", 15);
-
-		mv.addObject("messages", msgService.retrieveMessageList(map));
-		mv.setViewName("employee/messageList");
-
-		return mv;
+		return "approval/messageList";
 	}
 	
 	// 보낸 쪽지함 리스트 조회
 	
-	@RequestMapping(value="/retrieveSendMessageList.do", method=RequestMethod.GET)
+	@RequestMapping(value="retrieveSendMessageList.do", method=RequestMethod.GET)
 	public ModelAndView retrieveSendMessageList(Principal principal) {
 		ModelAndView mv = new ModelAndView();
 		
@@ -92,7 +73,7 @@ public class ProceedMessageController {
 		map.put("senderEmpNo", user.getUsername());
 		
 		mv.addObject("messages", msgService.retrieveMessageList(map));
-		mv.setViewName("employee/sendMessageList");
+		mv.setViewName("approval/sendMessageList");
 		
 		
 		return mv;
@@ -276,5 +257,41 @@ public class ProceedMessageController {
 
 	}
 		
+	//ajax 페이지 처리
+		@RequestMapping(value="/messagePaging.do", method=RequestMethod.POST)
+		@ResponseBody
+		public Map<String,Object> messageList(
+				@RequestParam(value="startRow") int startRow ,
+				@RequestParam(value="endRow") int endRow,
+				@RequestParam(value="isSender") int isSender ){
+			
+			SecurityContext context = SecurityContextHolder.getContext();
+			Authentication authentication = context.getAuthentication();
+			UserDetails user = (UserDetails) authentication.getPrincipal();
+
+			String empNo = user.getUsername();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			if(isSender==1) {
+				map.put("empNo", empNo);
+			}else {
+				map.put("senderEmpNo", empNo);
+				
+			}
+			int totalCount=msgService.retrieveMessageCount(map);
+			if(totalCount < endRow) {
+				endRow = totalCount;
+			}
+			map.put("startRow", startRow);
+			map.put("endRow", endRow);
+
+			Map<String, Object> returnMap = new HashMap<String, Object>();
+			returnMap.put("messages", msgService.retrieveMessageList(map));
+			returnMap.put("totalCount", totalCount);
+			logger.info("count : "+totalCount+"/msg : "+msgService.retrieveMessageList(map)); 
+			return returnMap;
+			
+		}
+
 
 }
