@@ -50,8 +50,9 @@ $.ajax({
 			text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
 			text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
 			text += "<td class='aWhether' id="+ data.authorities[i].aWhether +"></td>";
-			text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a class='btn btn-default'  id='disable' href='<c:url value='/admin/designRole.do'/>'>사원추가</a></td>";
+			text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><button type='button' class='btn btn-default'><a href='<c:url value='/admin/designRole.do'/>'>사원추가</a></button></td>";
 			text += "</tr>";		
+			
 		}
 		
 		
@@ -131,7 +132,8 @@ function jqueryPager(subOption) {
 }
 
 
-$(document).ready(function() {		
+$(document).ready(function() {	
+	
 	Paging(1);
 	
 	//검색조건
@@ -232,9 +234,9 @@ $(document).ready(function() {
 					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal' class='myModal''>"+ data.authorities[i].aNo + "</a></td>";
 					text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
 					text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
-					text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
-					text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a class='btn btn-default'  id='disable' href='<c:url value='/admin/designRole.do'/>'>사원추가</a></td>";
-					text += "</tr>";     
+					text += "<td class='aWhether' id="+ data.authorities[i].aWhether + "></td>";
+					text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button></button><button type='button' class='btn btn-default'><a href='<c:url value='/admin/designRole.do'/>'>사원추가</a></button></td>";
+					text += "</tr>";     		
 				}
 				
 				$('#datatable').find('tbody').html(text);
@@ -313,6 +315,9 @@ $(document).ready(function() {
 	   
 	   }
 	
+	//값 변경
+
+	
 	//수정 폼 변경
 	$('#datatable').on('click','button:contains(수정)', function () {
 		
@@ -335,6 +340,7 @@ $(document).ready(function() {
 
 	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-default'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
 	    $('button:contains(수정)').prop("disabled", true);
+	    $('button:contains(사원추가)').prop("disabled", true);
 
 	});
 	
@@ -348,10 +354,6 @@ $(document).ready(function() {
  		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
 
  	
- 		var thisAname = $(this).parents("tr").find('.aName');
- 		var thisAnote = $(this).parents("tr").find('.aNote');
- 		var thisAwhether = $(this).parents("tr").find('.aWhether');
- 		var selectBtn = $(this).parents("tr").find('.selectBtn');
  		
 		swal({
 			  title: "게시판을 수정하시겠습니까?",
@@ -380,10 +382,7 @@ $(document).ready(function() {
 							success : function(data, textStatus, jqXHR){	
 								if(data.isSuccess == "true"){
 									swal("수정 완료!","");
-									$(thisAname).html(data.authority.aName);
-									$(thisAnote).html(data.authority.aNote);
-									$(thisAwhether).html(data.authority.aWhether);
-									$(selectBtn).html("<a class='btn btn-primary' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button>");
+									Paging(1);
 								}else if(data.isSuccess == "false"){
 									swal("이미 권한이 존재합니다.");
 								} 
@@ -400,16 +399,8 @@ $(document).ready(function() {
 	});
 	
 	//취소
- 	$('#datatable').on('click','button:contains(취소)', function () { 
- 		var aName = $(this).parents("tr").find('input[name=aName]').val();
- 		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
- 		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
-		
-		$(this).parents("tr").find('.aName').html(aName);
-		$(this).parents("tr").find('.aNote').html(aNote);
-		$(this).parents("tr").find('.aWhether').html(aWhether);
-		$(this).parents("tr").find('.selectBtn').html("<a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a  id='disable' class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>사원추가</a>");
-		 $('button:contains(수정)').prop("disabled", false);
+ 	$('#datatable').on('click','button:contains(취소)', function () {  
+ 		Paging(1);
  	});
 	
 	
