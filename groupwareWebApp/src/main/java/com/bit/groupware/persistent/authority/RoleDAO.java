@@ -29,6 +29,9 @@ public interface RoleDAO {
    //rId에 해당하는 역할을 조회하다.
    RoleVO selectRole(String rId);
    
+   //rId에 해당하는 권한을 조회하다.
+   int aNoIsExist(String rId);
+   
    //rId에 해당하는 등록여부를 수정하다.
    void updateRoleRegistration(RoleVO role);
    

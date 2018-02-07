@@ -163,22 +163,24 @@
             }).then((e) => {
                  if(e) {
                   $.ajax({
-                     url: '${pageContext.request.contextPath}/admin/deleteRole.do'
+                     url: '${pageContext.request.contextPath}/admin/deleteRole.do'  
                      ,
                      method: 'GET'
                      ,
                      data: { rId : arr.join()}
                      , 
                      success: function(data) {
-                        
-                        swal("삭제 완료", "선택하신 항목이 삭제되었습니다.", "success");
-                         Paging(1); 
+                    	if(data.isSuccess == "true"){
+	                        swal("삭제 완료", "선택하신 항목이 삭제되었습니다.", "success");
+	                         Paging(1); 
+                    	}else if(data.isSuccess == "false"){
+							swal("삭제 불가", "권한이 부여되어있어 삭제가 불가능합니다.", "error");
+						} 
                      }
                      , 
                      error: function(jqXHR) {
                         alert('Error : ' + jqXHR.status);
-                     }             
-                     
+                     }    
                   });   
                               
                 }
