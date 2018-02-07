@@ -14,6 +14,7 @@ public interface NotificationDAO {
 	int selectNotificationCount(String empNo);
 	
 	//알림사항 DB에 반영
-	void insertNotification(Map<String,Object> map);
+	void insertNotificationProcess(Map<String,Object> map);
 	
+	void insertNotificationEnd(Map<String,Object> map);
 }

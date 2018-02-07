@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -36,7 +37,7 @@
 		// 검색 실행
 		$('#findEmployee').on('click', function() {
 			if($('.keyfield').attr('id') == "") {
-				alert("검색조건를 선택해주세요");
+				swal("검색조건를 선택해주세요");
 				return;
 			}
 	

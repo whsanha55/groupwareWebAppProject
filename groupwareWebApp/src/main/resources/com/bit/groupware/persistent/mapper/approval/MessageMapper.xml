@@ -95,8 +95,16 @@
          <if test="senderEmpNo != null">
          	where sender_emp_no = #{senderEmpNo}
          </if>
+         
+         
+         <if test= "empNo != null">
+         	order by msg_isread asc, msg_date desc   
+         </if>
+         
+         <if test="senderEmpNo != null">
+         	order by msg_date desc
+         </if>	
          	
-         	order by msg_isread desc, msg_date desc
           )t1 )t2
           where <![CDATA[rn>=]]>#{startRow} and <![CDATA[rn<=]]>#{endRow}
 	</select>

@@ -29,7 +29,7 @@
                   <label class="control-label col-md-2" for="first-name" >롤 설명
                   </label>
                   <div class="col-md-8">
-                    <input type="text" id="first-name2" name="rExplan" required="required" class="form-control col-md-7 col-xs-12">
+                    <input type="text" id="first-name2" name="rExplan" required="required" class="form-control col-md-7 col-xs-12" >
                   </div>
                </div>
                <div class="col-md-12" style="margin-bottom:40px;">

@@ -31,10 +31,12 @@ public class NotificationDAOImpl implements NotificationDAO {
 	}
 	
 	//알림사항 DB에 반영
-	public void insertNotification(Map<String, Object> map) {
-		
-		sqlSession.insert(NAMESPACE + ".insertNotification", map);
-		
+	public void insertNotificationProcess(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertNotificationProcess", map);
+	}
+	//알림사항 DB에 반영
+	public void insertNotificationEnd(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertNotificationEnd", map);
 	}
 	
 	

@@ -49,7 +49,7 @@
 
 	$(document).ready(function(){
 		
-		var status = ${requestScope.status};
+		var status = '${param.status}';
 		var finalStatus = "${param.finalStatus}";
 				
 		if(status==1){
@@ -327,7 +327,7 @@
                            			 <td class="apprLineAppr2"><img src="${pageScope.line.lineEmployee.systemSignName }" style="height:40px; width:40px;"></td>
 								</c:if>
 							</c:forEach>
-							<c:forEach begin="1" end="${11-requestScope.recCount}">
+							<c:forEach begin="1" end="${12-requestScope.recCount}">
                             	<td style="width:139px; background-color:;"></td>
                             </c:forEach>
 							
@@ -339,7 +339,7 @@
 	                           	 <td class="apprLineAppr3">${line.approvalRecords[0].confirmDate }</td>
 	                           </c:if>	 
 						   </c:forEach>
-						   <c:forEach begin="1" end="${11-requestScope.recCount}">
+						   <c:forEach begin="1" end="${12-requestScope.recCount}">
                             	<td style="width:139px; background-color:;"></td>
                             </c:forEach>
   			              </tr>
@@ -453,12 +453,8 @@
                        		
                           </tr>
 					
-							<tr>
-								<td colspan="4">${requestScope.approval.apprContent }</td>
-							</tr>
-						
-							
                       </table>
+                      <div>${requestScope.approval.apprContent }</div>
 						<c:if test="${fn:length(requestScope.approval.approvalFiles) >0 }">
 							<table class="table table-striped jambo_table bulk_action">
 								<tr>
