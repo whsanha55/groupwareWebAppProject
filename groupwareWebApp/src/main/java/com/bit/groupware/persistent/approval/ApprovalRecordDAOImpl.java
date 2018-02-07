@@ -20,16 +20,21 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		return sqlSession.selectList(NAMESPACE + ".selectApprovlaRecordList", apprNo);
 	}
 
-	public void insertApprovalRecord(Map<String, Integer> map) {
+	public void insertApprovalRecord(Map<String, Object> map) {
 		sqlSession.insert(NAMESPACE + ".insertApprovalRecord", map);
 	}
 
 	public void insertApprovalRecordProcedure(Map<String, Integer> map) {
 		sqlSession.insert(NAMESPACE + ".insertApprovalRecordProcedure", map);
 	}
+	
+	
+	public void insertApprovalRecordProceedProcedure(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertApprovalRecordProceedProcedure", map);
+	}
 
-	public void updateApprovalRecordStatus(ApprovalRecordVO approvalRecord) {
-		sqlSession.update(NAMESPACE + ".updateApprovalRecordStatus", approvalRecord);
+	public void updateApprovalRecordStatus(Map<String, Object> map) {
+		sqlSession.update(NAMESPACE + ".updateApprovalRecordStatus", map);
 	}
 
 	public void deleteApprovalRecord(int apprNo) {
@@ -40,9 +45,25 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectApprovalRecallable", apprNo);
 	}
 
-	public int selectNewRecordCount(Map<String, String> map) {
-		return sqlSession.selectOne(NAMESPACE + ".selectNewRecordCount", map);
+	public List<Integer> selectNewRecordCount(String empNo) {
+		return sqlSession.selectList(NAMESPACE + ".selectNewRecordCount", empNo);
 	}
+
+	//최종 결재자인지 아닌지 확인하는 dao (0->다음 진행자 있음, 1->종결)
+	public int checkisFinalApprovalLine(int recordNo) {
+		return sqlSession.selectOne(NAMESPACE + ".checkisFinalApprovalLine", recordNo) ;
+	}
+
+	public void updateCheckData(int recordNo) {
+		sqlSession.selectOne(NAMESPACE + ".updateCheckDate", recordNo);		
+	}
+
+	public int selectRecNo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".selectRecNo",map); 
+	}
+	
+	
 
 	
 }

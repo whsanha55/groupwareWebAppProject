@@ -46,7 +46,7 @@
 		// 검색 실행
 		$('.findCode').on('click', function() {
 			if($('.keyfield').attr('id') == null) {
-				alert('검색조건을 선택해 주세요!');
+				swal("검색조건을 선택해주세요!","", "error");
 				return;
 			}
 	

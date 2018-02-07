@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>메시지 보관함</title>
+<title>메시지 작성</title>
 
 <style>
 .x_panel {
 	width: 100%;
-	height: 570px;
+	height: 100%;
 	padding: 10px 17px;
 	display: inline-block;
 	background: #fff;
@@ -52,7 +52,21 @@
 
  	$(document).ready(function(){
  		
+ 		//결재선 관리 이벤트
+		$('#modalChart').on('click',function() {
+			$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
+			$('#layerpop').modal({
+				backdrop: 'static', 
+				keyboard: false
+			});
+		});
+		$('#modalCloseBtn').on('click',function() {
+			$('#chartBody').html("");
+			 
+		});
  		
+		
+		
  		$('#btnCancle').on('click',function(){
  			
  			window.close();
@@ -79,9 +93,11 @@
 				title: "쪽지 전송 완료",
 				text: "확인을 누르시면 받은 쪽지함으로 이동합니다",
 				icon: "success"
-				}).then((s)=>{
+				}).then((e)=>{
+					opener.parent.location.reload();
 					window.close();
-					location.href='${pageContext.request.contextPath}/retrieveMessageList.do';
+					
+
 				});
 				
 			}
@@ -163,8 +179,16 @@
 
 						<tr>
 							<td>수신자</td>
-							<td><input type="text" name="receipientEmployee" size="15"></input></td>
-
+							<td>
+							<div class="input-group col-md-6 col-sm-6 col-xs-12" style="margin-bottom:0px;">
+							
+							<input type="hidden" id="dempNo" name="dempNo" value="${requestScope.receipientNo}" >
+							<input type="text" id="empName" name="empName" class="form-control" readonly  value="${requestScope.receipientName}" style="width:137px;height:24px;">
+							
+							<button class="btn btn-primary" id='modalChart' type="button" style="height:27px; margin-left:5px; padding-top:3px;">검색</button>
+								
+							</div>
+							</td>
 						</tr>
 
 						<tr>
@@ -189,7 +213,20 @@
 		</div>
 	</div>
 	</form>
+	
+<div class="modal fade" id="layerpop">
+		<div class="modal-dialog modal-cSize">
+			<div class="modal-content modal-cSize">
+			
+				<div class="modal-body" id="chartBody"></div>
 
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="modalCloseBtn"
+						data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

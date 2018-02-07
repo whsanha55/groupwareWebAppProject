@@ -16,6 +16,14 @@ public class PhotoDAOImpl implements PhotoDAO {
 	public void insertPhoto(Map<String, Object> map) {
 		sqlSession.insert(NAMESPACE + ".insertPhoto", map);
 	}
+	
+	public void insertSign(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertSign", map);
+	}
+	
+	public String checkSign(String empNo) {
+		return sqlSession.selectOne(NAMESPACE + ".checkSign", empNo);
+	}
 
 	public void deletePhoto(String empNo) {
 		sqlSession.delete(NAMESPACE + ".deletePhoto", empNo);

@@ -84,6 +84,15 @@ p {
 					selectedDepartment = data.node.parent.title;
 					selectedDeptNo = data.node.parent.key;
 					alert(selectedEmpNo + " " + selectedNameAndDuty + " " + selectedDepartment + " "  + selectedDeptNo );
+					
+					//사원관리 - 대결권자설정
+					$('input[name=dempNo]').val(selectedEmpNo);
+					$('input[name=empName]').val(selectedNameAndDuty);
+					
+					//일정관리 - 담당자설정
+					$('input[name=rspbNo]').val(selectedEmpNo);
+					$('input[name=empName]').val(selectedNameAndDuty);
+				
 				} else {
 					selectedEmpNo = "";
 					selectedNameAndDuty = "";

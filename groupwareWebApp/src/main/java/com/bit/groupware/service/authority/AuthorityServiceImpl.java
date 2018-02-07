@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bit.groupware.domain.authority.AuthorityVO;
-import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.persistent.authority.AuthorityDAO;
 
 @Service
 public class AuthorityServiceImpl implements AuthorityService {
+
+
 
 	@Autowired
 	private AuthorityDAO authorityDAO;
@@ -21,35 +22,18 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthorityList(map);
 	}
 
-	public String registerAuthority(AuthorityVO authority) {
-		// TODO Auto-generated method stub
-		return null;
+	//권한을 등록하다.
+	public void registerAuthority(AuthorityVO authority) {
+		authorityDAO.insertAuthority(authority);
 	}
 
 	//권한을 수정한다.
 	public void modifyAuthority(AuthorityVO authority) {	
 		authorityDAO.updateAuthority(authority);	
 	}
-
-	public void removeAuthority(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List<EmployeeVO> retrieveAuthEmp(String aNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	//총 게시글 수를 구하다.
 	public int retrieveAuthorityCount(Map<String, Object> map) {
 		return authorityDAO.selectAuthorityCount(map);
-	}
-
-
-	//권한번호에 대한 사원을 조회하다.
-	public List<AuthorityVO> retrieveAuthEmpList(String aNo) {
-		return authorityDAO.selectAuthEmpList(aNo);
 	}
 
 	//권한목록을 조회하다.
@@ -62,5 +46,21 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthorityByAname(aName);
 	}
 
+	//권한을 일괄삭제한다.
+	public void removeAuthority(Map<String, Object> map) {
+		authorityDAO.deleteAuthority(map);
+		
+	}
+
+	//역할, 사원 존재여부
+	public int retrieveAtuhRoleCount(Map<String, Object> map) {
+		return authorityDAO.selectAuthRoleCount(map);
+	}
+	
+	//사원정보를 조회하다.
+	public List<AuthorityVO> retrieveAuthEmpList(String aNo) {
+		return authorityDAO.selectAuthEmpList(aNo);
+	}
+	
 	
 }

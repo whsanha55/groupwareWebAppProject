@@ -59,12 +59,12 @@
 		});*/
 		
 		//검색조건
-		$('.searchList1 .dropdown-menu').on('click','a',function(e) {
+		/* $('.searchList1 .dropdown-menu').on('click','a',function(e) {
 			e.preventDefault();
 			$('.keyfield').text($(this).text());
 			$('.keyfield').attr('id',$(this).attr('id'));
 			console.log($(this).attr('id'));
-		});
+		}); */
 		$('.searchList2 .dropdown-menu').on('click','a',function(e) {
 			e.preventDefault();
 			$('.keyfield1').text($(this).text());
@@ -74,11 +74,11 @@
 		
 		
 		//검색조건 엔터키 눌렀을때 트리거 발동
-		$('#keyword').on('keydown', function(e) {
+		/* $('#keyword').on('keydown', function(e) {
 			if(e.keyCode == 13){
 				$('#findEmployee').trigger('click');
 	        }
-		});
+		}); */
 		$('#keyword1').on('keydown', function(e) {
 			if(e.keyCode == 13){
 				$('#findEmployee1').trigger('click');
@@ -86,7 +86,7 @@
 		});
 		
 		// 검색 실행
-		$('#findEmployee').on('click', function() {
+		/* $('#findEmployee').on('click', function() {
 			if($('.keyfield').attr('id') == undefined) {
 				alert("choose keyfield");
 				return false;
@@ -99,7 +99,7 @@
 			eKeyword = $('.keyword').val();
 			
 			employeePaging(1);
-		});
+		}); */
 		$('#findEmployee1').on('click', function() {
 			if($('.keyfield1').attr('id') == undefined) {
 				alert("choose keyfield");
@@ -115,9 +115,22 @@
 			employeePaging1(1);
 		});
 		
+		$('#searchEmp').click(function() {
+			$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
+			$('#layerpop').modal({
+				backdrop: 'static', 
+				keyboard: false
+			});
+		});
+		
+		$('#modalCloseBtn').on('click',function() {
+			$('#chartBody').html("");
+			 
+		});
+		
 	});
 	
-	function employeePaging(currentPageNo) {
+	/* function employeePaging(currentPageNo) {
 		var totalCount =  0;		//총  수
 		var countPerPage = 10;   //한 페이지당 보여주는 회원 수
 		var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
@@ -231,7 +244,7 @@
 		html += '</ul>';
 		
 		$('#employeePaging').html(html);
-	} //end of jqueryPager
+	} //end of jqueryPager */
 		
 	function employeePaging1(currentPageNo) {
 			var totalCount =  0;		//총  수
@@ -273,9 +286,7 @@
 								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
 								text += "<td>"+ data.deputies[i].startDate +"</td>";
 								text += "<td>"+ data.deputies[i].endDate +"</td>";
-								text += "<td>"+ data.deputies[i].depReason +"</td>";
 								text += "<td>"+ data.deputies[i].progression +"</td>";
-								text += "<td><button type='button'>상세보기</button></td>";
 								text += "</tr>";
 							}
 						}					
@@ -368,10 +379,11 @@
 						<div class="input-group col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" id="dempNo" name="dempNo" value="" >
 							<input type="hidden" id="empNo" name="empNo" value="${requestScope.empNo }"/>
-							<input type="text" id="empName" name="empName" class="form-control" readonly><span class="input-group-btn">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#myModal">검색</button>
-							</span>
+							<input type="text" id="empName" name="empName" class="form-control" readonly>
+								<span class="input-group-btn">
+									<button id="searchEmp" type="button" class="btn btn-primary"
+										data-toggle="modal" <%-- data-target="#myModal" --%>>검색</button>
+								</span>
 						</div>
 					</div>
 					<div class="form-group form-inline col-md-12">
@@ -441,26 +453,11 @@
 								<th>이름</th>
 								<th>시작일</th>
 								<th>종료일</th>
-								<th>사유</th>
 								<th>진행여부</th>
-								<th>상세보기</th>
 							</tr>
 						</thead>
 						<tbody id="tbody">
-							<%-- <c:forEach var="deputy" items="${requestScope.deputies}" varStatus="loop">
-								<c:forEach var="employee" items="${pageScope.deputy.employees }">
-								<tr>
-									<td>${pageScope.deputy.dempNo }</td>
-									<td>${pageScope.employee.duty }</td>
-									<td>${pageScope.employee.empName }</td>
-									<td>${pageScope.deputy.startDate }</td>
-									<td>${pageScope.deputy.endDate }</td>
-									<td>${pageScope.deputy.depReason }</td>
-									<td>${pageScope.deputy.progression }</td>
-									<td><button type="button">상세보기</button></td>
-								</tr>
-								</c:forEach>
-							</c:forEach> --%>
+							
 						</tbody>
 					</table>
 					<nav aria-label="Page navigation" id='employeePaging1'>
@@ -472,7 +469,21 @@
 	</div>
 	
 	
+	<div class="modal fade" id="layerpop">
+		<div class="modal-dialog modal-cSize">
+			<div class="modal-content modal-cSize">
+							
+				<div class="modal-body" id="chartBody"></div>
+							
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="modalCloseBtn"
+							data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
+<%-- 	
 	
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -523,11 +534,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								<%-- <tr id="pushBtn" class="even pointer">
+								<tr id="pushBtn" class="even pointer">
 									<td>영업부</td>
 									<td class=" ">부장</td>
 									<td id="deptHead" class=" ">영부장</td>
-								</tr> --%>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -541,6 +552,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --%>
 </body>
 </html>

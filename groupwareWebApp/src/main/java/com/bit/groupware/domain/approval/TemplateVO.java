@@ -3,8 +3,6 @@ package com.bit.groupware.domain.approval;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bit.groupware.domain.employee.DelegationVO;
-
 public class TemplateVO {
 
 	private int tmpNo;

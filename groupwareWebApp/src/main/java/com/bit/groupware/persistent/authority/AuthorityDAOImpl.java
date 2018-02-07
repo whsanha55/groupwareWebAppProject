@@ -23,9 +23,9 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 		return authorities;
 	}
 
-	public String insertAuthority(AuthorityVO authority) {
-		// TODO Auto-generated method stub
-		return null;
+	//권한을 등록하다.
+	public void insertAuthority(AuthorityVO authority) {
+		sqlSession.insert(NAMESPACE + ".insertAuthority" , authority);
 	}
 
 	//권한을 수정하다.
@@ -33,9 +33,15 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 		sqlSession.update(NAMESPACE + ".updateAuthority" , authority);
 	}
 
+	//권한을 일괄삭제하다.
 	public void deleteAuthority(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".deleteAuthority", map);
 		
+	}
+	
+	//권한역할, 권한 사원 존재여부
+	public int selectAuthRoleCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectAuthRoleCount", map);
 	}
 
 	//총 게시글 수를 구하다.
@@ -45,7 +51,7 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 
 	//권한번호에 해당하는 사원을 조회하다.
 	public List<AuthorityVO> selectAuthEmpList(String aNo) {
-		return sqlSession.selectList(NAMESPACE + ".selectAuthEmpList", aNo);
+		return sqlSession.selectList(NAMESPACE + ".selectAuthEmpList" ,aNo);
 	}
 
 	//권한을 조회하다.
@@ -53,6 +59,7 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectAuthorityByaNo" , aNo);
 	}
 
+	//권한명 체크
 	public int selectAuthorityByAname(String aName) {
 		return sqlSession.selectOne(NAMESPACE + ".selectAuthorityByAname", aName);
 	}

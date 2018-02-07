@@ -7,7 +7,7 @@
 	
 	<insert id="insertApprovalComment" parameterType="ApprovalCommentVO" statementType="PREPARED">
 		insert into approval_comment(comment_no, record_no, comment_content)
-		values(APPROVAL_COMMENT_SEQ.NEXTVAL, #{approvalRecord.recordNo}, '승인합니다')
+		values(APPROVAL_COMMENT_SEQ.NEXTVAL, #{approvalRecord.recordNo}, #{commentContent})
 	</insert>
 	
 	<update id="updateApprovalComment" parameterType="ApprovalCommentVO" statementType="PREPARED">

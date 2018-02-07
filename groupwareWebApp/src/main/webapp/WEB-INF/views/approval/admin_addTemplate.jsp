@@ -17,7 +17,7 @@
 		
 	    //에디터 호출
 	    $('#summernote').summernote({
-			  lang: 'ko-KR',  // default: 'en-US'
+			  lang: 'ko-KR',  				// default: 'en-US'
 			  height: 500,                 // set editor height
 			  minHeight: 300,             // set minimum height of editor
 			  maxHeight: 800,             // set maximum height of editor
@@ -37,10 +37,19 @@
 				  ] 
 		}); 
 		
+	    
+	    //페이지 이동 방지
+	    var checkUnload = true;
+	    $(window).on("beforeunload", function(){
+	    	if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+	    });
+	    
 		
 		
 	    //등록 취소
 		$('#reset').on('click', function(){
+
+			checkUnload = false;
 			swal({
 				  title: "등록 취소",
 				  text: "양식 등록을  취소하시겠습니까?",
@@ -49,6 +58,9 @@
 				}).then((e) => {
 					if(e) {
 						location.href="${pageContext.request.contextPath}/admin/template.do";
+					} else if(!e) {
+						checkUnload = true;
+						return;
 					}	
 				});
 		});
@@ -56,8 +68,8 @@
 		
 	    
 	    //양식 등록
-		$('#register').on('click', function(event){
-			event.preventDefault();
+		$('#register').on('click', function(){
+			checkUnload = false;
 			swal({
 				  title: "양식 등록",
 				  text: "양식을 등록합니다. 계속 진행하시겠습니까?",
@@ -66,6 +78,9 @@
 				}).then((e) => {
 					if(e) {
 						registerTemplate();
+					} else if(!e) {
+						checkUnload = true;
+						return;
 					}	
 				});			
 		});
@@ -79,6 +94,16 @@
 			var content = $('#summernote').val();
 			var summary = $('#summary').val();
 			var using = $('#using').val();			
+			
+			if(tmpName == "") {
+				swal("양식명을 입력해주세요.", "");
+				return;
+			}
+			
+			if(content == "") {
+				swal("양식 내용을 입력해주세요.", "");
+				return;
+			}
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/admin/registerTemplate.do'
@@ -124,6 +149,11 @@
 		$('#addCategory').on('click', function(){
 			
 			var newCategoryName = $('#newCategoryName').val();
+			
+			if(newCategoryName == "") {
+				swal("카테고리 이름을 입력해주세요.", "");
+				return;
+			}
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/admin/registerCategory.do'
