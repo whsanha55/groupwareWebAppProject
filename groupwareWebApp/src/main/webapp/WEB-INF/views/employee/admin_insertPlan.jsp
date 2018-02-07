@@ -24,7 +24,7 @@ $(document).ready(function() {
 	});
 	
 	$('#searchMap').click(function() {
-		$('mapBody').load('${pageContext.request.contextPath}/admin/map.do');
+		$('#mapBody').load('${pageContext.request.contextPath}/admin/map.do');
 		$('#layerpop2').modal({
 			backdrop : 'static',
 			keyboard : false

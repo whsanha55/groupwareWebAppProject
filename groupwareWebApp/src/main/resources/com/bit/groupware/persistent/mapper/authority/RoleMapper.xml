@@ -142,7 +142,7 @@
    </update>
    
      <select id="rNameIsExist" statementType="PREPARED"  resultType="int" parameterType="String">
-         select count(*)
+       select count(*)
       from role
       where r_name = #{rName}
    </select>
@@ -153,6 +153,13 @@
                 from authority_role
                 where a_no= #{aNo}) temp1
         where temp1.r_id = #{rId}
+   </select>
+   
+    <select id="aNoIsExist" statementType="PREPARED"  resultType="int" parameterType="string">
+       select count(t3.a_no)
+       from role t1, authority_role t2, authority t3
+        where t1.r_id = t2.r_id  and t2.a_no = t3.a_no
+                 and t1.r_id=#{rId}
    </select>
    
 </mapper>

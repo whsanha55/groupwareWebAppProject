@@ -18,4 +18,6 @@ public interface MessageService {
 	int retrieveNewMessageCount(String empNo);
 	
 	int retrieveMessageCount(Map<String,Object> map);
+	
+	void modifyMessageStatus(int msgNo);
 }

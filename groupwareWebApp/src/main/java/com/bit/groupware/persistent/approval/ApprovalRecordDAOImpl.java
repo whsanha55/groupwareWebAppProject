@@ -57,6 +57,11 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 	public void updateCheckData(int recordNo) {
 		sqlSession.selectOne(NAMESPACE + ".updateCheckDate", recordNo);		
 	}
+
+	public int selectRecNo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".selectRecNo",map); 
+	}
 	
 	
 
