@@ -59,14 +59,16 @@ public class NotificationController {
 		
 		
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String empNo = user.getEmpName(); // 사용자 본인의 사원번호
+		String empNo = user.getUsername(); // 사용자 본인의 사원번호
 				
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
-		map.put("startRow", 1);
 		map.put("endRow", 15);
+		map.put("startRow", 1);
 		
+		
+		logger.info("notificationsss " + empNo);
 		
 		List<NotificationVO> notifications = notificationService.retrieveNotificationList(map);
 		

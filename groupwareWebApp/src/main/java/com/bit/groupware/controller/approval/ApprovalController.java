@@ -58,7 +58,7 @@ public class ApprovalController {
 			
 			mv.addObject("apprCount",apprCount);
 			mv.addObject("refCount",refCount);
-			mv.addObject("recCount",refCount);
+			mv.addObject("recCount",recCount);
 			mv.addObject("approval",approvalService.retrieveApproval(apprNo));
 			mv.addObject("receiverLine",lines);
 			mv.addObject("empNo", principal.getName());
