@@ -136,14 +136,20 @@
 	
 	
 	<select id="selectAllApprovalList" parameterType="map" resultMap="selectApprvalResultMap" statementType="PREPARED">
-		select t2.* from(
-		select rownum as rn, t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
+		select *
+		from( 
+		select rownum as rn, t2.* from(
+		select t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
 		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
 		from approval appr, template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
+		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo}
-		and appr.appr_final_status = #{apprFinalStatus}  
+		</if>
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>		  
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
@@ -173,8 +179,12 @@
 		and appr.tmp_no=tmp.tmp_no
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
-		and line.line_emp_no=#{empNo} 
-		and appr.appr_final_status = #{apprFinalStatus} 
+		<if test="empNo != 'admin'">
+		and line.line_emp_no=#{empNo}
+		</if> 
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
@@ -196,8 +206,8 @@
 		<if test="keyfield=='empDept'and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if>  
-		)t1    order by appr_date desc )t2
-		where rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+		)t1    order by appr_date desc ) t2 )
+		where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
 	</select>
 	
 	
@@ -279,8 +289,12 @@
 		template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
+		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo}
-		and appr.appr_final_status = #{apprFinalStatus}  
+		</if>
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>  
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
@@ -313,8 +327,12 @@
 		and appr.tmp_no=tmp.tmp_no
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
-		and line.line_emp_no=#{empNo} 
-		and appr.appr_final_status = #{apprFinalStatus} 
+		<if test="empNo != 'admin'">
+		and line.line_emp_no=#{empNo}
+		</if> 
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if> 
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>

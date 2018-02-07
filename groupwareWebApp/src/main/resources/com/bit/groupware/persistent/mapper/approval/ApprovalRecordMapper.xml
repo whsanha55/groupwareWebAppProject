@@ -120,7 +120,8 @@
 		and t1.appr_no = t4.appr_no
 		and t4.tmp_no = t5.tmp_no
 		and t5.tmp_no = t6.tmp_no(+)
-		and t1.record_no = #{recordNo}   
+		and t1.record_no = #{recordNo}
+		and rownum = 1 <!-- 테스트용 -->
    </select>
    
    <update id="updateCheckDate" statementType="PREPARED" parameterType="int">

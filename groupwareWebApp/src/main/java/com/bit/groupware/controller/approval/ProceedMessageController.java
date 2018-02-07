@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.MessageVO;
+
 import com.bit.groupware.service.approval.MessageService;
 import com.bit.groupware.service.authority.UserDetailsServiceImpl;
 
@@ -291,5 +292,6 @@ public class ProceedMessageController {
 			return returnMap;
 			
 		}
+
 
 }

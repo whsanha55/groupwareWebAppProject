@@ -219,8 +219,8 @@
 							<option value="tmpName">양식명</option>
 							<option value="empName">기안자</option>
 							<option value="department">기안부서</option>
-							<option value="apprDate" id="apprDate">기안날짜</option>
-							<option value="finDate" id=finDate>승인날짜</option>
+							<option value="apprDate" id="apprDate">기안일자</option>
+							<option value="finDate" id=finDate>승인일자</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
 						<button id="btn3" type="button">검색</button>
 					</form>
@@ -246,8 +246,8 @@
                             <th class="column-title">문서 제목</th>
                             <th class="column-title">기안자</th>
                             <th class="column-title">기안부서</th>
-		     				<th class="column-title">기안날짜</th>
-		   				    <th class="column-title">승인날짜</th>
+		     				<th class="column-title">기안일자</th>
+		   				    <th class="column-title">승인일자</th>
                             <th class="column-title">결재현황</th>
                             
                           </tr>

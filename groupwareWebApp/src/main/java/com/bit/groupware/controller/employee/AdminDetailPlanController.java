@@ -16,7 +16,7 @@ public class AdminDetailPlanController {
 	@Autowired
 	private PlanService planService;
 	
-	//일정 상세 조회 요청
+	/*//일정 상세 조회 요청
 	@RequestMapping(value="/admin/detailPlan.do", method=RequestMethod.GET)
 	public ModelAndView detailPlan(@RequestParam(value="pNo") String pNo) {
 		logger.info("pNo : ", pNo);
@@ -24,5 +24,5 @@ public class AdminDetailPlanController {
 		mv.addObject("plan", planService.retrievePlan(pNo));
 		mv.setViewName("employee/detailPlan");
 		return mv;
-	}
+	}*/
 }
