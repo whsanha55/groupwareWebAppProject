@@ -327,7 +327,7 @@
                            			 <td class="apprLineAppr2"><img src="${pageScope.line.lineEmployee.systemSignName }" style="height:40px; width:40px;"></td>
 								</c:if>
 							</c:forEach>
-							<c:forEach begin="1" end="${11-requestScope.recCount}">
+							<c:forEach begin="1" end="${12-requestScope.recCount}">
                             	<td style="width:139px; background-color:;"></td>
                             </c:forEach>
 							
@@ -339,7 +339,7 @@
 	                           	 <td class="apprLineAppr3">${line.approvalRecords[0].confirmDate }</td>
 	                           </c:if>	 
 						   </c:forEach>
-						   <c:forEach begin="1" end="${11-requestScope.recCount}">
+						   <c:forEach begin="1" end="${12-requestScope.recCount}">
                             	<td style="width:139px; background-color:;"></td>
                             </c:forEach>
   			              </tr>
