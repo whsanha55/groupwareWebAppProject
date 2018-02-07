@@ -80,6 +80,8 @@
 			p.rspb_no,
 			e.emp_name,
 			p.p_content,
+			<!-- to_date(p.start_date, 'YYYY-MM-DD"T"HH24:mi:ss') as start_date,
+			to_date(p.end_date, 'YYYY-MM-DD"T"HH24:mi:ss') as end_date, -->
 			p.start_date,
 			p.end_date,
 			p.latitude,
