@@ -211,11 +211,11 @@ $(document).ready(function () {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">중요도</label>
 								<div class="form-group">
 									&nbsp;&nbsp;
-									하: <input type="radio" class="flat" name="pImpt" id="pImpt" value="1" checked="" required="">
+									하: <input type="radio" name="pImpt" id="pImpt" value="1" checked="" required="">
 									&nbsp;&nbsp;
-									중: <input type="radio" class="flat" name="pImpt" id="pImpt" value="2">
+									중: <input type="radio" name="pImpt" id="pImpt" value="2">
 									&nbsp;&nbsp;
-									상: <input type="radio" class="flat" name="pImpt" id="pImpt" value="3">
+									상: <input type="radio" name="pImpt" id="pImpt" value="3">
 								</div>
 							</div>
 
