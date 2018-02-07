@@ -1,6 +1,8 @@
 package com.bit.groupware.controller.authority;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -16,27 +18,22 @@ import com.bit.groupware.domain.authority.AuthorityVO;
 import com.bit.groupware.service.authority.AuthorityService;
 
 @Controller
-public class AdminModifyAuthorityController {
-
+public class AdminRetrieveAuthEmpController {
+	
 	@Autowired
 	private AuthorityService authorityService;
+
+	private static final Logger logger = LoggerFactory.getLogger(AdminRetrieveAuthEmpController.class);
 	
-	private final static Logger logger = LoggerFactory.getLogger(AuthorityService.class);
-	
-	@RequestMapping(value="/modifyAuthorityAjax.do", method=RequestMethod.POST)
+	@RequestMapping(value="/retrieveAuthEmpAjax.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> modifyAuth(AuthorityVO authority, @RequestParam(value="aName") String aName){
-		logger.info("/////////retrieveAuthority//////////", authorityService.retrieveAuthorityByAname(aName));
-		int name = authorityService.retrieveAuthorityByAname(aName); 
+	public Map<String, Object> form(@RequestParam(value="aNo") String aNo){
+		logger.info("////////////retrieveAuthEmp///////////////", authorityService.retrieveAuthEmpList(aNo));
+		List<AuthorityVO> authorities = new ArrayList<AuthorityVO>();
+		authorities =  authorityService.retrieveAuthEmpList(aNo);		
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(name == 0) {
-			logger.info("/////////ModifyAuthority  수정완료 ! ///////////" , authority);	
-			authorityService.modifyAuthority(authority);
-			map.put("isSuccess", "true");
-			map.put("authority", authority);
-		} else {
-			map.put("isSuccess", "false");
-		}
+		map.put("authorities", authorities);
 		return map;
 	}
+	
 }

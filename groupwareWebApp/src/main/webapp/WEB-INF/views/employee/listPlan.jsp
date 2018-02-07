@@ -42,9 +42,9 @@ $(document).ready(function(){
 	
 	$('#calendar').fullCalendar ({
 		header: {
-			left: 'prev,next today',
+			right: 'prev,next today',
 			center: 'title',
-			right: 'month,basicWeek,basicDay'
+			left: 'month,basicWeek,basicDay'
 		},
 		eventClick : function(calEvent,jsEvent,view) {  //달력 이벤트 클릭
 			if (event.url) {

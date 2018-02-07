@@ -17,7 +17,7 @@
 
 		Paging(1);
 
-		//		검색조건
+		//	검색조건
 		$('.search-panel .dropdown-menu').on('click', 'a', function(e) {
 			e.preventDefault();
 			$('.keyfield').text($(this).text());

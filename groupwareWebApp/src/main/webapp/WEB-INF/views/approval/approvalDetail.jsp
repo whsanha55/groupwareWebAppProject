@@ -44,7 +44,7 @@
 	$(document).ready(function(){
 		
 		var status = ${requestScope.status};
-		var finalStatus = ${param.finalStatus};
+		var finalStatus = "${param.finalStatus}";
 				
 		if(status==1){
 			$('#return').attr('disabled',false);
@@ -67,7 +67,7 @@
 		
 		
 	
-		var temp = $('.apprLineAppr').length;
+		/* var temp = $('.apprLineAppr').length;
 		var text = "";
 		for(var i =temp; i<9;i++) {
 			//$('.apprLineAppr').parent().append('<td></td>');
@@ -75,7 +75,30 @@
 		}
 		$('.apprLineAppr').parent().append(text);
 		$('.apprLineAppr').parent().next().next().append(text);
-		
+		 temp = $('.apprLineAppr1').length;
+		 text = "";
+		for(var i =temp; i<9;i++) {
+			//$('.apprLineAppr').parent().append('<td></td>');
+			text += "<td></td>";
+		}
+		$('.apprLineAppr1').parent().append(text);
+		$('.apprLineAppr1').parent().next().next().append(text);*/
+		var temp = $('.apprLineAppr2').length;
+		var text = "";
+		for(var i =temp; i<9;i++) {
+			//$('.apprLineAppr').parent().append('<td></td>');
+			text += "<td></td>";
+		}
+		$('.apprLineAppr2').parent().append(text);
+		$('.apprLineAppr2').parent().next().next().append(text);
+		 temp = $('.apprLineAppr3').length;
+		 text = "";
+		for(var i =temp; i<9;i++) {
+			//$('.apprLineAppr').parent().append('<td></td>');
+			text += "<td></td>";
+		}
+		$('.apprLineAppr3').parent().append(text);
+		$('.apprLineAppr3').parent().next().next().append(text);/*
 		temp = $('.apprLineRef').length;
 		text = "";
 		for(var i =temp; i<9;i++) {
@@ -84,7 +107,14 @@
 		}
 		$('.apprLineRef').parent().append(text);
 		$('.apprLineRef').parent().next().append(text);
-		
+		temp = $('.apprLineRef1').length;
+		text = "";
+		for(var i =temp; i<9;i++) {
+			//$('.apprLineAppr').parent().append('<td></td>');
+			text += "<td></td>";
+		}
+		$('.apprLineRef1').parent().append(text);
+		$('.apprLineRef1').parent().next().append(text); */
 		
 	
 		
@@ -272,74 +302,77 @@
 			</div>
 			<div class="table-responsive" id="datas">
 				<h2><strong>결재 라인</strong></h2>
-				<table class="table table-striped jambo_table bulk_action approvalLineTable" style="text-align:center;">
+				<table class="table table-striped jambo_table bulk_action approvalLineTable" style="text-align:center; width:100%;">
                        
 
                         
-							 <tr class="headings" style="background-color:#3f5367; color:#ECF0F1;">
+						  <tr class="headings" style="background-color:#3f5367; color:#ECF0F1;">
                             	<td rowspan="4" class="">결재</td>
                             <c:forEach var="line" items="${requestScope.receiverLine}" >
+	                            
 	                            <c:if test="${ line.apprType == 0}">
-	                           		 <td class="apprLineAppr">${pageScope.line.lineEmployee.duty }</td>
+	                           		 <th class="apprLineAppr" style="width:139px; text-align:center;">${pageScope.line.lineEmployee.duty }</th>
 	                      		</c:if>
+	                      		
 	                      	    <c:if test="${line.lineEmployee.empNo == empNo}">
 	                      			<input type="hidden" name='recordNo' value="${line.approvalRecords[0].recordNo}">
 	                      		</c:if> 
                             </c:forEach>
+                            <c:forEach begin="1" end="${17- fn:length(requestScope.receiverLine) }">
+                            	<th style="width:68px;"></td>
+                            </c:forEach>
                           </tr>
+                          
                           <tr class="even pointer">                      
                            <c:forEach var="line" items="${requestScope.receiverLine}" >
 	                           <c:if test="${ line.apprType == 0}">
-	                           	 <td>${pageScope.line.lineEmployee.empName }</td>
+	                           	 <td class="apprLineAppr1">${pageScope.line.lineEmployee.empName }</td>
 	                           </c:if>	 
-						   </c:forEach>					
+						   </c:forEach>	
+						   <c:forEach begin="1" end="${17- fn:length(requestScope.receiverLine) }">
+                            	<td style="width:139px;"></td>
+                            </c:forEach>				
                           </tr>
                         
 						  <tr class="even pointer">
-              
-                           <c:forEach var="line" items="${requestScope.receiverLine}" >
-                           	<c:choose>
-	                           <c:when test="${pageScope.line.approvalRecords!=null }">
-	                             <c:if test="${pageScope.line.approvalRecords[0].apprStatus < 6}">
-                           			 <td class=" "><img src="${line.lineEmployee.systemSignName }" style="height:50px; width:50px;"></td>
-								 </c:if>
-								</c:when>
-								<c:otherwise>
-									<td></td>
-								</c:otherwise>
-							 </c:choose>
+                           <c:forEach var="line" items="${requestScope.receiverLine}" >                                                    
+	                           <c:if test="${pageScope.line.approvalRecords!=null && pageScope.line.approvalRecords[0].apprStatus < 6 && pageScope.line.approvalRecords[0].confirmDate !=null }">	                             
+                           			 <td class="apprLineAppr2"><img src="${pageScope.line.lineEmployee.systemSignName }" style="height:40px; width:40px;"></td>
+								</c:if>
 							</c:forEach>
-
+							
                           </tr>
-                           <tr class="even pointer">
-                            
+                          
+                          <tr class="even pointer">                       
                            <c:forEach var="line" items="${requestScope.receiverLine}" >
-	                           <c:if test="${pageScope.line.approvalRecords!=null && pageScope.line.approvalRecords[0].apprStatus < 6 }">
-	                           	 <td>${line.approvalRecords[0].confirmDate }</td>
+	                           <c:if test="${pageScope.line.approvalRecords!=null && pageScope.line.approvalRecords[0].apprStatus < 6 && pageScope.line.approvalRecords[0].confirmDate !=null}">
+	                           	 <td class="apprLineAppr3">${line.approvalRecords[0].confirmDate }</td>
 	                           </c:if>	 
 						   </c:forEach>
+						   
   			              </tr>
+  			              
                           <tr class="headings"style="background-color:#3f5367; color:#ECF0F1;">
-                            
                             <td rowspan="3" class="">참조</td>
-                          <c:forEach var="line" items="${requestScope.receiverLine}" >
+                            <c:forEach var="line" items="${requestScope.receiverLine}" >
 	                            <c:if test="${ line.apprType == 1}">
 	                           		 <td class="apprLineRef">${pageScope.line.lineEmployee.duty }</td>
 	                      		</c:if>
                             </c:forEach>
-                            
+                            <c:forEach begin="1" end="${13- fn:length(requestScope.receiverLine) }">
+                            	<td style="width:139px;"></td>
+                            </c:forEach>
                           </tr>
                         
-                          <tr class="even pointer">
-                            
+                          <tr class="even pointer"> 
                           <c:forEach var="line" items="${requestScope.receiverLine}" >
 	                            <c:if test="${ line.apprType == 1}">
-	                           		 <td class="apprLineRef">${pageScope.line.lineEmployee.empName }</td>
+	                           		 <td class="apprLineRef1">${pageScope.line.lineEmployee.empName }</td>
 	                      		</c:if>
                             </c:forEach>
-                            
-                            
-							
+                            <c:forEach begin="1" end="${13- fn:length(requestScope.receiverLine) }">
+                            	<td style="width:139px;"></td>
+                            </c:forEach>
                           </tr>
 				
                       </table>
