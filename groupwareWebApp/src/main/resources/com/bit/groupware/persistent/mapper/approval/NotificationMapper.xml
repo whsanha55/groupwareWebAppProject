@@ -75,10 +75,7 @@
             
 	</select>
 	
-	
-	
-	
-	
+		
 	<delete id="deleteNotification" parameterType="map" >
 		delete from notification
 		<choose>
