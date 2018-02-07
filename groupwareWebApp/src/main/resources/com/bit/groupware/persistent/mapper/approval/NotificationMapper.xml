@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bit.groupware.persistent.mapper.employee.NotificationMapper">
+<mapper namespace="com.bit.groupware.persistent.mapper.approval.NotificationMapper">
 
 	<resultMap id="selectNotificationListMap" type="NotificationVO">
 		<id property="noteNo" column="note_no" />
@@ -14,22 +14,22 @@
 			<id property="empNo" column="emp_no" />
 			<result property="empName" column="emp_name" />
 			<collection property="codes" ofType="codeVO">
-				<result property="cName" column="c_name"/>
+				<result property="cNo" column="duty_no"/>
 			</collection>
 		</association>
 	</resultMap>
 	
-	<select id="selectNotificationList" parameterType="map" resultMap="selectNotificationListMap" >
+	
+	<select id="selectNotificationList" parameterType="map" resultMap="selectNotificationListMap" statementType="PREPARED" >
 		select * 
-		from (select * 
-		      from (select t1.note_no, t1.note_date, t1.redirect_path, t1.message, t1.emp_no, t2.emp_name, t2.c_name, rownum rn
-		            from notification t1, employee_view t2
-		            where t1.emp_no = t2.emp_no
-		            and t1.emp_no = #{empNo}
-		            order by t1.note_date desc)
-		      where rn &lt;= #{endRow})
-	   where rn &gt;= #{startRow}
+    	from (select rownum rn , t3.*
+            from (select t1.note_no, t1.note_date, t1.redirect_path, t1.message, t1.emp_no, t2.emp_name, t2.duty_no
+                                from notification t1, emp_view t2
+                                where t1.emp_no = t2.emp_no and t1.emp_no = #{empNo}
+                                order by t1.note_date desc) t3 )
+            where rn between #{startRow} and #{endRow}
 	</select>
+	
 	
 	<delete id="deleteNotification" parameterType="map" >
 		delete from notification

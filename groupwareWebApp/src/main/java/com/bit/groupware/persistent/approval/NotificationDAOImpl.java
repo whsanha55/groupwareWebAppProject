@@ -12,7 +12,7 @@ import com.bit.groupware.domain.approval.NotificationVO;
 @Repository
 public class NotificationDAOImpl implements NotificationDAO {
 	
-	private static final String NAMESPACE = "com/bit/groupware/persistent/mapper/approval/NotificationMapper";
+	private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.approval.NotificationMapper";
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
