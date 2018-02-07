@@ -91,6 +91,12 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 	public void modifyCheckDate(int recordNo) {
 		approvalRecordDAO.updateCheckData(recordNo);		
 	}
+
+
+	public int retrieveRecNo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return approvalRecordDAO.selectRecNo(map); 
+	}
 	
 	
 	
