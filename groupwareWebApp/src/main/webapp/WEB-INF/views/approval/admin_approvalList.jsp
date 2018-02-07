@@ -21,6 +21,7 @@
 	$(document).ready(function(){
 		
 		templatePaging(1);//최초로드시 페이지처리
+
 		
 		//결재현황 팝업창생성
 		  $('#datatable').on('click','.currentRecord',function() {
@@ -86,7 +87,7 @@
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			var apprFinalStatus =1;
+			var apprFinalStatus = 5;
 			var apprStatus= 7;
 			
 			$.ajax({
@@ -118,9 +119,7 @@
 						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
-						text += "<td>"+ data.approvals[i].apprDate + "</td>";
-						text += "<td>"+ data.approvals[i].completeDate + "</td>";
-						
+						text += "<td>"+ data.approvals[i].apprDate + "</td>";	
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";
 						text += "</tr>";
 					}
@@ -220,8 +219,7 @@
 							<option value="tmpName">양식명</option>
 							<option value="empName">기안자</option>
 							<option value="department">기안부서</option>
-							<option value="apprDate" id="apprDate">기안날짜</option>
-							<option value="finDate" id=finDate>승인날짜</option>
+							<option value="apprDate" id="apprDate">기안일자</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
 						<button id="btn3" type="button">검색</button>
 					</form>
@@ -247,7 +245,7 @@
                             <th class="column-title">문서 제목</th>
                             <th class="column-title">기안자</th>
                             <th class="column-title">기안부서</th>
-		     				<th class="column-title">기안날짜</th>
+		     				<th class="column-title">기안일자</th>
 		   				    <th class="column-title">결재현황</th>
                             
                           </tr>
