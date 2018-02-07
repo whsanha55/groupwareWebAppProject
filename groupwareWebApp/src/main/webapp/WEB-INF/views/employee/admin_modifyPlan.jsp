@@ -14,11 +14,7 @@ var eKeyfield;
 var eKeyword;
 
 $(document).ready(function () {		
-	$('#something').click(function() {
-		location.reload();
-		});
-	
-	
+
 	//파일 삭제 
 	$('#deleteBtn').on('click', function() {	
 		var fileNo = $(this).val();
@@ -69,150 +65,20 @@ $(document).ready(function () {
 	});	 
 	
 	
-	//검색
-	$('#rspbRegister').on('click','#pushBtn',function() {
-		$('#myModal').modal('hide');
-		$('#empName').val($('#deptHead').text());
-		$('#rspbNo').val($('#deptEmpNo').text());
+	$('#searchEmp').click(function() {
+		$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
+		$('#layerpop').modal({
+			backdrop: 'static', 
+			keyboard: false
+		});
 	});
 	
-	//검색조건
-	$('.searchList1 .dropdown-menu').on('click','a',function(e) {
-		e.preventDefault();
-		$('.keyfield').text($(this).text());
-		$('.keyfield').attr('id',$(this).attr('id'));
-		console.log($(this).attr('id'));
+	$('#modalCloseBtn').on('click',function() {
+		$('#chartBody').html("");
+		 
 	});
-	
-	//검색조건 엔터키 눌렀을때 트리거 발동
-	$('#keyword').on('keydown', function(e) {
-		if(e.keyCode == 13){
-			$('#findEmployee').trigger('click');
-        }
-	});
-	
-	// 검색 실행
-	$('#findEmployee').on('click', function() {
-		if($('.keyfield').attr('id') == null) {
-			swal("검색조건를 선택해주세요","", "error");
-			return;
-		}
 
-		eKeyfield = $('.keyfield').attr('id');
-		eKeyword = $('.keyword').val();
-		console.log(eKeyfield);
-		
-		employeePaging(1);
-	});
-	
-});
-
-function employeePaging(currentPageNo) {
-	var totalCount =  0;		//총  수
-	var countPerPage = 10;   //한 페이지당 보여주는 회원 수
-	var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
-	var startRow = (currentPageNo - 1) * countPerPage + 1;
-	var endRow = currentPageNo * countPerPage;
-	
-	$.ajax({
-		url: '${pageContext.request.contextPath}/deputyRegisterSearchAjax.do' 
-		,
-		data: {
-			keyfield: eKeyfield ,
-			keyword: eKeyword ,	
-			startRow : startRow ,
-			endRow : endRow
-		}
-		,
-		type: 'POST' 
-		,
-		cache: false 
-		,
-		dataType: 'json' 
-		,
-		success: function (data, textStatus, jqXHR) {
-			
-			totalCount = data.totalCount;
-			
-			//datatable테이블 변경하기
-			var text = "";
-			for(var i=0;i<data.employees.length;i++) {
-				text += '<tr id="pushBtn" class="even pointer">';
-				text += '<td>'+ data.employees[i].department 			+'</td>';
-				text += '<td id="deptEmpNo">'+ data.employees[i].empNo	+'</td>';
-				text += '<td id="deptHead">'+ data.employees[i].empName +'</td>';
-				text += '<td>'+ data.employees[i].duty 					+'</td>';
-				text += '</tr>';
-			}
-			$('#rspbRegister').find('tbody').html(text);
-
-			//페이징 처리
-			jqueryPager({
-				countPerPage : countPerPage,
-				pageSize : pageSize,
-				currentPageNo : currentPageNo,
-				totalCount : totalCount
-			});		
-		} 
-		,
-		error: function(jqXHR) {
-			alert("에러: " + jqXHR.status);
-		}	
-	});
-	
-} //end templatePaging function
-
-
-function jqueryPager(subOption) {
-	
-	var pageBlock = subOption.countPerPage;      
-	var pageSize = subOption.pageSize;        
-	var currentPage = subOption.currentPageNo;   
-	var pageTotal = subOption.totalCount;       
-	var pageTotalCnt = Math.ceil(pageTotal/pageBlock);
-	var pageBlockCnt = Math.ceil(currentPage/pageSize);
-	var sPage = (pageBlockCnt-1) * pageSize + 1;
-	var ePage;
-	
-	var html ="<ul class='pagination'>";
-
-	
-	 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
-		ePage = pageTotalCnt;
-	} else {
-		ePage = pageBlockCnt * pageSize;
-	} 
-	
-	if(sPage <= 1) {
-		html += '<li class="page-item disabled">';
-		html += '<a class="page-link" aria-label="Previous">' 
-	} else {
-		html += '<li class="page-item ">';
-		html += '<a class="page-link" aria-label="Previous" onclick = "employeePaging(' + (sPage - pageSize) + ')">'; 
-	}
-	html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
-	
-	for(var i=sPage; i<=ePage; i++) {
-		if(currentPage == i) {
-			html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
-		} else {
-			html += '<li class="page-item"><a class="page-link" onclick="employeePaging(' + i + ');">' + i + '</a></li>';
-		}
-	}				
-
-	if (ePage >= pageTotalCnt) {
-		html += '<li class="page-item disabled">';
-		html += '<a class="page-link" aria-label="Next">';
-	} else {
-		html += '<li class="page-item">';
-		html += '<a class="page-link" aria-label="Next" onclick = "employeePaging(' + (ePage+1) + ')">';
-	}
-	html += '<span aria-hidden="true">&raquo;</span> </a></li>';
-	html += '</ul>';
-	
-	$('#employeePaging').html(html);
-
-}//end of jqueryPager
+});//end of jqueryPager
 </script>
 </head>
 <body>
@@ -296,18 +162,17 @@ function jqueryPager(subOption) {
 							</div>
 						</div>
 						
-		
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >장소</label>&nbsp;&nbsp;
-							<div class="col-md-6 col-sm-6 col-xs-12">
+							<div class=" col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="latitude" name="latitude"
 									required="required" class="form-control col-md-10 col-xs-12"
 									style="width:100px;" value="${requestScope.plan.latitude }">
 								<input type="text" id="longitude" name="longitude"
 									required="required" class="form-control col-md-10 col-xs-12"
 									style="width:100px;" value="${requestScope.plan.longitude }">
+								<button type="button" class="btn btn-success">주소찾기</button>
 							</div>
-							<button type="button" class="btn btn-success">주소찾기</button>
 						</div>
 
 						<div class="form-group">
@@ -321,14 +186,13 @@ function jqueryPager(subOption) {
 						
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">첨부파일</label>&nbsp;&nbsp;
-								<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
-									<c:url var="deleteUrl" value="/admin/removePlanFile.do" scope="page" >
-										<c:param name="fileNo" value="${pageScope.file.fileNo }" />
-									</c:url>
-									${pageScope.file.fileName }
-									<button type="button" value="${pageScope.file.fileNo }" id="deleteBtn" class="btn btn-primary" >삭제</button>
-								</c:forEach>
-							</div>
+							<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
+								<c:url var="deleteUrl" value="/admin/removePlanFile.do" scope="page" >
+									<c:param name="fileNo" value="${pageScope.file.fileNo }" />
+								</c:url>
+								${pageScope.file.fileName }
+								<button type="button" value="${pageScope.file.fileNo }" id="deleteBtn" class="btn btn-primary" >삭제</button>
+							</c:forEach>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12"></label>
@@ -355,15 +219,16 @@ function jqueryPager(subOption) {
 								</div>
 							</div>
 
+						
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" for="empName">담당자 지정</label>
-							<div class="col-md-6 col-sm-6 col-xs-12">
+							<div class="input-group col-md-6 col-sm-6 col-xs-12">
 								<input type="hidden" id="rspbNo" name="rspbNo"
 									required="required" class="form-control col-md-10 col-xs-12" value="">
 								<input type="text" id="empName" name="empName" class="form-control" readonly value="${requestScope.plan.empName }">
-								<span class="input-group-btn">
+									<span class="input-group-btn">
+										<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal">검색</button>
 							</div>
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">검색</button>
 						</div>
 
 
@@ -384,74 +249,19 @@ function jqueryPager(subOption) {
 		</div>
 
 		<!-- 모달 팝업 -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">담당자 지정</h4>
-					※부서와 이름, 기간을 지정해주세요.
-				</div>
-				<div class="modal-body">
-					<div>
-						<div class="btn-group searchList1">
-							<button data-toggle="dropdown"
-								class="btn btn-default dropdown-toggle" id="keyfieldBtn" type="button"
-								aria-expanded="true"><span class='keyfield'>부서</span><span class="caret"></span>
-							</button>
-							<ul id="keyfieldItem" role="menu" class="dropdown-menu" aria-labelledby="searchType">
-							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
-								<li>
-									<a role="menuitem" id="${pageScope.deptCode.cName }">${pageScope.deptCode.cName }</a>
-								</li>
-							</c:forEach>
-							</ul>
+	<div class="modal fade" id="layerpop">
+		<div class="modal-dialog modal-cSize">
+			<div class="modal-content modal-cSize">
 							
-							<div class="col-sm-6">
-								<div id="imaginary_container">
-									<div class="input-group stylish-input-group">
-										<input id="keyword" type="text" class="form-control keyword" placeholder="Search">
-										<span class="input-group-addon" style="padding: 3px 10px">
-											<button class="btn btn-default" type="button" id="findEmployee">
-												<span class="glyphicon glyphicon-search"></span>
-											</button>
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<table id="rspbRegister" class="table table-striped jambo_table bulk_action">
-							<thead>
-								<tr class="headings">
-									<th class="column-title">부서</th>
-									<th class="column-title">사번</th>
-									<th class="column-title">이름</th>
-									<th class="column-title">직책</th>
-								</tr>
-							</thead>
-							<tbody>
-								<%-- <tr id="pushBtn" class="even pointer">
-									<td>영업부</td>
-									<td class=" ">부장</td>
-									<td id="deptHead" class=" ">영부장</td>
-								</tr> --%>
-							</tbody>
-						</table>
-					</div>
-					<nav aria-label="Page navigation" id='employeePaging'>
-				
-					</nav>
-					<br>
-					<div class="text-center">
-						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					</div>
+				<div class="modal-body" id="chartBody"></div>
+							
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="modalCloseBtn"
+							data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	</form>
+</form>
 </body>
 </html>
