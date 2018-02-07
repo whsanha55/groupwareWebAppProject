@@ -12,7 +12,7 @@ public interface AuthorityService {
 	List<AuthorityVO> retrieveAuthorityList(Map<String, Object> map);
 
 	//권한을 추가한다.
-	String registerAuthority(AuthorityVO authority);
+	void registerAuthority(AuthorityVO authority);
 
 	// 권한정보를 수정한다.
 	void modifyAuthority(AuthorityVO authority);

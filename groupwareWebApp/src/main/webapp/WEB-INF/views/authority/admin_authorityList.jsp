@@ -45,14 +45,15 @@ $.ajax({
 		var text = "";
 		for(var i=0;i<data.authorities.length;i++) {
 			text += "<tr class='even pointer'>";
-			text += "<td class='a-center'><input type='checkbox' id='ex_chk' name='selected' vlaue="+ data.authorities[i].aNo +"> </td>";
+			text += "<td class='a-center' id='selected'><input type='checkbox' id='ex_chk' name='selected' value="+ data.authorities[i].aNo +"> </td>";
 			text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal' class='myModal''>"+ data.authorities[i].aNo + "</a></td>";
 			text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
 			text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
-			text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
-			text += "<td class='align-center selectBtn'><a class='btn btn-primary' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button></td>";
-			text += "</tr>";
+			text += "<td class='aWhether' id="+ data.authorities[i].aWhether +"></td>";
+			text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a class='btn btn-default'  id='disable' href='<c:url value='/admin/designRole.do'/>'>사원추가</a></td>";
+			text += "</tr>";		
 		}
+		
 		
 		$('#datatable').find('tbody').html(text);
 			
@@ -72,7 +73,6 @@ $.ajax({
 	}
 	
 });
-
 
 } //end Paging function
 
@@ -133,7 +133,7 @@ function jqueryPager(subOption) {
 
 $(document).ready(function() {		
 	Paging(1);
-
+	
 	//검색조건
 	$('.search-panel .dropdown-menu').on('click','a',function(e) {
 			e.preventDefault();
@@ -185,6 +185,7 @@ $(document).ready(function() {
 
 	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
 	    $('button:contains(수정)').prop("disabled", true);
+
 	});
 	
 	
@@ -209,7 +210,7 @@ $(document).ready(function() {
 			}).then((e) => {
 				if(e) {
 					$.ajax({
-						url : '${pageContext.request.contextPath}/modifyAuthorityAjax.do?' 
+						url : '${pageContext.request.contextPath}/modifyAuthorityAjax.do' 
 							,
 							method : 'POST'
 							,
@@ -257,7 +258,7 @@ $(document).ready(function() {
 		$(this).parents("tr").find('.aName').html(aName);
 		$(this).parents("tr").find('.aNote').html(aNote);
 		$(this).parents("tr").find('.aWhether').html(aWhether);
-		$(this).parents("tr").find('.selectBtn').html("<a class='btn btn-primary' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button>");
+		$(this).parents("tr").find('.selectBtn').html("<a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a  id='disable' class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>사원추가</a>");
 		 $('button:contains(수정)').prop("disabled", false);
  	});
 	
@@ -285,9 +286,9 @@ $(document).ready(function() {
 				for(var i=0;i<data.authorities.length;i++) {
 					for(var j = 0; j<data.authorities[i].emp.length; j++){
 					text += "<tr class='even pointer'>";
-					text += "<td>"+ data.authorities[i].aName + "</td>";	
 					text += "<td>"+ data.authorities[i].emp[j].empNo + "</td>";
 					text += "<td>"+ data.authorities[i].emp[j].empName + "</td>";
+					text += "<td>"+ data.authorities[i].aName + "</td>";		
 					text += "</tr>";
 					}
 					
@@ -302,9 +303,65 @@ $(document).ready(function() {
 		});	
 	});
 	
+	//체크박스 모두 선택
+	$('.checkAll').click(function(){
+		if($('.checkAll').prop("checked")){
+			$('input[type=checkbox]').prop("checked",true);
+		}else{
+			$('input[type=checkbox]').prop("checked",false);
+		}
+	});
+	
+	
 	//삭제
-	$('.container').on('click','#removeBtn',function(){
+	$('#removeBtn2').click(function(){
+		var arrayParam = [];
 		
+		$("input[name=selected]:checked").each(function() {
+		    arrayParam.push( $(this).val());		   
+		});
+		
+		if(arrayParam.length == 0) {
+			swal("권한을 선택하세요","");
+		} else {
+			swal({
+				  title: "권한을 삭제하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						$.ajax({
+							url : '${pageContext.request.contextPath}/RemoveAuthorityAjax.do' 
+								,
+								method : 'POST'
+								,
+								data : {
+									aNo : arrayParam.join()
+								}
+								,
+								dataType: 'json'
+								,
+								async : true 
+								,
+								cache : true
+								,
+								success : function(data, textStatus, jqXHR){	
+									if(data.isSuccess == "true"){
+										swal("삭제 완료!","");
+										 Paging(1); 
+									}else if(data.isSuccess == "false"){
+										swal("역할이 존재합니다.");
+									} 
+								}
+								,
+								error : function(jqXHR, textStatus, errorThrown){
+									alert('error: ' + jqXHR.status);
+								}
+						
+							});
+					}
+				});	
+		}		
 		
 	});
 	
@@ -335,15 +392,15 @@ $(document).ready(function() {
 			                    </ul>
 			                </div>
 			                <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
-			                <span class="input-group-btn">
+			                <span class="input-group-btn" >
 			                    <button class="btn btn-default find" type="button">
 			                    	<span class="glyphicon glyphicon-search"></span>
 			                    </button>
 			                </span>
 			            </div>   
 			        </div>
-			        <div>
-						<button id="removeBtn" class="btn btn-primary pull-right" type="button">삭제</button>
+			        <div class="removeBtn1">
+						<button id="removeBtn2" class="btn btn-primary pull-right" type="button">삭제</button>
 						<a class="btn btn-default pull-right" href='<c:url value="/admin/authority.do"/>'>추가</a>
 					</div>
 				</div>
@@ -356,7 +413,7 @@ $(document).ready(function() {
 					<table id="datatable"  class="table table-striped jambo_table bulk_action">
 						<thead>
 							<tr class="headings">
-								<th><input type="checkbox" id="ex_chk"> </th>
+								<th><input type="checkbox" id="ex_chk" class="checkAll"> </th>
 								<th class="column-title">권한번호</th>
 								<th class="column-title">권한명</th>
 								<th class="column-title">비고</th>

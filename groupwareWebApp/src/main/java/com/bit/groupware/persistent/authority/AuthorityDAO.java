@@ -12,7 +12,7 @@ public interface AuthorityDAO {
 
 	// 권한을 등록한다.
 	// 권한 번호는 A + 일련번호(6자리)로 부여한다.
-	String insertAuthority(AuthorityVO authority);
+	void insertAuthority(AuthorityVO authority);
 
 	// 권한정보를 수정한다.
 	void updateAuthority(AuthorityVO authority);

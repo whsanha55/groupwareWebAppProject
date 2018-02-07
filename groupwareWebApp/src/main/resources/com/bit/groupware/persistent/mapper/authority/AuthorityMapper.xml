@@ -109,23 +109,23 @@
    </insert>
    
    <!--권한삭제  -->
-   <delete id="deleteAuthority" parameterType="String" statementType="PREPARED">
+   <delete id="deleteAuthority" parameterType="map" statementType="PREPARED">
       delete from authority 
       where a_no in
-      <foreach item="aNo" collection="list" separator="," open="(" close=")">
+      <foreach  item="aNo" collection="list" open="(" separator="," close=")">
        #{aNo}
       </foreach>
    </delete>
    
    <!-- 사원,역할 존재여부 -->
-   <select id="selectAuthRoleCount" parameterType="String" resultType="int" statementType="PREPARED">
+   <select id="selectAuthRoleCount" parameterType="map" resultType="int" statementType="PREPARED">
    	select count(*)
 	from authority a , role r, authority_role ar, authority_employee ae
 	where ar.a_no = a.a_no
     	and r.r_id = ar.r_id
     	and ae.a_no = a.a_no
-    	and a.a_no = 
-    	<foreach item="aNo" collection="list" separator="," open="(" close=")">
+    	and a.a_no in
+    	<foreach item="aNo" collection="list"  open="(" separator="," close=")" >
     	#{aNo}
     	</foreach>
    </select>

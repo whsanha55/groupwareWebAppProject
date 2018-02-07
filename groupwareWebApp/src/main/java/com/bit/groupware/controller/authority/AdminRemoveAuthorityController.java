@@ -26,23 +26,22 @@ public class AdminRemoveAuthorityController {
 	
 	@RequestMapping(value="/RemoveAuthorityAjax.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> removeAuth(@RequestParam(value="aNo1") List<String> aNos) {
+	public Map<String, Object> removeAuth(@RequestParam(value="aNo") List<String> aNos) {
+		logger.info("¹øÈ£///////// : {}", aNos);
 		List<String> aNoList = new ArrayList<String>();
-		for(String aNo1 : aNos) {
-			aNoList.add(aNo1);
+		for(String aNo : aNos) {
+			aNoList.add(aNo);
 		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("isSuccess", "true");
-		map.put("aNoList", aNoList);
+		map.put("list", aNoList);
 		
 		logger.info("////////////AuthRoleCount", authorityService.retrieveAtuhRoleCount(map));
 		int no = authorityService.retrieveAtuhRoleCount(map);
-
 		if(no == 0) {
 			logger.info("//////removeAuthority", map);
 			authorityService.removeAuthority(map);
+			map.put("isSuccess", "true");
 		}else {
 			map.put("isSuccess", "false");
 		}

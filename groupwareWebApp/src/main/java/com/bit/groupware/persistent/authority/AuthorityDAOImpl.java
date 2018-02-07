@@ -24,9 +24,8 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 	}
 
 	//권한을 등록하다.
-	public String insertAuthority(AuthorityVO authority) {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertAuthority(AuthorityVO authority) {
+		sqlSession.insert(NAMESPACE + ".insertAuthority" , authority);
 	}
 
 	//권한을 수정하다.

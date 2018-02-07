@@ -23,9 +23,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	//권한을 등록하다.
-	public String registerAuthority(AuthorityVO authority) {
-		// TODO Auto-generated method stub
-		return null;
+	public void registerAuthority(AuthorityVO authority) {
+		authorityDAO.insertAuthority(authority);
 	}
 
 	//권한을 수정한다.
