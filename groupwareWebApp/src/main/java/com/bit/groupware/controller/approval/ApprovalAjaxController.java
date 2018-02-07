@@ -161,35 +161,8 @@ public class ApprovalAjaxController {
 		return true;
 		
 	}
-	
-	
-	
-	
-	//결재 보류 처리
-	@RequestMapping(value="/postponeApproval.do",method=RequestMethod.GET)
-	@ResponseBody
-	public boolean approve(@RequestParam(value="apprNo") int apprNo) {
-		
-		SecurityContext context=SecurityContextHolder.getContext();
-		Authentication authentication = context.getAuthentication();
-		UserVO user=(UserVO)authentication.getPrincipal();
-		String id=user.getUsername();
-				
-		ApprovalVO appr = approvalService.retrieveApproval(apprNo);
-		appr.setApprFinalStatus(2); 
-		List<ApprovalRecordVO> list = appr.getApprovalRecords();
-		int recNo=0;
-		for(int i=0; i<list.size(); i++) {
-			String empNo = list.get(i).getReceiverLine().getLineEmployee().getEmpNo();
-			if(empNo == id) {
-				list.get(i).setApprStatus(2); 
-			}
-		}
-		approvalService.modifyApproval(appr);
-		return true;
-	}
-	
 
+	
 	//결재(승인/반려) 행위 처리
 	@RequestMapping(value="/executeApprovalAjax.do",method=RequestMethod.GET)
 	@ResponseBody
