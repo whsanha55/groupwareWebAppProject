@@ -59,14 +59,16 @@ public class NotificationController {
 		
 		
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String empNo = user.getEmpName(); // 사용자 본인의 사원번호
+		String empNo = user.getUsername(); // 사용자 본인의 사원번호
 				
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
+		map.put("endRow", 5);
 		map.put("startRow", 1);
-		map.put("endRow", 15);
 		
+		
+		logger.info("notificationsss " + empNo);
 		
 		List<NotificationVO> notifications = notificationService.retrieveNotificationList(map);
 		
@@ -76,29 +78,60 @@ public class NotificationController {
 	}
 	
 	
-	@RequestMapping(value="/removeNotificationList.do", method=RequestMethod.GET)
-	public String removeNotificationList(@RequestParam(value="notificationNos") String notificationNos ) {
+	//알림 로우넘버 없이 무한스크롤로 뜨게 만들기
+	@RequestMapping(value="/selectAllNotificationList.do", method=RequestMethod.GET)
+	@ResponseBody
+	public List<NotificationVO> selectAllNotifications() {
 		
-		//String[] 을 int[]로 바꾸다.
 		
-		String[] temp = notificationNos.split(",");
-		
-		//담아준걸 int로 바꿔줌
-		int[] nums = new int[temp.length];
-		
-		for(int i = 0; i<temp.length; i++) {
-			nums[i] = Integer.parseInt(temp[i]);
-		}
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String empNo = user.getUsername(); // 사용자 본인의 사원번호
+				
 		
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("notificationNos", nums);
+		map.put("empNo", empNo);		
 		
-		if(nums != null) {
+		logger.info("notificationsss " + empNo);
+		
+		List<NotificationVO> notifications = notificationService.retrieveNotificationList(map);
+		
+		return notifications;
+		
+		
+	} 
+	
+	//연관된 문서함으로 이동하고 해당 알림을 삭제한다.
+	@RequestMapping(value="/moveToRelevantApproval.do", method=RequestMethod.GET)
+	public String moveNotificationList(@RequestParam(value="noteNo") int noteNo,
+										 @RequestParam(value="path") String path) {
+		
+		if(path == "direct1") {
+			//승인문서함 이동 return "redirect:approvalReject.do";
 			
-			notificationService.removeNotifications(map);
+		}else if(path=="direct3") {
+			//반려문서함 이동
+		}else if(path=="direct6") {
+			//참조문서함 이동
+		}else if(path=="direct7") {
+			//결재요청으로 이동
+		}else if(path=="direct8") {
+			//결재대기로 이동 
 		}
 		
-		return "success";
+		//해당 알림번호에 해당하는 알림 삭제
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String empNo = user.getUsername(); // 사용자 본인의 사원번호
+		
+		map.put("empNo", empNo);
+		map.put("noteNo", noteNo);
+		
+		notificationService.removeNotifications(map);
+		
+		
+		return "success"; //임시땜빵~
 	}
 
 }

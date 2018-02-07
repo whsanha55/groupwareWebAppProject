@@ -3,6 +3,7 @@
 	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,7 +17,7 @@ var eKeyword;
 $(document).ready(function () {		
 
 	//파일 삭제 
-	$('#deleteBtn').on('click', function() {	
+	$('.deleteBtn').on('click', function() {	
 		var fileNo = $(this).val();
 		
 		swal({
@@ -97,17 +98,18 @@ $(document).ready(function () {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >일정구분</label>&nbsp;&nbsp;
 							<select id="p_Class" name="pClass" style="width:100px;height:30px;" value="${requestScope.plan.pClass }" >
-							<option value="1">회의</option>
-							<option value="2">교육</option>
-							<option value="3">기타</option>
+							<option value="1" <c:if test="${requestScope.plan.pClass == 1}">selected</c:if>>회의</option>
+							<option value="2" <c:if test="${requestScope.plan.pClass == 2}">selected</c:if>>교육</option>
+							<option value="3" <c:if test="${requestScope.plan.pClass == 3}">selected</c:if>>기타</option>
 							</select>
 						</div>
 						
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >부서</label>&nbsp;&nbsp;
-							<select id="deptNo" name="deptNo" style="width:100px;height:30px;" value="${requestScope.plan.cName }">
+							<select id="deptNo" name="deptNo" style="width:100px;height:30px;" value="${requestScope.plan.deptNo }">
 							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
-								<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
+								<option value="${pageScope.deptCode.key }" <c:if test="${requestScope.plan.deptNo  == pageScope.deptCode.key}">
+								selected</c:if>>${pageScope.deptCode.title }</option>
 							</c:forEach>
 							</select>
 						</div>
@@ -119,7 +121,7 @@ $(document).ready(function () {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >제목</label>&nbsp;&nbsp;
 							<div class="col-md-10 col-sm-6 col-xs-12">
 								<input type="text" name="pTitle" class="form-control" placeholder="제목을 입력해주세요."
-										style="width:1000px;" value="${requestScope.plan.pTitle }">
+										style="width:1000px;" value="${requestScope.plan.pTitle }" required="required">
 							</div>
 						</div>
 						
@@ -133,6 +135,7 @@ $(document).ready(function () {
 							</div> -->
 						</div>
 
+						
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >기간</label>&nbsp;&nbsp;
 							</label>
@@ -141,20 +144,16 @@ $(document).ready(function () {
 									<div class="btn-group">
 										<div class="controls">
 											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
-												<span class="add-on input-group-addon"><i
-													class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> <input
-													type="datetime-local" name="startDate" id="startDate"
+												<span class="add-on input-group-addon">
+												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+												<%-- <fmt:parseDate var="parsedDate" value="${requestScope.plan.startDate }" pattern="YYYY/MM/DD HH24:mm:ss" />
+												<fmt:formatDate var="newFormattedStartDate" value="${parsedDate }" pattern="YYYY-MM-DD'T'HH24:mi:ss" /> --%>
+												<input type="datetime-local" name="startDate" id="startDate"
 													class="form-control" required="required" value="${requestScope.plan.startDate }">
-											</div>
-										</div>
-									</div>
-									<div class="btn-group">
-										<div class="controls">
-											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
 												<input type="datetime-local" name="endDate" id="endDate" 
-														class="form-control" required="required" value="to_date(${requestScope.plan.startDate }, 'YYYY-MM-DD"T"HH24:mi:ss')">
+														class="form-control" required="required" value="${requestScope.plan.endDate }" >
 											</div>
 										</div>
 									</div>
@@ -186,15 +185,30 @@ $(document).ready(function () {
 						
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">첨부파일</label>&nbsp;&nbsp;
-							<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
-								<c:url var="deleteUrl" value="/admin/removePlanFile.do" scope="page" >
-									<c:param name="fileNo" value="${pageScope.file.fileNo }" />
-								</c:url>
-								${pageScope.file.fileName }
-								<button type="button" value="${pageScope.file.fileNo }" id="deleteBtn" class="btn btn-primary" >삭제</button>
-							</c:forEach>
+								<c:if test="${fn:length(requestScope.plan.files) > 0 }">
+									<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
+										<c:url var="deleteUrl" value="/admin/removePlanFile.do" scope="page" >
+											<c:param name="fileNo" value="${pageScope.file.fileNo }" />
+										</c:url>
+										${pageScope.file.fileName }
+										<button type="button" value="${pageScope.file.fileNo }" class="btn btn-primary deleteBtn" >삭제</button>
+									</c:forEach>
+									<div class="btn-group">
+										<input name="upload" type="hidden" data-role="magic-overlay" data-target="#fileBtn"
+												data-edit="insertImage">
+									</div>
+								</c:if>
+								<c:if test="${fn:length(requestScope.plan.files) == 0 }" >
+									<div class="btn-group">
+										<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
+										<i class="fa fa-picture-o"></i></a>
+										<input name="upload" type="file" data-role="magic-overlay" data-target="#fileBtn"
+												data-edit="insertImage" required="required">
+									</div>
+								</c:if>
+							
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12"></label>
 							<div class="btn-group">
 								<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
@@ -202,7 +216,7 @@ $(document).ready(function () {
 								<input name="upload" type="file" data-role="magic-overlay" data-target="#fileBtn"
 										data-edit="insertImage">
 							</div>
-						</div>
+						</div> -->
 						
 
 
@@ -211,11 +225,11 @@ $(document).ready(function () {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">중요도</label>
 								<div class="form-group">
 									&nbsp;&nbsp;
-									하: <input type="radio" class="flat" name="pImpt" id="pImpt" value="1" checked="" required="">
+									하: <input type="radio" name="pImpt" id="pImpt" value="1" <c:if test="${requestScope.plan.pImpt == 1}">checked=""</c:if>>
 									&nbsp;&nbsp;
-									중: <input type="radio" class="flat" name="pImpt" id="pImpt" value="2">
+									중: <input type="radio" name="pImpt" id="pImpt" value="2" <c:if test="${requestScope.plan.pImpt == 2}">checked=""</c:if>>
 									&nbsp;&nbsp;
-									상: <input type="radio" class="flat" name="pImpt" id="pImpt" value="3">
+									상: <input type="radio" name="pImpt" id="pImpt" value="3" <c:if test="${requestScope.plan.pImpt == 3}">checked=""</c:if>>
 								</div>
 							</div>
 
@@ -223,8 +237,7 @@ $(document).ready(function () {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" for="empName">담당자 지정</label>
 							<div class="input-group col-md-6 col-sm-6 col-xs-12">
-								<input type="hidden" id="rspbNo" name="rspbNo"
-									required="required" class="form-control col-md-10 col-xs-12" value="">
+								<input type="hidden" id="rspbNo" name="rspbNo" value="${requestScope.plan.rspbNo }">
 								<input type="text" id="empName" name="empName" class="form-control" readonly value="${requestScope.plan.empName }">
 									<span class="input-group-btn">
 										<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal">검색</button>

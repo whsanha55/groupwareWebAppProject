@@ -7,24 +7,94 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>header</title>
+<script
+	src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
+</script>
 
 <script>
 
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
+		
 		//var msg = setInterval(newMsg, 2000);
 		//var note = setInterval(newNote, 2000);
+		
+		
+		
+		//최초이벤트(5개씩)
+		$('#alerts').find('a').on('click', newAlarm);
+		
+		//드롭다운 메뉴 클릭시 사라지지않게 하는 이벤트
+		
+		$('.dropdown-menu').click(function(e) {
+		    e.stopPropagation();
+		});
+		
+		
+		//see All alerts 누르면 전체 알림 목록 뜨고 무한 스크롤 되도록 만듬
+		$('#menu1').on('click','#after',function() {
+
+			
+			$.ajax({
 				
-		//알림 조회 컨트롤러로 이동
+				url: '${pageContext.request.contextPath}/selectAllNotificationList.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				success: function(data) {
+					
+					
+					$('#menu1').find('li').remove();
+					
+					var htmlStr = "";
+					
+					htmlStr += '<div style="overflow-y:scroll; overflow-x:hidden; width:300px; height:530px;">';
+					
+					for(var i=0;i<data.length;i++) {
+						
+						
+						htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
+						htmlStr += '<a>';
+						htmlStr += '<span>';
+						htmlStr += '<span>'+data[i].noteNo+'</span>';
+						htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
+						htmlStr += '</span>';
+						htmlStr += '<span class="message">';
+						htmlStr += data[i].message;
+						htmlStr += '</span>';
+						htmlStr += '</a>';
+						htmlStr += '</li>';
+						
+						
+						
+					}
+					
+					
+					$('#menu1').html(htmlStr);
+					htmlStr += '</div>';
+					htmlStr = "";
+								 
+				},
+				
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + jqXHR.status);
+				}
+						
+					
+			});
+			
+			//setTimeout(newAlarm, 10000);
+		});
 		
-		//var alarm = setInterval(newAlarm, 3000);
+		//관련 문서함으로 이동하는 이벤트 (해당 컨트롤러에서 읽자마자 삭제도 해야함)
 		
 		
 		
-		
-	});
-	
-	function newAlarm() {
-		
+		//쪽지 전체삭제
+			
+	   function newAlarm() {
+		   
 		$.ajax({
 			
 			url: '${pageContext.request.contextPath}/retrieveNotifications.do'
@@ -34,34 +104,69 @@
 			dataType: 'json'
 			,
 			success: function(data) {
-				
-				$('#menu1').empty();
+					
+				$('#menu1').find('li').remove();
 				
 				var htmlStr = "";
 				
-				htmlStr += '<ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">';
 				htmlStr += '<li>';
+				htmlStr += '<a href="#" style="font-weight: bold;">' + '전체삭제' + '</a>';
+				htmlStr += '</li>';
+				
+							
+				for(var i=0;i<data.length;i++) {
+				
+				htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
 				htmlStr += '<a>';
 				htmlStr += '<span>';
-				htmlStr += '<span>${pageScope.notification.noteNo }</span>';
-				htmlStr += '<span class="time">${pageScope.notification.noteDate }</span>';
+				htmlStr += '<span>'+data[i].noteNo+'</span>';
+				htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
 				htmlStr += '</span>';
 				htmlStr += '<span class="message">';
-				htmlStr += '${pageScope.notification.message }';
+				htmlStr += data[i].message;
 				htmlStr += '</span>';
 				htmlStr += '</a>';
 				htmlStr += '</li>';
 				
-								
+				
+				}
+				
+				htmlStr += '<li id="after">';
+				htmlStr += '<div class = "text-center">';
+				htmlStr += '<a href="#">';
+				htmlStr += '<strong>See All Alerts</strong>';
+				htmlStr += ' <i class="fa fa-angle-right"></i>';
+				htmlStr += '</a>';
+				htmlStr += '</div>';
+				htmlStr += '</li>';
+				
+				
+				$('#menu1').html(htmlStr);
+				//$(htmlStr).appendTo('#menu1');
 			},
 			
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error: ' + jqXHR.status);
 			}
+			
+			});
+			//end of ajax
+			
+		
+		//setTimeout(newAlarm, 10000);
+	}
+	   //end of newAlarm
+	   
+	   	//관련 문서함으로 이동하는 이벤트
+		$('#menu1').on('click','li:nth-child(2)',function() {
+			
+			var noteNo = $(this).attr('id');
+			var path = $(this).attr('class');
+			
+			location.href = '${pageContext.request.contextPath}/moveToRelevantApproval.do?noteNo='+noteNo+'&path='+path;
 						
 		});
-	}
-
+	   
 	
 	function newMsg() {
 		$.ajax({
@@ -103,7 +208,7 @@
 			}
 		});		
 	}//end of newNote
-
+	});
 </script>
 
 </head>
@@ -123,32 +228,22 @@
                   </ul>
                 </li>
 				<!-- 알림 -->
-                <li role="presentation" class="dropdown  pull-left">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                <li role="presentation" class="dropdown  pull-left" id="alerts">
+                  <a href= "#" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-bell-o"></i>
                     <span class="badge bg-green" id="noteNum"></span>
                   </a>
-                  <c:forEach var="notification" items="${requestScope.notifications }" varStatus="loop" >
+                  
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
-                      <a>
-                      
-                          <span>${pageScope.notification.noteNo }</span>
-                          <span class="time">${pageScope.notification.noteDate }</span>
-                        </span> 
-                        <span class="message">
-                          ${pageScope.notification.message }
-                        </span>
-                      </a>
-                    </li>
-                   
+                    </li>                   
                   </ul>
-                  </c:forEach>
+                  
                 </li>
                 
                 <!-- 쪽지함 -->
                   <li role="presentation" class="dropdown  pull-left">
-                 <a href='<c:url value= "/retrieveMessageList.do"/>' class="dropdown-toggle info-number">
+                 <a href= '<c:url value= "/retrieveMessageList.do"/>' class="dropdown-toggle info-number">
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-green" id="msgNum"></span>
                   </a>

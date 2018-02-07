@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit.groupware.domain.employee.PlanFileVO;
 import com.bit.groupware.domain.employee.PlanVO;
 import com.bit.groupware.service.employee.CodeService;
+import com.bit.groupware.service.employee.EmployeeFancyTreeService;
 import com.bit.groupware.service.employee.PlanService;
 import com.bit.groupware.util.UploadPlanFiles;
 
@@ -32,14 +33,20 @@ public class AdminModifyPlanController {
 	private PlanService planService;
 	@Autowired
 	private CodeService codeService;
+	@Autowired
+	private EmployeeFancyTreeService employeeFancyTreeService;
 	
 	//일정 수정 폼 요청
 	@RequestMapping(value="/admin/modifyPlan.do", method=RequestMethod.GET)
 	public ModelAndView modifyPlan(@RequestParam(value="pNo") String pNo) {
 		logger.info("pNo : {} ", pNo);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("deptCodes", codeService.retrieveDeptCodeList());
-		mv.addObject("plan", planService.retrievePlan(pNo));
+		mv.addObject("deptCodes", employeeFancyTreeService.retrieveEmployeeDeptList());
+		PlanVO plan = planService.retrievePlan(pNo);
+		plan.setStartDate(plan.getStartDate().replaceAll(" ", "T"));
+		plan.setEndDate(plan.getEndDate().replaceAll(" ", "T"));
+		
+		mv.addObject("plan", plan);
 		mv.setViewName("employee/admin_modifyPlan");
 		return mv;
 	}

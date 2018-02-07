@@ -27,4 +27,5 @@ public interface ApprovalRecordDAO {
 	
 	void updateCheckData(int recordNo);
 
+	int selectRecNo(Map<String,Object> map);
 }

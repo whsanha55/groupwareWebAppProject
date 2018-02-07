@@ -162,7 +162,159 @@ $(document).ready(function() {
 		
 		Paging(1);
 		
+<<<<<<< HEAD
 	});
+=======
+		//	검색조건
+		$('.search-panel .dropdown-menu').on('click','a',function(e) {
+				e.preventDefault();
+				$('.keyfield').text($(this).text());
+				$('.keyfield').attr('id',$(this).attr('id'));
+				
+		});
+				
+		//검색조건 엔터키 눌렀을때 트리거 발동
+		$('.keyword').on('keydown', function(e) {
+			if(e.keyCode == 13){
+				$('.find').trigger('click');
+	        }
+		});
+		
+		
+		// 검색 실행
+		$('.find').on('click', function() {
+			if($('.keyfield').attr('id') == null) {
+				swal("검색조건를 선택해주세요","", "error");
+				return;
+			}
+
+			pKeyfield = $('.keyfield').attr('id');
+			pKeyword = $('.keyword').val();
+			
+			Paging(1);
+			
+		});
+		
+
+	//////////////////////////////////// 페이징 처리 ///////////////////////////////////////////////////////////
+	
+	function Paging(currentPageNo) {
+	
+		var totalCount =  0;		//총 양식서 수
+		var countPerPage = 7;   //한 페이지당 보여주는 양식서 수
+		var pageSize = 7;		//페이지 리스트에 게시되는 페이지 수
+		var startRow = (currentPageNo - 1) * countPerPage + 1;
+		var endRow = currentPageNo * countPerPage;
+		var num = 0;	//현재 페이지번호에 속한 게시글의 시작번호
+		
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/AuthorityPagingAjax.do' 
+			,
+			data: {
+				keyfield: pKeyfield ,
+				keyword: pKeyword ,	
+				startRow : startRow ,
+				endRow : endRow
+			},
+			type: 'POST' ,
+			cache: false ,
+			dataType: 'json' ,
+			success: function (data, textStatus, jqXHR) {
+				
+				totalCount = data.totalCount;
+				num = totalCount - (currentPageNo - 1) * countPerPage;
+				
+				//datatable테이블 변경하기
+				var text = "";
+				for(var i=0;i<data.authorities.length;i++) {
+					text += "<tr class='even pointer'>";
+					text += "<td class='a-center'><input type='checkbox' id='ex_chk'> </td>";
+					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal' class='myModal''>"+ data.authorities[i].aNo + "</a></td>";
+					text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
+					text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
+					text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
+					text += "<td class='align-center selectBtn'><a class='btn btn-primary' href='<c:url value='/admin/designRole.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button></td>";
+					text += "</tr>";     
+				}
+				
+				$('#datatable').find('tbody').html(text);
+					
+					//페이징 처리
+					jqueryPager({
+						countPerPage : countPerPage,
+						pageSize : pageSize,
+						currentPageNo : currentPageNo,
+						totalCount : totalCount
+					});
+					
+					
+				
+			} ,
+			error: function(jqXHR) {
+				alert("에러: " + jqXHR.status);
+			}
+			
+		});
+		
+
+	} //end Paging function
+	
+	   
+	//페이징 처리
+	function jqueryPager(subOption) {
+	   
+	      var pageBlock = subOption.countPerPage;   
+	      var pageSize = subOption.pageSize;        
+	      var currentPage = subOption.currentPageNo;  
+	      var pageTotal = subOption.totalCount;       
+	       var pageTotalCnt = Math.ceil(pageTotal/pageBlock);    
+	      var pageBlockCnt = Math.ceil(currentPage/pageSize);
+	      var sPage = (pageBlockCnt-1) * pageSize + 1;
+	      var ePage;
+	      
+	      
+	      var html ="<ul class='pagination'>";
+	   
+	      
+	       if((pageBlockCnt * pageSize) >= pageTotalCnt) {
+	         ePage = pageTotalCnt;
+	      } else {
+	         ePage = pageBlockCnt * pageSize;
+	      } 
+	      
+	      if(sPage <= 1) {
+	         html += '<li class="page-item disabled">';
+	         html += '<a class="page-link" aria-label="Previous">' 
+	      } else {
+	         html += '<li class="page-item ">';
+	         html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageSize) + ')">'; 
+	      }
+	      html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
+	      
+	      for(var i=sPage; i<=ePage; i++) {
+	         if(currentPage == i) {
+	            html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
+	         } else {
+	            html += '<li class="page-item"><a class="page-link" onclick="Paging(' + i + ');">' + i + '</a></li>';
+	         }
+	      }            
+	   
+	      if (ePage >= pageTotalCnt) {
+	         html += '<li class="page-item disabled">';
+	         html += '<a class="page-link" aria-label="Next">';
+	      } else {
+	         html += '<li class="page-item">';
+	         html += '<a class="page-link" aria-label="Next" onclick = "Paging(' + (ePage+1) + ')">';
+	      }
+	      html += '<span aria-hidden="true">&raquo;</span> </a></li>';
+	      html += '</ul>';
+	      
+	      $('#Paging').html(html);
+	   
+	   }
+	
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 	//수정 폼 변경
 	$('#datatable').on('click','button:contains(수정)', function () {
 		

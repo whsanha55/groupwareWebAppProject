@@ -69,14 +69,15 @@
 		from (select rownum as rn, t1.* 
 		      from (select  appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content, 
 		            appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department,emp.duty
+		            
 		<if test="linempNo != null">
-		,rec.record_no, rec.check_date
+		, rec.record_no, rec.check_date
 		</if>
 		
 		 from approval appr,template tmp, emp_view emp 
 		
 		<if test="linempNo != null">
-		,approval_record rec ,receiver_line line
+		 , approval_record rec, receiver_line line
 		</if>
 		
 		where appr.emp_no = emp.emp_no
@@ -91,7 +92,7 @@
 			and emp.emp_no = #{empNo}
 		</if>
 		<if test="linempNo != null">
-			and line.line_emp_no = #{linempNo}
+			and (line.line_emp_no = #{linempNo} or rec.dep_emp_no = #{linempNo})
 		</if>
 		
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
@@ -136,14 +137,16 @@
 	
 	
 	<select id="selectAllApprovalList" parameterType="map" resultMap="selectApprvalResultMap" statementType="PREPARED">
-		select t2.* from(
-		select rownum as rn, t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
+		select *
+		from( 
+		select rownum as rn, t2.* from(
+		select t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
 		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
 		from approval appr, template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
 		<if test="empNo != 'admin'">
-		and emp.emp_no=#{empNo}
+		and emp.emp_no=#{empNo} 
 		</if>
 		<if test="apprFinalStatus != 5">
 		and appr.appr_final_status = #{apprFinalStatus}
@@ -178,7 +181,7 @@
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
 		<if test="empNo != 'admin'">
-		and line.line_emp_no=#{empNo}
+		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo})
 		</if> 
 		<if test="apprFinalStatus != 5">
 		and appr.appr_final_status = #{apprFinalStatus}
@@ -204,8 +207,8 @@
 		<if test="keyfield=='empDept'and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if>  
-		)t1    order by appr_date desc )t2
-		where rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+		)t1    order by appr_date desc ) t2 )
+		where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
 	</select>
 	
 	
@@ -235,7 +238,7 @@
 			and emp.emp_no = #{empNo}
 		</if>
 		<if test="linempNo != null">
-			and line.line_emp_no = #{linempNo}
+			and (line.line_emp_no = #{linempNo} or rec.dep_emp_no = #{linempNo})
 		</if>
 		
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
@@ -288,7 +291,7 @@
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
 		<if test="empNo != 'admin'">
-		and emp.emp_no=#{empNo}
+		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo})
 		</if>
 		<if test="apprFinalStatus != 5">
 		and appr.appr_final_status = #{apprFinalStatus}

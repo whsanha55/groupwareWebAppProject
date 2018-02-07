@@ -8,12 +8,16 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.PhotoVO;
 import com.bit.groupware.service.employee.EmployeeService;
@@ -29,7 +33,10 @@ public class SignRegisterController {
 	@RequestMapping(value="/retrieveSign.do", method=RequestMethod.GET)
 	public ModelAndView checkSignControllger(String empNo) {
 		ModelAndView mv = new ModelAndView();
-		empNo = "2018-00018";
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		UserVO user = (UserVO)authentication.getPrincipal();
+		empNo = user.getUsername();
 		String signName = employeeService.checkSignCount(empNo);
 		logger.info("signName", signName);
 		if(signName!=null) {
@@ -44,7 +51,11 @@ public class SignRegisterController {
 	@RequestMapping(value="/registerSign.do", method=RequestMethod.POST)
 	public String regSignController(EmployeeVO employee, HttpSession session) throws Exception {
 		
-		employee.setEmpNo("2018-00018");
+		SecurityContext context1 = SecurityContextHolder.getContext();
+		Authentication authentication = context1.getAuthentication();
+		UserVO user = (UserVO)authentication.getPrincipal();
+		
+		employee.setEmpNo(user.getUsername());
 		logger.info("employee : {}", employee);
 		
 		

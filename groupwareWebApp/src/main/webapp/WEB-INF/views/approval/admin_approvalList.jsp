@@ -82,8 +82,8 @@
 		
 	
 		function templatePaging(currentPageNo) {
-			var totalCount =  0;		//총 양식서 수
-			var countPerPage = 10;   //한 페이지당 보여주는 회원 수
+			var totalCount =  0;		//총 문서서 수
+			var countPerPage = 10;   //한 페이지당 보여주는 문서 수
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;

@@ -1,4 +1,4 @@
-package com.bit.groupware.service.employee;
+package com.bit.groupware.service.approval;
 
 import java.util.List;
 import java.util.Map;
@@ -16,4 +16,8 @@ public interface MessageService {
 	List<MessageVO> retrieveMessageList(Map<String,Object> map);
 	
 	int retrieveNewMessageCount(String empNo);
+	
+	int retrieveMessageCount(Map<String,Object> map);
+	
+	void modifyMessageStatus(int msgNo);
 }

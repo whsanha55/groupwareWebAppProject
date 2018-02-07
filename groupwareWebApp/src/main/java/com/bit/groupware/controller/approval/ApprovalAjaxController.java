@@ -118,8 +118,7 @@ public class ApprovalAjaxController {
 			
 			int totalCount=0;
 			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==5) {		
-				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려, 관리자인 경우
-				logger.info("======================= 총 문서 수 : {}", totalCount);
+				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려,관리자인 경우
 			}else {
 				totalCount = approvalService.retrieveApprovalCount(map);
 			}
@@ -127,12 +126,9 @@ public class ApprovalAjaxController {
 			if(totalCount < endRow) {
 				endRow = totalCount;
 			}
+			
 			map.put("startRow", startRow);
 			map.put("endRow", endRow);
-			logger.info("======================= 시작행번호 : {}", startRow);
-			logger.info("======================= 끝행번호 : {}", endRow);
-			
-		
 			
 			Map<String, Object> returnMap = new HashMap<String, Object>();
 			returnMap.put("totalCount", totalCount);
@@ -160,49 +156,21 @@ public class ApprovalAjaxController {
 		return true;
 		
 	}
-	
-	
-	
-	
-	//결재 보류 처리
-	@RequestMapping(value="/postponeApproval.do",method=RequestMethod.GET)
-	@ResponseBody
-	public boolean approve(@RequestParam(value="apprNo") int apprNo) {
-		
-		SecurityContext context=SecurityContextHolder.getContext();
-		Authentication authentication = context.getAuthentication();
-		UserVO user=(UserVO)authentication.getPrincipal();
-		String id=user.getUsername();
-				
-		ApprovalVO appr = approvalService.retrieveApproval(apprNo);
-		appr.setApprFinalStatus(2); 
-		List<ApprovalRecordVO> list = appr.getApprovalRecords();
-		int recNo=0;
-		for(int i=0; i<list.size(); i++) {
-			String empNo = list.get(i).getReceiverLine().getLineEmployee().getEmpNo();
-			if(empNo == id) {
-				list.get(i).setApprStatus(2); 
-			}
-		}
-		approvalService.modifyApproval(appr);
-		return true;
-	}
-	
 
+	
 	//결재(승인/반려) 행위 처리
 	@RequestMapping(value="/executeApprovalAjax.do",method=RequestMethod.GET)
 	@ResponseBody
 	public int executeApprovalAjax(@RequestParam(value="apprNo") int apprNo, 
 				   @RequestParam(value="apprStatus") int apprStatus ,
 			       @RequestParam(value="commentContent") String commentContent,
-			       @RequestParam(value="recordNo") int recordNo ,
 			       Principal principal) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("apprNo", apprNo);
 		map.put("apprStatus",apprStatus);
-		map.put("recordNo", recordNo);
+		map.put("recordNo", approvalRecordService.retrieveRecNo(map));  
 		map.put("empNo", principal.getName());
 		map.put("commentContent", commentContent);
 		approvalRecordService.executeApprovalRecord(map);
