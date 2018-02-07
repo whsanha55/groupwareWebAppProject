@@ -1,41 +1,37 @@
 package com.bit.groupware.domain.authority;
 
 public class AuthRoleVO {
-	private String arNo;  			//권한 역할번호
-	private AuthorityVO auth; 
-	private RoleVO role;
+	private int arNo;  			//권한 역할번호
+	private String rId; 
+	private String aNo;
 	
 	public AuthRoleVO() {
 		super();
 	}
 
-	public String getArNo() {
+	public int getArNo() {
 		return arNo;
 	}
 
-	public void setArNo(String arNo) {
-		this.arNo = arNo;
+	public String getrId() {
+		return rId;
 	}
 
-	public AuthorityVO getAuth() {
-		return auth;
+	public void setrId(String rId) {
+		this.rId = rId;
 	}
 
-	public void setAuth(AuthorityVO auth) {
-		this.auth = auth;
+	public String getaNo() {
+		return aNo;
 	}
 
-	public RoleVO getRole() {
-		return role;
-	}
-
-	public void setRole(RoleVO role) {
-		this.role = role;
+	public void setaNo(String aNo) {
+		this.aNo = aNo;
 	}
 
 	@Override
 	public String toString() {
-		return "AuthRoleVO [arNo=" + arNo + ", auth=" + auth + ", role=" + role + "]";
+		return "AuthRoleVO [arNo=" + arNo + ", rId=" + rId + ", aNo=" + aNo + "]";
 	}
 
 	

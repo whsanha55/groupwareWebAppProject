@@ -11,6 +11,7 @@ public class RoleVO {
 	private String rDate;			 // 등록 일자 
 	private String isRegistration; //등록 여부
 	private int sortOrder; 			//정렬 순서 
+	private List<RoleVO> roles = new ArrayList<RoleVO>();
 	 private List<AuthorityVO> authorities = new ArrayList<AuthorityVO>();
 	 
 	public RoleVO() {
@@ -79,14 +80,20 @@ public class RoleVO {
 	public void setAuthorities(List<AuthorityVO> authorities) {
 		this.authorities = authorities;
 	}
+	
+	
+	public List<RoleVO> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<RoleVO> roles) {
+		this.roles = roles;
+	}
 	@Override
 	public String toString() {
 		return "RoleVO [rId=" + rId + ", rName=" + rName + ", rType=" + rType + ", rExplan=" + rExplan + ", rDate="
-				+ rDate + ", isRegistration=" + isRegistration + ", sortOrder=" + sortOrder + ", authorities="
-				+ authorities + "]";
+				+ rDate + ", isRegistration=" + isRegistration + ", sortOrder=" + sortOrder + ", roles=" + roles
+				+ ", authorities=" + authorities + "]";
 	}
-
-	
 	
 	
 	
