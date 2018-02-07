@@ -64,7 +64,7 @@ $(document).ready(function() {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >부서</label>&nbsp;&nbsp;
 							<select id="deptNo" name="deptNo" style="width:100px;height:30px;">
 							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
-								<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
+								<option value="${pageScope.deptCode.key }">${pageScope.deptCode.title }</option>
 							</c:forEach>
 							</select>
 						</div>
@@ -76,7 +76,7 @@ $(document).ready(function() {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >제목</label>&nbsp;&nbsp;
 							<div class="col-md-10 col-sm-6 col-xs-12">
 								<input type="text" name="pTitle" class="form-control" placeholder="제목을 입력해주세요."
-										style="width:1000px;">
+										style="width:1000px;" required="required">
 							</div>
 						</div>
 						
@@ -101,17 +101,11 @@ $(document).ready(function() {
 												<span class="add-on input-group-addon"><i
 													class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> <input
 													type="datetime-local" name="startDate" id="startDate"
-													class="form-control" required="required">
-											</div>
-										</div>
-									</div>
-									<div class="control-group">
-										<div class="controls">
-											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
+													class="form-control" required="required" >
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="endDate" id="endDate" class="form-control"
-												required="required">
+												<input type="datetime-local" name="endDate" id="endDate" 
+														class="form-control" required="required" >
 											</div>
 										</div>
 									</div>
@@ -148,7 +142,7 @@ $(document).ready(function() {
 								<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
 								<i class="fa fa-picture-o"></i></a>
 								<input name="upload" type="file" data-role="magic-overlay" data-target="#fileBtn"
-										data-edit="insertImage">
+										data-edit="insertImage" required="required">
 							</div>
 						</div>
 
@@ -157,11 +151,11 @@ $(document).ready(function() {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">중요도</label>
 								<div class="form-group">
 									&nbsp;&nbsp;
-									하: <input type="radio" class="flat" name="pImpt" id="pImpt" value="1" checked="" required="">
+									하: <input type="radio" name="pImpt" id="pImpt" value="1" checked="" required="">
 									&nbsp;&nbsp;
-									중: <input type="radio" class="flat" name="pImpt" id="pImpt" value="2">
+									중: <input type="radio" name="pImpt" id="pImpt" value="2">
 									&nbsp;&nbsp;
-									상: <input type="radio" class="flat" name="pImpt" id="pImpt" value="3">
+									상: <input type="radio" name="pImpt" id="pImpt" value="3">
 								</div>
 							</div>
 
@@ -169,8 +163,7 @@ $(document).ready(function() {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" for="empName">담당자 지정</label>
 							<div class="input-group col-md-6 col-sm-6 col-xs-12">
-								<input type="hidden" id="rspbNo" name="rspbNo"
-									required="required" class="form-control col-md-10 col-xs-12" value="">
+								<input type="hidden" id="rspbNo" name="rspbNo" value="">
 								<input type="text" id="empName" name="empName" class="form-control" readonly>
 									<span class="input-group-btn">
 									<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal">검색</button>

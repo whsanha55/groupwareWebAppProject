@@ -53,20 +53,22 @@ public class NotificationController {
 	
 	//apprRecord에서 insert, delete가 일어날 때 마다 트리거가 실행되는데 NotificationList를 가져와 ajax처리해줌
 	
-	@RequestMapping(value="retrieveNotifications.do", method=RequestMethod.GET)
+	@RequestMapping(value="/retrieveNotifications.do", method=RequestMethod.GET)
 	@ResponseBody
 	public List<NotificationVO> selectNotifications() {
 		
 		
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String empNo = user.getEmpName(); // 사용자 본인의 사원번호
+		String empNo = user.getUsername(); // 사용자 본인의 사원번호
 				
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
-		map.put("startRow", 1);
 		map.put("endRow", 15);
+		map.put("startRow", 1);
 		
+		
+		logger.info("notificationsss " + empNo);
 		
 		List<NotificationVO> notifications = notificationService.retrieveNotificationList(map);
 		
@@ -76,7 +78,7 @@ public class NotificationController {
 	}
 	
 	
-	
+	@RequestMapping(value="/removeNotificationList.do", method=RequestMethod.GET)
 	public String removeNotificationList(@RequestParam(value="notificationNos") String notificationNos ) {
 		
 		//String[] 을 int[]로 바꾸다.
