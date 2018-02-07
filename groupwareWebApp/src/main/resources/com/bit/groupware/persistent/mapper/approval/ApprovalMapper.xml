@@ -143,7 +143,9 @@
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
 		and emp.emp_no=#{empNo}
-		and appr.appr_final_status = #{apprFinalStatus}  
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>		  
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
@@ -174,7 +176,9 @@
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
 		and line.line_emp_no=#{empNo} 
-		and appr.appr_final_status = #{apprFinalStatus} 
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
