@@ -127,6 +127,7 @@ public class ApprovalAjaxController {
 			if(totalCount < endRow) {
 				endRow = totalCount;
 			}
+			
 			map.put("startRow", startRow);
 			map.put("endRow", endRow);
 			logger.info("======================= 시작행번호 : {}", startRow);

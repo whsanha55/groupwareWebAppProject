@@ -136,8 +136,10 @@
 	
 	
 	<select id="selectAllApprovalList" parameterType="map" resultMap="selectApprvalResultMap" statementType="PREPARED">
-		select t2.* from(
-		select rownum as rn, t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
+		select *
+		from( 
+		select rownum as rn, t2.* from(
+		select t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
 		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
 		from approval appr, template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
@@ -204,8 +206,8 @@
 		<if test="keyfield=='empDept'and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if>  
-		)t1    order by appr_date desc )t2
-		where rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+		)t1    order by appr_date desc ) t2 )
+		where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
 	</select>
 	
 	
