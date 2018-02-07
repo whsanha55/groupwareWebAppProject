@@ -1,4 +1,4 @@
-package com.bit.groupware.controller.employee;
+package com.bit.groupware.controller.approval;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public class ProceedMessageController {
 	
 	// 보낸 쪽지함 리스트 조회
 	
-	@RequestMapping(value="retrieveSendMessageList.do", method=RequestMethod.GET)
+	@RequestMapping(value="/retrieveSendMessageList.do", method=RequestMethod.GET)
 	public ModelAndView retrieveSendMessageList(Principal principal) {
 		ModelAndView mv = new ModelAndView();
 		
