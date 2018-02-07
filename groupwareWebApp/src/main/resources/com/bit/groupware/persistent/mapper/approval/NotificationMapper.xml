@@ -5,6 +5,46 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.approval.NotificationMapper">
 
+	<insert id="insertNotificationProcess" parameterType="map" statementType="PREPARED">
+		insert into notification(note_no, emp_no, redirect_path, message)
+		values (notification_seq.nextval, (select emp_no
+		                                        from approval
+		                                        where appr_no = #{apprNo}), 7,
+		        (select '[' || department || ']' || duty || ' ' || emp_name 
+		        from emp_view
+		        where emp_no = #{empNo}) || 
+		        <choose>
+			        <when test="apprStatus ==1">
+						' 님이 기안서를  결재하였습니다 '
+			        </when>
+			        <when test="apprStatus ==2">
+			        	' 님이 기안서를  보류하였습니다 '
+			        </when>
+		        </choose>
+		        )
+	</insert>
+
+	<insert id="insertNotificationEnd" parameterType="map" statementType="PREPARED">
+		insert into notification(note_no, emp_no, redirect_path, message)
+		values (notification_seq.nextval, (select emp_no
+		                                        from approval
+		                                        where appr_no = #{apprNo}), #{apprStatus},
+		        (select '[' || department || ']' || duty || ' ' ||   emp_name || ' 님이 기안서를 '
+		        from emp_view
+		        where emp_no = #{empNo}) || 
+		        <choose>
+		        <when test="apprStatus ==1">
+		        	'결재 하였습니다'
+		        </when>
+		        <when test="apprStatus ==3">
+		        	'반려 하였습니다'
+		        </when>
+		        </choose>
+		         )
+	</insert>
+
+
+
 	<resultMap id="selectNotificationListMap" type="NotificationVO">
 		<id property="noteNo" column="note_no" />
 		<result property="noteDate" column="note_date" />
@@ -49,9 +89,7 @@
 		where emp_no = #{empNo}	
 	</select>
 	
-	<insert id="insertNotification" statementType="PREPARED" parameterType="map">
-		insert notification(note_no, emp_no, redirect_path, message, note_date)
-	</insert>
+	
 	
 	
 
