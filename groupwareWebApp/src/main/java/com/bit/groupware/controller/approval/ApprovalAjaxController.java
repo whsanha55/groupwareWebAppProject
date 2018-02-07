@@ -119,7 +119,6 @@ public class ApprovalAjaxController {
 			int totalCount=0;
 			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==5) {		
 				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려, 관리자인 경우
-				logger.info("======================= 총 문서 수 : {}", totalCount);
 			}else {
 				totalCount = approvalService.retrieveApprovalCount(map);
 			}
@@ -130,10 +129,6 @@ public class ApprovalAjaxController {
 			
 			map.put("startRow", startRow);
 			map.put("endRow", endRow);
-			logger.info("======================= 시작행번호 : {}", startRow);
-			logger.info("======================= 끝행번호 : {}", endRow);
-			
-		
 			
 			Map<String, Object> returnMap = new HashMap<String, Object>();
 			returnMap.put("totalCount", totalCount);
