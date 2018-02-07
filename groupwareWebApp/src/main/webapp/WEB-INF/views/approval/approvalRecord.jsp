@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>메시지 보관함</title>
+<title>결재현황</title>
 
 <style>
 .x_panel {

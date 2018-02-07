@@ -118,7 +118,7 @@ public class ApprovalAjaxController {
 			
 			int totalCount=0;
 			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==5) {		
-				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려, 관리자인 경우
+				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려,관리자인 경우
 			}else {
 				totalCount = approvalService.retrieveApprovalCount(map);
 			}
@@ -164,14 +164,13 @@ public class ApprovalAjaxController {
 	public int executeApprovalAjax(@RequestParam(value="apprNo") int apprNo, 
 				   @RequestParam(value="apprStatus") int apprStatus ,
 			       @RequestParam(value="commentContent") String commentContent,
-			       @RequestParam(value="recordNo") int recordNo ,
 			       Principal principal) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("apprNo", apprNo);
 		map.put("apprStatus",apprStatus);
-		map.put("recordNo", recordNo);
+		map.put("recordNo", approvalRecordService.retrieveRecNo(map));  
 		map.put("empNo", principal.getName());
 		map.put("commentContent", commentContent);
 		approvalRecordService.executeApprovalRecord(map);

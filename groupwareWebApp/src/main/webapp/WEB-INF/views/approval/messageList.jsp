@@ -24,8 +24,15 @@
 				 } 
 			 });
 			
-			$('#datatable').on('click','.msgTitle',function() {				
-				var msgNo = $(this).attr("id");
+			//상세조회
+			$('#datatable').on('click','.msgTitle',function() {			
+				var msgNo = $(this).attr('id');
+				//최초 확인시 확인일자 기록
+				var check = $(this).attr('name');	 		  	 
+				  if(check == 'isNotRead') {
+				  	read(msgNo);
+				  } 
+				
 				var url = '${pageContext.request.contextPath}/retrieveMessage.do?msgNo='+msgNo+'&isSender='+isSender;
 				window.open(url,"쪽지상세정보","width=700, height=600");
 				
@@ -90,6 +97,7 @@
 						
 																		
 					}).then((s) => {
+
 						window.close();
 						location.href= '${pageContext.request.contextPath}/retrieveMessageList.do';
 					});
@@ -110,9 +118,29 @@
 			 
 		});
 		
+		function read(msgNo) {
+			$.ajax({
+				url: '${pageContext.request.contextPath}/messageReading.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				data: {
+					msgNo: msgNo				
+				},
+				success: function (data, textStatus, jqXHR) {
+					templatePaging(1);
+				},
+				error: function(jqXHR) {
+					alert("에러: " + jqXHR.status);
+				}
+			});			
+		}
+		
 		function templatePaging(currentPageNo) {
 			var totalCount =  0;		//총 양식서 수
-			var countPerPage = 10;   //한 페이지당 보여주는 회원 수
+			var countPerPage = 8;   //한 페이지당 보여주는 회원 수
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
@@ -145,9 +173,9 @@
 
 						text += "<td class='a-center'><input type='checkbox' class='flat' name='table_records' id="+data.messages[i].msgNo+"></td>";
 						if(data.messages[i].isRead ==1){
-							text += " <td><a class='msgTitle' id="+data.messages[i].msgNo+" style='color:#9e9e9e;cursor:pointer; font-weight:bolder;'>"+data.messages[i].msgTitle +"</a></td>";	
+							text += " <td><a class='msgTitle' id="+data.messages[i].msgNo+" name='isRead' style='color:#9e9e9e;cursor:pointer; font-weight:bolder;'>"+data.messages[i].msgTitle +"</a></td>";	
 						}else{
-							text += " <td><a class='msgTitle' id="+data.messages[i].msgNo+" style='color:#0459c1;cursor:pointer; font-weight:bolder;'>"+data.messages[i].msgTitle +"</a></td>";								
+							text += " <td><a class='msgTitle' id="+data.messages[i].msgNo+" name='isNotRead' style='color:#0459c1;cursor:pointer; font-weight:bolder;'>"+data.messages[i].msgTitle +"</a></td>";								
 						}
 						text += "<td>"+ data.messages[i].senderEmployee.empName + "</td>";
 						text += "<td>"+ data.messages[i].msgDate + "</td>";

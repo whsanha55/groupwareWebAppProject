@@ -64,7 +64,7 @@ public class NotificationController {
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
-		map.put("endRow", 15);
+		map.put("endRow", 5);
 		map.put("startRow", 1);
 		
 		
@@ -76,6 +76,29 @@ public class NotificationController {
 		
 		
 	}
+	
+	
+	//알림 로우넘버 없이 무한스크롤로 뜨게 만들기
+	@RequestMapping(value="/selectAllNotificationList.do", method=RequestMethod.GET)
+	@ResponseBody
+	public List<NotificationVO> selectAllNotifications() {
+		
+		
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String empNo = user.getUsername(); // 사용자 본인의 사원번호
+				
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("empNo", empNo);		
+		
+		logger.info("notificationsss " + empNo);
+		
+		List<NotificationVO> notifications = notificationService.retrieveNotificationList(map);
+		
+		return notifications;
+		
+		
+	} 
 	
 	
 	@RequestMapping(value="/removeNotificationList.do", method=RequestMethod.GET)

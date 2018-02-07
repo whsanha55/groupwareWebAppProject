@@ -6,12 +6,16 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.service.employee.CodeService;
 
 @Controller
@@ -38,7 +42,10 @@ public class ListHistoryController {
 	public ModelAndView listCodeHistory() {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("empNo", "2018-00018");
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		UserVO user = (UserVO)authentication.getPrincipal();
+		map.put("empNo", user.getUsername());
 		map.put("keyfield", "검색조건");
 		map.put("keyword", "검색어");
 		logger.info("map : {}", map);

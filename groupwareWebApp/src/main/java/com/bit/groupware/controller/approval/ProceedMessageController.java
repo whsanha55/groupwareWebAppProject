@@ -239,10 +239,18 @@ public class ProceedMessageController {
 		
 	}
 
-	@RequestMapping(value = "/writeMessage.do", method = RequestMethod.GET)
-	public String form() {
-
-		return "approval/writeMessage/pop";
+	@RequestMapping(value = "/writeMessage.do", method = RequestMethod.GET) 
+	public ModelAndView form(
+			@RequestParam(value="receipientNo",required=false) String receipientNo,
+			@RequestParam(value="receipientName",required=false) String receipientName) {
+		
+		ModelAndView mv =new ModelAndView();
+	
+		mv.addObject("receipientNo",receipientNo);
+		mv.addObject("receipientName",receipientName);
+		
+		mv.setViewName("approval/writeMessage/pop");
+		return mv;
 
 	}
 		
@@ -282,5 +290,14 @@ public class ProceedMessageController {
 			
 		}
 
+		
+		//문서 확인일시 기록
+		@RequestMapping(value="/messageReading.do", method=RequestMethod.GET)
+		@ResponseBody
+		public String checkDate(@RequestParam(value="msgNo") int msgNo) {
+			
+			msgService.modifyMessageStatus(msgNo); 
+			return "update";
+		}
 
 }

@@ -210,8 +210,7 @@
 				data: {
 					apprNo : '${requestScope.approval.apprNo}',
 					commentContent: commentContent ,
-					apprStatus : apprStatus ,
-					recordNo : $('input[name=recordNo]').val()
+					apprStatus : apprStatus 
 				}
 				,
 				datatype : 'json'
