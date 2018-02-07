@@ -10,15 +10,80 @@
 <script
 	src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
 </script>
+
 <script>
 
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
 		//var msg = setInterval(newMsg, 2000);
 		//var note = setInterval(newNote, 2000);
-				
-		//알림 조회 컨트롤러로 이동		
-		//newAlarm();
 		
+		
+		
+		//최초이벤트(5개씩)
+		$('#alerts').find('a').on('click', newAlarm);
+		
+		//드롭다운 메뉴 클릭시 사라지지않게 하는 이벤트
+		
+		$('.dropdown-menu').click(function(e) {
+		    e.stopPropagation();
+		});
+		
+		//see All alerts 누르면 전체 알림 목록 뜨고 무한 스크롤 되도록 만듬
+		$('#menu1').on('click','#after',function(event) {
+
+			
+			$.ajax({
+				
+				url: '${pageContext.request.contextPath}/selectAllNotificationList.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				success: function(data) {
+					
+					
+					$('#menu1').find('li').remove();
+					
+					var htmlStr = "";
+					
+					htmlStr += '<div style="overflow-y:scroll; overflow-x:hidden; width:300px; height:530px;">';
+					
+					for(var i=0;i<data.length;i++) {
+						
+						
+						htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
+						htmlStr += '<a>';
+						htmlStr += '<span>';
+						htmlStr += '<span>'+data[i].noteNo+'</span>';
+						htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
+						htmlStr += '</span>';
+						htmlStr += '<span class="message">';
+						htmlStr += data[i].message;
+						htmlStr += '</span>';
+						htmlStr += '</a>';
+						htmlStr += '</li>';
+						
+						
+						
+					}
+					
+					
+					$('#menu1').html(htmlStr);
+					htmlStr += '</div>';
+					htmlStr = "";
+								 
+				},
+				
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + jqXHR.status);
+				}
+					
+			});
+			
+			//setTimeout(newAlarm, 10000);
+		});
+	
 		
 	   function newAlarm() {
 		   
@@ -31,17 +96,14 @@
 			dataType: 'json'
 			,
 			success: function(data) {
-				
-				alert("successssss");
-				
+					
 				$('#menu1').find('li').remove();
 				
 				var htmlStr = "";
 				
 				for(var i=0;i<data.length;i++) {
-					
-					
-				htmlStr += '<li>';
+									
+				htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
 				htmlStr += '<a>';
 				htmlStr += '<span>';
 				htmlStr += '<span>'+data[i].noteNo+'</span>';
@@ -53,12 +115,22 @@
 				htmlStr += '</a>';
 				htmlStr += '</li>';
 				
-				 $(htmlStr).appendTo('#menu1');
-				 
-				 htmtStr = "";
-				 
+				
 				}
-											
+				
+				htmlStr += '<li id="after">';
+				htmlStr += '<div class = "text-center">';
+				htmlStr += '<a href="#">';
+				htmlStr += '<strong>See All Alerts</strong>';
+				htmlStr += ' <i class="fa fa-angle-right"></i>';
+				htmlStr += '</a>';
+				htmlStr += '</div>';
+				htmlStr += '</li>';
+				
+				
+				$('#menu1').html(htmlStr);
+				//$(htmlStr).appendTo('#menu1');
+										
 				 
 			},
 			
@@ -68,9 +140,10 @@
 						
 		});
 		
-		setTimeout(newAlarm, 1000);
+		//setTimeout(newAlarm, 10000);
 	}
-	   $('#alerts').find('a').on('click', newAlarm);
+	   //end of newAlarm
+	   
 	
 	function newMsg() {
 		$.ajax({
