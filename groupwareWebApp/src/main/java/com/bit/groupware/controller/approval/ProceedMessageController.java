@@ -61,22 +61,10 @@ public class ProceedMessageController {
 	// 보낸 쪽지함 리스트 조회
 	
 	@RequestMapping(value="retrieveSendMessageList.do", method=RequestMethod.GET)
-	public ModelAndView retrieveSendMessageList(Principal principal) {
-		ModelAndView mv = new ModelAndView();
-		
-		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-			
-		map.put("startRow", 1);
-		map.put("endRow", 15);
-		map.put("senderEmpNo", user.getUsername());
-		
-		mv.addObject("messages", msgService.retrieveMessageList(map));
-		mv.setViewName("approval/sendMessageList");
+	public String retrieveSendMessageList(Principal principal) {
 		
 		
-		return mv;
+		return "approval/sendMessageList";
 	}
 
 	// 메시지 삭제 요청 처리
@@ -115,26 +103,27 @@ public class ProceedMessageController {
 	// 해당 쪽지의 상세정보를 조회한다.
 
 	@RequestMapping(value = "/retrieveMessage.do", method = RequestMethod.GET)
-	public ModelAndView SelectMessage(@RequestParam(value = "msgNo") int msgNo) {
+	public ModelAndView SelectMessage(
+			@RequestParam(value = "msgNo") int msgNo,
+			@RequestParam(value="isSender") int isSender) {
 
 		ModelAndView mv = new ModelAndView();
 
 		// 쪽지 상세정보를 조회한다. - 쪽지 읽음 여부를 변경한다. 트랜잭션을 수행한다. (서비스에서)
 
 		mv.addObject("message", msgService.retrieveMessage(msgNo));
-
-		// 팝업페이지
+		mv.addObject("isSender",isSender);
+ 		// 팝업페이지
 		mv.setViewName("approval/messageDetail/pop");
 		return mv;
 
 	}
 
-	// 쪽지 DB에 반영
-
+	// 쪽지 DB에 반영(쪽지작성)
 	@RequestMapping(value = "/registerMessage.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String registerMessage(
-			@RequestParam(value = "receipientEmployee") String empId,
+			@RequestParam(value = "dempNo") String empId,
 			@RequestParam(value = "msgTitle") String msgTitle, 
 			@RequestParam(value = "msgContent") String msgContent ) {
 
@@ -272,7 +261,7 @@ public class ProceedMessageController {
 			String empNo = user.getUsername();
 
 			Map<String, Object> map = new HashMap<String, Object>();
-			if(isSender==1) {
+			if(isSender==1) {	//받은쪽지함
 				map.put("empNo", empNo);
 			}else {
 				map.put("senderEmpNo", empNo);
