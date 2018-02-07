@@ -21,7 +21,18 @@ $(document).ready(function() {
 	
 	$('#modalCloseBtn').on('click',function() {
 		$('#chartBody').html("");
-		 
+	});
+	
+	$('#searchMap').click(function() {
+		$('mapBody').load('${pageContext.request.contextPath}/admin/map.do');
+		$('#layerpop2').modal({
+			backdrop : 'static',
+			keyboard : false
+		});
+	});
+	
+	$('#modalCloseBtn2').on('click',function() {
+		$('#mapBody').html("");
 	});
 	
 });
@@ -118,7 +129,7 @@ $(document).ready(function() {
 								<input type="text" id="longitude" name="longitude"
 									required="required" class="form-control col-md-10 col-xs-12"
 									style="width:100px;">
-								<button type="button" class="btn btn-success">주소찾기</button>
+								<button id="searchMap" type="button" class="btn btn-success">주소찾기</button>
 							</div>
 						</div>
 
@@ -190,6 +201,21 @@ $(document).ready(function() {
 							
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" id="modalCloseBtn"
+							data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 모달 팝업 -->
+	<div class="modal fade" id="layerpop2">
+		<div class="modal-dialog modal-cSize">
+			<div class="modal-content modal-cSize">
+							
+				<div class="modal-body" id="mapBody"></div>
+							
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="modalCloseBtn2"
 							data-dismiss="modal">닫기</button>
 				</div>
 			</div>
