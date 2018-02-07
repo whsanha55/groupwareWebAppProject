@@ -90,20 +90,24 @@ public class ApprovalAjaxController {
 			
 			
 			Map<String,Object> map=new HashMap<String,Object>();
+			String id = null;
 			
-			//if(!isAdmin) {
+			if(!isAdmin) {
 				SecurityContext context=SecurityContextHolder.getContext();
 				Authentication authentication = context.getAuthentication();
 				UserVO user=(UserVO)authentication.getPrincipal();
-				String id=user.getUsername();
+				id=user.getUsername();
+			} else {
+				id = "admin";
+			}
 							
 				if(apprStatus < 7) {		//apprStatus필요없는건 7로 설정
 					map.put("linempNo", id); //참조,진행,대기
 					map.put("apprStatus", apprStatus); //1: 진행 6:참조 0 :대기
 				}else {
-					map.put("empNo", id);	//승인,반려,임시,요청
+					map.put("empNo", id);	//승인,반려,임시,요청, 관리자
 				}
-			//}
+			 
 			
 			map.put("apprFinalStatus", apprFinalStatus);  //0:요청,진행,참조,대기 1:승인 3:반려 4:임시 5:관리자
 			map.put("keyfield", keyfield);
