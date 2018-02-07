@@ -20,6 +20,7 @@ import com.bit.groupware.domain.employee.PhotoVO;
 import com.bit.groupware.domain.employee.PlanFileVO;
 import com.bit.groupware.domain.employee.PlanVO;
 import com.bit.groupware.service.employee.CodeService;
+import com.bit.groupware.service.employee.EmployeeFancyTreeService;
 import com.bit.groupware.service.employee.PlanService;
 import com.bit.groupware.util.UploadFiles;
 import com.bit.groupware.util.UploadPhotos;
@@ -32,12 +33,15 @@ public class AdminRegisterPlanController {
 	private PlanService planService;
 	@Autowired
 	private CodeService codeService;
+	@Autowired
+	private EmployeeFancyTreeService employeeFancyTreeService;
+	
 	
 	//일정 추가 폼 요청
 	@RequestMapping(value="/admin/registerPlan.do", method=RequestMethod.GET)
 	public ModelAndView form() {
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("deptCodes", codeService.retrieveDeptCodeList());
+		mv.addObject("deptCodes", employeeFancyTreeService.retrieveEmployeeDeptList());
 		mv.setViewName("employee/admin_insertPlan");
 		return mv;
 	}
