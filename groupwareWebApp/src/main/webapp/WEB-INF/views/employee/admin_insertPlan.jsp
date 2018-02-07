@@ -142,7 +142,6 @@ $(document).ready(function() {
 						</div>
 
 
-
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">중요도</label>
 								<div class="form-group">
@@ -155,6 +154,7 @@ $(document).ready(function() {
 								</div>
 							</div>
 
+
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" for="empName">담당자 지정</label>
 							<div class="input-group col-md-6 col-sm-6 col-xs-12">
@@ -162,7 +162,7 @@ $(document).ready(function() {
 									required="required" class="form-control col-md-10 col-xs-12" value="">
 								<input type="text" id="empName" name="empName" class="form-control" readonly>
 									<span class="input-group-btn">
-										<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal">검색</button>
+									<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal">검색</button>
 							</div>
 						</div>
 
@@ -180,77 +180,8 @@ $(document).ready(function() {
 				</div>
 			</div>
 		</div>
-
-		<!-- 모달 팝업 -->
-			<%-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">담당자 지정</h4>
-					※부서와 이름, 기간을 지정해주세요.
-				</div>
-				<div class="modal-body">
-					<div>
-						<div class="btn-group searchList1">
-							<button data-toggle="dropdown"
-								class="btn btn-default dropdown-toggle" id="keyfieldBtn" type="button"
-								aria-expanded="true"><span class='keyfield'>부서</span><span class="caret"></span>
-							</button>
-							<ul id="keyfieldItem" role="menu" class="dropdown-menu" aria-labelledby="searchType">
-							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
-								<li>
-									<a role="menuitem" id="${pageScope.deptCode.cName }">${pageScope.deptCode.cName }</a>
-								</li>
-							</c:forEach>
-							</ul>
-							
-							<div class="col-sm-6">
-								<div id="imaginary_container">
-									<div class="input-group stylish-input-group">
-										<input id="keyword" type="text" class="form-control keyword" placeholder="Search">
-										<span class="input-group-addon" style="padding: 3px 10px">
-											<button class="btn btn-default" type="button" id="findEmployee">
-												<span class="glyphicon glyphicon-search"></span>
-											</button>
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<table id="rspbRegister" class="table table-striped jambo_table bulk_action">
-							<thead>
-								<tr class="headings">
-									<th class="column-title">부서</th>
-									<th class="column-title">사번</th>
-									<th class="column-title">이름</th>
-									<th class="column-title">직책</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr id="pushBtn" class="even pointer">
-									<td>영업부</td>
-									<td class=" ">부장</td>
-									<td id="deptHead" class=" ">영부장</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<nav aria-label="Page navigation" id='employeePaging'>
-				
-					</nav>
-					<br>
-					<div class="text-center">
-						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> --%>
 	
+	<!-- 모달 팝업 -->
 	<div class="modal fade" id="layerpop">
 		<div class="modal-dialog modal-cSize">
 			<div class="modal-content modal-cSize">
@@ -264,6 +195,7 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-	</form>
+	
+</form>
 </body>
 </html>
