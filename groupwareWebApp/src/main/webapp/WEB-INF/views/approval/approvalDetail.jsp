@@ -49,7 +49,7 @@
 
 	$(document).ready(function(){
 		
-		var status = ${requestScope.status};
+		var status = '${param.status}';
 		var finalStatus = "${param.finalStatus}";
 				
 		if(status==1){
@@ -453,12 +453,8 @@
                        		
                           </tr>
 					
-							<tr>
-								<td colspan="4">${requestScope.approval.apprContent }</td>
-							</tr>
-						
-							
                       </table>
+                      <div>${requestScope.approval.apprContent }</div>
 						<c:if test="${fn:length(requestScope.approval.approvalFiles) >0 }">
 							<table class="table table-striped jambo_table bulk_action">
 								<tr>
