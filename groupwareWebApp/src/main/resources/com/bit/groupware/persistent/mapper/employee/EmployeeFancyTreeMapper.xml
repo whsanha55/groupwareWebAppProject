@@ -6,17 +6,17 @@
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.EmployeeFancyTreeMapper">
 
 	<select id="selectFancyTreeDeptList" statementType="STATEMENT" resultType="EmpFancyTreeVO">
-		select c_no as key, c_name as title
-		from code
-		where c_no like 'A%'
-		and c_no != 'A'
-		order by c_no
+		select distinct dept_no as key, department as title
+		from emp_view
+		where retire_status = 1
+		order by dept_no asc
 	</select>
 
 	<select id="selectFancyTreeEmpList" parameterType="String" statementType="PREPARED" resultType="EmpFancyTreeVO" >
 		select emp_no as key, emp_name || ' ' || duty as title
 		from emp_view
 		where dept_no = #{deptNo}
+		and retire_status = 1
 		order by duty_no asc, emp_name asc
 		
 	</select>

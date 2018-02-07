@@ -136,14 +136,20 @@
 	
 	
 	<select id="selectAllApprovalList" parameterType="map" resultMap="selectApprvalResultMap" statementType="PREPARED">
-		select t2.* from(
-		select rownum as rn, t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
+		select *
+		from( 
+		select rownum as rn, t2.* from(
+		select t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
 		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
 		from approval appr, template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
+		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo}
-		and appr.appr_final_status = #{apprFinalStatus}  
+		</if>
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>		  
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
@@ -173,8 +179,12 @@
 		and appr.tmp_no=tmp.tmp_no
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
-		and line.line_emp_no=#{empNo} 
-		and appr.appr_final_status = #{apprFinalStatus} 
+		<if test="empNo != 'admin'">
+		and line.line_emp_no=#{empNo}
+		</if> 
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
@@ -196,8 +206,8 @@
 		<if test="keyfield=='empDept'and keyword!=null">
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if>  
-		)t1    order by appr_date desc )t2
-		where rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
+		)t1    order by appr_date desc ) t2 )
+		where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
 	</select>
 	
 	
@@ -279,8 +289,12 @@
 		template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
+		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo}
-		and appr.appr_final_status = #{apprFinalStatus}  
+		</if>
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if>  
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
@@ -313,8 +327,12 @@
 		and appr.tmp_no=tmp.tmp_no
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
-		and line.line_emp_no=#{empNo} 
-		and appr.appr_final_status = #{apprFinalStatus} 
+		<if test="empNo != 'admin'">
+		and line.line_emp_no=#{empNo}
+		</if> 
+		<if test="apprFinalStatus != 5">
+		and appr.appr_final_status = #{apprFinalStatus}
+		</if> 
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
 		</if>
@@ -359,7 +377,6 @@
 			<id property="tmpNo" column="tmp_no" />
 			<result property="tmpName" column="tmp_name" />	
 		</association>
-		
 		<collection property="approvalFiles" javaType="list" ofType="ApprovalFileVO">
 				<id column="file_no" property="fileNo" />
 				<result column="file_size" property="fileSize"/>
@@ -367,57 +384,22 @@
 				<result column="original_file_name" property="originalFileName"/>
 		</collection>
 		
-		<collection property="approvalRecords" javaType="list" ofType="ApprovalRecordVO">
-				<id column="record_no" property="recordNo" />
-				<result column="confirm_date" property="confirmDate"/>
-				<result column="appr_status" property="apprStatus"/>
-				
-				<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
-					<id property="commentNo" column="comment_no" />
-					<result property="commentContent" column="comment_content" />	
-					<result property="commentDate" column="comment_date" />	
-				</association>
-			
-				<association property="receiverLine" column="line_no" javaType="ReceiverLineVO">
-					<id property="lineNo" column="line_no" />
-					<result property="lineOrder" column="line_order" />	
-					<result property="apprType" column="appr_type" />
-					
-					<association property="lineEmployee" column="linemp_no" javaType="EmployeeVO">
-						<id property="empNo" column="linemp_no" />
-						<result property="empName" column="linemp_name" />	
-						<result property="duty" column="linemp_duty" />
-						
-								<!-- <association property="사인" column="tmp_no" javaType="PhotoVO">
-									<id property="tmpNo" column="tmp_no" />
-									<result property="tmpName" column="tmp_name" />	
-								</association> -->
-					</association>		
-				</association>
-								
-		</collection>
-		
 	</resultMap>
 	<select id="selectApproval" parameterType="int" resultMap="selectApprvalDetailResultMap" statementType="PREPARED">  
-		select linemp.emp_name as linemp_name, linemp.duty as linemp_duty, linemp.sign as linemp_sign, 
-		linemp.emp_no as linemp_no, line.line_no, line.line_order, line.appr_type,    
-		rec.record_no, rec.confirm_date, rec.appr_status, comm.comment_no, comm.comment_content, comm.comment_date, emp.emp_no, emp.emp_name, emp.department,
-		appr.appr_no, appr.appr_date, appr.appr_title, appr.valid_date, appr.urgency, appr.appr_content,
-		files.system_file_name, files.file_no, files.file_size, files.original_file_name,
+		select appr.appr_no,emp.emp_no, emp.emp_name, emp.department,
+		 appr.appr_date, appr.appr_title, appr.valid_date, appr.urgency, appr.appr_content, 
+		files.system_file_name, files.file_no, files.file_size,
 		(select tmp_name from template tmp where tmp.tmp_no=appr.tmp_no) as tmp_name,
 		(select tmp_no from template tmp where tmp.tmp_no=appr.tmp_no) as tmp_no
-		from APPROVAL appr, approval_comment comm, approval_record rec, emp_view emp, 
-		receiver_line line, receiver receiv, emp_view linemp , approval_file files
-		where appr.appr_no=rec.appr_no
-		and rec.record_no=comm.record_no(+)
-		and appr.emp_no=emp.emp_no
-		and rec.line_no=line.line_no
-		and receiv.receiver_no=line.receiver_no
-		and line.line_emp_no=linemp.emp_no
+		from APPROVAL appr, emp_view emp ,approval_file files
+		where appr.emp_no=emp.emp_no
 		and appr.appr_no=files.appr_no(+)
 		and appr.appr_no=#{apprNo}
-		order by line.line_order asc nulls last
+		order by appr.appr_no asc nulls last
 	</select>
+	
+	
+	
 	
 	
 	<resultMap id="selectTempApprovalResultMap" type="ApprovalVO" >

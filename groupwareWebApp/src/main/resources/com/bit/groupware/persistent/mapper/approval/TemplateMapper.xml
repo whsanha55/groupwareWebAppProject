@@ -109,10 +109,11 @@
 			</if>
 	</select>
 	
-	<select id="selectTemplateNameList" statementType="STATEMENT" resultType='String'>
-		 select distinct tmp_name
+	<select id="selectTemplateNameList" statementType="STATEMENT" resultType='TemplateVO'>
+		 select tmp_name as tmpName, tmp_no as tmpNo
 		 from template
 		 where tmp_using = 1
+		 order by tmpName asc
 	</select>	
 		
 	<delete id="deleteTemplate" parameterType="int" statementType="PREPARED">

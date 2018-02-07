@@ -25,14 +25,15 @@ public class AdminModifyAuthorityController {
 	
 	@RequestMapping(value="/modifyAuthorityAjax.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> modifyAuth(AuthorityVO authority, @RequestParam(value="aName") String aName){
+	public Map<String, Object> modifyAuth(AuthorityVO authority, @RequestParam(value="aName") String aName){
 		logger.info("/////////retrieveAuthority//////////", authorityService.retrieveAuthorityByAname(aName));
 		int name = authorityService.retrieveAuthorityByAname(aName); 
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(name == 0) {
 			logger.info("/////////ModifyAuthority  수정완료 ! ///////////" , authority);	
 			authorityService.modifyAuthority(authority);
 			map.put("isSuccess", "true");
+			map.put("authority", authority);
 		} else {
 			map.put("isSuccess", "false");
 		}

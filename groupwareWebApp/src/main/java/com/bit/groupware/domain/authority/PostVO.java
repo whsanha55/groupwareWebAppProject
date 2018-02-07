@@ -16,6 +16,7 @@ public class PostVO {
 	private String boardNo; 				//게시판 번호
 	private List<MultipartFile> upload;
 	private List<PostFileVO> postFiles = new ArrayList<PostFileVO>(); //게시글 파일 목록
+	private List<CmtVO> cmts = new ArrayList<CmtVO>(); //게시글 파일 목록
 	
 	public PostVO() {
 		super();
@@ -125,6 +126,16 @@ public class PostVO {
 
 	public void setUpload(List<MultipartFile> upload) {
 		this.upload = upload;
+	}	
+
+
+	public List<CmtVO> getCmts() {
+		return cmts;
+	}
+
+
+	public void setCmts(List<CmtVO> cmts) {
+		this.cmts = cmts;
 	}
 
 

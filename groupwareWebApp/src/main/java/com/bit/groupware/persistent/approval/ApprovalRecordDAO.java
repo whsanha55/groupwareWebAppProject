@@ -12,6 +12,8 @@ public interface ApprovalRecordDAO {
 	void insertApprovalRecord(Map<String, Object> map);
 
 	void insertApprovalRecordProcedure(Map<String, Integer> map);
+	
+	void insertApprovalRecordProceedProcedure(Map<String, Object> map);
 
 	void updateApprovalRecordStatus(Map<String, Object> map);
 
@@ -22,5 +24,7 @@ public interface ApprovalRecordDAO {
 	List<Integer> selectNewRecordCount(String empNo);
 	
 	int checkisFinalApprovalLine(int recordNo);
+	
+	void updateCheckData(int recordNo);
 
 }

@@ -212,19 +212,19 @@
 									</div>
 									<div>
 										<div class="col-xs-4 col-xs-offset-2">
-											<div class="input-group"><!--  -->
-												<span>
-													<select id="keyfield" class="form-control">
+											<div class="input-group">
+												<form id="search">
+													<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
+														<option value="apprTitle">제목</option>
 														<option value="tmpName">양식명</option>
-														<option value="categoryName">카테고리</option>
+														<option value="empName">기안자</option>
+														<option value="department">기안부서</option>
+														<option value="apprDate" id="apprDate">기안일</option>
 													</select>
-												</span>
-												<input type="text" class="form-control" id="keyword"> 
-													<span class="input-group-btn">
-													<button class="btn btn-default" type="button" id="search">
-														<span class="glyphicon glyphicon-search"></span>
-													</button>												
-												</span>
+						 							<input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
+						 							<button id="btn3" type="button">검색</button>
+													</form>
+											
 										</div>
 										</div>
 									</div>

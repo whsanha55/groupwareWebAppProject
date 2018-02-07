@@ -12,6 +12,7 @@ import com.bit.groupware.domain.approval.ApprovalVO;
 import com.bit.groupware.persistent.approval.ApprovalCommentDAO;
 import com.bit.groupware.persistent.approval.ApprovalDAO;
 import com.bit.groupware.persistent.approval.ApprovalRecordDAO;
+import com.bit.groupware.persistent.approval.NotificationDAO;
 
 @Service
 public class ApprovalRecordServiceImpl implements ApprovalRecordService {
@@ -25,7 +26,8 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 	@Autowired
 	private ApprovalDAO approvalDAO;
 	
-	
+	@Autowired
+	private NotificationDAO notificationDAO;
 	
 	
 	//결재 진행 현황 조회
@@ -44,6 +46,7 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 		int recordNo = (Integer) map.get("recordNo");
 		int apprStatus = (Integer) map.get("apprStatus");
 		if (apprStatus == 2) {	//보류는 코멘트도없고 다음결재자또는 apprFinalStatus 건드릴필요없으므로 리턴
+			notificationDAO.insertNotificationProcess(map);
 			return;
 		}
 		
@@ -58,13 +61,16 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 		
 		//3.최종 결재자인지 아닌지 파악
 		if(apprStatus == 1 && approvalRecordDAO.checkisFinalApprovalLine(recordNo) ==0) {	//다음결재자가 있을경우
-			approvalRecordDAO.insertApprovalRecord(map);
+			//approvalRecordDAO.insertApprovalRecord(map);
+			approvalRecordDAO.insertApprovalRecordProceedProcedure(map);
+			notificationDAO.insertNotificationProcess(map);
 		} else {	//문서가 최종 승인/반려 종료
 			ApprovalVO approval = new ApprovalVO();
 			int apprNo = (Integer) map.get("apprNo");
 			approval.setApprNo(apprNo);
 			approval.setApprFinalStatus(apprStatus);
 			approvalDAO.updateApproval(approval);
+			notificationDAO.insertNotificationEnd(map);
 			
 		}
 		
@@ -80,8 +86,15 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 	public List<Integer> retrieveNewRecordCount(String empNo) {
 		return approvalRecordDAO.selectNewRecordCount(empNo);
 	}
+
+	//확인일시 입력
+	public void modifyCheckDate(int recordNo) {
+		approvalRecordDAO.updateCheckData(recordNo);		
+	}
 	
 	
+	
+
 	
 
 }

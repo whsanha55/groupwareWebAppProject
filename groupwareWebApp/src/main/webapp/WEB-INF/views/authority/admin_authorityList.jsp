@@ -80,7 +80,7 @@
 				for(var i=0;i<data.authorities.length;i++) {
 					text += "<tr class='even pointer'>";
 					text += "<td class='a-center'><input type='checkbox' id='ex_chk'> </td>";
-					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal'>"+ data.authorities[i].aNo + "</a></td>";
+					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal' class='myModal''>"+ data.authorities[i].aNo + "</a></td>";
 					text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
 					text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
 					text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
@@ -195,7 +195,13 @@
  		var aNo = $(this).parents("tr").find('.aNo').text();		
  		var aName = $(this).parents("tr").find('input[name=aName]').val();
  		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
- 		var aWhether = $(this).parents("tr").find('input[name=aWhether]').val();		
+ 		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
+
+ 	
+ 		var thisAname = $(this).parents("tr").find('.aName');
+ 		var thisAnote = $(this).parents("tr").find('.aNote');
+ 		var thisAwhether = $(this).parents("tr").find('.aWhether');
+ 		var selectBtn = $(this).parents("tr").find('.selectBtn');
  		
 		swal({
 			  title: "게시판을 수정하시겠습니까?",
@@ -224,14 +230,10 @@
 							success : function(data, textStatus, jqXHR){	
 								if(data.isSuccess == "true"){
 									swal("수정 완료!","");
-									 $(this).parents("tr").find('.aName').remove();
-									 $(this).parents("tr").find('.aName').text(data.aName);
-									 $(this).parents("tr").find('.aNote').remove();
-									 $(this).parents("tr").find('.aNote').text(data.aNote);
-									 $(this).parents("tr").find('.aWhether').remove();
-									 $(this).parents("tr").find('.aWhether').text(data.aWhether);
-								
-								
+									$(thisAname).html(data.authority.aName);
+									$(thisAnote).html(data.authority.aNote);
+									$(thisAwhether).html(data.authority.aWhether);
+									$(selectBtn).html("<a class='btn btn-primary' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button>");
 								}else if(data.isSuccess == "false"){
 									swal("이미 권한이 존재합니다.");
 								} 
@@ -245,6 +247,60 @@
 				}
 			});
 
+	});
+	
+	//취소
+ 	$('#datatable').on('click','button:contains(취소)', function () { 
+ 		var aName = $(this).parents("tr").find('input[name=aName]').val();
+ 		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
+ 		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
+		
+		$(this).parents("tr").find('.aName').html(aName);
+		$(this).parents("tr").find('.aNote').html(aNote);
+		$(this).parents("tr").find('.aWhether').html(aWhether);
+		$(this).parents("tr").find('.selectBtn').html("<a class='btn btn-primary' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button>");
+		 $('button:contains(수정)').prop("disabled", false);
+ 	});
+	
+	
+	//사원정보 조회
+	//$('#myModal').click(function(){
+	$("#datatable").on('click','.myModal',function() {
+		var aNo = $(this).text();		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/retrieveAuthEmpAjax.do' 
+			,
+			type: 'POST' 
+			,
+			data : {
+					aNo : aNo
+					}
+			,
+			cache: false 
+			,
+			dataType: 'json' 
+			,
+			success: function (data, textStatus, jqXHR) {
+				//modal테이블 변경하기
+				var text = "";
+				for(var i=0;i<data.authorities.length;i++) {
+					for(var j = 0; j<data.authorities[i].emp.length; j++){
+					text += "<tr class='even pointer'>";
+					text += "<td>"+ data.authorities[i].aName + "</td>";	
+					text += "<td>"+ data.authorities[i].emp[j].empNo + "</td>";
+					text += "<td>"+ data.authorities[i].emp[j].empName + "</td>";
+					text += "</tr>";
+					}
+					
+				} 
+				$('#authEmp').find('tbody').html(text);			
+				
+			} ,
+			error: function(jqXHR) {
+				alert("에러: " + jqXHR.status);
+			}
+			
+		});	
 	});
 	
 });
@@ -328,34 +384,21 @@
 					<button type="button" class="close" data-dismiss="modal">
 						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+					<h4 class="modal-title" id="myModalLabel">사원 정보</h4>
 				</div>
 				<div class="modal-body">
-					<table class="table table-striped jambo_table bulk_action  text-center">
+					<table class="table table-striped jambo_table bulk_action  text-center" id="authEmp">
 						<thead>
-							<tr class="headings  text-center text-center">
-								<th class="column-title">사번</th>
-								<th class="column-title">이름</th>
-								<th class="column-title">권한명</th>
+							<tr class="headings  text-center">
+								<th class="column-title  text-center">사번</th>
+								<th class="column-title  text-center">이름</th>
+								<th class="column-title  text-center">권한명</th>
 
 							</tr>
 						</thead>
 
 						<tbody>
-							<tr class="even pointer">
-								<td>AAAA1</td>
 
-								<td>홍길동</td>
-								<td>전체관리자</td>
-
-							</tr>
-							<tr class="even pointer">
-								<td>AAAA1</td>
-
-								<td>홍길동</td>
-								<td>전체관리자</td>
-
-							</tr>
 						</tbody>
 					</table>
 				</div>

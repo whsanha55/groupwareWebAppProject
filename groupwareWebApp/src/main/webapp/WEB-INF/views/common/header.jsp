@@ -7,14 +7,70 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>header</title>
-
+<script
+	src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
+</script>
 <script>
 
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
 		//var msg = setInterval(newMsg, 2000);
-		//var note = setInterval(newNote, 2000);		
-	});
-
+		//var note = setInterval(newNote, 2000);
+				
+		//알림 조회 컨트롤러로 이동		
+		//newAlarm();
+		
+		
+	   function newAlarm() {
+		   
+		$.ajax({
+			
+			url: '${pageContext.request.contextPath}/retrieveNotifications.do'
+			,
+			method : 'GET'
+			,
+			dataType: 'json'
+			,
+			success: function(data) {
+				
+				alert("successssss");
+				
+				$('#menu1').find('li').remove();
+				
+				var htmlStr = "";
+				
+				for(var i=0;i<data.length;i++) {
+					
+					
+				htmlStr += '<li>';
+				htmlStr += '<a>';
+				htmlStr += '<span>';
+				htmlStr += '<span>'+data[i].noteNo+'</span>';
+				htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
+				htmlStr += '</span>';
+				htmlStr += '<span class="message">';
+				htmlStr += data[i].message;
+				htmlStr += '</span>';
+				htmlStr += '</a>';
+				htmlStr += '</li>';
+				
+				 $(htmlStr).appendTo('#menu1');
+				 
+				 htmtStr = "";
+				 
+				}
+											
+				 
+			},
+			
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error: ' + jqXHR.status);
+			}
+						
+		});
+		
+		setTimeout(newAlarm, 1000);
+	}
+	   $('#alerts').find('a').on('click', newAlarm);
 	
 	function newMsg() {
 		$.ajax({
@@ -56,7 +112,7 @@
 			}
 		});		
 	}//end of newNote
-
+	});
 </script>
 
 </head>
@@ -76,74 +132,22 @@
                   </ul>
                 </li>
 				<!-- 알림 -->
-                <li role="presentation" class="dropdown  pull-left">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                <li role="presentation" class="dropdown  pull-left" id="alerts">
+                  <a href= "#" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-bell-o"></i>
                     <span class="badge bg-green" id="noteNum"></span>
                   </a>
+                  
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
-                      <a>
-                        <span class="image"><img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
+                    </li>                   
                   </ul>
+                  
                 </li>
                 
                 <!-- 쪽지함 -->
                   <li role="presentation" class="dropdown  pull-left">
-                 <a href='<c:url value= "/retrieveMessageList.do"/>' class="dropdown-toggle info-number">
+                 <a href= '<c:url value= "/retrieveMessageList.do"/>' class="dropdown-toggle info-number">
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-green" id="msgNum"></span>
                   </a>

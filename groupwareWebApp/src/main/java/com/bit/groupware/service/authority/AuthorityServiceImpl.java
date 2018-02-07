@@ -21,6 +21,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthorityList(map);
 	}
 
+	//권한을 등록하다.
 	public String registerAuthority(AuthorityVO authority) {
 		// TODO Auto-generated method stub
 		return null;
@@ -30,26 +31,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 	public void modifyAuthority(AuthorityVO authority) {	
 		authorityDAO.updateAuthority(authority);	
 	}
-
-	public void removeAuthority(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List<EmployeeVO> retrieveAuthEmp(String aNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	//총 게시글 수를 구하다.
 	public int retrieveAuthorityCount(Map<String, Object> map) {
 		return authorityDAO.selectAuthorityCount(map);
-	}
-
-
-	//권한번호에 대한 사원을 조회하다.
-	public List<AuthorityVO> retrieveAuthEmpList(String aNo) {
-		return authorityDAO.selectAuthEmpList(aNo);
 	}
 
 	//권한목록을 조회하다.
@@ -62,5 +46,16 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthorityByAname(aName);
 	}
 
+	//권한을 일괄삭제한다.
+	public void removeAuthority(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//사원정보를 조회하다.
+	public List<AuthorityVO> retrieveAuthEmpList(String aNo) {
+		return authorityDAO.selectAuthEmpList(aNo);
+	}
+	
 	
 }
