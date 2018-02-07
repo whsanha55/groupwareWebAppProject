@@ -34,8 +34,14 @@
     display: inline;
     margin-right: 15px;
 }
-
-
+/* 
+#table1{
+	border-collapse:collapse;
+}
+ */
+#table1 td{
+	
+}
 
 </style>
 
@@ -67,23 +73,8 @@
 		
 		
 	
-		/* var temp = $('.apprLineAppr').length;
-		var text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineAppr').parent().append(text);
-		$('.apprLineAppr').parent().next().next().append(text);
-		 temp = $('.apprLineAppr1').length;
-		 text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineAppr1').parent().append(text);
-		$('.apprLineAppr1').parent().next().next().append(text);*/
-		var temp = $('.apprLineAppr2').length;
+		
+		/* var temp = $('.apprLineAppr2').length;
 		var text = "";
 		for(var i =temp; i<9;i++) {
 			//$('.apprLineAppr').parent().append('<td></td>');
@@ -98,23 +89,8 @@
 			text += "<td></td>";
 		}
 		$('.apprLineAppr3').parent().append(text);
-		$('.apprLineAppr3').parent().next().next().append(text);/*
-		temp = $('.apprLineRef').length;
-		text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineRef').parent().append(text);
-		$('.apprLineRef').parent().next().append(text);
-		temp = $('.apprLineRef1').length;
-		text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineRef1').parent().append(text);
-		$('.apprLineRef1').parent().next().append(text); */
+		$('.apprLineAppr3').parent().next().next().append(text); */
+		
 		
 	
 		
@@ -300,87 +276,104 @@
 			 		<button type="button" class="btn btn-success" id="postpone" disabled='true'>보류</button>
 			 		<button type="button" class="btn btn-success" id='reject' disabled='true'>반려</button>			 				 		
 			</div>
-			<div class="table-responsive" id="datas">
+			<div class="table-responsive" id="datas" style="border:0px;">
 				<h2><strong>결재 라인</strong></h2>
-				<table class="table table-striped jambo_table bulk_action approvalLineTable" style="text-align:center; width:100%;">
+				<table id="table1" class="table table-hover" style="text-align:center; width:100%;">
                        
 
                         
-						  <tr class="headings" style="background-color:#3f5367; color:#ECF0F1;">
-                            	<td rowspan="4" class="">결재</td>
+						  <tr class="headings" style=" color:#ECF0F1;">
+                            	<td rowspan="5" class="" style="width:70px; height:35px;background-color:#4a6075;">결재</td>
                             <c:forEach var="line" items="${requestScope.receiverLine}" >
 	                            
 	                            <c:if test="${ line.apprType == 0}">
-	                           		 <th class="apprLineAppr" style="width:139px; text-align:center;">${pageScope.line.lineEmployee.duty }</th>
+	                           		 <th class="apprLineAppr" style="width:110px; height:35px; text-align:center; background-color:#4a6075;">${pageScope.line.lineEmployee.duty }</th>
 	                      		</c:if>
 	                      		
 	                      	    <c:if test="${line.lineEmployee.empNo == empNo}">
 	                      			<input type="hidden" name='recordNo' value="${line.approvalRecords[0].recordNo}">
 	                      		</c:if> 
                             </c:forEach>
-                            <c:forEach begin="1" end="${17- fn:length(requestScope.receiverLine) }">
-                            	<th style="width:68px;"></td>
+                            <c:forEach begin="1" end="${12-requestScope.apprCount}">
+                            	<th style="width:50px;background-color:#4a6075;"></td>
                             </c:forEach>
                           </tr>
                           
-                          <tr class="even pointer">                      
+                          <tr class="">                      
                            <c:forEach var="line" items="${requestScope.receiverLine}" >
 	                           <c:if test="${ line.apprType == 0}">
-	                           	 <td class="apprLineAppr1">${pageScope.line.lineEmployee.empName }</td>
+	                           	 <td class="apprLineAppr1" style="background-color:;font-weight: bolder;border:1px #444444;">${pageScope.line.lineEmployee.empName }</td>
 	                           </c:if>	 
 						   </c:forEach>	
-						   <c:forEach begin="1" end="${17- fn:length(requestScope.receiverLine) }">
-                            	<td style="width:139px;"></td>
+						   <c:forEach begin="1" end="${12-requestScope.apprCount}">
+                            	<td style="width:139px; background-color:;"></td>
                             </c:forEach>				
                           </tr>
                         
-						  <tr class="even pointer">
+                           <tr class="">                      
+                           <c:forEach var="line" items="${requestScope.receiverLine}" >
+	                           <c:if test="${ line.apprType == 0}">
+	                           	 <td class="apprLineAppr1" style="background-color:;">${pageScope.line.lineEmployee.department }</td>
+	                           </c:if>	 
+						   </c:forEach>	
+						   <c:forEach begin="1" end="${12-requestScope.apprCount}">
+                            	<td style="width:139px; background-color:;"></td>
+                            </c:forEach>				
+                          </tr>
+                        
+						  <tr class="">
                            <c:forEach var="line" items="${requestScope.receiverLine}" >                                                    
 	                           <c:if test="${pageScope.line.approvalRecords!=null && pageScope.line.approvalRecords[0].apprStatus < 6 && pageScope.line.approvalRecords[0].confirmDate !=null }">	                             
                            			 <td class="apprLineAppr2"><img src="${pageScope.line.lineEmployee.systemSignName }" style="height:40px; width:40px;"></td>
 								</c:if>
 							</c:forEach>
+							<c:forEach begin="1" end="${12-requestScope.recCount}">
+                            	<td style="width:139px; background-color:;"></td>
+                            </c:forEach>
 							
                           </tr>
                           
-                          <tr class="even pointer">                       
+                          <tr class="">                       
                            <c:forEach var="line" items="${requestScope.receiverLine}" >
 	                           <c:if test="${pageScope.line.approvalRecords!=null && pageScope.line.approvalRecords[0].apprStatus < 6 && pageScope.line.approvalRecords[0].confirmDate !=null}">
 	                           	 <td class="apprLineAppr3">${line.approvalRecords[0].confirmDate }</td>
 	                           </c:if>	 
 						   </c:forEach>
-						   
+						   <c:forEach begin="1" end="${12-requestScope.recCount}">
+                            	<td style="width:139px; background-color:;"></td>
+                            </c:forEach>
   			              </tr>
   			              
-                          <tr class="headings"style="background-color:#3f5367; color:#ECF0F1;">
-                            <td rowspan="3" class="">참조</td>
+  			              <c:if test="${requestScope.recCount!=0 }">
+                          <tr class=""style=" color:#ECF0F1;">
+                            <td rowspan="3" class="" style="background-color:#4a6075;">참조</td>
                             <c:forEach var="line" items="${requestScope.receiverLine}" >
 	                            <c:if test="${ line.apprType == 1}">
-	                           		 <td class="apprLineRef">${pageScope.line.lineEmployee.duty }</td>
+	                           		 <td class="apprLineRef" style="width:110px; height:35px; background-color:#4a6075;" >${pageScope.line.lineEmployee.duty }</td>
 	                      		</c:if>
                             </c:forEach>
-                            <c:forEach begin="1" end="${13- fn:length(requestScope.receiverLine) }">
-                            	<td style="width:139px;"></td>
+                            <c:forEach begin="1" end="${12-requestScope.refCount}">
+                            	<td style="width:139px; background-color:#4a6075;"></td>
                             </c:forEach>
                           </tr>
                         
-                          <tr class="even pointer"> 
+                          <tr class=""> 
                           <c:forEach var="line" items="${requestScope.receiverLine}" >
 	                            <c:if test="${ line.apprType == 1}">
 	                           		 <td class="apprLineRef1">${pageScope.line.lineEmployee.empName }</td>
 	                      		</c:if>
                             </c:forEach>
-                            <c:forEach begin="1" end="${13- fn:length(requestScope.receiverLine) }">
+                            <c:forEach begin="1" end="${12-requestScope.refCount}">
                             	<td style="width:139px;"></td>
                             </c:forEach>
                           </tr>
-				
+						</c:if>
                       </table>
 	      <h2><strong>코멘트</strong></h2>
 		  <table class="table table-striped jambo_table bulk_action ">
                         <thead>
                         
-                          <tr class="headings">
+                          <tr class="headings" style="background-color:#4a6075;">
                             
                             <th class="column-title">사원이름</th>
                             <th class="column-title">코멘트내용</th>
@@ -413,7 +406,7 @@
                         
                           <tr class="even pointer">
                             
-                            <td class="column-title" style="background-color:#3f5367; color:#ECF0F1;">제목</td>
+                            <td class="column-title" style="background-color:#4a6075; color:#ECF0F1;">제목</td>
                             <td colspan="2" style="text-align:center;">${requestScope.approval.apprTitle }</td>
                             <td></td> 
                             
@@ -425,18 +418,18 @@
                             
                            
 							
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">작성자</td>
+                            <td class=" " style="background-color:#4a6075; color:#ECF0F1;">작성자</td>
                             <td class=" ">${requestScope.approval.employee.empName }</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">양식명</td>
+                            <td class=" " style="background-color:#4a6075; color:#ECF0F1;">양식명</td>
                             <td class=" ">${requestScope.approval.template.tmpName }</td>
                             
 							
                           </tr>
 						  <tr class="even pointer">
 
-                           <td class=" " style="background-color:#3f5367; color:#ECF0F1;">부서</td>
+                           <td class=" " style="background-color:#4a6075; color:#ECF0F1;">부서</td>
 							<td class=" ">${requestScope.approval.employee.department }</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">보존기한</td>
+                            <td class=" " style="background-color:#4a6075; color:#ECF0F1;">보존기한</td>
                             <td class=" ">
                             	<c:choose>
                             		<c:when test="${requestScope.approval.validDate != 0}">
@@ -450,9 +443,9 @@
                           </tr>
 						  <tr class="even pointer">
 
-                           <td class=" " style="background-color:#3f5367; color:#ECF0F1;">작성일</td>
+                           <td class=" " style="background-color:#4a6075; color:#ECF0F1;">작성일</td>
 							<td class=" ">${requestScope.approval.apprDate }</td>
-                            <td class=" " style="background-color:#3f5367; color:#ECF0F1;">긴급여부</td>
+                            <td class=" " style="background-color:#4a6075; color:#ECF0F1;">긴급여부</td>
 							<td class=" ">
 								<c:if test="${requestScope.approval.urgency ==1}">긴급</c:if>
 								<c:if test="${requestScope.approval.urgency ==0}"> 일반</c:if>
@@ -469,8 +462,8 @@
 						<c:if test="${fn:length(requestScope.approval.approvalFiles) >0 }">
 							<table class="table table-striped jambo_table bulk_action">
 								<tr>
-									<th  class="headings" style="background-color:#3f5367; color:#ECF0F1;">파일번호</th>
-									<th class="headings"style="background-color:#3f5367; color:#ECF0F1;" colspan="2">파일이름</th>							
+									<th  class="headings" style="background-color:#4a6075; color:#ECF0F1;">파일번호</th>
+									<th class="headings"style="background-color:#4a6075; color:#ECF0F1;" colspan="2">파일이름</th>							
 								</tr>
 								<c:forEach var="apprFile" items="${requestScope.approval.approvalFiles }" varStatus="loop">
 									<tr>

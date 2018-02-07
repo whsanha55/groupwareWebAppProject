@@ -40,6 +40,7 @@
 				<result property="duty" column="linemp_duty" />
 				<result property="systemSignName" column="SYSTEMSIGNNAME" />
 				<result property="signName" column="linemp_sign" />	
+				<result property="department" column="department" />	
 					
 		</association>	
 		
@@ -59,8 +60,8 @@
 	
 	<select id="selectApprovalLine" parameterType="int" resultMap="selectApprovalLineRM" statementType="PREPARED">  
 		select linemp.empname as linemp_name, linemp.duty as linemp_duty, linemp.signname as linemp_sign, linemp.empno as linemp_no, 
-		line.line_no, line.line_order, line.appr_type, linemp.SYSTEMSIGNNAME ,
-		rec.record_no, to_char(rec.confirm_date,'YY/MM/DD HH24:MI') as confirm_date, rec.appr_status, 
+		line.line_no, line.line_order, line.appr_type, linemp.SYSTEMSIGNNAME ,linemp.department,
+		rec.record_no, to_char(rec.confirm_date,'YY/MM/DD') as confirm_date, rec.appr_status, 
 		comm.comment_no, comm.comment_content, comm.comment_date
 		from approval_comment comm, approval_record rec, receiver_line line, emplist_view linemp
 		where rec.record_no=comm.record_no(+)

@@ -27,6 +27,8 @@
 				propagation="REQUIRED" isolation="DEFAULT" timeout="-1" />
 			<tx:method name="find*" rollback-for="Exception"
 				propagation="REQUIRED" isolation="DEFAULT" timeout="-1" />
+			<tx:method name="execute*" rollback-for="Exception"
+				propagation="REQUIRED" isolation="DEFAULT" timeout="-1" />
 		</tx:attributes>
 	</tx:advice>
 

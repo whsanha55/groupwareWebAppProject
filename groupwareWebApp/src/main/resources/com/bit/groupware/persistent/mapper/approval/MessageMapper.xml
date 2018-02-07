@@ -80,23 +80,59 @@
 	</resultMap>
 	<select id="selectMessageList" parameterType="map" resultMap="MessageListResultMap" statementType="PREPARED" >
 		
-		select msg_no,msg_date,msg_title,msg_content,msg_isread,sender_removal,recipient_removal,
-		sender_emp_no,recipient_emp_no,
-		(select emp_name from employee where emp_no=msg.sender_emp_no)as sender_emp_name,
-		(select emp_name from employee where emp_no=msg.recipient_emp_no)as recipient_emp_name
-		from (select rownum as rn, mesg.*
-      		  from (select *	
-            	    from message order by msg_date desc) mesg) msg 
-         where <![CDATA[msg.rn>=]]>#{startRow} and <![CDATA[msg.rn<=]]>#{endRow}
+		select t2.*   
+	    from (select rownum as rn, t1.* 
+	        from(select msg_no,msg_date,msg_title,msg_content,msg_isread,sender_removal,recipient_removal,
+	            sender_emp_no,recipient_emp_no,
+	            (select emp_name from employee where emp_no=msg.sender_emp_no)as sender_emp_name,
+	            (select emp_name from employee where emp_no=msg.recipient_emp_no)as recipient_emp_name
+	            from message msg 
+	                  
          <if test= "empNo != null">
-         	and recipient_emp_no = #{empNo}
+         	where recipient_emp_no = #{empNo}
          </if>
          
          <if test="senderEmpNo != null">
-         	and sender_emp_no = #{senderEmpNo}
+         	where sender_emp_no = #{senderEmpNo}
          </if>
-             
+         
+         
+         <if test= "empNo != null">
+         	order by msg_isread asc, msg_date desc   
+         </if>
+         
+         <if test="senderEmpNo != null">
+         	order by msg_date desc
+         </if>	
+         	
+          )t1 )t2
+          where <![CDATA[rn>=]]>#{startRow} and <![CDATA[rn<=]]>#{endRow}
 	</select>
+	
+	
+	<select id="selectMessageListCount" parameterType="map" resultType="int" statementType="PREPARED" >
+		
+		select count(*) from(select t2.*   
+	    from (select rownum as rn, t1.* 
+	        from(select msg_no,msg_date,msg_title,msg_content,msg_isread,sender_removal,recipient_removal,
+	            sender_emp_no,recipient_emp_no,
+	            (select emp_name from employee where emp_no=msg.sender_emp_no)as sender_emp_name,
+	            (select emp_name from employee where emp_no=msg.recipient_emp_no)as recipient_emp_name
+	            from message msg 
+	                  
+         <if test= "empNo != null">
+         	where recipient_emp_no = #{empNo}
+         </if>
+         
+         <if test="senderEmpNo != null">
+         	where sender_emp_no = #{senderEmpNo}
+         </if>
+         	
+         	order by msg_isread desc, msg_date desc
+          )t1 )t2)
+
+	</select>
+	
 	
 	<select id="selectNewMessageCount" statementType="PREPARED" parameterType="String" resultType="int">
 		select count(msg_no)

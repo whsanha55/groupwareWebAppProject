@@ -20,8 +20,6 @@
 	
 	$(document).ready(function(){
 		
-		console.log("페이지 로드");
-		
 		templatePaging(1);//최초로드시 페이지처리
 		
 		//결재현황 팝업창생성
@@ -33,9 +31,9 @@
 		
 		//결재문서 상세조회 팝업창 생성
 		 $('#datatable').on("click",'.detailApproval',function(){
-	 		  	
-			  var check = $(this).parent().children(":last").attr('class');
-	 		  	 
+	 		  
+			  //최초 확인시 확인일자 기록
+			  var check = $(this).parent().children(":last").attr('class');	 		  	 
 			  if(check == 'isNotRead') {
 				var recordNo = $(this).parent().children(":last").attr('id');
 			  	checkDate(recordNo);
