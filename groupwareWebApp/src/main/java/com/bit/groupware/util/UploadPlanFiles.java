@@ -19,7 +19,8 @@ public class UploadPlanFiles {
 	private static int count = 1;
 
 	public static PlanFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
-		String path = context.getRealPath("/upload");
+		String root = context.getRealPath("/");
+		String path = root + "resources/upload/planFiles/";
 		logger.info("path : {} ", path);
 
 		String fileName = part.getOriginalFilename();
