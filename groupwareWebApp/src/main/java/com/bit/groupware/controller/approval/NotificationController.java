@@ -53,7 +53,7 @@ public class NotificationController {
 	
 	//apprRecord에서 insert, delete가 일어날 때 마다 트리거가 실행되는데 NotificationList를 가져와 ajax처리해줌
 	
-	@RequestMapping(value="retrieveNotifications.do", method=RequestMethod.GET)
+	@RequestMapping(value="/retrieveNotifications.do", method=RequestMethod.GET)
 	@ResponseBody
 	public List<NotificationVO> selectNotifications() {
 		
@@ -76,7 +76,7 @@ public class NotificationController {
 	}
 	
 	
-	
+	@RequestMapping(value="/removeNotificationList.do", method=RequestMethod.GET)
 	public String removeNotificationList(@RequestParam(value="notificationNos") String notificationNos ) {
 		
 		//String[] 을 int[]로 바꾸다.
