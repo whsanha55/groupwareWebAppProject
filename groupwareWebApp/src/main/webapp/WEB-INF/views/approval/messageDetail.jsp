@@ -78,13 +78,13 @@
 					swal({
 						
 						title: "답장 전송 완료",
-						text: "확인을 누르시면 받은 쪽지함으로 이동합니다",
+						text: "확인을 누르시면 보낸 쪽지함으로 이동합니다",
 						icon: "success"
 						
 																		
 					}).then((s) => {
 						window.close();
-						location.href= '${pageContext.request.contextPath}/retrieveMessageList.do';
+						location.href= '${pageContext.request.contextPath}/retrieveSendMessageList.do';
 					});
 				}
 				,
@@ -99,119 +99,18 @@
 	    
 		
 		$('#button1').on('click',function(){
+			opener.parent.location.reload();		
 			window.close();
+			
 		});
 		
 		
 		
 		
 		 $('#button2').on('click',function(){
-			 
-			 $('#form').empty();
-			 
-			 var htmlStr = "";
-			 
-			 htmlStr += "<table class='table table-striped jambo_table bulk_action'>";
-			 htmlStr += "<tbody>";		
-			 htmlStr += "<tr>";				
-			 htmlStr += "<input type = 'hidden' name='senderNo' value='${requestScope.message.receipientEmployee.empNo }'>";
-			 htmlStr += "<td>수신자</td>";
-			 htmlStr += "<td> ${requestScope.message.senderEmployee.empName } </td>";
-			 htmlStr += "</tr>";
-			 
-			 htmlStr += "<tr>";
-			 htmlStr += "<td>제목</td>";
-			 htmlStr += "<td>"+ '<input type="text" name="msgTitle" size="40"></input>'+"</td>";
-			 htmlStr += "</tr>"
-			 
-			 htmlStr += '<tr height="340px">';
-			 htmlStr += "<td>내용</td>";
-			 htmlStr += '<td colspan="2"><textarea style="width:550px; height:340px" name="msgContent"></textarea>'+"</td>";
-			 htmlStr += "</tr>";
-			 htmlStr += "</tbody>";
-			 htmlStr += "</table>";
-							 				
-					 
-			 htmlStr += '<div class="buttons text-center">';
-			 htmlStr += '<button type="button" id="button3" class="btn btn-success">취소</button>';
-			 htmlStr += '<button type="button" id="button4" class="btn btn-success">답장보내기</button>';
-			 htmlStr += "</div>";
-						 
-			 $(htmlStr).appendTo('#form');
-			 
 			
-			 /*
-			 $.ajax({
-				 
-				 url: '${pageContext.request.contextPath}/registerReponseMsgForm.do'
-				 ,
-				 
-				 method: 'POST'
-				 ,
-				 dataType: 'json'
-				 ,
-				 data: {
-					
-					 recEmpNo: $('tbody').find('tr:nth-child(1)').find('td:nth-child(2)').attr('id'),
-					 recEmpName: $('tbody').find('tr:nth-child(1)').find('td:nth-child(2)').text()
-				 	
-				 }
-				 
-				 ,
-				 success : function(data) {
-					
-					 
-					 $('#form').empty();
-					 
-					 var htmlStr = "";
-					 
-					 htmlStr += "<tbody>";		
-					 htmlStr += "<tr>";				
-					 htmlStr += '<input type = "hidden" name="receipientEmployee.empNo" value="'+data.senderEmployee.empNo+'">'
-					 htmlStr += "<td>수신자</td>";
-					 htmlStr += "<td>" + data.senderEmployee.empName + "</td>";
-					 htmlStr += "</tr>";
-					 
-					 htmlStr += "<tr>";
-					 htmlStr += "<td>제목</td>";
-					 htmlStr += "<td>"+ '<input type="text" name="msgTitle" size="40"></input>'+"</td>";
-					 htmlStr += "</tr>"
-					 
-					 htmlStr += '<tr height="340px">';
-					 htmlStr += "<td>내용</td>";
-					 htmlStr += '<td colspan="2"><textarea style="width:550px; height:340px" name="msgContent"></textarea>'+"</td>";
-					 htmlStr += "</tr>";
-					 htmlStr += "</tbody>";
-									 				 
-					 $(htmlStr).appendTo('#form');
-					 
-					 alert($('#form').html());
-					 
-					 htmlStr = "";
-					 
-					 $('#buttons').find('button').remove();
-					 
-					 var htmlStr2 = "";
-					 
-					 htmlStr2 += '<div class="buttons text-center">';
-					 htmlStr2 += '<button type="button" id="button3" class="btn btn-success">취소</button>';
-					 htmlStr2 += '<button type="button" id="button4" class="btn btn-success">답장보내기</button>';
-					 htmlStr2 += "</div>";
-					 
-					 $(htmlStr2).appendTo('#buttons');
-					 htmlStr2 = "";					 
-				
-				 }
-				 
-				 ,
-				 
-				 error: function(jqXHR) {
-						alert("error : " + jqXHR.status);
-					}
-				 				 		 
-		 	});
-			 */
-			
+				 var url = "${pageContext.request.contextPath}/writeMessage.do?receipientNo=${requestScope.message.receipientEmployee.empNo }&receipientName=${requestScope.message.receipientEmployee.empName}";
+				window.open(url, "쪽지보내기", "width=700, height=600");
 		});
 		 
 	});
@@ -228,8 +127,12 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
+			  <c:if test="${requestScope.isSender==1 }">
 				<h2>받은 쪽지</h2>
-
+			   </c:if>
+			   <c:if test="${requestScope.isSender==0 }">
+				<h2>보낸 쪽지</h2>
+			   </c:if>
 				<div class="clearfix"></div>
 			</div>
 			<div class="table-responsive" id="datas">
@@ -241,20 +144,26 @@
 						<tbody>
 	
 							<tr>
-								<td>발신자</td>
+							
+								<td style="font-weight:bolder;">발신자</td>
 								<td id="${requestScope.message.receipientEmployee.empNo }">${requestScope.message.senderEmployee.empName }</td>
-	
+								<td style="font-weight:bolder;">수신자</td>
+								<td >${requestScope.message.receipientEmployee.empName }</td>
+							
 							</tr>
 	
 							<tr>
-								<td>제목</td>
-								<td>${requestScope.message.msgTitle }</td>
+								<td style="font-weight:bolder;">제목</td>
+								<td colpan="3">${requestScope.message.msgTitle }</td>
+								<td></td>
+								<td></td>
 	
 							</tr>
 	
 							<tr height="100">
-								<td>내용</td>
-								<td colspan="2">${requestScope.message.msgContent }</td>
+								<td style="font-weight:bolder;">내용</td>
+								<td colspan="3" >${requestScope.message.msgContent }</td>
+								
 							</tr>						
 							
 						</tbody>				
@@ -266,7 +175,9 @@
 			
 			<div class="buttons text-center" id="buttons">
 						<button type="button" id="button1" class="btn btn-success">확인</button>
-						<button type="button" id="button2" class="btn btn-success">답장보내기</button>
+						<c:if test="${requestScope.isSender==1 }">
+							<button type="button" id="button2" class="btn btn-success">답장보내기</button>
+						</c:if>
 					</div>	
 				
 			</form>		

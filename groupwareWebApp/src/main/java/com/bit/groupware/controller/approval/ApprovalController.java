@@ -37,8 +37,7 @@ public class ApprovalController {
 
 				
 			ModelAndView mv =new ModelAndView();
-			mv.addObject("status",status);
-			//1:결재요청함 2:결재대기함 3:나머지
+			
 			List<ReceiverLineVO> lines=receiverLineService.retrieveApprovalLineList(apprNo);
 			int apprCount=0;
 			int refCount=0;

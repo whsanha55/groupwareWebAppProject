@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.groupware.service.authority.NoticeService;
 import com.bit.groupware.service.authority.RoleService;
@@ -25,6 +26,7 @@ public class AdminRemoveRoleController {
 
 	//공지사항 삭제 요청
 	@RequestMapping(value="/admin/deleteRole.do", method=RequestMethod.GET)
+	@ResponseBody 
 	public int submit(@RequestParam(value = "rId", required = true) List<String> rIds) { 
 		logger.info("번호!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", rIds);
 

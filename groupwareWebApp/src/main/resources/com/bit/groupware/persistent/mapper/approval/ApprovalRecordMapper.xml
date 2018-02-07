@@ -131,4 +131,13 @@
    </update>
    
    
+   <select id="selectRecNo" parameterType="map" resultType="int" statementType="PREPARED" >
+   		select record_no
+		from approval_record
+		where line_no in (select line_no from receiver_line line where line_emp_no=#{empNo})
+		and appr_no=#{apprNo}
+   </select> 
+   
+   
+   
 </mapper>

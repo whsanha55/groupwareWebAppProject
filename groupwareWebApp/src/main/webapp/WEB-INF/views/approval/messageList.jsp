@@ -10,19 +10,33 @@
 </style>
 	
 <script>
-	
+		var isSender = 1;	//받은 쪽지함
 		$(document).ready(function(){
 			
 			templatePaging(1);//최초로드시 페이지처리
 		
+			//체크박스 전체 선택&해제
+			 $("#allCheck").click(function(){ 	
+				 if($("#allCheck").prop("checked")) { 				  
+					 $("input[type=checkbox]").prop("checked",true); 				  
+				 } else {  
+					 $("input[type=checkbox]").prop("checked",false); 
+				 } 
+			 });
 			
-			$('table').find('a').click(function() {				
-				var msgNo = $(this).attr("id");
-				var url = '${pageContext.request.contextPath}/retrieveMessage.do?msgNo='+msgNo;
+			//상세조회
+			$('#datatable').on('click','.msgTitle',function() {			
+				var msgNo = $(this).attr('id');
+				//최초 확인시 확인일자 기록
+				var check = $(this).attr('name');	 		  	 
+				  if(check == 'isNotRead') {
+				  	read(msgNo);
+				  } 
+				
+				var url = '${pageContext.request.contextPath}/retrieveMessage.do?msgNo='+msgNo+'&isSender='+isSender;
 				window.open(url,"쪽지상세정보","width=700, height=600");
 				
 			});
-			
 			
 		 	$('#sendMsg').click(function() {
 				
@@ -83,6 +97,7 @@
 						
 																		
 					}).then((s) => {
+
 						window.close();
 						location.href= '${pageContext.request.contextPath}/retrieveMessageList.do';
 					});
@@ -103,13 +118,33 @@
 			 
 		});
 		
+		function read(msgNo) {
+			$.ajax({
+				url: '${pageContext.request.contextPath}/messageReading.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				data: {
+					msgNo: msgNo				
+				},
+				success: function (data, textStatus, jqXHR) {
+					templatePaging(1);
+				},
+				error: function(jqXHR) {
+					alert("에러: " + jqXHR.status);
+				}
+			});			
+		}
+		
 		function templatePaging(currentPageNo) {
 			var totalCount =  0;		//총 양식서 수
-			var countPerPage = 10;   //한 페이지당 보여주는 회원 수
+			var countPerPage = 8;   //한 페이지당 보여주는 회원 수
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			var isSender = 1;	//받은 쪽지함
+			
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/messagePaging.do' 
@@ -130,21 +165,21 @@
 					var text = "";
 					for(var i=0; i<data.messages.length ; i++){
 						
-						if(data.messages[i].isRead==0){
+						if(data.messages[i].isRead==1){
 							text += "<tr class='even pointer'  style='color:#9e9e9e' >";
 						}else{
 							text += "<tr class='even pointer'  style='color:#0459c1' >";		
 						} 
 
 						text += "<td class='a-center'><input type='checkbox' class='flat' name='table_records' id="+data.messages[i].msgNo+"></td>";
-						if(data.messages[i].isRead ==0){
-							text += " <td><a style='color:#9e9e9e'>"+data.messages[i].msgTitle +"</a></td>";	
+						if(data.messages[i].isRead ==1){
+							text += " <td><a class='msgTitle' id="+data.messages[i].msgNo+" name='isRead' style='color:#9e9e9e;cursor:pointer; font-weight:bolder;'>"+data.messages[i].msgTitle +"</a></td>";	
 						}else{
-							text += " <td><a style='color:#0459c1'>"+data.messages[i].msgTitle +"</a></td>";								
+							text += " <td><a class='msgTitle' id="+data.messages[i].msgNo+" name='isNotRead' style='color:#0459c1;cursor:pointer; font-weight:bolder;'>"+data.messages[i].msgTitle +"</a></td>";								
 						}
 						text += "<td>"+ data.messages[i].senderEmployee.empName + "</td>";
 						text += "<td>"+ data.messages[i].msgDate + "</td>";
-						if(data.messages[i].isRead ==0){
+						if(data.messages[i].isRead ==1){
 							text += "<td class='isRead' id='"+ data.messages[i].msgNo +"'>읽음</td>";	
 						}else{
 							text += "<td class='isNotRead' id='"+ data.messages[i].msgNo +"'>안읽음</td>";			
@@ -262,7 +297,7 @@
                           <tr class="headings">
                             
                             <th>
-                              <input type="checkbox" id="check-all" class="flat">
+                              <input type="checkbox" id="allCheck"  >
                             </th>
                             <th class="column-title">제목</th>
                             <th class="column-title">발신자</th>
