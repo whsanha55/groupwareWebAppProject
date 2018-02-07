@@ -21,4 +21,6 @@ public interface ApprovalRecordService {
 	
 	//확인일시 기록
 	void modifyCheckDate(int recordNo);
+	
+	int retrieveRecNo(Map<String,Object> map);
 }
