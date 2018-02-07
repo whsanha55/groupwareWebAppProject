@@ -27,8 +27,16 @@
                                 from notification t1, emp_view t2
                                 where t1.emp_no = t2.emp_no and t1.emp_no = #{empNo}
                                 order by t1.note_date desc) t3 )
+            
+            <if test ="startRow != null || endRow !=null">
             where rn between #{startRow} and #{endRow}
+            </if>                    
+                              
+            
 	</select>
+	
+	
+	
 	
 	
 	<delete id="deleteNotification" parameterType="map" >
