@@ -9,12 +9,11 @@
 <style>
 </style>
 	
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript">
+<script>
 	
 		$(document).ready(function(){
 			
-			
+			templatePaging(1);//최초로드시 페이지처리
 		
 			
 			$('table').find('a').click(function() {				
@@ -103,6 +102,129 @@
 		 	
 			 
 		});
+		
+		function templatePaging(currentPageNo) {
+			var totalCount =  0;		//총 양식서 수
+			var countPerPage = 10;   //한 페이지당 보여주는 회원 수
+			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
+			var startRow = (currentPageNo - 1) * countPerPage + 1;
+			var endRow = currentPageNo * countPerPage;
+			var isSender = 1;	//받은 쪽지함
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/messagePaging.do' 
+				,
+				data: {
+					startRow : startRow ,
+					endRow : endRow,
+					isSender : isSender
+				},
+				type: 'POST' ,
+				cache: false ,
+				dataType: 'json' ,
+				success: function (data, textStatus, jqXHR) {
+					
+					totalCount = data.totalCount;
+					
+					//datatable테이블 변경하기
+					var text = "";
+					for(var i=0; i<data.messages.length ; i++){
+						
+						if(data.messages[i].isRead==0){
+							text += "<tr class='even pointer'  style='color:#9e9e9e' >";
+						}else{
+							text += "<tr class='even pointer'  style='color:#0459c1' >";		
+						} 
+
+						text += "<td class='a-center'><input type='checkbox' class='flat' name='table_records' id="+data.messages[i].msgNo+"></td>";
+						if(data.messages[i].isRead ==0){
+							text += " <td><a style='color:#9e9e9e'>"+data.messages[i].msgTitle +"</a></td>";	
+						}else{
+							text += " <td><a style='color:#0459c1'>"+data.messages[i].msgTitle +"</a></td>";								
+						}
+						text += "<td>"+ data.messages[i].senderEmployee.empName + "</td>";
+						text += "<td>"+ data.messages[i].msgDate + "</td>";
+						if(data.messages[i].isRead ==0){
+							text += "<td class='isRead' id='"+ data.messages[i].msgNo +"'>읽음</td>";	
+						}else{
+							text += "<td class='isNotRead' id='"+ data.messages[i].msgNo +"'>안읽음</td>";			
+						}
+						text += "</tr>";
+					}
+						$('#datatable').html(text);
+						
+						$("#count1").text("-" +data.totalCount+"건의 결재 대기 문서");
+					
+						//페이징 처리
+						jqueryPager({
+							countPerPage : countPerPage,
+							pageSize : pageSize,
+							currentPageNo : currentPageNo,
+							totalCount : totalCount
+						});
+						
+					
+				} ,
+				error: function(jqXHR) {
+					alert("에1러: " + jqXHR.status);
+				}
+				
+			});
+			
+
+		} //end templatePaging function
+		
+		//페이징 처리
+		function jqueryPager(subOption) {
+		
+		var pageBlock = subOption.countPerPage;      
+		var pageSize = subOption.pageSize;        
+		var currentPage = subOption.currentPageNo;   
+		var pageTotal = subOption.totalCount;       
+		var pageTotalCnt = Math.ceil(pageTotal/pageBlock);
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
+		
+		var html ="<ul class='pagination'>";
+
+		
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
+			ePage = pageTotalCnt;
+		} else {
+			ePage = pageBlockCnt * pageSize;
+		} 
+		
+		if(sPage <= 1) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Previous">' 
+		} else {
+			html += '<li class="page-item ">';
+			html += '<a class="page-link" aria-label="Previous" onclick = "templatePaging(' + (sPage - pageSize) + ')">'; 
+		}
+		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
+		
+		for(var i=sPage; i<=ePage; i++) {
+			if(currentPage == i) {
+				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
+			} else {
+				html += '<li class="page-item"><a class="page-link" onclick="templatePaging(' + i + ');">' + i + '</a></li>';
+			}
+		}				
+
+		if (ePage >= pageTotalCnt) {
+			html += '<li class="page-item disabled">';
+			html += '<a class="page-link" aria-label="Next">';
+		} else {
+			html += '<li class="page-item">';
+			html += '<a class="page-link" aria-label="Next" onclick = "templatePaging(' + (ePage+1) + ')">';
+		}
+		html += '<span aria-hidden="true">&raquo;</span> </a></li>';
+		html += '</ul>';
+		
+		$('#templatePaging').html(html);
+	
+	}
 	
 	</script> 
 	
@@ -145,42 +267,27 @@
                             <th class="column-title">제목</th>
                             <th class="column-title">발신자</th>
                             <th class="column-title">발신일시</th>
+                            <th class="column-title">읽음여부</th>
 
                             
                           </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="datatable">
                         
-                        <c:forEach var="message" items="${requestScope.messages }" varStatus="loop">
-                           
-                          
-                          <tr class="even pointer">            
-                            <td class="a-center">
-                              <input type="checkbox" class="flat" name="table_records" id="${pageScope.message.msgNo }">
-                            </td>                       
-                            <td><a id="${pageScope.message.msgNo }">${pageScope.message.msgTitle }</a></td>
-                            <td>${pageScope.message.senderEmployee.empName }</td>
-                            <td>${pageScope.message.msgDate }</td>
-                               
-                          </tr>
-                         </c:forEach>
+                     
                        
                         </tbody>
                       </table>
 					  <div>
 					  <div class="text-center">
-						<ul class="pagination ">
-							<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-						</ul>
+						<nav aria-label="Page navigation" id = 'templatePaging'>
+				
+						</nav> 	
 						</div>
 					  </div>
                     </div>
-							
+						
 						
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-package com.bit.groupware.persistent.employee;
+package com.bit.groupware.persistent.approval;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +18,6 @@ public interface MessageDAO {
 	List<MessageVO> selectMessageList(Map<String,Object> map);
 	
 	int selectNewMessageCount(String empNo);
+	
+	int selectMessageCount(Map<String,Object> map);
 }
