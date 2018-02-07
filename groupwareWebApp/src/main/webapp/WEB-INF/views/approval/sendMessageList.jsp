@@ -8,9 +8,7 @@
 <title>메시지 보관함</title>
 <style>
 </style>
-	
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript">
+<script>
 	
 		$(document).ready(function(){
 			
