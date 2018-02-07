@@ -46,7 +46,7 @@
       });
       
       // 수정
-      $(document).on('click', '.modifyBtn', function(){
+      $('#datatable').on('click','button:contains(수정)', function () {
          var rName = $(this).parents("tr").find('.rName').text();      
          var rType = $(this).parents("tr").find('.rType').text();
          var rExplan = $(this).parents("tr").find('.rExplan').text();
@@ -78,6 +78,8 @@
           var explan = $(this).parents("tr").find('.rExplan');
           var selectBtn = $(this).parents("tr").find('.selectBtn');
           
+          var a = $(this).parents("tr").find('input[name=rName]');
+          
          swal({
               title: "역할을 수정하시겠습니까?",
               icon: "info",
@@ -105,15 +107,11 @@
                         success : function(data, textStatus, jqXHR){   
                            if(data.isSuccess == "true"){
                               swal("수정 완료!","");
-                              /* 
-                              $(this).parents("tr").find('input[name=rName]').remove();
-                         	 $(this).parents("tr").find('.rType').remove();
-                         	 $(this).parents("tr").find('.rExplan').remove();            */
-                         	 
                               $(name).html(data.role.rName);
                               $(type).html(data.role.rType);
                               $(explan).html(data.role.rExplan);
-                              $(selectBtn).html("<button type='button'  class='modifyBtn' class='btn btn-primary'>수정</button>");
+                              $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
+                              Paging(1);   
                            }else if(data.isSuccess == "false"){
                               swal("이미 역할이 존재합니다.");
                            } 
@@ -132,16 +130,17 @@
       //수정 취소
        $('#datatable').on('click','button:contains(취소)', function () { 
           var rName = $(this).parents("tr").find('input[name=rName]').val();
-          var rType = $(this).parents("tr").find('input[name=rType]').val();
+          var target = document.getElementById("selBox");
+          var rType = target.options[target.selectedIndex].text;
           var rExplan = $(this).parents("tr").find('input[name=rExplan]').val();      
          
          $(this).parents("tr").find('.rName').html(rName);
          $(this).parents("tr").find('.rType').html(rType);
          $(this).parents("tr").find('.rExplan').html(rExplan);
          
-         $(this).parents("tr").find('.selectBtn').html("<button type='button'  class='modifyBtn' class='btn btn-primary'>수정</button>");
+         $(this).parents("tr").find('.selectBtn').html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
           $('button:contains(수정)').prop("disabled", false);
-       });
+       });  
       
       //삭제 
       $('#deleteBtn').on('click', function() {         
@@ -226,7 +225,7 @@
                text += "<td class='rType'>"+ data.roles[i].rType + "</td>";
                text += "<td class='rExplan'>"+ data.roles[i].rExplan + "</td>";
                text += "<td>"+ data.roles[i].rDate + "</td>"; 
-               text += "<td class='selectBtn'><button type='button'  class='modifyBtn' class='btn btn-primary'>수정</button></td>";
+               text += "<td class='selectBtn'><button type='button'  class='modifyBtn btn btn-primary'>수정</button></td>";
                text += "</tr>";
             }
                $('#datatable').find('tbody').html(text);
@@ -319,7 +318,7 @@
      
          <div class="container">
              <div class="row">    
-                 <div class="col-xs-7 col-xs-offset-5">
+                 <div class="col-xs-7 col-xs-offset-4">
                    <div class="input-group">
                          <div class="input-group-btn search-panel">
                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -338,12 +337,11 @@
                          </span>
                      </div>
                  </div>
+                 <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
             </div>
          </div>
-                   <a class="btn btn-primary" href='<c:url value="/admin/role.do"/>'>등록</a>
+                   
                   <div class="x_content">
-               
-
                     <div class="table-responsive">
                       <table id="datatable"  class="table table-striped jambo_table bulk_action">
                         <thead>
@@ -370,8 +368,7 @@
                  <div class="text-center">
                   <nav aria-label="Page navigation" id = 'Paging'></nav> 
                 </div>
-                  <button class="pull-right">일괄 수정</button>
-                  <button type="button"  id="deleteBtn" class="pull-right">일괄 삭제</button>
+                  <button type="button"  id="deleteBtn" class="btn btn-danger pull-right">삭제</button>
                </div>
                   
                   </div>
