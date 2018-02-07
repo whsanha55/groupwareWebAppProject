@@ -162,9 +162,8 @@ $(document).ready(function() {
 		
 		Paging(1);
 		
-<<<<<<< HEAD
 	});
-=======
+
 		//	검색조건
 		$('.search-panel .dropdown-menu').on('click','a',function(e) {
 				e.preventDefault();
@@ -234,7 +233,7 @@ $(document).ready(function() {
 					text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
 					text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
 					text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
-					text += "<td class='align-center selectBtn'><a class='btn btn-primary' href='<c:url value='/admin/designRole.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button></td>";
+					text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a class='btn btn-default'  id='disable' href='<c:url value='/admin/designRole.do'/>'>사원추가</a></td>";
 					text += "</tr>";     
 				}
 				
@@ -314,7 +313,6 @@ $(document).ready(function() {
 	   
 	   }
 	
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 	//수정 폼 변경
 	$('#datatable').on('click','button:contains(수정)', function () {
 		
@@ -335,7 +333,7 @@ $(document).ready(function() {
             $('input[name=aWhether][value=1]').prop('checked',true);
          }
 
-	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
+	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-default'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
 	    $('button:contains(수정)').prop("disabled", true);
 
 	});
