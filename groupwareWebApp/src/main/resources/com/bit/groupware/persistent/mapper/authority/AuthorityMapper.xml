@@ -111,43 +111,54 @@
    <!--권한삭제  -->
    <delete id="deleteAuthority" parameterType="String" statementType="PREPARED">
       delete from authority 
-      where a_no = #{aNo}
+      where a_no in
+      <foreach item="aNo" collection="list" separator="," open="(" close=")">
+       #{aNo}
+      </foreach>
    </delete>
    
-   <!-- 권한사원 삭제 -->
-   <delete id="deleteAuthEmp" parameterType="int" statementType="PREPARED">
-      delete from authority_employee
-      where ae_no = #{aeNo}
-   </delete>
+   <!-- 사원,역할 존재여부 -->
+   <select id="selectAuthRoleCount" parameterType="String" resultType="int" statementType="PREPARED">
+   	select count(*)
+	from authority a , role r, authority_role ar, authority_employee ae
+	where ar.a_no = a.a_no
+    	and r.r_id = ar.r_id
+    	and ae.a_no = a.a_no
+    	and a.a_no = 
+    	<foreach item="aNo" collection="list" separator="," open="(" close=")">
+    	#{aNo}
+    	</foreach>
+   </select>
    
-   <!-- 권한역할 삭제  -->
-   <delete id="deleteAuthRole" parameterType="int" statementType="PREPARED">
-       delete from authority_role
-       where ar_no = #{arNo}
-   </delete>
    
    <!-- 권한 리스트 조회-->
    <select id="selectListAuthority" resultType="AuthorityVO" statementType="PREPARED" parameterType="map" >      
-      select distinct a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
-      from (select rownum as rn, t1.*
-              from (select *
-                      from authority 
-                      order by a_no asc)t1)a, employee e, authority_employee ae
-      where a.a_no = ae.a_no
-          and ae.emp_no = e.emp_no
+      select a_no as aNo , a_name as aName,a_note as aNote, a_Whether as aWhether
+	  from(select tt.*, rownum as rn
+			from(select *
+    				from authority t1
        <if test="keyfield == 'aName' and keyword != null">
-          and a.a_name Like '%' || #{keyword} || '%'
+        		  where a.a_name Like '%' || #{keyword} || '%'
        </if>
        
        <if test="keyfield == 'empNo' and keyword != null">
-          and e.emp_no Like '%' || #{keyword} || '%'
+            	where a_no in (select t1.a_no
+                					from authority_employee t1 , employee t2
+                					where  t1.emp_no = t2.emp_no
+               						and t2.emp_no Like '%' || #{keyword} || '%'
+                )
        </if>
        
+       
        <if test="keyfield == 'empName' and keyword != null">
-          and e.emp_name Like '%' || #{keyword} || '%'
+	     	  where a_no in (select t1.a_no
+	                				from authority_employee t1 , employee t2
+	              					where  t1.emp_no = t2.emp_no
+	                 				and t2..emp_name Like '%' || #{keyword} || '%'
+	                )
        </if>
-       and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
-       order by a.a_no asc
+        order by a_no) tt )
+       where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
    </select>
    
     <select id="selectAuthorityCount" statementType="PREPARED" parameterType="map" resultType="int">

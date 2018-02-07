@@ -20,6 +20,9 @@ public interface AuthorityDAO {
 	// 권한을 일괄 삭제한다.
 	void deleteAuthority(Map<String, Object> map);
 
+	// 권한 역할, 사원 존재여부
+	int selectAuthRoleCount(Map<String, Object> map);
+	
 	// 총 게시글 수를 구한다.
 	int selectAuthorityCount(Map<String, Object> map);
 

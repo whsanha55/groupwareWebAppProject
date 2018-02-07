@@ -36,8 +36,13 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 
 	//권한을 일괄삭제하다.
 	public void deleteAuthority(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".deleteAuthority", map);
 		
+	}
+	
+	//권한역할, 권한 사원 존재여부
+	public int selectAuthRoleCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectAuthRoleCount", map);
 	}
 
 	//총 게시글 수를 구하다.
