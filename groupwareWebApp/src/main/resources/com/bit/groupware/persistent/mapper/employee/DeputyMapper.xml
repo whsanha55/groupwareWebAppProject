@@ -140,5 +140,10 @@
 	                    ) emp) e
 	</select>
 	
+	<delete id="deleteDeputy" parameterType="String" statementType="PREPARED">
+		delete deputy
+		where dep_no = #{depNo}
+	</delete>
+	
 </mapper>
 
