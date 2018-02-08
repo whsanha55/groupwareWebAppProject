@@ -17,4 +17,6 @@ public interface DeputyDAO {
 	List<EmployeeVO> selectDeputyRegisterEmployeeList(Map<String, Object> map);
 	
 	int selectDeputyRegisterCount(Map<String, Object> map);
+	
+	void deleteDeputy(String depNo);
 }

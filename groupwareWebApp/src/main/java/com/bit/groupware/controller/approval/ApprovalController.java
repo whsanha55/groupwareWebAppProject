@@ -32,13 +32,14 @@ public class ApprovalController {
 		//문서 상세조회
 		@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
 		public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
-										   @RequestParam(value="status") int status,
 										   Principal principal) {
 
 				
 			ModelAndView mv =new ModelAndView();
 			
-			List<ReceiverLineVO> lines=receiverLineService.retrieveApprovalLineList(apprNo);
+//			List<ReceiverLineVO> lines=receiverLineService.retrieveApprovalLineList(apprNo);
+			List<ReceiverLineVO> lines=receiverLineService.retrieveReceiverLineByApprNo(apprNo);
+			logger.info(lines+"zzzzzzzzzzzzzzzzzzzzzzzzzzz");
 			int apprCount=0;
 			int refCount=0;
 			int recCount=0;

@@ -35,5 +35,9 @@ public class DeputyDAOImpl implements DeputyDAO {
 	public int selectDeputyRegisterCount(Map<String, Object> map) {
 		return sqlSession.selectOne(NAMESPACE + ".selectDeputyRegisterCount", map);
 	}
+	
+	public void deleteDeputy(String depNo) {
+		sqlSession.delete(NAMESPACE + ".deleteDeputy", depNo);
+	}
 
 }
