@@ -25,7 +25,8 @@
 	
 		<update id="updateApproval" parameterType="ApprovalVO" statementType="PREPARED">
 			update approval
-			set appr_final_status = concat('C-01-0', #{apprFinalStatus})
+			set appr_final_status = concat('C-01-0', #{apprFinalStatus}),
+				complete_date = sysdate
 			where appr_no=#{apprNo}
 		</update>
 

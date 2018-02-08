@@ -112,49 +112,6 @@
 		</collection>
 	</resultMap> 
 
-	<!-- <select id="selectEmployeeByNo" resultMap="selectEmployeeResultMap" 
-							statementType="PREPARED" parameterType="String">
-							
-		select e.emp_no, emp_name, emp_pwd, eng_name, phone_number, email,
-	        reg_number, hire_date, retire_status, retire_date, address, checkAdmin,
-	        c.c_no, c_name, relation_code, photo_no, photo_name,system_file_name,file_size,division
-		from employee_code ec, employee e, code c, photo ph
-		where ec.emp_no = e.emp_no
-		    and ec.c_no = c.c_no
-	        and e.emp_no = ph.emp_no
-	        and e.emp_no = #{empNo}
-							
-		select 
-			e.emp_no, 
-			emp_Name,
-			emp_pwd,
-			email,
-			phone_number,
-			hire_date,
-			(select c.c_name
-             from code c, employee_code ec
-             where c.c_no = ec.c_no
-                and c.relation_code = (select c_no
-                                       from code
-                                       where c_name = '부서')
-                and ec.emp_no = e.emp_no) as department,
-            (select c.c_name
-             from code c, employee_code ec
-             where c.c_no = ec.c_no
-                and c.relation_code = (select c_no
-                                       from code
-                                       where c_name = '직책')
-                and ec.emp_no = e.emp_no) as duty,
-            photo_no,
-            photo_name,
-            system_file_name,
-            file_size,
-            division
-		from employee e , photo ph
-        where e.emp_no = ph.emp_no
-            and e.emp_no = #{empNo}
-	</select>  -->
-	
 	<select id="selectEmployeeByNo" resultType="EmployeeVO" 
 							statementType="PREPARED" parameterType="String">
 		select 
@@ -298,10 +255,7 @@
         from code c , code rc
         where c.c_no = rc.relation_code
             and c.c_name = #{cName}
-	</select>
-	
-	
-	
+	</select>	
 	
 
 </mapper>

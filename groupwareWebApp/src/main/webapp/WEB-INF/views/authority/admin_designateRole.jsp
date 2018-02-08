@@ -77,7 +77,8 @@
                 		rId : arr1.join()}
                 , 
                 success: function(data) {
-                	
+                	swal("등록 완료","등록되었습니다", "success");
+            		Paging(1); 
                 }
                 , 
                 error: function(jqXHR) {
@@ -97,11 +98,13 @@
 		var endRow = currentPageNo * countPerPage;
 		var num = 0;	//현재 페이지번호에 속한 게시글의 시작번호
 		
+		var aNo = '${param.aNo}';
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/admin/DesigRolePagingAjax.do' 
 			,
 			data: {
+				aNo : aNo,
 				keyfield: pKeyfield ,
 				keyword: pKeyword ,	
 				startRow : startRow ,
@@ -114,6 +117,37 @@
 				
 				totalCount = data.totalCount;
 				num = totalCount - (currentPageNo - 1) * countPerPage;
+					
+				 //datatable테이블 변경하기
+	            var text = "";
+	            for(var i=0;i<data.roles.length;i++) {
+	              if(data.roles[i].isRegistration == '0') {
+	               text += "<tr class='even pointer'>";
+	               text += "<td class='rId'>"+ data.roles[i].rId + "</td>";
+	               text += "<td class='rName'>"+ data.roles[i].rName + "</td>";
+	               text += "<td class='rType'>"+ data.roles[i].rType + "</td>";
+	               text += "<td class='rExplan'>"+ data.roles[i].rExplan + "</td>";
+	               text += "<td>"+ data.roles[i].rDate + "</td>"; 
+	               text += "<td><label> <input type='radio'  name='tests["+i+"]' class='radioBtnClass1'  value='0' checked='checked'> 등록</label><label> <input type='radio'  name='tests["+i+"]'  class='radioBtnClass2'  value='1'>미등록</label></td>";
+	               text += "</tr>";
+	              } 
+	            }
+	            
+	            for(var i=0;i<data.roles.length;i++) {
+	            	if(data.roles[i].isRegistration == '1') {
+		               text += "<tr class='even pointer'>";
+		               text += "<td class='rId'>"+ data.roles[i].rId + "</td>";
+		               text += "<td class='rName'>"+ data.roles[i].rName + "</td>";
+		               text += "<td class='rType'>"+ data.roles[i].rType + "</td>";
+		               text += "<td class='rExplan'>"+ data.roles[i].rExplan + "</td>";
+		               text += "<td>"+ data.roles[i].rDate + "</td>"; 
+		               text += "<td><label> <input type='radio'  name='tests["+i+"]' class='radioBtnClass1'  value='0' > 등록</label><label> <input type='radio'  name='tests["+i+"]'  class='radioBtnClass2'  value='1'checked='checked'>미등록</label></td>";
+		               text += "</tr>";
+	            	   }
+		            }
+	               $('#datatable').find('tbody').html(text);
+				
+				
 					//페이징 처리
 					jqueryPager({
 						countPerPage : countPerPage,
@@ -186,7 +220,6 @@
 		$('#Paging').html(html);
 	
 	}
-	
 </script>
 <title>content</title>
 </head>
@@ -199,8 +232,7 @@
 				
 				<div class="clearfix"></div>
 			</div>
-			권한번호 : ${param.aNo}
-			권한명 : ${param.aName}
+			<h2>권한명 : ${param.aName}</h2>       
 			 	<div class="container">
 			    <div class="row">    
 			        <div class="col-xs-7 col-xs-offset-5">
@@ -244,7 +276,7 @@
 						</thead>
 
 						 <tbody>
-						 
+				<%-- 		 
                     <c:forEach var="arole" items="${requestScope.aroles}" varStatus="loop">
 	                     <tr class="even pointer">
 	                        <td id="rId">${pageScope.arole.rId}</td>
@@ -271,14 +303,14 @@
 									<label> <input type="radio"  name="tests[${loop.index}]"  class='radioBtnClass2'  value="1" checked="checked">미등록</label>
 	                         </td>
 	                     </tr>
-                     	</c:forEach>
+                     	</c:forEach> --%>
                   </tbody>
 					</table>
 				</div>
 				
 					<div class="text-center">
-						<nav aria-label="Page navigation" id = 'Paging'></nav> 
-         			 </div>
+				<nav aria-label="Page navigation" id = 'Paging'></nav> 
+         	 </div>
 					<button type="submit"  id="deleteBtn"  class="btn btn-primary pull-right" value="${param.aNo}">일괄 등록</button>
 			</div>       
 			

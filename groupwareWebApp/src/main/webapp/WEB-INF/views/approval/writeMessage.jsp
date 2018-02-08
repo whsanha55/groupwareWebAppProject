@@ -92,7 +92,7 @@
 				//성공시 sweetAlert
 				swal({
 				title: "쪽지 전송 완료",
-				text: "확인을 누르시면 받은 쪽지함으로 이동합니다",
+				text: "쪽지를 전송하였습니다.",
 				icon: "success"
 				}).then((e)=>{
 					opener.parent.location.reload();

@@ -67,7 +67,7 @@
       where notice_no = #{noticeNo}
    </update>
    
-   <delete id="deleteNotice" parameterType="int" statementType="PREPARED">
+   <delete id="deleteNotice" parameterType="map" statementType="PREPARED">
 		delete from notice
 		where notice_no  in
 		<foreach item="noticeNO" collection="list" separator="," open="(" close=")">
@@ -82,7 +82,7 @@
 			<if test="keyfield == 'noticeTitle' and keyword != null">
 				and notice_title like '%'|| #{keyword} ||'%'
 			</if>
-</select>
+	</select>
 	
 	 <update id="updateNoticeHitCount" statementType="PREPARED" parameterType="int">
       update notice
