@@ -138,7 +138,7 @@
 			from(select *
     				from authority t1
        <if test="keyfield == 'aName' and keyword != null">
-        		  where a.a_name Like '%' || #{keyword} || '%'
+        		  where t1.a_name Like '%' || #{keyword} || '%'
        </if>
        
        <if test="keyfield == 'empNo' and keyword != null">
@@ -154,7 +154,7 @@
 	     	  where a_no in (select t1.a_no
 	                				from authority_employee t1 , employee t2
 	              					where  t1.emp_no = t2.emp_no
-	                 				and t2..emp_name Like '%' || #{keyword} || '%'
+	                 				and t2.emp_name Like '%' || #{keyword} || '%'
 	                )
        </if>
         order by a_no) tt )
@@ -167,7 +167,7 @@
       where a.a_no = ae.a_no
           and ae.emp_no = e.emp_no
        <if test = "aNo != null">
-          amd a.a_no = #{aNo}
+          and a.a_no = #{aNo}
        </if>
       <if test="keyfield == 'aName' and keyword != null">
           and a.a_name Like '%' || #{keyword} || '%'
