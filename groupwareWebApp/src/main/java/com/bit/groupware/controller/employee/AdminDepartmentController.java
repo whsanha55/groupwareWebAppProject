@@ -21,35 +21,7 @@ public class AdminDepartmentController {
 	private EmployeeService employeeService;
 	
 	@RequestMapping("/admin/listDepartment.do")
-	public ModelAndView form() {
-		ModelAndView mv = new ModelAndView();
-		List<DepartmentVO> departments = employeeService.retrieveDeptList();
-		for(DepartmentVO department : departments) {
-
-			String cNo = department.getcNo();
-			
-			Map<String, Object> map = employeeService.retrieveDeptInfo(cNo);
-			DepartmentVO dept = (DepartmentVO)map.get("department");
-			
-			int teamCount = (Integer)map.get("teamCount");
-			int memberCount = (Integer)map.get("memberCount");
-			
-			if(dept != null) {
-				department.setHeadDept(dept.getHeadDept());
-				department.setPhoneNumber(dept.getPhoneNumber());
-			} else {
-				department.setHeadDept("책임자 없음");
-				department.setPhoneNumber("");
-			}
-			department.setMemberCount(memberCount);
-			if(teamCount == 0) {
-				department.setTeamCount(1);
-			} else {
-				department.setTeamCount(teamCount);
-			}
-		}
-		mv.addObject("departments", departments);
-		mv.setViewName("employee/admin_listDepartment");
-		return mv;
+	public String form() {
+		return "employee/admin_listDepartment";
 	}
 }

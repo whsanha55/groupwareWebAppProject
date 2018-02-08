@@ -155,8 +155,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return deputyDAO.selectDeputyRegisterCount(map);
 	}
 	
-	public List<DepartmentVO> retrieveDeptList() {
-		return departmentDAO.selectDeptList();
+	public List<DepartmentVO> retrieveDeptList(Map<String, Object> map) {
+		return departmentDAO.selectDeptList(map);
 	}
 	
 	public Map<String, Object> retrieveDeptInfo(String cNo) {
@@ -165,8 +165,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		map.put("department", department);
 		map.put("memberCount", departmentDAO.selectDeptEmp(cNo));
 		map.put("teamCount", departmentDAO.selectDeptTeam(cNo));
-		logger.info("map : {}", map);
 		return map;
+	}
+
+	public void modifyHead(Map<String, Object> map) {
+		departmentDAO.retireHead((String)map.get("oldHead"));
+		departmentDAO.updateHead((String)map.get("newHead"));		
 	}
 
 }

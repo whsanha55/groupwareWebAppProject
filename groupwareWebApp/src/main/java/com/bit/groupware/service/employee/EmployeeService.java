@@ -41,8 +41,10 @@ public interface EmployeeService {
 
 	int retrieveDeputyRegisterCount(Map<String, Object> map);
 	
-	public List<DepartmentVO> retrieveDeptList();
+	public List<DepartmentVO> retrieveDeptList(Map<String,Object> map);
 	
 	public Map<String, Object> retrieveDeptInfo(String cNo);
+	
+	public void modifyHead(Map<String, Object> map);
 	
 }
