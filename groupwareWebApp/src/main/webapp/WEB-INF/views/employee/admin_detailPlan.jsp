@@ -23,7 +23,6 @@
 		
 		$('#modify').on('click', function() {
 			var pNo = $(this).val();
-			alert($(this).val());
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/admin/modifyPlan.do'

@@ -48,7 +48,7 @@ public class AdminModifyCodeController {
 		} 
 	} 
 	
-	//부서 코드 수정 폼 요청
+	//중간 코드 수정 폼 요청
 	@RequestMapping(value="/admin/modifyCode2.do", method=RequestMethod.GET)
 	public ModelAndView form2(@RequestParam(value="cNo", required=true) String cNo) {
 		logger.info("cNo : {}", cNo);
@@ -58,7 +58,7 @@ public class AdminModifyCodeController {
 		return mv;
 	}
 		
-	//부서 코드 수정 요청
+	//중간 코드 수정 요청
 	@RequestMapping(value="/admin/modifyCode2.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int submit2(@ModelAttribute("code")CodeVO code) {

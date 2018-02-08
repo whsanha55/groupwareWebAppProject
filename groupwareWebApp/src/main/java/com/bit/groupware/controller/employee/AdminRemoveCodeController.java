@@ -28,7 +28,7 @@ public class AdminRemoveCodeController {
 		return "redirect:/admin/listCode1.do";
 	}
 	
-	//부서 코드 삭제 요청
+	//중간 코드 삭제 요청
 	@RequestMapping(value="/admin/removeCode2.do")
 	public String submit2(@ModelAttribute("code")CodeVO code) {
 		logger.info("code : {}", code);

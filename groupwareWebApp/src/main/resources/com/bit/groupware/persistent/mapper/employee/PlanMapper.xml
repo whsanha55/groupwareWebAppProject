@@ -56,7 +56,7 @@
 		and (c.c_name='부서' or c.c_name=#{cName})
 		<choose>
 			<when test="keyfield == 'p_title'  and keyword != null " >
-				and p.p_title like '%' || #{keyfield} || '%'
+				and p.p_title like '%' || #{keyword} || '%'
 			</when>
 			<when test="keyfield == 'emp_name'  and keyword != null ">
 				and e.emp_name like '%' || #{keyword} || '%'
