@@ -7,77 +7,137 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-	$(document)
-			.ready(
+	$(document).ready(
+			function() {
+				// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
+				$("#btnReply").click(
 					function() {
-
-						// listReply(); // **댓글 목록 불러오기
-						//listReply2(); // ** json 리턴방식
-
-						// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
-						$("#btnReply")
-								.click(
-										function() {
-											var cmtContent = $("#cmtContent")
-													.val();
-											var postNo = "${requestScope.post.postNo }"
-											var param = "cmtContent="
-													+ cmtContent + "&postNo="
-													+ postNo;
-											$
-													.ajax({
-														type : "POST",
-														url : "${pageContext.request.contextPath}/insert.do",
-														data : param,
-														success : function() {
-															alert("댓글이 등록되었습니다.");
-															location.reload();
-														}
-													});
-										});
-
-						// Controller방식
-						// **댓글 목록1
-						function listReply() {
-							$
-									.ajax({
-										type : "GET",
-										url : "${pageContext.request.contextPath}/list.do?postNo=${requestScope.post.postNo }",
-										success : function(result) {
-											// responseText가 result에 저장됨.
-											$("#listReply").html(result);
-										}
-									});
-						}
-						// RestController방식 (Json)
-						// **댓글 목록2 (json)
-						function listReply2() {
-							$
-									.ajax({
-										type : "GET",
-										//contentType: "application/json", ==> 생략가능(RestController이기때문에 가능)
-										url : "postNo/listJson.do?postNo=${requestScope.post.postNo }",
-										success : function(result) {
-											console.log(result);
-											var output = "<table>";
-											for ( var i in result) {
-												output += "<tr>";
-												output += "<td>"
-														+ result[i].userName;
-												output += "("
-														+ changeDate(result[i].regdate)
-														+ ")<br>";
-												output += result[i].replytext
-														+ "</td>";
-												output += "<tr>";
-											}
-											output += "</table>";
-											$("#listReply").html(output);
-										}
-									});
-						}
+						var cmtContent = $("#cmtContent").val();
+						var postNo = "${requestScope.post.postNo }"
+						var param = "cmtContent="+ cmtContent + "&postNo="+ postNo;
+						$.ajax({
+							type : "POST",
+							url : "${pageContext.request.contextPath}/insert.do",
+							data : param,
+							success : function() {
+								alert("댓글이 등록되었습니다.");
+								location.reload();
+							}
+						});
 					});
+
+			//댓글 삭제 
+			$('#deleteBtn').on('click', function() {	
+				var no = $(this).val();
+				swal({
+					title: "댓글 삭제"+no ,
+					text: "댓글을 삭제합니다. 계속 진행하시겠습니까?",
+					icon: "info",
+					buttons : true 
+				}).then((e) => {
+					if(e) {
+						deleteCmt(no);							
+					}
+				});		
+							
+			//alert($(this).val());
+			function deleteCmt(no) {	
+				alert(no);
+				$.ajax({
+					url: '${pageContext.request.contextPath}/deleteCmt.do'
+					,
+					method: 'GET'
+					,
+					data: {no}
+					, 
+					async: true
+					,
+					cache: false
+					,
+					success: function(data) {
+						swal({
+							title: "삭제 완료",
+							text: "선택하신 댓글이 삭제되었습니다.",
+							icon: "info",
+							buttons : "확인" 
+						}).then((e) => {
+							if(e) {
+							location.reload();		
+							}
+						});		
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);
+					}	 			
+									
+				});	
+			}
+		});	
+			
+			
+			//댓글 수정 
+			$('#updateBtn').on('click', function() {	
+				var no = $(this).val();
+				var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();
+				var a ='';
+				a += '<input type="text" class="form-control" name="content_'+cno+'" value="'+cmtContent+'"/>';
+				var name = $(this).parents("tr").find('.cmtContent');
+				$('.cmtContent'+no).html(a);
+				 
+				swal({
+					title: "댓글 수정"+no ,
+					text: "댓글을 수정합니다. 계속 진행하시겠습니까?",
+					icon: "info",
+					buttons : true 
+				}).then((e) => {
+					if(e) {
+						updateCmt(no);							
+					}
+				});		
+							
+			//alert($(this).val());
+			function updateCmt(no) {	
+				alert(no);
+				$.ajax({
+					url: '${pageContext.request.contextPath}/updateCmt.do'
+					,
+					method: 'POST'
+					,
+					data: {no}
+					, 
+					async: true
+					,
+					cache: false
+					,
+					success: function(data) {
+						swal({
+							title: "수정 완료",
+							text: "선택하신 댓글이 수정되었습니다.",
+							icon: "info",
+							buttons : "확인" 
+						}).then((e) => {
+							if(e) {
+							location.reload();		
+							}
+						});		
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);
+					}	 			
+									
+				});	
+			}
+		});	
+		
+	
+						
+	
+						
+});
 </script>
 </head>
 <body>
@@ -144,10 +204,15 @@
 						<tr>
 							<td>${pageScope.cmt.cmtWriter }</td>
 							<td>(${pageScope.cmt.cmtDate })</td>
+							<td>
+								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button>								
+							</td>
 						</tr>
 						<tr>
-							<td colspan="2">${pageScope.cmt.cmtContent }</td>
-							<%-- <td><button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td> --%>
+							<td colspan="2">${pageScope.cmt.cmtContent }</td>		
+							<td>
+								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="updateBtn" class="btn btn-primary pull-right" >수정</button>
+							</td>					
 						</tr>
 					</c:forEach>
 				</table>

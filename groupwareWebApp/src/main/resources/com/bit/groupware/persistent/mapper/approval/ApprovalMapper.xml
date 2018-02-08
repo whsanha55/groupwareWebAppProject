@@ -14,7 +14,8 @@
 	  			,tmp_no
 	  		</if>
 	  		)
-			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency}, #{apprFinalStatus}
+			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency},
+					'C-01-0' || #{apprFinalStatus}
 	  		<if test="template.tmpNo != 0">
 	  			,#{template.tmpNo}
 	  		</if> 
@@ -25,7 +26,8 @@
 	
 		<update id="updateApproval" parameterType="ApprovalVO" statementType="PREPARED">
 			update approval
-			set appr_final_status=#{apprFinalStatus}
+			set appr_final_status= 'C-01-0' || #{apprFinalStatus} ,
+				complete_date = sysdate
 			where appr_no=#{apprNo}
 		</update>
 

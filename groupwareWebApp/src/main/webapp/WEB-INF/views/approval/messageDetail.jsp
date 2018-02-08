@@ -144,11 +144,11 @@
 						<tbody>
 	
 							<tr>
-							
-								<td style="font-weight:bolder;">발신자</td>
-								<td id="${requestScope.message.receipientEmployee.empNo }">${requestScope.message.senderEmployee.empName }</td>
 								<td style="font-weight:bolder;">수신자</td>
 								<td >${requestScope.message.receipientEmployee.empName }</td>
+								<td style="font-weight:bolder;">발신자</td>
+								<td id="${requestScope.message.receipientEmployee.empNo }">${requestScope.message.senderEmployee.empName }</td>
+								
 							
 							</tr>
 	
