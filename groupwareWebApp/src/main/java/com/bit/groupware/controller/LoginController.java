@@ -7,10 +7,13 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.UserVO;
@@ -51,14 +54,18 @@ public class LoginController {
        String isAdmin = user.getIsAdmin();
        logger.info("isAdmin : {}" , isAdmin);
        
-       Map<String, Object> map = new HashMap<String, Object>();
        ModelAndView mv = new ModelAndView();
-       
+       Map<String, Object> map = new HashMap<String, Object>();
+       map.put("keyfield", "검색조건");
+       map.put("keyword", "검색어");
+       map.put("cName", user.getDeptName());
+       logger.info("map : {}" , map);
+		
        if(isAdmin.equals("T")) {
           mv.setViewName("adminMain");
        } else {
           mv.setViewName("main");
-          List<PlanVO> plans = planService.retrievePlanList(map);
+          List<PlanVO> plans = planService.retrievePlanListByDeptName(map);
           mv.addObject("plans",plans);
        }
    

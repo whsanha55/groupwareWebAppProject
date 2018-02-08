@@ -75,6 +75,7 @@
 		                        and emp_no=line.line_emp_no))
 		        else emp.duty
 		        end as emp_duty from dual ) 
+		        
 		  else emp.duty
 		  end as emp_duty
 		  from dual) as duty ,
@@ -106,7 +107,7 @@
    
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
     	update approval_record
-		set appr_status=#{apprStatus},
+		set appr_status= 'C-02-0' || #{apprStatus},
 		confirm_date= sysdate
 		where record_no= #{recordNo}
    </update>

@@ -170,8 +170,8 @@ public class ApprovalAjaxController {
 		
 		map.put("apprNo", apprNo);
 		map.put("apprStatus",apprStatus);
-		map.put("recordNo", approvalRecordService.retrieveRecNo(map));  
 		map.put("empNo", principal.getName());
+		map.put("recordNo", approvalRecordService.retrieveRecNo(map));  
 		map.put("commentContent", commentContent);
 		approvalRecordService.executeApprovalRecord(map);
 		return apprStatus;
