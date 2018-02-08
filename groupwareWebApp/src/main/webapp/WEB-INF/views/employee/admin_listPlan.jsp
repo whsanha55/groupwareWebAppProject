@@ -30,6 +30,22 @@ $(document).ready(function(){
 				{
 					id : '${plan.pNo}'
 					,
+					<c:if test="${plan.pImpt == 3}" >
+						color : "#FF0000"
+						,
+						textColor : "white"
+					</c:if>
+					<c:if test="${plan.pImpt == 2}" >
+						color : "#0000FF"
+						,
+						textColor : "white"
+					</c:if>
+					<c:if test="${plan.pImpt == 1}" >
+						color : "#008000"
+						,
+						textColor : "white"
+					</c:if>
+					,
 					title : "${plan.pTitle}"
 					,
 					start : "${plan.startDate}"
@@ -45,14 +61,30 @@ $(document).ready(function(){
 		header: {
 			right: 'prev,next today',
 			center: 'title',
-			left: 'month,basicWeek,basicDay'
+			left: 'month,listWeek,listDay'
 		},
-		eventClick : function(calEvent,jsEvent,view) {  //달력 이벤트 클릭 - 이 소스에서는 false
+		slotEventOverlap: false,
+		allDaySlot: false,
+		eventClick : function(calEvent,jsEvent,view) {
 			if (event.url) {
 				 return event.url;
 			 }
 		},
 		defaultDate: new Date(),
+		views: {
+	        month: {
+	            titleFormat: "YYYY년 MMMM",                  
+	        },
+	        week: {
+	        	titleFormat: "YYYY년 MMM D일",
+	        	columnFormat: "M/D ddd"
+	        },
+	        day: {
+	            titleFormat: "YYYY년 MMMM D일",
+	            columnFormat: "MMMM D일",           
+	        }
+	    },
+	    timeFormat: 't[m] H:mm',
 		navLinks: true,
 		editable: false,
 		eventLimit: true,
@@ -117,6 +149,6 @@ $(document).ready(function(){
 		</div>
 		<div class="x_content">
 		
-		<div id='calendar'></div>
+		<div id='calendar'>중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
 
 </html>
