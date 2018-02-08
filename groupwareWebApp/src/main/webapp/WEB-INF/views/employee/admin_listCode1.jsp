@@ -138,11 +138,11 @@
 				<div class="col-md-12 col-sm-9 col-xs-12">
 
 					<div>
-						<div class="col-md-7">
+						<div class="col-md-6">
 							<div class="col-md-2">
 								<h2>코드목록</h2>
 							</div>
-							<button type="button" id="insert" class="btn btn-success">등록</button>
+							<button type="button" id="insert" class="btn btn-success">등록</button>&nbsp;&nbsp;&nbsp;※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 						</div>
 						
 						<div>
@@ -193,11 +193,14 @@
 								<c:param name="relationCode" value="${pageScope.code.cNo }" />
 							</c:url>
 							<tr>
-							<c:if test="${pageScope.code.cNo == 'A' }" >
-								<td><a href="${pageScope.url1}">${pageScope.code.cNo }</a></td>
-							</c:if>
-							<c:if test="${pageScope.code.cNo != 'A' }" >
+							<c:if test="${pageScope.code.cNo == 'B'}" >
 								<td><a href="${pageScope.url2}">${pageScope.code.cNo }</a></td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo == 'DC'}" >
+								<td><a href="${pageScope.url2}">${pageScope.code.cNo }</a></td>
+							</c:if>
+							<c:if test="${pageScope.code.cNo != 'B' && pageScope.code.cNo != 'DC'}" >
+								<td><a href="${pageScope.url1}">${pageScope.code.cNo }</a></td>
 							</c:if>
 								<td>${pageScope.code.cName }</td>
 								<td>${pageScope.code.countRelationCode }</td>

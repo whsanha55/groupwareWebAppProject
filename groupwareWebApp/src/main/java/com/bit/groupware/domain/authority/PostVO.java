@@ -11,7 +11,7 @@ public class PostVO {
 	private String writer; 					//작성자
 	private String postDate; 					//게시글 등록일
 	private String postContent; 			//게시글 내용
-	private String documentNo; 		//문서 종류 번호
+	private String documentNo; 				//문서 종류 번호
 	private String cNo; 					//부서 코드 번호
 	private String boardNo; 				//게시판 번호
 	private List<MultipartFile> upload;

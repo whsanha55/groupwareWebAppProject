@@ -134,14 +134,14 @@
 		where t1.line_no = t2.line_no
 		and t2.LINE_EMP_NO = #{empNo}
 		and t1.check_date is null
-		and appr_status =0
+		and appr_status ='C-02-00'
 		union all
 		select nvl(count(appr_status),0)
 		from approval_record t1, receiver_line t2
 		where t1.line_no = t2.line_no
 		and t2.LINE_EMP_NO = #{empNo}
 		and t1.check_date is null
-		and appr_status =6
+		and appr_status ='C-02-06'
 	</select>
    
     <select id="checkisFinalApprovalLine" statementType="PREPARED" parameterType="int" resultType="int">
