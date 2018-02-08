@@ -70,7 +70,7 @@
 		select t2.*
 		from (select rownum as rn, t1.* 
 		      from (select  appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content, 
-		            appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department,emp.duty
+		            substr(appr.appr_final_status,7) , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department,emp.duty
 		            
 		<if test="linempNo != null">
 		, rec.record_no, rec.check_date
@@ -98,19 +98,19 @@
 		</if>
 		
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
-			and appr.appr_final_status = #{apprFinalStatus}
+			and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>
 		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
-			and appr.appr_final_status in (0,2)
+			and appr.appr_final_status in ('C-01-00','C-01-02')
 		</if>
 		<if test="apprFinalStatus == 4 ">
 			and appr.appr_final_status in (4,5)
 		</if>
 		<if test="apprStatus == 0 and apprStatus!=null">
-			and rec.appr_status in (0,2)
+			and rec.appr_status in ('C-02-00','C-02-02')
 		</if>
 		<if test="apprStatus == 1 || apprStatus == 6 and apprStatus!=null">
-			and rec.appr_status =#{apprStatus}
+			and rec.appr_status = concat('C-02-0', #{apprStatus})
 		</if>
 		<if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
@@ -284,7 +284,7 @@
 	
 	<select id="selectApprovalCount" parameterType="map" resultType="int" statementType="PREPARED"> 
 	 	select count(*) from(select  appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,appr.appr_content, 
-		 appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department,emp.duty
+		 substr(appr.appr_final_status, 7), emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department,emp.duty
 		 
 		<if test="linempNo != null">
 		,rec.record_no, rec.check_date
@@ -312,19 +312,19 @@
 		</if>
 		
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
-			and appr.appr_final_status = #{apprFinalStatus}
+			and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>
 		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
-			and appr.appr_final_status in (0,2)
+			and appr.appr_final_status in ('C-01-00','C-01-02')
 		</if>
 		<if test="apprFinalStatus == 4 ">
-			and appr.appr_final_status in (4,5)
+			and appr.appr_final_status in ('C-01-04','C-01-05')
 		</if>
 		<if test="apprStatus == 0 and apprStatus!=null">
-			and rec.appr_status in (0,2)
+			and rec.appr_status in ('C-02-00','C-02-02')
 		</if>
 		<if test="apprStatus == 1 || apprStatus == 6 and apprStatus!=null">
-			and rec.appr_status =#{apprStatus}
+			and rec.appr_status = concat('C-02-0', #{apprStatus})
 		</if>
 		<if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
@@ -353,7 +353,7 @@
 	<select id="selectAllApprovalCount" parameterType="map" resultType="int" statementType="PREPARED">
 		select count(*)
 		from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
-		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
+		substr(appr.appr_final_status,7) , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
 		from (select rownum as rn, t1.*
 		      from (select *
 		            from approval order by appr_date asc) t1)appr ,
@@ -364,7 +364,7 @@
 		and emp.emp_no=#{empNo}
 		</if>
 		<if test="apprFinalStatus != 5">
-		and appr.appr_final_status = #{apprFinalStatus}
+		and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>  
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
@@ -389,7 +389,7 @@
 		</if> 
 		union
 		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
-		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date 
+		substr(appr.appr_final_status,7) , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date 
 		from (select rownum as rn, t1.*
 		      from (select *
 		            from approval order by appr_date asc) t1)appr ,
@@ -402,7 +402,7 @@
 		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo}) 
 		</if> 
 		<if test="apprFinalStatus != 5">
-		and appr.appr_final_status = #{apprFinalStatus}
+		and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if> 
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
