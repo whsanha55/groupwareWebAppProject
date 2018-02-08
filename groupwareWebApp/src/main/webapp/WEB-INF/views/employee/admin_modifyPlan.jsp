@@ -31,7 +31,6 @@ $(document).ready(function () {
 			 }
 		});		
 		
-		alert($(this).val());
 		function deletePlanFile(fileNo) {	
 			$.ajax({
 				url: '${pageContext.request.contextPath}/admin/removePlanFile.do'
@@ -107,6 +106,7 @@ $(document).ready(function () {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >부서</label>&nbsp;&nbsp;
 							<select id="deptNo" name="deptNo" style="width:100px;height:30px;" value="${requestScope.plan.deptNo }">
+							<option value="A">전체</option>
 							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 								<option value="${pageScope.deptCode.key }" <c:if test="${requestScope.plan.deptNo  == pageScope.deptCode.key}">
 								selected</c:if>>${pageScope.deptCode.title }</option>
@@ -185,7 +185,9 @@ $(document).ready(function () {
 						
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">첨부파일</label>&nbsp;&nbsp;
-								<c:if test="${fn:length(requestScope.plan.files) > 0 }">
+								
+								<!-- if문 쓴거 -->
+								<c:if test="${fn:length(requestScope.plan.files) != 0 }">
 									<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
 										<c:url var="deleteUrl" value="/admin/removePlanFile.do" scope="page" >
 											<c:param name="fileNo" value="${pageScope.file.fileNo }" />
@@ -193,20 +195,37 @@ $(document).ready(function () {
 										${pageScope.file.fileName }
 										<button type="button" value="${pageScope.file.fileNo }" class="btn btn-primary deleteBtn" >삭제</button>
 									</c:forEach>
-									<div class="btn-group">
+									<!-- <div class="btn-group">
 										<input name="upload" type="hidden" data-role="magic-overlay" data-target="#fileBtn"
-												data-edit="insertImage">
-									</div>
+											data-edit="insertImage" >
+									</div> -->
 								</c:if>
 								<c:if test="${fn:length(requestScope.plan.files) == 0 }" >
 									<div class="btn-group">
 										<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
 										<i class="fa fa-picture-o"></i></a>
 										<input name="upload" type="file" data-role="magic-overlay" data-target="#fileBtn"
-												data-edit="insertImage" required="required">
+												data-edit="insertImage" >
 									</div>
 								</c:if>
-							
+								
+								
+								<!-- c:if 지운거 -->
+								<%-- <c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
+									<c:url var="deleteUrl" value="/admin/removePlanFile.do" scope="page" >
+										<c:param name="fileNo" value="${pageScope.file.fileNo }" />
+									</c:url>
+									${pageScope.file.fileName }
+									<button type="button" value="${pageScope.file.fileNo }" class="btn btn-primary deleteBtn" >삭제</button>
+								</c:forEach>
+									
+								
+								<div class="btn-group">
+									<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
+									<i class="fa fa-picture-o"></i></a>
+									<input name="upload" type="file" data-role="magic-overlay" data-target="#fileBtn"
+											data-edit="insertImage" >
+								</div> --%>
 						</div>
 						<!-- <div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12"></label>

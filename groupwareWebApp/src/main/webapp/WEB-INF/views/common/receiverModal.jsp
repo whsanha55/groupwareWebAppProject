@@ -19,7 +19,7 @@
 <style>
 
 #apprTypeDiv {
-	margin-top: 10%;
+	margin-top: 20%;
 	text-align: center;
 }
 
@@ -32,7 +32,7 @@ input[name=receiverName] {
 	width: 150% !important;
 }
 #submitReceiver {
-	margin-left : 200px;
+	margin-left : 90px;
 }
 
 table[id^=tableDnD] span{
@@ -256,7 +256,7 @@ select[name=apprType] {
 				text += '</td>';
 				text += '<td>'+ selectedDepartment + '</td>';
 				text += '<td>' + selectedNameAndDuty  +'</td>';
-				text += '<td><button class="btn btn-link btn-sm">삭제</button></td>';
+				text += '<td><button class="btn btn-link btn-sm" >삭제</button></td>';
 				var temp = $('#tableDnDAppr').find('tr')[receiverLineApprCount];
 				$(temp).attr('class','');
 				$(temp).attr('id',selectedEmpNo);
@@ -309,7 +309,8 @@ select[name=apprType] {
 		
 	
 		//결재선 선택 이벤트
-		$('#selectReceiver').on('click',function() {
+		$('#selectReceiver').on('change',function() {
+			$('#tableDnDRef').empty();
 			var receiverNo = $('select[name=receiverNo2]').val();
 			$.ajax({
 				url : '${pageContext.request.contextPath}/receiverNoAjax.do' ,
@@ -353,11 +354,12 @@ select[name=apprType] {
 							text += '<td><button class="btn btn-link btn-sm">삭제</button></td>';
 							text += '</tr>';
 							
-							$($('#tableDnDRef')).html(text);
+							$('#tableDnDRef:last-child').append(text);
+							//$($('#tableDnDRef')).html(text);
 						}
 					}
 					
-					for(var i=receiverLineApprCount+1;i<=9;i++){
+					 for(var i=receiverLineApprCount+1;i<=9;i++){
 						var text = "";
 						text += '<td></td>';
 						text += '<td></td>';
@@ -366,7 +368,8 @@ select[name=apprType] {
 						
 						var temp = $('#tableDnDAppr').find('tr')[i];
 						$(temp).html(text);
-					} 
+						$(temp).attr('class','nodrag');
+					}  
 					receiverLineApprCount++;
 					
 					doTableDnD();
@@ -643,8 +646,11 @@ select[name=apprType] {
 					<button id="btnSearch" class="btn btn-primary btn-sm">검색</button>
 					<button id="btnResetSearch" class="btn btn-primary btn-sm">초기화</button>
 					<div id="matches"></div>
-					<button id="btnOpenAll" class="btn btn-primary btn-sm">모두 펼치기</button>
-					<button id="btnCloseAll" class="btn btn-primary btn-sm">모두 닫기</button>
+					<div class="btn-group" style="margin-top:10px;">
+                        <button id="btnOpenAll" class="btn btn-default">모두 펼치기</button>
+                        <button id="btnCloseAll" class="btn btn-default">모두 닫기</button>
+
+     </div>
 				</p>
 
 			<div id="tree"></div>
@@ -655,7 +661,7 @@ select[name=apprType] {
 					<h2>
 						<input type="radio" value="0" name="apprTypeRadio" checked="checked">결재
 					</h2>
-					<h2>
+				<h2>
 						<input type="radio" value="1" name="apprTypeRadio">참조
 					</h2>
 					<br>
@@ -671,10 +677,10 @@ select[name=apprType] {
 			</div>
 			<div class="col-sm-7">
 				<span class="col-xs-5"> 
-					<select class="form-control"name="receiverNo2">
+					<select class="form-control" name="receiverNo2" id="selectReceiver" >
 				</select>
 				</span>
-				<button class="btn btn-primary" id='selectReceiver' type="button">조회</button>
+				<!-- <button class="btn btn-primary"  type="button">조회</button> -->
 				<button class="btn btn-success" id='modifyReceiver' type="button">이름변경</button>
 				<button class="btn btn-danger" id='deleteReceiver' type="button">삭제</button>
 

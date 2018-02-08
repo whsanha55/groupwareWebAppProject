@@ -75,6 +75,7 @@
 		                        and emp_no=line.line_emp_no))
 		        else emp.duty
 		        end as emp_duty from dual ) 
+		        
 		  else emp.duty
 		  end as emp_duty
 		  from dual) as duty ,
@@ -90,7 +91,7 @@
 		                                where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
 		                                and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
 		                                and emp_no=line.line_emp_no))
-		        else 'test1'
+		        else emp.department
 		        end as department from dual ) 
 		  else emp.department
 		  end as department
@@ -106,7 +107,7 @@
    
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
     	update approval_record
-		set appr_status=#{apprStatus},
+		set appr_status= 'C-02-0' || #{apprStatus},
 		confirm_date= sysdate
 		where record_no= #{recordNo}
    </update>

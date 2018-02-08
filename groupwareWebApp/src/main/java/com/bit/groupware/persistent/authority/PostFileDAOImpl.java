@@ -23,7 +23,8 @@ public class PostFileDAOImpl implements PostFileDAO {
 	}
 	
 	public void deletePostFile2(int no) {
-		sqlSession.delete(NAMESPACE+".deletePostFile2", no);
+		System.out.println("º¡È£!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+no);
+		sqlSession.delete(NAMESPACE+".deletePostFilee", no);
 	}
 
 }

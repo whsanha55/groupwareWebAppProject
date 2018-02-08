@@ -114,7 +114,7 @@
 				htmlStr += '</li>';
 				
 							
-				for(var i=0;i<data.length;i++) {
+				for(var i=0;i<5;i++) {
 				
 				htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
 				htmlStr += '<a>';
