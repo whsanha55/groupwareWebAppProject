@@ -12,7 +12,7 @@ public interface AuthorityService {
 	List<AuthorityVO> retrieveAuthorityList(Map<String, Object> map);
 
 	//권한을 추가한다.
-	String registerAuthority(AuthorityVO authority);
+	void registerAuthority(AuthorityVO authority);
 
 	// 권한정보를 수정한다.
 	void modifyAuthority(AuthorityVO authority);
@@ -20,6 +20,9 @@ public interface AuthorityService {
 	// 권한을 일괄 삭제한다.
 	void removeAuthority(Map<String, Object> map);
 
+	// 사원, 역할 존재여부
+	int retrieveAtuhRoleCount(Map<String, Object> map);
+	
 	// 권한번호에 해당하는 사원정보를 사번 순으로 오름차순 정렬하여 조회한다.
 	List<AuthorityVO> retrieveAuthEmpList(String aNo);
 

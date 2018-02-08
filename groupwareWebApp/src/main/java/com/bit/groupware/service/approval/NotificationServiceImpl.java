@@ -22,7 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 
 	public void removeNotifications(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		dao.deleteNotification(map);
 		
 	}
 
