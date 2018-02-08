@@ -46,4 +46,7 @@ public interface RoleService {
    
    //rId 중복 제거
    int rIdIsExist(AuthRoleVO arole);
+   
+   //rId에 해당하는 권한이 존재하는지 여부
+   int aNoIsExist(String rId);
 }

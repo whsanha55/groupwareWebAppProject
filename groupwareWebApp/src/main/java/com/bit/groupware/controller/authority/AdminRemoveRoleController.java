@@ -24,11 +24,10 @@ public class AdminRemoveRoleController {
 	@Autowired
 	private RoleService roleService;
 
-	//공지사항 삭제 요청
+	//역할 삭제 요청
 	@RequestMapping(value="/admin/deleteRole.do", method=RequestMethod.GET)
 	@ResponseBody 
-	public int submit(@RequestParam(value = "rId", required = true) List<String> rIds) { 
-		logger.info("번호!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", rIds);
+	public Map<String, Object> submit(@RequestParam(value = "rId", required = true) List<String> rIds) { 
 
 		List<String> idList = new ArrayList<String>();
 		for(String rId : rIds) {
@@ -37,8 +36,17 @@ public class AdminRemoveRoleController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", idList);
-		logger.info("번호>>>>>>>>>>>>>>>>>>>>> : {}", map.toString());
-		roleService.removeRole(map);
-		return 0;
+		
+		for(String id : idList) {
+			int count = roleService.aNoIsExist(id);
+			logger.info("번호>>>>>>>>>>>>>>>>>>>>> : {}", count);
+			if(count == 0) {
+				roleService.removeRole(map);
+				map.put("isSuccess", "true");
+			}else {
+				map.put("isSuccess", "false");
+			}
+		}
+		return map;
 	}
 }

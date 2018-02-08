@@ -100,30 +100,38 @@ public class NotificationController {
 		
 	} 
 	
-	
-	@RequestMapping(value="/removeNotificationList.do", method=RequestMethod.GET)
-	public String removeNotificationList(@RequestParam(value="notificationNos") String notificationNos ) {
+	//연관된 문서함으로 이동하고 해당 알림을 삭제한다.
+	@RequestMapping(value="/moveToRelevantApproval.do", method=RequestMethod.GET)
+	public String moveNotificationList(@RequestParam(value="noteNo") int noteNo,
+										 @RequestParam(value="path") String path) {
 		
-		//String[] 을 int[]로 바꾸다.
-		
-		String[] temp = notificationNos.split(",");
-		
-		//담아준걸 int로 바꿔줌
-		int[] nums = new int[temp.length];
-		
-		for(int i = 0; i<temp.length; i++) {
-			nums[i] = Integer.parseInt(temp[i]);
+		if(path == "direct1") {
+			//승인문서함 이동 return "redirect:approvalReject.do";
+			
+		}else if(path=="direct3") {
+			//반려문서함 이동
+		}else if(path=="direct6") {
+			//참조문서함 이동
+		}else if(path=="direct7") {
+			//결재요청으로 이동
+		}else if(path=="direct8") {
+			//결재대기로 이동 
 		}
+		
+		//해당 알림번호에 해당하는 알림 삭제
 		
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("notificationNos", nums);
 		
-		if(nums != null) {
-			
-			notificationService.removeNotifications(map);
-		}
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String empNo = user.getUsername(); // 사용자 본인의 사원번호
 		
-		return "success";
+		map.put("empNo", empNo);
+		map.put("noteNo", noteNo);
+		
+		notificationService.removeNotifications(map);
+		
+		
+		return "success"; //임시땜빵~
 	}
 
 }

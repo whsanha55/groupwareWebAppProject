@@ -213,7 +213,7 @@
              
            	<div class="container">
 			    <div class="row">    
-			        <div class="col-xs-7 col-xs-offset-5">
+			        <div class="col-xs-5 col-xs-offset-5">
 					    <div class="input-group">
 			                <div class="input-group-btn search-panel">
 			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -229,12 +229,12 @@
 			                    	<span class="glyphicon glyphicon-search"></span>
 			                    </button>
 			                </span>
-			            </div>
+			            </div>    
 			        </div>
+			        <a class="btn btn-primary pull-right" href='<c:url value="/admin/addNotice.do"/>'>등록</a>
 				</div>
-			</div>
+			</div>     
              
-        <div class="text-right"><a class="btn btn-primary" href='<c:url value="/admin/addNotice.do"/>'>등록</a></div>
         <div class="clearfix"></div>
         </div>
         
@@ -252,7 +252,7 @@
                   <tbody>
                   </tbody>
                 </table>
-                <button type="button"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button>
+                <button type="button"  id="deleteBtn" class="btn btn-danger pull-right" >삭제</button>
          <div>
          	<div class="text-center">
 				<nav aria-label="Page navigation" id = 'Paging'></nav> 
