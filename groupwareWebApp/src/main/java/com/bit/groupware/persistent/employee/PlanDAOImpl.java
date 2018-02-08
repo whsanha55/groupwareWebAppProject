@@ -22,6 +22,11 @@ public class PlanDAOImpl implements PlanDAO{
 		return sqlSession.selectList(NAMESPACE + ".selectPlanList", map);
 	}
 	
+	//부서에 해당하는 일정 목록 조회
+	public List<PlanVO> selectPlanListByDeptName(Map<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".selectPlanListByDeptName", map);
+	}
+	
 	//일정 등록
 	public String insertPlan(PlanVO plan) {
 		sqlSession.insert(NAMESPACE + ".insertPlan", plan);

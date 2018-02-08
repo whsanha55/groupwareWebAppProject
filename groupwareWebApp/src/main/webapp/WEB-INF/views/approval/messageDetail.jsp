@@ -109,7 +109,7 @@
 		
 		 $('#button2').on('click',function(){
 			
-				 var url = "${pageContext.request.contextPath}/writeMessage.do?receipientNo=${requestScope.message.receipientEmployee.empNo }&receipientName=${requestScope.message.receipientEmployee.empName}";
+				 var url = "${pageContext.request.contextPath}/writeMessage.do?receipientNo=${requestScope.message.senderEmployee.empNo }&receipientName=${requestScope.message.senderEmployee.empName}&respondMsg=RE:";
 				window.open(url, "쪽지보내기", "width=700, height=600");
 		});
 		 
@@ -144,11 +144,11 @@
 						<tbody>
 	
 							<tr>
-							
-								<td style="font-weight:bolder;">발신자</td>
-								<td id="${requestScope.message.receipientEmployee.empNo }">${requestScope.message.senderEmployee.empName }</td>
 								<td style="font-weight:bolder;">수신자</td>
 								<td >${requestScope.message.receipientEmployee.empName }</td>
+								<td style="font-weight:bolder;">발신자</td>
+								<td id="${requestScope.message.receipientEmployee.empNo }">${requestScope.message.senderEmployee.empName }</td>
+								
 							
 							</tr>
 	

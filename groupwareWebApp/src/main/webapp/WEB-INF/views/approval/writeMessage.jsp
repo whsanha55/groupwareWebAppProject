@@ -75,6 +75,9 @@
  		
  		
  		$('#btnSubmit').on('click',function(){
+ 			
+ 			var respondMsg = $('tr:nth-child(2)').find('td:first').attr('id');
+ 			
 		
 		$.ajax({
 			
@@ -92,7 +95,7 @@
 				//성공시 sweetAlert
 				swal({
 				title: "쪽지 전송 완료",
-				text: "확인을 누르시면 받은 쪽지함으로 이동합니다",
+				text: "쪽지를 전송하였습니다.",
 				icon: "success"
 				}).then((e)=>{
 					opener.parent.location.reload();
@@ -141,6 +144,7 @@
 							<div class="input-group col-md-6 col-sm-6 col-xs-12" style="margin-bottom:0px;">
 							
 							<input type="hidden" id="dempNo" name="dempNo" value="${requestScope.receipientNo}" >
+							<input type="hidden" id="respondMsg" name="respondMsg" value="${requestScope.respondMsg}" >
 							<input type="text" id="empName" name="empName" class="form-control" readonly  value="${requestScope.receipientName}" style="width:137px;height:24px;">
 							
 							<button class="btn btn-primary" id='modalChart' type="button" style="height:27px; margin-left:5px; padding-top:3px;">검색</button>

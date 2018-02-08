@@ -329,7 +329,7 @@
 
 <!-- <button class="btn btn-default" id='modalReceiver1'>관리</button> -->
 	<div class="modal fade" id="layerpop">
-		<div class="modal-dialog modal-cSize">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content modal-cSize">
 			<div class="modal-header nav_menu">
 				<h3>결재선 지정</h3>

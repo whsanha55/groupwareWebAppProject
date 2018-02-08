@@ -16,4 +16,5 @@ public interface ReceiverLineService {
 	//결제라인 목록 삭제
 	public void removeReceiverLines(int receiverNo);
 	
+	public List<ReceiverLineVO> retrieveReceiverLineByApprNo(int apprNo);
 }

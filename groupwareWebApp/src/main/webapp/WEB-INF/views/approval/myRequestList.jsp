@@ -10,7 +10,10 @@
 	.column-title{
 		text-align:center;
 	}
-	
+	.detailApproval{
+		cursor:pointer;
+	}
+	 
 </style>
 <script>
 
@@ -112,9 +115,9 @@
 					var text = "";
 					for(var i=0;i<data.approvals.length;i++) {
 
-						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
+						text += "<tr ><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
+						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
 						
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";

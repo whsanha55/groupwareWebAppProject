@@ -19,8 +19,8 @@
 <script>
 $(document).ready(function(){ 
 	
-	$('#insert').click(function(){
-    	location.href = "${pageContext.request.contextPath}/admin/registerPlan.do";
+	$('#all').click(function(){
+    	location.href = "${pageContext.request.contextPath}/listPlanAll.do";
 	});
 	
 	var dataset =
@@ -28,6 +28,22 @@ $(document).ready(function(){
 			<c:forEach var="plan" items="${plans}" varStatus="loop">
 				{
 					id : '${plan.pNo}'
+					,
+					<c:if test="${plan.pImpt == 3}" >
+						color : "#fb4b4b"
+						,
+						textColor : "white"
+					</c:if>
+					<c:if test="${plan.pImpt == 2}" >
+						color : "#3a87ad"
+						,
+						textColor : "white"
+					</c:if>
+					<c:if test="${plan.pImpt == 1}" >
+						color : "#47b747"
+						,
+						textColor : "white"
+					</c:if>
 					,
 					title : "${plan.pTitle}"
 					,
@@ -44,14 +60,30 @@ $(document).ready(function(){
 		header: {
 			right: 'prev,next today',
 			center: 'title',
-			left: 'month,basicWeek,basicDay'
+			left: 'month,listWeek,listDay'
 		},
-		eventClick : function(calEvent,jsEvent,view) {  //달력 이벤트 클릭
+		slotEventOverlap: false,
+		allDaySlot: false,
+		eventClick : function(calEvent,jsEvent,view) {
 			if (event.url) {
 				return event.url;
 			 }
 		},
 		defaultDate: new Date(),
+		views: {
+	        month: {
+	            titleFormat: "YYYY년 MMMM",                  
+	        },
+	        week: {
+	        	titleFormat: "YYYY년 MMM D일",
+	        	columnFormat: "M/D ddd"
+	        },
+	        day: {
+	            titleFormat: "YYYY년 MMMM D일",
+	            columnFormat: "MMMM D일",           
+	        }
+	    },
+	    timeFormat: 't[m] H:mm',
 		navLinks: true,
 		editable: false,
 		eventLimit: true,
@@ -83,6 +115,7 @@ $(document).ready(function(){
 							<div class="col-md-2">
 								<h2>일정목록</h2>
 							</div>
+							<button type="button" id="all" class="btn btn-primary">모든 일정 보기</button>
 						</div>
 					</div>
 					<div>
@@ -115,6 +148,6 @@ $(document).ready(function(){
 		</div>
 		<div class="x_content">
 		
-		<div id='calendar'></div>
+		<div id='calendar'>중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
 
 </html>

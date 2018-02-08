@@ -26,7 +26,7 @@ public class RoleDAOImpl implements RoleDAO {
    }
 
    public int aNoIsExist(String rId) {
-	   return sqlSession.insert(NAMESPACE + ".aNoIsExist", rId);
+	   return sqlSession.selectOne(NAMESPACE + ".aNoIsExist", rId);
    }
 
    public List<RoleVO> selectRoleByRname(String aName) {
@@ -49,7 +49,6 @@ public class RoleDAOImpl implements RoleDAO {
 
    public RoleVO selectRole(String rId) {
 	   RoleVO role = sqlSession.selectOne(NAMESPACE + ".selectRole", rId);
-	   System.out.print("idididididididididiid"+role.toString());
 	   return role;
    }
 

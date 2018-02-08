@@ -34,6 +34,22 @@ $(document).ready(function(){
 				{
 					id : '${plan.pNo}'
 					,
+					<c:if test="${plan.pImpt == 3}" >
+						color : "#fb4b4b"
+						,
+						textColor : "white"
+					</c:if>
+					<c:if test="${plan.pImpt == 2}" >
+						color : "#3a87ad"
+						,
+						textColor : "white"
+					</c:if>
+					<c:if test="${plan.pImpt == 1}" >
+						color : "#47b747"
+						,
+						textColor : "white"
+					</c:if>
+					,
 					title : "${plan.pTitle}"
 					,
 					start : "${plan.startDate}"
@@ -43,21 +59,36 @@ $(document).ready(function(){
 					url : "${pageContext.request.contextPath}/detailPlan.do?pNo=${plan.pNo}"
 				} <c:if test="${!loop.last}" >,</c:if>
 			</c:forEach>
-		];
+		]
 	
 	$('#calendar').fullCalendar ({
 		header: {
 			right: 'prev,next today',
 			center: 'title',
-			left: 'month,basicWeek,basicDay'
+			left: 'month,listWeek,listDay'
 		},
-		eventClick : function(calEvent,jsEvent,view) {  //달력 이벤트 클릭 - 이 소스에서는 false
+		slotEventOverlap: false,
+		allDaySlot: false,
+		eventClick : function(calEvent,jsEvent,view) {
 			if (event.url) {
 				 return event.url;
 			 }
 		},
 		defaultDate: new Date(),
-		lang : "ko",
+		views: {
+	        month: {
+	            titleFormat: "YYYY년 MMMM",                  
+	        },
+	        week: {
+	        	titleFormat: "YYYY년 MMM D일",
+	        	columnFormat: "M/D ddd"
+	        },
+	        day: {
+	            titleFormat: "YYYY년 MMMM D일",
+	            columnFormat: "MMMM D일",           
+	        }
+	    },
+	    timeFormat: 't[m] H:mm',
 		navLinks: true,
 		editable: false,
 		eventLimit: true,
@@ -73,6 +104,7 @@ $(document).ready(function(){
 			   day : "일별",
 		},
 		events : dataset
+		
 			  
 	});
 });
@@ -144,7 +176,7 @@ $(document).ready(function(){
           <div class="row">
           	<!-- 캘린더  -->
             <div class="col-md-8 col-sm-4 col-xs-12">
-				<div id='calendar'></div>
+				<div id='calendar'>중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
             </div>
             <!-- 캘린더 end  -->
 			<div class="col-md-4 col-sm-4 col-xs-12">
