@@ -4,31 +4,38 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public class AuthEmpVO {
 	private String aeNo;  			//권한사원 번호
-	private EmployeeVO emp;
-	private AuthorityVO auth;
+	private String aNo;
+	private String empNo;
 	
+	
+	
+	public AuthEmpVO() {
+		super();
+	}
 	public String getAeNo() {
 		return aeNo;
 	}
 	public void setAeNo(String aeNo) {
 		this.aeNo = aeNo;
 	}
-	public EmployeeVO getEmp() {
-		return emp;
+	public String getaNo() {
+		return aNo;
 	}
-	public void setEmp(EmployeeVO emp) {
-		this.emp = emp;
+	public void setaNo(String aNo) {
+		this.aNo = aNo;
 	}
-	public AuthorityVO getAuth() {
-		return auth;
+	public String getEmpNo() {
+		return empNo;
 	}
-	public void setAuth(AuthorityVO auth) {
-		this.auth = auth;
+	public void setEmpNo(String empNo) {
+		this.empNo = empNo;
 	}
 	@Override
 	public String toString() {
-		return "AuthEmpVO [aeNo=" + aeNo + ", emp=" + emp + ", auth=" + auth + "]";
+		return "AuthEmpVO [aeNo=" + aeNo + ", aNo=" + aNo + ", empNo=" + empNo + "]";
 	}
+	
+	
 	
 	
 	

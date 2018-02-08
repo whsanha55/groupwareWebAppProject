@@ -34,6 +34,36 @@
 		</choose>
 	</select>
 	
+	<!-- 부서에 해당하는 일정 목록 조회 -->
+	<select id="selectPlanListByDeptName" parameterType="map" resultType="PlanVO" >
+		select 
+			p.p_no as pNo,
+			p.p_title as pTitle,
+			p.dept_no as deptNo,
+			p.p_class as pClass,
+			p.p_impt as pImpt,
+			p.rspb_no as rspbNo,
+			p.p_content as pContent,
+			p.start_date as startDate,
+			p.end_date as endDate,
+			p.latitude as latitude,
+			p.longitude as longitude,
+			e.emp_name as empName,
+			c.c_name as cName
+		from plan p, employee e, code c
+		where p.rspb_no=e.emp_no
+		and p.dept_no=c.c_no
+		and (c.c_name='부서' or c.c_name=#{cName})
+		<choose>
+			<when test="keyfield == 'p_title'  and keyword != null " >
+				and p.p_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="keyfield == 'emp_name'  and keyword != null ">
+				and e.emp_name like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</select>
+	
 	<!-- 일정 등록 -->
 	<insert id="insertPlan" parameterType="PlanVO" statementType="PREPARED">
 		<selectKey keyProperty="pNo" resultType="String" statementType="STATEMENT" order="BEFORE">

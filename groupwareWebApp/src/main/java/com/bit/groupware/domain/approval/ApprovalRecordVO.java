@@ -14,6 +14,7 @@ public class ApprovalRecordVO {
 	private String confirmDate;
 	private ApprovalCommentVO approvalComment;
 	private EmployeeVO depEmployee;
+	private int isDelegation;
 
 	public ApprovalRecordVO() {
 		super();
@@ -95,12 +96,20 @@ public class ApprovalRecordVO {
 		this.depEmployee = depEmployee;
 	}
 
+	public int getIsDelegation() {
+		return isDelegation;
+	}
+
+	public void setIsDelegation(int isDelegation) {
+		this.isDelegation = isDelegation;
+	}
+
 	@Override
 	public String toString() {
 		return "ApprovalRecordVO [recordNo=" + recordNo + ", approval=" + approval + ", receiverLine=" + receiverLine
 				+ ", apprStatus=" + apprStatus + ", assignDate=" + assignDate + ", checkDate=" + checkDate
 				+ ", confirmDate=" + confirmDate + ", approvalComment=" + approvalComment + ", depEmployee="
-				+ depEmployee + "]";
+				+ depEmployee + ", isDelegation=" + isDelegation + "]";
 	}
 
 }

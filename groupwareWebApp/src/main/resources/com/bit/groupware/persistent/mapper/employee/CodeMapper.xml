@@ -81,7 +81,10 @@
              where n.redirect_path = c1.c_no) as countNotification,
              (select count(p.document_no)
                from post p
-             where p.document_no = c1.c_no) as countPost
+             where p.document_no = c1.c_no) as countPost,
+             (select count(pl.dept_no)
+               from plan pl
+             where pl.dept_no = c1.c_no) as countPlan
 		from code c1
 		where c1.relation_code=#{relationCode}
 		group by c1.c_no,c1.c_name,c1.relation_code

@@ -141,5 +141,28 @@ public class NotificationController {
 		return "approval/emptyRequest";
 				
 	}
+	
+	
+	//알림 전체 삭제 처리
+	@RequestMapping(value="/removeAllNotifications.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String removeAllNotifications() {
+	
+		
+		//mapper에 전체삭제 만들기.
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String empNo = user.getUsername(); // 사용자 본인의 사원번호
+		
+		map.put("empNo", empNo);
+		notificationService.removeNotifications(map);
+		//삭제
+	
+		
+		return "success";
+	}
+	
 
 }

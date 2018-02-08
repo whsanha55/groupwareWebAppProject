@@ -73,7 +73,7 @@
           		p2.no, p2.original_file_name, p2.system_file_name, cm.cmt_no, cm.cmt_content, cm.cmt_writer, cm.cmt_date 
 		 from post p1 , postfile p2, code c, code d, cmt cm
 		 where p1.post_no = p2.post_no(+) and p1.c_no = c.c_no and p1.document_no = d.c_no 
-                  and p1.post_no = cm.post_no and p1.post_no = #{postNo} 		
+                  and p1.post_no = cm.post_no(+) and p1.post_no = #{postNo} 		
 	</select> 
 	
 	<update id="updatePost" parameterType="PostVO" statementType="PREPARED">

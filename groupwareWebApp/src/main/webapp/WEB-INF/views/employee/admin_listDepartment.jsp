@@ -95,7 +95,7 @@
 									keyboard: false
 								});
 								oldHead = $(this).text().split(" ")[1];
-								checkCno = $(this).parent().children('#check'+i);
+								checkCno = $(this).parent().children('#check'+i).text();
 								console.log(checkCno);
 							});
 							

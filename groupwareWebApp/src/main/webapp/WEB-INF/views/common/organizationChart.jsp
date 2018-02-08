@@ -87,9 +87,7 @@ p {
 					selectedNameAndDuty = data.node.title;
 					selectedDepartment = data.node.parent.title;
 					selectedDeptNo = data.node.parent.key;
-					//alert(selectedEmpNo + " " + selectedNameAndDuty + " " + selectedDepartment + " "  + selectedDeptNo );
 
-				
 				} else {
 					selectedEmpNo = "";
 					selectedNameAndDuty = "";
