@@ -57,6 +57,19 @@ $(document).ready(function(){
 			 }
 		},
 		defaultDate: new Date(),
+		views: {
+	        month: {
+	            titleFormat: "YYYY년 MMMM",                  
+	        },
+	        week: {
+	        	titleFormat: "YYYY년 MMM D일",
+	        	columnFormat: "M/D ddd"
+	        },
+	        day: {
+	            titleFormat: "YYYY년 MMMM D일",
+	            columnFormat: "MMMM d일 dddd",           
+	        }
+	    },
 		lang : "ko",
 		navLinks: true,
 		editable: false,
@@ -72,7 +85,8 @@ $(document).ready(function(){
 			   week : "주별",
 			   day : "일별",
 		},
-		events : dataset
+		events : dataset,
+		timeFormat: 'H(:mm)'
 			  
 	});
 });
