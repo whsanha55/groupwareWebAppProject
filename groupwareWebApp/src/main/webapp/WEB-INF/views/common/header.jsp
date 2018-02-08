@@ -155,7 +155,7 @@ src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.m
 		
 		}
 
-		for(var i=0;i<data.length;i++) {
+		for(var i=0;i<5;i++) {
 
 		htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
 		htmlStr += '<a>';
@@ -184,21 +184,22 @@ src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.m
 
 			}
 
-	$('#menu1').html(htmlStr);
-	//$(htmlStr).appendTo('#menu1');
-	},
+				$('#menu1').html(htmlStr);
+				//$(htmlStr).appendTo('#menu1');
+		},
 
-	error: function(jqXHR, textStatus, errorThrown){
-	alert('error: ' + jqXHR.status);
-	}
+			error: function(jqXHR, textStatus, errorThrown){
+			alert('error: ' + jqXHR.status);
+			}
 
-	});
+		});
 	//end of ajax
 
 		//setTimeout(newAlarm, 10000);	
 	}
 		//end of newAlarm
 
+		
 	//관련 문서함으로 이동하는 이벤트
 	$('#menu1').on('click','li:has(span)',function() {
 
