@@ -30,6 +30,10 @@
 	#templatePaging li {
 		cursor : pointer;
 	}
+	.templateli{
+		cursor:pointer;
+	}
+	
 </style>
 <script>
 		var pKeyfield = 'bookmark'; //로딩첫페이지가 북마크!! 
@@ -155,6 +159,11 @@
 		});
 		
 		
+		$('#datatable tbody').on('click','.templateli',function(){
+			var tmpNo=$(this).attr('id');
+			location.href="${pageContext.request.contextPath}/writeApproval.do?tmpNo="+tmpNo;
+		});
+		
 	});	//$(document).ready End
 	
 	
@@ -186,17 +195,16 @@
 				var text = "";
 				for(var i=0;i<data.templates.length;i++) {
 					if(data.templates[i].templateBookmarks.length == 0) {
-						text += "<tr> <td> <i class='fa fa-star-o fa-lg'/> </td>";
+						text += "<tr class='templateli' id="+data.templates[i].tmpNo+" > <td> <i class='fa fa-star-o fa-lg'/> </td>";
 					} else {
-						text += "<tr> <td> <i id = 'bookmark_" + data.templates[i].templateBookmarks[0].bookmarkNo +"' class='fa fa-star fa-lg' /> </td>";
+						text += "<tr class='templateli' id="+data.templates[i].tmpNo+"> <td> <i id = 'bookmark_" + data.templates[i].templateBookmarks[0].bookmarkNo +"' class='fa fa-star fa-lg' /> </td>";
 
 						
 					}
 					text += "<td>"+ data.templates[i].tmpNo + "</td>";
-					text += "<td>"+ data.templates[i].templateCategory.categoryName + "</td>";
+					text += "<td >"+ data.templates[i].templateCategory.categoryName + "</td>";
 					text += "<td>"+ data.templates[i].tmpDate + "</td>";
-					text += "<td><a href = '${pageContext.request.contextPath}/writeApproval.do?tmpNo=" + data.templates[i].tmpNo + "'> "; 
-					text += data.templates[i].tmpName + "</a></td>";
+					text += "<td style='font-weight:bolder'>"+data.templates[i].tmpName + "</td>";
 					text += "<td>"+ data.templates[i].tmpSummary + "</td>";
 					text += "</tr>";
 				}
