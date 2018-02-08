@@ -28,6 +28,18 @@
             e.preventDefault();
          return false;
       });
+       
+  	//첨부파일 용량 체크
+	$('.controls').on('change','input[name=upload]',function() {
+		if($(this).val() != '') {
+			var fileSize = this.files[0].size;
+			var maxSize = 1024*1024*1;
+			if(fileSize > maxSize) {
+				swal('1mb 이하의 첨부만 가능합니다','요청 파일 크기 : ' + Math.round(fileSize/1024) + "kb",'error');
+				$(this).val('');
+			}
+		}
+	});
 
    });
 </script>
@@ -74,9 +86,6 @@
                      // set focus to editable area after initializing summernote
                      });
                   </script>        
-
-
-               
 
                   <div class="ln_solid"></div>
                   <div class="col-md-12">

@@ -98,11 +98,13 @@
 		var endRow = currentPageNo * countPerPage;
 		var num = 0;	//현재 페이지번호에 속한 게시글의 시작번호
 		
+		var aNo = '${param.aNo}';
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/admin/DesigRolePagingAjax.do' 
 			,
 			data: {
+				aNo : aNo,
 				keyfield: pKeyfield ,
 				keyword: pKeyword ,	
 				startRow : startRow ,
@@ -115,6 +117,26 @@
 				
 				totalCount = data.totalCount;
 				num = totalCount - (currentPageNo - 1) * countPerPage;
+					
+				 //datatable테이블 변경하기
+	            var text = "";
+	            for(var i=0;i<data.roles.length;i++) {
+	               text += "<tr class='even pointer'>";
+	               text += "<td class='rId'>"+ data.roles[i].rId + "</td>";
+	               text += "<td class='rName'>"+ data.roles[i].rName + "</td>";
+	               text += "<td class='rType'>"+ data.roles[i].rType + "</td>";
+	               text += "<td class='rExplan'>"+ data.roles[i].rExplan + "</td>";
+	               text += "<td>"+ data.roles[i].rDate + "</td>"; 
+	               if(data.roles[i].isRegistration == '0') {
+	               text += "<td><label> <input type='radio'  name='tests["+i+"]' class='radioBtnClass1'  value='0' checked='checked'> 등록</label><label> <input type='radio'  name='tests["+i+"]'  class='radioBtnClass2'  value='1'>미등록</label></td>";
+	               } else if(data.roles[i].isRegistration == '1') {
+	            	   text += "<td><label> <input type='radio'  name='tests["+i+"]' class='radioBtnClass1'  value='0' > 등록</label><label> <input type='radio'  name='tests["+i+"]'  class='radioBtnClass2'  value='1'checked='checked'>미등록</label></td>";
+	               }
+	               text += "</tr>";
+	            }
+	               $('#datatable').find('tbody').html(text);
+				
+				
 					//페이징 처리
 					jqueryPager({
 						countPerPage : countPerPage,
@@ -243,7 +265,7 @@
 						</thead>
 
 						 <tbody>
-						 
+				<%-- 		 
                     <c:forEach var="arole" items="${requestScope.aroles}" varStatus="loop">
 	                     <tr class="even pointer">
 	                        <td id="rId">${pageScope.arole.rId}</td>
@@ -270,7 +292,7 @@
 									<label> <input type="radio"  name="tests[${loop.index}]"  class='radioBtnClass2'  value="1" checked="checked">미등록</label>
 	                         </td>
 	                     </tr>
-                     	</c:forEach>
+                     	</c:forEach> --%>
                   </tbody>
 					</table>
 				</div>
