@@ -62,7 +62,7 @@
    </resultMap>
    
    <select id="selectRoleByRname" statementType="PREPARED" resultMap="selectRoleByRnameMap" parameterType="string" > 
-        select t3.a_name, t1.*
+      select t3.a_name, t1.*
       from role t1, authority_role t2, authority t3
       where t1.r_id = t2.r_id and t2.a_no =t3.a_no
       and t3.a_name = #{value}

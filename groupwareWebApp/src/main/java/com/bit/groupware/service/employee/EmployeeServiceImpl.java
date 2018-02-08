@@ -9,11 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.groupware.domain.employee.DepartmentVO;
 import com.bit.groupware.domain.employee.DeputyVO;
 import com.bit.groupware.domain.employee.EmployeeCodeVO;
-import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.PhotoVO;
+import com.bit.groupware.persistent.employee.DepartmentDAO;
 import com.bit.groupware.persistent.employee.DeputyDAO;
 import com.bit.groupware.persistent.employee.EmployeeDAO;
 import com.bit.groupware.persistent.employee.PhotoDAO;
@@ -28,6 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private DeputyDAO deputyDAO;
 	@Autowired
 	private PhotoDAO photoDAO;
+	@Autowired
+	private DepartmentDAO departmentDAO;
 	
 
 /*	
@@ -150,6 +153,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	public int retrieveDeputyRegisterCount(Map<String, Object> map) {
 		return deputyDAO.selectDeputyRegisterCount(map);
+	}
+	
+	public List<DepartmentVO> retrieveDeptList(Map<String, Object> map) {
+		return departmentDAO.selectDeptList(map);
+	}
+	
+	public Map<String, Object> retrieveDeptInfo(String cNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		DepartmentVO department = departmentDAO.selectDeptCharge(cNo);
+		map.put("department", department);
+		map.put("memberCount", departmentDAO.selectDeptEmp(cNo));
+		map.put("teamCount", departmentDAO.selectDeptTeam(cNo));
+		return map;
+	}
+
+	public void modifyHead(Map<String, Object> map) {
+		departmentDAO.retireHead((String)map.get("oldHead"));
+		departmentDAO.updateHead((String)map.get("newHead"));		
 	}
 
 }

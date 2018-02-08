@@ -16,13 +16,13 @@
 	
 	
 	<select id="selectPostList" resultType="PostVO" statementType="PREPARED" parameterType="map">
-		select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, document_name as documentNo, c_name as cNo  
+		select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, d_name as documentNo, c_name as cNo  
 	    from( select rownum as rn, post1.*    									
-  			  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.document_name, c.c_name
-                    from post p, code c, document d
-                    where d.document_no = p.document_no and c.c_no = p.c_no
+  			  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.c_name as d_name, c.c_name
+                    from post p, code c, code d
+                    where c.c_no = p.c_no and d.c_no = p.document_no
                     <if test="keyfield == 'documentNo' and keyword != null">                   
-                       and d.document_name like '%' || #{keyword} || '%'
+                       and d.c_name like '%' || #{keyword} || '%'
                     </if>
                     <if test="keyfield == 'postTitle' and keyword != null">                    
                        and p.post_title like '%' || #{keyword} || '%'
@@ -69,11 +69,11 @@
 	 
 	 
 	<select id="selectPost" resultMap="selectPostResultMap" statementType="PREPARED" parameterType="int">
-		 select p1.post_no, p1.post_title, p1.writer, p1.post_date, p1.post_content, c.c_name as c_no, d.document_name as document_no, 
+		 select p1.post_no, p1.post_title, p1.writer, p1.post_date, p1.post_content, c.c_name as c_no, d.c_name as document_no, 
           		p2.no, p2.original_file_name, p2.system_file_name, cm.cmt_no, cm.cmt_content, cm.cmt_writer, cm.cmt_date 
-		 from post p1 , postfile p2, code c, document d, cmt cm
-		 where p1.post_no = p2.post_no(+) and p1.c_no = c.c_no and p1.document_no = d.document_no 
-                  and p1.post_no = cm.post_no and p1.post_no = #{postNo} 		
+		 from post p1 , postfile p2, code c, code d, cmt cm
+		 where p1.post_no = p2.post_no(+) and p1.c_no = c.c_no and p1.document_no = d.c_no 
+                  and p1.post_no = cm.post_no(+) and p1.post_no = #{postNo} 		
 	</select> 
 	
 	<update id="updatePost" parameterType="PostVO" statementType="PREPARED">
@@ -103,17 +103,17 @@
 	
 	<delete id="deletePost" parameterType="int" statementType="PREPARED">
 		delete from post
-		where post_no = #{postNo}
+    	where post_no = #{postNo}
 	</delete>
 	
 	   
 	
 	<select id="selectPostCount" statementType="PREPARED" parameterType="map" resultType="int">
 		select count(*)
-		from post p, code c, document d
-		where d.document_no = p.document_no and c.c_no = p.c_no and p.post_no is not null 
+		from post p, code c, code d
+		where d.c_no = p.document_no and c.c_no = p.c_no and p.post_no is not null 
 			<if test="keyfield == 'documentNo' and keyword != null">
-				and d.document_name like '%'|| #{keyword} ||'%'
+				and d.c_name like '%'|| #{keyword} ||'%'
 			</if>
 			<if test="keyfield == 'postTitle' and keyword != null">
 				and post_title like '%'|| #{keyword} ||'%'

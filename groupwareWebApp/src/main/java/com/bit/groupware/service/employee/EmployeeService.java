@@ -3,11 +3,8 @@ package com.bit.groupware.service.employee;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
+import com.bit.groupware.domain.employee.DepartmentVO;
 import com.bit.groupware.domain.employee.DeputyVO;
-import com.bit.groupware.domain.employee.EmployeeCodeVO;
-import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 
 public interface EmployeeService {
@@ -43,4 +40,11 @@ public interface EmployeeService {
 	List<EmployeeVO> retrieveDeputyRegisterEmployeeList(Map<String, Object> map);
 
 	int retrieveDeputyRegisterCount(Map<String, Object> map);
+	
+	public List<DepartmentVO> retrieveDeptList(Map<String,Object> map);
+	
+	public Map<String, Object> retrieveDeptInfo(String cNo);
+	
+	public void modifyHead(Map<String, Object> map);
+	
 }

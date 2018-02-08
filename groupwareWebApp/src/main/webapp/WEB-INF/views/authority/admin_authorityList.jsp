@@ -44,15 +44,24 @@ $.ajax({
 		//datatable테이블 변경하기
 		var text = "";
 		for(var i=0;i<data.authorities.length;i++) {
+		
 			text += "<tr class='even pointer'>";
 			text += "<td class='a-center' id='selected'><input type='checkbox' id='ex_chk' name='selected' value="+ data.authorities[i].aNo +"> </td>";
 			text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal' class='myModal''>"+ data.authorities[i].aNo + "</a></td>";
 			text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
 			text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
-			text += "<td class='aWhether' id="+ data.authorities[i].aWhether +"></td>";
-			text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a class='btn btn-default'  id='disable' href='<c:url value='/admin/designRole.do'/>'>사원추가</a></td>";
+		/* 	text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>"; */
+			if(data.authorities[i].aWhether ==  '0'){	
+				text += "<td class='aWhether'>유</td>";
+			}else{
+				text += "<td class='aWhether'>무</td>";
+			} 
+			text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><button type='button' class='btn btn-default'><a href='<c:url value='/admin/designAuthority.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+ "'/>'>사원추가</a></button></td>";
 			text += "</tr>";		
+			
 		}
+
+	
 		
 		
 		$('#datatable').find('tbody').html(text);
@@ -131,7 +140,8 @@ function jqueryPager(subOption) {
 }
 
 
-$(document).ready(function() {		
+$(document).ready(function() {	
+	
 	Paging(1);
 	
 	//검색조건
@@ -195,123 +205,8 @@ $(document).ready(function() {
 		});
 		
 
-	//////////////////////////////////// 페이징 처리 ///////////////////////////////////////////////////////////
 	
-	function Paging(currentPageNo) {
-	
-		var totalCount =  0;		//총 양식서 수
-		var countPerPage = 7;   //한 페이지당 보여주는 양식서 수
-		var pageSize = 7;		//페이지 리스트에 게시되는 페이지 수
-		var startRow = (currentPageNo - 1) * countPerPage + 1;
-		var endRow = currentPageNo * countPerPage;
-		var num = 0;	//현재 페이지번호에 속한 게시글의 시작번호
-		
-		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/AuthorityPagingAjax.do' 
-			,
-			data: {
-				keyfield: pKeyfield ,
-				keyword: pKeyword ,	
-				startRow : startRow ,
-				endRow : endRow
-			},
-			type: 'POST' ,
-			cache: false ,
-			dataType: 'json' ,
-			success: function (data, textStatus, jqXHR) {
-				
-				totalCount = data.totalCount;
-				num = totalCount - (currentPageNo - 1) * countPerPage;
-				
-				//datatable테이블 변경하기
-				var text = "";
-				for(var i=0;i<data.authorities.length;i++) {
-					text += "<tr class='even pointer'>";
-					text += "<td class='a-center'><input type='checkbox' id='ex_chk'> </td>";
-					text += "<td class='aNo'><a data-toggle='modal' data-target='#myModal' class='myModal''>"+ data.authorities[i].aNo + "</a></td>";
-					text += "<td class='aName'>"+ data.authorities[i].aName + "</td>";
-					text += "<td class='aNote'>"+ data.authorities[i].aNote + "</td>";
-					text += "<td class='aWhether'>"+ data.authorities[i].aWhether + "</td>";
-					text += "<td class='align-center selectBtn'><a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ data.authorities[i].aName +"&aNo="+data.authorities[i].aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a class='btn btn-default'  id='disable' href='<c:url value='/admin/designRole.do'/>'>사원추가</a></td>";
-					text += "</tr>";     
-				}
-				
-				$('#datatable').find('tbody').html(text);
-					
-					//페이징 처리
-					jqueryPager({
-						countPerPage : countPerPage,
-						pageSize : pageSize,
-						currentPageNo : currentPageNo,
-						totalCount : totalCount
-					});
-					
-					
-				
-			} ,
-			error: function(jqXHR) {
-				alert("에러: " + jqXHR.status);
-			}
-			
-		});
-		
 
-	} //end Paging function
-	
-	   
-	//페이징 처리
-	function jqueryPager(subOption) {
-	   
-	      var pageBlock = subOption.countPerPage;   
-	      var pageSize = subOption.pageSize;        
-	      var currentPage = subOption.currentPageNo;  
-	      var pageTotal = subOption.totalCount;       
-	       var pageTotalCnt = Math.ceil(pageTotal/pageBlock);    
-	      var pageBlockCnt = Math.ceil(currentPage/pageSize);
-	      var sPage = (pageBlockCnt-1) * pageSize + 1;
-	      var ePage;
-	      
-	      
-	      var html ="<ul class='pagination'>";
-	   
-	      
-	       if((pageBlockCnt * pageSize) >= pageTotalCnt) {
-	         ePage = pageTotalCnt;
-	      } else {
-	         ePage = pageBlockCnt * pageSize;
-	      } 
-	      
-	      if(sPage <= 1) {
-	         html += '<li class="page-item disabled">';
-	         html += '<a class="page-link" aria-label="Previous">' 
-	      } else {
-	         html += '<li class="page-item ">';
-	         html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageSize) + ')">'; 
-	      }
-	      html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
-	      
-	      for(var i=sPage; i<=ePage; i++) {
-	         if(currentPage == i) {
-	            html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
-	         } else {
-	            html += '<li class="page-item"><a class="page-link" onclick="Paging(' + i + ');">' + i + '</a></li>';
-	         }
-	      }            
-	   
-	      if (ePage >= pageTotalCnt) {
-	         html += '<li class="page-item disabled">';
-	         html += '<a class="page-link" aria-label="Next">';
-	      } else {
-	         html += '<li class="page-item">';
-	         html += '<a class="page-link" aria-label="Next" onclick = "Paging(' + (ePage+1) + ')">';
-	      }
-	      html += '<span aria-hidden="true">&raquo;</span> </a></li>';
-	      html += '</ul>';
-	      
-	      $('#Paging').html(html);
-	   
-	   }
 	
 	//수정 폼 변경
 	$('#datatable').on('click','button:contains(수정)', function () {
@@ -335,6 +230,7 @@ $(document).ready(function() {
 
 	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-default'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
 	    $('button:contains(수정)').prop("disabled", true);
+	    $('button:contains(사원추가)').prop("disabled", true);
 
 	});
 	
@@ -348,10 +244,6 @@ $(document).ready(function() {
  		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
 
  	
- 		var thisAname = $(this).parents("tr").find('.aName');
- 		var thisAnote = $(this).parents("tr").find('.aNote');
- 		var thisAwhether = $(this).parents("tr").find('.aWhether');
- 		var selectBtn = $(this).parents("tr").find('.selectBtn');
  		
 		swal({
 			  title: "게시판을 수정하시겠습니까?",
@@ -380,10 +272,7 @@ $(document).ready(function() {
 							success : function(data, textStatus, jqXHR){	
 								if(data.isSuccess == "true"){
 									swal("수정 완료!","");
-									$(thisAname).html(data.authority.aName);
-									$(thisAnote).html(data.authority.aNote);
-									$(thisAwhether).html(data.authority.aWhether);
-									$(selectBtn).html("<a class='btn btn-primary' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button>");
+									Paging(1);
 								}else if(data.isSuccess == "false"){
 									swal("이미 권한이 존재합니다.");
 								} 
@@ -400,16 +289,8 @@ $(document).ready(function() {
 	});
 	
 	//취소
- 	$('#datatable').on('click','button:contains(취소)', function () { 
- 		var aName = $(this).parents("tr").find('input[name=aName]').val();
- 		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
- 		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
-		
-		$(this).parents("tr").find('.aName').html(aName);
-		$(this).parents("tr").find('.aNote').html(aNote);
-		$(this).parents("tr").find('.aWhether').html(aWhether);
-		$(this).parents("tr").find('.selectBtn').html("<a class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><a  id='disable' class='btn btn-default' href='<c:url value='/admin/designRole.do'/>'>사원추가</a>");
-		 $('button:contains(수정)').prop("disabled", false);
+ 	$('#datatable').on('click','button:contains(취소)', function () {  
+ 		Paging(1);
  	});
 	
 	

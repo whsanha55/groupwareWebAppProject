@@ -20,7 +20,7 @@ public class RemovePostFileController {
 	// 게시글 쓰기 요청을 처리할 컨틀롤러 메소드
 	@RequestMapping(value="/deletePostFile.do", method=RequestMethod.GET)
 	@ResponseBody
-	public int remove(@RequestParam(value="no", required=true)int no) {		
+	public int remove(@RequestParam(value="no", required=true) int no) {		
 		logger.info("삭제번호!!!!!!!!!!!!!!: {}", no);
 		postService.removePostFile(no);
 		

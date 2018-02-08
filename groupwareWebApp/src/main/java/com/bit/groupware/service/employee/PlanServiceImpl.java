@@ -26,6 +26,11 @@ public class PlanServiceImpl implements PlanService {
 		return planDAO.selectPlanList(map);
 	}
 	
+	//부서번호에 해당하는 일정 목록 조회
+	public List<PlanVO> retrievePlanListByDeptName(Map<String, Object> map) {
+		return planDAO.selectPlanListByDeptName(map);
+	}
+	
 	//일정 등록
 	public void registerPlan(PlanVO plan) {
 		String pNo = planDAO.insertPlan(plan);

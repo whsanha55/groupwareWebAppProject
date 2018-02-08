@@ -65,7 +65,7 @@ public class AdminListCodeController {
 		return returnMap;
 	}
 	
-	//하위 코드 목록 조회 요청
+	//중간 코드 목록 조회 요청
 	@RequestMapping(value="/admin/listCode2.do", method=RequestMethod.GET)
 	public ModelAndView listCode2(@RequestParam(value="relationCode", required=true) String relationCode) {
 		ModelAndView mv = new ModelAndView();
@@ -88,7 +88,7 @@ public class AdminListCodeController {
 		map.put("startRow", 1);
 		map.put("endRow", 10);
 		logger.info("map : {}", map);
-		mv.addObject("codes", codeService.retrieveCodeList3(map));
+		mv.addObject("codes", codeService.retrieveCodeList2(map));
 		mv.setViewName("employee/admin_listCode3");
 		return mv;
 	}

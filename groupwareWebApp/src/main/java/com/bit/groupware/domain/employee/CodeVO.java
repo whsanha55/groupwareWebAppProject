@@ -6,6 +6,12 @@ public class CodeVO {
 	private String relationCode;
 	private String countRelationCode;
 	private String countEmployee;
+	private String countApproval;
+	private String countApprovalRecord;
+	private String countNotification;
+	private String countPost;
+	private String countPlan;
+		
 	
 	public CodeVO() {
 		super();
@@ -58,12 +64,61 @@ public class CodeVO {
 	public void setCountEmployee(String countEmployee) {
 		this.countEmployee = countEmployee;
 	}
-	
+
+	public String getCountApproval() {
+		return countApproval;
+	}
+
+	public void setCountApproval(String countApproval) {
+		this.countApproval = countApproval;
+	}
+
+	public String getCountApprovalRecord() {
+		return countApprovalRecord;
+	}
+
+	public void setCountApprovalRecord(String countApprovalRecord) {
+		this.countApprovalRecord = countApprovalRecord;
+	}
+
+	public String getCountNotification() {
+		return countNotification;
+	}
+
+	public void setCountNotification(String countNotification) {
+		this.countNotification = countNotification;
+	}
+
+	public String getCountPost() {
+		return countPost;
+	}
+
+	public void setCountPost(String countPost) {
+		this.countPost = countPost;
+	}
+
+	public String getCountPlan() {
+		return countPlan;
+	}
+
+	public void setCountPlan(String countPlan) {
+		this.countPlan = countPlan;
+	}
+
 	@Override
 	public String toString() {
 		return "CodeVO [cNo=" + cNo + ", cName=" + cName + ", relationCode=" + relationCode + ", countRelationCode="
-				+ countRelationCode + ", countEmployee=" + countEmployee + "]";
+				+ countRelationCode + ", countEmployee=" + countEmployee + ", countApproval=" + countApproval
+				+ ", countApprovalRecord=" + countApprovalRecord + ", countNotification=" + countNotification
+				+ ", countPost=" + countPost + ", countPlan=" + countPlan + "]";
 	}
+
+	
+	
+
+	
+	
+	
 
 	
 

@@ -23,7 +23,6 @@
 		
 		$('#modify').on('click', function() {
 			var pNo = $(this).val();
-			alert($(this).val());
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/admin/modifyPlan.do'
@@ -126,7 +125,13 @@
 
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">부서</span>
-							</label>&nbsp;&nbsp; ${requestScope.plan.cName }
+							</label>&nbsp;&nbsp;
+							<c:if test="${requestScope.plan.deptNo == 'A'}">
+								전체
+							</c:if>
+							<c:if test="${requestScope.plan.deptNo != 'A'}">
+								${requestScope.plan.cName }
+							</c:if>
 					</div>
 
 					<div class="form-group">
