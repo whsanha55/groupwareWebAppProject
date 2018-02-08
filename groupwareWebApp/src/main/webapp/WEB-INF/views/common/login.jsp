@@ -66,14 +66,18 @@ page contentType="text/html; charset=utf-8"%>
 							<div style="color: red;">비밀번호가 틀렸습니다.</div>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />
 						</c:if>
-						<div class="clearfix"></div>
+						<div class="clearfix">
+						<input type = "radio" name = "role" value = "user">사용자
+						<input type = "radio" name = "role" value = "admin" >관리자<br>
+						</div>
 
 						<div class="separator">
 							<p class="change_link">
 								<%--   <a class="btn btn-default submit" href='<c:url value="/admin/index.do"/>'>로그인</a> --%>
 
 								<button class="btn btn-default submit" type="submit">로그인</button>
-							</p>
+								<button class="btn btn-default default" type="reset">취소</button>
+							</p>  
 
 							<div class="clearfix"></div>
 							<br />
