@@ -135,7 +135,7 @@
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div class="col-md-7">
+						<div class="col-md-6">
 							<div class="col-md-2">
 								<h2>코드목록</h2>
 							</div>
@@ -174,7 +174,7 @@
 						<tr>
 							<th>코드번호</th>
 							<th>코드명</th>
-							<th>등록된 사원 수</th>
+							<th>코드 사용 여부</th>
 							<th>수정</th>
 							<th>삭제</th>
 						</tr>
@@ -185,13 +185,58 @@
 							<tr>
 								<td>${pageScope.code.cNo }</a></td>
 								<td>${pageScope.code.cName }</td>
-								<td>${pageScope.code.countEmployee }</td>
-								<td><button class="modify btn btn-success" id="${pageScope.code.cNo }" type="button">수정</button></td>
-							<c:if test="${pageScope.code.countEmployee == 0 }" >
-								<td><button type="button" value="${pageScope.code.cNo }" class="btn btn-primary removeBtn" >삭제</button></td>
+							<c:if test="${pageScope.code.countRelationCode != 0 }" >
+								<td>O</td>
 							</c:if>
-							<c:if test="${pageScope.code.countEmployee != 0 }">
+							<c:if test="${pageScope.code.countEmployee != 0 }" >
+								<td>O</td>
+							</c:if>
+							<c:if test="${pageScope.code.countApproval != 0 }" >
+								<td>O</td>
+							</c:if>
+							<c:if test="${pageScope.code.countApprovalRecord != 0 }" >
+								<td>O</td>
+							</c:if>
+							<c:if test="${pageScope.code.countNotification != 0 }" >
+								<td>O</td>
+							</c:if>
+							<c:if test="${pageScope.code.countPost != 0 }" >
+								<td>O</td>
+							</c:if>
+							<c:if test="${pageScope.code.countEmployee == 0 &&
+											pageScope.code.countApproval == 0 &&
+											pageScope.code.countApprovalRecord == 0 &&
+											pageScope.code.countNotification == 0 &&
+											pageScope.code.countPost == 0 &&
+											pageScope.code.countRelationCode == 0 }">
+								<td>X</td>
+							</c:if>
+								<td><button class="modify btn btn-success" id="${pageScope.code.cNo }" type="button">수정</button></td>
+							<c:if test="${pageScope.code.countRelationCode != 0 }" >
 								<td></td>
+							</c:if>
+							<c:if test="${pageScope.code.countEmployee != 0 }" >
+								<td></td>
+							</c:if>
+							<c:if test="${pageScope.code.countApproval != 0 }" >
+								<td></td>
+							</c:if>
+							<c:if test="${pageScope.code.countApprovalRecord != 0 }" >
+								<td></td>
+							</c:if>
+							<c:if test="${pageScope.code.countNotification != 0 }" >
+								<td></td>
+							</c:if>
+							<c:if test="${pageScope.code.countPost != 0 }" >
+								<td></td>
+							</c:if>
+							<c:if test="${pageScope.code.countEmployee == 0 &&
+											pageScope.code.countApproval == 0 &&
+											pageScope.code.countApprovalRecord == 0 &&
+											pageScope.code.countNotification == 0 &&
+											pageScope.code.countPost == 0 &&
+											pageScope.code.countRelationCode == 0 }">
+								<td><button type="button" value="${pageScope.code.cNo }" class="btn btn-primary removeBtn" >삭제</button></td>
 							</c:if>
 							</tr>
 						</c:forEach>

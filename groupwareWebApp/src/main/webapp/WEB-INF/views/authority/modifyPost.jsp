@@ -123,12 +123,12 @@
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<select class="form-control" name="documentNo">
 							<option>문서를 선택하세요</option>
-							<option value="1">문서보관함</option>
-							<option value="2">회의문서</option>
-							<option value="3">각종 증명서</option>
-							<option value="4">공문서</option>
-							<option value="5">거래문서</option>
-							<option value="6">기타</option>
+							<option value="DC-1">문서보관함</option>
+							<option value="DC-2">회의문서</option>
+							<option value="DC-3">각종 증명서</option>
+							<option value="DC-4">공문서</option>
+							<option value="DC-5">거래문서</option>
+							<option value="DC-6">기타</option>
 						</select>
 					</div>
 					<div class="x_content">

@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
+
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -55,53 +59,28 @@
 						<tr>
 							<th>부서코드번호</th>
 							<th>부서명</th>
-							<th>책임자</th>
-							<th>책임자 연락처</th>
+							<th>업무 담당자</th>
+							<th>담당자 연락처</th>
 							<th>부서원</th>
 							<th>부서별 팀 수</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>100</td>
-							<td>경영관리부</td>
-							<td>사장 박병진</td>
-							<td>010-7660-2915</td>
-							<td><a data-toggle="modal" data-target="#myModal">2명</a></td>
-							<td>1팀</td>
-						</tr>
-						<tr>
-							<td>110</td>
-							<td>인사부</td>
-							<td>부장 인부장</td>
-							<td>010-7660-2915</td>
-							<td>6명</td>
-							<td>1팀</td>
-						</tr>
-						<tr>
-							<td>120</td>
-							<td>회계부</td>
-							<td>부장 회부장</td>
-							<td>010-7660-2915</td>
-							<td>6명</td>
-							<td>1팀</td>
-						</tr>
-						<tr>
-							<td>130</td>
-							<td>영업부</td>
-							<td>부장 영부장</td>
-							<td>010-7660-2915</td>
-							<td>11명</td>
-							<td>2팀</td>
-						</tr>
-						<tr>
-							<td>140</td>
-							<td>개발부</td>
-							<td>부장 개부장</td>
-							<td>010-7660-2915</td>
-							<td>11명</td>
-							<td>2팀</td>
-						</tr>
+						<script>
+							$(document).ready(function() {
+								
+							});
+						</script>
+						<c:forEach var="department" items="${requestScope.departments }" varStatus="loop">
+							<tr>
+								<td>${pageScope.department.cNo }</td>
+								<td>${pageScope.department.cName }</td>
+								<td><a data-toggle='modal' data-target='#myModal'>${pageScope.department.headDept }</a></td>
+								<td>${pageScope.department.phoneNumber }</td>
+								<td>${pageScope.department.memberCount }</td>
+								<td>${pageScope.department.teamCount }</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>

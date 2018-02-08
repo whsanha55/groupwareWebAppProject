@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.groupware.persistent.mapper.employee.DepartmentMapper">
+	<select id="selectDeptList" resultType="DepartmentVO">
+		select c_no as cNo, c_name as cName
+		from code
+		where relation_code = 'A'
+		    order by 1 asc
+	</select>
+	
+	<select id="selectDeptCharge" resultType="DepartmentVO" parameterType="String" statementType="PREPARED">
+		select duty||' '||empName as headDept, phoneNumber                  
+		from emplist_view
+		where deptNo = #{cNo}
+		    and isadmin = 'T'
+	</select>
+	
+	<select id="selectDeptEmp" resultType="int" parameterType="String" statementType="PREPARED">
+		select count(*)
+		from employee e, employee_code ec, code c
+		where e.emp_no = ec.emp_no
+		    and c.c_no = ec.c_no
+		    and c.c_no like '%' || #{cNo} || '%'
+	</select>
+	
+	<select id="selectDeptTeam" resultType="int" parameterType="String" statementType="PREPARED">
+		select count(c_no)
+		from code
+		where relation_code in (select c_no
+		                        from code
+		                        where relation_code = (select c_no
+		                                               from code
+		                                               where c_name = '부서')
+		                            and c_no = #{cNo})
+	</select>
+	
+	<update id="updateHead" parameterType="String" statementType="PREPARED">
+		update employee
+		set isAdmin = 'T'
+		where emp_name = #{empName}
+	</update>
+	
+	<update id="retireHead" parameterType="String" statementType="PREPARED">
+		update employee
+		set isAdmin = 'F'
+		where emp_name = #{empName}
+	</update>
+	
+</mapper>
+	

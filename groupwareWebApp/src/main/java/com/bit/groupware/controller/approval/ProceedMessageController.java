@@ -246,6 +246,7 @@ public class ProceedMessageController {
 		
 		ModelAndView mv =new ModelAndView();
 	
+		
 		mv.addObject("receipientNo",receipientNo);
 		mv.addObject("receipientName",receipientName);
 		
