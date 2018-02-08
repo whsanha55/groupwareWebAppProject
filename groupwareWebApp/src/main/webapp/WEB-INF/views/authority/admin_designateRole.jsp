@@ -77,7 +77,8 @@
                 		rId : arr1.join()}
                 , 
                 success: function(data) {
-                	
+                	swal("등록 완료","등록되었습니다", "success");
+            		Paging(1); 
                 }
                 , 
                 error: function(jqXHR) {
@@ -186,7 +187,6 @@
 		$('#Paging').html(html);
 	
 	}
-	
 </script>
 <title>content</title>
 </head>
@@ -199,8 +199,7 @@
 				
 				<div class="clearfix"></div>
 			</div>
-			권한번호 : ${param.aNo}
-			권한명 : ${param.aName}
+			<h2>권한명 : ${param.aName}</h2>       
 			 	<div class="container">
 			    <div class="row">    
 			        <div class="col-xs-7 col-xs-offset-5">
@@ -277,8 +276,8 @@
 				</div>
 				
 					<div class="text-center">
-						<nav aria-label="Page navigation" id = 'Paging'></nav> 
-         			 </div>
+				<nav aria-label="Page navigation" id = 'Paging'></nav> 
+         	 </div>
 					<button type="submit"  id="deleteBtn"  class="btn btn-primary pull-right" value="${param.aNo}">일괄 등록</button>
 			</div>       
 			

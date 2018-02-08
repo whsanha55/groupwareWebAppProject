@@ -158,7 +158,7 @@
 	   //end of newAlarm
 	   
 	   	//관련 문서함으로 이동하는 이벤트
-		$('#menu1').on('click','li:nth-child(2)',function() {
+		$('#menu1').on('click','li:has(span)',function() {
 			
 			var noteNo = $(this).attr('id');
 			var path = $(this).attr('class');
