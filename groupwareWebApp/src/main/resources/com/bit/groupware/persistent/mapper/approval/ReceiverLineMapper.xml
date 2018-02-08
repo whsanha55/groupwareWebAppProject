@@ -29,7 +29,7 @@
 		<!-- 정렬순서 (결재-참조) -->
 	</select>
 
-	<resultMap id="selectApprovalLineRM"  type="ReceiverLineVO">
+	<!-- <resultMap id="selectApprovalLineRM"  type="ReceiverLineVO">
 		<id property="lineNo" column="line_no" />
 		<result property="lineOrder" column="line_order" />	
 		<result property="apprType" column="appr_type" />
@@ -73,8 +73,54 @@
 		                                        from approval_record
 		                                        where appr_no=#{apprNo} ))
 		order by line.line_order asc nulls last
-	</select>
+	</select> -->
 
+	<resultMap id="selectReceiverLineByApprNoResultMap"  type="ReceiverLineVO">
+		<id property="lineNo" column="line_no" />
+		<result property="lineOrder" column="line_order" />	
+		<result property="apprType" column="appr_type" />
+		
+		<association property="lineEmployee" column="emp_no" javaType="EmployeeVO">
+				<id property="empNo" column="emp_no" />
+				<result property="empName" column="emp_name" />	
+				<result property="duty" column="duty" />
+				<result property="department" column="department" />	
+		</association>	
+	</resultMap>
+
+
+	<select id="selectReceiverLineByApprNo" parameterType="int" 
+	statementType="PREPARED" resultMap="selectReceiverLineByApprNoResultMap">  
+		select t1.line_no, t1.line_order, t1.appr_type, t2.emp_no, t2.emp_name, 
+				case when t2.emp_history = 0 then t2.duty
+			         when (select count(t4.no)
+			               from code_history t4
+			               where t3.appr_date between t4.start_date and t4.end_date) = 0 then t2.duty
+			         else (select c_name
+			               from code_history t3, code t4
+			               where t2.emp_no = t3.emp_no
+			               and t3.duty_no = t4.c_no)
+			   end as duty ,
+			   case when t2.emp_history = 0 then t2.department
+			        when (select count(t4.no)
+			              from code_history t4
+			              where t3.appr_date between t4.start_date and t4.end_date) = 0 then t2.department
+			        else (select c_name
+			              from code_history t3, code t4
+			              where t2.emp_no = t3.emp_no
+			              and t3.dept_no = t4.c_no)
+			   end as department
+		from receiver_line t1, emp_view t2, (select appr_date
+                                             from approval
+                                             where appr_no = #{apprNo}) t3
+        where t1.line_emp_no =  t2.emp_no
+        and receiver_no = (select distinct t1.receiver_no 
+		                   from receiver_line t1
+		                   where t1.line_no in(select line_no
+		                                       from approval_record
+		                                       where appr_no=#{apprNo} ))
+		order by t1.appr_type asc , line_order asc	                                       
+	</select>
 
 	<insert id="insertReceiverLineList" parameterType="ReceiverLineVO" statementType="PREPARED">
 
