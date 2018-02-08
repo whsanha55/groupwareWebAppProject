@@ -8,7 +8,123 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
-
+	<script>
+					
+		$(document).ready(function() {
+		/* 	
+			$('.searchList1 .dropdown-menu').on('click','a',function(e) {
+				e.preventDefault();
+				$('.keyfield').text($(this).text());
+				$('.keyfield').attr('id',$(this).attr('id'));
+				console.log($(this).attr('id'));
+			});
+			
+			$('#keyword').on('keydown', function(e) {
+				if(e.keyCode == 13){
+					$('#findEmployee').trigger('click');
+		        }
+			});
+			
+			$('#findEmployee').on('click', function() {
+				if($('.keyfield').attr('id') == undefined) {
+					alert("choose keyfield");
+					return false;
+				} else if($('.keyword').val() == "") {
+					alert("enter keyword");
+					return false;
+				}
+			
+				eKeyfield = $('.keyfield').attr('id');
+				eKeyword = $('.keyword').val();
+				
+				employeePaging(1);
+			});  */
+				
+			$('#searchEmp').click(function() {
+				$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
+				$('#layerpop').modal({
+					backdrop: 'static', 
+					keyboard: false
+				});
+			});
+				
+			$('#modalChooseBtn').on('click',function() {
+				$.ajax ({
+					url : "${pageContext.request.contextPath}/admin/deptListAjax.do",
+					method : "POST",
+					data : {
+						oldHead : oldHead,
+						newHead : newHead
+					},
+					dataType : 'json',
+					success : function(data) {
+						
+					},
+					error : function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}
+				});
+			});
+				
+			$('#modalCloseBtn').on('click',function() {
+				$('#chartBody').html(""); 
+			});
+				
+		});
+		
+		/* function employeePaging(currentPageNo) {
+		
+			$.ajax({
+				url: '${pageContext.request.contextPath}/admin/departmentListSearchAjax.do'
+				,
+				data: {
+					keyfield: eKeyfield ,
+					keyword: eKeyword
+				}
+				,
+				type: 'POST' 
+				,
+				cache: false 
+				,
+				dataType: 'json' 
+				,
+				success: function (data, textStatus, jqXHR) {
+					
+					totalCount = data.totalCount;
+					
+					//datatable테이블 변경하기
+					var text = "";
+					if(totalCount == 0) {
+						text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+					} else {
+						for(var i=0;i<data.employees.length;i++) {
+							text += '<tr id="pushBtn'+ i +'" class="even pointer">';
+							text += '<td>'+ data.employees[i].department 			+'</td>';
+							text += '<td id="deptEmpNo'+ i +'">'+ data.employees[i].empNo	+'</td>';
+							text += '<td id="deptHead'+ i +'">'+ data.employees[i].empName +'</td>';
+							text += '<td>'+ data.employees[i].duty 					+'</td>';
+							text += '</tr>';
+							
+						}
+					}
+					$('#datatable').find('tbody').html(text);
+					//페이징 처리
+					jqueryPager({
+						countPerPage : countPerPage,
+						pageSize : pageSize,
+						currentPageNo : currentPageNo,
+						totalCount : totalCount
+					});		
+				} 
+				,
+				error: function(jqXHR) {
+					alert("에러: " + jqXHR.status);
+				}	
+			});
+			
+		} //end templatePaging function */
+		
+	</script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -66,16 +182,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<script>
-							$(document).ready(function() {
-								
-							});
-						</script>
+					
 						<c:forEach var="department" items="${requestScope.departments }" varStatus="loop">
 							<tr>
 								<td>${pageScope.department.cNo }</td>
 								<td>${pageScope.department.cName }</td>
-								<td><a data-toggle='modal' data-target='#myModal'>${pageScope.department.headDept }</a></td>
+								<td><a id="searchEmp" data-toggle='modal'>${pageScope.department.headDept }</a></td>
 								<td>${pageScope.department.phoneNumber }</td>
 								<td>${pageScope.department.memberCount }</td>
 								<td>${pageScope.department.teamCount }</td>
@@ -86,75 +198,23 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true"
-		style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">부서원 검색</h4>
-					※부서와 이름을 지정해주세요.
-				</div>
-				<div class="modal-body">
-					<div>
-						<div class="btn-group">
-							<button data-toggle="dropdown"
-								class="btn btn-default dropdown-toggle" type="button"
-								aria-expanded="false">
-								검색조건 <span class="caret"></span>
-							</button>
-							<ul role="menu" class="dropdown-menu">
-								<li><a href="#">경영관리부</a></li>
-								<li><a href="#">인사부</a></li>
-								<li><a href="#">회계부</a></li>
-								<li><a href="#">개발부</a></li>
-								<li><a href="#">영업부</a></li>
-							</ul>
-							<div class="col-sm-6">
-								<div id="imaginary_container">
-									<div class="input-group stylish-input-group">
-										<input type="text" class="form-control" placeholder="Search">
-										<span class="input-group-addon" style="padding: 3px 10px">
-											<button type="submit">
-												<span class="glyphicon glyphicon-search"></span>
-											</button>
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<table class="table table-striped jambo_table bulk_action">
-							<thead>
-								<tr class="headings">
-									<th class="column-title">부서</th>
-									<th class="column-title">직책</th>
-									<th class="column-title">이름</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>경영관리부</td>
-									<td class=" ">사장</td>
-									<td class=" ">박병진</td>
-								</tr>
-								<tr>
-									<td>경영관리부</td>
-									<td class=" ">부사장</td>
-									<td class=" ">원정우</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<br>
-					<div class="text-center">
-						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					</div>
+	
+	
+	<div class="modal fade" id="layerpop">
+		<div class="modal-dialog modal-cSize">
+			<div class="modal-content modal-cSize">
+							
+				<div class="modal-body" id="chartBody"></div>
+							
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="modalChooseBtn"
+							data-dismiss="modal">선택</button>
+					<button type="button" class="btn btn-default" id="modalCloseBtn"
+							data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 </body>
 </html>
