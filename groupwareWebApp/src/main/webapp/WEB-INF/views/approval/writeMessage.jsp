@@ -35,18 +35,8 @@
     margin-right: 15px;
 }
 
-/* #textarea {
 
-    padding: 10px;
-    vertical-align: top;
-    width: 550px !important;
-    height: 330px !important;
-} */
 </style>
-
-<script
-	src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
-</script>
 
 <script>
 
@@ -60,10 +50,21 @@
 				keyboard: false
 			});
 		});
-		$('#modalCloseBtn').on('click',function() {
+		$('#modalChooseBtn').on('click',function() {
+			//사원관리 - 대결권자설정
+			$('input[name=dempNo]').val(selectedEmpNo);
+			$('input[name=empName]').val(selectedNameAndDuty);
+			
+			//일정관리 - 담당자설정
+			$('input[name=rspbNo]').val(selectedEmpNo);
+			$('input[name=empName]').val(selectedNameAndDuty);
+		
 			$('#chartBody').html("");
 			 
 		});
+ 		$('#modalClose').click(function(){
+ 			$('#chartBody').html("");
+ 		});
  		
 		
 		
@@ -118,49 +119,6 @@
 </script>
 
 
-<script>
-	src = <"${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js">
-</script>
-
-<!-- Bootstrap -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Font Awesome -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<!-- NProgress -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/nprogress/nprogress.css"
-	rel="stylesheet">
-<!-- iCheck -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css"
-	rel="stylesheet">
-
-<!-- bootstrap-progressbar -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"
-	rel="stylesheet">
-<!-- JQVMap -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/jqvmap/dist/jqvmap.min.css"
-	rel="stylesheet" />
-<!-- bootstrap-daterangepicker -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.css"
-	rel="stylesheet">
-
-<!-- Custom Theme Style -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
-	rel="stylesheet">
-<!-- bootstrap-wysiwyg -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/google-code-prettify/bin/prettify.min.css"
-	rel="stylesheet">
-
 </head>
 
 <body>
@@ -214,15 +172,16 @@
 	</div>
 	</form>
 	
-<div class="modal fade" id="layerpop">
-		<div class="modal-dialog modal-cSize">
+<div class="modal fade" id="layerpop" style="margin-top:80px;">
+		<div class="modal-dialog modal-cSize" id="modal1" style="width:350px;margin:auto;">
 			<div class="modal-content modal-cSize">
 			
 				<div class="modal-body" id="chartBody"></div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" id="modalCloseBtn"
-						data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-success" id="modalChooseBtn"
+						data-dismiss="modal">선택</button>
+					<button class="btn btn-dark" id="modalClose" data-dismiss="modal">닫기</button>	
 				</div>
 			</div>
 		</div>
