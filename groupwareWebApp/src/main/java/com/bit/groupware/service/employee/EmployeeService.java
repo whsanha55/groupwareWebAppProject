@@ -9,12 +9,14 @@ import com.bit.groupware.domain.employee.EmployeeVO;
 
 public interface EmployeeService {
 	
+	
 	void registerSign(EmployeeVO employee);
 	
 	//void updateSign(String photoNo);
 	
 	String checkSignCount(String empNo);
 	
+	//사원
 	EmployeeVO retrieveEmployee(String empNo);
 
 	List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map);
@@ -27,20 +29,26 @@ public interface EmployeeService {
 	
 	void retireEmployee(String empNo);
 
-	void registerDeputy(DeputyVO deputy);
-	
-	List<DeputyVO> retrieveDeputyList(Map<String, Object> map);
-	
-	List<EmployeeVO> retrieveEmployeeNameAndDutyList();
-	
-	int retrieveDeputyListCount(Map<String, Object> map);
+	List<EmployeeVO> retrieveEmployeeNameAndDutyList();	
 	
 	int retrieveEmployeeCount(Map<String, Object> map);
 	
+	
+	//대결
 	List<EmployeeVO> retrieveDeputyRegisterEmployeeList(Map<String, Object> map);
 
 	int retrieveDeputyRegisterCount(Map<String, Object> map);
 	
+	int retrieveDeputyListCount(Map<String, Object> map);
+
+	void registerDeputy(DeputyVO deputy);
+	
+	List<DeputyVO> retrieveDeputyList(Map<String, Object> map);
+	
+	void removeDeputy(String dep_no);
+	
+	
+	//부서
 	public List<DepartmentVO> retrieveDeptList(Map<String,Object> map);
 	
 	public Map<String, Object> retrieveDeptInfo(String cNo);
