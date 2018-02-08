@@ -51,6 +51,13 @@
 		 			msgNos.push($(this).attr('id'));
 		 		});
 		 		
+				if(msgNos.length==0){
+		 			
+		 			swal({title: "삭제할 쪽지를 선택하세요",
+						icon: "warning"});
+		 			return;
+		 		}
+		 		
 		 		/* $('checkbox[name=table_records]:checked').each(function(){
 		 			var msgNos.(this).val());
 		 			alert(msgNos);
@@ -82,6 +89,7 @@
 		 			,
 		 			
 		 		success: function(data){
+		 			
 		 			
 		 			
 					swal({
