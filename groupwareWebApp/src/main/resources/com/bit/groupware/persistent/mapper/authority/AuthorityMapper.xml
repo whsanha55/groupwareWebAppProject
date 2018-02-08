@@ -76,6 +76,8 @@
       and t1.emp_no = #{value}
    </select>
    
+
+   
    
    <!-- 권한등록 -->
    <insert id="insertAuthority" parameterType="AuthorityVO" statementType="PREPARED">
@@ -107,45 +109,56 @@
    </insert>
    
    <!--권한삭제  -->
-   <delete id="deleteAuthority" parameterType="String" statementType="PREPARED">
+   <delete id="deleteAuthority" parameterType="map" statementType="PREPARED">
       delete from authority 
-      where a_no = #{aNo}
+      where a_no in
+      <foreach  item="aNo" collection="list" open="(" separator="," close=")">
+       #{aNo}
+      </foreach>
    </delete>
    
-   <!-- 권한사원 삭제 -->
-   <delete id="deleteAuthEmp" parameterType="int" statementType="PREPARED">
-      delete from authority_employee
-      where ae_no = #{aeNo}
-   </delete>
+   <!-- 사원,역할 존재여부 -->
+   <select id="selectAuthRoleCount" parameterType="map" resultType="int" statementType="PREPARED">
+   	select count(*)
+	from authority a , role r, authority_role ar, authority_employee ae
+	where ar.a_no = a.a_no
+    	and r.r_id = ar.r_id
+    	and ae.a_no = a.a_no
+    	and a.a_no in
+    	<foreach item="aNo" collection="list"  open="(" separator="," close=")" >
+    	#{aNo}
+    	</foreach>
+   </select>
    
-   <!-- 권한역할 삭제  -->
-   <delete id="deleteAuthRole" parameterType="int" statementType="PREPARED">
-       delete from authority_role
-       where ar_no = #{arNo}
-   </delete>
    
    <!-- 권한 리스트 조회-->
    <select id="selectListAuthority" resultType="AuthorityVO" statementType="PREPARED" parameterType="map" >      
-      select distinct a.a_no as aNo , a.a_name as aName , a.a_note as aNote, a.a_whether as aWhether
-      from (select rownum as rn, t1.*
-              from (select *
-                      from authority 
-                      order by a_no asc)t1)a, employee e, authority_employee ae
-      where a.a_no = ae.a_no
-          and ae.emp_no = e.emp_no
+      select a_no as aNo , a_name as aName,a_note as aNote, a_Whether as aWhether
+	  from(select tt.*, rownum as rn
+			from(select *
+    				from authority t1
        <if test="keyfield == 'aName' and keyword != null">
-          and a.a_name Like '%' || #{keyword} || '%'
+        		  where t1.a_name Like '%' || #{keyword} || '%'
        </if>
        
        <if test="keyfield == 'empNo' and keyword != null">
-          and e.emp_no Like '%' || #{keyword} || '%'
+            	where a_no in (select t1.a_no
+                					from authority_employee t1 , employee t2
+                					where  t1.emp_no = t2.emp_no
+               						and t2.emp_no Like '%' || #{keyword} || '%'
+                )
        </if>
        
+       
        <if test="keyfield == 'empName' and keyword != null">
-          and e.emp_name Like '%' || #{keyword} || '%'
+	     	  where a_no in (select t1.a_no
+	                				from authority_employee t1 , employee t2
+	              					where  t1.emp_no = t2.emp_no
+	                 				and t2.emp_name Like '%' || #{keyword} || '%'
+	                )
        </if>
-       and rownum<![CDATA[>=]]>#{startRow} and rownum<![CDATA[<=]]>#{endRow}
-       order by a.a_no asc
+        order by a_no) tt )
+       where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
    </select>
    
     <select id="selectAuthorityCount" statementType="PREPARED" parameterType="map" resultType="int">
@@ -154,7 +167,7 @@
       where a.a_no = ae.a_no
           and ae.emp_no = e.emp_no
        <if test = "aNo != null">
-          amd a.a_no = #{aNo}
+          and a.a_no = #{aNo}
        </if>
       <if test="keyfield == 'aName' and keyword != null">
           and a.a_name Like '%' || #{keyword} || '%'
@@ -204,28 +217,24 @@
    
    <!-- 권한번호에 해당하는 사원정보를 사번순으로 오름차순 정렬하여 조회하다 -->   
    <resultMap type="AuthorityVO" id="selectAuthEmpResultMap">
-      <id column="a_no" property="aNo"/>
+      <id column="aNo" property="aNo"/>
+      <result column="aName" property="aName"/>
       
       <!-- 1:N 관계 -->   
       <collection property="emp" javaType="list" ofType="EmployeeVO">
-         <id column="emp_no" property="empNo"/>
-         <result column="emp_name" property="empName"/>
+         <result column="empNo" property="empNo"/>
+         <result column="empName" property="empName"/>
       </collection>
-      
-      <collection property="authEmp" javaType="list" ofType="AuthEmpVO">
-         <id column="a_no" property="aNo"/>
-         <id column="ae_no" property="aeNo"/>
-         <id column="emp_no" property="empNo"/>
-      </collection>
+
    </resultMap>
    
    <select id="selectAuthEmpList" statementType="PREPARED" resultMap="selectAuthEmpResultMap" parameterType="String">
-      select a.a_name as aName, e.emp_no as empNo, e.emp_name as empName
+      select e.emp_no as empNo, e.emp_name as empName,a.a_name as aName, a.a_no as aNo  
       from authority a , employee e, authority_employee ae
       where a.a_no = ae.a_no
           and ae.emp_no = e.emp_no
           and a.a_no = #{aNo}
-       order by a.a_no asc
+       order by e.emp_no asc   
    </select> 
    
    

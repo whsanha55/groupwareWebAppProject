@@ -46,29 +46,49 @@
 			
 		});
 		
-		/* //등록
-		$('#deleteBtn').on('click', function() {			
-			$.ajax({
-				url: '${pageContext.request.contextPath}/admin/modifyDesignate.do'
-				,
-				method: 'POST'
-				,
-				data: {
-					$('#form').serialize()		
-				}
-				,
-				dataType: 'json'
-				,
-				success: function(data) {
-					
-					
-				},
-				error: function(jqXHR, textStatus, error) {
-					alert("Error : " + jqXHR.status + "," + error);
-				}
+		//등록
+		$('#deleteBtn').on('click', function() {	
+			alert("call");  
+			var no = $(this).val();
+			var arr1 = [];    
+			var checkbox = $("input[type='radio']:checked");
+			
+			checkbox.each(function(i) {
+			var tr = checkbox.parent().parent().parent().eq(i);
+			    var td = tr.children();
+			    arr1.push(td.eq(0).text());
+			    console.log(arr1.join());
 			});
-		});	 */
+			var arr = [];            
+                   
+			$("input[type='radio']:checked").each(function(i){ 
+				arr.push($(this).val());
+				console.log(arr.join());
+			}); 
+			       
+			 $.ajax({
+                url: '${pageContext.request.contextPath}/admin/modifyDesignate.do'
+                ,
+                method: 'POST'
+                ,           
+                data: {
+                		aNo : no,
+                		isRegistration : arr.join(),
+                		rId : arr1.join()}
+                , 
+                success: function(data) {
+                	
+                }
+                , 
+                error: function(jqXHR) {
+                   alert('Error : ' + jqXHR.status);
+                }             
+                
+             });    
+		});	
+		
 	});
+	
 	function Paging(currentPageNo) {
 		var totalCount =  0;		//총 양식서 수
 		var countPerPage = 10;   //한 페이지당 보여주는 양식서 수
@@ -178,7 +198,9 @@
 				<h2>역할 등록리스트</h2>
 				
 				<div class="clearfix"></div>
-			</div>권한명 : ${param.aName}
+			</div>
+			권한번호 : ${param.aNo}
+			권한명 : ${param.aName}
 			 	<div class="container">
 			    <div class="row">    
 			        <div class="col-xs-7 col-xs-offset-5">
@@ -205,7 +227,7 @@
 			</div>
 			
 
-			<form action="<%=request.getContextPath()%>/admin/modifyDesignate.do" method="post">
+			<%-- <form action="<%=request.getContextPath()%>/admin/modifyDesignate.do" method="post"> --%>
 			<div class="x_content">
 				<div class="table-responsive">
 					<table  id="datatable"  class="table table-striped jambo_table bulk_action">
@@ -225,28 +247,28 @@
 						 
                     <c:forEach var="arole" items="${requestScope.aroles}" varStatus="loop">
 	                     <tr class="even pointer">
-	                        <td>${pageScope.arole.rId}</td>
+	                        <td id="rId">${pageScope.arole.rId}</td>
 	
 	                        <td>${pageScope.arole.rName}</td>
 	                        <td>${pageScope.arole.rType}</td>
 	                        <td>${pageScope.arole.rExplan}</td>
 	                        <td>${pageScope.arole.rDate}</td>
-	                        <td><label> <input type="radio"  name="test[${loop.index}]" value="0" checked="checked"> 등록</label>
-									<label> <input type="radio"  name="test[${loop.index}]"  value="1">미등록</label>
+	                        <td><label> <input type="radio"  name="test[${loop.index}]" class='radioBtnClass1' value="0" checked="checked"> 등록</label>
+									<label> <input type="radio"  name="test[${loop.index}]"  class='radioBtnClass2' value="1">미등록</label>
 	                         </td>
 	                     </tr>
                      	</c:forEach>	
                      	
                      	 <c:forEach var="role" items="${requestScope.roles}" varStatus="loop">
 	                     <tr class="even pointer">
-	                        <td>${pageScope.role.rId}</td>
+	                        <td id="rId">${pageScope.role.rId}</td>
 	
 	                        <td>${pageScope.role.rName}</td>
 	                        <td>${pageScope.role.rType}</td>
 	                        <td>${pageScope.role.rExplan}</td>
 	                        <td>${pageScope.role.rDate}</td>
-	                        <td><label> <input type="radio"  name="tests[${loop.index}]"" value="0" > 등록</label>
-									<label> <input type="radio"  name="tests[${loop.index}]""  value="1" checked="checked">미등록</label>
+	                        <td><label> <input type="radio"  name="tests[${loop.index}]" class='radioBtnClass1'  value="0" > 등록</label>
+									<label> <input type="radio"  name="tests[${loop.index}]"  class='radioBtnClass2'  value="1" checked="checked">미등록</label>
 	                         </td>
 	                     </tr>
                      	</c:forEach>
@@ -257,9 +279,9 @@
 					<div class="text-center">
 						<nav aria-label="Page navigation" id = 'Paging'></nav> 
          			 </div>
-					<button type="submit"  id="deleteBtn"  class="pull-right">일괄 등록</button>
-			</div>
-			</form>
+					<button type="submit"  id="deleteBtn"  class="btn btn-primary pull-right" value="${param.aNo}">일괄 등록</button>
+			</div>       
+			
 		</div>
 	</div>
 </body>

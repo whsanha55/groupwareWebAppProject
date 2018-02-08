@@ -16,7 +16,7 @@ public class DownloadPlanFileController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("fileName", fileName);
 		mv.addObject("systemFileName", systemFileName);
-		mv.setViewName("downloadFileView");
+		mv.setViewName("downloadPlanFileView");
 		return mv;
 	}
 
