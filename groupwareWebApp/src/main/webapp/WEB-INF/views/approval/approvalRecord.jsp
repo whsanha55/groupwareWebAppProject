@@ -114,7 +114,7 @@
 	                            <td class=" ">${pageScope.record.receiverLine.lineEmployee.department} ${pageScope.record.receiverLine.lineEmployee.empName} ${pageScope.record.receiverLine.lineEmployee.duty}</td>
 								
 								<td class=" ">
-									<c:if test="${pageScope.record.apprStatus==0}">진행중 </c:if>
+									<c:if test="${pageScope.record.apprStatus==0}">미결 </c:if>
 									<c:if test="${pageScope.record.apprStatus==1}">결재 </c:if>
 									<c:if test="${pageScope.record.apprStatus==2}">보류 </c:if>
 									<c:if test="${pageScope.record.apprStatus==3}">반려 </c:if>

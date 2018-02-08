@@ -57,8 +57,10 @@
 			$('#appr').hide();
 			$('#reject').hide();
 			$('#postpone').hide();
+			$('#reAppr').hide();
 		} else if(status==2){
 			$('#return').hide();
+			$('#reAppr').hide();
 			$('#appr').attr('disabled',false);	
 			$('#reject').attr('disabled',false);
 			if(finalStatus==0){
@@ -68,7 +70,14 @@
 			$('#return').hide();
 			$('#appr').hide();
 			$('#reject').hide();
+			$('#reAppr').hide();
 			$('#postpone').hide();
+		}else if(status==4){
+			$('#return').hide();
+			$('#appr').hide();
+			$('#reject').hide();
+			$('#postpone').hide()
+			$('#reAppr').attr('disabled',false);
 		}
 		
 		
@@ -104,6 +113,20 @@
 				}).then((e) => {
 					if(e) {
 						executeReturn();
+					}	
+				});
+		})
+		
+		//재기안
+		$('#reAppr').on('click',function(){
+			swal({
+				  title: "문서 재기안",
+				  text: "선택한 문서를 재기안 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						executeReAppr();
 					}	
 				});
 		})
@@ -176,6 +199,34 @@
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/returnApproval.do'
+				,
+				method : 'GET'
+				,
+				data: {
+					apprNo : '${requestScope.approval.apprNo}'
+				}
+				,
+				datatype : 'json'
+				,
+				
+				success : function(data) {
+					swal("결재 회수가 완료되었습니다.").then((e)=>{
+						self.close();
+						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+					});					
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
+		}
+		
+		//재기안	
+		function executeReAppr(){
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/writeApproval.do'
 				,
 				method : 'GET'
 				,
@@ -274,6 +325,7 @@
 			 		<button type="button" class="btn btn-success" id="appr" disabled='true'>결재</button>
 			 		<button type="button" class="btn btn-success" id="postpone" disabled='true'>보류</button>
 			 		<button type="button" class="btn btn-success" id='reject' disabled='true'>반려</button>			 				 		
+			 		<button type="button" class="btn btn-success" id='reAppr' disabled='true'>재기안</button>			 				 		
 			</div>
 			<div class="table-responsive" id="datas" style="border:0px;">
 				<h2><strong>결재 라인</strong></h2>

@@ -149,10 +149,11 @@ public class ApprovalAjaxController {
 	public boolean returnApproval(@RequestParam(value="apprNo") int apprNo) {
 		
 		ApprovalVO appr=new ApprovalVO();
+		appr=approvalService.retrieveApproval(apprNo);
 		appr.setApprNo(apprNo);
 		appr.setApprFinalStatus(4); 
 		approvalService.modifyApproval(appr); 
-		appr=approvalService.retrieveApproval(apprNo);
+		
 		return true;
 		
 	}
