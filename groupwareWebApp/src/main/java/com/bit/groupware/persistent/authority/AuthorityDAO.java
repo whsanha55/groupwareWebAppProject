@@ -12,7 +12,7 @@ public interface AuthorityDAO {
 
 	// 권한을 등록한다.
 	// 권한 번호는 A + 일련번호(6자리)로 부여한다.
-	String insertAuthority(AuthorityVO authority);
+	void insertAuthority(AuthorityVO authority);
 
 	// 권한정보를 수정한다.
 	void updateAuthority(AuthorityVO authority);
@@ -20,6 +20,9 @@ public interface AuthorityDAO {
 	// 권한을 일괄 삭제한다.
 	void deleteAuthority(Map<String, Object> map);
 
+	// 권한 역할, 사원 존재여부
+	int selectAuthRoleCount(Map<String, Object> map);
+	
 	// 총 게시글 수를 구한다.
 	int selectAuthorityCount(Map<String, Object> map);
 

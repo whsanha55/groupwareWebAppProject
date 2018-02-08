@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bit.groupware.domain.authority.AuthorityVO;
-import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.persistent.authority.AuthorityDAO;
 
 @Service
 public class AuthorityServiceImpl implements AuthorityService {
+
+
 
 	@Autowired
 	private AuthorityDAO authorityDAO;
@@ -22,9 +23,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	//권한을 등록하다.
-	public String registerAuthority(AuthorityVO authority) {
-		// TODO Auto-generated method stub
-		return null;
+	public void registerAuthority(AuthorityVO authority) {
+		authorityDAO.insertAuthority(authority);
 	}
 
 	//권한을 수정한다.
@@ -48,10 +48,15 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	//권한을 일괄삭제한다.
 	public void removeAuthority(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		authorityDAO.deleteAuthority(map);
 		
 	}
 
+	//역할, 사원 존재여부
+	public int retrieveAtuhRoleCount(Map<String, Object> map) {
+		return authorityDAO.selectAuthRoleCount(map);
+	}
+	
 	//사원정보를 조회하다.
 	public List<AuthorityVO> retrieveAuthEmpList(String aNo) {
 		return authorityDAO.selectAuthEmpList(aNo);

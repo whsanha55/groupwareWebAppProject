@@ -96,10 +96,11 @@
                      </div>
                   </div>
                </div>
-
-               <button type="submit" class="btn btn-primary pull-right">등록</button>
-               &nbsp;
-               <button type="reset" class="btn btn-primary pull-right">취소</button>
+				 <div class="text-right">  
+               <button type="submit" class="btn btn-primary">등록</button>
+               <button type="reset" class="btn btn-default">취소</button>
+               <a class="btn btn-default" href='<c:url value="/admin/noticeList.do"/>'>뒤로가기</a>
+               </div>
             </div>
          </div>
    </form>

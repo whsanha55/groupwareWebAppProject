@@ -24,8 +24,21 @@ $(document).ready(function(){
 	
 	});	
 	
+	$('#plus').on('click','#display1', function(){
+		//추가 클릭시 모든 데이터 초기화
+		$('input[type="text"]').val("");
+		$('input[name="isUse"]:radio').removeAttr('checked');
+		$('input[name="isNotice"]:radio').removeAttr('checked');
+		$('input[name="isComment"]:radio').removeAttr('checked');
+		$('input[name="isDeptDivide"]:radio').removeAttr('checked');
+		$('input[name="isDocuType"]:radio').removeAttr('checked');
+		$('#fileCount option').removeAttr('selected');
+	}); 
+	
 	//등록
 	$('#display').on('click','#submit',function(){
+		
+		
 		var params = jQuery('#serializeForm').serialize();
 		
 		$.ajax({
@@ -65,7 +78,7 @@ $(document).ready(function(){
 				}else if(!$(':input:radio[name=isDeptDivide]:checked').val()){
 					alert("부서 구분을 선택해주세요!");
 				}else if(!$(':input:radio[name=isDocuType]:checked').val()){
-					alert("문서종류 카테고리 선택해주세요!");
+					alert("게시판 카테고리 선택해주세요!");
 				}
 			}
 		});
@@ -265,7 +278,7 @@ $(document).ready(function(){
 				<table id="boardList" class="table table-striped jambo_table bulk_action ">
 					<thead>
 						<tr class="headings">
-							<th class="column-title">문서관리 리스트</th>
+							<th class="column-title">게시판 관리 리스트</th>
 
 						</tr>
 					</thead>
@@ -315,9 +328,8 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<td class="col-md-4"
-								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">문서관리
-								리스트</td>
-							<td>문서관리</td>
+								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">게시판 관리 리스트</td>
+							<td>게시판 관리</td>
 
 						</tr>
 						<tr>
@@ -366,7 +378,7 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<td class="col-md-4"
-								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">문서종류
+								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">게시판
 								카테고리 사용 유무</td>
 							<td><div class="radio">
 									<label> <input type="radio" name="isDocuType" value="Y"> 사용함</label>

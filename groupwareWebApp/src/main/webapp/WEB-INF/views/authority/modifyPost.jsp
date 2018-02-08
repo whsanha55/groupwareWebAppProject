@@ -41,51 +41,37 @@
 		//파일 삭제 
 		$('#deleteBtn').on('click', function() {	
 			var no = $(this).val();
-			
-			swal({
-				  title: "파일 삭제"+no ,
-				  text: "파일을 삭제합니다. 계속 진행하시겠습니까?",
-				  icon: "info",
-				  buttons : true 
-			}).then((e) => {
-			     if(e) {
-			    	 deletePostFile(no);							
-				 }
-			});		
-			
-			//alert($(this).val());
-			function deletePostFile(no) {	
-				alert(no);
-				$.ajax({
-					url: '${pageContext.request.contextPath}/deletePostFile.do'
-					,
-					method: 'GET'
-					,
-					data: {no}
-					, 
-					async: true
-					,
-					cache: false
-					,
-					success: function(data) {
-						swal({
-							  title: "삭제 완료",
-							  text: "선택하신 파일이 삭제되었습니다.",
-							  icon: "info",
-							  buttons : "확인" 
-						}).then((e) => {
-						     if(e) {
-						    	 location.reload();		
-							 }
-						});		
-					}
-					, 
-					error: function(jqXHR) {
-						alert('Error : ' + jqXHR.status);
-					}	 			
-					
-				});	
-			}
+			alert(no);
+			$.ajax({
+				url: '${pageContext.request.contextPath}/deletePostFile.do'
+				,
+				method: 'GET'
+				,
+				data: {no}     
+				, 
+				async: true
+				,
+				cache: false
+				,
+				success: function(data) {
+					swal({
+						  title: "삭제 완료",
+						  text: "선택하신 파일이 삭제되었습니다.",
+						  icon: "info",
+						  buttons : "확인" 
+					}).then((e) => {
+					     if(e) {
+					    	 location.reload();		
+						 }
+					});		
+				}
+				, 
+				error: function(jqXHR) {
+					alert('Error : ' + jqXHR.status);
+				}	 			
+				
+			});	
+	
 		});	 
 
 	});
