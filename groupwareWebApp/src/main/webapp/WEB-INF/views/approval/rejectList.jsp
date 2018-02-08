@@ -36,8 +36,8 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var status=4;
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=4&finalStatus=3';
+				var status=$(this).attr('name');
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status='+status+'&finalStatus=3';
 				window.open(url, "결재문서","width=750, height=800");
 				
 			});
@@ -139,18 +139,18 @@
 					for(var i=0;i<data.approvals.length;i++) {
 						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td  id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						if(data.empNo == data.approvals[i].employee.empNo){
+							
+							text += "<td  id="+ data.approvals[i].apprNo +" class='detailApproval' name='4' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						}else{
+							text += "<td  id="+ data.approvals[i].apprNo +" class='detailApproval' name='3' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						}
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
 						text += "<td>"+ data.approvals[i].completeDate + "</td>";
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";						
-						if(data.empNo == data.approvals[i].employee.empNo){
-							
-							text += "<td><a class='btn btn-primary pull-right'  name="+data.approvals[i].apprNo+" style='padding:0px; margin-bottom:0px; background-color:#337ab7;color:white;'>재기안</a></td>";
-						}else{
-							text +="<td></td>";
-						}
+
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
@@ -280,7 +280,7 @@
 		     				<th class="column-title">기안일자</th>
 		   				    <th class="column-title">반려일자</th>
                             <th class="column-title">결재현황</th>
-                            <th class="column-title">임시보관</th>
+                           
                             
                           </tr>
                         </thead>
