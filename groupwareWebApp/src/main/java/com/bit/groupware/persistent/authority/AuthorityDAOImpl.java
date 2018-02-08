@@ -67,8 +67,8 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 	}
 
 	//권한 사원을 등록하다.
-	public void insertAuthEmp(AuthEmpVO authEmp) {
-		sqlSession.insert(NAMESPACE + ".insertAuthEmp", authEmp);
+	public void insertAuthEmp(List<AuthEmpVO> list) {
+		sqlSession.insert(NAMESPACE + ".insertAuthEmp", list);
 		
 	}
 
@@ -82,6 +82,18 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 	public int selectAuthEmpCount(Map<String, Object> map) {
 		return sqlSession.selectOne(NAMESPACE + ".selectAuthEmpCount", map);
 	}
+
+	//권한번호에 해당하는 권한사원 존재여부
+	public int selectAuthEmpCountByaNo(String aNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectAuthEmpCountByaNo", aNo);
+	}
+
+	//권한 사원을 삭제한다.
+	public void deleteAuthEmp(String aNo) {
+		sqlSession.delete(NAMESPACE + ".deleteAutEmp" , aNo);
+		
+	}
+	
 	
 	
 }

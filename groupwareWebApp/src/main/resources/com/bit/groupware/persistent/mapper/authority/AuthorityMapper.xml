@@ -91,12 +91,10 @@
    
    <!-- 권한사원 등록 -->
    <insert id="insertAuthEmp" parameterType="AuthEmpVO" statementType="PREPARED">
-      <selectKey keyProperty="aeNo" resultType="int" statementType="STATEMENT" order="BEFORE">
-         select authority_employee_seq.nextval from dual
-      </selectKey>
-      insert into authority_employee(ae_no, emp_no, a_no)
-      value(#{aeNo},#{emp.empNo}, #{auth.aNo})
-
+	   <foreach collection="list" item="item" open="insert all" close="select * from dual" >
+		into authority_employee(emp_no, a_no)
+		values(#{item.empNo}, #{item.aNo})
+	   </foreach>
    </insert>
       
    <!--권한삭제  -->
@@ -261,4 +259,18 @@
            and e.empName like '%' || #{keyword}  || '%' 
        </if>
    </select>
+   
+   <select id="selectAuthEmpCountByaNo" statementType="PREPARED" parameterType="String" resultType="int">
+   		select count(ae.ae_no)
+		from employee e, authority_employee ae, authority a
+		where e.emp_no = ae.emp_no
+    	and ae.a_no = a.a_no
+    	and a.a_no = #{aNo}
+   </select>
+   
+   <delete id="deleteAutEmp" parameterType="String" statementType="PREPARED">
+      delete from authority_employee 
+      where a_no = #{aNo}
+   </delete>
+   
 </mapper>

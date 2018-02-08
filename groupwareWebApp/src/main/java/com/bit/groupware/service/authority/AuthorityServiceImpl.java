@@ -64,8 +64,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthEmpList(aNo);
 	}
 
-	public void registerAuthEmp(AuthEmpVO authEmp) {
-		authorityDAO.insertAuthEmp(authEmp);
+	public void registerAuthEmp(List<AuthEmpVO> list) {
+		authorityDAO.insertAuthEmp(list);
 		
 	}
 
@@ -76,7 +76,18 @@ public class AuthorityServiceImpl implements AuthorityService {
 	public int retrieveAuthEmpCount(Map<String, Object> map) {
 		return authorityDAO.selectAuthEmpCount(map);
 	}
+
+	public int retrieveAuthEmpCountByaNo(String aNo) {
+		return authorityDAO.selectAuthEmpCountByaNo(aNo);
+	}
+
+	//권한 사원을 삭제한다.
+	public void removeAuthEmp(String aNo) {
+		authorityDAO.deleteAuthEmp(aNo);
+		
+	}
 	
+
 	
 	
 }

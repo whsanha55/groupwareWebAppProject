@@ -38,11 +38,17 @@ public interface AuthorityDAO {
 	int selectAuthorityByAname(String aName);
 	
 	//권한사원을 등록하다.
-	void insertAuthEmp(AuthEmpVO authEmp);
+	void insertAuthEmp(List<AuthEmpVO> list);
 
 	// 권한사원를 권한번호순으로 오름차순으로 조회한다.
 	List<AuthEmpListVO> selectAuthEmpList(Map<String, Object> map);
 	
 	// 총 게시글 수를 구한다.
 	int selectAuthEmpCount(Map<String, Object> map);
+	
+	//권한번호에 해당하는 권한사원의 존재여부
+	int selectAuthEmpCountByaNo(String aNo);
+	
+	//권한 사원을 삭제한다.
+	void deleteAuthEmp(String aNo);
 }
