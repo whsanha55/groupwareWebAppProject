@@ -124,7 +124,7 @@
 			and appr.appr_final_status in ('C-01-00','C-01-02')
 		</if>
 		<if test="apprFinalStatus == 4 ">
-			and appr.appr_final_status in (4,5)
+			and appr.appr_final_status in ('C-01-04','C-01-05')
 		</if>
 		<if test="apprStatus == 0 and apprStatus!=null">
 			and rec.appr_status in ('C-02-00','C-02-02')
@@ -208,7 +208,7 @@
 		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo} 
 		</if>
-		<if test="apprFinalStatus != 5">
+		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>		  
 		 
@@ -257,7 +257,7 @@
 		<if test="empNo != 'admin'">
 		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo})
 		</if> 
-		<if test="apprFinalStatus != 5">
+		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>
 
@@ -405,7 +405,7 @@
 		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo}
 		</if>
-		<if test="apprFinalStatus != 5">
+		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>  
 		 <if test="keyfield=='apprTitle' and keyword!=null">
@@ -443,7 +443,7 @@
 		<if test="empNo != 'admin'">
 		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo}) 
 		</if> 
-		<if test="apprFinalStatus != 5">
+		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if> 
 		 <if test="keyfield=='apprTitle' and keyword!=null">
