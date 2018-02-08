@@ -3,8 +3,9 @@ package com.bit.groupware.service.authority;
 import java.util.List;
 import java.util.Map;
 
+import com.bit.groupware.domain.authority.AuthEmpListVO;
+import com.bit.groupware.domain.authority.AuthEmpVO;
 import com.bit.groupware.domain.authority.AuthorityVO;
-import com.bit.groupware.domain.employee.EmployeeVO;
 
 public interface AuthorityService {
 
@@ -34,5 +35,13 @@ public interface AuthorityService {
 	
 	//권한명의 존재여부를 조회하다.
 	int retrieveAuthorityByAname(String aName);
+	
+	//권한사원을 등록하다.
+	void registerAuthEmp(AuthEmpVO authEmp);
+	
+	//권한번호에 해당하는 사원의 정보를 조회하다.
+	List<AuthEmpListVO> retrieveAuthEmpList(Map<String, Object> map);
+	
+	int retrieveAuthEmpCount(Map<String, Object> map);
 	
 }

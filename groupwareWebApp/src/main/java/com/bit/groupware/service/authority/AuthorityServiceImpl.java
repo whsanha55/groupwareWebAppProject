@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.groupware.domain.authority.AuthEmpListVO;
+import com.bit.groupware.domain.authority.AuthEmpVO;
 import com.bit.groupware.domain.authority.AuthorityVO;
 import com.bit.groupware.persistent.authority.AuthorityDAO;
 
@@ -61,6 +63,20 @@ public class AuthorityServiceImpl implements AuthorityService {
 	public List<AuthorityVO> retrieveAuthEmpList(String aNo) {
 		return authorityDAO.selectAuthEmpList(aNo);
 	}
+
+	public void registerAuthEmp(AuthEmpVO authEmp) {
+		authorityDAO.insertAuthEmp(authEmp);
+		
+	}
+
+	public List<AuthEmpListVO> retrieveAuthEmpList(Map<String, Object> map) {
+		return authorityDAO.selectAuthEmpList(map);
+	}
+
+	public int retrieveAuthEmpCount(Map<String, Object> map) {
+		return authorityDAO.selectAuthEmpCount(map);
+	}
+	
 	
 	
 }
