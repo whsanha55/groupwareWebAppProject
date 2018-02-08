@@ -199,6 +199,21 @@ $(document).ready(function() {
 			Paging(1);
 			
 		});
+		
+		
+		//조직도 
+		$('#modalChart').on('click',function() {
+			$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
+			$('#layerpop').modal({
+				backdrop: 'static', 
+				keyboard: false
+			});
+		});
+		
+		$('#modalCloseBtn').on('click',function() {
+			$('#chartBody').html("");
+			 
+		});
 	
 });
 		
@@ -221,8 +236,23 @@ $(document).ready(function() {
 			    <div class="row"> 
 			    	 
 			        <div class="col-xs-7 col-xs-offset-5">
-			        	<button type="submit"  id="deleteBtn"  class="btn btn-default pull-left" >추가</button>  
-					    <div class="input-group">
+						<button type="submit" id="modalChart"
+							class="btn btn-default pull-left">추가</button>
+						<div class="modal fade" id="layerpop">
+							<div class="modal-dialog modal-cSize">
+								<div class="modal-content modal-cSize">
+
+									<div class="modal-body" id="chartBody"></div>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											id="modalCloseBtn" data-dismiss="modal">선택</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="input-group">
 					    	
 			                <div class="input-group-btn search-panel">
 			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">

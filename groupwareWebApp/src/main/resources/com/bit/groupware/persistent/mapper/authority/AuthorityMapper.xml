@@ -238,11 +238,11 @@
             				and ae.emp_no = e.empNo
             				and a.a_no = #{aNo}
        <if test="keyfield == 'empNo' and keyword != null">
-        		  and empNo like '%' || #{keyword} || '%' 
+        		  			and empNo like '%' || #{keyword} || '%' 
        </if>
        
-       <if test="keyfield == 'empNo' and keyword != null">
-            	  and empName like '%' || #{keyword}  || '%' 
+       <if test="keyfield == 'empName' and keyword != null">
+            	  			and empName like '%' || #{keyword}  || '%' 
        </if>
         	order by empNo asc ) emp) e 
        where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
@@ -253,14 +253,12 @@
 	  from empList_view e , authority_employee ae, authority a
       where ae.a_no = a.a_no
       	and ae.emp_no = e.empNo
-       <if test = "aNo != null">
-          and a.a_no = #{aNo}
-       </if>
+        and a.a_no is not null
       <if test="keyfield == 'empNo' and keyword != null">
-          and empNo like '%' || #{keyword} || '%' 
+          and e.empNo like '%' || #{keyword} || '%' 
        </if>
-       <if test="keyfield == 'empNo' and keyword != null">
-           and empName like '%' || #{keyword}  || '%' 
+       <if test="keyfield == 'empName' and keyword != null">
+           and e.empName like '%' || #{keyword}  || '%' 
        </if>
    </select>
 </mapper>
