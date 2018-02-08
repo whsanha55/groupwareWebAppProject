@@ -109,7 +109,7 @@
 		
 		 $('#button2').on('click',function(){
 			
-				 var url = "${pageContext.request.contextPath}/writeMessage.do?receipientNo=${requestScope.message.receipientEmployee.empNo }&receipientName=${requestScope.message.receipientEmployee.empName}";
+				 var url = "${pageContext.request.contextPath}/writeMessage.do?receipientNo=${requestScope.message.senderEmployee.empNo }&receipientName=${requestScope.message.senderEmployee.empName}&respondMsg=RE:";
 				window.open(url, "쪽지보내기", "width=700, height=600");
 		});
 		 
