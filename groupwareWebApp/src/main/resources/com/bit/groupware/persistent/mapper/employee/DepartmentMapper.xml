@@ -49,5 +49,13 @@
 		where emp_name = #{empName}
 	</update>
 	
+	<!-- <select id="selectDepartmentList" resultType="DepartmentVO" parameterType="String" statementType="PREPARED">
+	select deptNo as cNo, department as cName, duty||' '||empName as headDept, phoneNumber 
+		from emplist_view
+		<if test="keyfield == 'cNo' and keyword != null">
+		where deptNo = 'A-05'
+		</if>
+			and isadmin = 'T'
+	</select> -->
 </mapper>
 	
