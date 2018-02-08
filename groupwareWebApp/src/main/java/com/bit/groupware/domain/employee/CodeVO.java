@@ -10,6 +10,7 @@ public class CodeVO {
 	private String countApprovalRecord;
 	private String countNotification;
 	private String countPost;
+	private String countPlan;
 		
 	
 	public CodeVO() {
@@ -96,13 +97,23 @@ public class CodeVO {
 		this.countPost = countPost;
 	}
 
+	public String getCountPlan() {
+		return countPlan;
+	}
+
+	public void setCountPlan(String countPlan) {
+		this.countPlan = countPlan;
+	}
+
 	@Override
 	public String toString() {
 		return "CodeVO [cNo=" + cNo + ", cName=" + cName + ", relationCode=" + relationCode + ", countRelationCode="
 				+ countRelationCode + ", countEmployee=" + countEmployee + ", countApproval=" + countApproval
 				+ ", countApprovalRecord=" + countApprovalRecord + ", countNotification=" + countNotification
-				+ ", countPost=" + countPost + "]";
+				+ ", countPost=" + countPost + ", countPlan=" + countPlan + "]";
 	}
+
+	
 	
 
 	

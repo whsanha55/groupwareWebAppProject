@@ -19,10 +19,7 @@
 
 <script>
 $(document).ready(function(){ 
-	
-	$('#insert').click(function(){
-    	location.href = "${pageContext.request.contextPath}/admin/registerPlan.do";
-	});
+
 	
 	var dataset =
 		[
@@ -52,7 +49,7 @@ $(document).ready(function(){
 					,
 					end : "${plan.endDate}"
 					,
-					url : "${pageContext.request.contextPath}/admin/detailPlan.do?pNo=${plan.pNo}"
+					url : "${pageContext.request.contextPath}/detailPlan.do?pNo=${plan.pNo}"
 				} <c:if test="${!loop.last}" >,</c:if>
 			</c:forEach>
 		]
@@ -116,7 +113,6 @@ $(document).ready(function(){
 							<div class="col-md-2">
 								<h2>일정목록</h2>
 							</div>
-							<button type="button" id="insert" class="btn btn-primary">등록</button>
 						</div>
 					</div>
 					<div>
