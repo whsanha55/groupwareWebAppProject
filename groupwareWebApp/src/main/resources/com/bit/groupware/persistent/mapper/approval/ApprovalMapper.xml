@@ -291,7 +291,7 @@
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
 		<if test="empNo != 'admin'">
-		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo})
+		and emp.emp_no=#{empNo}
 		</if>
 		<if test="apprFinalStatus != 5">
 		and appr.appr_final_status = #{apprFinalStatus}
@@ -329,7 +329,7 @@
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
 		<if test="empNo != 'admin'">
-		and line.line_emp_no=#{empNo}
+		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo}) 
 		</if> 
 		<if test="apprFinalStatus != 5">
 		and appr.appr_final_status = #{apprFinalStatus}
