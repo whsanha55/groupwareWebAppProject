@@ -30,17 +30,17 @@ $(document).ready(function(){
 					id : '${plan.pNo}'
 					,
 					<c:if test="${plan.pImpt == 3}" >
-						color : "#FF0000"
+						color : "#fb4b4b"
 						,
 						textColor : "white"
 					</c:if>
 					<c:if test="${plan.pImpt == 2}" >
-						color : "#0000FF"
+						color : "#3a87ad"
 						,
 						textColor : "white"
 					</c:if>
 					<c:if test="${plan.pImpt == 1}" >
-						color : "#008000"
+						color : "#47b747"
 						,
 						textColor : "white"
 					</c:if>
