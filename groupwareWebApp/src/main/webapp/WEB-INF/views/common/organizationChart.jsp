@@ -19,6 +19,7 @@
 ul.fancytree-container {
 	height: 350px;
 	overflow: auto;
+
 }
 
 input[name=receiverName] {
@@ -37,14 +38,17 @@ p {
 }
 </style>
 <script>
+	
+	var selectedEmpNo = ""; 
+	var selectedNameAndDuty = "";
+	var selectedDepartment = "";
+	var selectedDeptNo = "";
+	var receiverLineApprCount = 0;
+	var lazyloadList = [];
+
 	$(document).ready(function() {
 		
-		var selectedEmpNo = ""; 
-		var selectedNameAndDuty = "";
-		var selectedDepartment = "";
-		var selectedDeptNo = "";
-		var receiverLineApprCount = 0;
-		var lazyloadList = [];
+		
 		
 		
 		// fancytree 조직도 검색 
@@ -83,15 +87,9 @@ p {
 					selectedNameAndDuty = data.node.title;
 					selectedDepartment = data.node.parent.title;
 					selectedDeptNo = data.node.parent.key;
-					alert(selectedEmpNo + " " + selectedNameAndDuty + " " + selectedDepartment + " "  + selectedDeptNo );
+					//alert(selectedEmpNo + " " + selectedNameAndDuty + " " + selectedDepartment + " "  + selectedDeptNo );
 					
-					//사원관리 - 대결권자설정
-					$('input[name=dempNo]').val(selectedEmpNo);
-					$('input[name=empName]').val(selectedNameAndDuty);
 					
-					//일정관리 - 담당자설정
-					$('input[name=rspbNo]').val(selectedEmpNo);
-					$('input[name=empName]').val(selectedNameAndDuty);
 				
 				} else {
 					selectedEmpNo = "";
@@ -202,8 +200,11 @@ p {
 		<button id="btnSearch" class="btn btn-primary btn-sm">검색</button>
 		<button id="btnResetSearch" class="btn btn-primary btn-sm">초기화</button>
 	<div id="matches"></div>
-	<button id="btnOpenAll" class="btn btn-primary btn-sm">모두 펼치기</button>
-	<button id="btnCloseAll" class="btn btn-primary btn-sm">모두 닫기</button>
+	<div class="btn-group" style="margin-top:10px;">
+                        <button id="btnOpenAll" class="btn btn-default">모두 펼치기</button>
+                        <button id="btnCloseAll" class="btn btn-default">모두 닫기</button>
+
+     </div>
 	</p>
 	
 	<div id="tree"></div>

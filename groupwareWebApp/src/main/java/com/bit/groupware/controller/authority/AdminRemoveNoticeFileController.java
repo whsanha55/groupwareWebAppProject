@@ -19,7 +19,7 @@ public class AdminRemoveNoticeFileController {
 	@Autowired
 	private NoticeService noticeService;
 
-	//공지사항 삭제 요청
+		//공지사항 삭제 요청
 		@RequestMapping(value="/admin/deleteNoticeFile.do", method=RequestMethod.GET)
 		@ResponseBody
 		public int submit(@RequestParam(value = "noticeNo", required = true) int noticeNo) { 

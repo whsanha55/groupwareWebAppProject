@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bit.groupware.domain.approval.NotificationVO;
 import com.bit.groupware.domain.authority.UserVO;
@@ -105,33 +106,40 @@ public class NotificationController {
 	public String moveNotificationList(@RequestParam(value="noteNo") int noteNo,
 										 @RequestParam(value="path") String path) {
 		
-		if(path == "direct1") {
-			//승인문서함 이동 return "redirect:approvalReject.do";
-			
-		}else if(path=="direct3") {
-			//반려문서함 이동
-		}else if(path=="direct6") {
-			//참조문서함 이동
-		}else if(path=="direct7") {
-			//결재요청으로 이동
-		}else if(path=="direct8") {
-			//결재대기로 이동 
-		}
-		
+		//이렇게 하면 해당 알림이 삭제되버리고 그 상태에서 이동하니까 -> 당연히 아무조건도 통과못함
 		//해당 알림번호에 해당하는 알림 삭제
 		
-		Map<String,Object> map = new HashMap<String, Object>();
+        Map<String,Object> map = new HashMap<String, Object>();
 		
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String empNo = user.getUsername(); // 사용자 본인의 사원번호
 		
 		map.put("empNo", empNo);
 		map.put("noteNo", noteNo);
-		
 		notificationService.removeNotifications(map);
+		//삭제
 		
 		
-		return "success"; //임시땜빵~
+		if(path.equals("direct1")) {
+			//승인문서함 이동
+			return "redirect:approvalFinish.do";
+		}else if(path.equals("direct3")) {
+			//반려문서함 이동
+			return "redirect:approvalReject.do";
+		}else if(path.equals("direct6")) {
+			//참조문서함 이동
+			return "redirect:approvalRef.do";
+		}else if(path.equals("direct7")) {
+			//결재요청으로 이동
+			return "redirect:approvalTodo.do";
+		}else if(path.equals("direct8")) {
+			//결재대기로 이동 
+			return "redirect:approvalMyRequest.do";
+			
+		}
+				
+		return "approval/emptyRequest";
+				
 	}
 
 }
