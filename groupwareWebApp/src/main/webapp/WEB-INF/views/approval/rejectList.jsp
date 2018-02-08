@@ -36,7 +36,8 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=3';
+				var status=4;
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=4&finalStatus=3';
 				window.open(url, "결재문서","width=750, height=800");
 				
 			});
@@ -136,9 +137,9 @@
 					//datatable테이블 변경하기
 					var text = "";
 					for(var i=0;i<data.approvals.length;i++) {
-						text += "<tr id="+ data.approvals[i].apprNo +" class='detailApproval'><td>"+ data.approvals[i].apprNo + "</td>";
+						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td >"+data.approvals[i].apprTitle+"</td>";
+						text += "<td  id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
@@ -146,7 +147,7 @@
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";						
 						if(data.empNo == data.approvals[i].employee.empNo){
 							
-							text += "<td><a class='btn btn-primary pull-right'  name="+data.approvals[i].apprNo+" style='padding:0px; margin-bottom:0px; background-color:#337ab7;color:white;'>임시보관</a></td>";
+							text += "<td><a class='btn btn-primary pull-right'  name="+data.approvals[i].apprNo+" style='padding:0px; margin-bottom:0px; background-color:#337ab7;color:white;'>재기안</a></td>";
 						}else{
 							text +="<td></td>";
 						}

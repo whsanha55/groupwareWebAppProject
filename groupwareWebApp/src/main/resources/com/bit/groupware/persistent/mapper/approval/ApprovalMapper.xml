@@ -144,7 +144,7 @@
 		from( 
 		select rownum as rn, t2.* from(
 		select t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title , appr.complete_date,
-		substr(appr.appr_final_status,-1,1) , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, 
+		substr(appr.appr_final_status,-1,1) as appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, 
 		(select  case when emp.emp_history <![CDATA[>]]> 0  
 		  then (select case when ( select count(*) 
 		                    from code_history 
@@ -191,7 +191,7 @@
 		 
 		union
 		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title , appr.complete_date,
-		substr(appr.appr_final_status,-1,1)  , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, 
+		substr(appr.appr_final_status,-1,1) as appr_final_status  , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, 
 		(select  case when emp.emp_history<![CDATA[>]]> 0  
 		  then (select case when ( select count(*) 
 		                    from code_history 
