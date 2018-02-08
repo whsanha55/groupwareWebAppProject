@@ -13,245 +13,250 @@ src = "${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.m
 
 <script>
 
-$(document).ready(function(){ //잠시 끕시다.. 콘솔에 깜빡깜빡
+		$(document).ready(function(){ //잠시 끕시다.. 콘솔에 깜빡깜빡
 
-//var msg = setInterval(newMsg, 2000);
-//var note = setInterval(newNote, 2000);
+		//var msg = setInterval(newMsg, 2000);
+		//var note = setInterval(newNote, 2000);
 
-//최초이벤트(5개씩)
-$('#alerts').find('a').on('click', newAlarm);
+		//최초이벤트(5개씩)
+		$('#alerts').find('a').on('click', newAlarm);
 
-//드롭다운 메뉴 클릭시 사라지지않게 하는 이벤트
+		//드롭다운 메뉴 클릭시 사라지지않게 하는 이벤트
 
-$('.dropdown-menu').click(function(e) {
-e.stopPropagation();
-});
+		$('.dropdown-menu').click(function(e) {
+			e.stopPropagation();
+		});
 
-//see All alerts 누르면 전체 알림 목록 뜨고 무한 스크롤 되도록 만듬
-$('#menu1').on('click','#after',function() {
+		//see All alerts 누르면 전체 알림 목록 뜨고 무한 스크롤 되도록 만듬
+		$('#menu1').on('click','#after',function() {
 
-$.ajax({
+			$.ajax({
 
-url: '${pageContext.request.contextPath}/selectAllNotificationList.do'
-,
-method: 'GET'
-,
-dataType: 'json'
-,
-success: function(data) {
+				url: '${pageContext.request.contextPath}/selectAllNotificationList.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				success: function(data) {
 
-$('#menu1').find('li').remove();
+					$('#menu1').find('li').remove();
 
-var htmlStr = "";
+					var htmlStr = "";
 
-htmlStr += '<div style="overflow-y:scroll; overflow-x:hidden; width:300px; height:530px;">';
+					htmlStr += '<div style="overflow-y:scroll; overflow-x:hidden; width:300px; height:530px;">';
 
-for(var i=0;i<data.length;i++) {
+						for(var i=0;i<data.length;i++) {
 
-htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
-htmlStr += '<a>';
-htmlStr += '<span>';
-htmlStr += '<span>'+data[i].noteNo+'</span>';
-htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
-htmlStr += '</span>';
-htmlStr += '<span class="message">';
-htmlStr += data[i].message;
-htmlStr += '</span>';
-htmlStr += '</a>';
-htmlStr += '</li>';
+							htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
+							htmlStr += '<a>';
+							htmlStr += '<span>';
+							htmlStr += '<span>'+data[i].noteNo+'</span>';
+							htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
+							htmlStr += '</span>';
+							htmlStr += '<span class="message">';
+							htmlStr += data[i].message;
+							htmlStr += '</span>';
+							htmlStr += '</a>';
+							htmlStr += '</li>';
 
-}
+							}
 
-$('#menu1').html(htmlStr);
-htmlStr += '</div>';
-htmlStr = "";
+					$('#menu1').html(htmlStr);
+					
+					htmlStr += '</div>';
+					htmlStr = "";
 
-},
+					},
 
-error: function(jqXHR, textStatus, errorThrown){
-alert('error: ' + jqXHR.status);
-}
+					error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + jqXHR.status);
+					}
 
-});
+					});
 
-//setTimeout(newAlarm, 10000);
-});
+					//setTimeout(newAlarm, 10000);
+			});
 
-//관련 문서함으로 이동하는 이벤트 (해당 컨트롤러에서 읽자마자 삭제도 해야함)
+	//관련 문서함으로 이동하는 이벤트 (해당 컨트롤러에서 읽자마자 삭제도 해야함)
 
-//쪽지 전체 삭제
+	//쪽지 전체 삭제
 
-$('#menu1').on('click','li:nth-child(1)',function(){
+	$('#menu1').on('click','li:nth-child(1)',function(){
 
-$.ajax({
+	$.ajax({
 
-url: '${pageContext.request.contextPath}/removeAllNotifications.do'
-,
-method : 'GET'
-,
-dataType: 'json'
-,
+		url: '${pageContext.request.contextPath}/removeAllNotifications.do'
+		,
+		method : 'GET'
+		,
+		dataType: 'json'
+		,
 
-success: function(data){
+		success: function(data){
 
-if(data=='success'){
+		if(data=='success'){
 
-$('#menu1').find('li').remove();
+		$('#menu1').find('li').remove();
 
-var htmlStr = "";
+			var htmlStr = "";
 
-htmlStr += '<li>';
-htmlStr += '<a href="#" style="font-weight: bold;">' + '전체삭제' + '</a>';
-htmlStr += '</li>';
+			htmlStr += '<li>';
+			htmlStr += '<a href="#" style="font-weight: bold;">' + '전체삭제' + '</a>';
+			htmlStr += '</li>';
 
-htmlStr += '<li>';
-htmlStr += '신규 알림사항이 없습니다.';
-htmlStr += '</li>';
+			htmlStr += '<li>';
+			htmlStr += '신규 알림사항이 없습니다.';
+			htmlStr += '</li>';
 
-$('#menu1').html(htmlStr);
+			$('#menu1').html(htmlStr);
 
-}
+		}
 
-htmlStr = "";
+			htmlStr = "";
 
-}
-,
+		}
+		,
 
-error: function(jqXHR, textStatus, errorThrown){
-alert('error: ' + jqXHR.status);
-}
+		error: function(jqXHR, textStatus, errorThrown){
+			alert('error: ' + jqXHR.status);
+		}
 
-});
+		});
 
-});
+		});
 
-function newAlarm() {
+		
+		function newAlarm() {
 
-$.ajax({
+		$.ajax({
 
-url: '${pageContext.request.contextPath}/selectAllNotificationList.do'
-,
-method : 'GET'
-,
-dataType: 'json'
-,
-success: function(data) {
+		url: '${pageContext.request.contextPath}/selectAllNotificationList.do'
+		,
+		method : 'GET'
+		,
+		dataType: 'json'
+		,
+		success: function(data) {
 
-$('#menu1').find('li').remove();
+		$('#menu1').find('li').remove();
 
-var htmlStr = "";
+		var htmlStr = "";
 
-htmlStr += '<li>';
-htmlStr += '<a href="#" style="font-weight: bold;">' + '전체삭제' + '</a>';
-htmlStr += '</li>';
+		htmlStr += '<li>';
+		htmlStr += '<a href="#" style="font-weight: bold;">' + '전체삭제' + '</a>';
+		htmlStr += '</li>';
 
-if(data.length == 0){
+		if(data.length == 0){
 
-htmlStr += '<li>';
-htmlStr += '신규 알림사항이 없습니다.';
-htmlStr += '</li>';
-}
+		htmlStr += '<li>';
+		htmlStr += '신규 알림사항이 없습니다.';
+		htmlStr += '</li>';
+		
+		}
 
-for(var i=0;i<data.length;i++) {
+		for(var i=0;i<data.length;i++) {
 
-htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
-htmlStr += '<a>';
-htmlStr += '<span>';
-htmlStr += '<span>'+data[i].noteNo+'</span>';
-htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
-htmlStr += '</span>';
-htmlStr += '<span class="message">';
-htmlStr += data[i].message;
-htmlStr += '</span>';
-htmlStr += '</a>';
-htmlStr += '</li>';
+		htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
+		htmlStr += '<a>';
+		htmlStr += '<span>';
+		htmlStr += '<span>'+data[i].noteNo+'</span>';
+		htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
+		htmlStr += '</span>';
+		htmlStr += '<span class="message">';
+		htmlStr += data[i].message;
+		htmlStr += '</span>';
+		htmlStr += '</a>';
+		htmlStr += '</li>';
 
-}
+		}
 
-if(data.length!=0 && data.length>5){
+			if(data.length!=0 && data.length>5){
 
-htmlStr += '<li id="after">';
-htmlStr += '<div class = "text-center">';
-htmlStr += '<a href="#">';
-htmlStr += '<strong>See All Alerts</strong>';
-htmlStr += ' <i class="fa fa-angle-right"></i>';
-htmlStr += '</a>';
-htmlStr += '</div>';
-htmlStr += '</li>';
+				htmlStr += '<li id="after">';
+				htmlStr += '<div class = "text-center">';
+				htmlStr += '<a href="#">';
+				htmlStr += '<strong>See All Alerts</strong>';
+				htmlStr += ' <i class="fa fa-angle-right"></i>';
+				htmlStr += '</a>';
+				htmlStr += '</div>';
+				htmlStr += '</li>';
 
-}
+			}
 
-$('#menu1').html(htmlStr);
-//$(htmlStr).appendTo('#menu1');
-},
+	$('#menu1').html(htmlStr);
+	//$(htmlStr).appendTo('#menu1');
+	},
 
-error: function(jqXHR, textStatus, errorThrown){
-alert('error: ' + jqXHR.status);
-}
+	error: function(jqXHR, textStatus, errorThrown){
+	alert('error: ' + jqXHR.status);
+	}
 
-});
-//end of ajax
+	});
+	//end of ajax
 
-//setTimeout(newAlarm, 10000);
-}
-//end of newAlarm
+		//setTimeout(newAlarm, 10000);	
+	}
+		//end of newAlarm
 
-//관련 문서함으로 이동하는 이벤트
-$('#menu1').on('click','li:has(span)',function() {
+	//관련 문서함으로 이동하는 이벤트
+	$('#menu1').on('click','li:has(span)',function() {
 
-var noteNo = $(this).attr('id');
-var path = $(this).attr('class');
+	var noteNo = $(this).attr('id');
+	var path = $(this).attr('class');
 
-location.href = '${pageContext.request.contextPath}/moveToRelevantApproval.do?noteNo='+noteNo+'&path='+path;
+	location.href = '${pageContext.request.contextPath}/moveToRelevantApproval.do?noteNo='+noteNo+'&path='+path;
 
-});
+	});
 
-function newMsg() {
-$.ajax({
-url: '${pageContext.request.contextPath}/newMsg.do'
-,
-method: 'GET'
-,
-dataType: 'json'
-,
-success: function(data){
-$('#msgNum').empty();
-if(data != 0) {
-$('#msgNum').text(data);
-}
-},
-error: function(jqXHR, textStatus, errorThrown){
-alert('error: ' + jqXHR.status);
-}
-});
-}//end of newMsg
+	function newMsg() {
+		$.ajax({
+		url: '${pageContext.request.contextPath}/newMsg.do'
+		,
+		method: 'GET'
+		,
+		dataType: 'json'
+		,
+		success: function(data){
+		$('#msgNum').empty();
+		
+		if(data != 0) {
+			$('#msgNum').text(data);
+		}
+	},
+		error: function(jqXHR, textStatus, errorThrown){
+		alert('error: ' + jqXHR.status);
+		}
+	});
+	}//end of newMsg
 
-function newNote() {
-$.ajax({
-url: '${pageContext.request.contextPath}/newNote.do'
-,
-method: 'GET'
-,
-dataType: 'json'
-,
-success: function(data){
-$('#noteNum').empty();
-if(data != 0) {
-$('#noteNum').text(data);
-}
-},
-error: function(jqXHR, textStatus, errorThrown){
-alert('error: ' + jqXHR.status);
-}
-});
-}//end of newNote
-});
-</script>
+	function newNote() {
+	$.ajax({
+		url: '${pageContext.request.contextPath}/newNote.do'
+		,
+		method: 'GET'
+		,
+		dataType: 'json'
+		,
+		success: function(data){
+			$('#noteNum').empty();
+			if(data != 0) {
+				$('#noteNum').text(data);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){		
+			alert('error: ' + jqXHR.status);
+		}
+		});
+	}//end of newNote
+	});
 
-</head>
-<body>
- <div class="nav_menu">
-  <nav>
+		</script>
+
+	</head>
+	<body>
+ 	<div class="nav_menu">
+  	<nav>
 
   <ul class="nav navbar-nav navbar-right">
   <li class="">
