@@ -91,7 +91,7 @@
 		                                where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
 		                                and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
 		                                and emp_no=line.line_emp_no))
-		        else 'test1'
+		        else emp.department
 		        end as department from dual ) 
 		  else emp.department
 		  end as department

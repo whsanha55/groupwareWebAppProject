@@ -10,6 +10,9 @@
 	.column-title{
 		text-align:center;
 	}
+	.detailApproval{
+		cursor:pointer;
+	}
 	
 </style>
 <script>
@@ -133,9 +136,9 @@
 					//datatable테이블 변경하기
 					var text = "";
 					for(var i=0;i<data.approvals.length;i++) {
-						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
+						text += "<tr id="+ data.approvals[i].apprNo +" class='detailApproval'><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
+						text += "<td >"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";

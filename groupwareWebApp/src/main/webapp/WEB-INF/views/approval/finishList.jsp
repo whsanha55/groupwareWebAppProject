@@ -10,6 +10,9 @@
 	.column-title{
 		text-align:center;
 	}
+	.apprLi{
+		cursor:pointer;
+	}
 	
 </style>
 <script>
@@ -30,8 +33,7 @@
 			}); 
 		
 		//결재문서 상세조회 팝업창 생성
-		 $('#datatable').on("click",'.detailApproval',function(){
-				
+		 $('#datatable').on("click",'.apprLi',function(){
 				var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=1';
 				window.open(url, "결재문서","width=750, height=800");
@@ -112,9 +114,9 @@
 					var text = "";
 					for(var i=0;i<data.approvals.length;i++) {
 
-						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
+						text += "<tr class='apprLi' id="+ data.approvals[i].apprNo +"><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
+						text += "<td>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
