@@ -51,8 +51,9 @@
                </div>   
                   </div>
               <div class="text-center">
-               		 <button type="submit" class="btn btn-primary pull-right">등록</button>&nbsp;
-                  <button class="btn btn-default">취소</button>
+               	  <button type="submit" class="btn btn-primary">등록</button>&nbsp;
+                  <button type="reset" class="btn btn-default">취소</button>
+                  <a class="btn btn-default" href='<c:url value="/admin/roleList.do"/>'>뒤로가기</a>
                </div>
                 </div>
               </div>

@@ -25,6 +25,10 @@ public class RoleDAOImpl implements RoleDAO {
       sqlSession.insert(NAMESPACE + ".addRole", role);
    }
 
+   public int aNoIsExist(String rId) {
+	   return sqlSession.insert(NAMESPACE + ".aNoIsExist", rId);
+   }
+
    public List<RoleVO> selectRoleByRname(String aName) {
       List<RoleVO> roles = sqlSession.selectList(NAMESPACE + ".selectRoleByRname", aName);
       return roles;

@@ -67,4 +67,8 @@ public void registerRole(RoleVO role) {
 	   return roleDAO.rIdIsExist(arole);
    }
 
+   public int aNoIsExist(String rId) {
+	   return roleDAO.aNoIsExist(rId);
+   }
+
 }

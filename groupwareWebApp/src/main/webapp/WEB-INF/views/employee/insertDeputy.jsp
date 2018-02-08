@@ -286,9 +286,7 @@
 								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
 								text += "<td>"+ data.deputies[i].startDate +"</td>";
 								text += "<td>"+ data.deputies[i].endDate +"</td>";
-								text += "<td>"+ data.deputies[i].depReason +"</td>";
 								text += "<td>"+ data.deputies[i].progression +"</td>";
-								text += "<td><button type='button'>상세보기</button></td>";
 								text += "</tr>";
 							}
 						}					
@@ -455,9 +453,7 @@
 								<th>이름</th>
 								<th>시작일</th>
 								<th>종료일</th>
-								<th>사유</th>
 								<th>진행여부</th>
-								<th>상세보기</th>
 							</tr>
 						</thead>
 						<tbody id="tbody">

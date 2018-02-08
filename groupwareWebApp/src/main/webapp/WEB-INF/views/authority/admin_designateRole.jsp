@@ -279,8 +279,8 @@
 					<div class="text-center">
 						<nav aria-label="Page navigation" id = 'Paging'></nav> 
          			 </div>
-					<button type="submit"  id="deleteBtn"  class="pull-right" value="${param.aNo}">일괄 등록</button>
-			</div>
+					<button type="submit"  id="deleteBtn"  class="btn btn-primary pull-right" value="${param.aNo}">일괄 등록</button>
+			</div>       
 			
 		</div>
 	</div>

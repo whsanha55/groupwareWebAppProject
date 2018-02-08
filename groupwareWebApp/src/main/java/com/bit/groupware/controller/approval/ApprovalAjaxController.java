@@ -118,7 +118,7 @@ public class ApprovalAjaxController {
 			
 			int totalCount=0;
 			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==5) {		
-				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려, 관리자인 경우
+				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려,관리자인 경우
 			}else {
 				totalCount = approvalService.retrieveApprovalCount(map);
 			}
