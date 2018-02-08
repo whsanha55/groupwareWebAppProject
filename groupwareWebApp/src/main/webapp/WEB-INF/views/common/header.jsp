@@ -14,6 +14,7 @@
 <script>
 
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
+		
 		//var msg = setInterval(newMsg, 2000);
 		//var note = setInterval(newNote, 2000);
 		
@@ -28,8 +29,9 @@
 		    e.stopPropagation();
 		});
 		
+		
 		//see All alerts 누르면 전체 알림 목록 뜨고 무한 스크롤 되도록 만듬
-		$('#menu1').on('click','#after',function(event) {
+		$('#menu1').on('click','#after',function() {
 
 			
 			$.ajax({
@@ -78,13 +80,19 @@
 				error: function(jqXHR, textStatus, errorThrown){
 					alert('error: ' + jqXHR.status);
 				}
+						
 					
 			});
 			
 			//setTimeout(newAlarm, 10000);
 		});
-	
 		
+		//관련 문서함으로 이동하는 이벤트 (해당 컨트롤러에서 읽자마자 삭제도 해야함)
+		
+		
+		
+		//쪽지 전체삭제
+			
 	   function newAlarm() {
 		   
 		$.ajax({
@@ -101,8 +109,13 @@
 				
 				var htmlStr = "";
 				
+				htmlStr += '<li>';
+				htmlStr += '<a href="#" style="font-weight: bold;">' + '전체삭제' + '</a>';
+				htmlStr += '</li>';
+				
+							
 				for(var i=0;i<data.length;i++) {
-									
+				
 				htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
 				htmlStr += '<a>';
 				htmlStr += '<span>';
@@ -130,19 +143,29 @@
 				
 				$('#menu1').html(htmlStr);
 				//$(htmlStr).appendTo('#menu1');
-										
-				 
 			},
 			
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error: ' + jqXHR.status);
 			}
-						
-		});
+			
+			});
+			//end of ajax
+			
 		
 		//setTimeout(newAlarm, 10000);
 	}
 	   //end of newAlarm
+	   
+	   	//관련 문서함으로 이동하는 이벤트
+		$('#menu1').on('click','li:has(span)',function() {
+			
+			var noteNo = $(this).attr('id');
+			var path = $(this).attr('class');
+			
+			location.href = '${pageContext.request.contextPath}/moveToRelevantApproval.do?noteNo='+noteNo+'&path='+path;
+						
+		});
 	   
 	
 	function newMsg() {

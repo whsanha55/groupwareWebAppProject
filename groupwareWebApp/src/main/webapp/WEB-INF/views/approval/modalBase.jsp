@@ -40,7 +40,7 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" id="modalCloseBtn"
-						data-dismiss="modal">닫기</button>
+						data-dismiss="modal">선택</button>
 				</div>
 			</div>
 		</div>

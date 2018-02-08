@@ -36,13 +36,13 @@
                   <label class="control-label col-md-2" for="first-name" >롤 Sort
                   </label>
                   <div class="col-md-8">
-                    <input type="number"  min = "1" max = "100" step = "1"  id="first-name2" name="sortOrder" class="form-control col-md-7 col-xs-12">
+                    <input type="number"  min = "1" max = "100" step = "1"  id="sort" name="sortOrder" class="form-control col-md-7 col-xs-12">
                   </div>
                </div>
                <div class="col-md-12" style="margin-bottom:40px;">
                   <label class="control-label col-md-2" for="first-name" >롤 타입</label>
                   <div class="col-md-8">
-                    <label class="radio-inline"> <input type="radio" name="rType" id="inlineRadio1" value="url"> url
+                    <label class="radio-inline"> <input type="radio" name="rType" id="inlineRadio1" value="url" checked="checked"> url
 								</label> <label class="radio-inline"> <input type="radio"
 										name="rType" id="inlineRadio2" value="method">
 									   method
@@ -51,7 +51,7 @@
                </div>   
                   </div>
               <div class="text-center">
-               	  <button type="submit" class="btn btn-primary">등록</button>&nbsp;
+               	  <button type="submit" class="btn btn-primary" id='add'>등록</button>&nbsp;
                   <button type="reset" class="btn btn-default">취소</button>
                   <a class="btn btn-default" href='<c:url value="/admin/roleList.do"/>'>뒤로가기</a>
                </div>

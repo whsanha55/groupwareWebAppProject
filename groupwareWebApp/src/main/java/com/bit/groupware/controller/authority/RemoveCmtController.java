@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bit.groupware.service.authority.PostService;
+import com.bit.groupware.service.authority.CmtService;
 
 @Controller
-public class RemovePostFileController {
-	private static final Logger logger = LoggerFactory.getLogger(RemovePostFileController.class);
+public class RemoveCmtController {
+	private static final Logger logger = LoggerFactory.getLogger(RemoveCmtController.class);
 	@Autowired
-	private PostService postService;	
+	private CmtService cmtService;	
 
 	// 게시글 쓰기 요청을 처리할 컨틀롤러 메소드
-	@RequestMapping(value="/deletePostFile.do", method=RequestMethod.GET)
+	@RequestMapping(value="/deleteCmt.do", method=RequestMethod.GET)
 	@ResponseBody
-	public int remove(@RequestParam(value="no", required=true) int no) {		
+	public int remove(@RequestParam(value="no", required=true)int no) throws Exception {		
 		logger.info("삭제번호!!!!!!!!!!!!!!: {}", no);
-		postService.removePostFile(no);
+		cmtService.removeCmt(no);
 		
 		return 0;			
 	}

@@ -41,51 +41,37 @@
 		//파일 삭제 
 		$('#deleteBtn').on('click', function() {	
 			var no = $(this).val();
-			
-			swal({
-				  title: "파일 삭제"+no ,
-				  text: "파일을 삭제합니다. 계속 진행하시겠습니까?",
-				  icon: "info",
-				  buttons : true 
-			}).then((e) => {
-			     if(e) {
-			    	 deletePostFile(no);							
-				 }
-			});		
-			
-			//alert($(this).val());
-			function deletePostFile(no) {	
-				alert(no);
-				$.ajax({
-					url: '${pageContext.request.contextPath}/deletePostFile.do'
-					,
-					method: 'GET'
-					,
-					data: {no}
-					, 
-					async: true
-					,
-					cache: false
-					,
-					success: function(data) {
-						swal({
-							  title: "삭제 완료",
-							  text: "선택하신 파일이 삭제되었습니다.",
-							  icon: "info",
-							  buttons : "확인" 
-						}).then((e) => {
-						     if(e) {
-						    	 location.reload();		
-							 }
-						});		
-					}
-					, 
-					error: function(jqXHR) {
-						alert('Error : ' + jqXHR.status);
-					}	 			
-					
-				});	
-			}
+			alert(no);
+			$.ajax({
+				url: '${pageContext.request.contextPath}/deletePostFile.do'
+				,
+				method: 'GET'
+				,
+				data: {no}     
+				, 
+				async: true
+				,
+				cache: false
+				,
+				success: function(data) {
+					swal({
+						  title: "삭제 완료",
+						  text: "선택하신 파일이 삭제되었습니다.",
+						  icon: "info",
+						  buttons : "확인" 
+					}).then((e) => {
+					     if(e) {
+					    	 location.reload();		
+						 }
+					});		
+				}
+				, 
+				error: function(jqXHR) {
+					alert('Error : ' + jqXHR.status);
+				}	 			
+				
+			});	
+	
 		});	 
 
 	});
@@ -137,12 +123,12 @@
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<select class="form-control" name="documentNo">
 							<option>문서를 선택하세요</option>
-							<option value="1">문서보관함</option>
-							<option value="2">회의문서</option>
-							<option value="3">각종 증명서</option>
-							<option value="4">공문서</option>
-							<option value="5">거래문서</option>
-							<option value="6">기타</option>
+							<option value="DC-1">문서보관함</option>
+							<option value="DC-2">회의문서</option>
+							<option value="DC-3">각종 증명서</option>
+							<option value="DC-4">공문서</option>
+							<option value="DC-5">거래문서</option>
+							<option value="DC-6">기타</option>
 						</select>
 					</div>
 					<div class="x_content">

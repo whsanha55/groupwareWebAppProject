@@ -46,7 +46,7 @@
 				window.close();
 			});
 	
-		var temp = $('.apprLineAppr').length;
+	/* 	var temp = $('.apprLineAppr').length;
 		var text = "";
 		for(var i =temp; i<9;i++) {
 			//$('.apprLineAppr').parent().append('<td></td>');
@@ -63,7 +63,7 @@
 		}
 		$('.apprLineRef').parent().append(text);
 		$('.apprLineRef').parent().next().append(text);
-		
+		 */
 		
 	
 
