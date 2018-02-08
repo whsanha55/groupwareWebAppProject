@@ -95,8 +95,5 @@
 		where emp_no = #{empNo}	
 	</select>
 	
-	
-	
-	
 
 </mapper>
