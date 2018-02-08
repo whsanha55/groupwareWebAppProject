@@ -51,6 +51,11 @@
 		 		
 		 		var msgNos = [];
 		 		
+		 		if(':checkbox[name=table_records]:checked==null '){
+		 			swal({title: "삭제할 쪽지를 선택하세요",
+						icon: "warning"});
+		 			return;
+		 		}
 		 		$(':checkbox[name=table_records]:checked').each(function(){
 		
 		 			msgNos.push($(this).attr('id'));

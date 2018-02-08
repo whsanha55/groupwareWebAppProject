@@ -318,7 +318,7 @@
      
          <div class="container">
              <div class="row">    
-                 <div class="col-xs-7 col-xs-offset-4">
+                 <div class="col-xs-6 col-xs-offset-6">
                    <div class="input-group">
                          <div class="input-group-btn search-panel">
                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -337,7 +337,6 @@
                          </span>
                      </div>
                  </div>
-                 <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
             </div>
          </div>
                    
@@ -368,6 +367,7 @@
                  <div class="text-center">
                   <nav aria-label="Page navigation" id = 'Paging'></nav> 
                 </div>
+                 <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
                   <button type="button"  id="deleteBtn" class="btn btn-danger pull-right">삭제</button>
                </div>
                   

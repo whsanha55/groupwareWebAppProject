@@ -69,7 +69,19 @@
              where c2.relation_code = c1.c_no) as countRelationCode,
              (select count(ec.EMP_NO)
                from employee_code ec
-             where ec.C_NO = c1.c_no) as countEmployee
+             where ec.C_NO = c1.c_no) as countEmployee,
+             (select count(ap.appr_final_status)
+               from approval ap
+             where ap.appr_final_status = c1.c_no) as countApproval,
+             (select count(ar.appr_status)
+               from approval_record ar
+             where ar.appr_status = c1.c_no) as countApprovalRecord,
+             (select count(n.redirect_path)
+               from notification n
+             where n.redirect_path = c1.c_no) as countNotification,
+             (select count(p.document_no)
+               from post p
+             where p.document_no = c1.c_no) as countPost
 		from code c1
 		where c1.relation_code=#{relationCode}
 		group by c1.c_no,c1.c_name,c1.relation_code
