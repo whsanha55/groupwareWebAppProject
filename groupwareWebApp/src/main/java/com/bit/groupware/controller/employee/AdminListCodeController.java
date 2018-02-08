@@ -88,7 +88,7 @@ public class AdminListCodeController {
 		map.put("startRow", 1);
 		map.put("endRow", 10);
 		logger.info("map : {}", map);
-		mv.addObject("codes", codeService.retrieveCodeList3(map));
+		mv.addObject("codes", codeService.retrieveCodeList2(map));
 		mv.setViewName("employee/admin_listCode3");
 		return mv;
 	}

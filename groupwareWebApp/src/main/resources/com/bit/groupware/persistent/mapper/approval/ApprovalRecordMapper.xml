@@ -58,12 +58,49 @@
 		
 	</resultMap>
 	<select id="selectApprovlaRecordList" parameterType="int" resultMap="RecordResultMap" statementType="PREPARED">
-     	select rec.appr_no, line.line_order, emp.emp_no, emp.emp_name, rec.appr_status, rec.assign_date,
-		rec.check_date, rec.confirm_date, rec.record_no , line.line_no, emp.duty , emp.department
-		from approval_record rec, receiver_line line, emp_view emp
+     	select rec.appr_no, rec.check_date, rec.confirm_date, rec.assign_date,rec.record_no ,
+		substr(rec.appr_status,-1,1) as appr_status,
+		line.line_order, line.line_no, emp.emp_no, emp.emp_name,
+		(select  case when emp.emp_history > 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=line.line_emp_no) <![CDATA[>]]>0 
+		             then (select c_name from code
+		                   where c_no=(select duty_no 
+		                        from code_history 
+		                        where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                        and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                        and emp_no=line.line_emp_no))
+		        else emp.duty
+		        end as emp_duty from dual ) 
+		        
+		  else emp.duty
+		  end as emp_duty
+		  from dual) as duty ,
+		(select  case when emp.emp_history > 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=line.line_emp_no)<![CDATA[>]]>0 
+		             then (select c_name from code
+		                   where c_no=(select dept_no 
+		                                from code_history 
+		                                where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                                and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                                and emp_no=line.line_emp_no))
+		        else 'test1'
+		        end as department from dual ) 
+		  else emp.department
+		  end as department
+		  from dual) as department
+		from approval_record rec, receiver_line line, emp_view emp,approval appr
 		where rec.line_no=line.line_no
 		and line.line_emp_no=emp.emp_no
-		and appr_no=#{apprNo}
+		and appr.appr_no=rec.appr_no
+		and appr.appr_no=#{apprNo}
 		order by line.line_order asc nulls last
    </select>
    
