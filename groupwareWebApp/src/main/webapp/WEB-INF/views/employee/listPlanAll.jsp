@@ -16,12 +16,10 @@
     .fc-sun {color:#e31b23}
 	.fc-sat {color:#007dc3}
 </style>
+
 <script>
 $(document).ready(function(){ 
-	
-	$('#all').click(function(){
-    	location.href = "${pageContext.request.contextPath}/listPlanAll.do";
-	});
+
 	
 	var dataset =
 		[
@@ -66,7 +64,7 @@ $(document).ready(function(){
 		allDaySlot: false,
 		eventClick : function(calEvent,jsEvent,view) {
 			if (event.url) {
-				return event.url;
+				 return event.url;
 			 }
 		},
 		defaultDate: new Date(),
@@ -115,7 +113,6 @@ $(document).ready(function(){
 							<div class="col-md-2">
 								<h2>일정목록</h2>
 							</div>
-							<button type="button" id="all" class="btn btn-primary">모든 일정 보기</button>
 						</div>
 					</div>
 					<div>

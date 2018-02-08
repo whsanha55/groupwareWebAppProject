@@ -75,6 +75,7 @@
 		                        and emp_no=line.line_emp_no))
 		        else emp.duty
 		        end as emp_duty from dual ) 
+		        
 		  else emp.duty
 		  end as emp_duty
 		  from dual) as duty ,

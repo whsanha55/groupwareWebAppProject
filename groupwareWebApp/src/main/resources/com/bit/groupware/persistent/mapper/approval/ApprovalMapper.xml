@@ -14,7 +14,8 @@
 	  			,tmp_no
 	  		</if>
 	  		)
-			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency}, concat('C-01-0', #{apprFinalStatus})
+			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency},
+					'C-01-0' || #{apprFinalStatus}
 	  		<if test="template.tmpNo != 0">
 	  			,#{template.tmpNo}
 	  		</if> 
@@ -25,7 +26,7 @@
 	
 		<update id="updateApproval" parameterType="ApprovalVO" statementType="PREPARED">
 			update approval
-			set appr_final_status = concat('C-01-0', #{apprFinalStatus}),
+			set appr_final_status= 'C-01-0' || #{apprFinalStatus} ,
 				complete_date = sysdate
 			where appr_no=#{apprNo}
 		</update>
@@ -103,7 +104,7 @@
 			and appr.appr_final_status in ('C-01-00','C-01-02')
 		</if>
 		<if test="apprFinalStatus == 4 ">
-			and appr.appr_final_status in ('C-01-04','C-01-05')
+			and appr.appr_final_status in (4,5)
 		</if>
 		<if test="apprStatus == 0 and apprStatus!=null">
 			and rec.appr_status in ('C-02-00','C-02-02')
@@ -141,8 +142,42 @@
 		select *
 		from( 
 		select rownum as rn, t2.* from(
-		select t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
-		substr(appr.appr_final_status,7) , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
+		select t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title , appr.complete_date,
+		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, 
+		(select  case when emp.emp_history <![CDATA[>]]> 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=emp.emp_no) <![CDATA[>]]>0 
+		             then (select c_name from code
+		                   where c_no=(select duty_no 
+		                        from code_history 
+		                        where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                        and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                        and emp_no=emp.emp_no))
+		        else emp.duty
+		        end as emp_duty from dual ) 
+		  else emp.duty
+		  end as emp_duty
+		  from dual) as duty ,
+		  (select  case when emp.emp_history <![CDATA[>]]> 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=emp.emp_no) <![CDATA[>]]> 0 
+		             then (select c_name from code
+		                   where c_no=(select dept_no 
+		                                from code_history 
+		                                where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                                and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                                and emp_no=emp.emp_no))
+		        else emp.department
+		        end as department from dual ) 
+		  else emp.department
+		  end as department
+		  from dual) as department
 		from approval appr, template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
@@ -150,7 +185,7 @@
 		and emp.emp_no=#{empNo} 
 		</if>
 		<if test="apprFinalStatus != 5">
-		and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
+		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>		  
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
@@ -174,9 +209,43 @@
 			and emp.department Like '%' || #{keyword} ||'%'
 		</if> 
 		union
-		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
-		substr(appr.appr_final_status,7) , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date 
-		from approval appr,	template tmp, emp_view emp,approval_record rec, receiver_line line
+		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title , appr.complete_date,
+		appr.appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, 
+		(select  case when emp.emp_history<![CDATA[>]]> 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=emp.emp_no) <![CDATA[>]]>0 
+		             then (select c_name from code
+		                   where c_no=(select duty_no 
+		                        from code_history 
+		                        where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                        and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                        and emp_no=emp.emp_no))
+		        else emp.duty
+		        end as emp_duty from dual ) 
+		  else emp.duty
+		  end as emp_duty
+		  from dual) as duty ,
+		  (select  case when emp.emp_history <![CDATA[>]]> 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=emp.emp_no) <![CDATA[>]]>0 
+		             then (select c_name from code
+		                   where c_no=(select dept_no 
+		                                from code_history 
+		                                where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                                and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                                and emp_no=emp.emp_no))
+		        else emp.department
+		        end as department from dual ) 
+		  else emp.department
+		  end as department
+		  from dual) as department
+		from approval appr,	template tmp, emp_view emp,approval_record rec ,receiver_line line  
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
 		and rec.appr_no=appr.appr_no
@@ -185,7 +254,7 @@
 		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo})
 		</if> 
 		<if test="apprFinalStatus != 5">
-		and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
+		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>
 		 <if test="keyfield=='apprTitle' and keyword!=null">
 			and appr.appr_Title Like '%' || #{keyword} ||'%' 
