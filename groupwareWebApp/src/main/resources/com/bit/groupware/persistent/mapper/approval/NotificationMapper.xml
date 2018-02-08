@@ -25,10 +25,10 @@
 	</insert>
 
 	<insert id="insertNotificationEnd" parameterType="map" statementType="PREPARED">
-		insert into notification(note_no, emp_no, 'C-03-0'|| substr(redirect_path,-1), message)
+		insert into notification(note_no, emp_no, redirect_path, message)
 		values (notification_seq.nextval, (select emp_no
 		                                        from approval
-		                                        where appr_no = #{apprNo}), #{apprStatus},
+		                                        where appr_no = #{apprNo}), 'C-03-0' ||#{apprStatus},
 		        (select '[' || department || ']' || duty || ' ' ||   emp_name || ' 님이 기안서를 '
 		        from emp_view
 		        where emp_no = #{empNo}) || 
