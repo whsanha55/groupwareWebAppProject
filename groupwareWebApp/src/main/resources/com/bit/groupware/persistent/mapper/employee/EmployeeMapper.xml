@@ -199,6 +199,9 @@
 					<if test="keyfield == 'department' and keyword != null">
 					where department like '%' || #{keyword} || '%'
 					</if>
+					<if test="keyfield == 'retireStatus' and keyword != null">
+					where retireStatus like '%' || #{keyword} || '%'
+					</if>
                       order by empNo asc
                     ) emp) e
         where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
@@ -233,6 +236,9 @@
 		<if test="keyfield == 'department' and keyword != null">
 		where department like '%' || #{keyword} || '%'
 		</if> 
+		<if test="keyfield == 'retireStatus' and keyword != null">
+		where retireStatus like '%' || #{keyword} || '%'
+		</if>
 	</select>
 	
 	<select id="selectEmpCharge" resultType="String" parameterType="String" statementType="PREPARED">
