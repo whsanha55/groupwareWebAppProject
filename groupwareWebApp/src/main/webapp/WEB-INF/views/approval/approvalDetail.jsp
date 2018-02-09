@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>메시지 보관함</title>
+<title>결재문서 상세조회</title>
 
 <style>
 .x_panel {
@@ -58,9 +58,11 @@
 			$('#reject').hide();
 			$('#postpone').hide();
 			$('#reAppr').hide();
+			$('#deleteAppr').hide();
 		} else if(status==2){
 			$('#return').hide();
 			$('#reAppr').hide();
+			$('#deleteAppr').hide();
 			$('#appr').attr('disabled',false);	
 			$('#reject').attr('disabled',false);
 			if(finalStatus==0){
@@ -72,12 +74,21 @@
 			$('#reject').hide();
 			$('#reAppr').hide();
 			$('#postpone').hide();
+			$('#deleteAppr').hide();
 		}else if(status==4){
 			$('#return').hide();
 			$('#appr').hide();
 			$('#reject').hide();
-			$('#postpone').hide()
+			$('#postpone').hide();
+			$('#deleteAppr').hide();
 			$('#reAppr').attr('disabled',false);
+		}else if(status==5){
+			$('#return').hide();
+			$('#appr').hide();
+			$('#reject').hide();
+			$('#postpone').hide();
+			$('#reAppr').attr('disabled',false);
+			$('#deleteAppr').attr('disabled',false);
 		}
 		
 		//대결권자 변경 
@@ -141,6 +152,21 @@
 				});
 		})
 		
+		//삭제
+		$('#deleteAppr').on('click',function(){
+			swal({
+				  title: "문서 삭제",
+				  text: "선택한 문서를 삭제 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						executeDelete();
+						
+					}	
+				});
+		})
+		
 		//재기안
 		$('#reAppr').on('click',function(){
 			swal({
@@ -150,7 +176,8 @@
 				  buttons : true 
 				}).then((e) => {
 					if(e) {
-						executeReAppr();
+						window.opener.top.location.href="${pageContext.request.contextPath}/writeApproval.do?apprNo="+${requestScope.approval.apprNo};
+						window.close()						
 					}	
 				});
 		})
@@ -184,9 +211,20 @@
 							  content: {
 								  element : "input"
 							  } ,
-							  buttons : ['건너뛰기','저장']							  
-						}).then(commentContent => {
-				            executeApproval(commentContent,3);						
+							  buttons : '반려하기'						  
+						}).then((commentContent) => {
+							if(commentContent){
+								 executeApproval(commentContent,3);	
+							}else{
+								swal({
+									  title: "결재 반려",
+									  text: "코멘트를 입력해주세요",
+									  icon: "warning",
+									  buttons:false
+									})
+							}
+						
+				           					
 						});
 					}	
 				});
@@ -246,7 +284,7 @@
 			});
 		}
 		
-		//재기안	
+		/* //재기안	
 		function executeReAppr(){
 			
 			$.ajax({
@@ -272,7 +310,7 @@
 					alert("error : " + jqXHR.status);
 				}
 			});
-		}
+		} */
 		
 		//결재 반려 또는 승인 
 		function executeApproval(commentContent,apprStatus) {
@@ -315,6 +353,44 @@
 			});
 		}
 		
+		//삭제
+		function executeDelete(){
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/removeReturnAppr.do'
+				,
+				method : 'GET'
+				,
+				data: {
+					apprNo : '${requestScope.approval.apprNo}'
+				}
+				,
+				datatype : 'json'
+				,
+				
+				success : function(data) {
+					swal("문서 삭제가 완료되었습니다.").then((e)=>{
+						self.close();
+						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+					});					
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
+		}
+		
+		
+		function checkDate() {
+			
+		}
+		
+		
+		
+		
+		
+
 	
 	});
 
@@ -329,16 +405,16 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>결재 문서 상세보기</h2>
+
 				<div class="clearfix"></div>
 			</div>
-			<span>
-				<button type="button" class="btn btn-success" id='return' disabled='true'>결재회수</button>
-			</span>
-			<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="float:right; width:210px;">
-		 		<button type="button" class="btn btn-success" id="appr" disabled='true'>결재</button>
-		 		<button type="button" class="btn btn-success" id="postpone" disabled='true'>보류</button>
-		 		<button type="button" class="btn btn-success" id='reject' disabled='true'>반려</button>			 				 		
-		 		<button type="button" class="btn btn-success" id='reAppr' disabled='true'>재기안</button>			 				 		
+			 <span><button type="button" class="btn btn-success" id='return' disabled='true'>결재회수</button></span>
+			 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="float:right; width:210px;">
+			 		<button type="button" class="btn btn-success" id="appr" disabled='true'>결재</button>
+			 		<button type="button" class="btn btn-success" id="postpone" disabled='true'>보류</button>
+			 		<button type="button" class="btn btn-success" id='reject' disabled='true'>반려</button>			 				 		
+			 		<button type="button" class="btn btn-success" id='reAppr' disabled='true'>재기안</button>			 				 		
+			 		<button type="button" class="btn btn-success" id='deleteAppr' disabled='true'>삭제</button>			 				 		
 			</div>
 			<div class="table-responsive" id="datas" style="border:0px;">
 				<h2><strong>결재 라인</strong></h2>
@@ -349,10 +425,7 @@
                     	<td rowspan="5" class="" style="width:70px; height:35px;background-color:#4a6075;">결재</td>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
                            <c:if test="${ line.apprType == 0}">
-                              <th class="apprLineAppr" id="${line.lineEmployee.empNo }" 
-                                 style="width:110px; height:35px; text-align:center; background-color:#4a6075;">
-                              	 ${pageScope.line.lineEmployee.duty }
-                              </th>
+                              <th class="apprLineAppr" style="width:110px; height:35px; text-align:center; background-color:#4a6075;">${pageScope.line.lineEmployee.duty }</th>
                      	   </c:if>
                         </c:forEach>
                         <c:forEach begin="1" end="${12-requestScope.apprCount}">

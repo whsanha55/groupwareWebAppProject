@@ -36,7 +36,11 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 		return approvalRecordDAO.selectApprovalRecordList(apprNo);
 	}
 
-
+	//결재이력 삭제
+	/*public void removeApprovalRecord(int apprNo) {
+		approvalRecordDAO.deleteApprovalRecord(apprNo); 
+	}*/  
+	
 	//결재 승인, 반려
 	public void executeApprovalRecord(Map<String, Object> map) {
 

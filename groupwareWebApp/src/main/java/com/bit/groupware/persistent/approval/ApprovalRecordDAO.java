@@ -17,7 +17,7 @@ public interface ApprovalRecordDAO {
 
 	void updateApprovalRecordStatus(Map<String, Object> map);
 
-	void deleteApprovalRecord(int apprNo);
+	void deleteApprovalRecord(List<Integer> apprNos);
 
 	int selectApprovalRecallable(int apprNo);
 	

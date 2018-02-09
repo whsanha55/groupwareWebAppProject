@@ -26,6 +26,10 @@ public class ApprovalCommentDAOImpl implements ApprovalCommentDAO {
 		sqlSession.delete(NAMESPACE+".deleteApprovalComment",commentNo);
 	}
 
+	public void deleteApprovalCommentByApprNo(int apprNo) {
+		sqlSession.delete(NAMESPACE+".deleteCommetByApprNo", apprNo);
+	}
+
 
 	
 	

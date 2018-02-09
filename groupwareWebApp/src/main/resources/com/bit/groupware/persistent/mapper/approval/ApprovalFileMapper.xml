@@ -16,4 +16,13 @@
 		delete from approval_File 
 		where file_No=#{fileNo}
 	</delete>
+	
+	<delete id="deleteApprovalFileByApprNo" parameterType="int" statementType="PREPARED" >
+		delete from approval_File 
+		where appr_no in
+		<foreach item="apprNo" collection="list" separator="," open="(" close=")" > 
+		  #{apprNo}
+		</foreach>
+		
+	</delete>
 </mapper>
