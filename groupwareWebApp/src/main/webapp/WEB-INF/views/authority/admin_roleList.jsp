@@ -57,8 +57,9 @@
           }else {
               $(this).parents("tr").find('.rType').html("<select id='selBox'><option name='rType' value='url' >url</option><option value='method' selected='selected'>method</option></select>");   
           }
-          $(this).parents("tr").find('.rExplan').html("<input type='text' name='rExplan' value="+rExplan +" />");   
-          
+          $(this).parents("tr").find('.rExplan').html("<input type='text' name='rExplan'>");   
+          $(this).parents("tr").find('.rExplan').find(':text[name=rExplan]').val(rExplan);   
+                    
           $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
           $('button:contains(수정)').prop("disabled", true);
          
