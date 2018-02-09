@@ -67,8 +67,8 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 	}
 
 	//권한 사원을 등록하다.
-	public void insertAuthEmp(List<AuthEmpVO> list) {
-		sqlSession.insert(NAMESPACE + ".insertAuthEmp", list);
+	public void insertAuthEmp(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertAuthEmp", map);
 		
 	}
 
