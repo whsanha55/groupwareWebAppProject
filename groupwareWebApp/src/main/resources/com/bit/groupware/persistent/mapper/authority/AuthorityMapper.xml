@@ -150,28 +150,43 @@
        where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
    </select>
    
-    <select id="selectAuthorityCount" statementType="PREPARED" parameterType="map" resultType="int">
-      select count(a.a_no)
-      from authority a, employee e, authority_employee ae
-      where a.a_no = ae.a_no
-          and ae.emp_no = e.emp_no
-       <if test = "aNo != null">
-          and a.a_no = #{aNo}
-       </if>
-      <if test="keyfield == 'aName' and keyword != null">
+   
+ 
+    
+   <select id="selectAuthorityCount" statementType="PREPARED" parameterType="map" resultType="int">
+     
+     <if test="keyfield == null or keyfield =''">       
+			select count(*) from authority
+      </if>
+     
+      <if test="keyfield == 'aName' and keyword != null">          
+          select count(*)
+          from authority a, employee e, authority_employee ae
+          where a.a_no = ae.a_no
+          and ae.emp_no = e.emp_no       
           and a.a_name Like '%' || #{keyword} || '%'
        </if>
-       
+        
        <if test="keyfield == 'empNo' and keyword != null">
+          select count(*)
+          from authority a, employee e, authority_employee ae
+          where a.a_no = ae.a_no
+          and ae.emp_no = e.emp_no      
           and e.emp_no Like '%' || #{keyword} || '%'
        </if>
        
        <if test="keyfield == 'empName' and keyword != null">
+          select count(*)
+          from authority a, employee e, authority_employee ae
+          where a.a_no = ae.a_no
+          and ae.emp_no = e.emp_no       
           and e.emp_name Like '%' || #{keyword} || '%'
        </if>
+       
    </select>
-   
-   <!-- 권한 수정-->
+    
+    
+  <!-- 권한 수정-->
    <update id="updateAuthority" parameterType="AuthorityVO" statementType="PREPARED" >
       update authority
       <trim prefix="set" suffixOverrides=",">

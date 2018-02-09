@@ -31,6 +31,7 @@ public class TemplateAjaxController {
 	public Map<String,Object> getTemplateList(
 			@RequestParam(required=false) String keyfield,
 			@RequestParam(required=false) String keyword ,
+			@RequestParam(required=false) String keyword1 ,
 			@RequestParam(required=false,defaultValue="false") boolean isAdmin,
 			@RequestParam int startRow ,
 			@RequestParam int endRow ,
@@ -44,6 +45,7 @@ public class TemplateAjaxController {
 		
 		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
+		map.put("keyword1", keyword1);
 			
 		int totalCount = templateService.retrieveTemplateCount(map);
 		if(totalCount < endRow) {

@@ -91,8 +91,32 @@
 			$('#deleteAppr').attr('disabled',false);
 		}
 		
+		//대결권자 변경 
+		var records = [];
+		<c:forEach items="${approval.approvalRecords}" var="record">
+			<c:if test="${record.depEmployee.empNo != null}">
+				records.push({
+					lineEmpNo : "${record.receiverLine.lineEmployee.empNo }" ,
+					depEmpNo : "${record.depEmployee.empNo}" ,
+					depEmpName : "${record.depEmployee.empName}" ,
+					depDepartment : "${record.depEmployee.department}" ,
+					depDuty : "${record.depEmployee.duty}"
+					});
+			</c:if>
+		</c:forEach>
+		$('.apprLineAppr').each(function() {
+			for(var i=0;i<records.length;i++) {
+				if(records[i].lineEmpNo == $(this).attr('id')) {
+					var thisIndex = $(this).index();
+					var trTemp = $(this).closest('tr');
+					$(this).text(records[i].depDuty);
+					trTemp.next().find('td:nth-child(' + thisIndex + ')').text(records[i].depEmpName+"<대결>");
+					trTemp.next().next().find('td:nth-child(' + thisIndex + ')').text(records[i].depDepartment);
+				}
+			}
+		});
 		
-	
+		
 		
 		/* var temp = $('.apprLineAppr2').length;
 		var text = "";
@@ -372,8 +396,6 @@
 
 
 </script>
-
-
 
 </head>
 

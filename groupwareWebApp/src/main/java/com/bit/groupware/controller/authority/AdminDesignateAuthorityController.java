@@ -90,32 +90,6 @@ public class AdminDesignateAuthorityController {
 		
 		authorityService.registerAuthEmp(list);
 		return true;
-		
-/*		
-		logger.info("번호/////////////////////////////// {} " , aNos);
-		List<String> aNoList = new ArrayList<String>();
-		for(String aNo : aNos) {
-			aNoList.add(aNo);
-		}
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", aNoList);
-		
-		authorityService.removeAuthEmp(map);
-		
-		for(String isRegistraions : isRegistration) {
-			if(isRegistration.equals("0")) {
-				logger.info("/////////////등록///////////// {}" , map );
-				authorityService.registerAuthEmp(map);
-				map.put("isSuccess", "true");
-			}else if(isRegistration.equals("1")){
-				logger.info("////////삭제///////////// {}" , map );
-				authorityService.removeAuthEmp(map);
-				map.put("isSuccess", "false");
-			}	
-		}
-		return map;	*/
-		//return null;
 	}
 	
 }
