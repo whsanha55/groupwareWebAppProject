@@ -37,8 +37,11 @@ public class ApprovalRecordDAOImpl implements ApprovalRecordDAO {
 		sqlSession.update(NAMESPACE + ".updateApprovalRecordStatus", map);
 	}
 
-	public void deleteApprovalRecord(int apprNo) {
-		sqlSession.delete(NAMESPACE + ".deleteApprovalRecord", apprNo);
+	
+
+	public void deleteApprovalRecord(List<Integer> apprNos) {
+		sqlSession.delete(NAMESPACE + ".deleteApprovalRecord", apprNos);
+		
 	}
 
 	public int selectApprovalRecallable(int apprNo) {

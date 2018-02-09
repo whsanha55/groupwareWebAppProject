@@ -12,5 +12,5 @@ public interface ApprovalCommentDAO {
 
 	void deleteApprovalComment(int commentNo);
 	
-	
+	void deleteApprovalCommentByApprNo(int apprNo);
 }
