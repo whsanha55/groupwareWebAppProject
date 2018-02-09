@@ -90,7 +90,7 @@ public class ListPlanController {
 			
 			map1.put("start", plan.getStartDate());
 			map1.put("end", plan.getEndDate());
-			map1.put("url", req.getContextPath()+ "/admin/detailPlan.do?pNo="+plan.getpNo());
+			map1.put("url", req.getContextPath()+ "/detailPlan.do?pNo="+plan.getpNo());
 			list.add(map1);
 			
 			
@@ -153,7 +153,7 @@ public class ListPlanController {
 			
 			map1.put("start", plan.getStartDate());
 			map1.put("end", plan.getEndDate());
-			map1.put("url", req.getContextPath()+ "/admin/detailPlan.do?pNo="+plan.getpNo());
+			map1.put("url", req.getContextPath()+ "/detailPlan.do?pNo="+plan.getpNo());
 			list.add(map1);
 			
 			

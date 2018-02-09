@@ -12,6 +12,7 @@
 <body>
 <script src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/fullcalendar/fullcalendar.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style type="text/css">
     .fc-sun {color:#e31b23}
 	.fc-sat {color:#007dc3}

@@ -35,4 +35,6 @@ public interface ApprovalService {
 	
 	//임시보관함에서 재기안 할 때 조회
 	ApprovalVO retrieveTempApproval(int apprNO);
+	
+	//void removeAboutApproval(ApprovalVO appr);
 }

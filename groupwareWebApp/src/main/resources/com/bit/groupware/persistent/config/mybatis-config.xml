@@ -20,6 +20,8 @@
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/NotificationMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/DelegationMapper.xml"/>
 		<mapper resource="com/bit/groupware/persistent/mapper/approval/MessageMapper.xml"/>
+		<mapper resource="com/bit/groupware/persistent/mapper/approval/ApprovalAutomaticUpdate.xml"/>
+		
 		<!-- Authority -->
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/RoleMapper.xml"/> 
 		<mapper resource="com/bit/groupware/persistent/mapper/authority/AuthorityMapper.xml"/> 

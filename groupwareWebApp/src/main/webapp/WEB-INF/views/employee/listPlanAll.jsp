@@ -12,6 +12,7 @@
 <body>
 <script src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/fullcalendar/fullcalendar.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style type="text/css">
     .fc-sun {color:#e31b23}
 	.fc-sat {color:#007dc3}
@@ -97,11 +98,6 @@ $(document).ready(function(){
         }
 	});
 	
-	//일정 등록 페이지 이동
-	$('#insert').click(function(){
-    	location.href = "${pageContext.request.contextPath}/admin/registerPlan.do";
-	});
-	
 	// 검색 실행
 	$('#findPlan').on('click', function() {
 		if($('.keyfield').attr('id') == undefined) {
@@ -118,7 +114,7 @@ $(document).ready(function(){
 		eKeyword = $('#keyword').val();
 		
 		$.ajax ({
-			url: '${pageContext.request.contextPath}/admin/listPlanAjax.do'
+			url: '${pageContext.request.contextPath}/listPlanAllAjax.do'
 			,
 			data : {
 				keyfield: eKeyfield,
@@ -193,6 +189,6 @@ $(document).ready(function(){
 		</div>
 		<div class="x_content">
 		
-		<div id='calendar'>※중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
+		<div id='calendar1'>※중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
 
 </html>

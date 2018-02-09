@@ -17,7 +17,7 @@
 		
 		//newMsg();
 	//	var msg = setInterval(newMsg, 2000);
-		
+
 		
 		
 		//최초이벤트(5개씩)
