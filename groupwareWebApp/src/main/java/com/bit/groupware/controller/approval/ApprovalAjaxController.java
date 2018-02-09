@@ -150,12 +150,17 @@ public class ApprovalAjaxController {
 		
 		ApprovalVO appr=new ApprovalVO();
 		appr=approvalService.retrieveApproval(apprNo);
-		appr.setApprNo(apprNo);
-		appr.setApprFinalStatus(4); 
-		approvalService.modifyApproval(appr); 
-		
-		return true;
-		
+		if(appr.getApprovalRecords().size()<=1) {
+			if(appr.getApprovalRecords().get(0).getConfirmDate()==null) {
+				appr.setApprFinalStatus(5); 
+				approvalService.modifyApproval(appr); 
+				return true;
+			}else {
+				return false;
+			}
+		}else {	
+			return false;
+		}
 	}
 
 	
