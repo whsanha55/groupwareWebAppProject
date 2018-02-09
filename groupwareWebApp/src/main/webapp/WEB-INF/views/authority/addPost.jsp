@@ -10,6 +10,24 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+    <script>
+   $(document).ready(function() {       
+       
+  		//첨부파일 용량 체크
+		$('.controls').on('change','input[name=upload]',function() {
+			if($(this).val() != '') {
+				alert($(this).val());
+				var fileSize = this.files[0].size;
+				var maxSize = 1024*1024*1;
+				if(fileSize > maxSize) {
+					swal('1mb 이하의 첨부만 가능합니다','요청 파일 크기 : ' + Math.round(fileSize/1024) + "kb",'error');
+					$(this).val('');
+				}
+			}
+		});
+
+   });
+</script>
 </head>
 <body>
 	<form action="<%=request.getContextPath()%>/addPost.do" method="post"
@@ -72,14 +90,20 @@
 								focus : true
 							// set focus to editable area after initializing summernote
 							});
-						</script>								
-
-
-						파 일 : <input type="file" name="upload"> 
-						파 일 : <input type="file" name="upload"> 
-						파 일 : <input type="file" name="upload">
+						</script>
 
 						<div class="ln_solid"></div>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="control-group" id="fields">
+									<div class="controls">
+										파 일 : <input type="file" name="upload"> 
+										파 일 : <input type="file" name="upload"> 
+										파 일 : <input type="file" name="upload">
+									</div>
+								</div>
+							</div>
+						</div>
 
 
 					</div>

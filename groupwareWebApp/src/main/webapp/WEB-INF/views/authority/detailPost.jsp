@@ -30,26 +30,26 @@
 
 			//댓글 삭제 
 			$('#deleteBtn').on('click', function() {	
-				var no = $(this).val();
+				var cmtNo = $(this).val();
 				swal({
 					title: "댓글 삭제" ,
-					text: "댓글을 삭제합니다. 계속 진행하시겠습니까?",
+					text: "댓글을 삭제합니다. 계속 진행하시겠습니까?"+cmtNo,
 					icon: "info",
 					buttons : true 
 				}).then((e) => {
 					if(e) {
-						deleteCmt(no);							
+						deleteCmt(cmtNo);							
 					}
 				});		
 							
 			//alert($(this).val());
-			function deleteCmt(no) {	
+			function deleteCmt(cmtNo) {	
 				$.ajax({
 					url: '${pageContext.request.contextPath}/deleteCmt.do'
 					,
 					method: 'GET'
 					,
-					data: {no}
+					data: {cmtNo}
 					, 
 					async: true
 					,
@@ -108,7 +108,7 @@
 		            }).then((e) => {
 		               if(e) {
 		                  $.ajax({
-		                     url : '${pageContext.request.contextPath}/modifyCmtAjax.do?' 
+		                     url : '${pageContext.request.contextPath}/modifyCmt.do?' 
 		                        ,
 		                        method : 'POST'
 		                        ,
@@ -135,6 +135,7 @@
 		                        }
 		                  
 		                     });
+		                  location.reload();
 		               }
 		            });
 
@@ -170,9 +171,9 @@
 					<c:url var="removeUrl" value="/removePost.do" scope="page">
 						<c:param name="postNo" value="${requestScope.post.postNo }" />
 					</c:url>
-					<a class="btn btn-primary" href="${modifyUrl}">수정</a> <a
-						class="btn btn-danger" href="${removeUrl}">삭제</a> <a
-						class="btn btn-primary" href='<c:url value="postList.do"/>'>목록</a>
+					<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
+					<a class="btn btn-danger" href="${removeUrl}">삭제</a> 
+					<a class="btn btn-primary" href='<c:url value="postList.do"/>'>목록</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -218,21 +219,21 @@
 				<table id="datatable">
 					<c:forEach var="cmt" items="${sessionScope.post.cmts }"
 						varStatus="loop">
-						<tr>
-							
+						<tr>							
 							<td colspan="3">${pageScope.cmt.cmtWriter }</td>
 							<td>(${pageScope.cmt.cmtDate })</td>		
-							
-													
+							<td></td>
+							<td></td>
+							<td></td>													
 						</tr>
-						<tr>
-							<td type="hidden" class='cmtNo' value="${pageScope.cmt.cmtNo }">${pageScope.cmt.cmtNo }  </td>
-							<td  class='cmtContent'>${pageScope.cmt.cmtContent }</td>	
+						<tr >
+							<td class='cmtNo' style="display:none;">${pageScope.cmt.cmtNo }</td>
+							<td colspan="4" class='cmtContent'>${pageScope.cmt.cmtContent }</td>	
 							<td class='selectBtn'>
-								<button type='button'  class='modifyBtn btn btn-primary'>수정</button>
+								<button type='button' >수정</button>
 							</td>						
 							<td>
-								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button>								
+								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn"  >삭제</button>								
 							</td>
 						</tr>
 						

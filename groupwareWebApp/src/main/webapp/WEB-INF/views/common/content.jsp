@@ -107,6 +107,10 @@ $(document).ready(function(){
 		
 			  
 	});
+	
+	
+	
+	
 });
     
 
@@ -125,8 +129,8 @@ $(document).ready(function(){
 			<div class="col-md-2 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_200">
                <dl style="margin-top:40px;">
-					<dt class="text-center"><a><i class="fa fa-file-text fa-5x" aria-hidden="true"></i></a></dt>
-					<dd><h2 class="text-center"><a><strong>게시판</strong></a></h2></dd>
+					<dt class="text-center"><a href='<c:url value="/postList.do"/>'><i class="fa fa-file-text fa-5x" aria-hidden="true"></i></a></dt>
+					<dd><h2 class="text-center"><a><strong><a href='<c:url value="/postList.do"/>'>게시판</strong></a></h2></dd>
 				</dl>
               </div>
             </div>
@@ -183,7 +187,7 @@ $(document).ready(function(){
               <div class="x_panel">
                 <div class="x_title">
                   <h2>주요 공지 <small>공지사항</small></h2>
-                   <div class="pull-right"><a><i class="glyphicon glyphicon-plus"></i></a></div>
+                   <div class="pull-right"><a href='<c:url value="/noticeList.do"/>'><i class="glyphicon glyphicon-plus"></i></a></div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">

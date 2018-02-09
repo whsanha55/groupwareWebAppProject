@@ -20,6 +20,7 @@ public class PostDAOImpl implements PostDAO {
 	}
 
 	public List<PostVO> selectPostList(Map<String, Object> map) {
+		
 		return sqlSession.selectList(NAMESPACE + ".selectPostList", map);
 	}
 
