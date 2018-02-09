@@ -17,6 +17,18 @@ page contentType="text/html; charset=utf-8"%>
 		var checkedRole = $('input[name=role]:checked').val();
 		
 		$('#login').click(function(){
+			if($('input:text[name=id]').val() == ""){
+				alert("사번을 입력해주세요");
+				$('input:text[name=id]').focus;
+				return false;
+			}
+			
+			if($('input:password[name=pwd]').val() == ""){
+				alert("비밀번호를 입력해주세요");
+				$('input:text[name=pwd]').focus;
+				return false;
+			}
+			
 			if(!($('input:radio[name=role]').is(':checked'))){
 				alert("옵션을 선택해주세요");
 				$('input:radio[name=role]').focus;
