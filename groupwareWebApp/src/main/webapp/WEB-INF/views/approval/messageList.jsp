@@ -11,6 +11,7 @@
 	
 <script>
 		var isSender = 1;	//받은 쪽지함
+		
 		$(document).ready(function(){
 			
 			templatePaging(1);//최초로드시 페이지처리
@@ -51,15 +52,20 @@
 		 		
 		 		var msgNos = [];
 		 		
-		 		if(':checkbox[name=table_records]:checked==null '){
-		 			swal({title: "삭제할 쪽지를 선택하세요",
-						icon: "warning"});
-		 			return;
-		 		}
+		 	
 		 		$(':checkbox[name=table_records]:checked').each(function(){
 		
 		 			msgNos.push($(this).attr('id'));
 		 		});
+		 		
+		 		
+		 		
+		 		if(msgNos.length==0){
+		 			
+		 			swal({title: "삭제할 쪽지를 선택하세요",
+						icon: "warning"});
+		 			return;
+		 		} 
 		 		
 		 		/* $('checkbox[name=table_records]:checked').each(function(){
 		 			var msgNos.(this).val());

@@ -1,6 +1,7 @@
 package com.bit.groupware.controller.authority;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.CmtVO;
+import com.bit.groupware.domain.authority.RoleVO;
 import com.bit.groupware.service.authority.CmtService;
 
 @Controller
@@ -34,28 +35,17 @@ public class CmtController {
         cmtService.registerCmt(cmt);
     }
     
-    // 댓글 목록(@Controller방식 : veiw(화면)를 리턴)
-    /*@RequestMapping("/list.do")
-    @ResponseBody
-    public ModelAndView list(@RequestParam int postNo, ModelAndView mv) throws Exception{
-    	logger.info("~~~~~~~~~~~~~~~~~~게시글번호 : {}", postNo);
-        List<CmtVO> list = cmtService.retrieveComment(postNo);
-        // 뷰이름 지정
-        mv.setViewName("authority/detailPost");
-        // 뷰에 전달할 데이터 지정
-        mv.addObject("list", list);
-        // replyList.jsp로 포워딩
-        return mv;
-    }*/
+    @RequestMapping(value="/modifyCmtAjax.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> modifyAuth(CmtVO cmt, @RequestParam(value="cmtContent") String cmtContent)
+			throws Exception{
+		
+		Map<String, String> map = new HashMap<String, String>();
+		cmtService.modifyCmt(cmt);
+		
+		
+		return map;
+	}
     
-    
-    /*
-    // 댓글 목록(@RestController Json방식으로 처리 : 데이터를 리턴)
-    @RequestMapping("listJson.do")
-    @ResponseBody // 리턴데이터를 json으로 변환(생략가능)
-    public List<CmtVO> listJson(@RequestParam int cmtNo) throws Exception{
-    	List<CmtVO> list = cmtService.retrieveComment();
-        return list;
-    }
-    */
+   
 }

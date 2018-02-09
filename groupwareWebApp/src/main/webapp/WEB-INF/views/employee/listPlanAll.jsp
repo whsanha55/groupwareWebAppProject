@@ -20,6 +20,9 @@
 <script>
 $(document).ready(function(){ 
 
+	$('#myPlanList').click(function(){
+    	location.href = "${pageContext.request.contextPath}/listPlan.do";
+	});
 	
 	var dataset =
 		[
@@ -113,6 +116,7 @@ $(document).ready(function(){
 							<div class="col-md-2">
 								<h2>일정목록</h2>
 							</div>
+							<button type="button" id="myPlanList" class="btn btn-primary">내 부서 일정 보기</button>
 						</div>
 					</div>
 					<div>
@@ -145,6 +149,6 @@ $(document).ready(function(){
 		</div>
 		<div class="x_content">
 		
-		<div id='calendar'>중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
+		<div id='calendar'>※중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
 
 </html>

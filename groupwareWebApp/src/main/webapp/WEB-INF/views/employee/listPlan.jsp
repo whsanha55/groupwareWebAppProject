@@ -19,7 +19,7 @@
 <script>
 $(document).ready(function(){ 
 	
-	$('#all').click(function(){
+	$('#allPlanList').click(function(){
     	location.href = "${pageContext.request.contextPath}/listPlanAll.do";
 	});
 	
@@ -115,7 +115,7 @@ $(document).ready(function(){
 							<div class="col-md-2">
 								<h2>일정목록</h2>
 							</div>
-							<button type="button" id="all" class="btn btn-primary">모든 일정 보기</button>
+							<button type="button" id="allPlanList" class="btn btn-primary">모든 일정 보기</button>
 						</div>
 					</div>
 					<div>
@@ -148,6 +148,6 @@ $(document).ready(function(){
 		</div>
 		<div class="x_content">
 		
-		<div id='calendar'>중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
+		<div id='calendar'>※중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
 
 </html>

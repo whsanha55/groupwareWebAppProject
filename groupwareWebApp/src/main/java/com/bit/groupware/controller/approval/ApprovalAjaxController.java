@@ -109,7 +109,7 @@ public class ApprovalAjaxController {
 				}
 			 
 			
-			map.put("apprFinalStatus", apprFinalStatus);  //0:요청,진행,참조,대기 1:승인 3:반려 4:임시 5:관리자
+			map.put("apprFinalStatus", apprFinalStatus);  //0:요청,진행,참조,대기 1:승인 3:반려 4:임시 10:관리자
 			map.put("keyfield", keyfield);
 			map.put("keyword", keyword);	
 			map.put("keyword1", keyword1);
@@ -117,7 +117,7 @@ public class ApprovalAjaxController {
 			
 			
 			int totalCount=0;
-			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==5) {		
+			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==10) {		
 				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려,관리자인 경우
 			}else {
 				totalCount = approvalService.retrieveApprovalCount(map);
@@ -132,7 +132,7 @@ public class ApprovalAjaxController {
 			
 			Map<String, Object> returnMap = new HashMap<String, Object>();
 			returnMap.put("totalCount", totalCount);
-			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus==5) {	//승인, 반려, 관리자인 경우
+			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus==10) {	//승인, 반려, 관리자인 경우
 				returnMap.put("approvals", approvalService.retrieveAllApprovalList(map) );
 				returnMap.put("empNo", id);  //반려
 			}else {
@@ -149,10 +149,11 @@ public class ApprovalAjaxController {
 	public boolean returnApproval(@RequestParam(value="apprNo") int apprNo) {
 		
 		ApprovalVO appr=new ApprovalVO();
+		appr=approvalService.retrieveApproval(apprNo);
 		appr.setApprNo(apprNo);
 		appr.setApprFinalStatus(4); 
 		approvalService.modifyApproval(appr); 
-		appr=approvalService.retrieveApproval(apprNo);
+		
 		return true;
 		
 	}

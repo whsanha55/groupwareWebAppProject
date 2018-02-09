@@ -4,17 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.bit.groupware.persistent.mapper.employee.DepartmentMapper">
-	<select id="selectDeptList" resultType="DepartmentVO">
+	
+	<select id="selectDeptList" resultType="DepartmentVO" parameterType="map" statementType="PREPARED">
 		select c_no as cNo, c_name as cName
 		from code
 		where relation_code = 'A'
-		    order by 1 asc
+			<if test="keyfield == 'cNo' and keyword != null">
+			and c_no like '%' || #{keyword} || '%'
+			</if>
+			<if test="keyfield == 'cName' and keyword != null">
+			and c_name like '%' || #{keyword} || '%'
+			</if>			
+		order by 1 asc
 	</select>
 	
 	<select id="selectDeptCharge" resultType="DepartmentVO" parameterType="String" statementType="PREPARED">
 		select duty||' '||empName as headDept, phoneNumber                  
 		from emplist_view
 		where deptNo = #{cNo}
+			<!-- <if test="keyfield == 'headDept' keyword != null">
+			and empName like '%' || #{empName} || '%'
+			</if> -->
 		    and isadmin = 'T'
 	</select>
 	
@@ -49,13 +59,5 @@
 		where emp_name = #{empName}
 	</update>
 	
-	<!-- <select id="selectDepartmentList" resultType="DepartmentVO" parameterType="String" statementType="PREPARED">
-	select deptNo as cNo, department as cName, duty||' '||empName as headDept, phoneNumber 
-		from emplist_view
-		<if test="keyfield == 'cNo' and keyword != null">
-		where deptNo = 'A-05'
-		</if>
-			and isadmin = 'T'
-	</select> -->
 </mapper>
 	

@@ -177,16 +177,19 @@
 									</div>
 								</div>
 							</div>
+							
 						</div>
 
 						<div class="ln_solid"></div>
 
-
+					
 					</div>
+					
 				</div>
-				<a class="btn btn-primary pull-right" href='<c:url value="postList.do" />'>취소</a>
-				&nbsp;
-				<button type="submit" class="btn btn-primary pull-right">등록</button>				 
+					<a class="btn btn-primary pull-right" href='<c:url value="postList.do" />'>목록</a>
+					<button type="reset" class="btn btn-primary pull-right">취소</button>		
+					<button type="submit" class="btn btn-primary pull-right">등록</button>
+					 
 			</div>
 		</div>
 	</form>
