@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit.groupware.domain.authority.AuthEmpListVO;
+import com.bit.groupware.domain.authority.AuthEmpVO;
 import com.bit.groupware.domain.authority.AuthorityVO;
 
 @Repository
@@ -64,5 +66,34 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectAuthorityByAname", aName);
 	}
 
+	//권한 사원을 등록하다.
+	public void insertAuthEmp(List<AuthEmpVO> list) {
+		sqlSession.insert(NAMESPACE + ".insertAuthEmp", list);
+		
+	}
+
+	//권한번호에 해당하는 사원을 조회하다.
+	public List<AuthEmpListVO> selectAuthEmpList(Map<String, Object> map) {
+		List<AuthEmpListVO> authEmps = sqlSession.selectList(NAMESPACE + ".selectListAuthEmp", map);
+		return authEmps;
+	}
+
+	//권한번호에 해당하는 사원의 게시글 수를 구하다.
+	public int selectAuthEmpCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectAuthEmpCount", map);
+	}
+
+	//권한번호에 해당하는 권한사원 존재여부
+	public int selectAuthEmpCountByaNo(String aNo) {
+		return sqlSession.selectOne(NAMESPACE + ".selectAuthEmpCountByaNo", aNo);
+	}
+
+	//권한 사원을 삭제한다.
+	public void deleteAuthEmp(String aNo) {
+		sqlSession.delete(NAMESPACE + ".deleteAutEmp" , aNo);
+		
+	}
+	
+	
 	
 }

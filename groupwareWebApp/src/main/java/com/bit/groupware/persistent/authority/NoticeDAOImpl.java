@@ -23,6 +23,11 @@ public class NoticeDAOImpl implements NoticeDAO {
 		return notices;
 	}
 
+	public List<NoticeVO> selectNoticeList() {
+		List<NoticeVO> notices = sqlSession.selectList(NAMESPACE + ".selectNoticeListt");
+		return notices;
+	}
+
 	public NoticeVO selectNotice(int noticeNo) {
 		NoticeVO notice = sqlSession.selectOne(NAMESPACE + ".selectNotice", noticeNo);
 		return notice;

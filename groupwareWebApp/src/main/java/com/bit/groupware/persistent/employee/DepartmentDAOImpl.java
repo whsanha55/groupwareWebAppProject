@@ -1,6 +1,7 @@
 package com.bit.groupware.persistent.employee;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public List<DepartmentVO> selectDeptList() {
-		return sqlSession.selectList(NAMESPACE + ".selectDeptList");		
+	public List<DepartmentVO> selectDeptList(Map<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".selectDeptList", map);		
 	}
 	
 	public DepartmentVO selectDeptCharge(String cNo) {
@@ -30,13 +31,13 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	public int selectDeptTeam(String cNo) {
 		return sqlSession.selectOne(NAMESPACE + ".selectDeptTeam", cNo);
 	}
-	
+
 	public void updateHead(String newHead) {
 		sqlSession.update(NAMESPACE + ".updateHead", newHead);
 	}
 	
 	public void retireHead(String oldHead) {
-		sqlSession.update(NAMESPACE + ".updateHead", oldHead);
+		sqlSession.update(NAMESPACE + ".retireHead", oldHead);
 	}
 	
 }
