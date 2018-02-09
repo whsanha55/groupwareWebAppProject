@@ -99,7 +99,7 @@
 					var thisIndex = $(this).index();
 					var trTemp = $(this).closest('tr');
 					$(this).text(records[i].depDuty);
-					trTemp.next().find('td:nth-child(' + thisIndex + ')').text(records[i].depEmpName);
+					trTemp.next().find('td:nth-child(' + thisIndex + ')').text(records[i].depEmpName+"<대결>");
 					trTemp.next().next().find('td:nth-child(' + thisIndex + ')').text(records[i].depDepartment);
 				}
 			}
