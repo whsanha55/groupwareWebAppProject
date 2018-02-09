@@ -55,6 +55,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	private EmployeeVO findUserInfo(String username) {
+		logger.info("---------------UserNAme ============== {}" , username );
 		try {
 			return userDAO.selectUserById(username);
 		} catch (Exception ex) {

@@ -114,7 +114,10 @@
    
    <delete id="deleteApprovalRecord" parameterType="int" statementType="PREPARED">  
     	delete from approval_record
-		where appr_no=#{apprNo}
+		where appr_no in
+		<foreach item="apprNo" collection="list" separator="," open="(" close=")" > 
+		  #{apprNo}     
+		</foreach>
    </delete>
    
    

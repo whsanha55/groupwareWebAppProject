@@ -12,7 +12,7 @@
 	var pKeyfield='desigRole';
 	var pKeyword;
 	$(document).ready(function() {
-		
+
 		Paging(1); 
 		
 		//	검색조건

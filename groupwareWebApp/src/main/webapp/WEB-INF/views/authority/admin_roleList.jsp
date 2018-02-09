@@ -10,6 +10,7 @@
 <script>
    var pKeyfield='role';
    var pKeyword;
+   var rName1;
    $(document).ready(function() {
       
       Paging(1); 
@@ -47,11 +48,11 @@
       
       // 수정
       $('#datatable').on('click','button:contains(수정)', function () {
-         var rName = $(this).parents("tr").find('.rName').text();      
+         rName1 = $(this).parents("tr").find('.rName').text();      
          var rType = $(this).parents("tr").find('.rType').text();
          var rExplan = $(this).parents("tr").find('.rExplan').text();
       
-          $(this).parents("tr").find('.rName').html("<input type='text' name='rName' value="+rName +" />");   
+          $(this).parents("tr").find('.rName').html("<input type='text' name='rName' value="+rName1 +" />");   
           if(rType =='url') {
              $(this).parents("tr").find('.rType').html("<select id='selBox'><option name='rType' value='url' selected='selected'>url</option><option value='method'>method</option></select>");   
           }else {
@@ -67,7 +68,6 @@
       
       //수정 완료
        $('#datatable').on('click','button:contains(완료)', function () {
-          
           var rId = $(this).parents("tr").find('.rId').text();      
           var rName = $(this).parents("tr").find('input[name=rName]').val();
           var target = document.getElementById("selBox");
@@ -95,6 +95,7 @@
                         data : {
                            rId : rId,
                            rName : rName,
+                           rName1 : rName1,
                            rType : rType,
                            rExplan : rExplan
                         }
@@ -113,7 +114,7 @@
                               $(explan).html(data.role.rExplan);
                               $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
                               Paging(1);   
-                           }else if(data.isSuccess == "false"){
+                           }else if(data.isFail == "false"){
                               swal("이미 역할이 존재합니다.");
                            } 
                         }

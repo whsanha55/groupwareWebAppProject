@@ -76,7 +76,7 @@ public class AdminDesignateAuthorityController {
 		String[] empNoArray = empNos.split(",");
 		List<AuthEmpVO> list = new ArrayList<AuthEmpVO>();
 		for(int i =0;i<empNoArray.length;i++) {
-			if(isRegistration.split(",")[i].equals("1")) {
+			if(isRegistration.split(",")[i].equals("0")) {   //등록
 				AuthEmpVO authEmp = new AuthEmpVO();
 				authEmp.setEmpNo(empNoArray[i]);
 				authEmp.setaNo(aNo);
@@ -84,11 +84,17 @@ public class AdminDesignateAuthorityController {
 			} 
 		}
 		
+		
+		
 		//삭제
 		authorityService.removeAuthEmp(aNo);
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list",list);
 		
-		authorityService.registerAuthEmp(list);
+		if(list.size() != 0) {
+			authorityService.registerAuthEmp(map);
+		}
 		return true;
 	}
 	
