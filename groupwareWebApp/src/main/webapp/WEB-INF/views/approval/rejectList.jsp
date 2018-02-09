@@ -13,6 +13,9 @@
 	.detailApproval{
 		cursor:pointer;
 	}
+	.currentRecord{
+		cursor:pointer;
+	}
 	
 </style>
 <script>
@@ -43,10 +46,20 @@
 			});
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
-			if($(this).val()=='apprDate'||$(this).val()=='finDate'){
+			if($(this).val()=='apprDate'){
+				$('#pKeyword1').remove();
+				$('#temp').remove();
 				$(this).next().attr('type','date');
 				
-				$(this).next().after("&nbsp;<b id=temp>~</b> ")
+				$(this).next().after("<b id=temp>&nbsp;~</b> ")
+				$(this).next().next().after("<input type=date id=pKeyword1>")
+				console.log($('form').html());
+			}else if($(this).val()=='finDate'){
+								
+				$('#pKeyword1').remove();
+				$('#temp').remove();
+				$(this).next().attr('type','date');
+				$(this).next().after("<b id=temp>&nbsp;~</b> ")
 				$(this).next().next().after("<input type=date id=pKeyword1>")
 				console.log($('form').html());
 			}else{
@@ -57,6 +70,7 @@
 
 				console.log($('form').html());
 			}
+			 
 		 });
 		 
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
@@ -67,12 +81,24 @@
 	        }
 		});
 		
-		
 		//검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
 			 pKeyword=$('#pKeyword').val();
 			 pKeyword1=$('#pKeyword1').val();
+			 
+	 			if(pKeyfield != "apprDate" && pKeyword == "") {
+	 				if(pKeyfield!="finDate"){
+						swal("검색어를 입력해주세요.", "");
+						return;
+	 				}
+				}
+	 			if(pKeyfield == "apprDate" ||pKeyfield == "finDate"){
+		 			if( pKeyword == "" || pKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "");
+						return;
+		 			}  
+	 			}
 			 
 			 templatePaging(1);
 		 });

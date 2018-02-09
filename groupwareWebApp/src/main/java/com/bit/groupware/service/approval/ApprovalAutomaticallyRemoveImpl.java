@@ -1,11 +1,12 @@
 package com.bit.groupware.service.approval;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.bit.groupware.persistent.approval.ApprovalAutomaticDAO;
+
 
 @Service
 public class ApprovalAutomaticallyRemoveImpl implements ApprovalAutomaticallyRemove{
@@ -14,7 +15,7 @@ public class ApprovalAutomaticallyRemoveImpl implements ApprovalAutomaticallyRem
 	private ApprovalAutomaticDAO dao;
 	
 	@Scheduled(fixedRate = 600000)
-	@Bean
+	/*@Bean*/
 	public void automaticallyRemove() {
 		//발표용 - 10분마다 실행 
 		dao.automaticallyRemoveDAO();
@@ -25,7 +26,7 @@ public class ApprovalAutomaticallyRemoveImpl implements ApprovalAutomaticallyRem
 	
 	
 	@Scheduled(cron= "0 0 0 * * *")
-	@Bean
+	/*@Bean*/
 	public void automaticallyRemove2() {
 		//매일 12시(자정)에 실행
 		dao.automaticallyRemoveDAO2();
