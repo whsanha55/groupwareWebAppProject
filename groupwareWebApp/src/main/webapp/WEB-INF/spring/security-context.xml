@@ -9,15 +9,23 @@
 	<!-- <security:http pattern="" security="none" /> -->
 
     <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+      <bean id="authenticationSuccessHandler" class="com.bit.groupware.security.LoginSuccessHandler" />
     
 	<security:http use-expressions="true" pattern="/**">
-		<security:custom-filter ref="filterSecurityInterceptor"
-			before="FILTER_SECURITY_INTERCEPTOR" />
+		<security:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
 		<!-- 로그인폼 커스터마이징 -->
+<<<<<<< HEAD
 		<security:form-login login-page="/login.do"
 		authentication-success-handler-ref=""
+=======
+		<security:form-login login-page="/login.do" authentication-success-handler-ref="authenticationSuccessHandler"
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 			username-parameter="id" password-parameter="pwd"
+<<<<<<< HEAD
 			login-processing-url="/j_spring_security_check"  
+=======
+			login-processing-url="/j_spring_security_check" 
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 			authentication-failure-url="/login.do?fail=true" />
 
 		<!-- 403페이지 -->
