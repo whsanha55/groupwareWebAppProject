@@ -350,11 +350,11 @@
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
 			and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>
-		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
-			and appr.appr_final_status in ('C-01-00','C-01-02')
+		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ||apprFinalStatus==5">
+			and appr.appr_final_status in ('C-01-00','C-01-02','C-01-05')
 		</if>
 		<if test="apprFinalStatus == 4 ">
-			and appr.appr_final_status in ('C-01-04','C-01-05')
+			and appr.appr_final_status ='C-01-04'
 		</if>
 		<if test="apprStatus == 0 and apprStatus!=null">
 			and rec.appr_status in ('C-02-00','C-02-02')
