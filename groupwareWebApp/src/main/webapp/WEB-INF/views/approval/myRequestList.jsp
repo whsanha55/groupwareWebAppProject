@@ -117,7 +117,11 @@
 					for(var i=0;i<data.approvals.length;i++) {
 
 						text += "<tr ><td>"+ data.approvals[i].apprNo + "</td>";
-						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
+						if(data.approvals[i].template ==null){
+							text += "<td>직접작성</td>";														
+						}else{
+							text += "<td>"+ data.approvals[i].template.tmpName + "</td>";							
+						}
 						if(data.approvals[i].apprFinalStatus==5){
 							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='5' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
 						}else{

@@ -138,6 +138,7 @@
 				}).then((e) => {
 					if(e) {
 						executeDelete();
+						
 					}	
 				});
 		})
@@ -151,7 +152,8 @@
 				  buttons : true 
 				}).then((e) => {
 					if(e) {
-						location.href='${pageContext.request.contextPath}/writeApproval.do';
+						window.opener.top.location.href="${pageContext.request.contextPath}/writeApproval.do?apprNo="+${requestScope.approval.apprNo};
+						window.close()						
 					}	
 				});
 		})
@@ -185,9 +187,20 @@
 							  content: {
 								  element : "input"
 							  } ,
-							  buttons : ['건너뛰기','저장']							  
-						}).then(commentContent => {
-				            executeApproval(commentContent,3);						
+							  buttons : '반려하기'						  
+						}).then((commentContent) => {
+							if(commentContent){
+								 executeApproval(commentContent,3);	
+							}else{
+								swal({
+									  title: "결재 반려",
+									  text: "코멘트를 입력해주세요",
+									  icon: "warning",
+									  buttons:false
+									})
+							}
+						
+				           					
 						});
 					}	
 				});

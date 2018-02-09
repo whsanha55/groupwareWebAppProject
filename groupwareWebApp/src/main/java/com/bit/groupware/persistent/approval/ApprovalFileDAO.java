@@ -11,4 +11,6 @@ public interface ApprovalFileDAO {
 	void deleteApprovalFiles(int fileNo);
 	
 	void deleteApprovalFilesByApprNO(List<Integer> apprNos);
+	
+
 }

@@ -46,20 +46,27 @@ public class ApprovalAjaxController {
 	private ApprovalRecordService approvalRecordService;
 
 	
+	//문서 등록
 	@RequestMapping(value="/approvalAjax.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int approvalAjax(ApprovalVO approval, 
-			TemplateVO template, 
+			@RequestParam(value="tmpNo",required=false,defaultValue="0") int tmpNo, 
 			@RequestParam int receiverNo, 
+			@RequestParam(value="deleteAppr", required=false, defaultValue="0") int deleteAppr , 
 			HttpSession session, 
 			Principal principal) throws Exception {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
+		
+		List<Integer> apprNos =new ArrayList<Integer>();
+		apprNos.add(deleteAppr); 
+		approvalService.removeApproval(apprNos);  
 		
 		EmployeeVO employee = new EmployeeVO();
 		employee.setEmpNo(principal.getName());
 		
 		approval.setEmployee(employee);
-		approval.setTemplate(template);
+	
+		approval.setTemplate(new TemplateVO(tmpNo));
 		
 		
 		//파일 저장
@@ -69,7 +76,7 @@ public class ApprovalAjaxController {
 				approval.addApprovalFile(approvalFile);
 			}
 		}
-		
+		System.out.println(session.getServletContext().getRealPath("/") +"zzzzzzzzzzzzzzzzz");
 		approvalService.registerApproval(approval, receiverNo);
 		
 		return approval.getApprFinalStatus();

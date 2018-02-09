@@ -51,13 +51,17 @@ public class WriteApprovalController {
 	public ModelAndView form(@RequestParam(value="tmpNo", required=false, defaultValue="0") int tmpNo ,
 							@RequestParam(value="apprNo", required=false, defaultValue="0") int apprNo) {
 		ApprovalVO appr=new ApprovalVO();
-		ModelAndView mv = new ModelAndView();
+
+ 		ModelAndView mv = new ModelAndView();
 		if(tmpNo > 0) {
-			mv.addObject("template",templateService.retrieveTemplate(tmpNo));
+			mv.addObject("template",templateService.retrieveTemplate(tmpNo)); 
 		}else if(apprNo > 0) {
-			appr=approvalService.retrieveApproval(apprNo); 
+			appr=approvalService.retrieveTempApproval(apprNo);
+			logger.info("ぞぞぞぞぞぞぞ"+appr.getReceiverNo());   
 			mv.addObject("approval", appr);
-			mv.addObject("isReAppr", 1);
+			/*if(appr.getApprFinalStatus()!=3) {
+				mv.addObject("isReAppr", apprNo); 
+			}*/
 		}
 
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
