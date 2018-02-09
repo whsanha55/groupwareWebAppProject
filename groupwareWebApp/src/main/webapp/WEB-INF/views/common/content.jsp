@@ -50,7 +50,12 @@ $(document).ready(function(){
 						textColor : "white"
 					</c:if>
 					,
-					title : "${plan.pTitle}"
+					<c:if test="${plan.cName == '부서'}" >
+						title : "${plan.pTitle} - 전체"
+					</c:if>
+					<c:if test="${plan.cName != '부서'}" >
+						title : "${plan.pTitle} - ${plan.cName}"
+					</c:if>
 					,
 					start : "${plan.startDate}"
 					,
