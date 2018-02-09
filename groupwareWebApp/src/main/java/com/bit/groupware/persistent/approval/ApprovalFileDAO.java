@@ -9,4 +9,6 @@ public interface ApprovalFileDAO {
 	void insertApprovalFileList(List<ApprovalFileVO> approvalFiles);
 
 	void deleteApprovalFiles(int fileNo);
+	
+	void deleteApprovalFilesByApprNO(List<Integer> apprNos);
 }

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>메시지 보관함</title>
+<title>결재문서 상세조회</title>
 
 <style>
 .x_panel {
@@ -58,9 +58,11 @@
 			$('#reject').hide();
 			$('#postpone').hide();
 			$('#reAppr').hide();
+			$('#deleteAppr').hide();
 		} else if(status==2){
 			$('#return').hide();
 			$('#reAppr').hide();
+			$('#deleteAppr').hide();
 			$('#appr').attr('disabled',false);	
 			$('#reject').attr('disabled',false);
 			if(finalStatus==0){
@@ -72,12 +74,21 @@
 			$('#reject').hide();
 			$('#reAppr').hide();
 			$('#postpone').hide();
+			$('#deleteAppr').hide();
 		}else if(status==4){
 			$('#return').hide();
 			$('#appr').hide();
 			$('#reject').hide();
-			$('#postpone').hide()
+			$('#postpone').hide();
+			$('#deleteAppr').hide();
 			$('#reAppr').attr('disabled',false);
+		}else if(status==5){
+			$('#return').hide();
+			$('#appr').hide();
+			$('#reject').hide();
+			$('#postpone').hide();
+			$('#reAppr').attr('disabled',false);
+			$('#deleteAppr').attr('disabled',false);
 		}
 		
 		
@@ -117,6 +128,20 @@
 				});
 		})
 		
+		//삭제
+		$('#deleteAppr').on('click',function(){
+			swal({
+				  title: "문서 삭제",
+				  text: "선택한 문서를 삭제 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						executeDelete();
+					}	
+				});
+		})
+		
 		//재기안
 		$('#reAppr').on('click',function(){
 			swal({
@@ -126,7 +151,7 @@
 				  buttons : true 
 				}).then((e) => {
 					if(e) {
-						executeReAppr();
+						location.href='${pageContext.request.contextPath}/writeApproval.do';
 					}	
 				});
 		})
@@ -222,7 +247,7 @@
 			});
 		}
 		
-		//재기안	
+		/* //재기안	
 		function executeReAppr(){
 			
 			$.ajax({
@@ -248,7 +273,7 @@
 					alert("error : " + jqXHR.status);
 				}
 			});
-		}
+		} */
 		
 		//결재 반려 또는 승인 
 		function executeApproval(commentContent,apprStatus) {
@@ -291,6 +316,34 @@
 			});
 		}
 		
+		//삭제
+		function executeDelete(){
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/removeReturnAppr.do'
+				,
+				method : 'GET'
+				,
+				data: {
+					apprNo : '${requestScope.approval.apprNo}'
+				}
+				,
+				datatype : 'json'
+				,
+				
+				success : function(data) {
+					swal("문서 삭제가 완료되었습니다.").then((e)=>{
+						self.close();
+						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+					});					
+				}
+				,
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
+		}
+		
 		
 		function checkDate() {
 			
@@ -326,6 +379,7 @@
 			 		<button type="button" class="btn btn-success" id="postpone" disabled='true'>보류</button>
 			 		<button type="button" class="btn btn-success" id='reject' disabled='true'>반려</button>			 				 		
 			 		<button type="button" class="btn btn-success" id='reAppr' disabled='true'>재기안</button>			 				 		
+			 		<button type="button" class="btn btn-success" id='deleteAppr' disabled='true'>삭제</button>			 				 		
 			</div>
 			<div class="table-responsive" id="datas" style="border:0px;">
 				<h2><strong>결재 라인</strong></h2>

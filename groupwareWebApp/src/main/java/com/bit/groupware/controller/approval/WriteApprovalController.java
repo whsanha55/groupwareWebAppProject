@@ -55,8 +55,9 @@ public class WriteApprovalController {
 		if(tmpNo > 0) {
 			mv.addObject("template",templateService.retrieveTemplate(tmpNo));
 		}else if(apprNo > 0) {
-			appr=approvalService.retrieveTempApproval(apprNo); 
+			appr=approvalService.retrieveApproval(apprNo); 
 			mv.addObject("approval", appr);
+			mv.addObject("isReAppr", 1);
 		}
 
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

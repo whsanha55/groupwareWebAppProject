@@ -2,6 +2,7 @@ package com.bit.groupware.controller.approval;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -154,6 +155,7 @@ public class ApprovalAjaxController {
 			if(appr.getApprovalRecords().get(0).getConfirmDate()==null) {
 				appr.setApprFinalStatus(5); 
 				approvalService.modifyApproval(appr); 
+				//approvalRecordService.removeApprovalRecord(apprNo); 
 				return true;
 			}else {
 				return false;
@@ -184,5 +186,18 @@ public class ApprovalAjaxController {
 	
 	}
 	
+	
+	//회수문서 삭제
+	@RequestMapping(value="/removeReturnAppr.do",method=RequestMethod.GET )
+	@ResponseBody
+	public int executeReturnDelete(@RequestParam(value="apprNo") int apprNo) {
+		
+	//	approvalRecordService.removeApprovalRecord(apprNo); 
+		List<Integer> apprNos=new ArrayList<Integer>();
+		apprNos.add(apprNo);
+		
+		approvalService.removeApproval(apprNos);
+		return 1;
+	}
 	
 }

@@ -73,9 +73,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	// 결재 문서 회수/보류
 	public void modifyApproval(ApprovalVO approval) {
 		//'회수'인 경우 결재 이력 삭제
-		if(approval.getApprFinalStatus() == 4) {
+		/*if(approval.getApprFinalStatus() == 5) {
 			recordDAO.deleteApprovalRecord(approval.getApprNo());	
-		}
+		}*/
 		//결재문서 최종상태 여부 변경
 		dao.updateApproval(approval);
 		
@@ -91,6 +91,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	//삭제
 	public void removeApproval(List<Integer> apprNos) {
 		// TODO Auto-generated method stub
+		fileDAO.deleteApprovalFilesByApprNO(apprNos); 
+		recordDAO.deleteApprovalRecord(apprNos); 
 		dao.deleteApproval(apprNos); 
 	}
 
