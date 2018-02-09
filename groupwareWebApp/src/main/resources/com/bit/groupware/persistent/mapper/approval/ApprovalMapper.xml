@@ -504,6 +504,9 @@
 				<result property="isDelegation" column="isdelegation" />
 				<association property="depEmployee" column="dep_emp_no" javaType="EmployeeVO">
 					<id property="empNo" column="dep_emp_no"/>
+					<result property="empName" column="dep_emp_name"/>
+					<result property="department" column="dep_department"/>
+					<result property="duty" column="dep_duty"/>
 				</association>
 				<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
 					<id property="commentNo" column="comment_no"/>
@@ -512,6 +515,7 @@
 				</association>
 				<association property="receiverLine"  javaType="ReceiverLineVO">
 					<association property="lineEmployee" javaType="EmployeeVO">
+						<result property="empName" column="line_emp_name"/>
 						<result property="signName" column="signname"/>
 						<result property="systemSignName" column="systemsignname"/>
 					</association>
@@ -545,15 +549,21 @@
 	                     where t4.emp_no = t6.emp_no
 	                     and t6.dept_no = t7.c_no)
 	          end as duty,
-     		  t5.confirm_date, t5.record_no, t5.dep_emp_no, 
+     		  t5.line_emp_name, t5.confirm_date, t5.record_no, 
               t5.isdelegation, 
               t5.comment_no, t5.comment_content, t5.comment_date ,
-              t5.signname, t5.systemsignname
+              t5.signname, t5.systemsignname ,
+              t5.dep_emp_no, t5.dep_emp_name , t5.dep_department, t5.dep_duty
         from approval t1, approval_file t2, template t3 , emp_view t4 ,
-             (select r2.confirm_date, r2.dep_emp_no, r2.isdelegation, 
+             (select (select e1.emp_name
+             		  from employee e1
+             		  where r1.line_emp_no = e1.emp_no) as line_emp_name ,
+             		 r2.confirm_date, r2.dep_emp_no, r2.isdelegation, 
              		 r2.record_no, r2.appr_no, 
              		 r3.comment_no, r3.comment_content, r3.comment_date ,
-             		 r4.signname, r4.systemsignname
+             		 r4.signname, r4.systemsignname ,
+             		 '(대)' || r4.empname as dep_emp_name , r4.department as dep_department,
+                     r4.duty as dep_duty
               from receiver_line r1, approval_record r2, approval_comment r3, emplist_view r4
               where r1.line_no = r2.line_no
               and r2.record_no = r3.record_no(+) 
