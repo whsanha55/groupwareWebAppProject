@@ -87,8 +87,7 @@ p {
 					selectedNameAndDuty = data.node.title;
 					selectedDepartment = data.node.parent.title;
 					selectedDeptNo = data.node.parent.key;
-					
-				
+
 				} else {
 					selectedEmpNo = "";
 					selectedNameAndDuty = "";

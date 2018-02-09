@@ -10,6 +10,9 @@ public interface NoticeDAO {
 	//공지사항 정보를 최근 등록일순으로 조회한다.
 	List<NoticeVO> selectNoticeList(Map<String, Object> map);
 	
+	//공지사항 정보를 조회한다.
+	List<NoticeVO> selectNoticeList();
+	
 	//공지사항 정보를 상세 조회한다.
 	NoticeVO selectNotice(int noticeNo);
 	
