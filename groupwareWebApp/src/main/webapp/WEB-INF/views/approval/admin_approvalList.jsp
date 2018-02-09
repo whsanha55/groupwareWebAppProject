@@ -12,6 +12,8 @@
 	}
 	
 </style>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 
 	var pKeyfield;  
@@ -58,7 +60,7 @@
 			 
 		 });
 		 
-		//검색조건 엔터키 눌렀을때 트리거 발동--?
+		//검색조건 엔터키 눌렀을때 트리거 발동
 		$('#pKeyword').on('keydown', function(e) {
 			if(e.keyCode == 13){
 				e.preventDefault();
@@ -69,9 +71,20 @@
 		
 		//검색
 		 $("#btn3").on("click",function(){
+			  
 			 pKeyfield=$('#pKeyfield').val();
 			 pKeyword=$('#pKeyword').val();
 			 pKeyword1=$('#pKeyword1').val();
+			 
+			 if(pKeyfield != "apprDate" && pKeyword == "") {
+					swal("검색어를 입력해주세요.", "");
+					return;
+				}
+	 			
+	 			if(pKeyfield == "apprDate" && (pKeyword == "" || pKeyword1 == "")) {
+					swal("기안일을 지정해주세요.", "");
+					return;
+	 			}
 			 
 			 templatePaging(1);
 		 });

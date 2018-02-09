@@ -23,4 +23,6 @@ public interface ApprovalRecordService {
 	void modifyCheckDate(int recordNo);
 	
 	int retrieveRecNo(Map<String,Object> map);
+	
+	//void removeApprovalRecord(int apprNo);
 }
