@@ -57,8 +57,9 @@
           }else {
               $(this).parents("tr").find('.rType').html("<select id='selBox'><option name='rType' value='url' >url</option><option value='method' selected='selected'>method</option></select>");   
           }
-          $(this).parents("tr").find('.rExplan').html("<input type='text' name='rExplan' value="+rExplan +" />");   
-          
+          $(this).parents("tr").find('.rExplan').html("<input type='text' name='rExplan'>");   
+          $(this).parents("tr").find('.rExplan').find(':text[name=rExplan]').val(rExplan);   
+                    
           $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
           $('button:contains(수정)').prop("disabled", true);
          
@@ -192,7 +193,7 @@
    
    function Paging(currentPageNo) {
       var totalCount =  0;      //총 양식서 수
-      var countPerPage = 10;   //한 페이지당 보여주는 양식서 수
+      var countPerPage = 7;   //한 페이지당 보여주는 양식서 수
       var pageSize = 5;      //페이지 리스트에 게시되는 페이지 수
       var startRow = (currentPageNo - 1) * countPerPage + 1;
       var endRow = currentPageNo * countPerPage;

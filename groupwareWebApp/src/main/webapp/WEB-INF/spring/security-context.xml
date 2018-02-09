@@ -14,8 +14,9 @@
 	<security:http use-expressions="true" pattern="/**">
 		<security:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
 		<!-- 로그인폼 커스터마이징 -->
-		<security:form-login login-page="/login.do" authentication-success-handler-ref="authenticationSuccessHandler"
-			username-parameter="id" password-parameter="pwd"
+
+		<security:form-login login-page="/login.do" 
+		authentication-success-handler-ref="authenticationSuccessHandler"
 			login-processing-url="/j_spring_security_check" 
 			authentication-failure-url="/login.do?fail=true" />
 

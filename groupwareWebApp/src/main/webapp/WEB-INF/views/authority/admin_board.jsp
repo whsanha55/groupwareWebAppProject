@@ -37,7 +37,11 @@ $(document).ready(function(){
 	
 	//등록
 	$('#display').on('click','#submit',function(){
-		
+		/* if($('#boardName').val() == "" ){
+			alert("이름을 입력하세요! ");
+			$('#boardName').focus();
+			return false;
+		} */
 		
 		var params = jQuery('#serializeForm').serialize();
 		
@@ -63,23 +67,7 @@ $(document).ready(function(){
 			}
 			,
 			error : function(jqXHR, textStatus, errorThrown){
-				if($('#boardName').val() == "" ){
-					alert("이름을 입력하세요! ");
-					$('#boardName').focus();
-				}else if(!$(':input:radio[name=isUse]:checked').val()){
-					alert("사용 유무를 선택해주세요!");
-				}else if($('[name=fileCount]>option:selected').val() == '0'){
-					alert("파일 개수를 선택해주세요!");
-					$('#fileCount').focus();
-				}else if(!$(':input:radio[name=isNotice]:checked').val()){
-					alert("공지사항 사용 유무를 선택해주세요!");
-				}else if(!$(':input:radio[name=isComment]:checked').val()){
-					alert("코멘트 사용유무를 선택해주세요!");
-				}else if(!$(':input:radio[name=isDeptDivide]:checked').val()){
-					alert("부서 구분을 선택해주세요!");
-				}else if(!$(':input:radio[name=isDocuType]:checked').val()){
-					alert("게시판 카테고리 선택해주세요!");
-				}
+				alert('error: ' + jqXHR.status);
 			}
 		});
 	});	
