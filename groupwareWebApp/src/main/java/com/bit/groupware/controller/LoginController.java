@@ -24,57 +24,42 @@ import com.bit.groupware.service.employee.PlanService;
 @Controller
 public class LoginController {
 
-   //Logging
-   public static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-   
-/*   @Autowired
-   private EmployeeService employeeService;*/
-   
-   @Autowired
+	// Logging
+	public static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+	/*
+	 * @Autowired private EmployeeService employeeService;
+	 */
+
+	@Autowired
 	private PlanService planService;
-   
-   //권한 로그인
-   @RequestMapping(value = "/login.do", method = RequestMethod.GET)
-   public String form() {
-      return "login";
-   }
-   
-   
-   //모든 사용자 로그인
-   @RequestMapping(value = "/loginForm.do", method = RequestMethod.GET)
-   public String form1() {
 
-      return "login";
-   }
-   
-   //메인
-   @RequestMapping(value = "/index.do", method = RequestMethod.GET)
-   public ModelAndView form2() {
-       UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-       String isAdmin = user.getIsAdmin();
-       logger.info("isAdmin : {}" , isAdmin);
-       
-       ModelAndView mv = new ModelAndView();
-       Map<String, Object> map = new HashMap<String, Object>();
-       map.put("keyfield", "검색조건");
-       map.put("keyword", "검색어");
-       map.put("cName", user.getDeptName());
-       logger.info("map : {}" , map);
-		
-       if(isAdmin.equals("T")) {
-          mv.setViewName("adminMain");
-       } else {
-          mv.setViewName("main");
-          List<PlanVO> plans = planService.retrievePlanListByDeptName(map);
-          mv.addObject("plans",plans);
-       }
-   
-       return mv;
-      
-   }
-   
-      
+	// 로그인 폼 요청
+	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
+	public String form() {
+		return "login";
+	}
 
-   
+	// 사용자 메인화면
+	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
+	public ModelAndView form2() {
+		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		ModelAndView mv = new ModelAndView();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cName", user.getDeptName());
+
+		List<PlanVO> plans = planService.retrievePlanListByDeptName(map);
+		mv.addObject("plans", plans);
+		mv.setViewName("main");
+		return mv;
+	}
+
+	// 관리자 메인화면
+	@RequestMapping(value = "/admin/index.do", method = RequestMethod.GET)
+	public String form3() {
+		return "adminMain";
+
+	}
 
 }
