@@ -114,6 +114,9 @@ public class ApprovalAjaxController {
 			map.put("keyword", keyword);	
 			map.put("keyword1", keyword1);
 			
+			logger.info("================= keyfied : {}", keyfield);
+			logger.info("================= keyword : {}", keyword);
+			
 			
 			
 			int totalCount=0;
