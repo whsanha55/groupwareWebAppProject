@@ -215,20 +215,22 @@ $(document).ready(function() {
 		var aName = $(this).parents("tr").find('.aName').text();		
 		var aNote = $(this).parents("tr").find('.aNote').text();
 		var aWhether = $(this).parents("tr").find('.aWhether').text();
-	
+		console.log(aWhether);
 		
 	    $(this).parents("tr").find('.aName').html("<input type='text' name='aName' value="+aName +" />");	
 	    $(this).parents("tr").find('.aNote').html("<input type='text'' name='aNote'>");	
 	    $(this).parents("tr").find('.aNote').find(':text[name=aNote]').val(aNote);
 	    $(this).parents("tr").find('.aWhether').html("<label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio1' value='0'> 유 </label> <label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio2' value='1'>무</label>");
-	
-	    if(aWhether == 0) {
+	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-default'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
+		
+	    if($(this).parents("tr").find('.aWhether').text() == 0) {
             $('input[name=aWhether][value=0]').prop('checked',true);
          }else{
             $('input[name=aWhether][value=1]').prop('checked',true);
          }
-
-	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-default'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
+		
+	    
+	    
 	    $('button:contains(수정)').prop("disabled", true);
 	    $('button:contains(사원추가)').prop("disabled", true);
 
