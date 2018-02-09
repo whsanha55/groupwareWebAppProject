@@ -32,6 +32,8 @@ public class ListPlanController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		map.put("cName", user.getDeptName());
+		String id = SecurityContextHolder.getContext().getAuthentication().getName();
+		
 		map.put("keyfield", "pTitle");
 		map.put("keyword", "¿œ¡§1");
 		logger.info("map : {}", map);

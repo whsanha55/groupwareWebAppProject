@@ -41,6 +41,7 @@ public class AdminRetrieveAuthorityListController {
 		map.put("keyword", keyword);
 		
 		int totalCount = authorityService.retrieveAuthorityCount(map);
+		logger.info("//////////////////!! totalCount {}", totalCount);
 		if(totalCount < endRow) {
 			endRow = totalCount;
 		}
@@ -48,6 +49,8 @@ public class AdminRetrieveAuthorityListController {
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		
+		logger.info("//////////////////!! startRow {}", startRow);
+		logger.info("//////////////////!! endRow {}", endRow);
 		List<AuthorityVO> authorities = authorityService.retrieveAuthorityList(map);
 		Map<String,Object> returnMap = new HashMap<String, Object>();
 		logger.info("/////////////retrieveAuthorityList///////////" , authorities);
