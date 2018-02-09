@@ -12,9 +12,9 @@
 	var pKeyfield='desigRole';
 	var pKeyword;
 	$(document).ready(function() {
-
-		Paging(1); 
 		
+		Paging(1); 
+				
 		//	검색조건
 		$('.search-panel .dropdown-menu').on('click','a',function(e) {
 				e.preventDefault();
