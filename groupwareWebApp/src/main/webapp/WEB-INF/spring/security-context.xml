@@ -18,7 +18,9 @@
 		<security:form-login login-page="/login.do" 
 		authentication-success-handler-ref="authenticationSuccessHandler"
 			login-processing-url="/j_spring_security_check" 
-			authentication-failure-url="/login.do?fail=true" />
+			authentication-failure-url="/login.do?fail=true" 
+			username-parameter="id" 
+			password-parameter="pwd"/>
 
 		<!-- 403페이지 -->
 		<security:access-denied-handler ref="LoginFailController" />

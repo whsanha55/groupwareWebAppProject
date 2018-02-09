@@ -64,8 +64,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthEmpList(aNo);
 	}
 
-	public void registerAuthEmp(List<AuthEmpVO> list) {
-		authorityDAO.insertAuthEmp(list);
+	public void registerAuthEmp(Map<String, Object> map) {
+		authorityDAO.insertAuthEmp(map);
 		
 	}
 

@@ -38,7 +38,7 @@ public interface AuthorityDAO {
 	int selectAuthorityByAname(String aName);
 	
 	//권한사원을 등록하다.
-	void insertAuthEmp(List<AuthEmpVO> list);
+	void insertAuthEmp(Map<String, Object> map);
 
 	// 권한사원를 권한번호순으로 오름차순으로 조회한다.
 	List<AuthEmpListVO> selectAuthEmpList(Map<String, Object> map);

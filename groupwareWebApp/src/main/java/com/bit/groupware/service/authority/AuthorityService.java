@@ -37,7 +37,7 @@ public interface AuthorityService {
 	int retrieveAuthorityByAname(String aName);
 	
 	//권한사원을 등록하다.
-	void registerAuthEmp(List<AuthEmpVO> list);
+	void registerAuthEmp(Map<String, Object> map);
 	
 	//권한번호에 해당하는 사원의 정보를 조회하다.
 	List<AuthEmpListVO> retrieveAuthEmpList(Map<String, Object> map);
