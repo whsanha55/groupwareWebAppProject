@@ -95,37 +95,35 @@
 									keyboard: false
 								});
 								oldHead = $(this).text().split(" ")[1];
-								checkCno = $(this).parent().children('#check'+i).text();
-								console.log(checkCno);
-							});
-							
-							$('#modalChooseBtn').on('click',function() {
-								checkChooseCno = selectedEmpNo;
-								console.log(checkChooseCno);
-								
-								if(checkChooseCno != checkCno) {
-									alert("같은 부서의 사원만 업무 담당자로 지정 가능합니다!");
-									return false;
-								}
-								
-								
-								$.ajax ({
-									url : "${pageContext.request.contextPath}/admin/deptListAjax.do",
-									method : "POST",
-									data : {
-										oldHead : oldHead,
-										newHead : selectedNameAndDuty.split(" ")[0]
-									},
-									dataType : 'json',
-									success : function(data) {
-										location.reload();
-									},
-									error : function(jqXHR) {
-										alert("error : " + jqXHR.status);
-									}
-								});
+								checkCno = $(this).parent().parent().find('td:nth-child(1)').text();
+								console.log('checkCno : ' + checkCno);
 							});
 						}	
+						$('#modalChooseBtn').on('click',function() {
+							checkChooseCno = selectedDeptNo;
+							console.log(checkChooseCno);
+							
+							if(checkChooseCno != checkCno) {
+								alert("같은 부서의 사원만 업무 담당자로 지정 가능합니다!");
+								return false;
+							}
+							
+							$.ajax ({
+								url : "${pageContext.request.contextPath}/admin/deptListAjax.do",
+								method : "POST",
+								data : {
+									oldHead : oldHead,
+									newHead : selectedNameAndDuty.split(" ")[0]
+								},
+								dataType : 'json',
+								success : function(data) {
+									location.reload();
+								},
+								error : function(jqXHR) {
+									alert("error : " + jqXHR.status);
+								}
+							});
+						});
 					}
 					$('#datatable').find('tbody').html(text);	
 				} 

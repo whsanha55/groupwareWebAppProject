@@ -172,5 +172,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		departmentDAO.retireHead((String)map.get("oldHead"));
 		departmentDAO.updateHead((String)map.get("newHead"));		
 	}
+	
+	public void removeDeputy(String depNo) {
+		deputyDAO.deleteDeputy(depNo);
+	}
 
 }
