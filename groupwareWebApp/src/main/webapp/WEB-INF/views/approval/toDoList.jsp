@@ -10,7 +10,9 @@
 	.column-title{
 		text-align:center;
 	}
-	
+	.detailApproval{
+		cursor:pointer;
+	}
 </style>
 <script>
 
@@ -164,7 +166,7 @@
 
 						text += "<td id="+ data.approvals[i].apprNo +" class='apprNo'>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprFinalStatus +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
+						text += "<td id="+ data.approvals[i].apprFinalStatus +" class='detailApproval'style='font-weight:bolder'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";

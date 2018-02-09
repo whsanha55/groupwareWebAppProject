@@ -57,13 +57,16 @@ public class AdminModifyPlanController {
 		logger.info("plan : {} ", plan);
 		
 		List<MultipartFile> uploadFiles = plan.getUpload();
-		for(MultipartFile file : uploadFiles) {
-			if(!file.isEmpty()) {
-				ServletContext context = session.getServletContext();
-				PlanFileVO planFile = UploadPlanFiles.uploadFile(file, context);
-				plan.addPlanFile(planFile);
+		if(uploadFiles != null ) {
+			for(MultipartFile file : uploadFiles) {
+				if(!file.isEmpty()) {
+					ServletContext context = session.getServletContext();
+					PlanFileVO planFile = UploadPlanFiles.uploadFile(file, context);
+					plan.addPlanFile(planFile);
+				}
 			}
 		}
+		
 		
 		planService.modifyPlan(plan);
 		return "redirect:/admin/detailPlan.do?pNo=" + plan.getpNo();

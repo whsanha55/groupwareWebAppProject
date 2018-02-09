@@ -7,7 +7,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>대결권자 등록</title>
-
+<style>
+.pagination {align:center};
+</style>
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -15,48 +17,6 @@
 	$(document).ready(function () {		
 
 		employeePaging1(1);
-		
-		
-		
-		/* $('#submitBtn').submit(function() {
-			var dempNo = $('#dempNo').attr('value'); 
-			var startDate = $('#startDate').val();
-			var endDate = $('#endDate').val();
-			var depReason = $('#depReason').val();
-			
-			$.ajax ({
-				url: '${pageContext.request.contextPath}/registerDeputy.do'
-				,
-				method: 'POST'
-				,
-				data: {
-					dempNo: $('#dempNo').attr('value'),
-					startDate: $('#startDate').val(),
-					endDate: $('#endDate').val(),
-					depReason: $('#depReason').val(),
-					empNo: '2018-00018'
-				}
-				,
-				dataType: 'json'
-				,
-				success: function(data) {
-					console.log(dempNo);
-					console.log(startDate);
-					console.log(endDate);
-					console.log(depReason);
-					if(data == 1) {
-						location.href="${pageContext.request.contextPath}/registerDeputy.do";
-					} else {
-						return false;
-					}
-				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-				
-			}); 
-		});*/
 		
 		//검색조건
 		$('.searchList2 .dropdown-menu').on('click','a',function(e) {
@@ -108,10 +68,27 @@
 			$('#chartBody').html(""); 
 		});
 		
+		//취소
+		$('#datatable').on('click','#candep',function() {
+			console.log($(this).parent().parent().find('input').val());
+			$.ajax({
+				url: "${pageContext.request.contextPath}/cancelDeputy.do",
+				method: 'POST',
+				data : {
+					depNo : $(this).parent().parent().find('input').val()
+				},
+				dataType : 'json',
+				success: function(data) {
+					employeePaging1(1);
+				},
+				error: function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			})
+		});
+		
 	});
 	
-	
-		
 	function employeePaging1(currentPageNo) {
 			var totalCount =  0;		//총  수
 			var countPerPage = 5;   //한 페이지당 보여주는 회원 수
@@ -146,16 +123,19 @@
 					} else {
 						for(var i=0;i<data.deputies.length;i++) {
 							for(var j=0;j<data.deputies[i].employees.length;j++) {
-								text += "<tr>";	
+								text += "<tr id='parent" + i + "'>";
+								text += "<input type='hidden' id='depNo"+ i +"' value='"+ data.deputies[i].depNo +"'>";
 								text += "<td>"+ data.deputies[i].dempNo +"</td>";
 								text += "<td>"+ data.deputies[i].employees[j].duty +"</td>";
 								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
 								text += "<td>"+ data.deputies[i].startDate +"</td>";
 								text += "<td>"+ data.deputies[i].endDate +"</td>";
 								text += "<td>"+ data.deputies[i].progression +"</td>";
+								text += "<td>"+ data.deputies[i].depReason +"</td>";
+								text += "<td><button id='candep' type='button'>취소</button></td>";
 								text += "</tr>";
 							}
-						}					
+						}
 					}
 					$('#datatable').find('tbody').html(text);
 
@@ -187,7 +167,8 @@
 			var sPage = (pageBlockCnt-1) * pageSize + 1;
 			var ePage;
 			
-			var html ="<ul class='pagination'>";
+			var html ="<div class='center-block'>";
+				html ="<ul class='pagination'>";
 
 			 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
 				ePage = pageTotalCnt;
@@ -220,7 +201,8 @@
 				html += '<a class="page-link" aria-label="Next" onclick = "employeePaging1(' + (ePage+1) + ')">';
 			}
 			html += '<span aria-hidden="true">&raquo;</span> </a></li>';
-			html += '</ul>';
+			html += '</ul>'
+			html += '</div>';
 			
 			$('#employeePaging1').html(html);
 	
@@ -320,6 +302,8 @@
 								<th>시작일</th>
 								<th>종료일</th>
 								<th>진행여부</th>
+								<th>사유</th>
+								<th>비고</th>
 							</tr>
 						</thead>
 						<tbody id="tbody">

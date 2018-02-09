@@ -149,6 +149,6 @@ $(document).ready(function(){
 		</div>
 		<div class="x_content">
 		
-		<div id='calendar'>중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
+		<div id='calendar'>※중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
 
 </html>

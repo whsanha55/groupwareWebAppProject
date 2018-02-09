@@ -111,7 +111,7 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<c:url var="listPlanURL" value="/listPlan.do" scope="page" ></c:url>
+							<c:url var="listPlanURL" value="/listPlanAll.do" scope="page" ></c:url>
 								<a id="list" href="${pageScope.listPlanURL }"  ><button class="btn btn-primary" type="button">목록</button></a>
 						</div>
 					</div>

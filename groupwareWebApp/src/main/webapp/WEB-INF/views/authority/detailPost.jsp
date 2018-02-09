@@ -32,7 +32,7 @@
 			$('#deleteBtn').on('click', function() {	
 				var no = $(this).val();
 				swal({
-					title: "댓글 삭제"+no ,
+					title: "댓글 삭제" ,
 					text: "댓글을 삭제합니다. 계속 진행하시겠습니까?",
 					icon: "info",
 					buttons : true 
@@ -44,7 +44,6 @@
 							
 			//alert($(this).val());
 			function deleteCmt(no) {	
-				alert(no);
 				$.ajax({
 					url: '${pageContext.request.contextPath}/deleteCmt.do'
 					,
@@ -78,62 +77,81 @@
 		});	
 			
 			
-			//댓글 수정 
-			$('#updateBtn').on('click', function() {	
-				var no = $(this).val();
-				var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();
-				var a ='';
-				a += '<input type="text" class="form-control" name="content_'+cno+'" value="'+cmtContent+'"/>';
-				var name = $(this).parents("tr").find('.cmtContent');
-				$('.cmtContent'+no).html(a);
-				 
-				swal({
-					title: "댓글 수정"+no ,
-					text: "댓글을 수정합니다. 계속 진행하시겠습니까?",
-					icon: "info",
-					buttons : true 
-				}).then((e) => {
-					if(e) {
-						updateCmt(no);							
-					}
-				});		
-							
-			//alert($(this).val());
-			function updateCmt(no) {	
-				alert(no);
-				$.ajax({
-					url: '${pageContext.request.contextPath}/updateCmt.do'
-					,
-					method: 'POST'
-					,
-					data: {no}
-					, 
-					async: true
-					,
-					cache: false
-					,
-					success: function(data) {
-						swal({
-							title: "수정 완료",
-							text: "선택하신 댓글이 수정되었습니다.",
-							icon: "info",
-							buttons : "확인" 
-						}).then((e) => {
-							if(e) {
-							location.reload();		
-							}
-						});		
-					}
-					, 
-					error: function(jqXHR) {
-						alert('Error : ' + jqXHR.status);
-					}	 			
-									
-				});	
-			}
-		});	
+			
+			
+			
+			// 수정
+		      $('#datatable').on('click','button:contains(수정)', function () {
+		         var cmtContent = $(this).parents("tr").find('.cmtContent').text();
+		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent' value="+cmtContent +" />");   
+		     
+		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
+		          $('button:contains(수정)').prop("disabled", true);
+		         
+		      });
+		      
+		      //수정 완료
+		       $('#datatable').on('click','button:contains(완료)', function () {
+		          
+		          var cmtNo = $(this).parents("tr").find('.cmtNo').text();      
+		          var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();	            
+		          
+		          var name = $(this).parents("tr").find('.cmtContent');
+		          var selectBtn = $(this).parents("tr").find('.selectBtn');
+		          
+		          var a = $(this).parents("tr").find('input[name=rName]');
+		          
+		         swal({
+		              title: "댓글을 수정하시겠습니까?"+cmtNo,
+		              icon: "info",
+		              buttons : true 
+		            }).then((e) => {
+		               if(e) {
+		                  $.ajax({
+		                     url : '${pageContext.request.contextPath}/modifyCmtAjax.do?' 
+		                        ,
+		                        method : 'POST'
+		                        ,
+		                        data : {
+		                           cmtNo : cmtNo,
+		                           cmtContent : cmtContent		                           
+		                        }
+		                        ,
+		                        dataType: 'json'
+		                        ,
+		                        async : true 
+		                        ,
+		                        cache : true
+		                        ,
+		                        success : function(data, textStatus, jqXHR){   		                           
+		                              swal("수정 완료!","");
+		                              $(name).html(data.cmt.cmtContent);		                             
+		                              $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
+		                              	
+		                        }
+		                        ,
+		                        error : function(jqXHR, textStatus, errorThrown){
+		                           alert('error: ' + jqXHR.status);
+		                        }
+		                  
+		                     });
+		               }
+		            });
+
+		      });
+		      
+		      
+		     //수정 취소
+		       $('#datatable').on('click','button:contains(취소)', function () { 
+		          var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();		           
+		         
+		         $(this).parents("tr").find('.cmtContent').html(cmtContent);		        
+		         
+		         $(this).parents("tr").find('.selectBtn').html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
+		          $('button:contains(수정)').prop("disabled", false);
+		       });  
+			
 		
-	
 						
 	
 						
@@ -195,29 +213,27 @@
 
 
 			<!--------------------- 댓글 ----------------------->
-			<!-- 댓글 조회 -->
-			<div>
+			<!-- 댓글 조회 -->			
 			<c:if test="${fn: length(sessionScope.post.cmts ) > 0 }">
-				<table>
+				<table id="datatable">
 					<c:forEach var="cmt" items="${sessionScope.post.cmts }"
 						varStatus="loop">
 						<tr>
+							<td class='cmtNo'>${pageScope.cmt.cmtNo }  </td>
 							<td>${pageScope.cmt.cmtWriter }</td>
-							<td>(${pageScope.cmt.cmtDate })</td>
+							<td>(${pageScope.cmt.cmtDate })</td>		
+							<td class='selectBtn'><button type='button'  class='modifyBtn btn btn-primary'>수정</button></td>						
 							<td>
 								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button>								
 							</td>
+							<td  class='cmtContent'>${pageScope.cmt.cmtContent }</td>							
 						</tr>
-						<tr>
-							<td colspan="2">${pageScope.cmt.cmtContent }</td>		
-							<td>
-								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="updateBtn" class="btn btn-primary pull-right" >수정</button>
-							</td>					
-						</tr>
+						
+						
 					</c:forEach>
 				</table>
 			</c:if>
-			</div>
+			
 			
 
 			<!-- 댓글 입력 -->
@@ -228,8 +244,6 @@
 				<br>
 				<button type="button" id="btnReply">댓글 작성</button>
 			</div>
-
-
 
 
 		</div>
