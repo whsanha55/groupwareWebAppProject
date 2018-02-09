@@ -91,23 +91,12 @@
    
    <!-- 권한사원 등록 -->
    <insert id="insertAuthEmp" parameterType="AuthEmpVO" statementType="PREPARED">
-      <selectKey keyProperty="aeNo" resultType="int" statementType="STATEMENT" order="BEFORE">
-         select authority_employee_seq.nextval from dual
-      </selectKey>
-      insert into authority_employee(ae_no, emp_no, a_no)
-      value(#{aeNo},#{emp.empNo}, #{auth.aNo})
-
+	   <foreach collection="list" item="item" open="insert all" close="select * from dual" >
+		into authority_employee(emp_no, a_no)
+		values(#{item.empNo}, #{item.aNo})
+	   </foreach>
    </insert>
-   
-   <!-- 권한역할등록 -->
-   <insert id="insertAuthRole" parameterType="AuthRoleVO" statementType="PREPARED">
-      <selectKey keyProperty="arNo" resultType="int" statementType="STATEMENT" order="BEFORE">
-         select authority_role_seq.nextval from dual
-      </selectKey>
-      insert into authority_role(ar_no, r_id, a_no)
-      value(#{arNo},#{role.rId}, #{auth.aNo})
-   </insert>
-   
+      
    <!--권한삭제  -->
    <delete id="deleteAuthority" parameterType="map" statementType="PREPARED">
       delete from authority 
@@ -237,6 +226,51 @@
        order by e.emp_no asc   
    </select> 
    
+   <!-- 권한번호에 해당하는 사원 리스트 조회 -->
+   <select id="selectListAuthEmp" resultType="AuthEmpListVO" statementType="PREPARED" parameterType="map" >      
+      select empNo , empName, department,duty
+	  from (select rownum as rn, emp.* 
+     		from (select ae.emp_no as empNo, e.empName, e.department,e.duty
+           			from empList_view e , authority_employee ae, authority a
+           			where ae.a_no = a.a_no
+            				and ae.emp_no = e.empNo
+            				and a.a_no = #{aNo}
+       <if test="keyfield == 'empNo' and keyword != null">
+        		  			and empNo like '%' || #{keyword} || '%' 
+       </if>
+       
+       <if test="keyfield == 'empName' and keyword != null">
+            	  			and empName like '%' || #{keyword}  || '%' 
+       </if>
+        	order by empNo asc ) emp) e 
+       where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
+   </select>
    
+    <select id="selectAuthEmpCount" statementType="PREPARED" parameterType="map" resultType="int">
+      select count(a.a_no)
+	  from empList_view e , authority_employee ae, authority a
+      where ae.a_no = a.a_no
+      	and ae.emp_no = e.empNo
+        and a.a_no is not null
+      <if test="keyfield == 'empNo' and keyword != null">
+          and e.empNo like '%' || #{keyword} || '%' 
+       </if>
+       <if test="keyfield == 'empName' and keyword != null">
+           and e.empName like '%' || #{keyword}  || '%' 
+       </if>
+   </select>
+   
+   <select id="selectAuthEmpCountByaNo" statementType="PREPARED" parameterType="String" resultType="int">
+   		select count(ae.ae_no)
+		from employee e, authority_employee ae, authority a
+		where e.emp_no = ae.emp_no
+    	and ae.a_no = a.a_no
+    	and a.a_no = #{aNo}
+   </select>
+   
+   <delete id="deleteAutEmp" parameterType="String" statementType="PREPARED">
+      delete from authority_employee 
+      where a_no = #{aNo}
+   </delete>
    
 </mapper>

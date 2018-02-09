@@ -176,7 +176,7 @@ $(document).ready(function(){
           <div class="row">
           	<!-- 캘린더  -->
             <div class="col-md-8 col-sm-4 col-xs-12">
-				<div id='calendar'>중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
+				<div id='calendar'>※중요도 - 하:초록 / 중:파랑 / 상:빨강</div>
             </div>
             <!-- 캘린더 end  -->
 			<div class="col-md-4 col-sm-4 col-xs-12">
