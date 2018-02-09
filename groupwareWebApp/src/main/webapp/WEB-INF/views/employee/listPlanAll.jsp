@@ -18,95 +18,136 @@
 </style>
 
 <script>
+var eKeyfield;
+var eKeyword;
 $(document).ready(function(){ 
+	$.ajax ({
+		url: '${pageContext.request.contextPath}/listPlanAllAjax.do'
+		,
+		type: 'POST'
+		,
+		cache: false
+		,
+		dataType: 'json'
+		,
+		success: function (data, textStatus, jqXHR) {
 
+			$('#calendar1').fullCalendar({
+				header: {
+					right: 'prev,next today',
+					center: 'title',
+					left: 'month,listWeek,listDay'
+				},
+				slotEventOverlap: false,
+				allDaySlot: false,
+				eventClick : function(calEvent,jsEvent,view) {
+					if (event.url) {
+						 return event.url;
+					 }
+				},
+				defaultDate: new Date(),
+				views: {
+			        month: {
+			            titleFormat: "YYYY년 MMMM",                  
+			        },
+			        week: {
+			        	titleFormat: "YYYY년 MMM D일",
+			        	columnFormat: "M/D ddd"
+			        },
+			        day: {
+			            titleFormat: "YYYY년 MMMM D일",
+			            columnFormat: "MMMM D일",           
+			        }
+			    },
+			    timeFormat: 't[m] H:mm',
+				navLinks: true,
+				editable: false,
+				eventLimit: true,
+				height: 600,
+				monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+				monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+				dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
+				dayNamesShort: ["일","월","화","수","목","금","토"],
+				buttonText: {
+					   today : "오늘",
+					   month : "월별",
+					   week : "주별",
+					   day : "일별",
+				} ,
+				events : data   
+			});	
+		}
+		,
+		error: function(jqXHR) {
+			alert("에러: " + jqXHR.status);
+		}
+	});
+
+	//검색조건
+	$('.search-panel .dropdown-menu').on('click','a',function(e) {
+		e.preventDefault();
+		$('.keyfield').text($(this).text());
+		$('.keyfield').attr('id',$(this).attr('id'));
+	});
+
+	//검색조건 엔터키 눌렀을때 트리거 발동
+	$('#keyword').on('keydown', function(e) {
+		if(e.keyCode == 13){
+			$('#findPlan').trigger('click');
+        }
+	});
+	
+	//일정 등록 페이지 이동
+	$('#insert').click(function(){
+    	location.href = "${pageContext.request.contextPath}/admin/registerPlan.do";
+	});
+	
+	// 검색 실행
+	$('#findPlan').on('click', function() {
+		if($('.keyfield').attr('id') == undefined) {
+			swal("검색조건을 선택해주세요!","", "error");
+			return false;
+		} else if($('#keyword').val() == "") {
+			eKeyfield = $('.keyfield').attr('id');
+			eKeyword = $('#keyword').val();
+			
+			
+		}
+		
+		eKeyfield = $('.keyfield').attr('id');
+		eKeyword = $('#keyword').val();
+		
+		$.ajax ({
+			url: '${pageContext.request.contextPath}/admin/listPlanAjax.do'
+			,
+			data : {
+				keyfield: eKeyfield,
+				keyword: eKeyword
+			}
+			,
+			type: 'POST'
+			,
+			cache: false
+			,
+			dataType: 'json'
+			,
+			success: function (data, textStatus, jqXHR) {
+				
+				 $('#calendar1').fullCalendar('removeEvents');
+				 $('#calendar1').fullCalendar('addEventSource',data);
+			}
+			,
+			error: function(jqXHR) {
+				alert("에러: " + jqXHR.status);
+			}
+		});	
+	});
+	
+	
 	$('#myPlanList').click(function(){
     	location.href = "${pageContext.request.contextPath}/listPlan.do";
 	});
 	
-	var dataset =
-		[
-			<c:forEach var="plan" items="${plans}" varStatus="loop">
-				{
-					id : '${plan.pNo}'
-					,
-					<c:if test="${plan.pImpt == 3}" >
-						color : "#fb4b4b"
-						,
-						textColor : "white"
-					</c:if>
-					<c:if test="${plan.pImpt == 2}" >
-						color : "#3a87ad"
-						,
-						textColor : "white"
-					</c:if>
-					<c:if test="${plan.pImpt == 1}" >
-						color : "#47b747"
-						,
-						textColor : "white"
-					</c:if>
-					,
-					<c:if test="${plan.cName == '부서'}" >
-						title : "${plan.pTitle} - 전체"
-					</c:if>
-					<c:if test="${plan.cName != '부서'}" >
-						title : "${plan.pTitle} - ${plan.cName}"
-					</c:if>
-					,
-					start : "${plan.startDate}"
-					,
-					end : "${plan.endDate}"
-					,
-					url : "${pageContext.request.contextPath}/detailPlan.do?pNo=${plan.pNo}"
-				} <c:if test="${!loop.last}" >,</c:if>
-			</c:forEach>
-		]
-	
-	$('#calendar').fullCalendar ({
-		header: {
-			right: 'prev,next today',
-			center: 'title',
-			left: 'month,listWeek,listDay'
-		},
-		slotEventOverlap: false,
-		allDaySlot: false,
-		eventClick : function(calEvent,jsEvent,view) {
-			if (event.url) {
-				 return event.url;
-			 }
-		},
-		defaultDate: new Date(),
-		views: {
-	        month: {
-	            titleFormat: "YYYY년 MMMM",                  
-	        },
-	        week: {
-	        	titleFormat: "YYYY년 MMM D일",
-	        	columnFormat: "M/D ddd"
-	        },
-	        day: {
-	            titleFormat: "YYYY년 MMMM D일",
-	            columnFormat: "MMMM D일",           
-	        }
-	    },
-	    timeFormat: 't[m] H:mm',
-		navLinks: true,
-		editable: false,
-		eventLimit: true,
-		height: 600,
-		monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
-		monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
-		dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
-		dayNamesShort: ["일","월","화","수","목","금","토"],
-		buttonText: {
-			   today : "오늘",
-			   month : "월별",
-			   week : "주별",
-			   day : "일별",
-		},
-		events : dataset
-			  
-	});
 });
     
 
