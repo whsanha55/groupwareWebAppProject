@@ -219,14 +219,21 @@
 					<c:forEach var="cmt" items="${sessionScope.post.cmts }"
 						varStatus="loop">
 						<tr>
-							<td class='cmtNo'>${pageScope.cmt.cmtNo }  </td>
-							<td>${pageScope.cmt.cmtWriter }</td>
+							
+							<td colspan="3">${pageScope.cmt.cmtWriter }</td>
 							<td>(${pageScope.cmt.cmtDate })</td>		
-							<td class='selectBtn'><button type='button'  class='modifyBtn btn btn-primary'>수정</button></td>						
+							
+													
+						</tr>
+						<tr>
+							<td type="hidden" class='cmtNo' value="${pageScope.cmt.cmtNo }">${pageScope.cmt.cmtNo }  </td>
+							<td  class='cmtContent'>${pageScope.cmt.cmtContent }</td>	
+							<td class='selectBtn'>
+								<button type='button'  class='modifyBtn btn btn-primary'>수정</button>
+							</td>						
 							<td>
 								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button>								
 							</td>
-							<td  class='cmtContent'>${pageScope.cmt.cmtContent }</td>							
 						</tr>
 						
 						
