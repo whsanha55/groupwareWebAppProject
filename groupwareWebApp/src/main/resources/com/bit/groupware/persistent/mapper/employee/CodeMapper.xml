@@ -43,21 +43,7 @@
        	where relation_code=#{relationCode}
 	</select>
 	
-	<!-- 최하위 코드 리스트 조회 -->
-	<select id="selectCodeList3" parameterType="map" resultType="CodeVO" statementType="PREPARED" >
-		select c1.c_no as cNo,
-			c1.c_name as cName,
-			c1.relation_code as relationCode,
-			(select count(ec.EMP_NO)
-               from employee_code ec
-             where ec.C_NO = c1.c_no) as countEmployee
-		from code c1
-		where c1.relation_code=#{relationCode}
-		group by c1.c_no,c1.c_name,c1.relation_code
-		order by c1.c_no asc
-	</select>
-		
-	
+
 	<!-- 하위 코드 리스트 조회 -->
 	<select id="selectCodeList2" parameterType="map" resultType="CodeVO" statementType="PREPARED" >
 		select
@@ -68,8 +54,10 @@
                from code c2
              where c2.relation_code = c1.c_no) as countRelationCode,
              (select count(ec.EMP_NO)
-               from employee_code ec
-             where ec.C_NO = c1.c_no) as countEmployee,
+               from employee_code ec, employee e
+             where ec.C_NO = c1.c_no
+                and e.emp_no = ec.emp_no
+                and e.retire_status = 1) as countEmployee,
              (select count(ap.appr_final_status)
                from approval ap
              where ap.appr_final_status = c1.c_no) as countApproval,
@@ -87,12 +75,18 @@
              where pl.dept_no = c1.c_no) as countPlan
 		from code c1
 		where c1.relation_code=#{relationCode}
+			<if test="keyfield == 'cNo' and keyword != null">
+				and c_no like '%' || #{keyword} || '%' 
+			</if>
+			<if test="keyfield == 'cName' and keyword != null">
+				and c_name like '%' || #{keyword} || '%' 
+			</if>
 		group by c1.c_no,c1.c_name,c1.relation_code
 		order by c1.c_no asc
 	</select>
 	
 	<!-- 최상위 코드 리스트 조회 -->
-	<select id="selectCodeList1" parameterType="map" resultType="CodeVO" statementType="STATEMENT" >
+	<select id="selectCodeList1" parameterType="map" resultType="CodeVO" statementType="PREPARED" >
 		select
 			c1.c_no as cNo,
 			c1.c_name as cName,
@@ -102,6 +96,12 @@
              where c2.relation_code = c1.c_no) as countRelationCode
 		from code c1
 		where c1.relation_code is null
+			<if test="keyfield == 'cNo' and keyword != null">
+				and c_no like '%' || #{keyword} || '%' 
+			</if>
+			<if test="keyfield == 'cName' and keyword != null">
+				and c_name like '%' || #{keyword} || '%' 
+			</if>
 		group by c1.c_no,c1.c_name,c1.relation_code
 		order by c1.c_no asc
 	</select>
