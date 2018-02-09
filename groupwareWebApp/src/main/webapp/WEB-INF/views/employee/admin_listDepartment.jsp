@@ -96,13 +96,11 @@
 								});
 								oldHead = $(this).text().split(" ")[1];
 								checkCno = $(this).parent().parent().find('td:nth-child(1)').text();
-								console.log('checkCno : ' + checkCno);
 							});
 						}	
 						$('#modalChooseBtn').on('click',function() {
 							checkChooseCno = selectedDeptNo;
-							console.log(checkChooseCno);
-							
+
 							if(checkChooseCno != checkCno) {
 								alert("같은 부서의 사원만 업무 담당자로 지정 가능합니다!");
 								return false;
