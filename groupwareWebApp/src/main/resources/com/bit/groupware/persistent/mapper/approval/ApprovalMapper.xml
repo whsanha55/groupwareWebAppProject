@@ -515,6 +515,7 @@
 				</association>
 				<association property="receiverLine"  javaType="ReceiverLineVO">
 					<association property="lineEmployee" javaType="EmployeeVO">
+						<id property="empNo" column="line_emp_no"/>
 						<result property="empName" column="line_emp_name"/>
 						<result property="signName" column="signname"/>
 						<result property="systemSignName" column="systemsignname"/>
@@ -549,7 +550,7 @@
 	                     where t4.emp_no = t6.emp_no
 	                     and t6.dept_no = t7.c_no)
 	          end as duty,
-     		  t5.line_emp_name, t5.confirm_date, t5.record_no, 
+     		  t5.line_emp_no, t5.line_emp_name, t5.confirm_date, t5.record_no, 
               t5.isdelegation, 
               t5.comment_no, t5.comment_content, t5.comment_date ,
               t5.signname, t5.systemsignname ,
@@ -558,6 +559,9 @@
              (select (select e1.emp_name
              		  from employee e1
              		  where r1.line_emp_no = e1.emp_no) as line_emp_name ,
+             		 (select e1.emp_no
+             		  from employee e1
+             		  where r1.line_emp_no = e1.emp_no) as line_emp_no ,
              		 r2.confirm_date, r2.dep_emp_no, r2.isdelegation, 
              		 r2.record_no, r2.appr_no, 
              		 r3.comment_no, r3.comment_content, r3.comment_date ,

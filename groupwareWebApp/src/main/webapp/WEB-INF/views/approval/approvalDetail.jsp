@@ -80,8 +80,32 @@
 			$('#reAppr').attr('disabled',false);
 		}
 		
+		//대결권자 변경 
+		var records = [];
+		<c:forEach items="${approval.approvalRecords}" var="record">
+			<c:if test="${record.depEmployee.empNo != null}">
+				records.push({
+					lineEmpNo : "${record.receiverLine.lineEmployee.empNo }" ,
+					depEmpNo : "${record.depEmployee.empNo}" ,
+					depEmpName : "${record.depEmployee.empName}" ,
+					depDepartment : "${record.depEmployee.department}" ,
+					depDuty : "${record.depEmployee.duty}"
+					});
+			</c:if>
+		</c:forEach>
+		$('.apprLineAppr').each(function() {
+			for(var i=0;i<records.length;i++) {
+				if(records[i].lineEmpNo == $(this).attr('id')) {
+					var thisIndex = $(this).index();
+					var trTemp = $(this).closest('tr');
+					$(this).text(records[i].depDuty);
+					trTemp.next().find('td:nth-child(' + thisIndex + ')').text(records[i].depEmpName);
+					trTemp.next().next().find('td:nth-child(' + thisIndex + ')').text(records[i].depDepartment);
+				}
+			}
+		});
 		
-	
+		
 		
 		/* var temp = $('.apprLineAppr2').length;
 		var text = "";
@@ -291,23 +315,11 @@
 			});
 		}
 		
-		
-		function checkDate() {
-			
-		}
-		
-		
-		
-		
-		
-
 	
 	});
 
 
 </script>
-
-
 
 </head>
 
@@ -337,7 +349,10 @@
                     	<td rowspan="5" class="" style="width:70px; height:35px;background-color:#4a6075;">결재</td>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
                            <c:if test="${ line.apprType == 0}">
-                              <th class="apprLineAppr" style="width:110px; height:35px; text-align:center; background-color:#4a6075;">${pageScope.line.lineEmployee.duty }</th>
+                              <th class="apprLineAppr" id="${line.lineEmployee.empNo }" 
+                                 style="width:110px; height:35px; text-align:center; background-color:#4a6075;">
+                              	 ${pageScope.line.lineEmployee.duty }
+                              </th>
                      	   </c:if>
                         </c:forEach>
                         <c:forEach begin="1" end="${12-requestScope.apprCount}">
