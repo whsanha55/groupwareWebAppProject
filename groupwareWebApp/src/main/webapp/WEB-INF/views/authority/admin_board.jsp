@@ -49,9 +49,9 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		if(!$('#fileCount').val() == "") {
+		if($('#fileCount').val()== '') {
 			swal("파일개수를 선택해주세요");
-		    $('#fileCount').focus;
+			$('#fileCount').focus;
 		    return false;
 		}
 		
