@@ -93,7 +93,7 @@
 			var tmpName = $('#tmpName').val();
 			var content = $('#summernote').val();
 			var summary = $('#summary').val();
-			var using = $('#using').val();			
+			var using = $(':input:radio[name=using]:checked').val();
 			
 			if(tmpName == "") {
 				swal("양식명을 입력해주세요.", "");
@@ -282,10 +282,8 @@
              	<td><a data-toggle="modal" data-target="#plusModal" id="modal1"><i class="fa fa-plus-circle fa-3x"></i></a>
 				 <a data-toggle="modal" data-target="#minusModal"><i class="fa fa-minus-circle fa-3x"></i></a></td>
 			<th>사용여부</th>
-			<td><select class="form-control" id="using">
-					<option value="1">사용</option>
-			        <option value="0">미사용</option>
-		        </select>
+			<td>&nbsp;&nbsp;<input type="radio" name="using" value="1" checked>사용&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="radio" name="using" value="0">미사용
 		    </td> 
 		</tr>
 		<tr>

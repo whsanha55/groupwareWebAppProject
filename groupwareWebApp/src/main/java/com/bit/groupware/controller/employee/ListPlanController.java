@@ -32,8 +32,9 @@ public class ListPlanController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		UserVO user = (UserVO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		map.put("cName", user.getDeptName());
-		map.put("keyfield", "pTitle");
-		map.put("keyword", "老沥1");
+		
+		map.put("keyfield", "力格");
+		map.put("keyword", "谎雷");
 		logger.info("map : {}", map);
 		List<PlanVO> plans = planService.retrievePlanListByDeptName(map);
 		mv.addObject("plans",plans);
@@ -46,8 +47,8 @@ public class ListPlanController {
 	public ModelAndView listPlan2() {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("keyfield", "pTitle");
-		map.put("keyword", "老沥1");
+		map.put("keyfield", "力格");
+		map.put("keyword", "谎雷");
 		logger.info("map : {}", map);
 		mv.addObject("plans", planService.retrievePlanList(map));
 		mv.setViewName("employee/listPlanAll");

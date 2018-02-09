@@ -38,13 +38,13 @@ public class ProceedMessageController {
 	//새 쪽지 개수 표시용
 	@RequestMapping(value="/newMsg.do", method=RequestMethod.GET)
 	@ResponseBody
-	public int getNumber() {
-//		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		String empNo = user.getUsername();
+	public Map<String, Object> getNumber(Principal principal) {
+		List<Integer> list = msgService.retrieveNewMessageCount(principal.getName());
 		
-		String empNo = "2018-00011";
-		
-		return msgService.retrieveNewMessageCount(empNo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noteCount", list.get(0));
+		map.put("msgCount", list.get(1));
+		return map;
 	}	
 	
 	

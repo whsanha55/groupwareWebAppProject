@@ -13,20 +13,18 @@
 <script>
 
 	var pKeyfield;  
-	var pKeyword;	
+	var pKeyword;
+	var pKeyword1;
 	
 	$(document).ready(function(){
 		
 		templatePaging(1);//최초 로드시 페이지처리
-
 		
 		//양식 등록창으로 이동
 		$('#add').on('click', function(){
 			location.href = "${pageContext.request.contextPath}/admin/addTemplateForm.do";
 		});
 			
-		
-	
 
 		//양식 상세보기		
 		$(document).on('click', '.detailTemplate', function(){
@@ -37,19 +35,50 @@
 
 		
 		//검색
-		$('#search').on('click', function(){
-			pKeyfield = $('#keyfield').val();
-			pKeyword = $('#keyword').val();
-			templatePaging(1);			
+		$('#searchButton').on('click', function(){
+
+			pKeyfield = $('#pKeyfield').val();
+			pKeyword = $('#pKeyword').val();
+			pKeyword1 = $('#pKeyword1').val();
+			
+			if(pKeyfield == 'tmpUsing') {
+				pKeyword = $(':input:radio[name=using]:checked').val();
+			}
+			
+ 			if(pKeyfield != "tmpDate" && pKeyword == "") {
+				swal("검색어를 입력해주세요.", "");
+				return;
+			}
+ 			
+ 			if(pKeyfield == "tmpDate" && (pKeyword == "" || pKeyword1 == "")) {
+				swal("등록일을 지정해주세요.", "");
+				return;
+ 			}
+
+			templatePaging(1);
 		});
 		
 		
+		//검색창 타입 바꾸기
+		 $('#pKeyfield').on("change",function(){
+			if($(this).val()=='tmpDate'){
+				$('#wrap').empty();
+				$('#wrap').html('<input type=date id=pKeyword>'
+								+'&nbsp;<b id=temp>~</b>' + '<input type=date id=pKeyword1>');
+			} else if($(this).val()=='tmpUsing') {
+				$('#wrap').empty();
+				$('#wrap').html('&nbsp;&nbsp;<input type="radio" name="using" value="1" checked>사용'
+								+'&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="using" value="0">미사용&nbsp;');
+			} else{
+				$('#wrap').empty();
+				$('#wrap').html('<input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">');
+			}
+		 });
+		 
 		
 	});//end of document.ready
 	
-	
-	
-	
+
 	//페이징징징 관련
 	function templatePaging(currentPageNo) {
 		var totalCount =  0;		//총 양식서 수
@@ -67,6 +96,7 @@
 			data: {
 				keyfield: pKeyfield ,
 				keyword: pKeyword ,	
+				keyword1: pKeyword1 ,
 				startRow : startRow ,
 				endRow : endRow,
 				isAdmin : true
@@ -200,37 +230,27 @@
 							<a class="btn btn-primary pull-right" id="add">양식추가</a>
 							<div class="clearfix"></div>
 						</div>
-						<div class="x_content">
-							<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
-							<div class="col-md-12 col-sm-9 col-xs-12">
-
-								<div>
-									<div class="col-md-6">
-										<div class="col-md-4">
-													
-										</div>
-									</div>
-									<div>
-										<div class="col-xs-4 col-xs-offset-2">
-											<div class="input-group">
-												<form id="search">
-													<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
-														<option value="apprTitle">제목</option>
-														<option value="tmpName">양식명</option>
-														<option value="empName">기안자</option>
-														<option value="department">기안부서</option>
-														<option value="apprDate" id="apprDate">기안일</option>
-													</select>
-						 							<input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
-						 							<button id="btn3" type="button">검색</button>
-													</form>
-											
-										</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6"></div>
-							</div>
+				  <div>
+					
+				   <div class="btn-group" >
+                    <form id="search">
+						<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
+							<option value="tmpName">양식명</option>
+							<option value="categoryName">카테고리명</option>
+							<option value="tmpUsing">사용여부</option>
+							<option value="tmpDate" id="tmpDate">등록일</option>
+						</select>&nbsp;<span id="wrap">
+						<input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요"></span>
+						<button id="searchButton" type="button">검색</button>
+					</form>
+					<div class="col-sm-3">
+					
+					</div>
+					
+                    </div>
+				  
+				  </div>
+                  <div class="x_content">
 							
 							<table id="table" class="table table table-striped jambo_table bulk_action">
 								<thead>
