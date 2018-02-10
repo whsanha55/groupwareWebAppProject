@@ -23,6 +23,10 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeDAO.selectNoticeList(map);
 	}
 
+	public List<NoticeVO> retrieveNoticeList() {
+		return noticeDAO.selectNoticeList();
+	}
+
 	public NoticeVO retrieveNotice(int noticeNo) {
 		return noticeDAO.selectNotice(noticeNo);
 	}

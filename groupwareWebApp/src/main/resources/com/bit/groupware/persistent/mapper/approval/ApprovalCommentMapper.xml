@@ -21,5 +21,10 @@
 		where comment_no = #{commentNo}
 	</delete>
 
+	<delete id="deleteCommetByApprNo" parameterType="int" statementType="PREPARED">
+		delete from approval_comment
+		where record_no in
+		(select record_no from approval_record where appr_no=#{apprNo} )
+	</delete>
 	
 </mapper>

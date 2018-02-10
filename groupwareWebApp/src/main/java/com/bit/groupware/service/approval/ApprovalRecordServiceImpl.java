@@ -36,7 +36,11 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 		return approvalRecordDAO.selectApprovalRecordList(apprNo);
 	}
 
-
+	//결재이력 삭제
+	/*public void removeApprovalRecord(int apprNo) {
+		approvalRecordDAO.deleteApprovalRecord(apprNo); 
+	}*/  
+	
 	//결재 승인, 반려
 	public void executeApprovalRecord(Map<String, Object> map) {
 
@@ -61,9 +65,8 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 		
 		//3.최종 결재자인지 아닌지 파악
 		if(apprStatus == 1 && approvalRecordDAO.checkisFinalApprovalLine(recordNo) ==0) {	//다음결재자가 있을경우
-			//approvalRecordDAO.insertApprovalRecord(map);
 			approvalRecordDAO.insertApprovalRecordProceedProcedure(map);
-			notificationDAO.insertNotificationProcess(map);
+			//notificationDAO.insertNotificationProcess(map);
 		} else {	//문서가 최종 승인/반려 종료
 			ApprovalVO approval = new ApprovalVO();
 			int apprNo = (Integer) map.get("apprNo");

@@ -15,7 +15,7 @@ public interface MessageService {
 	
 	List<MessageVO> retrieveMessageList(Map<String,Object> map);
 	
-	int retrieveNewMessageCount(String empNo);
+	List<Integer> retrieveNewMessageCount(String empNo);
 	
 	int retrieveMessageCount(Map<String,Object> map);
 	

@@ -23,7 +23,7 @@ ent-Type" content="text/html; charset=UTF-8">
 	type="image/ico" />
 
 <title>전자결재관리시스템</title>
-
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a4a3a00a16a7cd71ecd7bba0eca8ed4a&libraries=services"></script>
 <!-- Bootstrap -->
 <link
 	href="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/css/bootstrap.min.css"

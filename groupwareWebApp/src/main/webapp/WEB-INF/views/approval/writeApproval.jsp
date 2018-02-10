@@ -41,10 +41,11 @@
 	
 	$(document).ready(function() {
 	
+		//결재선 출력
+		
 		var isExist = true;
 		//페이지 이탈 경고창
 		$(window).on('beforeunload', function() {
-			isExist = false;	//테스트용 삭제필요!!!!!!!!!!!!
 			if(isExist) return '';
 		})
 		
@@ -63,7 +64,7 @@
 		
 		//결재선 번호(이름) select 이벤트
 		$('select[name=receiverNo]').on('change',function() {
-			var receiverNo = $(this).val();
+		var receiverNo = $('select[name=receiverNo]').val();
 			if(receiverNo == 0) {
 				return false;
 			}
@@ -108,7 +109,12 @@
 					console.log(jqXHR);
 				}
 			});
-		})
+		});
+		
+
+		if("${approval.receiverNo}" != 0) {
+			$('select[name=receiverNo]').val("${approval.receiverNo}").trigger('change');
+		}
 		
 	    //에디터 호출
 	     $('#summernote').summernote({
@@ -260,7 +266,7 @@
 			var _data = new FormData($("#approvalForm")[0]);
 			
 			$.ajax({
-				url : '${pageContext.request.contextPath}/approvalAjax.do' ,
+				url : '${pageContext.request.contextPath}/approvalAjax.do',
 				cache : false ,
 				dataType : 'json' ,
 				processData :false ,
@@ -465,6 +471,10 @@
  
 	<input type="hidden" name="tmpNo" >	
 	<input type="hidden" name="apprFinalStatus" >
+	<c:if test="${requestScope.approval.apprFinalStatus !=3 }">
+		<input type="hidden" name="deleteAppr" value="${requestScope.approval.apprNo}" >
+	</c:if>
+	
 	</form>
 	
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

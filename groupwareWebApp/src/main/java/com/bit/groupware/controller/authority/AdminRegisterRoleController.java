@@ -27,11 +27,17 @@ public class AdminRegisterRoleController {
 	   //역할 추가 요청
 	   @RequestMapping(value="/admin/role.do", method=RequestMethod.POST)
 	   public String submit(RoleVO role, HttpSession session) throws Exception { 
-		   logger.info("롤명!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getrName());
+		   int name = roleService.rNameIsExist(role.getrName());
+		   if(name == 0) {
+			   roleService.registerRole(role);
+			   return "authority/admin_roleList";
+		   }else {
+				return "authority/admin_roleFail";
+		   }
+/*		   logger.info("롤명!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getrName());
 		   logger.info("롤설명!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getrExplan());
 		   logger.info("롤sort!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getSortOrder());
-	      logger.info("타입!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getrType());
-	      roleService.registerRole(role);
-	      return "authority/admin_roleList";
+	      logger.info("타입!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getrType());*/
+	      
 	   }
 }

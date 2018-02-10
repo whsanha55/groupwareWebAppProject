@@ -9,13 +9,13 @@
 	  	<selectKey keyProperty="apprNo" resultType="int" statementType="STATEMENT" order="BEFORE"> 
 	  		select approval_seq.nextval from dual
 	  	</selectKey>
-	  		insert into approval(appr_no,appr_title,appr_content,emp_no,valid_date,urgency, appr_final_status
+	  		insert into approval(appr_no,appr_title,appr_content,emp_no,valid_date,urgency, appr_final_status ,receiver_no
 	  		<if test="template.tmpNo != 0">
 	  			,tmp_no
 	  		</if>
 	  		)
 			values(#{apprNo},#{apprTitle},#{apprContent},#{employee.empNo},#{validDate},#{urgency},
-					'C-01-0' || #{apprFinalStatus}
+					'C-01-0' || #{apprFinalStatus} , #{receiverNo}
 	  		<if test="template.tmpNo != 0">
 	  			,#{template.tmpNo}
 	  		</if> 
@@ -103,7 +103,7 @@
 		</if>
 		
 		where appr.emp_no = emp.emp_no
-		and appr.tmp_no=tmp.tmp_no
+		and appr.tmp_no=tmp.tmp_no(+)
 		
 		<if test="linempNo != null">
 		and rec.appr_no=appr.appr_no
@@ -120,11 +120,11 @@
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
 			and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>
-		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
-			and appr.appr_final_status in ('C-01-00','C-01-02')
+		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 || apprFinalStatus == 5">
+			and appr.appr_final_status in ('C-01-00','C-01-02','C-01-05')
 		</if>
 		<if test="apprFinalStatus == 4 ">
-			and appr.appr_final_status in ('C-01-04','C-01-05')
+			and appr.appr_final_status ='C-01-04'
 		</if>
 		<if test="apprStatus == 0 and apprStatus!=null">
 			and rec.appr_status in ('C-02-00','C-02-02')
@@ -333,13 +333,13 @@
 		</if>
 		
 		where appr.emp_no = emp.emp_no
-		and appr.tmp_no=tmp.tmp_no
+		and appr.tmp_no=tmp.tmp_no(+)
 		
 		<if test="linempNo != null">
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
 		</if>
-		
+		     
 		<if test="empNo != null">
 			and emp.emp_no = #{empNo}
 		</if>
@@ -350,11 +350,11 @@
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
 			and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>
-		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ">
-			and appr.appr_final_status in ('C-01-00','C-01-02')
+		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ||apprFinalStatus==5">
+			and appr.appr_final_status in ('C-01-00','C-01-02','C-01-05')
 		</if>
 		<if test="apprFinalStatus == 4 ">
-			and appr.appr_final_status in ('C-01-04','C-01-05')
+			and appr.appr_final_status ='C-01-04'
 		</if>
 		<if test="apprStatus == 0 and apprStatus!=null">
 			and rec.appr_status in ('C-02-00','C-02-02')
@@ -482,12 +482,13 @@
 		<result property="apprContent" column="appr_content" />
 		<result property="apprFinalStatus" column="appr_final_status" />
 		<result property="completeDate" column="complete_date" />
+		<result property="receiverNo" column="receiver_no" />
 		<association property="employee" column="emp_no" javaType="EmployeeVO">
 			<id property="empNo" column="emp_no" />
 			<result property="empName" column="emp_name" />
 			<result property="department" column="department" />
 			<result property="duty" column="duty" />
-		</association>
+		</association>   
 		<association property="template" column="tmp_no" javaType="TemplateVO">
 			<id property="tmpNo" column="tmp_no" />
 			<result property="tmpName" column="tmp_name" />	
@@ -504,6 +505,9 @@
 				<result property="isDelegation" column="isdelegation" />
 				<association property="depEmployee" column="dep_emp_no" javaType="EmployeeVO">
 					<id property="empNo" column="dep_emp_no"/>
+					<result property="empName" column="dep_emp_name"/>
+					<result property="department" column="dep_department"/>
+					<result property="duty" column="dep_duty"/>
 				</association>
 				<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
 					<id property="commentNo" column="comment_no"/>
@@ -512,6 +516,8 @@
 				</association>
 				<association property="receiverLine"  javaType="ReceiverLineVO">
 					<association property="lineEmployee" javaType="EmployeeVO">
+						<id property="empNo" column="line_emp_no"/>
+						<result property="empName" column="line_emp_name"/>
 						<result property="signName" column="signname"/>
 						<result property="systemSignName" column="systemsignname"/>
 					</association>
@@ -520,7 +526,7 @@
 	</resultMap>
 
 	<select id="selectApproval" parameterType="int" statementType="PREPARED" resultMap="selectApprovalResultMap" >  
-		select t1.appr_no, t1.emp_no, t4.emp_name, 
+		select t1.appr_no, t1.emp_no, t4.emp_name,t1.receiver_no,
 			   to_char(t1.appr_date,'yyyy/mm/dd hh24:mi') as appr_date,t1.appr_title, 
 			   t1.valid_date, t1.urgency, t1.appr_content, 
         	   substr(t1.appr_final_status,7) as appr_final_status, 
@@ -545,15 +551,25 @@
 	                     where t4.emp_no = t6.emp_no
 	                     and t6.dept_no = t7.c_no)
 	          end as duty,
-     		  t5.confirm_date, t5.record_no, t5.dep_emp_no, 
+     		  t5.line_emp_no, t5.line_emp_name, t5.confirm_date, t5.record_no, 
               t5.isdelegation, 
               t5.comment_no, t5.comment_content, t5.comment_date ,
-              t5.signname, t5.systemsignname
+              t5.signname, t5.systemsignname ,
+              t5.dep_emp_no, t5.dep_emp_name , t5.dep_department, t5.dep_duty
         from approval t1, approval_file t2, template t3 , emp_view t4 ,
-             (select r2.confirm_date, r2.dep_emp_no, r2.isdelegation, 
+             (select (select e1.emp_name
+             		  from employee e1
+             		  where r1.line_emp_no = e1.emp_no) as line_emp_name ,
+             		 (select e1.emp_no
+             		  from employee e1
+             		  where r1.line_emp_no = e1.emp_no) as line_emp_no ,
+             		 to_char(r2.confirm_date,'yy"년"mm"월"dd"일"') as confirm_date, 
+             		 r2.dep_emp_no, r2.isdelegation, 
              		 r2.record_no, r2.appr_no, 
              		 r3.comment_no, r3.comment_content, r3.comment_date ,
-             		 r4.signname, r4.systemsignname
+             		 r4.signname, r4.systemsignname ,
+             		 r4.empname as dep_emp_name , r4.department as dep_department,
+                     r4.duty as dep_duty
               from receiver_line r1, approval_record r2, approval_comment r3, emplist_view r4
               where r1.line_no = r2.line_no
               and r2.record_no = r3.record_no(+) 
@@ -581,6 +597,7 @@
 		<result property="validDate" column="valid_date"/>
 		<result property="urgency" column="urgency"/>
 		<result property="apprContent" column="appr_content"/>
+		<result property="receiverNo" column="receiver_no"/>
 		
 		<association property="template" column="tmp_no" javaType="TemplateVO">
 			<id property="tmpNo" column="tmp_no"/>
@@ -589,9 +606,9 @@
 	</resultMap>
 	<select id="selectTempApproval" parameterType="int" resultMap="selectTempApprovalResultMap" statementType="PREPARED"> 
 	  	select appr.appr_no, appr.appr_title, appr.valid_date, appr.appr_date, appr.urgency, appr.appr_content,
-		tmp.tmp_no, tmp.tmp_name
+		tmp.tmp_no, tmp.tmp_name, appr.receiver_no
 		from approval appr, template tmp
-		where appr.tmp_no=tmp.tmp_no
+		where appr.tmp_no(+)=tmp.tmp_no
 		and appr_no=#{apprNo}
 	</select>
 	

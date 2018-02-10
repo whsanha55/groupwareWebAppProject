@@ -13,7 +13,9 @@
 	.detailApproval{
 		cursor:pointer;
 	}
-	 
+	 .currentRecord{
+		cursor:pointer;
+	}
 </style>
 <script>
 
@@ -36,8 +38,9 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
+				var status=$(this).attr('name');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
-						   +'&status=1+&finalStatus=0';							
+						   +'&status='+status+'&finalStatus=0';							
 				window.open(url, "결재문서","width=750, height=800");				
 			});
 		
@@ -69,11 +72,22 @@
 		});
 		
 		
-		//검색
+		///검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
 			 pKeyword=$('#pKeyword').val();
 			 pKeyword1=$('#pKeyword1').val();
+			 
+	 			if(pKeyfield != "apprDate" && pKeyword == "") { 			
+					swal("검색어를 입력해주세요.", "");
+					return; 				
+				}
+	 			if(pKeyfield == "apprDate" ){
+		 			if( pKeyword == "" || pKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "");
+						return;
+		 			}  
+	 			}
 			 
 			 templatePaging(1);
 		 });
@@ -116,11 +130,22 @@
 					for(var i=0;i<data.approvals.length;i++) {
 
 						text += "<tr ><td>"+ data.approvals[i].apprNo + "</td>";
-						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						if(data.approvals[i].template ==null){
+							text += "<td>직접작성</td>";														
+						}else{
+							text += "<td>"+ data.approvals[i].template.tmpName + "</td>";							
+						}
+						if(data.approvals[i].apprFinalStatus==5){
+							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='5' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						}else{
+							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='1'  style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						}
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
-						
-						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";
+						if(data.approvals[i].apprFinalStatus==5){
+							text += "<td >회수문서</td>";							
+						}else{
+							text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";
+						}
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
@@ -271,6 +296,6 @@
               </div>
         <!-- /page content -->
         
-   
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 </body>
 </html>
