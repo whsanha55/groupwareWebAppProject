@@ -76,7 +76,7 @@
 				var text = "";
 				for(var i=0;i<data.notices.length;i++) {
 					text += "<tr class='even pointer'>";
-					text += "<td>"+ data.notices[i].noticeNo + "</td>";
+					text += "<td>"+ (num - i)  + "</td>";
 					text += "<td><a href='${pageContext.request.contextPath}/detailNotice.do?noticeNo=" 
 						+data.notices[i].noticeNo +" '>"+ data.notices[i].noticeTitle + "</a></td>";
 					text += "<td>"+ data.notices[i].hitCount + "</td>";

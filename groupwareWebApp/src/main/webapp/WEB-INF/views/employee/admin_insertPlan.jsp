@@ -7,6 +7,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a4a3a00a16a7cd71ecd7bba0eca8ed4a&libraries=services"></script> -->
+<style>
+.modal-dialog.modal-cSize {
+	width:600px;
+	height:auto;
+}
+</style>
 <script>
 
 $(document).ready(function() {
@@ -19,6 +26,17 @@ $(document).ready(function() {
 		});
 	});
 	
+	$('#modalChooseBtn').on('click',function() {
+		
+		
+		//일정관리 - 담당자설정
+		$('input[name=rspbNo]').val(selectedEmpNo);
+		$('input[name=empName]').val(selectedNameAndDuty);
+	
+		$('#chartBody').html("");
+		 
+	});
+	
 	$('#modalCloseBtn').on('click',function() {
 		$('#chartBody').html("");
 	});
@@ -29,6 +47,15 @@ $(document).ready(function() {
 			backdrop : 'static',
 			keyboard : false
 		});
+	});
+	
+	$('#modalChooseBtn2').on('click',function() {	
+		console.log(selectedDest);
+		$('input[name=destination]').val(selectedDest);
+		$('input[name=latitude]').val(selectedLat);
+		$('input[name=longitude]').val(selectedLng);
+	
+		$('#mapBody').html("");
 	});
 	
 	$('#modalCloseBtn2').on('click',function() {
@@ -63,6 +90,7 @@ $(document).ready(function() {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >부서</label>&nbsp;&nbsp;
 							<select id="deptNo" name="deptNo" style="width:100px;height:30px;">
+							<option value="A">전체</option>
 							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 								<option value="${pageScope.deptCode.key }">${pageScope.deptCode.title }</option>
 							</c:forEach>
@@ -117,12 +145,11 @@ $(document).ready(function() {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >장소</label>&nbsp;&nbsp;
 							<div class=" col-md-6 col-sm-6 col-xs-12">
-								<input type="text" id="latitude" name="latitude"
+								<input type="text" id="destination" name="destination"
 									required="required" class="form-control col-md-10 col-xs-12"
 									style="width:100px;">
-								<input type="text" id="longitude" name="longitude"
-									required="required" class="form-control col-md-10 col-xs-12"
-									style="width:100px;">
+								<input type="hidden" id="latitude" name="latitude" value="">
+								<input type="hidden" id="longitude" name="longitude" value="">
 								<button id="searchMap" type="button" class="btn btn-success">주소찾기</button>
 							</div>
 						</div>
@@ -142,7 +169,7 @@ $(document).ready(function() {
 								<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
 								<i class="fa fa-picture-o"></i></a>
 								<input name="upload" type="file" data-role="magic-overlay" data-target="#fileBtn"
-										data-edit="insertImage" required="required">
+										data-edit="insertImage" >
 							</div>
 						</div>
 
@@ -163,8 +190,8 @@ $(document).ready(function() {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" for="empName">담당자 지정</label>
 							<div class="input-group col-md-6 col-sm-6 col-xs-12">
-								<input type="hidden" id="rspbNo" name="rspbNo" value="">
-								<input type="text" id="empName" name="empName" class="form-control" readonly>
+								<input type="hidden" id="rspbNo" name="rspbNo" value="" >
+								<input type="text" id="empName" name="empName" class="form-control" readonly >
 									<span class="input-group-btn">
 									<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal">검색</button>
 							</div>
@@ -193,6 +220,8 @@ $(document).ready(function() {
 				<div class="modal-body" id="chartBody"></div>
 							
 				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="modalChooseBtn"
+							data-dismiss="modal">선택</button>
 					<button type="button" class="btn btn-default" id="modalCloseBtn"
 							data-dismiss="modal">닫기</button>
 				</div>
@@ -208,6 +237,8 @@ $(document).ready(function() {
 				<div class="modal-body" id="mapBody"></div>
 							
 				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="modalChooseBtn2"
+							data-dismiss="modal">선택</button>
 					<button type="button" class="btn btn-default" id="modalCloseBtn2"
 							data-dismiss="modal">닫기</button>
 				</div>

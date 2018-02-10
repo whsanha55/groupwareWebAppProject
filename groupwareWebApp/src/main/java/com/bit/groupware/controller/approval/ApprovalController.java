@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.approval.ApprovalRecordVO;
+import com.bit.groupware.domain.approval.ApprovalVO;
 import com.bit.groupware.domain.approval.ReceiverLineVO;
 import com.bit.groupware.service.approval.ApprovalRecordService;
 import com.bit.groupware.service.approval.ApprovalService;
@@ -32,34 +33,30 @@ public class ApprovalController {
 		//문서 상세조회
 		@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
 		public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
-										   @RequestParam(value="status") int status,
 										   Principal principal) {
 
 				
 			ModelAndView mv =new ModelAndView();
 			
-			List<ReceiverLineVO> lines=receiverLineService.retrieveApprovalLineList(apprNo);
+			List<ReceiverLineVO> lines=receiverLineService.retrieveReceiverLineByApprNo(apprNo);
 			int apprCount=0;
 			int refCount=0;
-			int recCount=0;
 			for(ReceiverLineVO line:lines) {
 				if(line.getApprType()==0) {
 					apprCount++;
 				}else {
 					refCount++;
 				}
-				
-				if(line.getApprovalRecords()!=null) {
-					recCount++;
-				}
 			}
-
 			
+
+			ApprovalVO approval = approvalService.retrieveApproval(apprNo);
 			mv.addObject("apprCount",apprCount);
 			mv.addObject("refCount",refCount);
-			mv.addObject("recCount",recCount);
-			mv.addObject("approval",approvalService.retrieveApproval(apprNo));
+			mv.addObject("recCount",approval.getApprovalRecords().size());
 			mv.addObject("receiverLine",lines);
+			
+			mv.addObject("approval",approval);
 			mv.addObject("empNo", principal.getName());
 			mv.setViewName("approval/approvalDetail/pop");
 			return mv;
@@ -103,5 +100,7 @@ public class ApprovalController {
 			approvalRecordService.modifyCheckDate(recordNo);
 			return "update";
 		}
+		
+		
 		
 }

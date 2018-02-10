@@ -39,8 +39,8 @@ public class MessageDAOImpl implements MessageDAO {
 		return sqlSession.selectList(NAMESPACE+".selectMessageList",map);
 	}
 
-	public int selectNewMessageCount(String empNo) {
-		return sqlSession.selectOne(NAMESPACE+".selectNewMessageCount", empNo);
+	public List<Integer> selectNewMessageCount(String empNo) {
+		return sqlSession.selectList(NAMESPACE+".selectNewMessageCount", empNo);
 	}
 
 	public int selectMessageCount(Map<String, Object> map) {

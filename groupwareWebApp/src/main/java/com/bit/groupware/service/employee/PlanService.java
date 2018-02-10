@@ -9,6 +9,9 @@ public interface PlanService {
 
 	//일정 목록 조회
 	List<PlanVO> retrievePlanList(Map<String, Object> map);
+	
+	//부서번호에 해당하는 일정 목록 조회
+	List<PlanVO> retrievePlanListByDeptName(Map<String, Object> map);
 		
 	//일정 등록
 	void registerPlan(PlanVO plan);

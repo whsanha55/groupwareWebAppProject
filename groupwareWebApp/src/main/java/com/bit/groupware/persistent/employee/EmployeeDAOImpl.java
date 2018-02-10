@@ -7,8 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bit.groupware.domain.employee.EmployeeCodeVO;
-import com.bit.groupware.domain.employee.EmployeeCodeViewVO;
+import com.bit.groupware.domain.employee.DepartmentVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 
 @Repository
@@ -18,16 +17,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-
-	/*
-	public List<EmployeeCodeVO> selectDepartment(Map<String, Object> map) {
-		return sqlSession.selectList(NAMESPACE + ".selectDepartment", map);
-	}
-	
-	public int checkDeptEmp(String cNo) {
-		int deptEmpCount = sqlSession.selectOne(NAMESPACE + ".checkDeptEmp", cNo);
-		return deptEmpCount;
-	}*/
 	
 	public EmployeeVO selectEmployee(String empNo) {
 		return sqlSession.selectOne(NAMESPACE + ".selectEmployeeByNo", empNo);

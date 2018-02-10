@@ -23,7 +23,6 @@
 		
 		$('#modify').on('click', function() {
 			var pNo = $(this).val();
-			alert($(this).val());
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/admin/modifyPlan.do'
@@ -109,67 +108,125 @@
 
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">일정구분</span>
-						</label>&nbsp;&nbsp; 
+							for="last-name">일정구분</label>&nbsp;&nbsp; 
 						<c:choose>
 							<c:when test="${requestScope.plan.pClass == 1}">
-								회의
+								<div class="control-label col-md-3 col-sm-3 col-xs-12">회의</div>
 							</c:when>
 							<c:when test="${requestScope.plan.pClass == 2}">
-								교육
+								<div class="control-label col-md-3 col-sm-3 col-xs-12">교육</div>
 							</c:when>
 							<c:otherwise>
-								기타
+								<div class="control-label col-md-3 col-sm-3 col-xs-12">기타</div>
 							</c:otherwise>
 						</c:choose>
 					</div>
 
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12">부서</span>
-							</label>&nbsp;&nbsp; ${requestScope.plan.cName }
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">부서	</label>&nbsp;&nbsp;
+							<c:if test="${requestScope.plan.deptNo == 'A'}">
+								<div class="control-label col-md-3 col-sm-3 col-xs-12">전체</div>
+							</c:if>
+							<c:if test="${requestScope.plan.deptNo != 'A'}">
+								<div class="control-label col-md-3 col-sm-3 col-xs-12">${requestScope.plan.cName }</div>
+							</c:if>
 					</div>
 
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">제목
-						</label> ${requestScope.plan.pTitle }
+						</label><div class="control-label col-md-3 col-sm-3 col-xs-12"> ${requestScope.plan.pTitle }</div>
 					</div>
 
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12">기간
-						</label> ${requestScope.plan.startDate } - ${requestScope.plan.endDate }
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">기간</label> 
+						<div class="control-label col-md-3 col-sm-3 col-xs-12">
+						${requestScope.plan.startDate } - ${requestScope.plan.endDate }</div>
 					</div>
 
 
 
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">장소</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">${requestScope.plan.latitude },${requestScope.plan.longitude }</div>
-					</div>
+						<div class="control-label col-md-3 col-sm-3 col-xs-12" id="destination" 
+						name="destination" required="required">${requestScope.plan.destination }</div>
+						<input type="hidden" id="latitude" name="latitude"
+							 value="${requestScope.plan.latitude }">
+						<input type="hidden" id="longitude" name="longitude"
+							 value="${requestScope.plan.longitude }">
+											</div>
 
 
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">내용 </label>
-						${requestScope.plan.pContent }
+						<div class="control-label col-md-3 col-sm-3 col-xs-12">${requestScope.plan.pContent }</div>
 					</div>
 
 					<div class="col-md-12">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">중요도</label> 
 						<c:choose>
 							<c:when test="${requestScope.plan.pImpt == 1}">
-								하
+								<div class="control-label col-md-3 col-sm-3 col-xs-12">하</div>
 							</c:when>
 							<c:when test="${requestScope.plan.pImpt == 2}">
-								중
+								<div class="control-label col-md-3 col-sm-3 col-xs-12">중</div>
 							</c:when>
 							<c:otherwise>
-								상
+								<div class="control-label col-md-3 col-sm-3 col-xs-12">상</div>
 							</c:otherwise>
 						</c:choose>
 					</div>
+					
+					
+						<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-6"></label> 
+							<div id="map" style="width:300px;height:300px"></div>
+							<script>							
+							$(document).ready(function() {
+								daum.maps.load(function() {
+									mapContainer = document.getElementById('map'), 								
+									mapCenter = new daum.maps.LatLng($('#latitude').val(), $('#longitude').val()),
+									mapOptions = { 
+										center: mapCenter,
+										level: 3 
+									};
+										
+									var map = new daum.maps.Map(mapContainer, mapOptions);
+									
+									var mapTypeControl = new daum.maps.MapTypeControl();
+									
+									map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+									
+									var zoomControl = new daum.maps.ZoomControl();
+									map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+									
+									var centerMarker = new daum.maps.Marker({ 
+									    position: map.getCenter() 
+									});	
+										
+									centerMarker.setMap(map);
+									
+									var iwContent = '<div style="padding:5px;text-align:center;color:red">${requestScope.plan.destination}</div>',
+										iwRemoveable = true;
+										
+									var infowindow = new daum.maps.InfoWindow({
+										position : map.getCenter(),
+										content : iwContent
+									});
+									
+									infowindow.open(map, centerMarker);
+									
+									map.setDraggable(false);
+									
+								});
+							});
+							</script>
+						</div>
+					
 
 					<div class="form-group form-inline">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="last-name">담당자 </label>&nbsp;&nbsp; ${requestScope.plan.empName }
+							for="last-name">담당자 </label>&nbsp;&nbsp;
+							<div class="control-label col-md-3 col-sm-3 col-xs-12">${requestScope.plan.empName }</div>
 					</div>
 					
 						<div class="form-group">

@@ -38,13 +38,13 @@ public class ProceedMessageController {
 	//새 쪽지 개수 표시용
 	@RequestMapping(value="/newMsg.do", method=RequestMethod.GET)
 	@ResponseBody
-	public int getNumber() {
-//		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		String empNo = user.getUsername();
+	public Map<String, Object> getNumber(Principal principal) {
+		List<Integer> list = msgService.retrieveNewMessageCount(principal.getName());
 		
-		String empNo = "2018-00011";
-		
-		return msgService.retrieveNewMessageCount(empNo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noteCount", list.get(0));
+		map.put("msgCount", list.get(1));
+		return map;
 	}	
 	
 	
@@ -125,7 +125,9 @@ public class ProceedMessageController {
 	public String registerMessage(
 			@RequestParam(value = "dempNo") String empId,
 			@RequestParam(value = "msgTitle") String msgTitle, 
-			@RequestParam(value = "msgContent") String msgContent ) {
+			@RequestParam(value = "msgContent") String msgContent,
+			@RequestParam(value = "respondMsg") String respondMsg
+			) {
 
 		MessageVO message = new MessageVO();
 		
@@ -148,8 +150,14 @@ public class ProceedMessageController {
 		employee2.setEmpNo(empNo2);
 		
 		message.setReceipientEmployee(employee2);
+		if(respondMsg != null) {
+			message.setMsgTitle(respondMsg + msgTitle);
+			message.setMsgContent(msgContent);
+		}else{
 		message.setMsgTitle(msgTitle);
 		message.setMsgContent(msgContent);
+		}
+		
 		
 		//DB에 반영 
 		msgService.registerMessage(message);
@@ -242,12 +250,15 @@ public class ProceedMessageController {
 	@RequestMapping(value = "/writeMessage.do", method = RequestMethod.GET) 
 	public ModelAndView form(
 			@RequestParam(value="receipientNo",required=false) String receipientNo,
-			@RequestParam(value="receipientName",required=false) String receipientName) {
+			@RequestParam(value="receipientName",required=false) String receipientName,
+			@RequestParam(value="respondMsg",required=false) String respondMsg ){
 		
 		ModelAndView mv =new ModelAndView();
 	
+		
 		mv.addObject("receipientNo",receipientNo);
 		mv.addObject("receipientName",receipientName);
+		mv.addObject("respondMsg",respondMsg);
 		
 		mv.setViewName("approval/writeMessage/pop");
 		return mv;

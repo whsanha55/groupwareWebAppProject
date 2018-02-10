@@ -31,7 +31,6 @@ $(document).ready(function () {
 			 }
 		});		
 		
-		alert($(this).val());
 		function deletePlanFile(fileNo) {	
 			$.ajax({
 				url: '${pageContext.request.contextPath}/admin/removePlanFile.do'
@@ -78,6 +77,28 @@ $(document).ready(function () {
 		$('#chartBody').html("");
 		 
 	});
+	
+	$('#searchMap').click(function() {
+		$('#mapBody').load('${pageContext.request.contextPath}/admin/map.do');
+		$('#layerpop2').modal({
+			backdrop : 'static',
+			keyboard : false
+		});
+	});
+	
+	$('#modalChooseBtn2').on('click',function() {	
+		console.log(selectedDest);
+		$('input[name=destination]').val(selectedDest);
+		$('input[name=latitude]').val(selectedLat);
+		$('input[name=longitude]').val(selectedLng);
+	
+		$('#mapBody').html("");
+	});
+	
+	$('#modalCloseBtn2').on('click',function() {
+		$('#mapBody').html("");
+	});
+	
 
 });//end of jqueryPager
 </script>
@@ -107,14 +128,14 @@ $(document).ready(function () {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >부서</label>&nbsp;&nbsp;
 							<select id="deptNo" name="deptNo" style="width:100px;height:30px;" value="${requestScope.plan.deptNo }">
+							<option value="A">전체</option>
 							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 								<option value="${pageScope.deptCode.key }" <c:if test="${requestScope.plan.deptNo  == pageScope.deptCode.key}">
 								selected</c:if>>${pageScope.deptCode.title }</option>
 							</c:forEach>
 							</select>
 						</div>
-						
-						
+
 						<br>
 
 						<div class="form-group">
@@ -124,18 +145,7 @@ $(document).ready(function () {
 										style="width:1000px;" value="${requestScope.plan.pTitle }" required="required">
 							</div>
 						</div>
-						
-						<div class="form-group">
-							<!-- <label class="control-label col-md-1 col-sm-3 col-xs-12" >반복구분</label>
-							<div class="form-group">
-								&nbsp;&nbsp;
-								당일:<input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required="">
-								&nbsp;&nbsp;
-								반복: <input type="radio" class="flat" name="gender" id="genderF" value="F">
-							</div> -->
-						</div>
-
-						
+												
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >기간</label>&nbsp;&nbsp;
 							</label>
@@ -164,13 +174,14 @@ $(document).ready(function () {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >장소</label>&nbsp;&nbsp;
 							<div class=" col-md-6 col-sm-6 col-xs-12">
-								<input type="text" id="latitude" name="latitude"
+								<input type="text" id="destination" name="destination"
 									required="required" class="form-control col-md-10 col-xs-12"
-									style="width:100px;" value="${requestScope.plan.latitude }">
-								<input type="text" id="longitude" name="longitude"
-									required="required" class="form-control col-md-10 col-xs-12"
-									style="width:100px;" value="${requestScope.plan.longitude }">
-								<button type="button" class="btn btn-success">주소찾기</button>
+									style="width:100px;" value="${requestScope.plan.destination }">
+								<input type="hidden" id="latitude" name="latitude"
+									 value="${requestScope.plan.latitude }">
+								<input type="hidden" id="longitude" name="longitude"
+									 value="${requestScope.plan.longitude }">
+								<button id="searchMap" type="button" class="btn btn-success">주소찾기</button>
 							</div>
 						</div>
 
@@ -185,7 +196,8 @@ $(document).ready(function () {
 						
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">첨부파일</label>&nbsp;&nbsp;
-								<c:if test="${fn:length(requestScope.plan.files) > 0 }">
+								
+								<c:if test="${fn:length(requestScope.plan.files) != 0 }">
 									<c:forEach var="file" items="${requestScope.plan.files }" varStatus="loop">
 										<c:url var="deleteUrl" value="/admin/removePlanFile.do" scope="page" >
 											<c:param name="fileNo" value="${pageScope.file.fileNo }" />
@@ -193,32 +205,17 @@ $(document).ready(function () {
 										${pageScope.file.fileName }
 										<button type="button" value="${pageScope.file.fileNo }" class="btn btn-primary deleteBtn" >삭제</button>
 									</c:forEach>
-									<div class="btn-group">
-										<input name="upload" type="hidden" data-role="magic-overlay" data-target="#fileBtn"
-												data-edit="insertImage">
-									</div>
 								</c:if>
 								<c:if test="${fn:length(requestScope.plan.files) == 0 }" >
 									<div class="btn-group">
 										<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
 										<i class="fa fa-picture-o"></i></a>
 										<input name="upload" type="file" data-role="magic-overlay" data-target="#fileBtn"
-												data-edit="insertImage" required="required">
+												data-edit="insertImage" >
 									</div>
 								</c:if>
-							
+								
 						</div>
-						<!-- <div class="form-group">
-							<label class="control-label col-md-1 col-sm-3 col-xs-12"></label>
-							<div class="btn-group">
-								<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
-								<i class="fa fa-picture-o"></i></a>
-								<input name="upload" type="file" data-role="magic-overlay" data-target="#fileBtn"
-										data-edit="insertImage">
-							</div>
-						</div> -->
-						
-
 
 
 						<div class="form-group">
@@ -275,6 +272,24 @@ $(document).ready(function () {
 			</div>
 		</div>
 	</div>
+	
+	<!-- 모달 팝업 -->
+	<div class="modal fade" id="layerpop2">
+		<div class="modal-dialog modal-cSize">
+			<div class="modal-content modal-cSize">
+							
+				<div class="modal-body" id="mapBody"></div>
+							
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="modalChooseBtn2"
+							data-dismiss="modal">선택</button>
+					<button type="button" class="btn btn-default" id="modalCloseBtn2"
+							data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </form>
 </body>
 </html>

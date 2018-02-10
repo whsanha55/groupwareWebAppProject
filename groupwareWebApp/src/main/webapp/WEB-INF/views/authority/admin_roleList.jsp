@@ -10,6 +10,7 @@
 <script>
    var pKeyfield='role';
    var pKeyword;
+   var rName1;
    $(document).ready(function() {
       
       Paging(1); 
@@ -47,18 +48,19 @@
       
       // 수정
       $('#datatable').on('click','button:contains(수정)', function () {
-         var rName = $(this).parents("tr").find('.rName').text();      
+         rName1 = $(this).parents("tr").find('.rName').text();      
          var rType = $(this).parents("tr").find('.rType').text();
          var rExplan = $(this).parents("tr").find('.rExplan').text();
       
-          $(this).parents("tr").find('.rName').html("<input type='text' name='rName' value="+rName +" />");   
+          $(this).parents("tr").find('.rName').html("<input type='text' name='rName' value="+rName1 +" />");   
           if(rType =='url') {
              $(this).parents("tr").find('.rType').html("<select id='selBox'><option name='rType' value='url' selected='selected'>url</option><option value='method'>method</option></select>");   
           }else {
               $(this).parents("tr").find('.rType').html("<select id='selBox'><option name='rType' value='url' >url</option><option value='method' selected='selected'>method</option></select>");   
           }
-          $(this).parents("tr").find('.rExplan').html("<input type='text' name='rExplan' value="+rExplan +" />");   
-          
+          $(this).parents("tr").find('.rExplan').html("<input type='text' name='rExplan'>");   
+          $(this).parents("tr").find('.rExplan').find(':text[name=rExplan]').val(rExplan);   
+                    
           $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
           $('button:contains(수정)').prop("disabled", true);
          
@@ -66,7 +68,6 @@
       
       //수정 완료
        $('#datatable').on('click','button:contains(완료)', function () {
-          
           var rId = $(this).parents("tr").find('.rId').text();      
           var rName = $(this).parents("tr").find('input[name=rName]').val();
           var target = document.getElementById("selBox");
@@ -94,6 +95,7 @@
                         data : {
                            rId : rId,
                            rName : rName,
+                           rName1 : rName1,
                            rType : rType,
                            rExplan : rExplan
                         }
@@ -112,7 +114,7 @@
                               $(explan).html(data.role.rExplan);
                               $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
                               Paging(1);   
-                           }else if(data.isSuccess == "false"){
+                           }else if(data.isFail == "false"){
                               swal("이미 역할이 존재합니다.");
                            } 
                         }
@@ -192,7 +194,7 @@
    
    function Paging(currentPageNo) {
       var totalCount =  0;      //총 양식서 수
-      var countPerPage = 10;   //한 페이지당 보여주는 양식서 수
+      var countPerPage = 7;   //한 페이지당 보여주는 양식서 수
       var pageSize = 5;      //페이지 리스트에 게시되는 페이지 수
       var startRow = (currentPageNo - 1) * countPerPage + 1;
       var endRow = currentPageNo * countPerPage;
@@ -318,7 +320,7 @@
      
          <div class="container">
              <div class="row">    
-                 <div class="col-xs-7 col-xs-offset-4">
+                 <div class="col-xs-6 col-xs-offset-6">
                    <div class="input-group">
                          <div class="input-group-btn search-panel">
                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -337,7 +339,6 @@
                          </span>
                      </div>
                  </div>
-                 <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
             </div>
          </div>
                    
@@ -368,6 +369,7 @@
                  <div class="text-center">
                   <nav aria-label="Page navigation" id = 'Paging'></nav> 
                 </div>
+                 <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
                   <button type="button"  id="deleteBtn" class="btn btn-danger pull-right">삭제</button>
                </div>
                   

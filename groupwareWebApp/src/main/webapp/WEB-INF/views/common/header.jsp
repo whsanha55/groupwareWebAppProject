@@ -15,9 +15,9 @@
 
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
 		
-		//var msg = setInterval(newMsg, 2000);
-		//var note = setInterval(newNote, 2000);
-		
+		//newMsg();
+	//	var msg = setInterval(newMsg, 2000);
+
 		
 		
 		//최초이벤트(5개씩)
@@ -158,7 +158,7 @@
 	   //end of newAlarm
 	   
 	   	//관련 문서함으로 이동하는 이벤트
-		$('#menu1').on('click','li:nth-child(2)',function() {
+		$('#menu1').on('click','li:has(span)',function() {
 			
 			var noteNo = $(this).attr('id');
 			var path = $(this).attr('class');
@@ -177,10 +177,8 @@
 			dataType: 'json'
 			,
 			success: function(data){
-				$('#msgNum').empty();
-				if(data != 0) {
-					$('#msgNum').text(data);
-				} 
+				if(data != 0) $('#msgNum').text(data.msgCount);
+				if(data != 0) $('#noteNum').text(data.noteCount); 
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error: ' + jqXHR.status);
@@ -189,25 +187,7 @@
 	}//end of newMsg	
 	
 	
-	function newNote() {
-		$.ajax({
-			url: '${pageContext.request.contextPath}/newNote.do'
-			,
-			method: 'GET'
-			,
-			dataType: 'json'
-			,
-			success: function(data){
-				$('#noteNum').empty();
-				if(data != 0) {
-					$('#noteNum').text(data);
-				} 
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert('error: ' + jqXHR.status);
-			}
-		});		
-	}//end of newNote
+
 	});
 </script>
 

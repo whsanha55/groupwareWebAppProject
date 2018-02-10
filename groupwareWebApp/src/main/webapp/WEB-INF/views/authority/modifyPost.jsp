@@ -8,8 +8,8 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 	<script>
@@ -39,53 +39,44 @@
 		});
 
 		//파일 삭제 
-		$('#deleteBtn').on('click', function() {	
+		$('#datatable').on('click','button:contains(삭제)', function () {
 			var no = $(this).val();
-			
 			swal({
-				  title: "파일 삭제"+no ,
+				  title: "파일 삭제",
 				  text: "파일을 삭제합니다. 계속 진행하시겠습니까?",
 				  icon: "info",
 				  buttons : true 
 			}).then((e) => {
 			     if(e) {
-			    	 deletePostFile(no);							
+			    	 alert(no);
+			    	 $.ajax({
+	                     url: '${pageContext.request.contextPath}/deletePostFile.do'  
+	                     ,
+	                     method: 'GET'
+	                     ,
+	                     data: {no: no} 
+	                     , 
+	                     success: function(data) {
+	                    	 swal({
+								  title: "삭제 완료",
+								  text: "선택하신 파일이 삭제되었습니다.",
+								  icon: "info",
+								  buttons : "확인" 
+							}).then((e) => {
+							     if(e) {
+							    	 location.reload();		
+								 }
+							});		
+	                     }
+	                     , 
+	                     error: function(jqXHR) {
+	                        alert('Error : ' + jqXHR.status);
+	                     }    
+	                  });   		
 				 }
-			});		
+			});	
 			
-			//alert($(this).val());
-			function deletePostFile(no) {	
-				alert(no);
-				$.ajax({
-					url: '${pageContext.request.contextPath}/deletePostFile.do'
-					,
-					method: 'GET'
-					,
-					data: {no}
-					, 
-					async: true
-					,
-					cache: false
-					,
-					success: function(data) {
-						swal({
-							  title: "삭제 완료",
-							  text: "선택하신 파일이 삭제되었습니다.",
-							  icon: "info",
-							  buttons : "확인" 
-						}).then((e) => {
-						     if(e) {
-						    	 location.reload();		
-							 }
-						});		
-					}
-					, 
-					error: function(jqXHR) {
-						alert('Error : ' + jqXHR.status);
-					}	 			
-					
-				});	
-			}
+	
 		});	 
 
 	});
@@ -95,7 +86,7 @@
     
 </head>
 <body>
-	<form action="${pageContext.request.contextPath }/modifyPost.do" method="post"
+	<form id="datatable" action="${pageContext.request.contextPath }/modifyPost.do" method="post"
 		enctype="multipart/form-data">
 		<input type = "hidden" name ="posteNo" value = "${sessionScope.post.postNo}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
@@ -137,12 +128,12 @@
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<select class="form-control" name="documentNo">
 							<option>문서를 선택하세요</option>
-							<option value="1">문서보관함</option>
-							<option value="2">회의문서</option>
-							<option value="3">각종 증명서</option>
-							<option value="4">공문서</option>
-							<option value="5">거래문서</option>
-							<option value="6">기타</option>
+							<option value="DC-1">문서보관함</option>
+							<option value="DC-2">회의문서</option>
+							<option value="DC-3">각종 증명서</option>
+							<option value="DC-4">공문서</option>
+							<option value="DC-5">거래문서</option>
+							<option value="DC-6">기타</option>
 						</select>
 					</div>
 					<div class="x_content">
@@ -186,16 +177,19 @@
 									</div>
 								</div>
 							</div>
+							
 						</div>
 
 						<div class="ln_solid"></div>
 
-
+					
 					</div>
+					
 				</div>
-				<a class="btn btn-primary pull-right" href='<c:url value="postList.do" />'>취소</a>
-				&nbsp;
-				<button type="submit" class="btn btn-primary pull-right">등록</button>				 
+					<a class="btn btn-primary pull-right" href='<c:url value="postList.do" />'>목록</a>
+					<button type="reset" class="btn btn-primary pull-right">취소</button>		
+					<button type="submit" class="btn btn-primary pull-right">등록</button>
+					 
 			</div>
 		</div>
 	</form>

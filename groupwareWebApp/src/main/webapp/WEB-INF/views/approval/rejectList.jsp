@@ -10,6 +10,12 @@
 	.column-title{
 		text-align:center;
 	}
+	.detailApproval{
+		cursor:pointer;
+	}
+	.currentRecord{
+		cursor:pointer;
+	}
 	
 </style>
 <script>
@@ -33,16 +39,27 @@
 		 $('#datatable').on("click",'.detailApproval',function(){
 				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=3';
+				var status=$(this).attr('name');
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status='+status+'&finalStatus=3';
 				window.open(url, "결재문서","width=750, height=800");
 				
 			});
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
-			if($(this).val()=='apprDate'||$(this).val()=='finDate'){
+			if($(this).val()=='apprDate'){
+				$('#pKeyword1').remove();
+				$('#temp').remove();
 				$(this).next().attr('type','date');
 				
-				$(this).next().after("&nbsp;<b id=temp>~</b> ")
+				$(this).next().after("<b id=temp>&nbsp;~</b> ")
+				$(this).next().next().after("<input type=date id=pKeyword1>")
+				console.log($('form').html());
+			}else if($(this).val()=='finDate'){
+								
+				$('#pKeyword1').remove();
+				$('#temp').remove();
+				$(this).next().attr('type','date');
+				$(this).next().after("<b id=temp>&nbsp;~</b> ")
 				$(this).next().next().after("<input type=date id=pKeyword1>")
 				console.log($('form').html());
 			}else{
@@ -53,6 +70,7 @@
 
 				console.log($('form').html());
 			}
+			 
 		 });
 		 
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
@@ -63,12 +81,24 @@
 	        }
 		});
 		
-		
 		//검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
 			 pKeyword=$('#pKeyword').val();
 			 pKeyword1=$('#pKeyword1').val();
+			 
+	 			if(pKeyfield != "apprDate" && pKeyword == "") {
+	 				if(pKeyfield!="finDate"){
+						swal("검색어를 입력해주세요.", "");
+						return;
+	 				}
+				}
+	 			if(pKeyfield == "apprDate" ||pKeyfield == "finDate"){
+		 			if( pKeyword == "" || pKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "");
+						return;
+		 			}  
+	 			}
 			 
 			 templatePaging(1);
 		 });
@@ -83,7 +113,7 @@
 		 });
 		
 	 
-		 //임시보관
+		/*  //임시보관
 		  $('#datatable').on('click','.pull-right',function() {
 			
 			 swal({
@@ -98,7 +128,7 @@
 				
 				});
 			
-		 });
+		 }); */
 	});
 		
 	
@@ -135,18 +165,18 @@
 					for(var i=0;i<data.approvals.length;i++) {
 						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
+						if(data.empNo == data.approvals[i].employee.empNo){
+							
+							text += "<td  id="+ data.approvals[i].apprNo +" class='detailApproval' name='4' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						}else{
+							text += "<td  id="+ data.approvals[i].apprNo +" class='detailApproval' name='3' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						}
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
 						text += "<td>"+ data.approvals[i].completeDate + "</td>";
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";						
-						if(data.empNo == data.approvals[i].employee.empNo){
-							
-							text += "<td><a class='btn btn-primary pull-right'  name="+data.approvals[i].apprNo+" style='padding:0px; margin-bottom:0px; background-color:#337ab7;color:white;'>임시보관</a></td>";
-						}else{
-							text +="<td></td>";
-						}
+
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
@@ -276,7 +306,7 @@
 		     				<th class="column-title">기안일자</th>
 		   				    <th class="column-title">반려일자</th>
                             <th class="column-title">결재현황</th>
-                            <th class="column-title">임시보관</th>
+                           
                             
                           </tr>
                         </thead>

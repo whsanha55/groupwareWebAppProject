@@ -29,4 +29,11 @@ public class ReceiverLineServiceImpl implements ReceiverLineService {
 		return receiverLine.selectApprovalLineList(apprNo); 
 	}
 
+	public List<ReceiverLineVO> retrieveReceiverLineByApprNo(int apprNo) {
+		// TODO Auto-generated method stub
+		return receiverLine.selectReceiverLineByApprNo(apprNo);
+	}
+	
+	
+
 }

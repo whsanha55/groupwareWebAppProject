@@ -1,10 +1,140 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
+	<script>
+		var eKeyfield;				
+		var eKeyword;
+		
+		$(document).ready(function() {
+			
+			employeePaging();
+			
+			$('.search-panel .dropdown-menu').on('click','a',function(e) {
+				e.preventDefault();
+				$('.keyfield').text($(this).text());
+				$('.keyfield').attr('id',$(this).attr('id'));
+			});
+			
+			$('#keyword').on('keydown', function(e) {
+				if(e.keyCode == 13){
+					$('#findDept').trigger('click');
+		        }
+			});
+			
+			$('#findDept').on('click', function() {
+				if($('.keyfield').attr('id') == undefined) {
+					alert("choose keyfield");
+					return false;
+				} else if($('#keyword').val() == "") {
+					alert("enter keyword");
+					return false;
+				}
+			
+				eKeyfield = $('.keyfield').attr('id');
+				eKeyword = $('#keyword').val();
+				
+				console.log(eKeyfield);
+				console.log(eKeyword);
+				
+				employeePaging();
+			}); 
+				
+				
+			$('#modalCloseBtn').on('click',function() {
+				$('#chartBody').html(""); 
+			});
+				
+		});
+		
+		function employeePaging() {
+		
+			$.ajax({
+				url: '${pageContext.request.contextPath}/admin/departmentListSearchAjax.do'
+				,
+				data: {
+					keyfield: eKeyfield ,
+					keyword: eKeyword
+				}
+				,
+				type: 'POST' 
+				,
+				cache: false 
+				,
+				dataType: 'json' 
+				,
+				success: function (data, textStatus, jqXHR) {
+					var oldHead;
+					var checkCno;
+					var checkChooseCno;
+					
+					var text = "";
+					if(data.totalCount == 0) {
+						text += '<tr>조회된 검색결과가 없습니다</tr>';
+					} else {
+						for(var i=0;i<data.departments.length;i++) {
+							text += '<tr>';
+							text += '<td id="check'+ i +'">'+ data.departments[i].cNo		 									 			+'</td>';
+							text += '<td>'+ data.departments[i].cName	 	 											+'</td>';
+							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" data-toggle="modal">'+ data.departments[i].headDept 	+'</td>';
+							text += '<td>'+ data.departments[i].phoneNumber												+'</td>';
+							text += '<td>'+ data.departments[i].memberCount 											+'</td>';
+							text += '<td>'+ data.departments[i].teamCount 												+'</td>';
+							text += '</tr>';
+							
+							$('tbody').on('click','#searchEmp' + i, function() {
+								$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
+								$('#layerpop').modal({
+									backdrop: 'static', 
+									keyboard: false
+								});
+								oldHead = $(this).text().split(" ")[1];
+								checkCno = $(this).parent().parent().find('td:nth-child(1)').text();
+							});
+						}	
+						$('#modalChooseBtn').on('click',function() {
+							checkChooseCno = selectedDeptNo;
+
+							if(checkChooseCno != checkCno) {
+								alert("같은 부서의 사원만 업무 담당자로 지정 가능합니다!");
+								return false;
+							}
+							
+							$.ajax ({
+								url : "${pageContext.request.contextPath}/admin/deptListAjax.do",
+								method : "POST",
+								data : {
+									oldHead : oldHead,
+									newHead : selectedNameAndDuty.split(" ")[0]
+								},
+								dataType : 'json',
+								success : function(data) {
+									location.reload();
+								},
+								error : function(jqXHR) {
+									alert("error : " + jqXHR.status);
+								}
+							});
+						});
+					}
+					$('#datatable').find('tbody').html(text);	
+				} 
+				,
+				error: function(jqXHR) {
+					alert("에러: " + jqXHR.status);
+				}	
+			});
+			
+			
+		} //end templatePaging function
+		
+	</script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -28,19 +158,19 @@
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle"
 											data-toggle="dropdown">
-											<span id="search_concept">검색</span> <span class="caret"></span>
+											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a href="#">부서코드번호</a></li>
-											<li><a href="#">부서명</a></li>
-											<li><a href="#">책임자</a></li>
+											<li><a id="cNo">부서코드번호</a></li>
+											<li><a id="cName">부서명</a></li>
+											<li><a id="headDept">책임자</a></li>
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all"
-										id="search_param"> <input type="text"
-										class="form-control" name="x" placeholder="Search term...">
+										id="search_param"> <input type="text" 
+										class="form-control" id="keyword" name="x" placeholder="Search term...">
 									<span class="input-group-btn">
-										<button class="btn btn-default" type="button">
+										<button id="findDept" class="btn btn-default" type="button">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
@@ -55,127 +185,36 @@
 						<tr>
 							<th>부서코드번호</th>
 							<th>부서명</th>
-							<th>책임자</th>
-							<th>책임자 연락처</th>
+							<th>업무 담당자</th>
+							<th>담당자 연락처</th>
 							<th>부서원</th>
 							<th>부서별 팀 수</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>100</td>
-							<td>경영관리부</td>
-							<td>사장 박병진</td>
-							<td>010-7660-2915</td>
-							<td><a data-toggle="modal" data-target="#myModal">2명</a></td>
-							<td>1팀</td>
-						</tr>
-						<tr>
-							<td>110</td>
-							<td>인사부</td>
-							<td>부장 인부장</td>
-							<td>010-7660-2915</td>
-							<td>6명</td>
-							<td>1팀</td>
-						</tr>
-						<tr>
-							<td>120</td>
-							<td>회계부</td>
-							<td>부장 회부장</td>
-							<td>010-7660-2915</td>
-							<td>6명</td>
-							<td>1팀</td>
-						</tr>
-						<tr>
-							<td>130</td>
-							<td>영업부</td>
-							<td>부장 영부장</td>
-							<td>010-7660-2915</td>
-							<td>11명</td>
-							<td>2팀</td>
-						</tr>
-						<tr>
-							<td>140</td>
-							<td>개발부</td>
-							<td>부장 개부장</td>
-							<td>010-7660-2915</td>
-							<td>11명</td>
-							<td>2팀</td>
-						</tr>
+			
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true"
-		style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">부서원 검색</h4>
-					※부서와 이름을 지정해주세요.
-				</div>
-				<div class="modal-body">
-					<div>
-						<div class="btn-group">
-							<button data-toggle="dropdown"
-								class="btn btn-default dropdown-toggle" type="button"
-								aria-expanded="false">
-								검색조건 <span class="caret"></span>
-							</button>
-							<ul role="menu" class="dropdown-menu">
-								<li><a href="#">경영관리부</a></li>
-								<li><a href="#">인사부</a></li>
-								<li><a href="#">회계부</a></li>
-								<li><a href="#">개발부</a></li>
-								<li><a href="#">영업부</a></li>
-							</ul>
-							<div class="col-sm-6">
-								<div id="imaginary_container">
-									<div class="input-group stylish-input-group">
-										<input type="text" class="form-control" placeholder="Search">
-										<span class="input-group-addon" style="padding: 3px 10px">
-											<button type="submit">
-												<span class="glyphicon glyphicon-search"></span>
-											</button>
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<table class="table table-striped jambo_table bulk_action">
-							<thead>
-								<tr class="headings">
-									<th class="column-title">부서</th>
-									<th class="column-title">직책</th>
-									<th class="column-title">이름</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>경영관리부</td>
-									<td class=" ">사장</td>
-									<td class=" ">박병진</td>
-								</tr>
-								<tr>
-									<td>경영관리부</td>
-									<td class=" ">부사장</td>
-									<td class=" ">원정우</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<br>
-					<div class="text-center">
-						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					</div>
+	
+	
+	<div class="modal fade" id="layerpop">
+		<div class="modal-dialog modal-cSize">
+			<div class="modal-content modal-cSize">
+							
+				<div class="modal-body" id="chartBody"></div>
+							
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="modalChooseBtn"
+							data-dismiss="modal">선택</button>
+					<button type="button" class="btn btn-default" id="modalCloseBtn"
+							data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 </body>
 </html>

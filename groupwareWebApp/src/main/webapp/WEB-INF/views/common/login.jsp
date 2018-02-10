@@ -8,37 +8,45 @@ page contentType="text/html; charset=utf-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Meta, title, CSS, favicons, etc. -->
 <meta charset="utf-8">
-
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>login</title>
 
+<!-- jQuery -->
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var checkedRole = $('input[name=role]:checked').val();
+		
+		$('#login').click(function(){
+			if($('input:text[name=id]').val() == ""){
+				alert("사번을 입력해주세요");
+				$('input:text[name=id]').focus;
+				return false;
+			}
+			
+			if($('input:password[name=pwd]').val() == ""){
+				alert("비밀번호를 입력해주세요");
+				$('input:text[name=pwd]').focus;
+				return false;
+			}
+			
+			if(!($('input:radio[name=role]').is(':checked'))){
+				alert("옵션을 선택해주세요");
+				$('input:radio[name=role]').focus;
+				return false;
+			}
+		});
+	}); 
+</script> -->
 <!-- Bootstrap -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<!-- NProgress -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/nprogress/nprogress.css"
-	rel="stylesheet">
-<!-- Animate.css -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/animate.css/animate.min.css"
-	rel="stylesheet">
-
+<link href="${pageContext.request.contextPath}/resources/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <!-- Custom Theme Style -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/custom.min.css" rel="stylesheet">
+
 </head>
 
 <body class="login">
-
 	<div>
 		<a class="hiddenanchor" id="signup"></a> <a class="hiddenanchor"
 			id="signin"></a>
@@ -63,17 +71,26 @@ page contentType="text/html; charset=utf-8"%>
 						</div>
 				
 						<c:if test="${not empty param.fail}">
-							<div style="color: red;">비밀번호가 틀렸습니다.</div>
+							<div style="color: red; font-weigt:bold;">아이디 또는 비밀번호가 틀렸습니다.</div>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />
 						</c:if>
-						<div class="clearfix"></div>
+						<c:if test="${not empty param.authFail}">
+							<div style="color: red; font-weigt:bold;">관리자 권한이 없습니다.</div>
+							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />
+						</c:if>
+						
+						<div class="clearfix">
+						<input type = "radio" name = "role" value = "user" >사용자
+						<input type = "radio" name = "role" value = "admin">관리자<br>
+						</div>
 
 						<div class="separator">
 							<p class="change_link">
 								<%--   <a class="btn btn-default submit" href='<c:url value="/admin/index.do"/>'>로그인</a> --%>
 
-								<button class="btn btn-default submit" type="submit">로그인</button>
-							</p>
+								<button class="btn btn-default submit" type="submit" >로그인</button>
+								<button class="btn btn-default default" type="reset">취소</button>
+							</p>  
 
 							<div class="clearfix"></div>
 							<br />
@@ -84,7 +101,7 @@ page contentType="text/html; charset=utf-8"%>
 				</section>
 			</div>
 
-			<div id="register" class="animate form registration_form">
+			<!-- <div id="register" class="animate form registration_form">
 				<section class="login_content">
 					<form>
 						<h1>Create Account</h1>
@@ -124,7 +141,7 @@ page contentType="text/html; charset=utf-8"%>
 						</div>
 					</form>
 				</section>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </body>

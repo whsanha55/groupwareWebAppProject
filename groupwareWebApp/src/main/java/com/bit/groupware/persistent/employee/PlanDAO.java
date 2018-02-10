@@ -10,6 +10,9 @@ public interface PlanDAO {
 	//일정 목록 조회
 	List<PlanVO> selectPlanList(Map<String, Object> map);
 	
+	//부서에 해당하는 일정 목록 조회
+	List<PlanVO> selectPlanListByDeptName(Map<String, Object> map);
+	
 	//일정 등록
 	String insertPlan(PlanVO plan);
 	

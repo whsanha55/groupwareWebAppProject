@@ -37,7 +37,48 @@ $(document).ready(function(){
 	
 	//등록
 	$('#display').on('click','#submit',function(){
+		if($($('input:text[name=boardName]')).val() == "" ){
+			swal("이름을 입력하세요! ");
+			$('#boardName').focus();
+			return false;
+		} 
 		
+		if(!($('input:radio[name=isUse]').is(':checked'))){
+			swal("사용유무를 선택해주세요");
+			$('input:radio[name=isUse]').focus;
+			return false;
+		}
+		
+		if($('#fileCount').val()== '') {
+			swal("파일개수를 선택해주세요");
+			$('#fileCount').focus;
+		    return false;
+		}
+		
+		
+		if(!($('input:radio[name=isNotice]').is(':checked'))){
+			swal("공지사항 사용유무를 선택해주세요");
+			$('input:radio[name=isNotice]').focus;
+			return false;
+		}
+		
+		if(!($('input:radio[name=isComment]').is(':checked'))){
+			swal("코멘트 사용유무를 선택해주세요");
+			$('input:radio[name=isComment]').focus;
+			return false;
+		}
+		
+		if(!($('input:radio[name=isDeptDivide]').is(':checked'))){
+			swal("부서 사용유무를 선택해주세요");
+			$('input:radio[name=isDeptDivide]').focus;
+			return false;
+		}
+		
+		if(!($('input:radio[name=isDocuType]').is(':checked'))){
+			swal("게시판 사용유무를 선택해주세요");
+			$('input:radio[name=isDocuType]').focus;
+			return false;
+		}
 		
 		var params = jQuery('#serializeForm').serialize();
 		
@@ -63,23 +104,7 @@ $(document).ready(function(){
 			}
 			,
 			error : function(jqXHR, textStatus, errorThrown){
-				if($('#boardName').val() == "" ){
-					alert("이름을 입력하세요! ");
-					$('#boardName').focus();
-				}else if(!$(':input:radio[name=isUse]:checked').val()){
-					alert("사용 유무를 선택해주세요!");
-				}else if($('[name=fileCount]>option:selected').val() == '0'){
-					alert("파일 개수를 선택해주세요!");
-					$('#fileCount').focus();
-				}else if(!$(':input:radio[name=isNotice]:checked').val()){
-					alert("공지사항 사용 유무를 선택해주세요!");
-				}else if(!$(':input:radio[name=isComment]:checked').val()){
-					alert("코멘트 사용유무를 선택해주세요!");
-				}else if(!$(':input:radio[name=isDeptDivide]:checked').val()){
-					alert("부서 구분을 선택해주세요!");
-				}else if(!$(':input:radio[name=isDocuType]:checked').val()){
-					alert("게시판 카테고리 선택해주세요!");
-				}
+				alert('error: ' + jqXHR.status);
 			}
 		});
 	});	
@@ -127,7 +152,7 @@ $(document).ready(function(){
 
 				
 					var value = data.boardName;
-					$('input[name=boardName]').attr('value',value);
+					$('input[name=boardName]').val(value);
 					
 					
 					if(data.isUse == 'Y') {

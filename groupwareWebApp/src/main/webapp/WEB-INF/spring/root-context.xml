@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd"
+	xmlns:task="http://www.springframework.org/schema/task">
+
+
+	<task:scheduler id="gsScheduler" pool-size="10" />
+	<task:executor id="gsTaskExecutor" pool-size="10" />
+	<task:annotation-driven executor="gsTaskExecutor"
+		scheduler="gsScheduler" />
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:component-scan base-package="com.bit.groupware"
@@ -16,7 +24,10 @@
 			expression="org.springframework.stereotype.Repository" />
 	</context:component-scan>
 
-	
+	<!-- <bean id="automaticallyRemove" class="com.bit.groupware.service.approval.ApprovalAutomaticallyRemoveImpl" 
+		/> <bean id="automaticallyRemove2" class="com.bit.groupware.service.approval.ApprovalAutomaticallyRemoveImpl" 
+		/> -->
+
 
 </beans>
 
