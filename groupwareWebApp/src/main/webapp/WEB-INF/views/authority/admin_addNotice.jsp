@@ -7,28 +7,27 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
    $(document).ready(function() {
-	   //첨부파일 추가 및 삭제 이벤트
-		$('form').on('click', '.btn-add', function(e) {
-	        e.preventDefault();
+       //첨부파일 추가 및 삭제 이벤트
+      $('form').on('click', '.btn-add', function(e) {
+           e.preventDefault();
 
-	        var controlForm = $('.controls:first') ;
-	        var currentEntry = $(this).parents('.entry:first');
-	        var newEntry = $(currentEntry.clone()).appendTo(controlForm);
+           var controlForm = $('.controls:first') ;
+           var currentEntry = $(this).parents('.entry:first');
+           var newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-	        newEntry.find('input').val('');
-	        controlForm.find('.entry:not(:last) .btn-add')
-	            .removeClass('btn-add').addClass('btn-remove')
-	            .removeClass('btn-success').addClass('btn-danger')
-	            .html('<span class="glyphicon glyphicon-minus"></span>');
-		}).on('click', '.btn-remove', function(e) {
-		      $(this).parents('.entry:first').remove();
+           newEntry.find('input').val('');
+           controlForm.find('.entry:not(:last) .btn-add')
+               .removeClass('btn-add').addClass('btn-remove')
+               .removeClass('btn-success').addClass('btn-danger')
+               .html('<span class="glyphicon glyphicon-minus"></span>');
+      }).on('click', '.btn-remove', function(e) {
+            $(this).parents('.entry:first').remove();
 
-				e.preventDefault();
-			return false;
-		});
+            e.preventDefault();
+         return false;
+      });
        
   	//첨부파일 용량 체크
 	$('.controls').on('change','input[name=upload]',function() {
@@ -41,12 +40,14 @@
 			}
 		}
 	});
+
    });
 </script>
 </head>
 <body>
    <!--글쓰기-->
-   <form id="dataBase" action="<%=request.getContextPath()%>/admin/addNotice.do" method="post" enctype="multipart/form-data">
+   <form action="<%=request.getContextPath()%>/admin/addNotice.do" onsubmit=""
+      method="post" enctype="multipart/form-data">
       <div class="col-md-12 col-sm-12 col-xs-12">
          <div class="x_panel">
             <div class="x_title">
@@ -66,7 +67,7 @@
                <div class="clearfix"></div>
             </div>
             <div class="form-group">
-               <label class="control-label col-md-3 col-sm-3 col-xs-2">제목</label>
+               <label class="control-label col-md-3 col-sm-3 col-xs-12">제목</label>
                <div class="col-md-9 col-sm-9 col-xs-12">
                   <input type="text" name="noticeTitle"
                      id="autocomplete-custom-append" class="form-control col-md-10" />
@@ -74,87 +75,6 @@
                <div class="x_content">
 
                   <div id="alerts"></div>
-                  	<div class="btn-toolbar editor" data-role="editor-toolbar"
-							data-target="#editor-one">
-							<div class="btn-group">
-								<a class="btn dropdown-toggle" data-toggle="dropdown"
-									title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-								<ul class="dropdown-menu">
-								</ul>
-							</div>
-
-							<div class="btn-group">
-								<a class="btn dropdown-toggle" data-toggle="dropdown"
-									title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b
-									class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a data-edit="fontSize 5">
-											<p style="font-size: 17px">Huge</p>
-									</a></li>
-									<li><a data-edit="fontSize 3">
-											<p style="font-size: 14px">Normal</p>
-									</a></li>
-									<li><a data-edit="fontSize 1">
-											<p style="font-size: 11px">Small</p>
-									</a></li>
-								</ul>
-							</div>
-
-							<div class="btn-group">
-								<a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i
-									class="fa fa-bold"></i></a> <a class="btn" data-edit="italic"
-									title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a> <a
-									class="btn" data-edit="strikethrough" title="Strikethrough"><i
-									class="fa fa-strikethrough"></i></a> <a class="btn"
-									data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i
-									class="fa fa-underline"></i></a>
-							</div>
-
-							<div class="btn-group">
-								<a class="btn" data-edit="insertunorderedlist"
-									title="Bullet list"><i class="fa fa-list-ul"></i></a> <a
-									class="btn" data-edit="insertorderedlist" title="Number list"><i
-									class="fa fa-list-ol"></i></a> <a class="btn" data-edit="outdent"
-									title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-								<a class="btn" data-edit="indent" title="Indent (Tab)"><i
-									class="fa fa-indent"></i></a>
-							</div>
-
-							<div class="btn-group">
-								<a class="btn" data-edit="justifyleft"
-									title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-								<a class="btn" data-edit="justifycenter"
-									title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-								<a class="btn" data-edit="justifyright"
-									title="Align Right (Ctrl/Cmd+R)"><i
-									class="fa fa-align-right"></i></a> <a class="btn"
-									data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i
-									class="fa fa-align-justify"></i></a>
-							</div>
-
-							<div class="btn-group">
-								<a class="btn dropdown-toggle" data-toggle="dropdown"
-									title="Hyperlink"><i class="fa fa-link"></i></a>
-								<div class="dropdown-menu input-append">
-									<input class="span2" placeholder="URL" type="text"
-										data-edit="createLink">
-									<button class="btn" type="button">Add</button>
-								</div>
-								<a class="btn" data-edit="unlink" title="Remove Hyperlink"><i
-									class="fa fa-cut"></i></a>
-							</div>
-
-							<div class="btn-group">
-								<a class="btn" title="Insert picture (or just drag &amp; drop)"
-									id="pictureBtn"><i class="fa fa-picture-o"></i></a>
-							</div>
-
-							<div class="btn-group">
-								<a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i
-									class="fa fa-undo"></i></a> <a class="btn" data-edit="redo"
-									title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-							</div>
-						</div>
                    <textarea name="noticeContents" rows="20" style="width: 100%" ></textarea>
 
 				  <script>
@@ -168,29 +88,28 @@
                   </script>        
 
                   <div class="ln_solid"></div>
-                <div class="col-md-12">
-							<div class="row">
-								<div class="control-group" id="fields">
-									<div class="controls">
-										<div class="entry input-group col-xs-3">
-											<input type="file" class="btn btn-primary" name="upload">
-											<span class="input-group-btn">
-												<button class="btn btn-success btn-add" type="button">
-													<span class="glyphicon glyphicon-plus"></span>
-												</button>
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-                   <div class="text-right">  
-             		  <button type="submit" class="btn btn-primary">등록</button>
-             		  <button type="reset" class="btn btn-default">취소</button>
-              		 <a class="btn btn-default" href='<c:url value="/admin/noticeList.do"/>'>뒤로가기</a>
-               	</div>
+                  <div class="col-md-12">
+                     <div class="row">
+                        <div class="control-group" id="fields">
+                           <div class="controls">
+                              <div class="entry input-group col-xs-3">
+                                 <input type="file" class="btn btn-primary" name="upload">
+                                 <span class="input-group-btn">
+                                    <button class="btn btn-success btn-add" type="button">
+                                       <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                </div>
-				
+				 <div class="text-right">  
+               <button type="submit" class="btn btn-primary">등록</button>
+               <button type="reset" class="btn btn-default">취소</button>
+               <a class="btn btn-default" href='<c:url value="/admin/noticeList.do"/>'>뒤로가기</a>
+               </div>
             </div>
          </div>
    </form>

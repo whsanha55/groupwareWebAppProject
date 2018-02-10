@@ -27,4 +27,9 @@ public class ApprovalFileDAOImpl implements ApprovalFileDAO {
 		sqlSession.delete(NAMESPACE+".deleteApprovalFile",fileNo);
 	}
 
+	public void deleteApprovalFilesByApprNO(List<Integer> apprNos) {
+		sqlSession.delete(NAMESPACE+".deleteApprovalFileByApprNo", apprNos); 
+		
+	}
+
 }

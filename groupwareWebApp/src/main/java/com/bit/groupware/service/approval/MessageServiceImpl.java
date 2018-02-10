@@ -44,7 +44,7 @@ public class MessageServiceImpl implements MessageService {
 		messageDAO.updateMessageStatus(msgNo);
 	}
 
-	public int retrieveNewMessageCount(String empNo) {
+	public List<Integer> retrieveNewMessageCount(String empNo) {
 		return messageDAO.selectNewMessageCount(empNo);
 	}
 

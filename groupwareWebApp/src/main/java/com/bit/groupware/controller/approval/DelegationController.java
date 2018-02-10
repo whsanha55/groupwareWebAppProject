@@ -19,8 +19,8 @@ import com.bit.groupware.service.approval.TemplateService;
 import com.bit.groupware.service.employee.CodeService;
 
 @Controller
-public class DeligationController {
-	private final static Logger logger=LoggerFactory.getLogger(DeligationController.class);
+public class DelegationController {
+	private final static Logger logger=LoggerFactory.getLogger(DelegationController.class);
 	@Autowired
 	private CodeService codeService;
 	@Autowired

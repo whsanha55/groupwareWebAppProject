@@ -76,7 +76,7 @@ public class AdminDesignateAuthorityController {
 		String[] empNoArray = empNos.split(",");
 		List<AuthEmpVO> list = new ArrayList<AuthEmpVO>();
 		for(int i =0;i<empNoArray.length;i++) {
-			if(isRegistration.split(",")[i].equals("1")) {
+			if(isRegistration.split(",")[i].equals("0")) {   //등록
 				AuthEmpVO authEmp = new AuthEmpVO();
 				authEmp.setEmpNo(empNoArray[i]);
 				authEmp.setaNo(aNo);
@@ -84,38 +84,18 @@ public class AdminDesignateAuthorityController {
 			} 
 		}
 		
+		
+		
 		//삭제
 		authorityService.removeAuthEmp(aNo);
 		
-		
-		authorityService.registerAuthEmp(list);
-		return true;
-		
-/*		
-		logger.info("번호/////////////////////////////// {} " , aNos);
-		List<String> aNoList = new ArrayList<String>();
-		for(String aNo : aNos) {
-			aNoList.add(aNo);
-		}
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", aNoList);
+		map.put("list",list);
 		
-		authorityService.removeAuthEmp(map);
-		
-		for(String isRegistraions : isRegistration) {
-			if(isRegistration.equals("0")) {
-				logger.info("/////////////등록///////////// {}" , map );
-				authorityService.registerAuthEmp(map);
-				map.put("isSuccess", "true");
-			}else if(isRegistration.equals("1")){
-				logger.info("////////삭제///////////// {}" , map );
-				authorityService.removeAuthEmp(map);
-				map.put("isSuccess", "false");
-			}	
+		if(list.size() != 0) {
+			authorityService.registerAuthEmp(map);
 		}
-		return map;	*/
-		//return null;
+		return true;
 	}
 	
 }
