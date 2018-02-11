@@ -13,12 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.groupware.domain.employee.EmployeeCodeVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.PhotoVO;
-import com.bit.groupware.service.employee.CodeService;
 import com.bit.groupware.service.employee.EmployeeService;
 import com.bit.groupware.util.UploadPhotos;
 
@@ -34,16 +34,12 @@ public class AdminModifyEmployeeController {
 			 @RequestParam(value="deptCode", required=false)String deptCode,
 			 @RequestParam(value="dutyCode", required=false)String dutyCode,
 			 					HttpSession session) throws Exception {
-
-		logger.info("deptCode : {}", deptCode);
-		logger.info("dutyCode : {}", dutyCode);
 		
 		List<EmployeeCodeVO> codeList = new ArrayList<EmployeeCodeVO>();
 		codeList.add(new EmployeeCodeVO(deptCode));
 		codeList.add(new EmployeeCodeVO(dutyCode));
 		logger.info("codeList : {}", codeList);
 		employee.setCodeList(codeList);
-
 		
 		List<MultipartFile> uploadPhotos = employee.getUpload();
 		for(MultipartFile file : uploadPhotos) {
@@ -59,4 +55,32 @@ public class AdminModifyEmployeeController {
 		employeeService.modifyEmployeeAdmin(employee);
 		return "redirect:/admin/listEmployee.do";
 	}
+	/*
+	@RequestMapping(value="/admin/modifyEmployee.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String modifyController(EmployeeVO employee,
+			 @RequestParam(value="deptCode", required=false)String deptCode,
+			 @RequestParam(value="dutyCode", required=false)String dutyCode,
+			 					HttpSession session) throws Exception {
+
+		List<EmployeeCodeVO> codeList = new ArrayList<EmployeeCodeVO>();
+		codeList.add(new EmployeeCodeVO(deptCode));
+		codeList.add(new EmployeeCodeVO(dutyCode));
+		logger.info("codeList : {}", codeList);
+		employee.setCodeList(codeList);
+
+		List<MultipartFile> uploadPhotos = employee.getUpload();
+		for(MultipartFile file : uploadPhotos) {
+			if(!file.isEmpty()) {
+				ServletContext context = session.getServletContext();
+				
+				PhotoVO photo = UploadPhotos.uploadFile(file, context);
+				logger.info("photo : {}", photo);
+				employee.addPhoto(photo);
+			}
+		}
+
+		employeeService.modifyEmployeeAdmin(employee);
+		return "data";
+	}*/
 }

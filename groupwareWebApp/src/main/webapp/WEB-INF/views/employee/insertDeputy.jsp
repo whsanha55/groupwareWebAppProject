@@ -68,6 +68,53 @@
 			$('#chartBody').html(""); 
 		});
 		
+		$('#datatable').on('click','#stopUse',function() {
+		   var startDate = $(this).parent().parent().find("#startDate").text();
+		   var startDateArr = startDate.split('/');
+		   var startDatdCompare = startDateArr[0] + startDateArr[1] + startDateArr[2];
+		    
+		   var now = new Date();
+		   var year= now.getFullYear();
+		   var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+		   var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+		    
+		   var NowTime = year + mon + day;
+		   
+		   if(startDateArr > NowTime) {
+				$.ajax({
+					url: "${pageContext.request.contextPath}/cancelDeputy.do",
+					method: 'POST',
+					data : {
+						depNo : $(this).parent().parent().find('input').val()
+					},
+					dataType : 'json',
+					success: function(data) {
+						employeePaging1(1);
+					},
+					error: function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}
+				})
+		     } else {
+				$.ajax({
+					url: "${pageContext.request.contextPath}/stopUseDeputy.do",
+					method: 'POST',
+					data : {
+						depNo : $(this).parent().parent().find('input').val()
+					},
+					dataType : 'json',
+					success: function(data) {						
+						employeePaging1(1);
+					},
+					error: function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}
+				});
+				//$('#stopUse').detach();
+		    }
+		});
+		
+		
 		//취소
 		$('#datatable').on('click','#candep',function() {
 			console.log($(this).parent().parent().find('input').val());
@@ -85,6 +132,22 @@
 					alert("error : " + jqXHR.status);
 				}
 			})
+		});
+		
+		$('#submitBtn').click(function(e) {
+			var startDate = $( "input[name='startDate']" ).val();
+			var startDateArr = startDate.split('-');
+		         
+			var endDate = $( "input[name='endDate']" ).val();
+			var endDateArr = endDate.split('-');
+		                 
+			var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+			var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+		         
+			if(startDateCompare.getTime() > endDateCompare.getTime()) {        
+		    	e.preventDefault();
+				alert("시작날짜와 종료날짜를 확인해 주세요.");
+			}
 		});
 		
 	});
@@ -119,7 +182,7 @@
 					//datatable테이블 변경하기
 					var text = "";
 					if(totalCount == 0) {
-						text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+						text += '<tr><td>조회된 검색결과가 없습니다</td></tr>';
 					} else {
 						for(var i=0;i<data.deputies.length;i++) {
 							for(var j=0;j<data.deputies[i].employees.length;j++) {
@@ -128,11 +191,11 @@
 								text += "<td>"+ data.deputies[i].dempNo +"</td>";
 								text += "<td>"+ data.deputies[i].employees[j].duty +"</td>";
 								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
-								text += "<td>"+ data.deputies[i].startDate +"</td>";
-								text += "<td>"+ data.deputies[i].endDate +"</td>";
+								text += "<td id='startDate'>"+ data.deputies[i].startDate +"</td>";
+								text += "<td id='endDate'>"+ data.deputies[i].endDate +"</td>";
 								text += "<td>"+ data.deputies[i].progression +"</td>";
 								text += "<td>"+ data.deputies[i].depReason +"</td>";
-								text += "<td><button id='candep' type='button'>취소</button></td>";
+								text += "<td><button id='stopUse' type='button'>사용중단</button><button id='candep' type='button'>취소</button></td>";
 								text += "</tr>";
 							}
 						}
@@ -234,16 +297,17 @@
 								</span>
 						</div>
 					</div>
-					<div class="form-group form-inline col-md-12">
-						<div class="form-group">
-							<label for="ex3">기간지정 :</label> <input type="date" id="startDate"
-								class="form-control" name="startDate">
-						</div>
-						<div class="form-group">
-							<label for="ex4">~</label> <input type="date" id="endDate"
-								class="form-control" name="endDate">
+					
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="ex3">기간지정 :</label> 
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<input type="date" id="startDate" class="form-control" name="startDate"
+									required="required" class="form-control col-md-3 col-xs-6">~
+							<input type="date" id="endDate"	class="form-control" name="endDate"
+									required="required" class="form-control col-md-3 col-xs-6">
 						</div>
 					</div>
+					
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="depReason">사유 :</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
@@ -253,7 +317,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button id="submitBtn" type="submit" class="btn btn-success">Submit</button>
+							<button id="submitBtn" type="submit" class="btn btn-success">대결등록</button>
 						</div>
 					</div>
 					
@@ -301,7 +365,7 @@
 								<th>이름</th>
 								<th>시작일</th>
 								<th>종료일</th>
-								<th>진행여부</th>
+								<th>사용여부</th>
 								<th>사유</th>
 								<th>비고</th>
 							</tr>
