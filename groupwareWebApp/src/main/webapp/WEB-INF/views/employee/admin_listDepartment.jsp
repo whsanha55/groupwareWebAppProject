@@ -9,62 +9,43 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
 	<script>
-					
+		var eKeyfield;				
+		var eKeyword;
+		
 		$(document).ready(function() {
-		/* 	
-			$('.searchList1 .dropdown-menu').on('click','a',function(e) {
+			
+			employeePaging();
+			
+			$('.search-panel .dropdown-menu').on('click','a',function(e) {
 				e.preventDefault();
 				$('.keyfield').text($(this).text());
 				$('.keyfield').attr('id',$(this).attr('id'));
-				console.log($(this).attr('id'));
 			});
 			
 			$('#keyword').on('keydown', function(e) {
 				if(e.keyCode == 13){
-					$('#findEmployee').trigger('click');
+					$('#findDept').trigger('click');
 		        }
 			});
 			
-			$('#findEmployee').on('click', function() {
+			$('#findDept').on('click', function() {
 				if($('.keyfield').attr('id') == undefined) {
 					alert("choose keyfield");
 					return false;
-				} else if($('.keyword').val() == "") {
+				} else if($('#keyword').val() == "") {
 					alert("enter keyword");
 					return false;
 				}
 			
 				eKeyfield = $('.keyfield').attr('id');
-				eKeyword = $('.keyword').val();
+				eKeyword = $('#keyword').val();
 				
-				employeePaging(1);
-			});  */
+				console.log(eKeyfield);
+				console.log(eKeyword);
 				
-			$('#searchEmp').click(function() {
-				$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
-				$('#layerpop').modal({
-					backdrop: 'static', 
-					keyboard: false
-				});
-			});
+				employeePaging();
+			}); 
 				
-			$('#modalChooseBtn').on('click',function() {
-				$.ajax ({
-					url : "${pageContext.request.contextPath}/admin/deptListAjax.do",
-					method : "POST",
-					data : {
-						oldHead : oldHead,
-						newHead : newHead
-					},
-					dataType : 'json',
-					success : function(data) {
-						
-					},
-					error : function(jqXHR) {
-						alert("error : " + jqXHR.status);
-					}
-				});
-			});
 				
 			$('#modalCloseBtn').on('click',function() {
 				$('#chartBody').html(""); 
@@ -72,7 +53,7 @@
 				
 		});
 		
-		/* function employeePaging(currentPageNo) {
+		function employeePaging() {
 		
 			$.ajax({
 				url: '${pageContext.request.contextPath}/admin/departmentListSearchAjax.do'
@@ -89,32 +70,60 @@
 				dataType: 'json' 
 				,
 				success: function (data, textStatus, jqXHR) {
+					var oldHead;
+					var checkCno;
+					var checkChooseCno;
 					
-					totalCount = data.totalCount;
-					
-					//datatable테이블 변경하기
 					var text = "";
-					if(totalCount == 0) {
-						text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+					if(data.totalCount == 0) {
+						text += '<tr>조회된 검색결과가 없습니다</tr>';
 					} else {
-						for(var i=0;i<data.employees.length;i++) {
-							text += '<tr id="pushBtn'+ i +'" class="even pointer">';
-							text += '<td>'+ data.employees[i].department 			+'</td>';
-							text += '<td id="deptEmpNo'+ i +'">'+ data.employees[i].empNo	+'</td>';
-							text += '<td id="deptHead'+ i +'">'+ data.employees[i].empName +'</td>';
-							text += '<td>'+ data.employees[i].duty 					+'</td>';
+						for(var i=0;i<data.departments.length;i++) {
+							text += '<tr>';
+							text += '<td id="check'+ i +'">'+ data.departments[i].cNo		 									 			+'</td>';
+							text += '<td>'+ data.departments[i].cName	 	 											+'</td>';
+							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" data-toggle="modal">'+ data.departments[i].headDept 	+'</td>';
+							text += '<td>'+ data.departments[i].phoneNumber												+'</td>';
+							text += '<td>'+ data.departments[i].memberCount 											+'</td>';
+							text += '<td>'+ data.departments[i].teamCount 												+'</td>';
 							text += '</tr>';
 							
-						}
+							$('tbody').on('click','#searchEmp' + i, function() {
+								$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
+								$('#layerpop').modal({
+									backdrop: 'static', 
+									keyboard: false
+								});
+								oldHead = $(this).text().split(" ")[1];
+								checkCno = $(this).parent().parent().find('td:nth-child(1)').text();
+							});
+						}	
+						$('#modalChooseBtn').on('click',function() {
+							checkChooseCno = selectedDeptNo;
+
+							if(checkChooseCno != checkCno) {
+								alert("같은 부서의 사원만 업무 담당자로 지정 가능합니다!");
+								return false;
+							}
+							
+							$.ajax ({
+								url : "${pageContext.request.contextPath}/admin/deptListAjax.do",
+								method : "POST",
+								data : {
+									oldHead : oldHead,
+									newHead : selectedNameAndDuty.split(" ")[0]
+								},
+								dataType : 'json',
+								success : function(data) {
+									location.reload();
+								},
+								error : function(jqXHR) {
+									alert("error : " + jqXHR.status);
+								}
+							});
+						});
 					}
-					$('#datatable').find('tbody').html(text);
-					//페이징 처리
-					jqueryPager({
-						countPerPage : countPerPage,
-						pageSize : pageSize,
-						currentPageNo : currentPageNo,
-						totalCount : totalCount
-					});		
+					$('#datatable').find('tbody').html(text);	
 				} 
 				,
 				error: function(jqXHR) {
@@ -122,7 +131,8 @@
 				}	
 			});
 			
-		} //end templatePaging function */
+			
+		} //end templatePaging function
 		
 	</script>
 </head>
@@ -148,19 +158,19 @@
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle"
 											data-toggle="dropdown">
-											<span id="search_concept">검색</span> <span class="caret"></span>
+											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a href="#">부서코드번호</a></li>
-											<li><a href="#">부서명</a></li>
-											<li><a href="#">책임자</a></li>
+											<li><a id="cNo">부서코드번호</a></li>
+											<li><a id="cName">부서명</a></li>
+											<li><a id="headDept">책임자</a></li>
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all"
-										id="search_param"> <input type="text"
-										class="form-control" name="x" placeholder="Search term...">
+										id="search_param"> <input type="text" 
+										class="form-control" id="keyword" name="x" placeholder="Search term...">
 									<span class="input-group-btn">
-										<button class="btn btn-default" type="button">
+										<button id="findDept" class="btn btn-default" type="button">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
@@ -182,17 +192,7 @@
 						</tr>
 					</thead>
 					<tbody>
-					
-						<c:forEach var="department" items="${requestScope.departments }" varStatus="loop">
-							<tr>
-								<td>${pageScope.department.cNo }</td>
-								<td>${pageScope.department.cName }</td>
-								<td><a id="searchEmp" data-toggle='modal'>${pageScope.department.headDept }</a></td>
-								<td>${pageScope.department.phoneNumber }</td>
-								<td>${pageScope.department.memberCount }</td>
-								<td>${pageScope.department.teamCount }</td>
-							</tr>
-						</c:forEach>
+			
 					</tbody>
 				</table>
 			</div>

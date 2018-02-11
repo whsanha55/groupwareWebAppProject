@@ -54,6 +54,13 @@
 				<if test="keyfield == 'tmpName' and keyword != null">
 					and t1.tmp_name like '%'|| #{keyword} ||'%'
 				</if>
+				<if test="keyfield == 'tmpDate' and keyword != null and keyword1 != null">
+					and t1.tmp_date <![CDATA[<=]]> to_date(#{keyword1}, 'YY/MM/DD')+1 
+					and t1.tmp_date <![CDATA[>=]]> to_date(#{keyword}, 'YY/MM/DD') 
+				</if>
+				<if test="keyfield == 'tmpUsing' and keyword != null">
+					and t1.tmp_using = #{keyword}
+				</if> 
 				<if test="empNo != null">
 					and t1.tmp_using = 1
 					order by t1.tmp_name asc) temp
@@ -101,6 +108,13 @@
 			<if test="keyfield == 'tmpName' and keyword != null">
 				and t1.tmp_name like '%'|| #{keyword} ||'%'
 			</if>
+			<if test="keyfield == 'tmpDate' and keyword != null and keyword1 != null">
+				and t1.tmp_date <![CDATA[<=]]> to_date(#{keyword1}, 'YY/MM/DD')+1 
+				and t1.tmp_date <![CDATA[>=]]> to_date(#{keyword}, 'YY/MM/DD') 
+			</if>
+			<if test="keyfield == 'tmpUsing' and keyword != null">
+				and t1.tmp_using = #{keyword}
+			</if> 
 			<if test="keyfield == 'bookmark' ">
 				and bookmark_no is not null
 			</if>

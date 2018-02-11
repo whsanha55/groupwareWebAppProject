@@ -42,8 +42,15 @@
 			}
 	
 			eKeyfield = $('.keyfield').attr('id');
-			eKeyword = $('.keyword').val();
 			
+			if($('.keyword').val() == '퇴사') {
+				eKeyword = '0';
+			} else if($('.keyword').val() == '재직') {
+				eKeyword = '1';
+			} else {
+				eKeyword = $('.keyword').val();
+			}
+				
 			employeePaging(1);
 			
 		});
@@ -286,7 +293,11 @@
 						text += "<input id='submitRegNumber' type='hidden' value='"+ data.employees[i].regNumber +"'>";
 						text += "<td id='submitHireDate'"+ i +">"+ data.employees[i].hireDate		+ "</td>";
 						text += "<td id='submitEmail'"+ i +">"+ data.employees[i].email			+ "</td>";
-						text += "<input id='submitRetireStatus' type='hidden' value='"+ data.employees[i].retireStatus +"'>";
+						if(data.employees[i].retireStatus == 0) {
+							text += "<td id='submitRetireStatus"+ i +"'>퇴사</td>";
+						} else {
+							text += "<td id='submitRetireStatus"+ i +"'>재직</td>";
+						}
 						text += "<input id='submitRetireDate' type='hidden' value='"+ data.employees[i].retireDate +"'>";
 						text += "<input id='submitpostcode' type='hidden' value='"+ data.employees[i].postcode +"'>";
 						text += "<input id='submitAddress' type='hidden' value='"+ data.employees[i].address +"'>";
@@ -308,11 +319,11 @@
 							$('#modRegNumber').val($(this).nextAll('#submitRegNumber').val());
 							$('#modEmail').val($(this).nextAll('#submitEmail').text());
 							$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
-							if($(this).nextAll('#submitRetireStatus').val() == 0) {
+							if($(this).nextAll('#submitRetireStatus').text() == '퇴사') {
 								$('#modRetireStatus').val('퇴사');
 								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
 							} else {
-								$('#modRetireStatus').val('X');
+								$('#modRetireStatus').val('재직');
 								$('#modRetireDate').val("");
 							}
 							$('#modpostcode').val($(this).parent().children('#submitpostcode').val());
@@ -434,6 +445,9 @@
 										<li>
 											<a id="department" role="menuitem">부서</a>
 										</li>
+										<li>
+											<a id="retireStatus" role="menuitem">퇴사여부</a>
+										</li>
 									</ul>
 								</div>
 								<input type="text" class="form-control keyword" placeholder="검색어">
@@ -454,6 +468,7 @@
 									<th>연락처</th>
 									<th>입사일자</th>
 									<th>이메일</th>
+									<th>퇴사여부</th>
 								</tr>
 							</thead>
 							<tbody>

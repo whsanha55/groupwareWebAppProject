@@ -10,6 +10,12 @@
 	.column-title{
 		text-align:center;
 	}
+	.apprLi{
+		cursor:pointer;
+	}
+	.currentRecord{
+		cursor:pointer;
+	}
 	
 </style>
 <script>
@@ -30,8 +36,7 @@
 			}); 
 		
 		//결재문서 상세조회 팝업창 생성
-		 $('#datatable').on("click",'.detailApproval',function(){
-				
+		 $('#datatable').on("click",'.apprLi',function(){
 				var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=1';
 				window.open(url, "결재문서","width=750, height=800");
@@ -40,10 +45,20 @@
 		
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
-			if($(this).val()=='apprDate'||$(this).val()=='finDate'){
+			if($(this).val()=='apprDate'){
+				$('#pKeyword1').remove();
+				$('#temp').remove();
 				$(this).next().attr('type','date');
 				
-				$(this).next().after("&nbsp;<b id=temp>~</b> ")
+				$(this).next().after("<b id=temp>&nbsp;~</b> ")
+				$(this).next().next().after("<input type=date id=pKeyword1>")
+				console.log($('form').html());
+			}else if($(this).val()=='finDate'){
+								
+				$('#pKeyword1').remove();
+				$('#temp').remove();
+				$(this).next().attr('type','date');
+				$(this).next().after("<b id=temp>&nbsp;~</b> ")
 				$(this).next().next().after("<input type=date id=pKeyword1>")
 				console.log($('form').html());
 			}else{
@@ -58,19 +73,32 @@
 		 });
 		 
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
-		$('#pKeyword').on('keydown', function(e) {
-			if(e.keyCode == 13){
-				e.preventDefault();
-				$('#btn3').trigger('click');
-	        }
+		$('#pKeyword').on('keydown', function(e) {			
+				if(e.keyCode == 13){
+					e.preventDefault();
+					$('#btn3').trigger('click');		        
+				}
 		});
 		
 		
-		//검색
+		///검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
 			 pKeyword=$('#pKeyword').val();
 			 pKeyword1=$('#pKeyword1').val();
+			 
+	 			if(pKeyfield != "apprDate" && pKeyword == "") {
+	 				if(pKeyfield!="finDate"){
+						swal("검색어를 입력해주세요.", "");
+						return;
+	 				}
+				}
+	 			if(pKeyfield == "apprDate" ||pKeyfield == "finDate"){
+		 			if( pKeyword == "" || pKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "");
+						return;
+		 			}  
+	 			}
 			 
 			 templatePaging(1);
 		 });
@@ -114,7 +142,7 @@
 
 						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval'>"+data.approvals[i].apprTitle+"</td>";
+						text += "<td  class='apprLi' id="+ data.approvals[i].apprNo +" style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
@@ -276,7 +304,7 @@
                 <!-- end of weather widget -->
               </div>
         <!-- /page content -->
-        
+     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>    
    
 </body>
 </html>

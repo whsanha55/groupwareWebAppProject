@@ -39,33 +39,27 @@ public class AdminListCodeController {
 	//최상위 코드 목록 검색
 	@RequestMapping(value="/admin/listCodeAjax1.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> form(
+	public Map<String, Object> form1(
 						@RequestParam(required=false) String keyfield,
-						@RequestParam(required=false) String keyword,
-						@RequestParam int startRow,
-						@RequestParam int endRow
+						@RequestParam(required=false) String keyword
 						) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
 		
-		int totalCount = codeService.retrieveCodeCount(map);
-		if(totalCount < endRow) {
-			endRow = totalCount;
-		}
-		map.put("startRow", startRow);
-		map.put("endRow", endRow);
-		
 		List<CodeVO> codes = codeService.retrieveCodeList1(map);
+		int totalCount = codes.size();
+		map.put("totalCount", totalCount);
+		logger.info("map : {}", map);
+		
 		
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-		returnMap.put("totalCount", totalCount);
 		returnMap.put("codes", codes);
 		logger.info("returnMap : {}", returnMap);
 		return returnMap;
 	}
 	
-	//하위 코드 목록 조회 요청
+	//중간 코드 목록 조회 요청
 	@RequestMapping(value="/admin/listCode2.do", method=RequestMethod.GET)
 	public ModelAndView listCode2(@RequestParam(value="relationCode", required=true) String relationCode) {
 		ModelAndView mv = new ModelAndView();
@@ -77,6 +71,31 @@ public class AdminListCodeController {
 		mv.addObject("codes", codeService.retrieveCodeList2(map));
 		mv.setViewName("employee/admin_listCode2");
 		return mv;
+	}
+	
+	//중간 코드 목록 검색
+	@RequestMapping(value="/admin/listCodeAjax2.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> form2(
+						@RequestParam(required=false) String keyfield,
+						@RequestParam(required=false) String keyword,
+						@RequestParam(value="relationCode", required=true) String relationCode
+						) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("relationCode", relationCode);
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+			
+		List<CodeVO> codes = codeService.retrieveCodeList2(map);
+		int totalCount = codes.size();
+		map.put("totalCount", totalCount);
+		logger.info("map : {}", map);
+			
+			
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("codes", codes);
+		logger.info("returnMap : {}", returnMap);
+		return returnMap;
 	}
 	
 	//최하위 코드 목록 조회 요청
@@ -91,6 +110,31 @@ public class AdminListCodeController {
 		mv.addObject("codes", codeService.retrieveCodeList2(map));
 		mv.setViewName("employee/admin_listCode3");
 		return mv;
+	}
+	
+	//최하위 코드 목록 검색
+	@RequestMapping(value="/admin/listCodeAjax3.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> form3(
+						@RequestParam(required=false) String keyfield,
+						@RequestParam(required=false) String keyword,
+						@RequestParam(value="relationCode", required=true) String relationCode
+						) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("relationCode", relationCode);
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+				
+		List<CodeVO> codes = codeService.retrieveCodeList2(map);
+		int totalCount = codes.size();
+		map.put("totalCount", totalCount);
+		logger.info("map : {}", map);
+				
+				
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("codes", codes);
+		logger.info("returnMap : {}", returnMap);
+		return returnMap;
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.bit.groupware.controller.approval;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,20 +46,27 @@ public class ApprovalAjaxController {
 	private ApprovalRecordService approvalRecordService;
 
 	
+	//문서 등록
 	@RequestMapping(value="/approvalAjax.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int approvalAjax(ApprovalVO approval, 
-			TemplateVO template, 
+			@RequestParam(value="tmpNo",required=false,defaultValue="0") int tmpNo, 
 			@RequestParam int receiverNo, 
+			@RequestParam(value="deleteAppr", required=false, defaultValue="0") int deleteAppr , 
 			HttpSession session, 
 			Principal principal) throws Exception {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
+		
+		List<Integer> apprNos =new ArrayList<Integer>();
+		apprNos.add(deleteAppr); 
+		approvalService.removeApproval(apprNos);  
 		
 		EmployeeVO employee = new EmployeeVO();
 		employee.setEmpNo(principal.getName());
 		
 		approval.setEmployee(employee);
-		approval.setTemplate(template);
+	
+		approval.setTemplate(new TemplateVO(tmpNo));
 		
 		
 		//파일 저장
@@ -68,7 +76,7 @@ public class ApprovalAjaxController {
 				approval.addApprovalFile(approvalFile);
 			}
 		}
-		
+		System.out.println(session.getServletContext().getRealPath("/") +"zzzzzzzzzzzzzzzzz");
 		approvalService.registerApproval(approval, receiverNo);
 		
 		return approval.getApprFinalStatus();
@@ -109,15 +117,13 @@ public class ApprovalAjaxController {
 				}
 			 
 			
-			map.put("apprFinalStatus", apprFinalStatus);  //0:요청,진행,참조,대기 1:승인 3:반려 4:임시 5:관리자
+			map.put("apprFinalStatus", apprFinalStatus);  //0:요청,진행,참조,대기 1:승인 3:반려 4:임시 10:관리자
 			map.put("keyfield", keyfield);
 			map.put("keyword", keyword);	
 			map.put("keyword1", keyword1);
 			
-			
-			
 			int totalCount=0;
-			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==5) {		
+			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==10) {		
 				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려,관리자인 경우
 			}else {
 				totalCount = approvalService.retrieveApprovalCount(map);
@@ -132,8 +138,8 @@ public class ApprovalAjaxController {
 			
 			Map<String, Object> returnMap = new HashMap<String, Object>();
 			returnMap.put("totalCount", totalCount);
-			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus==5) {	//승인, 반려, 관리자인 경우
-				returnMap.put("approvals", approvalService.retrieveAllApprovalList(map) );
+			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus==10) {	//승인, 반려, 관리자인 경우
+				returnMap.put("approvals", approvalService.retrieveAllApprovalList(map));
 				returnMap.put("empNo", id);  //반려
 			}else {
 				returnMap.put("approvals", approvalService.retrieveApprovalList(map));
@@ -149,12 +155,19 @@ public class ApprovalAjaxController {
 	public boolean returnApproval(@RequestParam(value="apprNo") int apprNo) {
 		
 		ApprovalVO appr=new ApprovalVO();
-		appr.setApprNo(apprNo);
-		appr.setApprFinalStatus(4); 
-		approvalService.modifyApproval(appr); 
 		appr=approvalService.retrieveApproval(apprNo);
-		return true;
-		
+		if(appr.getApprovalRecords().size()<=1) {
+			if(appr.getApprovalRecords().get(0).getConfirmDate()==null) {
+				appr.setApprFinalStatus(5); 
+				approvalService.modifyApproval(appr); 
+				//approvalRecordService.removeApprovalRecord(apprNo); 
+				return true;
+			}else {
+				return false;
+			}
+		}else {	
+			return false;
+		}
 	}
 
 	
@@ -178,5 +191,18 @@ public class ApprovalAjaxController {
 	
 	}
 	
+	
+	//회수문서 삭제
+	@RequestMapping(value="/removeReturnAppr.do",method=RequestMethod.GET )
+	@ResponseBody
+	public int executeReturnDelete(@RequestParam(value="apprNo") int apprNo) {
+		
+	//	approvalRecordService.removeApprovalRecord(apprNo); 
+		List<Integer> apprNos=new ArrayList<Integer>();
+		apprNos.add(apprNo);
+		
+		approvalService.removeApproval(apprNos);
+		return 1;
+	}
 	
 }

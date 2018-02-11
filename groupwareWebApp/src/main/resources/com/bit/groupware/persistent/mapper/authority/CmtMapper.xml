@@ -26,7 +26,8 @@
 	<update id="updateCmt" parameterType="CmtVO" statementType="PREPARED">
 		update cmt
 		set
-		cmt_content = #{cmtContent}
+		cmt_content = #{cmtContent},
+		cmt_date= sysdate
 		where cmt_no = #{cmtNo}
 	</update>
 
