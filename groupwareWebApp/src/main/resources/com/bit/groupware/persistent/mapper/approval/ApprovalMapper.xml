@@ -573,6 +573,7 @@
               from receiver_line r1, approval_record r2, approval_comment r3, emplist_view r4
               where r1.line_no = r2.line_no
               and r2.record_no = r3.record_no(+) 
+              and r2.confirm_date is not null
               and r4.empno = case when r2.dep_emp_no is null then r1.line_emp_no
                              else r2.dep_emp_no
                              end
@@ -581,7 +582,7 @@
        where t1.appr_no = t2.appr_no(+)
        and t1.tmp_no = t3.tmp_no
        and t1.emp_no = t4.emp_no
-       and t1.appr_no = t5.appr_no
+       and t1.appr_no = t5.appr_no(+)
        and t1.appr_no = #{apprNo}
 	</select>
 	
