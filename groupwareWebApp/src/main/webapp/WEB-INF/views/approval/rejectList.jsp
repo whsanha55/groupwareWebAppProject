@@ -16,6 +16,9 @@
 	.currentRecord{
 		cursor:pointer;
 	}
+	#return{
+		cursor:pointer;
+	}
 	
 </style>
 <link
@@ -59,7 +62,7 @@
 				var apprNo=$(this).attr('id');
 				var status=$(this).attr('name');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status='+status+'&finalStatus=3';
-				window.open(url, "결재문서","width=750, height=800");
+				window.open(url, "결재문서","width=1000, height=800");
 				
 			});
 		//검색창 타입 바꾸기
@@ -209,6 +212,11 @@
 			 
 			 templatePaging(1);
 		 });
+		
+		//검색후 다시 리스트로
+			$('#return').click(function(){
+				location.href="${pageContext.request.contextPath}/approvalMyRequest.do";
+			});	
 		
 		//체크박스 전체 선택&해제
 		 $("#allCheck").click(function(){ 	
@@ -388,6 +396,7 @@
 						<!-- <span id="keywordSpan"> -->
 						<input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요"><!-- </span> -->
 						<button id="btn3" type="button">검색</button>
+						<i class="fa fa-undo" id="return">되돌리기</i>
 					</form>
 					<div class="col-sm-3">
 					

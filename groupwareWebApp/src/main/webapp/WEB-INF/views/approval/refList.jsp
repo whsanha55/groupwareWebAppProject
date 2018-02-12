@@ -22,6 +22,9 @@
 	.currentRecord{
 		cursor:pointer;
 	}
+	#return{
+		cursor:pointer;
+	}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
@@ -70,7 +73,7 @@
 				
 				var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=0';
-				window.open(url, "결재문서","width=750, height=800");
+				window.open(url, "결재문서","width=1000, height=800");
 				
 			});
 		
@@ -185,12 +188,10 @@
 			 templatePaging(1);
 		 });
 		
-		
-		/*  var isRead=$('.apprRow :last-child').text();
-		if(isRead.equals("읽음")){
-			var id=$('.apprRow').attr('id');
-			
-		}  */
+		//검색후 다시 리스트로
+			$('#return').click(function(){
+				location.href="${pageContext.request.contextPath}/approvalMyRequest.do";
+			});	
 	 
 	});
 	
@@ -271,7 +272,7 @@
 					}
 						$('#datatable').html(text);
 						
-						$("#count1").text("-" +data.totalCount+"건의 참조 문서");
+						
 					
 						//페이징 처리
 						jqueryPager({
@@ -368,6 +369,7 @@
 							<option value="apprDate" id="apprDate">기안일</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
 						<button id="btn3" type="button">검색</button>
+						<i class="fa fa-undo" id="return">되돌리기</i>
 					</form>
 					<div class="col-sm-3">
 					
