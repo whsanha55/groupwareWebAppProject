@@ -71,10 +71,10 @@
 			});
 		});
 		
-		$("#form-dept").on('click','#teamBtnList li > a', function () {
+		/* $("#form-dept").on('click','#teamBtnList li > a', function () {
 			$("#teamBtn").text($(this).text());
 			$('input[name=deptCode]').val($(this).attr('value'));
-		});
+		}); */
 		
 		/* $('#regibtn').click(function() {
 
@@ -94,7 +94,8 @@
 		
 		$("#upload-image").on("change", handleImgFileSelect);
 		
-		$("#findpostcode").click(execDaumPostcode); 
+		$("#findpostcode").click(execDaumPostcode);
+
 		
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
@@ -115,18 +116,29 @@
 				swal("비밀번호 확인을 입력해주세요.","");
 				return;
 			}
-			if($('input[name=phoneNumber]').val().trim() == '') {
+			if($('input[name=phoneNumber2]').val().trim() == '' || $('input[name=phoneNumber3]').val().trim() == '' ) {
 				swal("연락처를 입력해주세요.","");
 				return;
 			}
-			if($('input[name=regNumber]').val().trim() == '') {
+			if($('input[name=regNumber1]').val().trim() == '' || $('input[name=regNumber2]').val().trim() == '') {
 				swal("주민등록번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
+				swal("이메일 입력해주세요.","");
 				return;
 			}
 			if($('input[name=address]').val() == '') {
 				swal("주소정보를 입력해주세요.","");
 				return;
 			}
+			
+			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
+			$('#phoneNumber').val(phoneNumber);
+			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
+			$('#regNumber').val(regNumber);
+			var email = $('#email1').val() + '@' + $('#email2').val();
+			$('#email').val(email);
 			
 			swal({
 				title: "사원 등록",
@@ -342,8 +354,8 @@
 				<br>
 				<form id="regiform" data-parsley-validate="" class="form-horizontal form-label-left"
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
-					<input type="hidden" id="deptCode" name="deptCode" value="" />
-					<input type="hidden" id="dutyCode" name="dutyCode" value="" />			
+					<%-- <input type="hidden" id="deptCode" name="deptCode" value="" />
+					<input type="hidden" id="dutyCode" name="dutyCode" value="" />	 --%>		
 					<div class="form-group">		
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
@@ -457,8 +469,8 @@
 						</label>
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" id="email" name="email" value="" >
-								<input type='text' name="email1" class="form-control" style="width:150px;">@
-            					<input type='text' name="email2" class="form-control" style="width:250px;">
+							<input type='text' id="email1" name="email1" class="form-control" style="width:150px;">@
+            				<input type='text' id="email2" name="email2" class="form-control" style="width:250px;">
 			              <select name="emailaddr" class="form-control">
 			                 <option value="">직접입력</option>
 			                 <option value="naver.com">naver.com</option>
