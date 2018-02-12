@@ -203,7 +203,11 @@
 					text += "<td >"+ data.templates[i].templateCategory.categoryName + "</td>";
 					text += "<td>"+ data.templates[i].tmpDate + "</td>";
 					text += "<td style='font-weight:bolder'>"+data.templates[i].tmpName + "</td>";
-					text += "<td>"+ data.templates[i].tmpSummary + "</td>";
+					if(data.templates[i].tmpSummary == null) {
+						text += "<td></td>";
+					} else {
+						text += "<td>"+ data.templates[i].tmpSummary + "</td>";
+					}
 					text += "</tr>";
 				}
 					$('#datatable').find('tbody').html(text);
