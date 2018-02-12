@@ -215,9 +215,17 @@
 							text += "<td>"+ data.approvals[i].template.tmpName + "</td>";							
 						}
 						if(data.approvals[i].apprFinalStatus==5){
-							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='5' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+							if(data.approvals[i].urgency==1){
+								text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='5' style='font-weight:bolder;'><b style='color:#F44336;'>[긴급]</b>"+data.approvals[i].apprTitle+"</td>";
+							}else{
+								text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='5' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";								
+							}
 						}else{
-							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='1'  style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+							if(data.approvals[i].urgency==1){
+								text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='1' style='font-weight:bolder;'><b style='color:#F44336;'>[긴급]</b>"+data.approvals[i].apprTitle+"</td>";
+							}else{
+								text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' name='1'  style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+							}
 						}
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
 						if(data.approvals[i].apprFinalStatus==5){
