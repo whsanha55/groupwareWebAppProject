@@ -107,8 +107,10 @@
    
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
     	update approval_record
-		set appr_status= 'C-02-0' || #{apprStatus},
-		confirm_date= sysdate
+		set appr_status= 'C-02-0' || #{apprStatus}
+		<if test="apprStatus!=2">
+			,confirm_date= sysdate
+		</if>  
 		where record_no= #{recordNo}
    </update>
    

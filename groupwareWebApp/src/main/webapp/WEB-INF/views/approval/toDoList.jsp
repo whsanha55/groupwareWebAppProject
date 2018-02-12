@@ -63,11 +63,10 @@
 			  	checkDate(recordNo);
 			  } 
 			 
-			  var apprNo = $('.apprNo').attr('id');
+			  var apprNo = $(this).attr('id');
 	  		  var status = 2;
-			  var finalStatus = $('.detailApproval').attr('id');
 			  var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
-							+'&status='+status+'&finalStatus='+finalStatus;
+							+'&status='+status+'&finalStatus=0';
 				window.open(url, "결재문서","width=750, height=800");
 				
 			});
@@ -247,7 +246,11 @@
 
 						text += "<td id="+ data.approvals[i].apprNo +" class='apprNo'>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprFinalStatus +" class='detailApproval'style='font-weight:bolder'>"+data.approvals[i].apprTitle+"</td>";
+						if(data.approvals[i].urgency != 1){
+							text += "<td id="+  data.approvals[i].apprNo +" class='detailApproval'style='font-weight:bolder'>"+data.approvals[i].apprTitle+"</td>";
+						}else{
+							text += "<td id="+  data.approvals[i].apprNo +" class='detailApproval'style='font-weight:bolder;'> <b style='color:red;'>[긴급]</b>"+data.approvals[i].apprTitle+"</td>";
+						}   
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
