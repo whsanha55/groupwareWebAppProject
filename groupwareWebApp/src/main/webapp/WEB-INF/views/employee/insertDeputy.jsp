@@ -182,7 +182,7 @@
 					//datatable테이블 변경하기
 					var text = "";
 					if(totalCount == 0) {
-						text += '<tr><td>조회된 검색결과가 없습니다</td></tr>';
+						text += '<tr class="text-center"><td colspan=8>조회된 검색결과가 없습니다</td></tr>';
 					} else {
 						for(var i=0;i<data.deputies.length;i++) {
 							for(var j=0;j<data.deputies[i].employees.length;j++) {
@@ -300,21 +300,23 @@
 					
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="ex3">기간지정 :</label> 
-						<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
 							<input type="date" id="startDate" class="form-control" name="startDate"
-									required="required" class="form-control col-md-3 col-xs-6">~
+									required="required" style="width:250px;">&nbsp;&nbsp;&nbsp;
+									~&nbsp;&nbsp;&nbsp;
 							<input type="date" id="endDate"	class="form-control" name="endDate"
-									required="required" class="form-control col-md-3 col-xs-6">
+									required="required" style="width:250px;">
 						</div>
 					</div>
-					
+					<br>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="depReason">사유 :</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="depReason" name="depReason"
-								required="required" class="form-control col-md-7 col-xs-12">
+								required="required" class="form-control col-md-7 col-xs-12" style="width:535px;">
 						</div>
 					</div>
+					<br>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 							<button id="submitBtn" type="submit" class="btn btn-success">대결등록</button>
@@ -360,14 +362,14 @@
 					<table id="datatable" class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th>사번</th>
-								<th>직책</th>
-								<th>이름</th>
-								<th>시작일</th>
-								<th>종료일</th>
-								<th>사용여부</th>
-								<th>사유</th>
-								<th>비고</th>
+								<th id='1' class="text-center">사번</th>
+								<th id='2' class="text-center">직책</th>
+								<th id='3' class="text-center">이름</th>
+								<th id='4' class="text-center">시작일</th>
+								<th id='5' class="text-center">종료일</th>
+								<th id='6' class="text-center">사용여부</th>
+								<th id='7' class="text-center">사유</th>
+								<th id='8' class="text-center">비고</th>
 							</tr>
 						</thead>
 						<tbody id="tbody">
