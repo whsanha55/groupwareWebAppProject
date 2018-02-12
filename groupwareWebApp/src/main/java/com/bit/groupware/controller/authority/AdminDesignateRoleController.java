@@ -32,6 +32,9 @@ public class AdminDesignateRoleController {
       public int  submit(@RequestParam(value="isRegistration", required=true) List<String> isRegistration, 
                          @RequestParam(value="isNotRegistration", required=true) List<String> isNotRegistration, 
                         @RequestParam(value="aNo", required=true) String aNo) throws Exception { 
+      
+	   System.out.println("isNotRegistration"+isNotRegistration.toString());
+	   System.out.println("isRegistration"+isRegistration.toString());
 	   
       List<AuthRoleVO> list = new ArrayList<AuthRoleVO>();
       List<AuthRoleVO> list2 = new ArrayList<AuthRoleVO>();
@@ -52,16 +55,15 @@ public class AdminDesignateRoleController {
       
       Map<String, Object> map = new HashMap<String, Object>();
       map.put("list2",list2);
+      
       if(list2.size() != 0) {
     	  roleService.removeAuthRole(map);
       }
       
-      Map<String, Object> map1 = new HashMap<String, Object>();
-      map1.put("list",list);
+      map.put("list",list);
       if(list.size() != 0) {
-          roleService.registerAuthRole(map1);
+          roleService.registerAuthRole(map);
        }
-   
          return 0;
       }
 }
