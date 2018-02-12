@@ -55,15 +55,9 @@ public class AdminDesignateRoleController {
       
       Map<String, Object> map = new HashMap<String, Object>();
       map.put("list2",list2);
-      
-      if(list2.size() != 0) {
-    	  roleService.removeAuthRole(map);
-      }
-      
       map.put("list",list);
-      if(list.size() != 0) {
-          roleService.registerAuthRole(map);
-       }
-         return 0;
-      }
+      roleService.registerAuthRole(map);
+
+      return 0;
+    }
 }

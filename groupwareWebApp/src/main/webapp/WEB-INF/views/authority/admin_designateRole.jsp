@@ -65,23 +65,6 @@
       $('#deleteBtn').on('click', function() {   
          alert("call");  
          var no = $(this).val();
-      /*    
-         var arr1 = [];    
-         var checkbox = $("input[type='radio']:checked");
-         
-         checkbox.each(function(i) {
-         var tr = checkbox.parent().parent().parent().eq(i);
-             var td = tr.children();
-             arr1.push(td.eq(0).text());
-             console.log(arr1.join());
-         });
-         var arr = [];            
-                   
-         $("input[type='radio']:checked").each(function(i){ 
-            arr.push($(this).val());
-            console.log(arr.join());
-         });  */
-                
           $.ajax({
                 url: '${pageContext.request.contextPath}/admin/modifyDesignate.do'
                 ,
