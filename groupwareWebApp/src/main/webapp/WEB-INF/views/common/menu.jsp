@@ -44,6 +44,11 @@
 		font-weight: bolder;
 		color: red;
 	}
+	#todoLi, #refLi {
+		margin-left : 15px;
+		font-size: 14px;
+		color: yellow;
+	}
 </style>
 
 <script>
@@ -56,8 +61,15 @@
 			dataType: 'json'
 			,
 			success: function(data){
-				if(data.todoCount != 0) $('#todo').text(data.todoCount);
-				if(data.refCount != 0) $('#ref').text(data.refCount);
+				if(data.todoCount != 0) {
+					$('#todo').text(data.todoCount);
+					$('#todoLi').text('N');
+					
+				}
+				if(data.refCount != 0) {
+					$('#ref').text(data.refCount);
+					$('#refLi').text('N');
+				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error: ' + jqXHR.status);
@@ -110,13 +122,13 @@
 								<li><a href='<c:url value="/approvalMyRequest.do"/>'>결재
 										요청함</a></li>
 							</ul>
-						<li><a>결재 <span class="fa fa-chevron-down"></span></a>
+						<li><a>결재<span id='todoLi'></span> <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함&nbsp;&nbsp;<span id="todo"></span></a></li>
 								<li><a href='<c:url value="/approvalProceed.do"/>'>결재
 										진행함</a></li>
 							</ul>
-						<li><a>참조 <span class="fa fa-chevron-down"></span></a>
+						<li><a>참조<span id='refLi'></span> <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li><a href='<c:url value="/approvalRef.do"/>'>참조 문서함&nbsp;&nbsp;<span id="ref"></span></a></li>
 							</ul>
