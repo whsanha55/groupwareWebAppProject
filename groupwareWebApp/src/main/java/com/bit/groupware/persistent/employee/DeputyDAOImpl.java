@@ -39,5 +39,9 @@ public class DeputyDAOImpl implements DeputyDAO {
 	public void deleteDeputy(String depNo) {
 		sqlSession.delete(NAMESPACE + ".deleteDeputy", depNo);
 	}
+	
+	public void stopUseDeputy(String depNo) {
+		sqlSession.update(NAMESPACE + ".stopUseDeputy", depNo);
+	}
 
 }

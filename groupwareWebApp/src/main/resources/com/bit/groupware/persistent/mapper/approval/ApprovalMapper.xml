@@ -261,37 +261,35 @@
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>
 
-		)t1    order by appr_date desc ) t2 ) t3 ) t4
+		)t1   
 
 		
 		<if test="keyfield=='apprTitle' and keyword!=null">
-			where t4.appr_Title Like '%' || #{keyword} ||'%' 
+			where appr_Title Like '%' || #{keyword} ||'%' 
 		</if>      
 		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
-			where t4.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and t4.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+			where appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
 		</if>
 		<if test="keyfield=='empName'and keyword!=null">
-			where t4.emp_name Like '%' || #{keyword} ||'%'
+			where emp_name Like '%' || #{keyword} ||'%'
 		</if>
 		<if test="keyfield=='tmpName' and keyword!=null">
-			where t4.tmp_name Like '%' || #{keyword} ||'%'
+			where tmp_name Like '%' || #{keyword} ||'%'
 		</if>
 		<if test="keyfield=='department' and keyword!=null">
-			where t4.department Like '%' || #{keyword} ||'%'
+			where department Like '%' || #{keyword} ||'%'
 		</if>
 		<if test="keyfield=='finDate' and keyword!=null and keyword1!=null">
-			where t4.complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and t4.complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+			where complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
 		</if>
 		<if test="keyfield=='empDept'and keyword!=null">
-			where t4.department Like '%' || #{keyword} ||'%'
+			where department Like '%' || #{keyword} ||'%'
 		</if>  
-		<if test="keyfield==null">
-			where t4.rn<![CDATA[>=]]>#{startRow} and t4.rn<![CDATA[<=]]>#{endRow}
-		</if>
-		<if test="keyfield!=null">
-			and t4.rn<![CDATA[>=]]>#{startRow} and t4.rn<![CDATA[<=]]>#{endRow}
-		</if>
 		
+		 order by appr_date desc ) t2 ) t3 ) t4
+		 
+		where t4.rn<![CDATA[>=]]>#{startRow} and t4.rn<![CDATA[<=]]>#{endRow}
+
 	</select>
 	
 	
@@ -390,84 +388,135 @@
 
 		)
 	</select>
-	
+	    
 	
 	<select id="selectAllApprovalCount" parameterType="map" resultType="int" statementType="PREPARED">
 		select count(*)
-		from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
-		substr(appr.appr_final_status,7) , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date
-		from (select rownum as rn, t1.*
-		      from (select *
-		            from approval order by appr_date asc) t1)appr ,
-		template tmp, emp_view emp
+		from(select t4.*
+		from(select t3.*
+		from( 
+		select rownum as rn, t2.* from(
+		select t1.* from(select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title , appr.complete_date,
+		substr(appr.appr_final_status,-1,1) as appr_final_status , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, 
+		(select  case when emp.emp_history <![CDATA[>]]> 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=emp.emp_no) <![CDATA[>]]>0 
+		             then (select c_name from code
+		                   where c_no=(select duty_no 
+		                        from code_history 
+		                        where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                        and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                        and emp_no=emp.emp_no))
+		        else emp.duty
+		        end as emp_duty from dual ) 
+		  else emp.duty
+		  end as emp_duty
+		  from dual) as duty ,
+		  (select  case when emp.emp_history <![CDATA[>]]> 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=emp.emp_no) <![CDATA[>]]> 0 
+		             then (select c_name from code
+		                   where c_no=(select dept_no 
+		                                from code_history 
+		                                where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                                and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                                and emp_no=emp.emp_no))
+		        else emp.department
+		        end as department from dual ) 
+		  else emp.department
+		  end as department
+		  from dual) as department
+		from approval appr, template tmp, emp_view emp
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
 		<if test="empNo != 'admin'">
-		and emp.emp_no=#{empNo}
+		and emp.emp_no=#{empNo} 
 		</if>
 		<if test="apprFinalStatus != 10">
-		and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
-		</if>  
-		 <if test="keyfield=='apprTitle' and keyword!=null">
-			and appr.appr_Title Like '%' || #{keyword} ||'%' 
-		</if>
-		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
-			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
-		</if>
-		<if test="keyfield=='empName'and keyword!=null">
-			and emp.emp_name Like '%' || #{keyword} ||'%'
-		</if>
-		<if test="keyfield=='tmpName' and keyword!=null">
-			and tmp.tmp_name Like '%' || #{keyword} ||'%'
-		</if>
-		<if test="keyfield=='department' and keyword!=null">
-			and emp.department Like '%' || #{keyword} ||'%'
-		</if>
-		<if test="keyfield=='finDate' and keyword!=null and keyword1!=null">
-			and appr.complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
-		</if>
-		<if test="keyfield=='empDept'and keyword!=null">
-			and emp.department Like '%' || #{keyword} ||'%'
-		</if> 
+		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
+		</if>		  
+		 
 		union
-		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title ,
-		substr(appr.appr_final_status,7) , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, emp.department, emp.duty, appr.complete_date 
-		from (select rownum as rn, t1.*
-		      from (select *
-		            from approval order by appr_date asc) t1)appr ,
-		template tmp, emp_view emp,approval_record rec ,receiver_line line
+		select appr.appr_no, appr.appr_date ,appr.urgency, appr.appr_title , appr.complete_date,
+		substr(appr.appr_final_status,-1,1) as appr_final_status  , emp.emp_no, emp.emp_name, tmp.tmp_no ,tmp.tmp_name, 
+		(select  case when emp.emp_history<![CDATA[>]]> 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=emp.emp_no) <![CDATA[>]]>0 
+		             then (select c_name from code
+		                   where c_no=(select duty_no 
+		                        from code_history 
+		                        where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                        and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                        and emp_no=emp.emp_no))
+		        else emp.duty
+		        end as emp_duty from dual ) 
+		  else emp.duty
+		  end as emp_duty
+		  from dual) as duty ,
+		  (select  case when emp.emp_history <![CDATA[>]]> 0  
+		  then (select case when ( select count(*) 
+		                    from code_history 
+		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                    and emp_no=emp.emp_no) <![CDATA[>]]>0 
+		             then (select c_name from code
+		                   where c_no=(select dept_no 
+		                                from code_history 
+		                                where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
+		                                and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
+		                                and emp_no=emp.emp_no))
+		        else emp.department
+		        end as department from dual ) 
+		  else emp.department
+		  end as department
+		  from dual) as department
+		from approval appr,	template tmp, emp_view emp,approval_record rec ,receiver_line line  
 		where appr.emp_no = emp.emp_no
 		and appr.tmp_no=tmp.tmp_no
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
 		<if test="empNo != 'admin'">
-		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo}) 
+		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo})
 		</if> 
 		<if test="apprFinalStatus != 10">
-		and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
-		</if> 
-		 <if test="keyfield=='apprTitle' and keyword!=null">
-			and appr.appr_Title Like '%' || #{keyword} ||'%' 
+		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>
+
+		)t1   
+
+		
+		<if test="keyfield=='apprTitle' and keyword!=null">
+			where appr_Title Like '%' || #{keyword} ||'%' 
+		</if>      
 		<if test="keyfield=='apprDate' and keyword!=null and keyword1!=null">
-			and appr.appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+			where appr_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
 		</if>
 		<if test="keyfield=='empName'and keyword!=null">
-			and emp.emp_name Like '%' || #{keyword} ||'%'
+			where emp_name Like '%' || #{keyword} ||'%'
 		</if>
 		<if test="keyfield=='tmpName' and keyword!=null">
-			and tmp.tmp_name Like '%' || #{keyword} ||'%'
+			where tmp_name Like '%' || #{keyword} ||'%'
 		</if>
 		<if test="keyfield=='department' and keyword!=null">
-			and emp.department Like '%' || #{keyword} ||'%'
+			where department Like '%' || #{keyword} ||'%'
 		</if>
 		<if test="keyfield=='finDate' and keyword!=null and keyword1!=null">
-			and appr.complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and appr.complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
+			where complete_date<![CDATA[<=]]>to_date(#{keyword1},'YY/MM/DD')+1 and complete_date<![CDATA[>=]]>to_date(#{keyword},'YY/MM/DD')
 		</if>
 		<if test="keyfield=='empDept'and keyword!=null">
-			and emp.department Like '%' || #{keyword} ||'%'
+			where department Like '%' || #{keyword} ||'%'
 		</if>  
-
+		
+		 order by appr_date desc ) t2 ) t3 ) t4
 		)
 	</select>
 	
@@ -573,6 +622,7 @@
               from receiver_line r1, approval_record r2, approval_comment r3, emplist_view r4
               where r1.line_no = r2.line_no
               and r2.record_no = r3.record_no(+) 
+              and r2.confirm_date is not null
               and r4.empno = case when r2.dep_emp_no is null then r1.line_emp_no
                              else r2.dep_emp_no
                              end
@@ -581,7 +631,7 @@
        where t1.appr_no = t2.appr_no(+)
        and t1.tmp_no = t3.tmp_no
        and t1.emp_no = t4.emp_no
-       and t1.appr_no = t5.appr_no
+       and t1.appr_no = t5.appr_no(+)
        and t1.appr_no = #{apprNo}
 	</select>
 	

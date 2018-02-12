@@ -19,4 +19,6 @@ public interface DeputyDAO {
 	int selectDeputyRegisterCount(Map<String, Object> map);
 	
 	void deleteDeputy(String depNo);
+	
+	void stopUseDeputy(String depNo);
 }

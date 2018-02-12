@@ -30,10 +30,7 @@
 	#templatePaging li {
 		cursor : pointer;
 	}
-	.templateli{
-		cursor:pointer;
-	}
-	
+
 </style>
 <script>
 		var pKeyfield = 'bookmark'; //로딩첫페이지가 북마크!! 
@@ -152,15 +149,16 @@
 		
 		//양식서 hover 이벤트
 		$('#datatable tbody').on('mouseover','tr',function() {
-			$(this).css("backgroundColor","#f1f0d8");
+			$(this).css("backgroundColor","#f1f0d8").css('cursor','pointer');
+			
 		});
 		$('#datatable tbody').on('mouseleave','tr',function() {
 			$(this).css("backgroundColor","");
 		});
 		
 		
-		$('#datatable tbody').on('click','.templateli',function(){
-			var tmpNo=$(this).attr('id');
+		$('#datatable tbody').on('click','td:not(.bookmarkTd)',function(){
+			var tmpNo=$(this).closest('tr').attr('id');
 			location.href="${pageContext.request.contextPath}/writeApproval.do?tmpNo="+tmpNo;
 		});
 		
@@ -195,9 +193,9 @@
 				var text = "";
 				for(var i=0;i<data.templates.length;i++) {
 					if(data.templates[i].templateBookmarks.length == 0) {
-						text += "<tr class='templateli' id="+data.templates[i].tmpNo+" > <td> <i class='fa fa-star-o fa-lg'/> </td>";
+						text += "<tr id="+data.templates[i].tmpNo+" > <td class='bookmarkTd'> <i class='fa fa-star-o fa-lg'/> </td>";
 					} else {
-						text += "<tr class='templateli' id="+data.templates[i].tmpNo+"> <td> <i id = 'bookmark_" + data.templates[i].templateBookmarks[0].bookmarkNo +"' class='fa fa-star fa-lg' /> </td>";
+						text += "<tr id="+data.templates[i].tmpNo+"> <td class='bookmarkTd'> <i id = 'bookmark_" + data.templates[i].templateBookmarks[0].bookmarkNo +"' class='fa fa-star fa-lg' /> </td>";
 
 						
 					}
