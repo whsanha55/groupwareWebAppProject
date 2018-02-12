@@ -1,8 +1,11 @@
 package com.bit.groupware.controller.employee;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,23 +43,51 @@ public class AdminListPlanController {
 	//일정 목록 검색
 	@RequestMapping(value="/admin/listPlanAjax.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> form1(
+	public List<Map<String, Object>> form1(
 			@RequestParam(required=false) String keyfield,
-			@RequestParam(required=false) String keyword
+			@RequestParam(required=false) String keyword ,
+			HttpServletRequest req
 			) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
 		
 		List<PlanVO> plans = planService.retrievePlanList(map);
-		int totalCount = plans.size();
-		map.put("totalCount", totalCount);
-		logger.info("map : {}", map);
 		
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		returnMap.put("plans", plans);
-		logger.info("returnMap : {}", returnMap);
-		return returnMap;
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		for(PlanVO plan : plans) {
+			Map<String, Object> map1 = new HashMap<String, Object>();
+			map1.put("id", plan.getpNo());
+			switch (plan.getpImpt()) {
+				case 1:
+					map1.put("color","#47b747" );
+					map1.put("textColor", "white");
+					break;
+				case 2:
+					map1.put("color","#3a87ad");
+					map1.put("textColor", "white");
+					break;
+				case 3:
+					map1.put("color","#fb4b4b" );
+					map1.put("textColor", "white");
+					break;
+			}
+			
+			if(plan.getcName().equals("부서")) {
+				map1.put("title", plan.getpTitle() + " - 전체");
+			} else {
+				map1.put("title", plan.getpTitle() + " - " + plan.getcName());
+			}
+			
+			map1.put("start", plan.getStartDate());
+			map1.put("end", plan.getEndDate());
+			map1.put("url", req.getContextPath()+ "/admin/detailPlan.do?pNo="+plan.getpNo());
+			list.add(map1);
+			
+			
+		
+		}
+		return list;
 	}
 
 }

@@ -7,10 +7,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a4a3a00a16a7cd71ecd7bba0eca8ed4a&libraries=services"></script>
+<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a4a3a00a16a7cd71ecd7bba0eca8ed4a&libraries=services"></script> -->
 <style>
 .modal-dialog.modal-cSize {
-	width:450px;
+	width:600px;
 	height:auto;
 }
 </style>

@@ -15,8 +15,9 @@
 	}
 </style>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-	$(document).ready(function () {		
+	$(document).ready(function () {
 		
 		$('#dutyBtnList li > a').on('click', function() {
 		    $('#dutyBtn').text($(this).text());
@@ -26,6 +27,10 @@
 		$('#deptBtnList li > a').on('click', function() {	
 			$('#deptBtn').text($(this).text());
 		    $('input[name=deptCode]').val($(this).attr('value'));		    
+		   
+		    if($('#teamBtn').is(null) != true){
+		    	$('#teamBtn').remove();
+		    }
 		    
 			$.ajax ({
 				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
@@ -71,11 +76,144 @@
 			$('input[name=deptCode]').val($(this).attr('value'));
 		});
 		
+		/* $('#regibtn').click(function() {
+
+			swal({
+				  title: "사원 등록",
+				  text: "사원을 등록합니다. 계속 진행하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						registerEmployee();
+					} else if(!e) {
+						return;
+					}	
+				});
+		}); */
+		
 		$("#upload-image").on("change", handleImgFileSelect);
 		
 		$("#findpostcode").click(execDaumPostcode); 
 
 	});
+	
+
+	/* //양식 등록 함수
+	function registerEmployee(){
+		var upload = $('#upload-image').val();
+		var empName = $('#empName').val();
+		var empPwd = $('#empPwd').val();
+		var engName = $('#engName').val();
+		var phoneNumber = $('#phoneNumber').val();
+		var deptCode =$('#deptCode').val();
+		var dutyCode = $('#dutyCode').val();
+		var email = $('#email').val();
+		var regNumber = $('#regNumber').val();
+		var postcode = $('#postcode').val();
+		var address = $('#address').val();
+		var detailAddress = $('#detailAddress').val();
+		
+		if(upload == "") {
+			swal("프로필 사진을 등록해주세요!", "");
+			return;
+		}
+		
+		if(empName == "") {
+			swal("이름을 입력해주세요!", "");
+			return;
+		}
+		
+		if(engName == "") {
+			swal("영문 이름을 입력해주세요!", "");
+			return;
+		}
+		
+		if(empPwd == "") {
+			swal("비밀번호를 입력해주세요!", "");
+			return;
+		}
+		
+		if(phoneNumber == "") {
+			swal("연락처를 입력해주세요!", "");
+			return;
+		}
+		
+		if(deptCode == "") {
+			swal("부서를 선택해주세요!", "");
+			return;
+		}
+		
+		if(dutyCode == "") {
+			swal("직책을 선택해주세요!", "");
+			return;
+		}
+		
+		if(email == "") {
+			swal("이메일을 입력해주세요!", "");
+			return;
+		}
+		
+		if(regNumber == "") {
+			swal("주민번호를 입력해주세요", "");
+			return;
+		}
+		
+		if(postcode == "") {
+			swal("주소등록을 위해 우측 주소찾기 버튼을 이용해주세요!", "");
+			return;
+		}
+		
+		if(detailAddress == "") {
+			swal("상세 주소 정보를 입력해주세요!.", "");
+			return;
+		}
+		
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/admin/registerEmployee.do'
+			,
+			method: 'POST'
+			,
+			data: {
+				upload : upload,
+				empName : empName,
+				empPwd : empPwd,
+				engName : engName,
+				phoneNumber : phoneNumber,
+				deptCode : deptCode,
+				dutyCode : dutyCode,
+				email : email,
+				regNumber : regNumber,
+				postcode : postcode,
+				address : address,
+				detailAddress : detailAddress			
+			}
+			,
+			dataType: 'json'
+			,
+			success: function(data) {
+				if(data == "등록 완료") {
+					swal({
+						  title: "등록 완료",
+						  text: "사원정보가 등록되었습니다.",
+						  icon: "success",
+						  confirmButton: true,
+						  showCancelButton: false
+						}).then((e) => {
+							if(e) {
+								location.href="${pageContext.request.contextPath}/admin/listEmployee.do";
+							}	
+						});	
+				}
+				
+			},
+			error: function(jqXHR, textStatus, error) {
+				alert("Error : " + jqXHR.status);
+			}
+		});
+	}
+ */
 	
 	function execDaumPostcode() {
         new daum.Postcode({
@@ -152,15 +290,15 @@
 			</div>
 			<div class="x_content">
 				<br>
-				<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
+				<form id="regiform" data-parsley-validate="" class="form-horizontal form-label-left"
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="deptCode" value="" />
-					<input type="hidden" name="dutyCode" value="" />			
+					<input type="hidden" id="deptCode" name="deptCode" value="" />
+					<input type="hidden" id="dutyCode" name="dutyCode" value="" />			
 					<div class="form-group">		
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
 							<img id="img" width="250px" height="250px" class="img-responsive center-block"/>
-						</div>				
+						</div>
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
 							<a class="btn" title="Insert picture (or just drag &amp; drop)"
@@ -181,7 +319,7 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="empName">이름 <span class="required">*</span>
+							for="engName">영문 이름 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="engName" name="engName"
@@ -276,12 +414,17 @@
 					</div>
 					
 					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-6" for="sample6_address2"> <span class="required"></span>
+						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="address" name="address" placeholder="주소" readonly
 									required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
+					
 					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-6" for="sample6_address2"><span class="required"></span>
+						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소"
 									required="required" class="form-control col-md-7 col-xs-12">
@@ -289,9 +432,9 @@
 					</div>
 					<div class="ln_solid"></div>
 					<div class="form-group">
-						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button class="btn btn-primary" type="button">취소</button>
-							<button type="submit" class="btn btn-success">사원등록</button>
+						<div class="center-block" align="center">
+								<button class="btn btn-primary" type="button">취소</button>
+								<button id="regibtn" type="submit" class="btn btn-success">사원등록</button>
 						</div>
 					</div>
 				</form>
