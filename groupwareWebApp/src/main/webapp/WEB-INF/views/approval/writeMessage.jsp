@@ -84,14 +84,13 @@
  			
  	 	$('#textArea').on('keyup',function(){
  			    
- 			  if($(this).val().length > 333){
+ 			  if($(this).val().length > 1000){
  				
- 				 swal({title: "글자수는 333글자로 제한됩니다.",
+ 				 swal({title: "글자수는 1000글자로 제한됩니다.",
 					   icon: "warning"});
 		 		 return;
  			  
- 			  }
- 			  
+ 			  }			  
  		
  		});
  			
@@ -101,7 +100,6 @@
  			
  			var respondMsg = $('tr:nth-child(2)').find('td:first').attr('id');
  			
-		
 		$.ajax({
 			
 			
