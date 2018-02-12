@@ -149,19 +149,13 @@
 	</select>
    
     <select id="checkisFinalApprovalLine" statementType="PREPARED" parameterType="int" resultType="int">
-   		select case 
-	        	when t2.line_order = 9 then 1
-	        	when t3.duty_no = t6.duty_no then 1
-	        	else 0
-       		end
-		from approval_record t1, receiver_line t2, emp_view t3, approval t4, template t5, DELEGATION t6
-		where t1.LINE_NO = t2.line_no
-		and t2.line_emp_no = t3.emp_no
-		and t1.appr_no = t4.appr_no
-		and t4.tmp_no = t5.tmp_no
-		and t5.tmp_no = t6.tmp_no(+)
-		and t1.record_no = #{recordNo}
-		and rownum = 1 <!-- 테스트용 -->
+   		select case when t2.line_order = 9 then 1
+            	    when t1.isdelegation = 1 then 1
+                    else 0
+               end
+		from approval_record t1, receiver_line t2
+		where t1.line_no = t2.line_no
+		and record_no = #{recordNo}
    </select>
    
    <update id="updateCheckDate" statementType="PREPARED" parameterType="int">
