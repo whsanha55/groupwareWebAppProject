@@ -56,6 +56,7 @@ map_wrap {overflow:hidden;height:330px}
 	#roadviewControl.active span {background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mapworker_on.png) no-repeat;color: #4C4E57;}
 	#roadviewClose {position: absolute;padding: 4px;top: 5px;left: 5px;cursor: pointer;background: #fff;border-radius: 4px;border: 1px solid #c8c8c8;box-shadow: 0px 1px #888;}
 	#roadviewClose .img {display: block;background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/rv_close.png) no-repeat;width: 14px;height: 14px;}
+
 </style>
 </head>
 <body>
@@ -63,6 +64,7 @@ map_wrap {overflow:hidden;height:330px}
 	<div>
 		<input id="keyWord" placeholder="지도검색 장소입력">	
 		<button id="mapSearchBTN" type="button" class="btn btn-default">검색</button>
+		<a href="#" id="relayout" style="color:white;">'</a>
 	</div>
 
 	<div id="container">	
@@ -145,7 +147,7 @@ map_wrap {overflow:hidden;height:330px}
 				mapContainer = document.getElementById('map'), //지도를 담을 영역의 DOM 레퍼런스
 				rvContainer = document.getElementById('roadview');
 			 
-			if($('#latitude').val() == null && $('#longitude').val() == null) {		
+			if($('#latitude').val() == "" && $('#longitude').val() == "") {		
 				var	mapCenter = new daum.maps.LatLng(37.49952673450098, 127.0292843723033); //지도의 중심좌표. 	
 			} else {
 				var mapCenter = new daum.maps.LatLng($('#latitude').val(), $('#longitude').val());
@@ -154,9 +156,10 @@ map_wrap {overflow:hidden;height:330px}
 					center: mapCenter, //지도의 중심좌표.
 					level: 3 //지도의 레벨(확대, 축소 정도)
 				};
-				
+			
 			var map = new daum.maps.Map(mapContainer, mapOptions);
 			
+			map.relayout();
 			// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
 			var mapTypeControl = new daum.maps.MapTypeControl();
 			map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
@@ -335,8 +338,8 @@ map_wrap {overflow:hidden;height:330px}
 			    var position = marker.getPosition();
 			    toggleMapWrapper(true, position);
 			}	
-				
-			if($('#destination').val() == null) {
+			
+			if($('#destination').val() == "") {
 				var iwContent = '<div style="padding:5px;text-align:center;color:red">갓트킹프</div>';
 			} else {
 				var iwContent = '<div style="padding:5px;text-align:center;color:red">'+ $('#destination').val() +'</div>';
@@ -353,7 +356,7 @@ map_wrap {overflow:hidden;height:330px}
 			var myMarker = new daum.maps.Marker;
 				
 			myMarker.setMap(map);
-				
+				 
 			// 지도에 클릭 이벤트를 등록합니다
 			// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다	
 			daum.maps.event.addListener(map, 'click', function(mouseEvent) { 
@@ -422,6 +425,11 @@ map_wrap {overflow:hidden;height:330px}
 				});
 			}
 			
+			function relayout() {
+				map.relayout();
+				map.panTo(mapCenter);
+			}
+			
 			// 엔터키 누르면 위치검색 가능 메서드
 			$("#keyWord").keypress(function() {
 			    if (event.which == 13) {
@@ -439,7 +447,15 @@ map_wrap {overflow:hidden;height:330px}
 				// 키워드로 장소를 검색합니다
 				places.keywordSearch($('#keyWord').val(), placesSearchCB);
 				myMarker.setMap(null);
-				
+			});
+			/* 
+			if($('#map').height() == '500') {
+				$()
+			}
+		 	*/
+		 
+			$('#relayout').on('click', function() {
+				relayout();
 			});
 		
 			$('#roadviewControl').on('click',function() {
@@ -448,12 +464,10 @@ map_wrap {overflow:hidden;height:330px}
 			
 			$('#roadviewClose').on('click', function() {
 				closeRoadview();
-			})
-		
-		});			
-		
+			});
+			map.relayout();	
+		});
 	});
-
 
 	</script>
 </body>

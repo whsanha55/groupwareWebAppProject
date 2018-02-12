@@ -25,5 +25,9 @@ public interface EmployeeDAO {
 	void deleteEmployeeCode(String empNo);
 	
 	int selectEmployeeCount(Map<String, Object> map);
+	
+	void insertAuthority(String empNo);
+	
+	void deleteAuthority(String empNo);
 	 
 }
