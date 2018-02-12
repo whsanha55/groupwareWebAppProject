@@ -56,8 +56,7 @@ public class WriteApprovalController {
 		if(tmpNo > 0) {
 			mv.addObject("template",templateService.retrieveTemplate(tmpNo)); 
 		}else if(apprNo > 0) {
-			appr=approvalService.retrieveTempApproval(apprNo);
-			logger.info("ぞぞぞぞぞぞぞ"+appr.getReceiverNo());   
+			appr=approvalService.retrieveTempApproval(apprNo);  
 			mv.addObject("approval", appr);
 			/*if(appr.getApprFinalStatus()!=3) {
 				mv.addObject("isReAppr", apprNo); 
