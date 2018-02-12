@@ -35,6 +35,13 @@
     margin-right: 15px;
 }
 
+#counter {
+  background:rgba(255,0,0,0.5);
+  border-radius: 0.5em;
+  padding: 0 .5em 0 .5em;
+  font-size: 0.75em;
+}
+
 
 </style>
 
@@ -72,6 +79,22 @@
  			
  			window.close();
  		});
+ 		
+ 		//1000바이트 넘으면 유효성 체크 
+ 			
+ 	 	$('#textArea').on('keyup',function(){
+ 			    
+ 			  if($(this).val().length > 333){
+ 				
+ 				 swal({title: "글자수는 333글자로 제한됩니다.",
+					   icon: "warning"});
+		 		 return;
+ 			  
+ 			  }
+ 			  
+ 		
+ 		});
+ 			
  		
  		
  		$('#btnSubmit').on('click',function(){
@@ -161,7 +184,8 @@
 
 						<tr height="340px">
 							<td>내용</td>
-							<td colspan="2"><textarea style="width:550px; height:340px" name="msgContent"></textarea></td>
+							<td colspan="2"><textarea style="width:550px; height:340px" name="msgContent" id="textArea"></textarea></td>
+							
 						</tr>
 					</tbody>
 				</table>
