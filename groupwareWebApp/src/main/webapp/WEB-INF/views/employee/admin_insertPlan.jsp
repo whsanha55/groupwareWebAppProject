@@ -46,6 +46,8 @@ $(document).ready(function() {
 			keyboard : false
 		});
 	});
+
+ 
 	
 	$('#modalChooseBtn2').on('click',function() {	
 		console.log(selectedDest);

@@ -1,7 +1,6 @@
 package com.bit.groupware.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -11,16 +10,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.UserVO;
-import com.bit.groupware.domain.employee.EmployeeVO;
-import com.bit.groupware.domain.employee.PlanVO;
 import com.bit.groupware.service.employee.EmployeeService;
 import com.bit.groupware.service.employee.PlanService;
 
-/*@SessionAttributes("id")*/
+
 @Controller
+@SessionAttributes("employee")
 public class LoginController {
 
 	// Logging
