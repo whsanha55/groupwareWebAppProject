@@ -34,14 +34,6 @@
     display: inline;
     margin-right: 15px;
 }
-/* 
-#table1{
-	border-collapse:collapse;
-}
- */
-#table1 td{
-	
-}
 
 </style>
 
@@ -116,26 +108,15 @@
 		});
 		
 		
-		
-		/* var temp = $('.apprLineAppr2').length;
-		var text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
+		//전결 여부 확인
+		if($('.delegation1').length) {
+			var temp = $('.delegation1').closest('td');
+			var index = ${apprCount} -1;
+			$('.delegation1').closest('tr').find('td:eq(' + index + ')').html(temp.html());
+			$(temp).html('<b>전결</b>');
+			
 		}
-		$('.apprLineAppr2').parent().append(text);
-		$('.apprLineAppr2').parent().next().next().append(text);
-		 temp = $('.apprLineAppr3').length;
-		 text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineAppr3').parent().append(text);
-		$('.apprLineAppr3').parent().next().next().append(text); */
 		
-		
-	
 		
 		//결재 회수
 		$('#return').on('click',function(){
@@ -475,7 +456,7 @@
 				    <tr class="">
                         <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >                                                    
                       		<td class="apprLineAppr2">
-                       			<img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
+                       			<img class="delegation${record.isDelegation }" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
                        				style="height:40px; width:40px;">
                        		</td>
 						</c:forEach>

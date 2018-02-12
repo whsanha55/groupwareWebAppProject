@@ -58,7 +58,6 @@ public class ApprovalController {
 			mv.addObject("refCount",refCount);
 			mv.addObject("recCount",approval.getApprovalRecords().size());
 			mv.addObject("receiverLine",lines);
-			
 			mv.addObject("approval",approval);
 			mv.addObject("empNo", principal.getName());
 			mv.setViewName("approval/approvalDetail/pop");
