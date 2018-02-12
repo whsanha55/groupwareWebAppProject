@@ -113,12 +113,20 @@
 				swal("비밀번호 확인을 입력해주세요.","");
 				return;
 			}
-			if($('input[name=phoneNumber2]').val().trim() == '' || $('input[name=phoneNumber3]').val().trim() == '' ) {
+			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
 				swal("연락처를 입력해주세요.","");
 				return;
 			}
-			if($('input[name=regNumber1]').val().trim() == '' || $('input[name=regNumber2]').val().trim() == '') {
+			if($('input[name=regNumber1]').val() == '' || $('input[name=regNumber2]').val() == '') {
 				swal("주민등록번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=dutyCode]').val().trim() == '') {
+				swal("직책을 선택해주세요.","");
+				return;
+			}
+			if($('input[name=deptCode]').val().trim() == '') {
+				swal("부서를 선택해주세요.","");
 				return;
 			}
 			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
@@ -515,7 +523,6 @@
 							<c:url var="listEmployeeURL" value="/admin/listEmployee.do" scope="page" ></c:url>
 							<a id="list" href="${pageScope.listEmployeeURL }"><button class="btn btn-primary" type="button">목록</button></a>
 							<button id="regibtn" type="submit" class="btn btn-success">사원등록</button>
-							<button id='check' type="button">체크</button>
 						</div>
 					</div>
 				</form>

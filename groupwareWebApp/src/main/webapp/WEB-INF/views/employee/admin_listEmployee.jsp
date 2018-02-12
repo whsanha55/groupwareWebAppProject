@@ -188,7 +188,11 @@
 				dateType : 'json',
 				success : function(data) {
 					$('#modRetireStatus').val(data.retireStatus);
+					if($('#modRetireStatus').val() == 0) {
+						$('#modRetireStatus').val('Åð»ç');
+					}
 					$('#modRetireDate').val(data.retireDate);
+					employeePaging(1);
 				},
 				error : function(jqXHR) {
 					alert("error : " + jqXHR.status);
@@ -672,7 +676,7 @@
 							<button id="modifyBtn" type="button" class="btn btn-primary">¼öÁ¤</button>
 							<button id="retireBtn" type="button" class="btn btn-primary retire">Åð»ç</button>
 							<button id="closeBtn2" type="button" class="btn btn-default"
-								<%-- data-dismiss="modal" --%>>´Ý±â</button>
+								data-dismiss="modal">>´Ý±â</button>
 						</div>
 					</div>
 				</div>
