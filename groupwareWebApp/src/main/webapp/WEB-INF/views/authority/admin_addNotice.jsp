@@ -39,17 +39,17 @@
          return false;
       });
        
-  	//첨부파일 용량 체크
-	$('.controls').on('change','input[name=upload]',function() {
-		if($(this).val() != '') {
-			var fileSize = this.files[0].size;
-			var maxSize = 1024*1024*1;
-			if(fileSize > maxSize) {
-				swal('1mb 이하의 첨부만 가능합니다','요청 파일 크기 : ' + Math.round(fileSize/1024) + "kb",'error');
-				$(this).val('');
+    //첨부파일 용량 체크
+		$('.controls').on('change','input[name=upload]',function() {
+			if($(this).val() != '') {
+				var fileSize = this.files[0].size;
+				var maxSize = 1024*1024*1;
+				if(fileSize > maxSize) {
+					swal('1mb 이하의 첨부만 가능합니다','요청 파일 크기 : ' + Math.round(fileSize/1024) + "kb",'error');
+					$(this).val('');
+				}
 			}
-		}
-	});
+		});
 
    });
 </script>
@@ -97,21 +97,21 @@
 
                   <div class="ln_solid"></div>
                   <div class="col-md-12">
-                     <div class="row">
-                        <div class="control-group" id="fields">
-                           <div class="controls">
-                              <div class="entry input-group col-xs-3">
-                                 <input type="file" class="btn btn-primary" name="upload">
-                                 <span class="input-group-btn">
-                                    <button class="btn btn-success btn-add" type="button">
-                                       <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                 </span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+      	<div class="row">
+     	  <div class="control-group" id="fields">
+			<div class="controls">
+				<div class="entry input-group col-xs-3">
+					<input type="file" class="btn btn-dark" name="upload" >
+					<span class="input-group-btn">
+						<button class="btn btn-success btn-add" type="button">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+		 </div>
+      </div>
+    </div>
                </div>
 				 <div class="text-right">  
                <button type="submit" class="btn btn-primary">등록</button>
