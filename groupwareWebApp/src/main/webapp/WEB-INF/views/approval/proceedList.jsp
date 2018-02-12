@@ -17,6 +17,11 @@
 		cursor:pointer;
 	}
 </style>
+<link
+	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script>
 
 	var pKeyfield;  
@@ -57,11 +62,46 @@
 				$('#pKeyword1').remove();
 				$('#temp').remove();
 
-				console.log($('form').html());
+				var url = ''; 
+				switch ($(this).val()) {
+					case 'apprTitle':
+						$("input[name=pKeyword]").autocomplete('option','source',[]);
+						return;
+					case 'tmpName':
+						url = 'retrieveTemplateNameList.do';
+						break;
+					case 'empName':
+						url = 'retrieveEmployeeNameAndDutyList.do';
+						break;
+					case 'department':
+						url = 'retrieveDepartmentList.do';
+						break;
+				}
+				
+				$.ajax({
+					 url : '${pageContext.request.contextPath}/' + url ,
+					 cache : false ,
+					 type : 'GET' ,
+					 datatype : 'json' ,
+					 success : function(data) {
+						 $("input[name=pKeyword]").autocomplete('option','source',data);
+					 } ,
+					 error : function(jqXHR) {
+							alert(jqXHR.status);
+							console.log(jqXHR);
+					 }
+					 
+				});	
 			}
 			 
 		 });
 		 
+		 $("input[name=pKeyword]").autocomplete({
+				focus : function() {
+					return false;
+				}
+		 });
+		
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
 		$('#pKeyword').on('keydown', function(e) {
 			if(e.keyCode == 13){

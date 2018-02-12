@@ -109,6 +109,8 @@
 			$('input[name=deptCode]').val($(this).attr('value'));
 		});
 		
+		$()
+		
 		$('#modifyBtn').click(function () {
 			if($('#modRetireStatus').val()=='X') {
 				$('#modRetireStatus').val('1');	
@@ -282,6 +284,7 @@
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
 						text += "<input id='submitPhotoName' type='hidden' value='"+ data.employees[i].systemPhotoName +"'>";
+						text += "<input id='submitSignName' type='hidden' value='"+ data.employees[i].systemSignName +"'>";
 						text += "<td id='submitEmpNo'"+ i +"><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
 						text += "<td id='submitEmpName'"+ i +">"+ data.employees[i].empName 		+ "</td>";
 						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
@@ -307,7 +310,7 @@
 						
 						$('#datatable').on('click','#submitEmpNo', function(){
 							$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
-							console.log($('#photo').attr('src'));
+							$('#sign').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/' + ($(this).parent().children('#submitSignName').val()));
 							$('#modifyEmpNo').val($(this).text());
 							$('#modEmpName').val($(this).next('#submitEmpName').text());							
 							$('#modEngName').val($(this).parent().children('#submitEngName').val());
@@ -520,9 +523,8 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img class="img-responsive avatar-view"
-										src="images/picture.jpg" alt="Avatar"
-										title="Change the avatar">
+									<img id="sign" width="250px" height="250px" 
+									src="" class="img-responsive center-block"/>
 								</div>
 							</div>
 						</div>
@@ -558,18 +560,18 @@
 								<tr>
 									<th>이름</th>
 									<td><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value=""></td>
+										required="required" value="" readonly></td>
 									<th>영문이름</th>
 									<td><input id="modEngName" name="engName" type="text" class="form-control"
-										value=""></td>
+										value="" readonly></td>
 								</tr>
 								<tr>
 									<th>연락처</th>
 									<td><input id="modPhoneNumber" name="phoneNumber" type="text" class="form-control"
-										required="required" value=""></td>
+										required="required" value="" readonly></td>
 									<th>주민번호</th>
 									<td><input id="modRegNumber" name="regNumber" type="text" class="form-control"
-										required="required" value=""></td>
+										required="required" value="" readonly></td>
 								</tr>
 								<tr>
 									<th>부서</th>
@@ -595,7 +597,7 @@
 										</div></td>
 									<th>이메일</th>
 									<td><input id="modEmail" name="email" type="text" class="form-control"
-										required="required" value=""></td>
+										required="required" value="" readonly></td>
 								</tr>
 								<tr>
 									<th>입사일</th>
@@ -603,14 +605,14 @@
 										required="required" value="" readonly></td>
 									<th>계좌번호</th>
 									<td><input id="modnull" type="text" class="form-control"
-										required="required" value="110-328-521548"></td>
+										required="required" value="110-328-521548" readonly></td>
 								</tr>
 								<tr>
 									<th>퇴사여부</th>
 									<td><input id="modRetireStatus" name="retireStatus" type="text" class="form-control"
 										required="required" readonly value=""></td>
 									<th>퇴사일</th>
-									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value=""></td>
+									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly></td>
 								</tr>
 								<tr>
 									<th>주소</th>
@@ -626,11 +628,12 @@
 									</div><br>
 									<div class="col-md-12 col-sm-6 col-xs-12">
 										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="상세주소"
-												required="required" class="form-control col-md-7 col-xs-12">
+												required="required" class="form-control col-md-7 col-xs-12" readonly>
 									</div>
 								</tr>
 							</tbody>
-						</table>
+						</table> 
+						
 						<br>
 						<div class="text-center">
 							<button id="modifyBtn" type="submit" class="btn btn-primary">수정</button>

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bit.groupware.domain.employee.DeputyVO;
 import com.bit.groupware.domain.employee.EmployeeCodeVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.PhotoVO;
@@ -30,6 +29,7 @@ public class AdminRegisterEmployeeController {
 	
 	@Autowired
 	private EmployeeService employeeService;
+	
 	@Autowired
 	private CodeService codeService;
 	
@@ -66,6 +66,7 @@ public class AdminRegisterEmployeeController {
 		employeeService.registerEmployee(employee);
 		return "redirect:/admin/listEmployee.do";
 	}
+	
 }
 
 

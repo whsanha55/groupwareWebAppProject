@@ -176,5 +176,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void removeDeputy(String depNo) {
 		deputyDAO.deleteDeputy(depNo);
 	}
+	
+	public void stopUseDeputy(String depNo) {
+		deputyDAO.stopUseDeputy(depNo);
+	}
+	
+	public void removeSign(String empNo) {
+		photoDAO.deleteSign(empNo);
+	}
 
 }

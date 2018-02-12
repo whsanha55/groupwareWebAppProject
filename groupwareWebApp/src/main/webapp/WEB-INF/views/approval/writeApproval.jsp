@@ -318,7 +318,7 @@
 		})
 		
 		$('#modalCloseBtn').on('click',function() {
-			myReceiverList(false);
+			myReceiverList($('select[name=receiverNo]').val());
 			$('#receiverBody').html("");
 			 
 		})

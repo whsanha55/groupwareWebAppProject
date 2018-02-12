@@ -13,6 +13,11 @@
 	
 </style>
 
+<link
+	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 
@@ -44,20 +49,52 @@
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
 			if($(this).val()=='apprDate'||$(this).val()=='finDate'){
-				$(this).next().attr('type','date');
-				
+				$(this).next().attr('type','date');				
 				$(this).next().after("&nbsp;<b id=temp>~</b> ")
 				$(this).next().next().after("<input type=date id=pKeyword1>")
-				console.log($('form').html());
 			}else{
 				$(this).next().attr('type','text');
 				
 				$('#pKeyword1').remove();
 				$('#temp').remove();
-
-				console.log($('form').html());
+				
+				var url = ''; 
+				switch ($(this).val()) {
+					case 'apprTitle':
+						$("input[name=pKeyword]").autocomplete('option','source',[]);
+						return;
+					case 'tmpName':
+						url = 'retrieveTemplateNameList.do';
+						break;
+					case 'empName':
+						url = 'retrieveEmployeeNameAndDutyList.do';
+						break;
+					case 'department':
+						url = 'retrieveDepartmentList.do';
+						break;
+				}
+				
+				$.ajax({
+					 url : '${pageContext.request.contextPath}/' + url ,
+					 cache : false ,
+					 type : 'GET' ,
+					 datatype : 'json' ,
+					 success : function(data) {
+						 $("input[name=pKeyword]").autocomplete('option','source',data);
+					 } ,
+					 error : function(jqXHR) {
+							alert(jqXHR.status);
+					 }
+					 
+				});	
 			}
 			 
+		 });
+		
+		 $("input[name=pKeyword]").autocomplete({
+				focus : function() {
+					return false;
+				}
 		 });
 		 
 		//검색조건 엔터키 눌렀을때 트리거 발동
