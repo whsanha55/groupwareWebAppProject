@@ -15,6 +15,7 @@
 		       cmt_writer as cmtWriter, cmt_date as cmtDate
 		from cmt
 		where post_no = #{cmtNo}
+		  order by cmt_date asc
 	</select>
 
 

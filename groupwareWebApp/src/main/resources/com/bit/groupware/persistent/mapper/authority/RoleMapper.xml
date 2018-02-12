@@ -5,7 +5,7 @@
 
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.RoleMapper">
    
-    <insert id="designateRole" statementType="PREPARED" parameterType="AuthRoleVO">
+    <insert id="designateRole" statementType="PREPARED" parameterType="map">
      <foreach collection="list" item="item" open="insert all" close="select * from dual" >
       into authority_role(r_id, a_no)
       values(#{item.rId}, #{item.aNo})
@@ -77,7 +77,7 @@
       <result column="isregistration" property="isRegistration" />
       <result column="sort_order" property="sortOrder" />
    </resultMap>
-   
+    
     <select id="selectRoleReList" statementType="PREPARED" resultMap="selectRoleMap"  parameterType="string" >
         select *
       from role 
@@ -96,9 +96,14 @@
       </foreach>
    </delete>
    
-   <delete id="nonDesignateRole" parameterType="string" statementType="PREPARED">
-      delete authority_role
-      where a_no = #{aNo}
+   <delete id="nonDesignateRole" parameterType="map" statementType="PREPARED">
+    delete from authority_role
+     where ar_no in (
+      <foreach item="item" collection="list2" separator="),(" open="(" close=")">
+         select ar_no from authority_role 
+         where r_id = #{item.rId} and a_no = #{item.aNo}
+     </foreach>
+     )
    </delete>
    
    <select id="selectRoleCount" statementType="PREPARED" parameterType="map" resultType="int">

@@ -13,7 +13,7 @@ public class PostVO {
 	private String postContent; 			//게시글 내용
 	private String documentNo; 				//문서 종류 번호
 	private String cNo; 					//부서 코드 번호
-	private String boardNo; 				//게시판 번호
+	private int boardNo; 				//게시판 번호
 	private List<MultipartFile> upload;
 	private List<PostFileVO> postFiles = new ArrayList<PostFileVO>(); //게시글 파일 목록
 	private List<CmtVO> cmts = new ArrayList<CmtVO>(); //게시글 파일 목록
@@ -94,12 +94,12 @@ public class PostVO {
 	}
 
 
-	public String getBoardNo() {
+	public int getBoardNo() {
 		return boardNo;
 	}
 
 
-	public void setBoardNo(String boardNo) {
+	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
 
@@ -143,8 +143,11 @@ public class PostVO {
 	public String toString() {
 		return "PostVO [postNo=" + postNo + ", postTitle=" + postTitle + ", writer=" + writer + ", postDate=" + postDate
 				+ ", postContent=" + postContent + ", documentNo=" + documentNo + ", cNo=" + cNo + ", boardNo="
-				+ boardNo + ", upload=" + upload + ", postFiles=" + postFiles + "]";
+				+ boardNo + ", upload=" + upload + ", postFiles=" + postFiles + ", cmts=" + cmts + "]";
 	}
+
+
+	
 
 
 	
