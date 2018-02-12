@@ -45,7 +45,9 @@ public interface EmployeeService {
 	
 	List<DeputyVO> retrieveDeputyList(Map<String, Object> map);
 	
-	void removeDeputy(String dep_no);
+	void removeDeputy(String depNo);
+	
+	void stopUseDeputy(String depNo);
 	
 	
 	//ºÎ¼­

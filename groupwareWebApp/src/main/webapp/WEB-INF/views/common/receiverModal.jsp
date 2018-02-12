@@ -599,7 +599,7 @@ select[name=apprType] {
 	}); //document ready End
 	
 	//결재선 이름 조회 함수 
-	//modal팝업창 닫을때도 사용하므로 파라미터로 boolean값 받아옴
+	//modal팝업창 닫을때도 사용하므로 파라미터로 모달페이지면 true, 아니면 receiverNo를 받아옴
 	function myReceiverList(isModalPage) {
 
 		$.ajax({
@@ -609,17 +609,18 @@ select[name=apprType] {
 			type : 'GET',
 			success : function(data) {
 				var text = "";
-				if(!isModalPage) {	//모달창 닫기 클릭시
+				if(!(isModalPage===true)) {	//모달창 닫기 클릭시
 					text += "<option value='0'>결재선을 선택하세요</option>";
 				}
 				for (var i = 0; i < data.length; i++) {
 					text += "<option value='"+ data[i].receiverNo + "'>";
 					text += data[i].receiverName + "</option>";
 				}
-				if(isModalPage) {
+				if(isModalPage === true) {
 					$('select[name=receiverNo2]').html(text);
 				} else {	//모달창 닫기 클릭시
 					$('select[name=receiverNo]').html(text);
+					$('select[name=receiverNo]').val(isModalPage);
 					
 				}
 			},
