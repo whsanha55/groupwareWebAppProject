@@ -34,14 +34,6 @@
     display: inline;
     margin-right: 15px;
 }
-/* 
-#table1{
-	border-collapse:collapse;
-}
- */
-#table1 td{
-	
-}
 
 </style>
 
@@ -116,26 +108,15 @@
 		});
 		
 		
-		
-		/* var temp = $('.apprLineAppr2').length;
-		var text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
+		//전결 여부 확인
+		if($('.delegation1').length) {
+			var temp = $('.delegation1').closest('td');
+			var index = ${apprCount} -1;
+			$('.delegation1').closest('tr').find('td:eq(' + index + ')').html(temp.html());
+			$(temp).html('<b>전결</b>');
+			
 		}
-		$('.apprLineAppr2').parent().append(text);
-		$('.apprLineAppr2').parent().next().next().append(text);
-		 temp = $('.apprLineAppr3').length;
-		 text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineAppr3').parent().append(text);
-		$('.apprLineAppr3').parent().next().next().append(text); */
 		
-		
-	
 		
 		//결재 회수
 		$('#return').on('click',function(){
@@ -404,20 +385,20 @@
 			 		<button type="button" class="btn btn-success" id='reAppr' disabled='true'>재기안</button>			 				 		
 			 		<button type="button" class="btn btn-success" id='deleteAppr' disabled='true'>삭제</button>			 				 		
 			</div>
-			<div class="table-responsive" id="datas" style="border:0px;">
+			<div class="table-responsive" id="datas" style="border:0px;width:100%">
 				<h2><strong>결재 라인</strong></h2>
 				
 				<%-- 결재 --%>
 				<table id="table1" class="table table-hover" style="text-align:center; width:100%;">
 					<tr class="headings" style=" color:#ECF0F1;">
-                    	<td rowspan="5" class="" style="width:70px; height:35px;background-color:#4a6075;">결재</td>
+                    	<th rowspan="5" class="" style="width:60px; height:35px;background-color:#4a6075;text-align:center">결재</th>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
                            <c:if test="${ line.apprType == 0}">
                               <th class="apprLineAppr" style="width:110px; height:35px; text-align:center; background-color:#4a6075;">
                               ${pageScope.line.lineEmployee.duty }</th>
                      	   </c:if>
                         </c:forEach>
-                        <c:forEach begin="1" end="${12-requestScope.apprCount}">
+                        <c:forEach begin="1" end="${9-requestScope.apprCount}">
                            <th style="width:50px;background-color:#4a6075;"></th>
                         </c:forEach>
                     </tr>
@@ -430,7 +411,7 @@
                           		</td>
                            </c:if>	 
 				   		</c:forEach>	
-				   		<c:forEach begin="1" end="${12-requestScope.apprCount}">
+				   		<c:forEach begin="1" end="${9-requestScope.apprCount}">
                           	<td style="width:139px; background-color:;"></td>
                         </c:forEach>				
                     </tr>
@@ -443,7 +424,7 @@
                           	 </td>
                           </c:if>	 
 				   	    </c:forEach>	
-				  		<c:forEach begin="1" end="${12-requestScope.apprCount}">
+				  		<c:forEach begin="1" end="${9-requestScope.apprCount}">
                           	<td style="width:139px; background-color:;"></td>
                         </c:forEach>				
                     </tr>
@@ -451,11 +432,11 @@
 				    <tr class="">
                         <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >                                                    
                       		<td class="apprLineAppr2">
-                       			<img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
-                       				style="height:40px; width:40px;">
+                       			<img class="delegation${record.isDelegation }" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
+                       				style="height:65px; width:65px;">
                        		</td>
 						</c:forEach>
-						<c:forEach begin="1" end="${12-requestScope.recCount}">
+						<c:forEach begin="1" end="${9-requestScope.recCount}">
                           	<td style="width:139px; background-color:;"></td>
                         </c:forEach>
                     </tr>
@@ -464,7 +445,7 @@
                         <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
                             <td class="apprLineAppr3">${pageScope.record.confirmDate }</td>
 				        </c:forEach>
-				        <c:forEach begin="1" end="${12-requestScope.recCount}">
+				        <c:forEach begin="1" end="${9-requestScope.recCount}">
                           	<td style="width:139px; background-color:;"></td>
                         </c:forEach>
 			        </tr>
@@ -474,7 +455,7 @@
 			  <table class='table table-hover' style="text-align:center;width:100%;">
  			  	<c:if test="${requestScope.refCount!=0 }">
                 	<tr class=""style=" color:#ECF0F1;">
-                    	<th rowspan="3" class="" style="background-color:#4a6075;">참조</th>
+                    	<th rowspan="3" class="" style="background-color:#4a6075;width:60px;text-align:center">참조</th>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
                             <c:if test="${ line.apprType == 1}">
                          	   <th class="apprLineRef" style="width:110px; height:35px; text-align:center;background-color:#4a6075;" >
@@ -482,7 +463,7 @@
                          	   </th>
                    		   </c:if>
                         </c:forEach>
-                        <c:forEach begin="1" end="${12-requestScope.refCount}">
+                        <c:forEach begin="1" end="${9-requestScope.refCount}">
                         	  <th style="width:139px; background-color:#4a6075;"></th>
                         </c:forEach>
                    </tr>
@@ -493,7 +474,7 @@
                            		 <td class="apprLineRef1">${pageScope.line.lineEmployee.empName }</td>
                       		</c:if>
                         </c:forEach>
-                        <c:forEach begin="1" end="${12-requestScope.refCount}">
+                        <c:forEach begin="1" end="${9-requestScope.refCount}">
                            	<td style="width:139px;"></td>
                         </c:forEach>
                     </tr>
