@@ -23,7 +23,7 @@ public class PostController {
 	public ModelAndView postList(@RequestParam(value = "boardNo") int boardNo) {
 		logger.info("°Ô½ÃÆÇ1#################### : {}", boardNo);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("boardNo", boardNo);
+		mv.addObject("boardNo", boardNo);		
 		mv.setViewName("authority/postList");
 		return mv;
 	}

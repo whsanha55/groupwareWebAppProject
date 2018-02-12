@@ -32,6 +32,7 @@
 <body>
 	<form action="<%=request.getContextPath()%>/addPost.do" method="post"
 		enctype="multipart/form-data">
+		<input type = "text" name ="boardNo" value = "${requestScope.boardNo}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
@@ -55,28 +56,17 @@
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<input type="text" name="postTitle"
 							id="autocomplete-custom-append" class="form-control col-md-10" />
-					</div>
-					<label class="control-label col-md-3 col-sm-3 col-xs-12">부서구분</label>
-					<div class="col-md-9 col-sm-9 col-xs-12">
-						<select class="form-control" name="cNo">
-							<option>부서를 선택하세요</option>
-							<option value="A-01">경영관리부</option>
-							<option value="A-02">인사부</option>
-							<option value="A-03">회계부</option>
-							<option value="A-04">영업부</option>
-							<option value="A-05">개발부</option>
-						</select>
-					</div>
+					</div>					
 					<label class="control-label col-md-3 col-sm-3 col-xs-12">문서종류</label>
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<select class="form-control" name="documentNo">
 							<option>문서를 선택하세요</option>
-							<option value="DC-1">문서보관함</option>
-							<option value="DC-2">회의문서</option>
-							<option value="DC-3">각종 증명서</option>
-							<option value="DC-4">공문서</option>
-							<option value="DC-5">거래문서</option>
-							<option value="DC-6">기타</option>
+							<option value="D-01">문서보관함</option>
+							<option value="D-02">회의문서</option>
+							<option value="D-03">각종 증명서</option>
+							<option value="D-04">공문서</option>
+							<option value="D-05">거래문서</option>
+							<option value="D-06">기타</option>
 						</select>
 					</div>
 					<div class="x_content">

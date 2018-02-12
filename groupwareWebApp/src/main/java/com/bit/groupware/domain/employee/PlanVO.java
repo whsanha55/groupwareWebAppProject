@@ -16,8 +16,9 @@ public class PlanVO {
 	private String pContent;
 	private String startDate;
 	private String endDate;
-	private int latitude;
-	private int longitude;
+	private String destination;
+	private double latitude;
+	private double longitude;
 	private List<CodeVO> codes;
 	private EmployeeVO employee;
 	private List<MultipartFile> upload;
@@ -102,21 +103,6 @@ public class PlanVO {
 		this.endDate = endDate;
 	}
 
-	public int getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(int latitude) {
-		this.latitude = latitude;
-	}
-
-	public int getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(int longitude) {
-		this.longitude = longitude;
-	}
 
 	public EmployeeVO getEmployee() {
 		return employee;
@@ -170,27 +156,41 @@ public class PlanVO {
 		this.empName = empName;
 	}
 
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
 	@Override
 	public String toString() {
 		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", deptNo=" + deptNo + ", pClass=" + pClass + ", pImpt="
 				+ pImpt + ", rspbNo=" + rspbNo + ", pContent=" + pContent + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", latitude=" + latitude + ", longitude=" + longitude + ", codes=" + codes + ", employee="
-				+ employee + ", upload=" + upload + ", files=" + files + ", cName=" + cName + ", empName=" + empName
-				+ "]";
+				+ endDate + ", destination=" + destination + ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", codes=" + codes + ", employee=" + employee + ", upload=" + upload + ", files=" + files + ", cName="
+				+ cName + ", empName=" + empName + "]";
 	}
 
 	
 
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

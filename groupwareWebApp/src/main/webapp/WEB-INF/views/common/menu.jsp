@@ -25,7 +25,7 @@
 			success : function(data, textStatus, jqXHR){
 				var htmlStr = "";
 				for(var i=0; i<data.length; i++){
-					htmlStr += "<li id=" +data[i].boardNo + " class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"'/>'>" + data[i].boardName + "</a></li>" ; 
+					htmlStr += "<li id=" +data[i].boardNo + " class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"&boardName="+data[i].boardName+"'/>'>" + data[i].boardName + "</a></li>" ; 
 					}
 					$('#boardNameList').html(htmlStr);
 				}

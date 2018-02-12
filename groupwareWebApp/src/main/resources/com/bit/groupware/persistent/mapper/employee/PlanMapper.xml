@@ -25,11 +25,11 @@
 		where p.rspb_no=e.emp_no
 		and p.dept_no=c.c_no
 		<choose>
-			<when test="keyfield == 'p_title'  and keyword != null " >
-				and p.p_title like '%' || #{keyword} || '%'
+			<when test="keyfield == 'pTitle'  and keyword != null " >
+				and p_title like '%' || #{keyword} || '%'
 			</when>
-			<when test="keyfield == 'emp_name'  and keyword != null ">
-				and e.emp_name like '%' || #{keyword} || '%'
+			<when test="keyfield == 'cName'  and keyword != null ">
+				and emp_name like '%' || #{keyword} || '%'
 			</when>
 		</choose>
 	</select>
@@ -55,11 +55,11 @@
 		and p.dept_no=c.c_no
 		and (c.c_name='부서' or c.c_name=#{cName})
 		<choose>
-			<when test="keyfield == 'p_title'  and keyword != null " >
-				and p.p_title like '%' || #{keyword} || '%'
+			<when test="keyfield == 'pTitle'  and keyword != null " >
+				and p_title like '%' || #{keyword} || '%'
 			</when>
-			<when test="keyfield == 'emp_name'  and keyword != null ">
-				and e.emp_name like '%' || #{keyword} || '%'
+			<when test="keyfield == 'cName'  and keyword != null ">
+				and emp_name like '%' || #{keyword} || '%'
 			</when>
 		</choose>
 	</select>

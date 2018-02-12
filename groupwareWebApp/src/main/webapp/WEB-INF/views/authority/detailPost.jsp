@@ -163,7 +163,7 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>게시글</h2>
+				<h2>${param.boardName}</h2>
 				<div class="text-right">
 					<c:url var="modifyUrl" value="/modifyPost.do" scope="page">
 						<c:param name="postNo" value="${requestScope.post.postNo }" />
@@ -173,7 +173,7 @@
 					</c:url>
 					<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
 					<a class="btn btn-danger" href="${removeUrl}">삭제</a> 
-					<a class="btn btn-primary" href='<c:url value="postList.do"/>'>목록</a>
+					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }"/>'>목록</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -247,7 +247,7 @@
 			<!-- 댓글 입력 -->
 			<div style="width: 200px; text-align: center;">
 				<br>
-				<textarea rows="5" cols="80" id="cmtContent"
+				<textarea class="resizable_textarea form-control" id="cmtContent"
 					placeholder="댓글을 작성해주세요"></textarea>
 				<br>
 				<button type="button" id="btnReply">댓글 작성</button>
