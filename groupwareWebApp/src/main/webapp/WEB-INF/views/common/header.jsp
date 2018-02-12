@@ -15,9 +15,9 @@
 
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
 		
-		/* newMsg();
-		var msg = setInterval(newMsg, 2000); */
-		
+		//newMsg();
+	//	var msg = setInterval(newMsg, 2000);
+
 		
 		
 		//최초이벤트(5개씩)

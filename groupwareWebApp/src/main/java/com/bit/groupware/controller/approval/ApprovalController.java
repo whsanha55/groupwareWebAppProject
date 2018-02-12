@@ -51,6 +51,7 @@ public class ApprovalController {
 			
 
 			ApprovalVO approval = approvalService.retrieveApproval(apprNo);
+			System.out.println(approval+"\nzzzzzzzzzzzzzzzzzzzzzz");
 			mv.addObject("apprCount",apprCount);
 			mv.addObject("refCount",refCount);
 			mv.addObject("recCount",approval.getApprovalRecords().size());

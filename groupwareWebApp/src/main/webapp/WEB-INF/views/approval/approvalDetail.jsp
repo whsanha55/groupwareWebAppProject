@@ -205,28 +205,33 @@
 				  buttons : true 
 				}).then((e) => {
 					if(e) {												
-					  swal({
-							  title: "코멘트 입력",
-							  text: "결재 문서에 대한 코멘트를 입력해주세요.",
-							  content: {
-								  element : "input"
-							  } ,
-							  buttons : '반려하기'						  
-						}).then((commentContent) => {
-							if(commentContent){
-								 executeApproval(commentContent,3);	
-							}else{
+						confirmComment();
+						function confirmComment() {
 								swal({
-									  title: "결재 반려",
-									  text: "코멘트를 입력해주세요",
-									  icon: "warning",
-									  buttons:false
-									})
-							}
+									  title: "코멘트 입력",
+									  text: "결재 문서에 대한 코멘트를 입력해주세요.",
+									  content: {
+										  element : "input"
+									  } ,
+									  buttons : '반려하기'						  
+								}).then((commentContent) => {
+									if(commentContent){
+										 executeApproval(commentContent,3);
+									}else{
+										swal({
+											  title: "결재 반려",
+											  text: "반려 사유를 작성해주세요",
+											  icon: "warning",
+											  buttons: "확인"
+											}).then(function() {
+												confirmComment();
+											});
+									}
+								});
+								
+						}
+					}
 						
-				           					
-						});
-					}	
 				});
 		})//end of reject.on
 			
