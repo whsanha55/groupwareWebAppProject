@@ -1,7 +1,10 @@
 package com.bit.groupware.controller.authority;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,41 +16,48 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.groupware.domain.authority.AuthRoleVO;
-import com.bit.groupware.domain.authority.RoleVO;
 import com.bit.groupware.service.authority.RoleService;
 
 
 @Controller
 public class AdminDesignateRoleController {
 
-	@Autowired
-	private RoleService roleService;
-	
-	private static final Logger logger = LoggerFactory.getLogger(AdminDesignateRoleController.class);
-	
-	@RequestMapping(value="/admin/modifyDesignate.do", method=RequestMethod.POST)
-	@ResponseBody
-	   public int  submit(@RequestParam(value="isRegistration", required=true) List<String> isRegistration, 
-			   				 @RequestParam(value="rId", required=true) List<String> rId, 
-			   				@RequestParam(value="aNo", required=true) String aNo) throws Exception { 
-		
-		AuthRoleVO arole = new AuthRoleVO();
-		arole.setaNo(aNo);
-		
-		for(int i = 0; i < rId.size(); i++) {
-			RoleVO role = roleService.retrieveRole(rId.get(i));
-			arole.setrId(rId.get(i));
-			int count = roleService.rIdIsExist(arole);
-			
-			if(isRegistration.get(i).equals("0") && count==0) {  //등록
-				logger.info("등록!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + rId.get(i));
-				roleService.registerAuthRole(arole);
-				
-			} else if(isRegistration.get(i).equals("1") && count!=0) {
-				logger.info("미등록!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + rId.get(i));
-				roleService.removeAuthRole(rId.get(i));
-			}
-		}
-	      return 0;
-	   }
+   @Autowired
+   private RoleService roleService;
+   
+   private static final Logger logger = LoggerFactory.getLogger(AdminDesignateRoleController.class);
+   
+   @RequestMapping(value="/admin/modifyDesignate.do", method=RequestMethod.POST)
+   @ResponseBody
+      public int  submit(@RequestParam(value="isRegistration", required=true) List<String> isRegistration, 
+                         @RequestParam(value="isNotRegistration", required=true) List<String> isNotRegistration, 
+                        @RequestParam(value="aNo", required=true) String aNo) throws Exception { 
+      
+	   System.out.println("isNotRegistration"+isNotRegistration.toString());
+	   System.out.println("isRegistration"+isRegistration.toString());
+	    
+      List<AuthRoleVO> list = new ArrayList<AuthRoleVO>();
+      List<AuthRoleVO> list2 = new ArrayList<AuthRoleVO>();
+      for(int i =0;i<isRegistration.size();i++) {
+    	  AuthRoleVO arole = new AuthRoleVO();
+    	  arole.setrId(isRegistration.get(i));
+    	  arole.setaNo(aNo);
+    	  list.add(arole);
+
+      }
+      
+      for(int i =0;i<isNotRegistration.size();i++) {
+    	  AuthRoleVO arole = new AuthRoleVO();
+    	  arole.setrId(isNotRegistration.get(i));
+    	  arole.setaNo(aNo);
+    	  list2.add(arole);
+      }
+      
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("list2",list2);
+      map.put("list",list);
+      roleService.registerAuthRole(map);
+
+      return 0;
+    }
 }

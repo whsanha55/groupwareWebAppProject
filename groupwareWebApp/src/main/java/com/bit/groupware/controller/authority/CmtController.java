@@ -35,7 +35,7 @@ public class CmtController {
         cmtService.registerCmt(cmt);
     }
     
-    @RequestMapping(value="/modifyCmtAjax.do", method=RequestMethod.POST)
+    @RequestMapping(value="/modifyCmt.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> modifyAuth(CmtVO cmt, @RequestParam(value="cmtContent") String cmtContent)
 			throws Exception{

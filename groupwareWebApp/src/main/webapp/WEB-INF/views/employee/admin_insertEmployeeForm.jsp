@@ -15,8 +15,9 @@
 	}
 </style>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-	$(document).ready(function () {		
+	$(document).ready(function () {
 		
 		$('#dutyBtnList li > a').on('click', function() {
 		    $('#dutyBtn').text($(this).text());
@@ -26,6 +27,10 @@
 		$('#deptBtnList li > a').on('click', function() {	
 			$('#deptBtn').text($(this).text());
 		    $('input[name=deptCode]').val($(this).attr('value'));		    
+		   
+		    if($('#teamBtn').is(null) != true){
+		    	$('#teamBtn').remove();
+		    }
 		    
 			$.ajax ({
 				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
@@ -66,16 +71,209 @@
 			});
 		});
 		
-		$("#form-dept").on('click','#teamBtnList li > a', function () {
+		/* $("#form-dept").on('click','#teamBtnList li > a', function () {
 			$("#teamBtn").text($(this).text());
 			$('input[name=deptCode]').val($(this).attr('value'));
-		});
+		}); */
+		
+		/* $('#regibtn').click(function() {
+
+			swal({
+				  title: "사원 등록",
+				  text: "사원을 등록합니다. 계속 진행하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						registerEmployee();
+					} else if(!e) {
+						return;
+					}	
+				});
+		}); */
 		
 		$("#upload-image").on("change", handleImgFileSelect);
 		
-		$("#findpostcode").click(execDaumPostcode); 
+		$("#findpostcode").click(execDaumPostcode);
+
+		
+		$('#regibtn').on('click', function() {
+			event.preventDefault();
+			checkUnload = false;
+			if($('input[name=upload]').val().trim() == '') {
+				swal("프로필 사진을 추가해주세요.","");
+				return;
+			}
+			if($('input[name=empName]').val().trim() == '') {
+				swal("사원이름을 입력해주세요.","");
+				return;
+			}
+			if($('input[name=empPwd]').val().trim() == '') {
+				swal("비밀번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=empPwdCheck]').val().trim() == '') {
+				swal("비밀번호 확인을 입력해주세요.","");
+				return;
+			}
+			if($('input[name=phoneNumber2]').val().trim() == '' || $('input[name=phoneNumber3]').val().trim() == '' ) {
+				swal("연락처를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=regNumber1]').val().trim() == '' || $('input[name=regNumber2]').val().trim() == '') {
+				swal("주민등록번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
+				swal("이메일 입력해주세요.","");
+				return;
+			}
+			if($('input[name=address]').val() == '') {
+				swal("주소정보를 입력해주세요.","");
+				return;
+			}
+			
+			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
+			$('#phoneNumber').val(phoneNumber);
+			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
+			$('#regNumber').val(regNumber);
+			var email = $('#email1').val() + '@' + $('#email2').val();
+			$('#email').val(email);
+			
+			swal({
+				title: "사원 등록",
+				text: "사원을 등록합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					$('#regiform').submit();
+				} else if(!e) {
+					checkUnload = true;
+					return;
+				}
+			});			
+
+		});
 
 	});
+	
+
+	/* //양식 등록 함수
+	function registerEmployee(){
+		var upload = $('#upload-image').val();
+		var empName = $('#empName').val();
+		var empPwd = $('#empPwd').val();
+		var engName = $('#engName').val();
+		var phoneNumber = $('#phoneNumber').val();
+		var deptCode =$('#deptCode').val();
+		var dutyCode = $('#dutyCode').val();
+		var email = $('#email').val();
+		var regNumber = $('#regNumber').val();
+		var postcode = $('#postcode').val();
+		var address = $('#address').val();
+		var detailAddress = $('#detailAddress').val();
+		
+		if(upload == "") {
+			swal("프로필 사진을 등록해주세요!", "");
+			return;
+		}
+		
+		if(empName == "") {
+			swal("이름을 입력해주세요!", "");
+			return;
+		}
+		
+		if(engName == "") {
+			swal("영문 이름을 입력해주세요!", "");
+			return;
+		}
+		
+		if(empPwd == "") {
+			swal("비밀번호를 입력해주세요!", "");
+			return;
+		}
+		
+		if(phoneNumber == "") {
+			swal("연락처를 입력해주세요!", "");
+			return;
+		}
+		
+		if(deptCode == "") {
+			swal("부서를 선택해주세요!", "");
+			return;
+		}
+		
+		if(dutyCode == "") {
+			swal("직책을 선택해주세요!", "");
+			return;
+		}
+		
+		if(email == "") {
+			swal("이메일을 입력해주세요!", "");
+			return;
+		}
+		
+		if(regNumber == "") {
+			swal("주민번호를 입력해주세요", "");
+			return;
+		}
+		
+		if(postcode == "") {
+			swal("주소등록을 위해 우측 주소찾기 버튼을 이용해주세요!", "");
+			return;
+		}
+		
+		if(detailAddress == "") {
+			swal("상세 주소 정보를 입력해주세요!.", "");
+			return;
+		}
+		
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/admin/registerEmployee.do'
+			,
+			method: 'POST'
+			,
+			data: {
+				upload : upload,
+				empName : empName,
+				empPwd : empPwd,
+				engName : engName,
+				phoneNumber : phoneNumber,
+				deptCode : deptCode,
+				dutyCode : dutyCode,
+				email : email,
+				regNumber : regNumber,
+				postcode : postcode,
+				address : address,
+				detailAddress : detailAddress			
+			}
+			,
+			dataType: 'json'
+			,
+			success: function(data) {
+				if(data == "등록 완료") {
+					swal({
+						  title: "등록 완료",
+						  text: "사원정보가 등록되었습니다.",
+						  icon: "success",
+						  confirmButton: true,
+						  showCancelButton: false
+						}).then((e) => {
+							if(e) {
+								location.href="${pageContext.request.contextPath}/admin/listEmployee.do";
+							}	
+						});	
+				}
+				
+			},
+			error: function(jqXHR, textStatus, error) {
+				alert("Error : " + jqXHR.status);
+			}
+		});
+	}
+ */
 	
 	function execDaumPostcode() {
         new daum.Postcode({
@@ -141,6 +339,8 @@
 		});
 	}
 	
+	
+	
 </script>
 </head>
 <body>
@@ -152,15 +352,15 @@
 			</div>
 			<div class="x_content">
 				<br>
-				<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
+				<form id="regiform" data-parsley-validate="" class="form-horizontal form-label-left"
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="deptCode" value="" />
-					<input type="hidden" name="dutyCode" value="" />			
+					<%-- <input type="hidden" id="deptCode" name="deptCode" value="" />
+					<input type="hidden" id="dutyCode" name="dutyCode" value="" />	 --%>		
 					<div class="form-group">		
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
 							<img id="img" width="250px" height="250px" class="img-responsive center-block"/>
-						</div>				
+						</div>
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
 							<a class="btn" title="Insert picture (or just drag &amp; drop)"
@@ -176,16 +376,16 @@
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="empName" name="empName"
-								required="required" class="form-control col-md-7 col-xs-12">
+								 class="form-control col-md-7 col-xs-12" style="width:200px;">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="empName">이름 <span class="required">*</span>
+							for="engName">영문 이름
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="engName" name="engName"
-								required="required" class="form-control col-md-7 col-xs-12">
+								 class="form-control col-md-7 col-xs-12" style="width:200px;">
 						</div>
 					</div>
 					<div class="form-group">
@@ -194,7 +394,7 @@
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="password" id="empPwd" name="empPwd"
-								required="required" class="form-control col-md-7 col-xs-12">
+								 class="form-control col-md-7 col-xs-12" style="width:300px;">
 						</div>
 					</div>
 					<div class="form-group">
@@ -203,66 +403,84 @@
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="password" id="empPwdCheck" name="empPwdCheck"
-								required="required" class="form-control col-md-7 col-xs-12">
+								 class="form-control col-md-7 col-xs-12" style="width:300px;">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="phoneNumber">연락처 <span class="required">*</span>
 						</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="phoneNumber" name="phoneNumber"
-								required="required" class="form-control col-md-7 col-xs-12">
+						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
+							<input type="hidden" id="phoneNumber" name="phoneNumber"
+								 class="form-control col-md-7 col-xs-12">
+							<div class="form-group">
+								<select id="phoneNumber1" name="phoneNumber1" style="width:100px;height:30px;">
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								</select>
+							</div>
+								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+							<input type="text" id="phoneNumber2" name="phoneNumber2"
+								 class="form-control" style="width:100px;">
+								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+							<input type="text" id="phoneNumber3" name="regNumber3"
+								 class="form-control" style="width:100px;">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="regNumber">주민번호 <span class="required">*</span>
 						</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="regNumber" name="regNumber"
-								required="required" class="form-control col-md-7 col-xs-12">
+						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
+							<input type="hidden" id="regNumber" name="regNumber"
+								 class="form-control col-md-7 col-xs-12" value="">
+							<input type="text" id="regNumber1" name="regNumber1"
+								 class="form-control" style="width:200px;">
+								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+							<input type="text" id="regNumber2" name="regNumber2"
+								 class="form-control" style="width:200px;">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" 
 							for="last-name">직책 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
-						<button data-toggle="dropdown"
-							class="btn btn-default dropdown-toggle" id="dutyBtn" type="button" value="cName"
-							aria-expanded="true">직책 <span class="caret"></span>
-						</button>
-						<ul id="dutyBtnList" role="menu" class="dropdown-menu" aria-labelledby="searchType">
+						<select id="dutyCode" name="dutyCode" style="width:100px;height:30px;">
 							<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
-								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="#" value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</a>
-								</li>
+								<option value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</option>
 							</c:forEach>
-						</ul>
+						</select>
 					</div>
 					<div id="form-dept" class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="deptBtn">부서 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
 						
-						<button data-toggle="dropdown"
-							class="btn btn-default dropdown-toggle" id="deptBtn" type="button"
-							aria-expanded="false">부서 <span class="caret"></span>
-						</button>
-						<ul id="deptBtnList" role="menu" class="dropdown-menu" aria-labelledby="dLabel">
+						<select id="deptCode" name="deptCode" style="width:100px;height:30px;">
 							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
-								<li role="presentation">
-									<a role="menuitem" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
-								</li>
+								<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
 							</c:forEach>
-						</ul>						
+						</select>						
 					</div>
 
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">이메일 <span class="required">*</span>
 						</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
+							<input type="hidden" id="email" name="email" value="" >
+							<input type='text' id="email1" name="email1" class="form-control" style="width:150px;">@
+            				<input type='text' id="email2" name="email2" class="form-control" style="width:250px;">
+			              <select name="emailaddr" class="form-control">
+			                 <option value="">직접입력</option>
+			                 <option value="naver.com">naver.com</option>
+			                 <option value="gmail.com">gmail.com</option>
+			                 <option value="nate.com">nate.com</option>
+			                 <option value="daum.net">daum.net</option>
+			                 <option value="hanmail.net">hanmail.net</option>
+			                 <option value="empal.com">empal.com</option>
+			                 <option value="msn.com">msn.com</option>
+			              </select>
 						</div>
 					</div>
 					<div class="form-group">
@@ -270,28 +488,34 @@
 						</label>
 						<div class="col-md-3 col-sm-6 col-xs-6">
 							<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly
-									required="required" class="form-control col-sm-6 col-xs-6">
+								 class="form-control col-sm-6 col-xs-6">
 						</div>
 						<button type="button" id="findpostcode" class="btn btn-success">우편번호 찾기</button>
 					</div>
 					
 					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-6" for="sample6_address2"> <span class="required"></span>
+						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="address" name="address" placeholder="주소" readonly
 									required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
+					
 					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-6" for="sample6_address2"><span class="required"></span>
+						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소"
-									required="required" class="form-control col-md-7 col-xs-12">
+								 class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="ln_solid"></div>
 					<div class="form-group">
-						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button class="btn btn-primary" type="button">취소</button>
-							<button type="submit" class="btn btn-success">사원등록</button>
+						<div class="center-block" align="center">
+							<c:url var="listEmployeeURL" value="/admin/listEmployee.do" scope="page" ></c:url>
+							<a id="list" href="${pageScope.listEmployeeURL }"><button class="btn btn-primary" type="button">목록</button></a>
+							<button id="regibtn" type="submit" class="btn btn-success">사원등록</button>
 						</div>
 					</div>
 				</form>

@@ -15,12 +15,12 @@ public class AdminListEmployeeController {
 	private CodeService codeService;
 	
 	@RequestMapping(value="/admin/listEmployee.do", method=RequestMethod.GET)
-	public String form() {
-		/*ModelAndView mv = new ModelAndView();
+	public ModelAndView form() {
+		ModelAndView mv = new ModelAndView();
 		mv.addObject("deptCodes", codeService.retrieveDeptCodeList());
 		mv.addObject("dutyCodes", codeService.retrieveDutyCodeList());
-		mv.setViewName("employee/admin_listEmployee");*/
-		return "employee/admin_listEmployee";
+		mv.setViewName("employee/admin_listEmployee");
+		return mv;
 	}
 
 }

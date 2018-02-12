@@ -37,6 +37,19 @@
 				e.preventDefault();
 			return false;
 		});
+		 
+		//첨부파일 용량 체크
+		$('.controls').on('change','input[name=upload]',function() {
+			if($(this).val() != '') {
+				alert($(this).val());
+				var fileSize = this.files[0].size;
+				var maxSize = 1024*1024*1;
+				if(fileSize > maxSize) {
+					swal('1mb 이하의 첨부만 가능합니다','요청 파일 크기 : ' + Math.round(fileSize/1024) + "kb",'error');
+					$(this).val('');
+				}
+			}
+		});
 
 		//파일 삭제 
 		$('#datatable').on('click','button:contains(삭제)', function () {
@@ -128,12 +141,12 @@
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<select class="form-control" name="documentNo">
 							<option>문서를 선택하세요</option>
-							<option value="DC-1">문서보관함</option>
-							<option value="DC-2">회의문서</option>
-							<option value="DC-3">각종 증명서</option>
-							<option value="DC-4">공문서</option>
-							<option value="DC-5">거래문서</option>
-							<option value="DC-6">기타</option>
+							<option value="D-01">문서보관함</option>
+							<option value="D-02">회의문서</option>
+							<option value="D-03">각종 증명서</option>
+							<option value="D-04">공문서</option>
+							<option value="D-05">거래문서</option>
+							<option value="D-06">기타</option>
 						</select>
 					</div>
 					<div class="x_content">

@@ -109,13 +109,38 @@
 			$('input[name=deptCode]').val($(this).attr('value'));
 		});
 		
-		$('#modifyBtn').click(function () {
-			if($('#modRetireStatus').val()=='X') {
+		$('#modifyBtn').click(function() {
+			$('#modEmpName').attr('readonly', false);
+			$('#modEngName').attr('readonly', false);
+			$('#modPhoneNumber').attr('readonly', false);
+			$('#modRegNumber').attr('readonly', false);
+			$('#modEmail').attr('readonly', false);
+			$('#moddetailAddress').attr('readonly', false);
+			$('#modnull').attr('readonly', false);
+			
+			$(this).remove();
+			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>È®ÀÎ</button>");
+			
+			console.log($('#modifyCompBtn').text());
+		});
+		
+		$('#modalForm').on('click', '#modifyCompBtn' , function() {
+			if($('#modRetireStatus').val()=='ÀçÁ÷') {
 				$('#modRetireStatus').val('1');	
 			} else {
 				$('#modRetireStatus').val('0');	
 			}
-			/* $.ajax ({
+			$(this).submit();
+		});
+		
+		/* $('#modifyBtn').click(function () {
+			console.log($('#modRetireStatus').val())
+			if($('#modRetireStatus').val()=='ÀçÁ÷') {
+				$('#modRetireStatus').val('1');	
+			} else {
+				$('#modRetireStatus').val('0');	
+			}
+			$.ajax ({
 				url:'${pageContext.request.contextPath}/admin/modifyEmployee.do'
 				,
 				method:'POST'
@@ -150,8 +175,8 @@
 					alert("error : " + jqXHR.status);
 				}
 					
-			}); */
-		}); 
+			}); 
+		});  */
 		
 		$("#retireBtn").click(function() {
 			$.ajax ({
@@ -164,13 +189,15 @@
 				success : function(data) {
 					$('#modRetireStatus').val(data.retireStatus);
 					$('#modRetireDate').val(data.retireDate);
-					$('#myModal').modal('hide');
-					location.reload();
 				},
 				error : function(jqXHR) {
 					alert("error : " + jqXHR.status);
 				}				
 			});
+		});
+		
+		$('#closeBtn').click(function() {
+			employeePaging(1);
 		});
 		
 		$("#upload-image").on("change", handleImgFileSelect);
@@ -282,21 +309,22 @@
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
 						text += "<input id='submitPhotoName' type='hidden' value='"+ data.employees[i].systemPhotoName +"'>";
-						text += "<td id='submitEmpNo'"+ i +"><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
-						text += "<td id='submitEmpName'"+ i +">"+ data.employees[i].empName 		+ "</td>";
+						text += "<input id='submitSignName' type='hidden' value='"+ data.employees[i].systemSignName +"'>";
+						text += "<td id='submitEmpNo'><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
+						text += "<td id='submitEmpName'>"+ data.employees[i].empName 		+ "</td>";
 						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
 						text += "<input id='submitDeptNo' type='hidden' value='"+ data.employees[i].deptNo +"'>";
-						text += "<td id='submitDuty'"+ i +">"+ data.employees[i].duty 			+ "</td>";
+						text += "<td id='submitDuty'>"+ data.employees[i].duty 			+ "</td>";
 						text += "<input id='submitDutyNo' type='hidden' value='"+ data.employees[i].dutyNo +"'>";
-						text += "<td id='submitDept'"+ i +">"+ data.employees[i].department 	+ "</td>";
-						text += "<td id='submitPhoneNumber'"+ i +">"+ data.employees[i].phoneNumber	+ "</td>";
+						text += "<td id='submitDept'>"+ data.employees[i].department 	+ "</td>";
+						text += "<td id='submitPhoneNumber'>"+ data.employees[i].phoneNumber	+ "</td>";
 						text += "<input id='submitRegNumber' type='hidden' value='"+ data.employees[i].regNumber +"'>";
-						text += "<td id='submitHireDate'"+ i +">"+ data.employees[i].hireDate		+ "</td>";
-						text += "<td id='submitEmail'"+ i +">"+ data.employees[i].email			+ "</td>";
+						text += "<td id='submitHireDate'>"+ data.employees[i].hireDate		+ "</td>";
+						text += "<td id='submitEmail'>"+ data.employees[i].email			+ "</td>";
 						if(data.employees[i].retireStatus == 0) {
-							text += "<td id='submitRetireStatus"+ i +"'>Åð»ç</td>";
+							text += "<td id='submitRetireStatus'>Åð»ç</td>";
 						} else {
-							text += "<td id='submitRetireStatus"+ i +"'>ÀçÁ÷</td>";
+							text += "<td id='submitRetireStatus'>ÀçÁ÷</td>";
 						}
 						text += "<input id='submitRetireDate' type='hidden' value='"+ data.employees[i].retireDate +"'>";
 						text += "<input id='submitpostcode' type='hidden' value='"+ data.employees[i].postcode +"'>";
@@ -306,8 +334,16 @@
 						
 						
 						$('#datatable').on('click','#submitEmpNo', function(){
+							$('#modEmpName').attr('readonly', true);
+							$('#modEngName').attr('readonly', true);
+							$('#modPhoneNumber').attr('readonly', true);
+							$('#modRegNumber').attr('readonly', true);
+							$('#modEmail').attr('readonly', true);
+							$('#moddetailAddress').attr('readonly', true);
+							$('#modnull').attr('readonly', true);
+																					
 							$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
-							console.log($('#photo').attr('src'));
+							$('#sign').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/' + ($(this).parent().children('#submitSignName').val()));
 							$('#modifyEmpNo').val($(this).text());
 							$('#modEmpName').val($(this).next('#submitEmpName').text());							
 							$('#modEngName').val($(this).parent().children('#submitEngName').val());
@@ -321,7 +357,7 @@
 							$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
 							if($(this).nextAll('#submitRetireStatus').text() == 'Åð»ç') {
 								$('#modRetireStatus').val('Åð»ç');
-								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
+								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());													
 							} else {
 								$('#modRetireStatus').val('ÀçÁ÷');
 								$('#modRetireDate').val("");
@@ -520,9 +556,8 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img class="img-responsive avatar-view"
-										src="images/picture.jpg" alt="Avatar"
-										title="Change the avatar">
+									<img id="sign" width="250px" height="250px" 
+									src="" class="img-responsive center-block"/>
 								</div>
 							</div>
 						</div>
@@ -610,7 +645,7 @@
 									<td><input id="modRetireStatus" name="retireStatus" type="text" class="form-control"
 										required="required" readonly value=""></td>
 									<th>Åð»çÀÏ</th>
-									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value=""></td>
+									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly></td>
 								</tr>
 								<tr>
 									<th>ÁÖ¼Ò</th>
@@ -630,13 +665,14 @@
 									</div>
 								</tr>
 							</tbody>
-						</table>
+						</table> 
+						
 						<br>
 						<div class="text-center">
-							<button id="modifyBtn" type="submit" class="btn btn-primary">¼öÁ¤</button>
+							<button id="modifyBtn" type="button" class="btn btn-primary">¼öÁ¤</button>
 							<button id="retireBtn" type="button" class="btn btn-primary retire">Åð»ç</button>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">´Ý±â</button>
+							<button id="closeBtn2" type="button" class="btn btn-default"
+								<%-- data-dismiss="modal" --%>>´Ý±â</button>
 						</div>
 					</div>
 				</div>

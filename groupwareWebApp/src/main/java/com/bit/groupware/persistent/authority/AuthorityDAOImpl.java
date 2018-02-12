@@ -89,8 +89,8 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 	}
 
 	//권한 사원을 삭제한다.
-	public void deleteAuthEmp(String aNo) {
-		sqlSession.delete(NAMESPACE + ".deleteAutEmp" , aNo);
+	public void deleteAuthEmp(Map<String, Object> map) {
+		sqlSession.delete(NAMESPACE + ".deleteAutEmp" , map);
 		
 	}
 	
