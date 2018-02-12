@@ -244,7 +244,6 @@
 								</c:forEach>
 							</div>
 						</div>
-					
 
 					<div class="ln_solid"></div>
 					<div class="form-group">
