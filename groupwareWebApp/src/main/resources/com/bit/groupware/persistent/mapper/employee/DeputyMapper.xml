@@ -145,5 +145,11 @@
 		where dep_no = #{depNo}
 	</delete>
 	
+	<update id="stopUseDeputy" parameterType="String" statementType="PREPARED">
+		update deputy
+		set progression = 'F', end_date = sysdate
+		where dep_no = #{depNo}	
+	</update>
+	
 </mapper>
 

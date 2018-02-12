@@ -7,16 +7,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a4a3a00a16a7cd71ecd7bba0eca8ed4a&libraries=services"></script>
+<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a4a3a00a16a7cd71ecd7bba0eca8ed4a&libraries=services"></script> -->
 <style>
 .modal-dialog.modal-cSize {
-	width:450px;
+	width:600px;
 	height:auto;
 }
 </style>
 <script>
 
-$(document).ready(function() {
+$(document).ready(function() {	
 	
 	$('#searchEmp').click(function() {
 		$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
@@ -26,9 +26,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	$('#modalChooseBtn').on('click',function() {
-		
-		
+	$('#modalChooseBtn').on('click',function() {		
 		//일정관리 - 담당자설정
 		$('input[name=rspbNo]').val(selectedEmpNo);
 		$('input[name=empName]').val(selectedNameAndDuty);
@@ -54,12 +52,12 @@ $(document).ready(function() {
 		$('input[name=destination]').val(selectedDest);
 		$('input[name=latitude]').val(selectedLat);
 		$('input[name=longitude]').val(selectedLng);
-	
+
 		$('#mapBody').html("");
 	});
 	
 	$('#modalCloseBtn2').on('click',function() {
-		$('#mapBody').html("");
+		$('#mapBody').html("");		
 	});
 	
 });

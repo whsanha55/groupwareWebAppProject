@@ -4,13 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.RoleMapper">
-	
-	 <insert id="designateRole" statementType="PREPARED" parameterType="AuthRoleVO">
-      <selectKey keyProperty="arNo" resultType="int" order="BEFORE" statementType="STATEMENT">
-           select authority_role_seq.nextval from dual
-      </selectKey>
-        insert into authority_role(ar_no, r_id, a_no)
-     	values(#{arNo}, #{rId}, #{aNo})
+   
+    <insert id="designateRole" statementType="PREPARED" parameterType="map">
+     <foreach collection="list" item="item" open="insert all" close="select * from dual" >
+      into authority_role(r_id, a_no)
+      values(#{item.rId}, #{item.aNo})
+      </foreach>
    </insert>   
    
     <insert id="addRole" statementType="PREPARED" parameterType="RoleVO">
@@ -21,13 +20,13 @@
       values(#{rId}, #{rName}, #{rType}, #{rExplan}, sysdate, #{sortOrder})
    </insert>   
    
-   	<select id="selectRole" resultType="RoleVO" statementType="PREPARED" parameterType="string">
-		select r_id as rId, r_name as rName, r_type as rType, r_explan as rExplan, r_date as rDate, isRegistration, sort_order as sortOrder   
-	   from role
-	   where r_id = #{rId}
-		
-	</select> 
-	
+      <select id="selectRole" resultType="RoleVO" statementType="PREPARED" parameterType="string">
+      select r_id as rId, r_name as rName, r_type as rType, r_explan as rExplan, r_date as rDate, isRegistration, sort_order as sortOrder   
+      from role
+      where r_id = #{rId}
+      
+   </select> 
+   
    <select id="selectRoleList" statementType="PREPARED" parameterType="map" resultType="RoleVO">
      select r_id as rId, r_name as rName, r_type as rType, r_explan as rExplan, r_date as rDate, isRegistration, sort_order as sortOrder   
      from( select rownum as rn, role1.*                               
@@ -39,7 +38,7 @@
                         <if test="keyfield == 'rExplan' and keyword != null">
                         where r_explan like '%' || #{keyword} || '%'         
                         </if>
-                        order by r_id desc )role1
+                        order by isRegistration asc )role1
                         
                 <if test="keyfield == 'role' || keyfield =='desigRole'">
             where r_id is not null
@@ -78,7 +77,7 @@
       <result column="isregistration" property="isRegistration" />
       <result column="sort_order" property="sortOrder" />
    </resultMap>
-   
+    
     <select id="selectRoleReList" statementType="PREPARED" resultMap="selectRoleMap"  parameterType="string" >
         select *
       from role 
@@ -97,9 +96,14 @@
       </foreach>
    </delete>
    
-   <delete id="nonDesignateRole" parameterType="string" statementType="PREPARED">
-      delete authority_role
-      where r_id = #{rId}
+   <delete id="nonDesignateRole" parameterType="map" statementType="PREPARED">
+    delete from authority_role
+     where ar_no in (
+      <foreach item="item" collection="list2" separator="),(" open="(" close=")">
+         select ar_no from authority_role 
+         where r_id = #{item.rId} and a_no = #{item.aNo}
+     </foreach>
+     )
    </delete>
    
    <select id="selectRoleCount" statementType="PREPARED" parameterType="map" resultType="int">
@@ -136,9 +140,9 @@
    </update>
    
       <update statementType="PREPARED" parameterType="RoleVO" id="updateRoleRegistration">
-	   update role
-	   set ISREGISTRATION = ${isRegistration}
-	   where r_id = #{rId} 
+      update role
+      set ISREGISTRATION = ${isRegistration}
+      where r_id = #{rId} 
    </update>
    
      <select id="rNameIsExist" statementType="PREPARED"  resultType="int" parameterType="String">
@@ -161,5 +165,19 @@
         where t1.r_id = t2.r_id  and t2.a_no = t3.a_no
                  and t1.r_id=#{rId}
    </select>
+   
+    <update statementType="PREPARED" id="updateAllIsRegistartion">
+   update role
+	set  isregistration = 1
+   </update>
+   
+     <update statementType="PREPARED" id="updateIsRegistartion" parameterType="string">
+      update role
+	  set  isregistration = 0
+      where R_ID IN (select  t1.R_ID
+      from role t1, authority_role t2, authority t3
+      where t1.r_id = t2.r_id and t2.a_no =t3.a_no
+      and t3.a_no = #{aNo})
+   </update>
    
 </mapper>

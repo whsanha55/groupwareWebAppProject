@@ -15,9 +15,9 @@
 
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
 		
-		/* newMsg();
-		var msg = setInterval(newMsg, 2000); */
-		
+		//newMsg();
+	//	var msg = setInterval(newMsg, 2000);
+
 		
 		
 		//최초이벤트(5개씩)
@@ -199,7 +199,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="">John Doe
+                    <img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/${requestScope.employee.photoName}" alt="">${requestScope.employee.empName }
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

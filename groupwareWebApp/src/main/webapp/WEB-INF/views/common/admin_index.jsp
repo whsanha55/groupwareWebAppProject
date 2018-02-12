@@ -23,7 +23,6 @@ ent-Type" content="text/html; charset=UTF-8">
 	type="image/ico" />
 
 <title>전자결재관리시스템</title>
-
 <!-- Bootstrap -->
 <link
 	href="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/css/bootstrap.min.css"
@@ -156,6 +155,9 @@ ent-Type" content="text/html; charset=UTF-8">
 		src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/custom.min.js"></script>
+		
+	<script type="text/javascript" 
+		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
 
 </body>
 </html>

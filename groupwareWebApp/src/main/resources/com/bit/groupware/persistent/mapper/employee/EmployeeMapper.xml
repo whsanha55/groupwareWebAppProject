@@ -261,8 +261,17 @@
         from code c , code rc
         where c.c_no = rc.relation_code
             and c.c_name = #{cName}
-	</select>	
+	</select>
 	
-
+	<insert id="insertAuthority" parameterType="String" statementType="PREPARED">
+		insert into authority_employee(emp_no, a_no)
+		values ( #{empNo}, 'A00022')
+	</insert>
+	
+	<delete id="deleteAuthority" parameterType="String" statementType="PREPARED">
+		delete authority_employee
+		where emp_no = #{empNo} 
+	</delete>
+	
 </mapper>
 

@@ -46,16 +46,17 @@ map_wrap {overflow:hidden;height:330px}
     .MapWalker.m15 .angleBack {background-position: -730px -2px;}
 	 */
     
-    #container {overflow:hidden;height:300px;position:relative;}
-	#mapWrapper {width:100%;height:300px;z-index:1;}
-	#rvWrapper {width:50%;height:300px;top:0;right:0;position:absolute;z-index:0;}
-	#container.view_roadview #mapWrapper {width: 50%;}
+    #container {overflow:hidden;height:500px;position:relative;}
+	#mapWrapper {width:100%;height:500px;z-index:1;}
+	#rvWrapper {width:100%;height:100%;top:0;right:0;position:absolute;z-index:0;}
+	#container.view_roadview #mapWrapper {width: 33%;height: 33%;}
 	#roadviewControl {position:absolute;top:5px;left:5px;width:65px;height:24px;padding:2px;z-index: 1;background: #f7f7f7;border-radius: 4px;border: 1px solid #c8c8c8;box-shadow: 0px 1px #888;cursor: pointer;}
 	#roadviewControl span {background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mapworker.png) no-repeat;  padding-left:23px;height:24px;font-size: 12px;display: inline-block;line-height: 2;font-weight: bold;}
 	#roadviewControl.active {background: #ccc;box-shadow: 0px 1px #5F616D;border: 1px solid #7F818A;}
 	#roadviewControl.active span {background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mapworker_on.png) no-repeat;color: #4C4E57;}
-	#close {position: absolute;padding: 4px;top: 5px;left: 5px;cursor: pointer;background: #fff;border-radius: 4px;border: 1px solid #c8c8c8;box-shadow: 0px 1px #888;}
-	#close .img {display: block;background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/rv_close.png) no-repeat;width: 14px;height: 14px;}
+	#roadviewClose {position: absolute;padding: 4px;top: 5px;left: 5px;cursor: pointer;background: #fff;border-radius: 4px;border: 1px solid #c8c8c8;box-shadow: 0px 1px #888;}
+	#roadviewClose .img {display: block;background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/rv_close.png) no-repeat;width: 14px;height: 14px;}
+
 </style>
 </head>
 <body>
@@ -63,6 +64,7 @@ map_wrap {overflow:hidden;height:330px}
 	<div>
 		<input id="keyWord" placeholder="지도검색 장소입력">	
 		<button id="mapSearchBTN" type="button" class="btn btn-default">검색</button>
+		<a href="#" id="relayout" style="color:white;">'</a>
 	</div>
 
 	<div id="container">	
@@ -144,26 +146,28 @@ map_wrap {overflow:hidden;height:330px}
 				mapWrapper = document.getElementById('mapWrapper'), //지도를 감싸고 있는 DIV태그
 				mapContainer = document.getElementById('map'), //지도를 담을 영역의 DOM 레퍼런스
 				rvContainer = document.getElementById('roadview');
-					
-			var	mapCenter = new daum.maps.LatLng(37.49952673450098, 127.0292843723033), //지도의 중심좌표. 	
-					
+			 
+			if($('#latitude').val() == "" && $('#longitude').val() == "") {		
+				var	mapCenter = new daum.maps.LatLng(37.49952673450098, 127.0292843723033); //지도의 중심좌표. 	
+			} else {
+				var mapCenter = new daum.maps.LatLng($('#latitude').val(), $('#longitude').val());
+			}
 				mapOptions = { //지도를 생성할 때 필요한 기본 옵션
 					center: mapCenter, //지도의 중심좌표.
 					level: 3 //지도의 레벨(확대, 축소 정도)
 				};
-				
+			
 			var map = new daum.maps.Map(mapContainer, mapOptions);
 			
+			map.relayout();
 			// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
 			var mapTypeControl = new daum.maps.MapTypeControl();
-			
-			// 지도 타입 컨트롤을 지도에 표시합니다
 			map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
 			
 			// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
 			var zoomControl = new daum.maps.ZoomControl();
 			map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
-			
+			 
 				
 			// 지도를 클릭한 위치에 표출할 마커입니다
 			var centerMarker = new daum.maps.Marker({ 
@@ -334,9 +338,13 @@ map_wrap {overflow:hidden;height:330px}
 			    var position = marker.getPosition();
 			    toggleMapWrapper(true, position);
 			}	
-				
-			var iwContent = '<div style="padding:5px;text-align:center;color:red">갓트킹프</div>',
-				iwRemoveable = true;
+			
+			if($('#destination').val() == "") {
+				var iwContent = '<div style="padding:5px;text-align:center;color:red">갓트킹프</div>';
+			} else {
+				var iwContent = '<div style="padding:5px;text-align:center;color:red">'+ $('#destination').val() +'</div>';
+			}
+			var iwRemoveable = true;
 				
 			var infowindow = new daum.maps.InfoWindow({
 				position : map.getCenter(),
@@ -348,7 +356,7 @@ map_wrap {overflow:hidden;height:330px}
 			var myMarker = new daum.maps.Marker;
 				
 			myMarker.setMap(map);
-				
+				 
 			// 지도에 클릭 이벤트를 등록합니다
 			// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다	
 			daum.maps.event.addListener(map, 'click', function(mouseEvent) { 
@@ -372,9 +380,6 @@ map_wrap {overflow:hidden;height:330px}
 				selectedLat = latlng.getLat();//위
 				selectedLng = latlng.getLng();//경도도
 				// 위도 latlng.getLat() 경도 latlng.getLng()
-				console.log(selectedDest);
-				console.log(selectedLat);
-				console.log(selectedLng);
 			});	
 				
 			// 마커에 클릭이벤트를 등록합니다
@@ -416,11 +421,13 @@ map_wrap {overflow:hidden;height:330px}
 				    infowindow.open(map, marker);
 				    selectedDest = place.place_name;
 				    selectedLat = place.y;
-				    selectedLog = place.x;
-				    console.log(selectedDest);
-				    console.log(selectedLat);
-				    console.log(selectedLng);
+				    selectedLng = place.x;
 				});
+			}
+			
+			function relayout() {
+				map.relayout();
+				map.panTo(mapCenter);
 			}
 			
 			// 엔터키 누르면 위치검색 가능 메서드
@@ -440,7 +447,15 @@ map_wrap {overflow:hidden;height:330px}
 				// 키워드로 장소를 검색합니다
 				places.keywordSearch($('#keyWord').val(), placesSearchCB);
 				myMarker.setMap(null);
-				
+			});
+			/* 
+			if($('#map').height() == '500') {
+				$()
+			}
+		 	*/
+		 
+			$('#relayout').on('click', function() {
+				relayout();
 			});
 		
 			$('#roadviewControl').on('click',function() {
@@ -449,12 +464,10 @@ map_wrap {overflow:hidden;height:330px}
 			
 			$('#roadviewClose').on('click', function() {
 				closeRoadview();
-			})
-		
-		});			
-		
+			});
+			map.relayout();	
+		});
 	});
-
 
 	</script>
 </body>

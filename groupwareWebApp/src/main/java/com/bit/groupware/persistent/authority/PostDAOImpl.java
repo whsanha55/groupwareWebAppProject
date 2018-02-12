@@ -44,4 +44,6 @@ public class PostDAOImpl implements PostDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectPostCount");
 	}
 
+
+
 }

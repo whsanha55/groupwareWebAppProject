@@ -11,7 +11,7 @@ page contentType="text/html; charset=utf-8"%>
 <title>login</title>
 
 <!-- jQuery -->
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		var checkedRole = $('input[name=role]:checked').val();
@@ -36,7 +36,7 @@ page contentType="text/html; charset=utf-8"%>
 			}
 		});
 	}); 
-</script> -->
+</script> 
 <!-- Bootstrap -->
 <link href="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
@@ -88,7 +88,7 @@ page contentType="text/html; charset=utf-8"%>
 							<p class="change_link">
 								<%--   <a class="btn btn-default submit" href='<c:url value="/admin/index.do"/>'>로그인</a> --%>
 
-								<button class="btn btn-default submit" type="submit" >로그인</button>
+								<button class="btn btn-default submit" type="submit" id="login">로그인</button>
 								<button class="btn btn-default default" type="reset">취소</button>
 							</p>  
 
