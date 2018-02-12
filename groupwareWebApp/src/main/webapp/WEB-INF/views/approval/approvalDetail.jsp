@@ -168,6 +168,10 @@
 		
 		//재기안
 		$('#reAppr').on('click',function(){
+			var reApprDelete=0;
+			if(status!=4){
+				reApprDelete=1;
+			}
 			swal({
 				  title: "문서 재기안",
 				  text: "선택한 문서를 재기안 하시겠습니까?",
@@ -175,7 +179,7 @@
 				  buttons : true 
 				}).then((e) => {
 					if(e) {
-						window.opener.top.location.href="${pageContext.request.contextPath}/writeApproval.do?apprNo="+${requestScope.approval.apprNo};
+						window.opener.top.location.href="${pageContext.request.contextPath}/writeApproval.do?apprNo="+${requestScope.approval.apprNo}+"&reApprDelete="+reApprDelete;
 						window.close()						
 					}	
 				});
@@ -295,34 +299,6 @@
 				}
 			});
 		}
-		
-		/* //재기안	
-		function executeReAppr(){
-			
-			$.ajax({
-				url: '${pageContext.request.contextPath}/writeApproval.do'
-				,
-				method : 'GET'
-				,
-				data: {
-					apprNo : '${requestScope.approval.apprNo}'
-				}
-				,
-				datatype : 'json'
-				,
-				
-				success : function(data) {
-					swal("결재 회수가 완료되었습니다.").then((e)=>{
-						self.close();
-						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
-					});					
-				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-			});
-		} */
 		
 		//결재 반려 또는 승인 
 		function executeApproval(commentContent,apprStatus) {

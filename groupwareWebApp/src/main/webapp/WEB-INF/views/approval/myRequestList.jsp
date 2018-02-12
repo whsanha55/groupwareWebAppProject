@@ -16,6 +16,9 @@
 	 .currentRecord{
 		cursor:pointer;
 	}
+	#return{
+		cursor:pointer;
+	}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
@@ -59,7 +62,7 @@
 				var status=$(this).attr('name');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
 						   +'&status='+status+'&finalStatus=0';							
-				window.open(url, "결재문서","width=750, height=800");				
+				window.open(url, "결재문서","width=1000, height=800");				
 			});
 		
 		//검색창 타입 바꾸기
@@ -164,6 +167,10 @@
 			 templatePaging(1);
 		 });
 		
+		//검색후 다시 리스트로
+		$('#return').click(function(){
+			location.href="${pageContext.request.contextPath}/approvalMyRequest.do";
+		});		
 		
 	 
 	});
@@ -221,8 +228,6 @@
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
-						
-						$("#count1").text("-" +data.totalCount+"건의 결재 요청 문서");
 					
 						//페이징 처리
 						jqueryPager({
@@ -317,6 +322,7 @@
 							<option value="apprDate" id="apprDate">기안일</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
 						<button id="btn3" type="button">검색</button>
+						<i class="fa fa-undo" id="return">되돌리기</i>
 					</form>
 					<div class="col-sm-3">
 					
