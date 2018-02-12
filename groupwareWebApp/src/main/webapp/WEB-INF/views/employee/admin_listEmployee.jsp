@@ -632,7 +632,8 @@
 									</div>
 								</tr>
 							</tbody>
-						</table>
+						</table> 
+						
 						<br>
 						<div class="text-center">
 							<button id="modifyBtn" type="submit" class="btn btn-primary">¼öÁ¤</button>
