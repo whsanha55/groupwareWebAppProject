@@ -38,7 +38,7 @@
                         <if test="keyfield == 'rExplan' and keyword != null">
                         where r_explan like '%' || #{keyword} || '%'         
                         </if>
-                        order by r_id desc )role1
+                        order by isRegistration asc )role1
                         
                 <if test="keyfield == 'role' || keyfield =='desigRole'">
             where r_id is not null
@@ -160,5 +160,19 @@
         where t1.r_id = t2.r_id  and t2.a_no = t3.a_no
                  and t1.r_id=#{rId}
    </select>
+   
+    <update statementType="PREPARED" id="updateAllIsRegistartion">
+   update role
+	set  isregistration = 1
+   </update>
+   
+     <update statementType="PREPARED" id="updateIsRegistartion" parameterType="string">
+      update role
+	  set  isregistration = 0
+      where R_ID IN (select  t1.R_ID
+      from role t1, authority_role t2, authority t3
+      where t1.r_id = t2.r_id and t2.a_no =t3.a_no
+      and t3.a_no = #{aNo})
+   </update>
    
 </mapper>

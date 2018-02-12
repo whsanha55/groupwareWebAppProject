@@ -71,4 +71,12 @@ public void registerRole(RoleVO role) {
       return roleDAO.aNoIsExist(rId);
    }
 
+	public void modifyAllIsRegistartion() {
+		roleDAO.updateAllIsRegistartion();
+	}
+	
+	public void modifyIsRegistartion(String aNo) {
+		roleDAO.updateIsRegistartion(aNo);
+	}
+
 }

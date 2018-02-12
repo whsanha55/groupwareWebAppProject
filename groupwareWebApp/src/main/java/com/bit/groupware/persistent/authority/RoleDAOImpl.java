@@ -77,4 +77,11 @@ public class RoleDAOImpl implements RoleDAO {
     return sqlSession.selectOne(NAMESPACE + ".rIdIsExist", arole);
    }
 
+	public void updateAllIsRegistartion() {
+		sqlSession.update(NAMESPACE + ".updateAllIsRegistartion");
+	}
+
+	public void updateIsRegistartion(String aNo) {
+		sqlSession.update(NAMESPACE + ".updateIsRegistartion", aNo);
+	}
 }

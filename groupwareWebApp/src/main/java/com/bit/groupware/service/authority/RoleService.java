@@ -49,4 +49,10 @@ public interface RoleService {
    
    //rId에 해당하는 권한이 존재하는지 여부
    int aNoIsExist(String rId);
+   
+	//등록여부를 전체 수정한다.
+	void modifyAllIsRegistartion();
+	
+	//권한에 해당하는 역할의 등록여부를 수정한다.
+	void modifyIsRegistartion(String aNo);
 }

@@ -49,4 +49,10 @@ public interface RoleDAO {
    
    //rId 중복 제거
    int rIdIsExist(AuthRoleVO arole);
+   
+	//등록여부를 전체 수정한다.
+	void updateAllIsRegistartion();
+	
+	//권한에 해당하는 역할의 등록여부를 수정한다.
+	void updateIsRegistartion(String aNo);
 }
