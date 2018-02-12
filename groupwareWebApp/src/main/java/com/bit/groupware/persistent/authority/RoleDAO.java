@@ -9,10 +9,10 @@ import com.bit.groupware.domain.authority.RoleVO;
 public interface RoleDAO {
    
    //해당 권한에 역할을 일괄 등록한다.
-   void insertAuthRole(AuthRoleVO arole);
+   void insertAuthRole(Map<String, Object> map);
    
    //역할을 일괄 삭제(미등록)한다.
-   void nonInsertAuthRole(String rId);
+   void nonInsertAuthRole(String aNo);
    
    //역할을 추가한다.
    void addRole(RoleVO role);
