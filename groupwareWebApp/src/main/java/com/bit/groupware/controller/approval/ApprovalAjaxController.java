@@ -122,11 +122,6 @@ public class ApprovalAjaxController {
 			map.put("keyword", keyword);	
 			map.put("keyword1", keyword1);
 			
-			logger.info("================= keyfied : {}", keyfield);
-			logger.info("================= keyword : {}", keyword);
-			
-			
-			
 			int totalCount=0;
 			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus ==10) {		
 				totalCount = approvalService.retrieveAllApprovalCount(map); 	//승인,반려,관리자인 경우
@@ -144,7 +139,7 @@ public class ApprovalAjaxController {
 			Map<String, Object> returnMap = new HashMap<String, Object>();
 			returnMap.put("totalCount", totalCount);
 			if(apprFinalStatus==1 || apprFinalStatus==3 || apprFinalStatus==10) {	//승인, 반려, 관리자인 경우
-				returnMap.put("approvals", approvalService.retrieveAllApprovalList(map) );
+				returnMap.put("approvals", approvalService.retrieveAllApprovalList(map));
 				returnMap.put("empNo", id);  //반려
 			}else {
 				returnMap.put("approvals", approvalService.retrieveApprovalList(map));

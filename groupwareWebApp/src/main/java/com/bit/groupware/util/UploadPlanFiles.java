@@ -20,7 +20,7 @@ public class UploadPlanFiles {
 
 	public static PlanFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
 		String root = context.getRealPath("/");
-		String path = root + "resources/upload/planFiles/";
+		String path = root + "resources/upload/employeeFiles/planFiles/";
 		logger.info("path : {} ", path);
 
 		String fileName = part.getOriginalFilename();

@@ -13,7 +13,9 @@
 	.detailApproval{
 		cursor:pointer;
 	}
-	 
+	 .currentRecord{
+		cursor:pointer;
+	}
 </style>
 <script>
 
@@ -70,11 +72,22 @@
 		});
 		
 		
-		//검색
+		///검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
 			 pKeyword=$('#pKeyword').val();
 			 pKeyword1=$('#pKeyword1').val();
+			 
+	 			if(pKeyfield != "apprDate" && pKeyword == "") { 			
+					swal("검색어를 입력해주세요.", "");
+					return; 				
+				}
+	 			if(pKeyfield == "apprDate" ){
+		 			if( pKeyword == "" || pKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "");
+						return;
+		 			}  
+	 			}
 			 
 			 templatePaging(1);
 		 });
@@ -283,6 +296,6 @@
               </div>
         <!-- /page content -->
         
-   
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 </body>
 </html>
