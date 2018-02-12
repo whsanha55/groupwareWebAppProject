@@ -49,10 +49,10 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		if($('#fileCount').val()== '') {
-			swal("파일개수를 선택해주세요");
-			$('#fileCount').focus;
-		    return false;
+		if($("select[name='fileCount'] option:selected").index() <1) {
+			swal("파일 개수를 선택해주세요");
+			$("select[name='fileCount'] : eq(0)").focus();
+			return false;
 		}
 		
 		

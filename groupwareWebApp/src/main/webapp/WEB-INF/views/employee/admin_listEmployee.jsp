@@ -109,15 +109,38 @@
 			$('input[name=deptCode]').val($(this).attr('value'));
 		});
 		
-		$()
+		$('#modifyBtn').click(function() {
+			$('#modEmpName').attr('readonly', false);
+			$('#modEngName').attr('readonly', false);
+			$('#modPhoneNumber').attr('readonly', false);
+			$('#modRegNumber').attr('readonly', false);
+			$('#modEmail').attr('readonly', false);
+			$('#moddetailAddress').attr('readonly', false);
+			$('#modnull').attr('readonly', false);
+			
+			$(this).remove();
+			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button>");
+			
+			console.log($('#modifyCompBtn').text());
+		});
 		
-		$('#modifyBtn').click(function () {
-			if($('#modRetireStatus').val()=='X') {
+		$('#modalForm').on('click', '#modifyCompBtn' , function() {
+			if($('#modRetireStatus').val()=='재직') {
 				$('#modRetireStatus').val('1');	
 			} else {
 				$('#modRetireStatus').val('0');	
 			}
-			/* $.ajax ({
+			$(this).submit();
+		});
+		
+		/* $('#modifyBtn').click(function () {
+			console.log($('#modRetireStatus').val())
+			if($('#modRetireStatus').val()=='재직') {
+				$('#modRetireStatus').val('1');	
+			} else {
+				$('#modRetireStatus').val('0');	
+			}
+			$.ajax ({
 				url:'${pageContext.request.contextPath}/admin/modifyEmployee.do'
 				,
 				method:'POST'
@@ -152,8 +175,8 @@
 					alert("error : " + jqXHR.status);
 				}
 					
-			}); */
-		}); 
+			}); 
+		});  */
 		
 		$("#retireBtn").click(function() {
 			$.ajax ({
@@ -166,13 +189,15 @@
 				success : function(data) {
 					$('#modRetireStatus').val(data.retireStatus);
 					$('#modRetireDate').val(data.retireDate);
-					$('#myModal').modal('hide');
-					location.reload();
 				},
 				error : function(jqXHR) {
 					alert("error : " + jqXHR.status);
 				}				
 			});
+		});
+		
+		$('#closeBtn').click(function() {
+			employeePaging(1);
 		});
 		
 		$("#upload-image").on("change", handleImgFileSelect);
@@ -285,21 +310,21 @@
 						text += "<tr>";
 						text += "<input id='submitPhotoName' type='hidden' value='"+ data.employees[i].systemPhotoName +"'>";
 						text += "<input id='submitSignName' type='hidden' value='"+ data.employees[i].systemSignName +"'>";
-						text += "<td id='submitEmpNo'"+ i +"><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
-						text += "<td id='submitEmpName'"+ i +">"+ data.employees[i].empName 		+ "</td>";
+						text += "<td id='submitEmpNo'><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
+						text += "<td id='submitEmpName'>"+ data.employees[i].empName 		+ "</td>";
 						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
 						text += "<input id='submitDeptNo' type='hidden' value='"+ data.employees[i].deptNo +"'>";
-						text += "<td id='submitDuty'"+ i +">"+ data.employees[i].duty 			+ "</td>";
+						text += "<td id='submitDuty'>"+ data.employees[i].duty 			+ "</td>";
 						text += "<input id='submitDutyNo' type='hidden' value='"+ data.employees[i].dutyNo +"'>";
-						text += "<td id='submitDept'"+ i +">"+ data.employees[i].department 	+ "</td>";
-						text += "<td id='submitPhoneNumber'"+ i +">"+ data.employees[i].phoneNumber	+ "</td>";
+						text += "<td id='submitDept'>"+ data.employees[i].department 	+ "</td>";
+						text += "<td id='submitPhoneNumber'>"+ data.employees[i].phoneNumber	+ "</td>";
 						text += "<input id='submitRegNumber' type='hidden' value='"+ data.employees[i].regNumber +"'>";
-						text += "<td id='submitHireDate'"+ i +">"+ data.employees[i].hireDate		+ "</td>";
-						text += "<td id='submitEmail'"+ i +">"+ data.employees[i].email			+ "</td>";
+						text += "<td id='submitHireDate'>"+ data.employees[i].hireDate		+ "</td>";
+						text += "<td id='submitEmail'>"+ data.employees[i].email			+ "</td>";
 						if(data.employees[i].retireStatus == 0) {
-							text += "<td id='submitRetireStatus"+ i +"'>퇴사</td>";
+							text += "<td id='submitRetireStatus'>퇴사</td>";
 						} else {
-							text += "<td id='submitRetireStatus"+ i +"'>재직</td>";
+							text += "<td id='submitRetireStatus'>재직</td>";
 						}
 						text += "<input id='submitRetireDate' type='hidden' value='"+ data.employees[i].retireDate +"'>";
 						text += "<input id='submitpostcode' type='hidden' value='"+ data.employees[i].postcode +"'>";
@@ -309,6 +334,14 @@
 						
 						
 						$('#datatable').on('click','#submitEmpNo', function(){
+							$('#modEmpName').attr('readonly', true);
+							$('#modEngName').attr('readonly', true);
+							$('#modPhoneNumber').attr('readonly', true);
+							$('#modRegNumber').attr('readonly', true);
+							$('#modEmail').attr('readonly', true);
+							$('#moddetailAddress').attr('readonly', true);
+							$('#modnull').attr('readonly', true);
+																					
 							$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 							$('#sign').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/' + ($(this).parent().children('#submitSignName').val()));
 							$('#modifyEmpNo').val($(this).text());
@@ -324,7 +357,7 @@
 							$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
 							if($(this).nextAll('#submitRetireStatus').text() == '퇴사') {
 								$('#modRetireStatus').val('퇴사');
-								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
+								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());													
 							} else {
 								$('#modRetireStatus').val('재직');
 								$('#modRetireDate').val("");
@@ -560,18 +593,18 @@
 								<tr>
 									<th>이름</th>
 									<td><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value="" readonly></td>
+										required="required" value=""></td>
 									<th>영문이름</th>
 									<td><input id="modEngName" name="engName" type="text" class="form-control"
-										value="" readonly></td>
+										value=""></td>
 								</tr>
 								<tr>
 									<th>연락처</th>
 									<td><input id="modPhoneNumber" name="phoneNumber" type="text" class="form-control"
-										required="required" value="" readonly></td>
+										required="required" value=""></td>
 									<th>주민번호</th>
 									<td><input id="modRegNumber" name="regNumber" type="text" class="form-control"
-										required="required" value="" readonly></td>
+										required="required" value=""></td>
 								</tr>
 								<tr>
 									<th>부서</th>
@@ -597,7 +630,7 @@
 										</div></td>
 									<th>이메일</th>
 									<td><input id="modEmail" name="email" type="text" class="form-control"
-										required="required" value="" readonly></td>
+										required="required" value=""></td>
 								</tr>
 								<tr>
 									<th>입사일</th>
@@ -605,7 +638,7 @@
 										required="required" value="" readonly></td>
 									<th>계좌번호</th>
 									<td><input id="modnull" type="text" class="form-control"
-										required="required" value="110-328-521548" readonly></td>
+										required="required" value="110-328-521548"></td>
 								</tr>
 								<tr>
 									<th>퇴사여부</th>
@@ -628,17 +661,18 @@
 									</div><br>
 									<div class="col-md-12 col-sm-6 col-xs-12">
 										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="상세주소"
-												required="required" class="form-control col-md-7 col-xs-12" readonly>
+												required="required" class="form-control col-md-7 col-xs-12">
 									</div>
 								</tr>
 							</tbody>
-						</table>
+						</table> 
+						
 						<br>
 						<div class="text-center">
-							<button id="modifyBtn" type="submit" class="btn btn-primary">수정</button>
+							<button id="modifyBtn" type="button" class="btn btn-primary">수정</button>
 							<button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">닫기</button>
+							<button id="closeBtn2" type="button" class="btn btn-default"
+								<%-- data-dismiss="modal" --%>>닫기</button>
 						</div>
 					</div>
 				</div>

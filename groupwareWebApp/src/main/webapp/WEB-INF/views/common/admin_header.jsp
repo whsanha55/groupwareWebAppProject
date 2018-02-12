@@ -10,11 +10,10 @@
 <body>
 <div class="nav_menu">
             <nav>
-
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="">John Doe
+                    <img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/${employee.photoName}" alt="">${employee.empName }
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
