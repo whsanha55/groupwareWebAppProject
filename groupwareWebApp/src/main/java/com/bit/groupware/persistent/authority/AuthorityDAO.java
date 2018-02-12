@@ -50,5 +50,5 @@ public interface AuthorityDAO {
 	int selectAuthEmpCountByaNo(String aNo);
 	
 	//권한 사원을 삭제한다.
-	void deleteAuthEmp(String aNo);
+	void deleteAuthEmp(Map<String, Object> map);
 }
