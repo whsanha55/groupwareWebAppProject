@@ -50,7 +50,6 @@
 	$(document).ready(function(){
 		
 		var status = '${param.status}';
-		var finalStatus = "${param.finalStatus}";
 				
 		if(status==1){
 			$('#return').attr('disabled',false);
@@ -65,7 +64,7 @@
 			$('#deleteAppr').hide();
 			$('#appr').attr('disabled',false);	
 			$('#reject').attr('disabled',false);
-			if(finalStatus==0){
+			if(${requestScope.apprStatus}!=2){
 				$('#postpone').attr('disabled',false);
 			}
 		} else if(status==3) {
@@ -282,6 +281,12 @@
 							self.close();
 							opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
 						});				
+					}else{
+						swal({ 
+						  title: "결재 회수",
+						  text: "현재 문서는 결재 회수 처리를 할 수 없습니다.",
+						  icon: "error"
+						});
 					}
 				}
 				,
@@ -432,7 +437,8 @@
                     	<td rowspan="5" class="" style="width:70px; height:35px;background-color:#4a6075;">결재</td>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
                            <c:if test="${ line.apprType == 0}">
-                              <th class="apprLineAppr" style="width:110px; height:35px; text-align:center; background-color:#4a6075;">${pageScope.line.lineEmployee.duty }</th>
+                              <th class="apprLineAppr" style="width:110px; height:35px; text-align:center; background-color:#4a6075;">
+                              ${pageScope.line.lineEmployee.duty }</th>
                      	   </c:if>
                         </c:forEach>
                         <c:forEach begin="1" end="${12-requestScope.apprCount}">

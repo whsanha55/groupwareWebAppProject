@@ -199,7 +199,11 @@
 
 						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder'>"+data.approvals[i].apprTitle+"</td>";
+						if(data.approvals[i].urgency != 1){
+							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder'>"+data.approvals[i].apprTitle+"</td>";
+						}else{
+							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder'><b style=color:red;>[긴급]</b>"+data.approvals[i].apprTitle+"</td>";
+						}
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
