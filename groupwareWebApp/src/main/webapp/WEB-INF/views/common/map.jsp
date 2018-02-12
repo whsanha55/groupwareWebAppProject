@@ -64,7 +64,7 @@ map_wrap {overflow:hidden;height:330px}
 	<div>
 		<input id="keyWord" placeholder="지도검색 장소입력">	
 		<button id="mapSearchBTN" type="button" class="btn btn-default">검색</button>
-		<%-- <button id="relayout">relayout 호출하기</button> --%>
+		<a href="#" id="relayout" style="color:white;">'</a>
 	</div>
 
 	<div id="container">	
@@ -159,6 +159,7 @@ map_wrap {overflow:hidden;height:330px}
 			
 			var map = new daum.maps.Map(mapContainer, mapOptions);
 			
+			map.relayout();
 			// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
 			var mapTypeControl = new daum.maps.MapTypeControl();
 			map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
@@ -424,9 +425,10 @@ map_wrap {overflow:hidden;height:330px}
 				});
 			}
 			
-			/* function relayout() {
+			function relayout() {
 				map.relayout();
-			} */
+				map.panTo(mapCenter);
+			}
 			
 			// 엔터키 누르면 위치검색 가능 메서드
 			$("#keyWord").keypress(function() {
@@ -446,10 +448,15 @@ map_wrap {overflow:hidden;height:330px}
 				places.keywordSearch($('#keyWord').val(), placesSearchCB);
 				myMarker.setMap(null);
 			});
-		
-			/* $('#relayout').on('click', function() {
+			/* 
+			if($('#map').height() == '500') {
+				$()
+			}
+		 	*/
+		 
+			$('#relayout').on('click', function() {
 				relayout();
-			}); */
+			});
 		
 			$('#roadviewControl').on('click',function() {
 				 setRoadviewRoad();
@@ -457,15 +464,10 @@ map_wrap {overflow:hidden;height:330px}
 			
 			$('#roadviewClose').on('click', function() {
 				closeRoadview();
-			})
-			
-			
-		
+			});
+			map.relayout();	
 		});
-		
-		
 	});
-
 
 	</script>
 </body>
