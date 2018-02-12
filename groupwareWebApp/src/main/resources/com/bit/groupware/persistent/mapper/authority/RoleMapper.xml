@@ -97,8 +97,13 @@
    </delete>
    
    <delete id="nonDesignateRole" parameterType="string" statementType="PREPARED">
-      delete authority_role
-      where a_no = #{aNo}
+    delete from authority_role
+     where ar_no in (
+      <foreach item="item" collection="list2" separator="),(" open="(" close=")">
+         select ar_no from authority_role 
+         where r_id = #{item.rId} and a_no = #{item.aNo}
+     </foreach>
+     )
    </delete>
    
    <select id="selectRoleCount" statementType="PREPARED" parameterType="map" resultType="int">

@@ -12,7 +12,7 @@ public interface RoleDAO {
    void insertAuthRole(Map<String, Object> map);
    
    //역할을 일괄 삭제(미등록)한다.
-   void nonInsertAuthRole(String aNo);
+   void nonInsertAuthRole(Map<String, Object> map);
    
    //역할을 추가한다.
    void addRole(RoleVO role);

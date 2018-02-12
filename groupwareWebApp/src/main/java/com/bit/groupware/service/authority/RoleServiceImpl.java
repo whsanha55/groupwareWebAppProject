@@ -18,8 +18,8 @@ public class RoleServiceImpl implements RoleService {
       roleDAO.insertAuthRole(map);
    }
 
-   public void removeAuthRole(String aNo) {
-      roleDAO.nonInsertAuthRole(aNo);
+   public void removeAuthRole(Map<String, Object> map) {
+      roleDAO.nonInsertAuthRole(map);
    }
 
    public List<RoleVO> retrieveRoleList(String aName) {

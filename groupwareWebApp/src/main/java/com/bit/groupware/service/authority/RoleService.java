@@ -12,7 +12,7 @@ public interface RoleService {
    void registerAuthRole(Map<String, Object> map);
    
    // 해당 권한에 역할을 일괄 삭제한다.
-   void removeAuthRole(String aNo);
+   void removeAuthRole(Map<String, Object> map);
 
    //역할을 추가한다.
    void registerRole(RoleVO role);

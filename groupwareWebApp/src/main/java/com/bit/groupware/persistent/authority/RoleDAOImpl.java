@@ -39,8 +39,8 @@ public class RoleDAOImpl implements RoleDAO {
       return roles;
    }
 
-   public void nonInsertAuthRole(String aNo) {
-      sqlSession.delete(NAMESPACE + ".nonDesignateRole", aNo);
+   public void nonInsertAuthRole(Map<String, Object> map) {
+      sqlSession.delete(NAMESPACE + ".nonDesignateRole", map);
    }
 
    public void updateRoleRegistration(RoleVO role) {

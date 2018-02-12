@@ -30,33 +30,37 @@ public class AdminDesignateRoleController {
    @RequestMapping(value="/admin/modifyDesignate.do", method=RequestMethod.POST)
    @ResponseBody
       public int  submit(@RequestParam(value="isRegistration", required=true) List<String> isRegistration, 
-                         @RequestParam(value="rId", required=true) List<String> rId, 
+                         @RequestParam(value="isNotRegistration", required=true) List<String> isNotRegistration, 
                         @RequestParam(value="aNo", required=true) String aNo) throws Exception { 
-      
+	   
       List<AuthRoleVO> list = new ArrayList<AuthRoleVO>();
+      List<AuthRoleVO> list2 = new ArrayList<AuthRoleVO>();
       for(int i =0;i<isRegistration.size();i++) {
-         if(isRegistration.get(i).equals("0")) {   //등록
-            System.out.println("==================="+rId.get(i));
-            AuthRoleVO arole = new AuthRoleVO();
-            arole.setrId(rId.get(i));
-            arole.setaNo(aNo);
-            list.add(arole);
-         } 
+    	  AuthRoleVO arole = new AuthRoleVO();
+    	  arole.setrId(isRegistration.get(i));
+    	  arole.setaNo(aNo);
+    	  list.add(arole);
+
       }
       
-      
-      
-      //삭제
-      roleService.removeAuthRole(aNo);
+      for(int i =0;i<isNotRegistration.size();i++) {
+    	  AuthRoleVO arole = new AuthRoleVO();
+    	  arole.setrId(isNotRegistration.get(i));
+    	  arole.setaNo(aNo);
+    	  list2.add(arole);
+      }
       
       Map<String, Object> map = new HashMap<String, Object>();
-      map.put("list",list);
-      
-      System.out.println("111111111111111111111111111111111111"+list.toString());
-      if(list.size() != 0) {
-         System.out.println("22222222222222222222222222"+map.toString());
-         roleService.registerAuthRole(map);
+      map.put("list2",list2);
+      if(list2.size() != 0) {
+    	  roleService.removeAuthRole(map);
       }
+      
+      Map<String, Object> map1 = new HashMap<String, Object>();
+      map1.put("list",list);
+      if(list.size() != 0) {
+          roleService.registerAuthRole(map1);
+       }
    
          return 0;
       }

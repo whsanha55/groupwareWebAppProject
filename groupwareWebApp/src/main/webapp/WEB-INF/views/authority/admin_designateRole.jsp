@@ -12,8 +12,23 @@
    var pKeyfield='desigRole';
    var pKeyword;
    $(document).ready(function() {
-
+	   var  selected = [];
+	   var  unselected = [];
+	 
+	 
       Paging(1); 
+      
+      $('#datatable').on('click', 'input[type=radio]', function() {
+          
+          if($(this).val() == '0') {
+             selected.push($(this).parents('tr').find('td:eq(0)').text());      
+          } else {
+             unselected.push($(this).parents('tr').find('td:eq(0)').text());      
+             
+          }      
+       });
+
+      
       
       //   검색조건
       $('.search-panel .dropdown-menu').on('click','a',function(e) {
@@ -50,6 +65,7 @@
       $('#deleteBtn').on('click', function() {   
          alert("call");  
          var no = $(this).val();
+      /*    
          var arr1 = [];    
          var checkbox = $("input[type='radio']:checked");
          
@@ -64,7 +80,7 @@
          $("input[type='radio']:checked").each(function(i){ 
             arr.push($(this).val());
             console.log(arr.join());
-         }); 
+         });  */
                 
           $.ajax({
                 url: '${pageContext.request.contextPath}/admin/modifyDesignate.do'
@@ -72,9 +88,9 @@
                 method: 'POST'
                 ,           
                 data: {
-                      aNo : no,
-                      isRegistration : arr.join(),
-                      rId : arr1.join()}
+                	 isRegistration : selected.join(),
+                     isNotRegistration : unselected.join(),       
+                     aNo : no}
                 , 
                 success: function(data) {
                    swal("등록 완료","등록되었습니다", "success");
