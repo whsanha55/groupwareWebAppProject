@@ -13,7 +13,7 @@ import com.bit.groupware.domain.authority.RoleVO;
 @Repository
 public class RoleDAOImpl implements RoleDAO {
    private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.authority.RoleMapper";   
-   
+    
    @Autowired
    private SqlSessionTemplate sqlSession;
    

@@ -13,7 +13,7 @@ import com.bit.groupware.persistent.authority.RoleDAO;
 public class RoleServiceImpl implements RoleService {
    @Autowired
    private RoleDAO roleDAO;
-   
+    
    public void registerAuthRole(Map<String, Object> map) {
       roleDAO.insertAuthRole(map);
    }

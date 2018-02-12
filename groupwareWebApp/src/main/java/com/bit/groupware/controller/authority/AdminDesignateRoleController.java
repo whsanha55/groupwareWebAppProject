@@ -35,7 +35,7 @@ public class AdminDesignateRoleController {
       
 	   System.out.println("isNotRegistration"+isNotRegistration.toString());
 	   System.out.println("isRegistration"+isRegistration.toString());
-	   
+	    
       List<AuthRoleVO> list = new ArrayList<AuthRoleVO>();
       List<AuthRoleVO> list2 = new ArrayList<AuthRoleVO>();
       for(int i =0;i<isRegistration.size();i++) {

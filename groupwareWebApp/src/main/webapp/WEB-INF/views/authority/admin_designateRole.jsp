@@ -91,7 +91,7 @@
                 	 isRegistration : selected.join(),
                      isNotRegistration : unselected.join(),       
                      aNo : no}
-                , 
+                ,  
                 success: function(data) {
                    swal("등록 완료","등록되었습니다", "success");
                   Paging(1); 

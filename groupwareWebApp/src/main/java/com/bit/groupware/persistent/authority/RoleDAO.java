@@ -10,7 +10,7 @@ public interface RoleDAO {
    
    //해당 권한에 역할을 일괄 등록한다.
    void insertAuthRole(Map<String, Object> map);
-   
+    
    //역할을 일괄 삭제(미등록)한다.
    void nonInsertAuthRole(Map<String, Object> map);
    

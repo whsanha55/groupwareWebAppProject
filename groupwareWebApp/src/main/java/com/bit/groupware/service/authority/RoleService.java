@@ -10,7 +10,7 @@ public interface RoleService {
 
    // 해당 권한에 역할을 일괄 등록한다.
    void registerAuthRole(Map<String, Object> map);
-   
+    
    // 해당 권한에 역할을 일괄 삭제한다.
    void removeAuthRole(Map<String, Object> map);
 
