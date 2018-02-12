@@ -277,10 +277,12 @@
 				,
 				
 				success : function(data) {
-					swal("결재 회수가 완료되었습니다.").then((e)=>{
-						self.close();
-						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
-					});					
+					if(data){	//data true일때만 회수처리 된거니깐 			
+						swal("결재 회수가 완료되었습니다.").then((e)=>{
+							self.close();
+							opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+						});				
+					}
 				}
 				,
 				error: function(jqXHR) {
