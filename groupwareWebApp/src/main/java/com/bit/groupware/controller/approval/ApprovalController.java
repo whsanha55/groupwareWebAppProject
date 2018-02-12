@@ -49,14 +49,15 @@ public class ApprovalController {
 				}
 			}
 			
-
 			ApprovalVO approval = approvalService.retrieveApproval(apprNo);
-			System.out.println(approval+"\nzzzzzzzzzzzzzzzzzzzzzz");
+			int apprStatus=approval.getApprovalRecords().get(approval.getApprovalRecords().size()-1).getApprStatus();
+			logger.info("µðÅ×ÀÏ :"+apprStatus+"/size : "+approval.getApprovalRecords().size()); 
+		
+			mv.addObject("apprStatus",apprStatus);
 			mv.addObject("apprCount",apprCount);
 			mv.addObject("refCount",refCount);
 			mv.addObject("recCount",approval.getApprovalRecords().size());
 			mv.addObject("receiverLine",lines);
-			
 			mv.addObject("approval",approval);
 			mv.addObject("empNo", principal.getName());
 			mv.setViewName("approval/approvalDetail/pop");
