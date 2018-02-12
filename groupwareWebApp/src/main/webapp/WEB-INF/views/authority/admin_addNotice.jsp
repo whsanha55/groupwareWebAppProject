@@ -4,11 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0//js/froala_editor.pkgd.min.js"></script>
 <script>
    $(document).ready(function() {
+	   $(function() {
+		   $('textarea#froala-editor').froalaEditor()
+		 });
+	   
        //첨부파일 추가 및 삭제 이벤트
       $('form').on('click', '.btn-add', function(e) {
            e.preventDefault();
@@ -43,6 +53,12 @@
 
    });
 </script>
+<style>
+	.fr-element {
+		height: 400px;
+	} 
+
+</style>
 </head>
 <body>
    <!--글쓰기-->
@@ -75,17 +91,9 @@
                <div class="x_content">
 
                   <div id="alerts"></div>
-                   <textarea name="noticeContents" rows="20" style="width: 100%" ></textarea>
+                   <textarea id="froala-editor" name="noticeContents" rows="20" style="width: 100%" ></textarea>
 
-				  <script>
-                     $('#summernote').summernote({
-                        height : 300, // set editor height
-                        minHeight : null, // set minimum height of editor
-                        maxHeight : null, // set maximum height of editor
-                        focus : true
-                     // set focus to editable area after initializing summernote
-                     });
-                  </script>        
+
 
                   <div class="ln_solid"></div>
                   <div class="col-md-12">

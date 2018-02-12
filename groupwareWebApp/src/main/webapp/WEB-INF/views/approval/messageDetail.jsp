@@ -113,6 +113,7 @@
 				window.open(url, "쪽지보내기", "width=700, height=600");
 		});
 		 
+		 
 	});
 
 	
@@ -162,7 +163,7 @@
 	
 							<tr height="100">
 								<td style="font-weight:bolder;">내용</td>
-								<td colspan="3" >${requestScope.message.msgContent }</td>
+								<td colspan="3" id="textArea">${requestScope.message.msgContent }</td>
 								
 							</tr>						
 							
