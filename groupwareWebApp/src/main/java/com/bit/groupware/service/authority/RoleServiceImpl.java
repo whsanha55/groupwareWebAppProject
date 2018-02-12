@@ -14,12 +14,12 @@ public class RoleServiceImpl implements RoleService {
    @Autowired
    private RoleDAO roleDAO;
    
-   public void registerAuthRole(AuthRoleVO arole) {
-	   roleDAO.insertAuthRole(arole);
+   public void registerAuthRole(Map<String, Object> map) {
+      roleDAO.insertAuthRole(map);
    }
 
-   public void removeAuthRole(String rId) {
-	   roleDAO.nonInsertAuthRole(rId);
+   public void removeAuthRole(String aNo) {
+      roleDAO.nonInsertAuthRole(aNo);
    }
 
    public List<RoleVO> retrieveRoleList(String aName) {
@@ -31,12 +31,12 @@ public class RoleServiceImpl implements RoleService {
    }
 
    public RoleVO retrieveRole(String rId) {
-	   System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+rId);
-	   return roleDAO.selectRole(rId);
+      System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+rId);
+      return roleDAO.selectRole(rId);
    }
 
    public void modifyRoleRegistration(RoleVO role) {
-	   roleDAO.updateRoleRegistration(role);
+      roleDAO.updateRoleRegistration(role);
    }
 
 public void registerRole(RoleVO role) {
@@ -64,11 +64,11 @@ public void registerRole(RoleVO role) {
    }
 
    public int rIdIsExist(AuthRoleVO arole) {
-	   return roleDAO.rIdIsExist(arole);
+      return roleDAO.rIdIsExist(arole);
    }
 
    public int aNoIsExist(String rId) {
-	   return roleDAO.aNoIsExist(rId);
+      return roleDAO.aNoIsExist(rId);
    }
 
 }

@@ -9,10 +9,10 @@ import com.bit.groupware.domain.authority.RoleVO;
 public interface RoleService {
 
    // 해당 권한에 역할을 일괄 등록한다.
-   void registerAuthRole(AuthRoleVO arole);
+   void registerAuthRole(Map<String, Object> map);
    
    // 해당 권한에 역할을 일괄 삭제한다.
-   void removeAuthRole(String rId);
+   void removeAuthRole(String aNo);
 
    //역할을 추가한다.
    void registerRole(RoleVO role);

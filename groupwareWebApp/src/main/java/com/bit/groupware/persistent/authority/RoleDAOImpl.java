@@ -17,8 +17,8 @@ public class RoleDAOImpl implements RoleDAO {
    @Autowired
    private SqlSessionTemplate sqlSession;
    
-   public void insertAuthRole(AuthRoleVO arole) {
-	   sqlSession.insert(NAMESPACE + ".designateRole", arole);
+   public void insertAuthRole(Map<String, Object> map) {
+      sqlSession.insert(NAMESPACE + ".designateRole", map);
    }
 
    public void addRole(RoleVO role) {
@@ -26,7 +26,7 @@ public class RoleDAOImpl implements RoleDAO {
    }
 
    public int aNoIsExist(String rId) {
-	   return sqlSession.selectOne(NAMESPACE + ".aNoIsExist", rId);
+      return sqlSession.selectOne(NAMESPACE + ".aNoIsExist", rId);
    }
 
    public List<RoleVO> selectRoleByRname(String aName) {
@@ -39,17 +39,17 @@ public class RoleDAOImpl implements RoleDAO {
       return roles;
    }
 
-   public void nonInsertAuthRole(String rId) {
-	   sqlSession.delete(NAMESPACE + ".nonDesignateRole", rId);
+   public void nonInsertAuthRole(String aNo) {
+      sqlSession.delete(NAMESPACE + ".nonDesignateRole", aNo);
    }
 
    public void updateRoleRegistration(RoleVO role) {
-	   sqlSession.update(NAMESPACE + ".updateRoleRegistration", role);
+      sqlSession.update(NAMESPACE + ".updateRoleRegistration", role);
    }
 
    public RoleVO selectRole(String rId) {
-	   RoleVO role = sqlSession.selectOne(NAMESPACE + ".selectRole", rId);
-	   return role;
+      RoleVO role = sqlSession.selectOne(NAMESPACE + ".selectRole", rId);
+      return role;
    }
 
    public List<RoleVO> selectRoleList(Map<String, Object> map) {
@@ -74,7 +74,7 @@ public class RoleDAOImpl implements RoleDAO {
    }
 
    public int rIdIsExist(AuthRoleVO arole) {
-	 return sqlSession.selectOne(NAMESPACE + ".rIdIsExist", arole);
+    return sqlSession.selectOne(NAMESPACE + ".rIdIsExist", arole);
    }
 
 }
