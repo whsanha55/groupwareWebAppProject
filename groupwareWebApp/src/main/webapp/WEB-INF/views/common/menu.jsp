@@ -149,7 +149,6 @@
 						<li><a href='<c:url value="/noticeList.do"/>'>공지사항</a></li>
 						<li id="clickName"><a>게시판 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu" id="boardNameList">
-								<li><a href='<c:url value="/postList.do"/>'>게시판</a></li>
 							</ul>
 					</ul></li>
 				<br>
