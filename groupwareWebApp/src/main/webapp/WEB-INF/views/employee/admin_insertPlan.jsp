@@ -16,7 +16,7 @@
 </style>
 <script>
 
-$(document).ready(function() {
+$(document).ready(function() {	
 	
 	$('#searchEmp').click(function() {
 		$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
@@ -26,9 +26,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	$('#modalChooseBtn').on('click',function() {
-		
-		
+	$('#modalChooseBtn').on('click',function() {		
 		//일정관리 - 담당자설정
 		$('input[name=rspbNo]').val(selectedEmpNo);
 		$('input[name=empName]').val(selectedNameAndDuty);
@@ -54,12 +52,12 @@ $(document).ready(function() {
 		$('input[name=destination]').val(selectedDest);
 		$('input[name=latitude]').val(selectedLat);
 		$('input[name=longitude]').val(selectedLng);
-	
+
 		$('#mapBody').html("");
 	});
 	
 	$('#modalCloseBtn2').on('click',function() {
-		$('#mapBody').html("");
+		$('#mapBody').html("");		
 	});
 	
 });

@@ -56,4 +56,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectEmployeeCount", map);
 	}
 	
+	public void insertAuthority(String empNo) {
+		sqlSession.insert(NAMESPACE + ".insertAuthority", empNo);
+	}
+	
+	public void deleteAuthority(String empNo) {
+		sqlSession.delete(NAMESPACE + ".deleteAuthority", empNo);
+	}
+	
 }
