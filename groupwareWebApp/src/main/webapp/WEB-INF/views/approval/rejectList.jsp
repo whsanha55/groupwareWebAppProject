@@ -29,6 +29,19 @@
 	var pKeyword;
 	var pKeyword1;
 	
+	 $.datepicker.setDefaults({
+		    dateFormat: 'yy-mm',
+		    prevText: '이전 달',
+		    nextText: '다음 달',
+		    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+		    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+		    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+		    showMonthAfterYear: true,
+		    yearSuffix: '년'
+		  });
+	
 	$(document).ready(function(){
 		
 		templatePaging(1);//최초로드시 페이지처리
@@ -51,25 +64,59 @@
 			});
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
-			if($(this).val()=='apprDate'){
+			 if($(this).val()=='apprDate'){
 				$('#pKeyword1').remove();
 				$('#temp').remove();
-				$(this).next().attr('type','date');
+				$('#pKeyword').val('');
+				$(this).next().attr('placeholder','기간을 선택하세요');
 				
-				$(this).next().after("<b id=temp>&nbsp;~</b> ")
-				$(this).next().next().after("<input type=date id=pKeyword1>")
-				console.log($('form').html());
+				$(this).next().after("<b id=temp>~</b> ")
+				$(this).next().next().after("<input type=text id=pKeyword1 placeholder='기간을 선택하세요'>")
+				
+				$("#pKeyword").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'              
+		        });
+				$('#pKeyword').datepicker("option", "maxDate", $("#pKeyword1").val());
+			    $('#pKeyword').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword1").datepicker( "option", "minDate", selectedDate );
+			    });
+				
+				$("#pKeyword1").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'  
+		        });
+				$('#pKeyword1').datepicker("option", "minDate", $("#pKeyword").val());
+			    $('#pKeyword1').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword").datepicker( "option", "maxDate", selectedDate );
+			    });
 			}else if($(this).val()=='finDate'){
 								
 				$('#pKeyword1').remove();
 				$('#temp').remove();
-				$(this).next().attr('type','date');
-				$(this).next().after("<b id=temp>&nbsp;~</b> ")
-				$(this).next().next().after("<input type=date id=pKeyword1>")
-				console.log($('form').html());
-			}else{
-				$(this).next().attr('type','text');
+				$('#pKeyword').val('');
+				$(this).next().attr('placeholder','기간을 선택하세요');
 				
+				$(this).next().after("<b id=temp>~</b> ")
+				$(this).next().next().after("<input type=text id=pKeyword1 placeholder='기간을 선택하세요'>")
+				
+				$("#pKeyword").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'              
+		        });
+				$('#pKeyword').datepicker("option", "maxDate", $("#pKeyword1").val());
+			    $('#pKeyword').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword1").datepicker( "option", "minDate", selectedDate );
+			    });
+				
+				$("#pKeyword1").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'  
+		        });
+				$('#pKeyword1').datepicker("option", "minDate", $("#pKeyword").val());
+			    $('#pKeyword1').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword").datepicker( "option", "maxDate", selectedDate );
+			    });
+			}else{
+				$(this).next().attr('placeholder','검색어를 입력하세요');
+				$('#pKeyword').datepicker("destroy");
+				$('#pKeyword').val('');
 				$('#pKeyword1').remove();
 				$('#temp').remove();
 
@@ -107,11 +154,17 @@
 			 
 		 });
 		
-		 $("input[name=pKeyword]").autocomplete({
+		 $("input[name=pKeyword]").autocomplete({  //자동완성
 				focus : function() {
 					return false;
 				}
 		 });
+
+		 //기간 선택시 기간 유효성 체크
+		 $('#search').on('c','#pKeyword1',function(){
+			 
+		 });
+		 
 		 
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
 		$('#pKeyword').on('keydown', function(e) {
@@ -124,8 +177,22 @@
 		//검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
-			 pKeyword=$('#pKeyword').val();
-			 pKeyword1=$('#pKeyword1').val();
+			 if(pKeyfield=='finDate' || pKeyfield=='apprDate'){
+				 pKeyword=convertDate($('#pKeyword').datepicker('getDate'));
+				 pKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
+			 }else{
+				 pKeyword=$('#pKeyword').val();
+			 }
+			 
+			 function pad(num) {
+			        num = num + '';
+			        return num.length < 2 ? '0' + num : num;
+		     }
+		   
+			   function convertDate(date) {
+			       return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());
+	
+			   }
 			 
 	 			if(pKeyfield != "apprDate" && pKeyword == "") {
 	 				if(pKeyfield!="finDate"){

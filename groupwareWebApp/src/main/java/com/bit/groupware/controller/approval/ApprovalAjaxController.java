@@ -76,7 +76,6 @@ public class ApprovalAjaxController {
 				approval.addApprovalFile(approvalFile);
 			}
 		}
-		System.out.println(session.getServletContext().getRealPath("/") +"zzzzzzzzzzzzzzzzz");
 		approvalService.registerApproval(approval, receiverNo);
 		
 		return approval.getApprFinalStatus();
