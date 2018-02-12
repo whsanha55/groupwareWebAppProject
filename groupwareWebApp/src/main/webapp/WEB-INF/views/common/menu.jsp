@@ -9,33 +9,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <script>
 	$(document).ready(function(){
-
-		$('#clickName').on('click',function(){
-			$.ajax({
-				url: '${pageContext.request.contextPath}/menuAjax.do'	
-				,
-				method : 'GET'
-				,
-				data : $(".boardList").attr("id")
-				,
-				dataType : 'json'
-				,
-				async : true
-				,
-				cache : false
-				,
-				success : function(data, textStatus, jqXHR){
-					var htmlStr = "";
-					for(var i=0; i<data.length; i++){
-						htmlStr += "<li id=" +data[i].boardNo + " class='boardList'><a href='<c:url value='/postList.do'/>'>" + data[i].boardName + "</a></li>" ; 
-						}
-						$('#boardNameList').html(htmlStr);
+		$.ajax({
+			url: '${pageContext.request.contextPath}/menuAjax.do'	
+			,
+			method : 'GET'
+			,
+			data : $(".boardList").attr("id")
+			,
+			dataType : 'json'
+			,
+			async : true
+			,
+			cache : false
+			,
+			success : function(data, textStatus, jqXHR){
+				var htmlStr = "";
+				for(var i=0; i<data.length; i++){
+					htmlStr += "<li id=" +data[i].boardNo + " class='boardList'><a href='<c:url value='/postList.do'/>'>" + data[i].boardName + "</a></li>" ; 
 					}
-				,
-				error: function(jqXHR, textStatus, errorThrown) {
-	  				alert('error : ' + jqXHR.status);
-	  			}	
-			});
+					$('#boardNameList').html(htmlStr);
+				}
+			,
+			error: function(jqXHR, textStatus, errorThrown) {
+  				alert('error : ' + jqXHR.status);
+  			}	
 		});
 	});
 </script>
@@ -147,8 +144,9 @@
 				<li><h3>게시판</h3>
 					<ul class="nav child_menu" style="display: block;">
 						<li><a href='<c:url value="/noticeList.do"/>'>공지사항</a></li>
-						<li id="clickName"><a>게시판 <span class="fa fa-chevron-down"></span></a>
-							<ul class="nav child_menu" id="boardNameList">
+						<li><a>게시판 <span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu" i id="boardNameList">
+								<li><a href='<c:url value="/postList.do"/>'>게시판</a></li>
 							</ul>
 					</ul></li>
 				<br>
