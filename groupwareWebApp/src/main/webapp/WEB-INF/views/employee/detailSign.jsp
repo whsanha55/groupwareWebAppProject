@@ -39,7 +39,7 @@
 							<%-- <i class="fa fa-picture-o"> --%>
 							<img id="img" width="250px" height="250px" 
 									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${requestScope.signName}"
-									class="img-responsive center-block"/>
+									class="img-responsive"/>
 						</div>
 					</div>
 					<div class="ln_solid"></div>
