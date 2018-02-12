@@ -16,6 +16,8 @@ public interface EmployeeService {
 	
 	String checkSignCount(String empNo);
 	
+	void removeSign(String empNo);
+	
 	//»ç¿ø
 	EmployeeVO retrieveEmployee(String empNo);
 
