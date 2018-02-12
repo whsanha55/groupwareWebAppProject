@@ -19,49 +19,43 @@
 <script>
 	$(document).ready(function () {
 		
-		$('#dutyBtnList li > a').on('click', function() {
-		    $('#dutyBtn').text($(this).text());
-		    $('input[name=dutyCode]').val($(this).attr('value'));
+		
+		$('#dutyBtn').on('change', function() {
+			$('input[name=dutyCode]').val($('#dutyBtn option:selected').val());	
 		});
 		
-		$('#deptBtnList li > a').on('click', function() {	
-			$('#deptBtn').text($(this).text());
-		    $('input[name=deptCode]').val($(this).attr('value'));		    
-		   
-		    if($('#teamBtn').is(null) != true){
-		    	$('#teamBtn').remove();
-		    }
-		    
-			$.ajax ({
+		$('#deptBtn').on('change', function() {
+			$('input[name=deptCode]').val($('#deptBtn option:selected').val());	
+						
+		  	$.ajax ({
 				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
 				,
 				method: 'POST'
 				,
 				data: {
-					deptCode: $('input[name=deptCode]').val()
+					deptCode: $('#deptCode').val()
 				}
 				,
 				dataType: 'json'
 				,
 				success: function(data) {
 					var text = "";					
-					
 					if(data.length != 0) {
-						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="false">팀';
-						text += '<span class="caret"></span></button>';					
-						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu" aria-labelledby="d2Label">';
-						
+						text += '<select id="teamBtn" name="teamBtn" style="width:100px;height:30px;">';
+						text += '<option value="">팀선택</option>';					
 						for (var i = 0; i<data.length; i++) {
-							text += '<li role="presentation">';
-							text += '<a role="menuitem" href="#" value="'+ data[i].cNo +'">'+ data[i].cName +'</a>';
-							text += '</li>';
+							text += '<option value="'+ data[i].cNo +'">'+ data[i].cName +'</option>';
+						}
+						text += '</select>';
+						
+						if($('#teamBtn').is(null) != true) {
+							$('#teamBtn').remove();
 						}
 						
-						text += '</ul>';	
-						
-						$(text).appendTo('#form-dept');						
+						$(text).appendTo('#form-dept');
+											
 					} else {
-						return false;
+						$('#teamBtn').remove();
 					}
 				}
 				,
@@ -70,11 +64,8 @@
 				}
 			});
 		});
+		$('input[name=deptCode]').val($('#teamBtn option:selected').val());
 		
-		/* $("#form-dept").on('click','#teamBtnList li > a', function () {
-			$("#teamBtn").text($(this).text());
-			$('input[name=deptCode]').val($(this).attr('value'));
-		}); */
 		
 		/* $('#regibtn').click(function() {
 
@@ -96,6 +87,12 @@
 		
 		$("#findpostcode").click(execDaumPostcode);
 
+		$('#check').click(function() {
+			console.log($('#dutyBtn option:selected').val());
+			console.log($('#deptBtn option:selected').val());
+			console.log($('input[name=deptCode]').val());
+			console.log($('input[name=dutyCode]').val());
+		});
 		
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
@@ -354,8 +351,8 @@
 				<br>
 				<form id="regiform" data-parsley-validate="" class="form-horizontal form-label-left"
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
-					<%-- <input type="hidden" id="deptCode" name="deptCode" value="" />
-					<input type="hidden" id="dutyCode" name="dutyCode" value="" />	 --%>		
+					<input type="hidden" id="deptCode" name="deptCode" value="" />
+					<input type="hidden" id="dutyCode" name="dutyCode" value="" />	
 					<div class="form-group">		
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
@@ -446,7 +443,8 @@
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" 
 							for="last-name">직책 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
-						<select id="dutyCode" name="dutyCode" style="width:100px;height:30px;">
+						<select id="dutyBtn" name="dutyBtn" style="width:100px;height:30px;">
+							<option value="">직책선택</option>
 							<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
 								<option value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</option>
 							</c:forEach>
@@ -457,11 +455,12 @@
 							for="deptBtn">부서 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
 						
-						<select id="deptCode" name="deptCode" style="width:100px;height:30px;">
+						<select id="deptBtn" name="deptBtn" style="width:100px;height:30px;">
+								<option value="">부서선택</option>
 							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 								<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
 							</c:forEach>
-						</select>						
+						</select>		
 					</div>
 
 					<div class="form-group">
@@ -516,6 +515,7 @@
 							<c:url var="listEmployeeURL" value="/admin/listEmployee.do" scope="page" ></c:url>
 							<a id="list" href="${pageScope.listEmployeeURL }"><button class="btn btn-primary" type="button">목록</button></a>
 							<button id="regibtn" type="submit" class="btn btn-success">사원등록</button>
+							<button id='check' type="button">체크</button>
 						</div>
 					</div>
 				</form>
