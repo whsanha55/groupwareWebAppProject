@@ -112,7 +112,8 @@
 		$()
 		
 		$('#modifyBtn').click(function () {
-			if($('#modRetireStatus').val()=='X') {
+			console.log($('#modRetireStatus').val())
+			if($('#modRetireStatus').val()=='ÀçÁ÷') {
 				$('#modRetireStatus').val('1');	
 			} else {
 				$('#modRetireStatus').val('0');	
@@ -285,21 +286,21 @@
 						text += "<tr>";
 						text += "<input id='submitPhotoName' type='hidden' value='"+ data.employees[i].systemPhotoName +"'>";
 						text += "<input id='submitSignName' type='hidden' value='"+ data.employees[i].systemSignName +"'>";
-						text += "<td id='submitEmpNo'"+ i +"><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
-						text += "<td id='submitEmpName'"+ i +">"+ data.employees[i].empName 		+ "</td>";
+						text += "<td id='submitEmpNo'><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
+						text += "<td id='submitEmpName'>"+ data.employees[i].empName 		+ "</td>";
 						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
 						text += "<input id='submitDeptNo' type='hidden' value='"+ data.employees[i].deptNo +"'>";
-						text += "<td id='submitDuty'"+ i +">"+ data.employees[i].duty 			+ "</td>";
+						text += "<td id='submitDuty'>"+ data.employees[i].duty 			+ "</td>";
 						text += "<input id='submitDutyNo' type='hidden' value='"+ data.employees[i].dutyNo +"'>";
-						text += "<td id='submitDept'"+ i +">"+ data.employees[i].department 	+ "</td>";
-						text += "<td id='submitPhoneNumber'"+ i +">"+ data.employees[i].phoneNumber	+ "</td>";
+						text += "<td id='submitDept'>"+ data.employees[i].department 	+ "</td>";
+						text += "<td id='submitPhoneNumber'>"+ data.employees[i].phoneNumber	+ "</td>";
 						text += "<input id='submitRegNumber' type='hidden' value='"+ data.employees[i].regNumber +"'>";
-						text += "<td id='submitHireDate'"+ i +">"+ data.employees[i].hireDate		+ "</td>";
-						text += "<td id='submitEmail'"+ i +">"+ data.employees[i].email			+ "</td>";
+						text += "<td id='submitHireDate'>"+ data.employees[i].hireDate		+ "</td>";
+						text += "<td id='submitEmail'>"+ data.employees[i].email			+ "</td>";
 						if(data.employees[i].retireStatus == 0) {
-							text += "<td id='submitRetireStatus"+ i +"'>Åð»ç</td>";
+							text += "<td id='submitRetireStatus'>Åð»ç</td>";
 						} else {
-							text += "<td id='submitRetireStatus"+ i +"'>ÀçÁ÷</td>";
+							text += "<td id='submitRetireStatus'>ÀçÁ÷</td>";
 						}
 						text += "<input id='submitRetireDate' type='hidden' value='"+ data.employees[i].retireDate +"'>";
 						text += "<input id='submitpostcode' type='hidden' value='"+ data.employees[i].postcode +"'>";
@@ -324,7 +325,7 @@
 							$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
 							if($(this).nextAll('#submitRetireStatus').text() == 'Åð»ç') {
 								$('#modRetireStatus').val('Åð»ç');
-								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
+								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());													
 							} else {
 								$('#modRetireStatus').val('ÀçÁ÷');
 								$('#modRetireDate').val("");
