@@ -375,7 +375,12 @@
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
+						
 						$('#modEngName').val($(this).parent().children('#submitEngName').val());
+						if($('#modEngName').val() == 'null') {
+							$('#modEngName').val("");
+						}					
+						
 						$('input[name=dutyCode]').val($(this).parent().children('#submitDutyNo').val());
 						$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
@@ -404,7 +409,14 @@
 						}
 						$('#modpostcode').val($(this).parent().children('#submitpostcode').val());
 						$('#modAddress').val($(this).parent().children('#submitAddress').val());	
+						
 						$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
+						if($('#moddetailAddress').val() == 'null') {
+							$('#moddetailAddress').val("");
+						}
+						
+						
+						
 					});
 				}
 				$('#datatable').find('tbody').html(text);
