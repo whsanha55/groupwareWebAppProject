@@ -82,7 +82,7 @@ page contentType="text/html; charset=utf-8"%>
 						</c:if>
 						
 						<div class="clearfix" style="color:#fff;">
-						<input type = "radio" name = "role" value = "user" >사용자
+						<input type = "radio" name = "role" value = "user" >사용자 &nbsp;&nbsp;&nbsp;&nbsp;
 						<input type = "radio" name = "role" value = "admin">관리자<br>
 						</div>
 
