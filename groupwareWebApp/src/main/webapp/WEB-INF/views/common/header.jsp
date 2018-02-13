@@ -16,7 +16,7 @@
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
 		
 		newMsg();
-		var msg = setInterval(newMsg, 2000);
+		//var msg = setInterval(newMsg, 2000);
 
 		
 		

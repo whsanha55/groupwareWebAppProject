@@ -138,18 +138,19 @@
 		select nvl(count(*),0)
 		from approval_record t1, receiver_line t2
 		where t1.line_no = t2.line_no
-		and t1.check_date is null 
-		and ((t2.LINE_EMP_NO = #{empNo} and t1.dep_emp_no is null) 
-			 or (t2.line_emp_no is null and t1.dep_emp_no = #{empNo}))  
- 
+		and ((t2.LINE_EMP_NO = #{empNo} and t1.dep_emp_no is null)
+			 or t1.dep_emp_no = #{empNo}) 
+		and t1.check_date is null
+		and t1.appr_status ='C-02-00'
+		
 		union all
 		
 		select nvl(count(*),0)
 		from approval_record t1, receiver_line t2
 		where t1.line_no = t2.line_no
-		and t1.check_date is null
 		and t2.LINE_EMP_NO = #{empNo}
-		and t2.appr_type = 1
+		and t1.check_date is null
+		and t1.appr_status ='C-02-06'
 		
 		
 	</select>
