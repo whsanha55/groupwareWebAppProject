@@ -16,8 +16,6 @@ import com.bit.groupware.service.authority.PostService;
 @Controller
 public class PostController {
 	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-	@Autowired
-	private PostService postService;
 	
 	@RequestMapping(value="/postList.do", method=RequestMethod.GET)
 	public ModelAndView postList(@RequestParam(value = "boardNo") int boardNo) {

@@ -37,7 +37,7 @@
 				var cmtNo = $(this).val();
 				swal({
 					title: "댓글 삭제" ,
-					text: "댓글을 삭제합니다. 계속 진행하시겠습니까?"+cmtNo,
+					text: "댓글을 삭제합니다. 계속 진행하시겠습니까?",
 					icon: "info",
 					buttons : true 
 				}).then((e) => {
@@ -88,8 +88,9 @@
 		      $('#datatable').on('click','button:contains(수정)', function () {
 		         var cmtContent = $(this).parents("tr").find('.cmtContent').text();
 		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent' value="+cmtContent +" />");   
-		     
-		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
+		          $(this).parents("tr").find('.cmtContent').find(':text[name=cmtContent]').val(cmtContent);
+		          
+		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' >완료</button><button type='button'>취소</button></td>");
 		          $('button:contains(수정)').prop("disabled", true);
 		         
 		      });
@@ -106,7 +107,7 @@
 		          var a = $(this).parents("tr").find('input[name=rName]');
 		          
 		         swal({
-		              title: "댓글을 수정하시겠습니까?"+cmtNo,
+		              title: "댓글을 수정하시겠습니까?",
 		              icon: "info",
 		              buttons : true 
 		            }).then((e) => {
@@ -152,7 +153,7 @@
 		         
 		         $(this).parents("tr").find('.cmtContent').html(cmtContent);		        
 		         
-		         $(this).parents("tr").find('.selectBtn').html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
+		         $(this).parents("tr").find('.selectBtn').html("<button type='button'>수정</button>");
 		          $('button:contains(수정)').prop("disabled", false);
 		       });  
 			
@@ -174,7 +175,10 @@
 							<c:param name="boardName" value="${param.boardName}" />
 						</c:url>
 						<c:url var="removeUrl" value="/removePost.do" scope="page">
-							<c:param name="postNo" value="${requestScope.post.postNo }" />						
+							<c:param name="postNo" value="${requestScope.post.postNo }" />
+							<c:param name="boardNo" value="${param.boardNo }" />
+							<c:param name="boardName" value="${param.boardName }" />
+							<c:param name="empName" value="${param.empName }" />						
 						</c:url>
 					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
 					<c:if test="${requestScope.post.writer == param.empName}">
