@@ -70,7 +70,7 @@
 	  		  var status = 2;
 			  var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo
 							+'&status='+status+'&finalStatus=0';
-				window.open(url, "결재문서","width=1000, height=800");
+				window.open(url, "결재문서","width=1100, height=800");
 				
 			});
 		

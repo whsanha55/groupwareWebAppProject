@@ -88,8 +88,7 @@
 
 
 	<div class="navbar nav_title" style="border: 0;">
-		<a href='<c:url value="index.do"/>' class="site_title"><i class="fa fa-paw"></i>
-			<span>로고</span></a>
+		<a href='<c:url value="index.do"/>' class="site_title"><img src="${pageContext.request.contextPath }/resources/upload/approvalFile/logo2.png"></a>
 	</div>
 
 	<div class="clearfix"></div>
