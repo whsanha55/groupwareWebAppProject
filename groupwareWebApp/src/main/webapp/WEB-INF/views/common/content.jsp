@@ -11,14 +11,7 @@
 <link
 	href="${pageContext.request.contextPath}/resources/js/fullcalendar/fullcalendar.min.css"
 	rel="stylesheet">
-<title>content</title>
-</head>
-<body>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/fullcalendar/fullcalendar.min.js"></script>
-	<style type="text/css">
+<style>
 .fc-sun {
 	color: #e31b23
 }
@@ -26,14 +19,19 @@
 .fc-sat {
 	color: #007dc3
 }
-</style>
-	<style>
 #calendar {
 	margin: 0px 20px;
 	padding: 30px;
 	border: 1px solid gray;
 }
 </style>
+</head>
+<body>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/fullcalendar/fullcalendar.min.js"></script>
+
 	<script>
 $(document).ready(function(){ 
 	NoticeList();
@@ -167,91 +165,96 @@ $(document).ready(function(){
 
 </script>
 
-	<!-- top tiles -->
-
-	<div class="col-md-12 col-sm-12 col-xs-12 dashboard_graph"
-		style="margin-bottom: 10px;">
-		<a><i class="glyphicon glyphicon-plus"></i></a> 기능 모아보기
-	</div>
+	
 	<br>
 	<!-- /top tiles -->
 
 	<div class="row">
-		<div class="col-md-2 col-sm-4 col-xs-12">
-			<div class="x_panel tile fixed_height_200">
-				<dl style="margin-top: 40px;">
-					<dt class="text-center">
-						<a href='<c:url value="/postList.do?boardNo=235"/>'><i
-							class="fa fa-file-text fa-5x" aria-hidden="true"></i></a>
-					</dt>
-					<dd>
-						<h2 class="text-center">
-							<a><strong>
-							<a href='<c:url value="/postList.do?boardNo=235"/>'>게시판</strong></a>
-						</h2>
-					</dd>
-				</dl>
+		<a href='<c:url value="/postList.do?boardNo=235"/>'>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+				<div class="x_panel tile fixed_height_200">
+					<dl style="margin-top: 40px;">
+						<dt class="text-center">
+								<i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
+						</dt>
+						<dd>
+							<h2 class="text-center">
+									<strong>게시판</strong>
+							</h2>
+						</dd>
+					</dl>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-2 col-sm-4 col-xs-12">
-			<div class="x_panel tile fixed_height_200">
-				<dl style="margin-top: 40px;">
-					<dt class="text-center">
-						<a><i class="fa fa-comments-o fa-5x" aria-hidden="true"></i>
-					</dt>
-					<dd>
-						<h2 class="text-center">
-							<a><strong>쪽지함</strong></a>
-						</h2>
-					</dd>
-				</dl>
+		</a>
+		<a href='<c:url value="/retrieveMessageList.do"/>'>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+				<div class="x_panel tile fixed_height_200">
+					<dl style="margin-top: 40px;">
+						<dt class="text-center">
+								<i class="fa fa-comments-o fa-5x" aria-hidden="true"></i>
+						</dt>
+						<dd>
+							<h2 class="text-center">
+								<strong>쪽지함</strong>
+							</h2>
+						</dd>
+					</dl>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-2 col-sm-4 col-xs-12">
-			<div class="x_panel tile fixed_height_200">
-				<dl style="margin-top: 40px;">
-					<dt class="text-center">
-						<a><i class="fa fa-briefcase fa-5x" aria-hidden="true"></i>
-					</dt>
-					<dd>
-						<h2 class="text-center">
-							<a><strong>문서작성</strong></a>
-						</h2>
-					</dd>
-				</dl>
+		</a>
+		
+		<a href='<c:url value="/selectTemplate.do"/>'>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+				<div class="x_panel tile fixed_height_200">
+					<dl style="margin-top: 40px;">
+						<dt class="text-center">
+							<i class="fa fa-briefcase fa-5x" aria-hidden="true"></i>
+						</dt>
+						<dd>
+							<h2 class="text-center">
+								<strong>문서작성</strong>
+							</h2>
+						</dd>
+					</dl>
+				</div>
 			</div>
-		</div>
-
-		<div class="col-md-2 col-sm-4 col-xs-12">
-			<div class="x_panel tile fixed_height_200">
-				<dl style="margin-top: 40px;">
-					<dt class="text-center">
-						<a><i class="fa fa-chevron-circle-down fa-5x"
-							aria-hidden="true"></i>
-					</dt>
-					<dd>
-						<h2 class="text-center">
-							<a><strong>결재대기함</strong></a>
-						</h2>
-					</dd>
-				</dl>
+	    </a>
+	    
+	    <a href='<c:url value="/approvalTodo.do"/>'>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+				<div class="x_panel tile fixed_height_200">
+					<dl style="margin-top: 40px;">
+						<dt class="text-center">
+							<i class="fa fa-chevron-circle-down fa-5x"
+								aria-hidden="true"></i>
+						</dt>
+						<dd>
+							<h2 class="text-center">
+								<strong>결재대기함</strong>
+							</h2>
+						</dd>
+					</dl>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-2 col-sm-4 col-xs-12">
-			<div class="x_panel tile fixed_height_200">
-				<dl style="margin-top: 40px;">
-					<dt class="text-center">
-						<a><i class="fa fa-picture-o fa-5x" aria-hidden="true"></i></a>
-					</dt>
-					<dd>
-						<h2 class="text-center">
-							<a><strong>마이페이지</strong></a>
-						</h2>
-					</dd>
-				</dl>
-
+		</a>
+		
+		<a href='<c:url value="/detailEmployee.do"/>'>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+				<div class="x_panel tile fixed_height_200">
+					<dl style="margin-top: 40px;">
+						<dt class="text-center">
+							<i class="fa fa-picture-o fa-5x" aria-hidden="true"></i>
+						</dt>
+						<dd>
+							<h2 class="text-center">
+								<strong>마이페이지</strong>
+							</h2>
+						</dd>
+					</dl>
+	
+				</div>
 			</div>
-		</div>
+		</a>
 		<div class="col-md-2 col-sm-4 col-xs-12">
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
