@@ -146,8 +146,21 @@
 		///검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
-			 pKeyword=$('#pKeyword').val();
-			 pKeyword1=$('#pKeyword1').val();
+			 if(pKeyfield=='finDate' || pKeyfield=='apprDate'){
+				 pKeyword=convertDate($('#pKeyword').datepicker('getDate'));
+				 pKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
+			 }else{
+				 pKeyword=$('#pKeyword').val();
+			 }
+			 
+			 function pad(num) {
+			        num = num + '';
+			        return num.length < 2 ? '0' + num : num;
+		     }
+			   
+			 function convertDate(date) {
+			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
+			 }
 			 
 	 			if(pKeyfield != "apprDate" && pKeyword == "") { 			
 					swal("검색어를 입력해주세요.", "");
@@ -165,7 +178,7 @@
 		
 		//검색후 다시 리스트로
 			$('#return').click(function(){
-				location.href="${pageContext.request.contextPath}/approvalMyRequest.do";
+				location.href="${pageContext.request.contextPath}/approvalExpect.do";
 			});
 		
 	 
@@ -178,11 +191,9 @@
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			var apprFinalStatus=0;
-			var apprStatus=1;
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/approvalPaging.do' 
+				url: '${pageContext.request.contextPath}/approvalExpectedPaging.do' 
 				,
 				data: {
 					keyfield: pKeyfield ,
@@ -190,8 +201,6 @@
 					keyword1: pKeyword1 ,	
 					startRow : startRow ,
 					endRow : endRow,
-					apprFinalStatus : apprFinalStatus,
-					apprStatus : apprStatus
 				},
 				type: 'POST' ,
 				cache: false ,
