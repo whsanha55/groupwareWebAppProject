@@ -11,15 +11,14 @@
 			select board_no_seq.nextval from dual
 		</selectKey>
 		insert into board(board_no, board_name, isuse, file_count, isnotice,
-		iscomment, isdeptdivide, isdocutype)
+		iscomment,  isdocutype)
 		values(#{boardNo},#{boardName,
-		},#{isUse},#{fileCount},#{isNotice},#{isComment},
-		#{isDeptDivide},#{isDocuType})
+		},#{isUse},#{fileCount},#{isNotice},#{isComment},#{isDocuType})
 	</insert>
 
 	<select id="selectBoardList" resultType="BoardVO" statementType="STATEMENT">
 		select board_no as boardNo , board_name as boardName, isuse,
-		file_count as fileCount, isnotice, iscomment, isdeptdivide, isdocutype
+		file_count as fileCount, isnotice, iscomment, isdocutype
 		from board
 	</select>
 
@@ -41,9 +40,6 @@
 			<if test="isComment != null">
 				isComment = #{isComment},
 			</if>
-			<if test="isDeptDivide != null">
-				isDeptDivide = #{isDeptDivide},
-			</if>
 			<if test="isDocuType != null">
 				isDocuType = #{isDocuType},
 			</if>
@@ -59,7 +55,7 @@
 	<!-- 게시판 번호에 해당하는 게시판 조회 -->
 	<select id="selectBoard" resultType="BoardVO" statementType="PREPARED" parameterType="int"> 
 		select board_no as boardNo ,board_name as boardName, isuse, file_count as fileCount,
-		isnotice,iscomment, isdeptdivide, isdocutype
+		isnotice,iscomment,  isdocutype
 		from board 
 		where board_no = #{boardNo} 
 	</select> 
@@ -76,7 +72,7 @@
 	
 	<!-- 게시판을 조회하다. -->
 	<select id="selectBoardNameList" statementType="STATEMENT" resultType="BoardVO">
-		select board_no as boardNo, board_name as boardName
+		select board_no as boardNo, board_name as boardName, isUse, file_count as fileCount, isNotice, isComment,  isDocutype
 		from board
 	</select>
 	

@@ -144,6 +144,8 @@
 					<ul class="nav child_menu" style="display: block;">
 						<li><a href='<c:url value="/noticeList.do"/>'>공지사항</a></li>
 						<li><a>게시판 <span class="fa fa-chevron-down"></span></a>
+							<input type="hidden"  name="fileCount"/>
+							<input type="hidden"  name="isComment"/>
 							<ul class="nav child_menu" id="boardNameList">
 
 							</ul>
