@@ -45,8 +45,7 @@ public class RegisterPostController {
 	@RequestMapping(value = "/addPost.do", method = RequestMethod.POST)
 	public String submit(PostVO post, HttpSession session,
 			@RequestParam(value="empName", required = true) String empName) throws Exception { 
-		post.setWriter(empName);
-		logger.info("입력!!!!!!!!!!!!!!!!! : {}", post);
+		post.setWriter(empName);		
 		List<MultipartFile> uploadFiles = post.getUpload();
 		for (MultipartFile file : uploadFiles) {
 			if (!file.isEmpty()) {				
@@ -57,7 +56,8 @@ public class RegisterPostController {
 			}
 		}
 		postService.registerPost(post);
-		return "redirect:/postList.do?boardNo=" + post.getBoardNo();
+		logger.info("입력!!!!!!!!!!!!!!!!! : {}", post.getWriter());
+		return "redirect:/postList.do?";
 	}
 
 }
