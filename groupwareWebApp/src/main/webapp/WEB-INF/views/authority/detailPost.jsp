@@ -256,15 +256,23 @@
 			
 
 			<!-- 댓글 입력 -->
-			<div style="width: 200px; text-align: center;">
+		<%-- 	<div style="width: 200px; text-align: center;">
 				<br>
 				<div style="text-align: left;">${param.empName}</div>				
 				<textarea style="width: 300px;"  id="cmtContent"
 					placeholder="댓글을 작성해주세요"></textarea>
 				<button type="button" id="btnReply">댓글 작성</button>
 				
+			</div> --%>
+			<br><br>
+			<div class="form-group">
+				<label class="control-label col-md-1 col-sm-2 col-xs-1">${param.empName}</label>
+				<div class="col-md-9 col-sm-9 col-xs-12">
+					<textarea id="cmtContent" class="resizable_textarea form-control"
+						placeholder="댓글을 작성해주세요"></textarea>
+						<button type="button" id="btnReply" class="btn btn-primary pull-right" >댓글 작성</button>
+				</div>
 			</div>
-
 
 		</div>
 	</div>
