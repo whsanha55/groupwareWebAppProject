@@ -131,10 +131,10 @@ public class NotificationController {
 			return "redirect:approvalRef.do";
 		}else if(path.equals("direct7")) {
 			//결재요청으로 이동
-			return "redirect:approvalTodo.do";
+			return "redirect:approvalMyRequest.do";
 		}else if(path.equals("direct8")) {
 			//결재대기로 이동 
-			return "redirect:approvalMyRequest.do";
+			return "redirect:approvalTodo.do";
 			
 		}
 				

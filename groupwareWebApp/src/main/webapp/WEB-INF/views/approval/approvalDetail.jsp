@@ -264,7 +264,7 @@
 					if(data){	//data true일때만 회수처리 된거니깐 			
 						swal("결재 회수가 완료되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+							opener.location='${pageContext.request.contextPath}/approvalMyRequest.do'
 						});				
 					}else{
 						swal({ 
@@ -301,17 +301,17 @@
 					if(data == 1) { // 결재 승인
 						swal("결재가 승인되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});
 					} else if(data ==2) { //결재 보류
 						swal("결재가 보류되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});	
 					} else  {		//반려
 						swal("결재가 반려되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});
 					}
 										
@@ -340,7 +340,7 @@
 				success : function(data) {
 					swal("문서 삭제가 완료되었습니다.").then((e)=>{
 						self.close();
-						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+						opener.location='${pageContext.request.contextPath}/approvalMyRequest.do'
 					});					
 				}
 				,
