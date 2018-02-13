@@ -17,8 +17,11 @@
 		
 		newMsg();
 		//var msg = setInterval(newMsg, 2000);
+<<<<<<< HEAD
 
 		
+=======
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 		
 		//최초이벤트(5개씩)
 		$('#alerts').find('a').on('click', newAlarm);
@@ -204,7 +207,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="javascript:;">내 정보</a></li>
-                    <li><a href='<c:url value="/login.do"/>'><i class="fa fa-sign-out pull-right"></i>로그 아웃</a></li>
+                    <li><a href='<c:url value="/logout.do"/>'><i class="fa fa-sign-out pull-right"></i>로그 아웃</a></li>
                   </ul>
                 </li>
 				<!-- 알림 -->

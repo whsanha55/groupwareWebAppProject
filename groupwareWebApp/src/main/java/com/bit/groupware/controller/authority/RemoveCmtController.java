@@ -20,9 +20,9 @@ public class RemoveCmtController {
 	// 게시글 쓰기 요청을 처리할 컨틀롤러 메소드
 	@RequestMapping(value="/deleteCmt.do", method=RequestMethod.GET)
 	@ResponseBody
-	public int remove(@RequestParam(value="no", required=true)int no) throws Exception {		
-		logger.info("삭제번호!!!!!!!!!!!!!!: {}", no);
-		cmtService.removeCmt(no);
+	public int remove(@RequestParam(value="cmtNo", required=true)int cmtNo) throws Exception {		
+		logger.info("삭제번호!!!!!!!!!!!!!!: {}", cmtNo);
+		cmtService.removeCmt(cmtNo);
 		
 		return 0;			
 	}
