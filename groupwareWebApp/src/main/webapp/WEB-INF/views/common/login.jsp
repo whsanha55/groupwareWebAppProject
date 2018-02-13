@@ -62,7 +62,7 @@ page contentType="text/html; charset=utf-8"%>
 					
 						
 						<div style="margin-top:50px">
-							<h2 class="text-left" style="color:#fff;">사원 번호</h2>
+							<h2 class="text-left" style="color:#fff;">사원번호</h2>
 							<input type="text" name="id" class="form-control"
 								placeholder="아이디를 입력해주세요." required="" />
 						</div>
