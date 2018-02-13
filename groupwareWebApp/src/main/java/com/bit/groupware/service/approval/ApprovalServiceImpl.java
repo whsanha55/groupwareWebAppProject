@@ -41,6 +41,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 		// TODO Auto-generated method stub
 		return dao.selectAllApprovalList(map); 
 	}
+	
+	//결재예정함 조회
+	public List<ApprovalVO> retrieveExpectedList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.selectExpectedApprList(map); 
+	}
 
 	// 결재문서 상세조회
 	public ApprovalVO retrieveApproval(int apprNo) {
@@ -130,5 +136,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 		// TODO Auto-generated method stub
 		return dao.selectAllApprovalCount(map); 
 	}
+
+	public int retrieveExpectedCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.selectExpectedApprCount(map); 
+	}
+	
 	
 }

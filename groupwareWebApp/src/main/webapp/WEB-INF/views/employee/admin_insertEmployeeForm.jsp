@@ -57,6 +57,9 @@
 					} else {
 						$('#teamBtn').remove();
 					}
+					$('#teamBtn').on('change', function() {
+						$('input[name=deptCode]').val($('#teamBtn option:selected').val());
+					});
 				}
 				,
 				error: function(jqXHR) {
@@ -64,7 +67,6 @@
 				}
 			});
 		});
-		$('input[name=deptCode]').val($('#teamBtn option:selected').val());
 		
 		
 		/* $('#regibtn').click(function() {
@@ -86,7 +88,14 @@
 		$("#upload-image").on("change", handleImgFileSelect);
 		
 		$("#findpostcode").click(execDaumPostcode);
-
+		
+		$('select[name=emailaddr]').on('change', function () {	
+			if($('select[name=emailaddr]').val() != "") {
+				$('#email2').attr('readonly', true);
+				$('#email2').val($('select[name=emailaddr]').val());				
+			}
+		});
+		
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;
