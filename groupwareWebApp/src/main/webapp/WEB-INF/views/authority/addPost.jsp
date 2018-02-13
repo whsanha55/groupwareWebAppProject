@@ -34,6 +34,7 @@
 	<form action="<%=request.getContextPath()%>/addPost.do" method="post"
 		enctype="multipart/form-data">
 		<input type = "hidden" name ="boardNo" value = "${requestScope.boardNo}">
+		<input type = "hidden" name ="boardName" value = "${param.boardName}">
 		<input type = "hidden" name ="empName" value = "${param.empName}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
