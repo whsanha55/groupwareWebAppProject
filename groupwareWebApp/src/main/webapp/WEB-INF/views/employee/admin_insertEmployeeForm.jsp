@@ -57,6 +57,9 @@
 					} else {
 						$('#teamBtn').remove();
 					}
+					$('#teamBtn').on('change', function() {
+						$('input[name=deptCode]').val($('#teamBtn option:selected').val());
+					});
 				}
 				,
 				error: function(jqXHR) {
@@ -64,7 +67,6 @@
 				}
 			});
 		});
-		$('input[name=deptCode]').val($('#teamBtn option:selected').val());
 		
 		
 		/* $('#regibtn').click(function() {
