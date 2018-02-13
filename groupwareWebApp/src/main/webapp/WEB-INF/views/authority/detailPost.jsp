@@ -9,11 +9,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-	$(document).ready(
-			function() {
+$(document).ready(function() {
+			
+			listCmt();
 				// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
-				$("#btnReply").click(
-					function() {
+				$('#btnReply').on('click', function() {
 						var cmtContent = $("#cmtContent").val();
 						var empName = '${param.empName}';
 						var postNo = "${requestScope.post.postNo }";						
@@ -27,10 +27,13 @@
 							},
 							success : function() {
 								alert("댓글이 등록되었습니다.");
-								location.reload();
+							 	
+								listCmt();
+								
 							}
 						});
 					});
+			
 
 			//댓글 삭제 
 			$('#deleteBtn').on('click', function() {	
@@ -44,7 +47,8 @@
 					if(e) {
 						deleteCmt(cmtNo);							
 					}
-				});		
+				});	
+			
 							
 			//alert($(this).val());
 			function deleteCmt(cmtNo) {	
@@ -157,11 +161,49 @@
 		          $('button:contains(수정)').prop("disabled", false);
 		       });  
 			
-		
-						
+		   });
 	
+	function listCmt() {
+		alert("call");   
+		var postNo = "${requestScope.post.postNo }";				
+		var empName = '${param.empName}';
+		$.ajax({
+			url: '${pageContext.request.contextPath}/listCmt.do' 
+			,
+			data: {
+				postNo : postNo
+			},
+			type: 'POST' ,
+			cache: false ,
+			dataType: 'json' ,
+			success: function (data, textStatus, jqXHR) {
+				var text = "";  
+				 for(var i=0;i<data.posts.length;i++) {
+						text += "<tr><td colspan='3'>"+data.posts[i].cmtWriter+"</td>";
+						text += "<td>("+data.posts[i].cmtDate+ ")</td>";
+						text += "<td></td>";
+						text += "<td></td>";
+						text += "<td></td></tr>";
 						
-});
+						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
+						text += "<td colspan='4' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
+						if(data.posts[i].cmtWriter == empName) {
+							text += "<td class='selectBtn'><button type='button' >수정</button></td>";
+							text += "<td class='selectBtn'><button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn'>수정</button></td>";
+						}
+						text += "</tr>";
+					} 
+					$('#datatable').find('tbody').html(text);
+				
+			} ,
+			error: function(jqXHR) {
+				alert("에러: " + jqXHR.status);
+			}
+			
+		});
+		
+
+	}
 </script>
 </head>
 <body>
@@ -229,54 +271,22 @@
 			<!-- 댓글 조회 -->			
 			<c:if test="${fn: length(sessionScope.post.cmts ) > 0 }">
 				<table id="datatable">
-					<c:forEach var="cmt" items="${sessionScope.post.cmts }"
-						varStatus="loop">
-						<tr>							
-							<td colspan="3">${pageScope.cmt.cmtWriter }</td>
-							<td>(${pageScope.cmt.cmtDate })</td>		
-							<td></td>
-							<td></td>
-							<td></td>													
-						</tr>
-						<tr >
-							<td class='cmtNo' style="display:none;">${pageScope.cmt.cmtNo }</td>
-							<td colspan="4" class='cmtContent'>${pageScope.cmt.cmtContent }</td>
-							 <!-- 본인이 쓴 댓글만 수정, 삭제가 가능하도록 처리 -->
-        					<c:if test="${pageScope.cmt.cmtWriter ==  param.empName}">	
-							<td class='selectBtn'>
-								<button type='button' >수정</button>
-							</td>						
-							<td>
-								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn"  >삭제</button>								
-							</td>
-							</c:if>
-						</tr>
-						
-						
-					</c:forEach>
+				  <tbody>
+                  </tbody>
+				
 				</table>
 			</c:if>
 			
-			
-
-			<!-- 댓글 입력 -->
-		<%-- 	<div style="width: 200px; text-align: center;">
-				<br>
-				<div style="text-align: left;">${param.empName}</div>				
-				<textarea style="width: 300px;"  id="cmtContent"
-					placeholder="댓글을 작성해주세요"></textarea>
-				<button type="button" id="btnReply">댓글 작성</button>
-				
-			</div> --%>
 			<br><br>
-			<div class="form-group">
-				<label class="control-label col-md-1 col-sm-2 col-xs-1">${param.empName}</label>
-				<div class="col-md-9 col-sm-9 col-xs-12">
-					<textarea id="cmtContent" class="resizable_textarea form-control"
-						placeholder="댓글을 작성해주세요"></textarea>
-						<button type="button" id="btnReply" class="btn btn-primary pull-right" >댓글 작성</button>
-				</div>
-			</div>
+         <div class="form-group">
+            <label class="control-label col-md-1 col-md-2 col-xs-1">${param.empName}</label>
+            <div class="col-md-6 col-sm-9 col-xs-12">
+               <textarea id="cmtContent" class="resizable_textarea form-control"
+                  placeholder="댓글을 작성해주세요"></textarea>
+            </div>
+            <div class="col-md-2">
+             <button type="button" id="btnReply" class="btn btn-primary pull-right" >댓글 작성</button>
+            </div>
 
 		</div>
 	</div>
