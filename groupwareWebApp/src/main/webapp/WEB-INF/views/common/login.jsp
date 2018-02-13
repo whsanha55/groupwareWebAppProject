@@ -58,8 +58,10 @@ page contentType="text/html; charset=utf-8"%>
 						action="${pageContext.request.contextPath}/j_spring_security_check"
 						method="POST">
 						
-						<h1>로고</h1>
-						<div>
+						<img src="${pageContext.request.contextPath }/resources/images/loginLogo.png">
+					
+						
+						<div style="margin-top:50px">
 							<h2 class="text-left">사원 번호</h2>
 							<input type="text" name="id" class="form-control"
 								placeholder="아이디를 입력해주세요." required="" />
@@ -71,11 +73,11 @@ page contentType="text/html; charset=utf-8"%>
 						</div>
 				
 						<c:if test="${not empty param.fail}">
-							<div style="color: red; font-weigt:bold;">아이디 또는 비밀번호가 틀렸습니다.</div>
+							<div style="color: red; font-weight:bold; font-size:16px; ">아이디 또는 비밀번호가 틀렸습니다.</div>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />
 						</c:if>
 						<c:if test="${not empty param.authFail}">
-							<div style="color: red; font-weigt:bold;">관리자 권한이 없습니다.</div>
+							<div style="color: red; font-weigt:bold;  font-weight:bold; font-size:16px;">관리자 권한이 없습니다.</div>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />
 						</c:if>
 						

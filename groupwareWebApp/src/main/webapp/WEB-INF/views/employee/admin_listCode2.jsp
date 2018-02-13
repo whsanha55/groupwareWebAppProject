@@ -9,9 +9,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서 코드 목록 조회</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript">
-	
-</script>
+<style>
+	a:link {color:blue;}
+ 	a:hover{color:gold;}
+	a:visited{color:purple;}
+</style>
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -207,7 +209,7 @@
 							text += "</tr>";
 						}
 					}
-					$('#datatable').find('tbody').html(text);
+					$('#datatable').html(text);
 				}
 				,
 				error: function(jqXHR) {
@@ -241,7 +243,7 @@
 					<div>
 						<div class="col-md-6">
 							<div class="col-md-2">
-								<h2>코드목록</h2>
+								<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.relationCode }</h2>
 							</div>
 							<button type="button" id="insert" class="btn btn-success">등록</button>&nbsp;&nbsp;&nbsp;※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 						</div>
@@ -273,21 +275,20 @@
 					</div>
 					<div class="col-md-6"></div>
 				</div>
-				<table id="datatable"
-					class="table table-striped table-bordered text-center">
+				<table class="table table-striped jambo_table bulk_action" style="text-align:center;">
 					<thead>
 						<tr>
-							<th>코드번호</th>
-							<th>코드명</th>
-							<th>등록된 하위 코드 수</th>
-							<th>코드 사용 여부</th>
-							<th>수정</th>
-							<th>삭제</th>
+							<th id="1" class="text-center">코드번호</th>
+							<th id="2" class="text-center">코드명</th>
+							<th id="3" class="text-center">등록된 하위 코드 수</th>
+							<th id="6" class="text-center">코드 사용 여부</th>
+							<th id="4" class="text-center">수정</th>
+							<th id="5" class="text-center">삭제</th>
 						</tr>
 					</thead>
-					<tbody>
+						<tbody id="datatable">
 						
-					</tbody>
+						</tbody>
 				</table>
 			</div>
 		</div>

@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>승인문서함</title>
+<title>결재예정함</title>
 <style>
 
 	.column-title{
 		text-align:center;
 	}
-	.apprLi{
+	.detailApproval{
 		cursor:pointer;
 	}
 	.currentRecord{
@@ -19,7 +19,6 @@
 	#return{
 		cursor:pointer;
 	}
-	
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
@@ -32,18 +31,18 @@
 	var pKeyword;
 	var pKeyword1;
 	
-	 $.datepicker.setDefaults({
-		    dateFormat: 'yy-mm',
-		    prevText: '이전 달',
-		    nextText: '다음 달',
-		    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-		    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-		    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-		    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-		    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-		    showMonthAfterYear: true,
-		    yearSuffix: '년'
-		  });
+	$.datepicker.setDefaults({
+	    dateFormat: 'yy-mm',
+	    prevText: '이전 달',
+	    nextText: '다음 달',
+	    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	    showMonthAfterYear: true,
+	    yearSuffix: '년'
+	  });
 	
 	$(document).ready(function(){
 		
@@ -57,30 +56,24 @@
 			}); 
 		
 		//결재문서 상세조회 팝업창 생성
-		 $('#datatable').on("click",'.apprLi',function(){
+		 $('#datatable').on("click",'.detailApproval',function(){
+				
 				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=1';
-				window.open(url, "결재문서","width=1100, height=800");
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3';
+				window.open(url, "결재문서","width=1000, height=800");
 				
 			});
-		
-		
 		
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
 			if($(this).val()=='apprDate'){
-				$('#pKeyword1').remove();
-				$('#temp').remove();
-				$('#pKeyword').val('');
 				$(this).next().attr('placeholder','기간을 선택하세요');
 				
 				$(this).next().after("<b id=temp>~</b> ")
 				$(this).next().next().after("<input type=text id=pKeyword1 placeholder='기간을 선택하세요'>")
 				
 				$("#pKeyword").datepicker({
-		            dateFormat: 'yy년 mm월 dd일',   
-	            	changeMonth: true,
-	                changeYear: true
+		            dateFormat: 'yy년 mm월 dd일'              
 		        });
 				$('#pKeyword').datepicker("option", "maxDate", $("#pKeyword1").val());
 			    $('#pKeyword').datepicker("option", "onClose", function ( selectedDate ) {
@@ -88,43 +81,13 @@
 			    });
 				
 				$("#pKeyword1").datepicker({
-		            dateFormat: 'yy년 mm월 dd일' ,
-		            changeMonth: true,
-	                changeYear: true
+		            dateFormat: 'yy년 mm월 dd일'  
 		        });
 				$('#pKeyword1').datepicker("option", "minDate", $("#pKeyword").val());
 			    $('#pKeyword1').datepicker("option", "onClose", function ( selectedDate ) {
 			        $("#pKeyword").datepicker( "option", "maxDate", selectedDate );
 			    });
-			}else if($(this).val()=='finDate'){
-								
-				$('#pKeyword1').remove();
-				$('#temp').remove();
-				$('#pKeyword').val('');
-				$(this).next().attr('placeholder','기간을 선택하세요');
 				
-				$(this).next().after("<b id=temp>~</b> ")
-				$(this).next().next().after("<input type=text id=pKeyword1 placeholder='기간을 선택하세요'>")
-				
-				$("#pKeyword").datepicker({
-		            dateFormat: 'yy년 mm월 dd일' ,
-		            changeMonth: true,
-	                changeYear: true
-		        });
-				$('#pKeyword').datepicker("option", "maxDate", $("#pKeyword1").val());
-			    $('#pKeyword').datepicker("option", "onClose", function ( selectedDate ) {
-			        $("#pKeyword1").datepicker( "option", "minDate", selectedDate );
-			    });
-				
-				$("#pKeyword1").datepicker({
-		            dateFormat: 'yy년 mm월 dd일'  ,
-		            changeMonth: true,
-	                changeYear: true
-		        });
-				$('#pKeyword1').datepicker("option", "minDate", $("#pKeyword").val());
-			    $('#pKeyword1').datepicker("option", "onClose", function ( selectedDate ) {
-			        $("#pKeyword").datepicker( "option", "maxDate", selectedDate );
-			    });
 			}else{
 				$(this).next().attr('placeholder','검색어를 입력하세요');
 				$('#pKeyword').datepicker("destroy");
@@ -161,25 +124,24 @@
 							console.log(jqXHR);
 					 }
 					 
-				});
+				});	
 			}
 			 
 		 });
-		
+		 
 		 $("input[name=pKeyword]").autocomplete({
 				focus : function() {
 					return false;
 				}
 		 });
-		 
-		//검색조건 엔터키 눌렀을때 트리거 발동--?
-		$('#pKeyword').on('keydown', function(e) {			
-				if(e.keyCode == 13){
-					e.preventDefault();
-					$('#btn3').trigger('click');		        
-				}
-		});
 		
+		//검색조건 엔터키 눌렀을때 트리거 발동--?
+		$('#pKeyword').on('keydown', function(e) {
+			if(e.keyCode == 13){
+				e.preventDefault();
+				$('#btn3').trigger('click');
+	        }
+		});
 		
 		///검색
 		 $("#btn3").on("click",function(){
@@ -199,28 +161,25 @@
 			 function convertDate(date) {
 			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
 			 }
-			  
- 			if(pKeyfield != "apprDate" && pKeyword == "") {
- 				if(pKeyfield!="finDate"){
+			 
+	 			if(pKeyfield != "apprDate" && pKeyword == "") { 			
 					swal("검색어를 입력해주세요.", "");
-					return;
- 				}
-			}
- 			if(pKeyfield == "apprDate" ||pKeyfield == "finDate"){
-	 			if( pKeyword == "" || pKeyword1 == "") {
-					swal("날짜를 입력해주세요.", "");
-					return;
-	 			}  
- 			}
+					return; 				
+				}
+	 			if(pKeyfield == "apprDate" ){
+		 			if( pKeyword == "" || pKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "");
+						return;
+		 			}  
+	 			}
 			 
 			 templatePaging(1);
 		 });
 		
 		//검색후 다시 리스트로
 			$('#return').click(function(){
-				location.href="${pageContext.request.contextPath}/approvalMyRequest.do";
-			});	
-		
+				location.href="${pageContext.request.contextPath}/approvalExpect.do";
+			});
 		
 	 
 	});
@@ -232,11 +191,9 @@
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			var apprFinalStatus =1;
-			var apprStatus= 7;
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/approvalPaging.do' 
+				url: '${pageContext.request.contextPath}/approvalExpectedPaging.do' 
 				,
 				data: {
 					keyfield: pKeyfield ,
@@ -244,8 +201,6 @@
 					keyword1: pKeyword1 ,	
 					startRow : startRow ,
 					endRow : endRow,
-					apprFinalStatus : apprFinalStatus,
-					apprStatus : apprStatus
 				},
 				type: 'POST' ,
 				cache: false ,
@@ -260,18 +215,19 @@
 
 						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
 						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
-						text += "<td  class='apprLi' id="+ data.approvals[i].apprNo +" style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
+						if(data.approvals[i].urgency != 1){
+							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder'>"+data.approvals[i].apprTitle+"</td>";
+						}else{
+							text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder'><b style=color:#F44336;>[긴급]</b>"+data.approvals[i].apprTitle+"</td>";
+						}
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
 						text += "<td>"+ data.approvals[i].apprDate + "</td>";
-						text += "<td>"+ data.approvals[i].completeDate + "</td>";
 						
 						text += "<td ><a class='currentRecord' id="+ data.approvals[i].apprNo +" ><i class='fa fa-ellipsis-h'></i></a></td>";
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
-						
-	
 					
 						//페이징 처리
 						jqueryPager({
@@ -284,7 +240,7 @@
 					
 				} ,
 				error: function(jqXHR) {
-					alert("에러: " + jqXHR.status);
+					alert("에1러: " + jqXHR.status);
 				}
 				
 			});
@@ -352,7 +308,7 @@
          <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>승인 문서함</h2>
+                    <h2>결재 예정함</h2>
                     
                     <div class="clearfix" id="count1">&nbsp;&nbsp; <br></div>
                   </div>
@@ -365,8 +321,7 @@
 							<option value="tmpName">양식명</option>
 							<option value="empName">기안자</option>
 							<option value="department">기안부서</option>
-							<option value="apprDate" id="apprDate">기안일자</option>
-							<option value="finDate" id=finDate>승인일자</option>
+							<option value="apprDate" id="apprDate">기안일</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
 						<button id="btn3" type="button">검색</button>
 						<i class="fa fa-undo" id="return">되돌리기</i>
@@ -393,8 +348,7 @@
                             <th class="column-title">문서 제목</th>
                             <th class="column-title">기안자</th>
                             <th class="column-title">기안부서</th>
-		     				<th class="column-title">기안일자</th>
-		   				    <th class="column-title">승인일자</th>
+                            <th class="column-title">기안일</th>
                             <th class="column-title">결재현황</th>
                             
                           </tr>
@@ -423,7 +377,7 @@
                 <!-- end of weather widget -->
               </div>
         <!-- /page content -->
-     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>    
-   
+        
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

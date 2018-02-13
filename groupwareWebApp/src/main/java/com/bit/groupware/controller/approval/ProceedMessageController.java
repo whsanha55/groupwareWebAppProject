@@ -113,7 +113,7 @@ public class ProceedMessageController {
 		
 		// /n을 br로 변환한다
 		MessageVO message = msgService.retrieveMessage(msgNo);
-		String contents = message.getMsgContent().replaceAll("/n", "<br>");
+		String contents = message.getMsgContent().replaceAll("\n", "<br>");
 		message.setMsgContent(contents);
 		
 		mv.addObject("message", message);
@@ -156,6 +156,10 @@ public class ProceedMessageController {
 		employee2.setEmpNo(empNo2);
 		
 		message.setReceipientEmployee(employee2);
+		
+		//등록시 줄바꿈 이루어지게 바꾸기.
+		//String fixedMessage = msgContent.replaceAll("\n", "<br>");
+		
 		if(respondMsg != null) {
 			message.setMsgTitle(respondMsg + msgTitle);
 			message.setMsgContent(msgContent);

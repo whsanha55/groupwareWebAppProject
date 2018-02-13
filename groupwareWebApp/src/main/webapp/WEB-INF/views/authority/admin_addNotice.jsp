@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
@@ -19,6 +20,22 @@
 		   $('textarea#froala-editor').froalaEditor()
 		 });
 	   
+		$('#addNotice').click(function(){
+		    
+			if($($('input:text[name=noticeTitle]')).val() == "" ){
+				swal("제목을 입력하세요.");
+				$('#noticeTitle').focus();
+				return false;
+			} 
+			
+	 		if($($('textarea[name=noticeContents]')).val() == "" ){
+				swal("내용을 입력하세요.");
+				$('#noticeContents').focus();
+				return false;
+			}  
+		
+		});
+		
        //첨부파일 추가 및 삭제 이벤트
       $('form').on('click', '.btn-add', function(e) {
            e.preventDefault();
@@ -114,7 +131,7 @@
     </div>
                </div>
 				 <div class="text-right">  
-               <button type="submit" class="btn btn-primary">등록</button>
+               <button type="submit" class="btn btn-primary" id="addNotice">등록</button>
                <button type="reset" class="btn btn-default">취소</button>
                <a class="btn btn-default" href='<c:url value="/admin/noticeList.do"/>'>뒤로가기</a>
                </div>

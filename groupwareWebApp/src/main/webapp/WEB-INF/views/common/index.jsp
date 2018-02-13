@@ -10,7 +10,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="images/favicon.ico" type="image/ico" />
+<link rel="icon"
+	href="${pageContext.request.contextPath}/resources/images/favicon.ico"
+	type="image/ico" />
 
 <title>전자결재관리시스템</title>
 <!-- jQuery -->
@@ -55,6 +57,9 @@
 	
 <!-- bootstrap-wysiwyg -->
     <link href="${pageContext.request.contextPath}/resources/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+
+<!-- 파비콘 -->
+	<link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/favicon.ico"/>
 
 </head>
 
@@ -153,6 +158,8 @@
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/google-code-prettify/src/prettify.js"></script>
+	<script type="text/javascript" 
+		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
 
 </body>
 </html>
