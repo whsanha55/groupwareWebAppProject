@@ -73,7 +73,7 @@
 				
 				var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=0';
-				window.open(url, "결재문서","width=1000, height=800");
+				window.open(url, "결재문서","width=1100, height=800");
 				
 			});
 		
@@ -171,8 +171,21 @@
 		///검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
-			 pKeyword=$('#pKeyword').val();
-			 pKeyword1=$('#pKeyword1').val();
+			 if(pKeyfield=='finDate' || pKeyfield=='apprDate'){
+				 pKeyword=convertDate($('#pKeyword').datepicker('getDate'));
+				 pKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
+			 }else{
+				 pKeyword=$('#pKeyword').val();
+			 }
+			 
+			 function pad(num) {
+			        num = num + '';
+			        return num.length < 2 ? '0' + num : num;
+		     }
+			   
+			 function convertDate(date) {
+			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
+			 }
 			 
 	 			if(pKeyfield != "apprDate" && pKeyword == "") { 			
 					swal("검색어를 입력해주세요.", "");
