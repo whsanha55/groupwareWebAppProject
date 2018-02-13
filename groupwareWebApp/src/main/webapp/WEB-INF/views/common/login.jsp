@@ -62,12 +62,12 @@ page contentType="text/html; charset=utf-8"%>
 					
 						
 						<div style="margin-top:50px">
-							<h2 class="text-left" style="color:#fff;">사원번호</h2>
+							<h2 class="text-left" style="color:#fff;">ID</h2>
 							<input type="text" name="id" class="form-control"
-								placeholder="아이디를 입력해주세요." required="" />
+								placeholder="사번을 입력해주세요." required="" />
 						</div>
 						<div>
-							<h2 class="text-left" style="color:#fff;">비밀번호</h2>
+							<h2 class="text-left" style="color:#fff;">PW</h2>
 							<input type="password" name="pwd" class="form-control"
 								placeholder="비밀번호를 입력해주세요" required="" />
 						</div>
@@ -82,8 +82,8 @@ page contentType="text/html; charset=utf-8"%>
 						</c:if>
 						
 						<div class="clearfix" style="color:#fff;">
-						<input type = "radio" name = "role" value = "user" >사용자 &nbsp;&nbsp;&nbsp;&nbsp;
-						<input type = "radio" name = "role" value = "admin">관리자<br>
+						<input type = "radio" name = "role" value = "user" >User &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type = "radio" name = "role" value = "admin">Admin<br>
 						</div>
 
 						<div class="separator">
