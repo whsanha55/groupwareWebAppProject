@@ -130,11 +130,6 @@
 		});
 		
 		$('#modalForm').on('click', '#modifyCompBtn' , function() {
-			if($('#modRetireStatus').val()=='ÀçÁ÷') {
-				$('#modRetireStatus').val('1');	
-			} else {
-				$('#modRetireStatus').val('0');	
-			}
 			$(this).submit();
 		});
 		
@@ -716,7 +711,7 @@
 							<button id="modifyBtn" type="button" class="btn btn-primary">¼öÁ¤</button>
 							<button id="retireBtn" type="button" class="btn btn-primary retire">Åð»ç</button>
 							<button id="closeBtn2" type="button" class="btn btn-default"
-								data-dismiss="modal">>´Ý±â</button>
+								data-dismiss="modal">´Ý±â</button>
 						</div>
 					</div>
 				</div>

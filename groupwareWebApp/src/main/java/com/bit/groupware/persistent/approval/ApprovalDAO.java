@@ -28,6 +28,9 @@ public interface ApprovalDAO {
 	//승인,반려 문서함에서 count
 	int selectAllApprovalCount(Map<String,Object> map);
 	
+	//결재 예정함 조회
+	List<ApprovalVO> selectExpectedApprList(Map<String, Object> map);
 	
-	
+	//결재 예정함 count
+	int selectExpectedApprCount(Map<String,Object> map);
 }
