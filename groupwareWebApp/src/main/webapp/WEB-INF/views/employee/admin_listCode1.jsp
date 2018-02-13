@@ -152,7 +152,7 @@
 							text += "<tr>";
 							if(data.codes[i].cNo == 'B') {
 								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode3.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
-							} else if (data.codes[i].cNo == 'DC') {
+							} else if (data.codes[i].cNo == 'D') {
 								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode3.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
 							} else {
 								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode2.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
@@ -233,14 +233,14 @@
 				</div>
 			<form id="#form">
 				<table id="datatable"
-					class="table table-striped table-bordered text-center">
+					class="table table-striped table-bordered text-center" style="font-size:15px;">
 					<thead>
 						<tr>
-							<th>코드번호</th>
-							<th>코드명</th>
-							<th>등록된 하위 코드 수</th>
-							<th>수정</th>
-							<th>삭제</th>
+							<th id="1" class="text-center">코드번호</th>
+							<th id="2" class="text-center">코드명</th>
+							<th id="3" class="text-center">등록된 하위 코드 수</th>
+							<th id="4" class="text-center">수정</th>
+							<th id="5" class="text-center">삭제</th>
 						</tr>
 					</thead>
 						<tbody>

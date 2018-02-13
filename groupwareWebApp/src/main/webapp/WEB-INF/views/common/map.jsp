@@ -448,12 +448,7 @@ map_wrap {overflow:hidden;height:330px}
 				places.keywordSearch($('#keyWord').val(), placesSearchCB);
 				myMarker.setMap(null);
 			});
-			/* 
-			if($('#map').height() == '500') {
-				$()
-			}
-		 	*/
-		 
+			
 			$('#relayout').on('click', function() {
 				relayout();
 			});
@@ -465,7 +460,9 @@ map_wrap {overflow:hidden;height:330px}
 			$('#roadviewClose').on('click', function() {
 				closeRoadview();
 			});
-			map.relayout();	
+			$('#layerpop2').on('shown.bs.modal', function() {
+				relayout();
+			});
 		});
 	});
 

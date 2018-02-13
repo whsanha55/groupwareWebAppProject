@@ -54,11 +54,14 @@
 		var startRow = (currentPageNo - 1) * countPerPage + 1;
 		var endRow = currentPageNo * countPerPage;
 		
+		var no = '${param.boardNo}';
+		var boardName = '${param.boardName}';
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/PagingAjax1.do' 
 			,
 			data: {
+				no: no,
 				keyfield: pKeyfield ,
 				keyword: pKeyword ,	
 				startRow : startRow ,
@@ -73,18 +76,24 @@
 				
 				//datatable테이블 변경하기
 				var text = "";
-				for (var i = 0; i < data.posts.length; i++) {
-					text += "<tr>";
+				var htmlStr = "";
+				htmlStr += no ;
+				$('#boardName').html(htmlStr);
+				
+				for (var i = 0; i < data.posts.length; i++) {	
+					/* data.posts[i].boardNo */
+					text += "<tr>";					
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
 					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
-							+ data.posts[i].postNo + " '>"	+ data.posts[i].postTitle + "</a></td>";
-					text += "<td>" + data.posts[i].cNo + "</td>";
+							+ data.posts[i].postNo + "&boardName= "+boardName+"'>"	+ data.posts[i].postTitle + "</a></td>";
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";
-					text += "</tr>";
+					text += "</tr>";								
+					
 				}
-					$('#datatable').find('tbody').html(text);
+				
+				$('#datatable').find('tbody').html(text);
 				
 					//페이징 처리
 					jqueryPager({
@@ -167,7 +176,9 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>게시글</h2>
+				<h2 >
+				${param.boardName}
+				</h2>
 
 				<div class="container">
 					<div class="row">
@@ -177,11 +188,11 @@
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 										<span class="keyfield">검색조건</span> <span class="caret"></span>
 									</button>
-									<ul class="dropdown-menu" role="menu">
+									<ul class="dropdown-menu" role="menu">									
 										<li><a id='documentNo'>문서종류</a></li>
 										<li><a id='postTitle'>제목</a></li>
-										<li><a id='cNo'>부서구분</a></li>
-										<li><a id='writer'>작성자</a></li>
+										<!-- <li><a id='cNo'>부서구분</a></li> -->
+										<li><a id='writer'>작성자</a></li>									
 									</ul>
 								</div>
 								<input type="text" class="form-control keyword"	placeholder="검색어를 입력하세요"> 
@@ -200,14 +211,12 @@
 			</div>
 
 			<div class="table-responsive">
-				<table id="datatable"
-					class="table table-striped jambo_table bulk_action">
+				<table id="datatable" class="table table-striped jambo_table bulk_action">
 					<thead>
-						<tr class="headings">
+						<tr class="headings">							
 							<th class="column-title">NO</th>
 							<th class="column-title">문서종류</th>
-							<th class="column-title">제목</th>
-							<th class="column-title">부서구분</th>
+							<th class="column-title">제목</th>							
 							<th class="column-title">작성자</th>
 							<th class="column-title">등록일</th>
 						</tr>
@@ -217,7 +226,10 @@
 				</table>
 				<div>
 					<div class="text-right">
-						<a class="btn btn-primary" href='<c:url value="/addPost.do"/>'>등록</a>
+					<c:url var="addUrl" value="/addPost.do" scope="page">
+						<c:param name="boardNo" value="${param.boardNo}" />
+					</c:url>
+					<a class="btn btn-primary" href="${addUrl}">등록</a> 						
 					</div>
 					<div class="text-center">
 						<nav aria-label="Page navigation" id = 'Paging'></nav>
