@@ -9,9 +9,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>최하위 코드 목록 조회</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript">
-	
-</script>
+<style>
+	a:link {color:blue;}
+ 	a:hover{color:yellow;}
+	a:visited{color:red;}
+</style>
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -235,7 +237,7 @@
 					<div>
 						<div class="col-md-6">
 							<div class="col-md-2">
-								<h2>코드목록</h2>
+								<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.relationCode }</h2>
 							</div>
 							<button type="button" id="insert" class="btn btn-success">등록</button>
 						</div>

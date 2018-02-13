@@ -45,8 +45,8 @@
 		color: red;
 	}
 	#todoLi, #refLi {
-		margin-left : 15px;
-		font-size: 14px;
+		margin-left : 6px;
+		font-size: 10px;
 		color: yellow;
 	}
 </style>
@@ -125,8 +125,8 @@
 						<li><a>결재<span id='todoLi'></span> <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함&nbsp;&nbsp;<span id="todo"></span></a></li>
-								<li><a href='<c:url value="/approvalProceed.do"/>'>결재
-										진행함</a></li>
+								<li><a href='<c:url value="/approvalProceed.do"/>'>결재 진행함</a></li>
+								<li><a href='<c:url value="/approvalExpect.do"/>'>결재 예정함</a></li>
 							</ul>
 						<li><a>참조<span id='refLi'></span> <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
