@@ -10,7 +10,10 @@
 	.column-title{
 		text-align:center;
 	}
-	
+	.btn-group {
+		float : right;
+		margin-right : 20px;
+	}
 </style>
 
 <link
