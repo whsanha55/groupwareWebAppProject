@@ -15,6 +15,9 @@ public interface ApprovalService {
 	//결재문서 조회 (남이 쓴거)
 	List<ApprovalVO> retrieveAllApprovalList(Map<String, Object> map);
 	
+	//결재예정함 조회
+	List<ApprovalVO> retrieveExpectedList(Map<String, Object> map);
+	 
 	//결재문서 상세조회
 	ApprovalVO retrieveApproval(int apprNo);
 	
@@ -29,6 +32,9 @@ public interface ApprovalService {
 
 	//승인,반려문서함 갯수 구하기
 	int retrieveAllApprovalCount(Map<String, Object> map);
+	
+	//결재 예정함 갯수 구하기
+	int retrieveExpectedCount(Map<String, Object> map);
 	
 	//삭제
 	void removeApproval(List<Integer> apprNos);

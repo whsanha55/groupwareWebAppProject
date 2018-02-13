@@ -8,6 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>일정 상세보기</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" 
+		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
 <script type="text/javascript">
 	/* function msg() {
 		if(confirm("이 일정을 삭제하시겠습니까?") == true) {
@@ -179,8 +181,8 @@
 											});	
 												
 											centerMarker.setMap(map);
-											
-											var iwContent = '<div style="padding:5px;text-align:center;color:red">${requestScope.plan.destination}</div>',
+								
+											var iwContent = '<div style="padding:5px;text-align:center;color:red">${requestScope.plan.destination} &nbsp; <a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" style="color:blue" target="_blank">길찾기</a></div>',
 												iwRemoveable = true;
 												
 											var infowindow = new daum.maps.InfoWindow({
@@ -191,6 +193,7 @@
 											infowindow.open(map, centerMarker);
 											
 											map.setDraggable(false);
+											map.setZoomable(false);
 											
 										});
 									});

@@ -25,7 +25,7 @@
 			success : function(data, textStatus, jqXHR){
 				var htmlStr = "";
 				for(var i=0; i<data.length; i++){
-					htmlStr += "<li id=" +data[i].boardNo + " class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"&boardName="+data[i].boardName+"'/>'>" + data[i].boardName + "</a></li>" ; 
+					htmlStr += "<li id="+data[i].boardNo+" class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"&boardName="+data[i].boardName+"&empName=${employee.empName}'/>'>" + data[i].boardName + "</a></li>" ; 
 					}
 					$('#boardNameList').html(htmlStr);
 				}
@@ -45,8 +45,8 @@
 		color: red;
 	}
 	#todoLi, #refLi {
-		margin-left : 15px;
-		font-size: 14px;
+		margin-left : 6px;
+		font-size: 10px;
 		color: yellow;
 	}
 </style>
@@ -88,8 +88,7 @@
 
 
 	<div class="navbar nav_title" style="border: 0;">
-		<a href='<c:url value="index.do"/>' class="site_title"><i class="fa fa-paw"></i>
-			<span>로고</span></a>
+		<a href='<c:url value="index.do"/>' class="site_title"><img src="${pageContext.request.contextPath }/resources/upload/approvalFile/logo2.png"></a>
 	</div>
 
 	<div class="clearfix"></div>
@@ -125,8 +124,8 @@
 						<li><a>결재<span id='todoLi'></span> <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li><a href='<c:url value="/approvalTodo.do"/>'>결재 대기함&nbsp;&nbsp;<span id="todo"></span></a></li>
-								<li><a href='<c:url value="/approvalProceed.do"/>'>결재
-										진행함</a></li>
+								<li><a href='<c:url value="/approvalProceed.do"/>'>결재 진행함</a></li>
+								<li><a href='<c:url value="/approvalExpect.do"/>'>결재 예정함</a></li>
 							</ul>
 						<li><a>참조<span id='refLi'></span> <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
@@ -145,6 +144,8 @@
 					<ul class="nav child_menu" style="display: block;">
 						<li><a href='<c:url value="/noticeList.do"/>'>공지사항</a></li>
 						<li><a>게시판 <span class="fa fa-chevron-down"></span></a>
+							<input type="hidden"  name="fileCount"/>
+							<input type="hidden"  name="isComment"/>
 							<ul class="nav child_menu" id="boardNameList">
 
 							</ul>

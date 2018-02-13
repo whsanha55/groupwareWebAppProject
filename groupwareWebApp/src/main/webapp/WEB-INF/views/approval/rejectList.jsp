@@ -19,6 +19,10 @@
 	#return{
 		cursor:pointer;
 	}
+	.btn-group {
+		float : right;
+		margin-right : 20px;
+	}
 	
 </style>
 <link
@@ -62,7 +66,7 @@
 				var apprNo=$(this).attr('id');
 				var status=$(this).attr('name');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status='+status+'&finalStatus=3';
-				window.open(url, "결재문서","width=1000, height=800");
+				window.open(url, "결재문서","width=1100, height=800");
 				
 			});
 		//검색창 타입 바꾸기
@@ -163,10 +167,10 @@
 				}
 		 });
 
-		 //기간 선택시 기간 유효성 체크
+	/* 	 //기간 선택시 기간 유효성 체크
 		 $('#search').on('c','#pKeyword1',function(){
 			 
-		 });
+		 }); */
 		 
 		 
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
@@ -215,7 +219,7 @@
 		
 		//검색후 다시 리스트로
 			$('#return').click(function(){
-				location.href="${pageContext.request.contextPath}/approvalMyRequest.do";
+				location.href="${pageContext.request.contextPath}/approvalReject.do";
 			});	
 		
 		//체크박스 전체 선택&해제

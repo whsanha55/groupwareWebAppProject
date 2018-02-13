@@ -19,50 +19,47 @@
 <script>
 	$(document).ready(function () {
 		
-		$('#dutyBtnList li > a').on('click', function() {
-		    $('#dutyBtn').text($(this).text());
-		    $('input[name=dutyCode]').val($(this).attr('value'));
+		
+		$('#dutyBtn').on('change', function() {
+			$('input[name=dutyCode]').val($('#dutyBtn option:selected').val());	
 		});
 		
-		$('#deptBtnList li > a').on('click', function() {	
-			$('#deptBtn').text($(this).text());
-		    $('input[name=deptCode]').val($(this).attr('value'));		    
-		   
-		    if($('#teamBtn').is(null) != true){
-		    	$('#teamBtn').remove();
-		    }
-		    
-			$.ajax ({
+		$('#deptBtn').on('change', function() {
+			$('input[name=deptCode]').val($('#deptBtn option:selected').val());	
+						
+		  	$.ajax ({
 				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
 				,
 				method: 'POST'
 				,
 				data: {
-					deptCode: $('input[name=deptCode]').val()
+					deptCode: $('#deptCode').val()
 				}
 				,
 				dataType: 'json'
 				,
 				success: function(data) {
 					var text = "";					
-					
 					if(data.length != 0) {
-						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="false">팀';
-						text += '<span class="caret"></span></button>';					
-						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu" aria-labelledby="d2Label">';
-						
+						text += '<select id="teamBtn" name="teamBtn" style="width:100px;height:30px;">';
+						text += '<option value="">팀선택</option>';					
 						for (var i = 0; i<data.length; i++) {
-							text += '<li role="presentation">';
-							text += '<a role="menuitem" href="#" value="'+ data[i].cNo +'">'+ data[i].cName +'</a>';
-							text += '</li>';
+							text += '<option value="'+ data[i].cNo +'">'+ data[i].cName +'</option>';
+						}
+						text += '</select>';
+						
+						if($('#teamBtn').is(null) != true) {
+							$('#teamBtn').remove();
 						}
 						
-						text += '</ul>';	
-						
-						$(text).appendTo('#form-dept');						
+						$(text).appendTo('#form-dept');
+											
 					} else {
-						return false;
+						$('#teamBtn').remove();
 					}
+					$('#teamBtn').on('change', function() {
+						$('input[name=deptCode]').val($('#teamBtn option:selected').val());
+					});
 				}
 				,
 				error: function(jqXHR) {
@@ -71,10 +68,6 @@
 			});
 		});
 		
-		/* $("#form-dept").on('click','#teamBtnList li > a', function () {
-			$("#teamBtn").text($(this).text());
-			$('input[name=deptCode]').val($(this).attr('value'));
-		}); */
 		
 		/* $('#regibtn').click(function() {
 
@@ -95,7 +88,38 @@
 		$("#upload-image").on("change", handleImgFileSelect);
 		
 		$("#findpostcode").click(execDaumPostcode);
-
+		
+		$('select[name=emailaddr]').on('change', function () {	
+			if($('select[name=emailaddr]').val() != "") {
+				$('#email2').attr('readonly', true);
+				$('#email2').val($('select[name=emailaddr]').val());				
+			}
+		});
+		
+		$('input[name=empPwd]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		
+		$('input[name=empPwd]').blur(function() {	
+			if($(this).val() < 5 || $(this).val() > 12) {
+				$(this).after('<span style="color:red;">5~12자리 사이로 입력해주세요.</span>');
+			}
+		});
+				
+		$('input[name=empPwdCheck]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		
+		$('input[name=empPwdCheck]').blur(function() {
+			
+			if($(this).val() != $('input[name=empPwd]').val()) {
+				$(this).after('<span style="color:red;">비밀번호가 일치하지 않습니다.</span>');
+			}
+		});
 		
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
@@ -116,12 +140,20 @@
 				swal("비밀번호 확인을 입력해주세요.","");
 				return;
 			}
-			if($('input[name=phoneNumber2]').val().trim() == '' || $('input[name=phoneNumber3]').val().trim() == '' ) {
+			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
 				swal("연락처를 입력해주세요.","");
 				return;
 			}
-			if($('input[name=regNumber1]').val().trim() == '' || $('input[name=regNumber2]').val().trim() == '') {
+			if($('input[name=regNumber1]').val() == '' || $('input[name=regNumber2]').val() == '') {
 				swal("주민등록번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=dutyCode]').val().trim() == '') {
+				swal("직책을 선택해주세요.","");
+				return;
+			}
+			if($('input[name=deptCode]').val().trim() == '') {
+				swal("부서를 선택해주세요.","");
 				return;
 			}
 			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
@@ -354,8 +386,8 @@
 				<br>
 				<form id="regiform" data-parsley-validate="" class="form-horizontal form-label-left"
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
-					<%-- <input type="hidden" id="deptCode" name="deptCode" value="" />
-					<input type="hidden" id="dutyCode" name="dutyCode" value="" />	 --%>		
+					<input type="hidden" id="deptCode" name="deptCode" value="" />
+					<input type="hidden" id="dutyCode" name="dutyCode" value="" />	
 					<div class="form-group">		
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
@@ -446,7 +478,8 @@
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" 
 							for="last-name">직책 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
-						<select id="dutyCode" name="dutyCode" style="width:100px;height:30px;">
+						<select id="dutyBtn" name="dutyBtn" style="width:100px;height:30px;">
+							<option value="">직책선택</option>
 							<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
 								<option value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</option>
 							</c:forEach>
@@ -457,11 +490,12 @@
 							for="deptBtn">부서 <span class="required">*</span>
 						</label>&nbsp;&nbsp;
 						
-						<select id="deptCode" name="deptCode" style="width:100px;height:30px;">
+						<select id="deptBtn" name="deptBtn" style="width:100px;height:30px;">
+								<option value="">부서선택</option>
 							<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 								<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
 							</c:forEach>
-						</select>						
+						</select>		
 					</div>
 
 					<div class="form-group">

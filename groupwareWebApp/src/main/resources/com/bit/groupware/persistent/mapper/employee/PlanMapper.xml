@@ -55,7 +55,23 @@
 		from plan p, employee e, code c
 		where p.rspb_no=e.emp_no
 		and p.dept_no=c.c_no
-		and (c.c_name='부서' or c.c_name=#{cName})
+ 		<choose>
+			<when test="cName == '영업1팀'">
+				and (c.c_name='부서' or c.c_name='영업부' or c.c_name=#{cName})
+			</when>
+			<when test="cName == '영업2팀'">
+				and (c.c_name='부서' or c.c_name='영업부' or c.c_name=#{cName})
+			</when>
+			<when test="cName == '개발1팀'">
+				and (c.c_name='부서' or c.c_name='개발부' or c.c_name=#{cName})
+			</when>
+			<when test="cName == '개발2팀'">
+				and (c.c_name='부서' or c.c_name='개발부' or c.c_name=#{cName})
+			</when>
+			<otherwise>
+				and (c.c_name='부서' or c.c_name=#{cName})
+ 			</otherwise>
+		</choose>
 		<choose>
 			<when test="keyfield == 'pTitle'  and keyword != null " >
 				and p_title like '%' || #{keyword} || '%'

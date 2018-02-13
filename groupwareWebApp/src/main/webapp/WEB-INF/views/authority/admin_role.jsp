@@ -6,6 +6,32 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>content</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+$(document).ready(function(){
+	
+	$('#add').on('click',function(){
+		    
+		if($($('input:text[name=rName]')).val() == "" ){
+			swal("롤명을 입력하세요.");
+			$('#rName').focus();
+			return false;
+		} 
+		
+		if($($('input:text[name=rExplan]')).val() == "" ){
+			swal("롤 설명을 입력하세요.");
+			$('#rExplan').focus();
+			return false;
+		} 
+	
+		if($("#sort").val() == ""){
+			swal("롤 Sort를 입력해주세요.");
+			$('#sort').focus;
+			return false;
+	   }
+	});
+});
+</script>
 </head>
 <body>
 	<!-- 역할 등록 -->

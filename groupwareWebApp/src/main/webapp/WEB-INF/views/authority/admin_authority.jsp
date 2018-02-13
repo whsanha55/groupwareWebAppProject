@@ -9,19 +9,26 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 $(document).ready(function(){
-	$('#insert').click(function(){
-		 if($($('input:text[name=aName]')).val() == "" ){
-			swal("이름을 입력하세요! ");
+	
+	$('#insert').on('click',function(){
+		if($($('input:text[name=aName]')).val() == "" ){
+			swal("이름을 입력하세요.");
 			$('#aName').focus();
 			return false;
 		} 
 		
 		if(!($('input:radio[name=aWhether]').is(':checked'))){
-			swal("사용유무를 선택해주세요");
+			swal("사용유무를 선택해주세요.");
 			$('input:radio[name=aWhether]').focus;
 			return false;
+	   }
+		
+		if($($('textarea[name=aNote]')).val() == "" ){
+			swal("내용을 입력하세요.");
+			$('#aNote').focus();
+			return false;
 		} 
-		alert("call");
+		
 	});
 });
 </script>
@@ -63,16 +70,16 @@ $(document).ready(function(){
 				<div class="col-md-12" style="margin: 40px 0;">
 					<label class="control-label col-md-2" for="first-name">비고 </label>
 					<div class="col-md-8">
-						<textarea class="form-control" rows="5" name="aNote"></textarea>
+						<textarea class="form-control" rows="5" name="aNote" id="aNote"></textarea>
 					</div>
 				</div>
 			
 			</div>
 			<div class="col-md-12">
 				<div class="text-center">
-					<button class="btn btn-primary" type="submit" jd="insert">등록</button>
+					<button class="btn btn-primary" type="submit" id="insert">등록</button>
 					<button class="btn btn-primary" type="reset">취소</button>
-					<a class="btn btn-default" href='<c:url value="/admin/authorityList.do"/>'>뒤로가기</a>
+					<a class="btn btn-primary" href='<c:url value="/admin/authorityList.do"/>'>뒤로가기</a>
 				</div>
 			</div>
 			</form>	

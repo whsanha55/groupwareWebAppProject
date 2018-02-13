@@ -52,6 +52,11 @@ public class AdminModifyEmployeeController {
 			}
 		}
 		logger.info("employee : {}", employee);
+		if(employee.getRetireStatus().equals("ÀçÁ÷")) {
+			employee.setRetireStatus("1");
+		} else {
+			employee.setRetireStatus("0");	
+		}
 		employeeService.modifyEmployeeAdmin(employee);
 		return "redirect:/admin/listEmployee.do";
 	}

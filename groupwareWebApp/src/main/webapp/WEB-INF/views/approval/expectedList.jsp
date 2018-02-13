@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>진행문서함</title>
+<title>결재예정함</title>
 <style>
 
 	.column-title{
@@ -64,7 +64,7 @@
 				
 				var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3';
-				window.open(url, "결재문서","width=1100, height=800");
+				window.open(url, "결재문서","width=1000, height=800");
 				
 			});
 		
@@ -182,7 +182,7 @@
 		
 		//검색후 다시 리스트로
 			$('#return').click(function(){
-				location.href="${pageContext.request.contextPath}/approvalProceed.do";
+				location.href="${pageContext.request.contextPath}/approvalExpect.do";
 			});
 		
 	 
@@ -195,11 +195,9 @@
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			var apprFinalStatus=0;
-			var apprStatus=1;
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/approvalPaging.do' 
+				url: '${pageContext.request.contextPath}/approvalExpectedPaging.do' 
 				,
 				data: {
 					keyfield: pKeyfield ,
@@ -207,8 +205,6 @@
 					keyword1: pKeyword1 ,	
 					startRow : startRow ,
 					endRow : endRow,
-					apprFinalStatus : apprFinalStatus,
-					apprStatus : apprStatus
 				},
 				type: 'POST' ,
 				cache: false ,
@@ -316,7 +312,7 @@
          <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>결재 진행함</h2>
+                    <h2>결재 예정함</h2>
                     
                     <div class="clearfix" id="count1">&nbsp;&nbsp; <br></div>
                   </div>

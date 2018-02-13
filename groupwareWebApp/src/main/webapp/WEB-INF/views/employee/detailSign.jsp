@@ -6,19 +6,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>서명등록</title>
 <script>
-	$('#modifyBtn').click(function() {
-		$.ajax ({
-			url:'${pageContext.request.contextPath}/removeSign.do',
-			method:'POST',
-			dataType:'json',
-			success:function(data) {
-				if(data=="삭제완료"){
-					location.href="${pageContext.request.contextPath}/insertSign.do"
+
+	$(document).ready(function() {
+		$('#modifyBtn').click(function() {
+			$.ajax ({
+				url:'${pageContext.request.contextPath}/removeSign.do',
+				method:'POST',
+				dataType:'json',
+				success:function(data) {
+					if(data=="삭제완료"){
+						location.href="${pageContext.request.contextPath}/retrieveSign.do"
+					}
+				},
+				error:function(jqXHR) {
+					alert("error : " + jqXHR.status);
 				}
-			},
-			error:function(jqXHR) {
-				alert("error : " + jqXHR.status);
-			}
+			});
 		});
 	});
 </script>
