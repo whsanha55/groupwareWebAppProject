@@ -21,6 +21,7 @@
 	
 	table[id^='lineTable'] {
 		width : 100px;
+		display: none;
 	}
 	table[id^='lineTable'] tr:first-child {
 		height : 20px;
@@ -95,13 +96,19 @@
 							textRefEmpDuty += "<th>" + data[i].lineEmployee.duty + "</th>";
 						}
 					}
-					$('#lineTableA').css('width', (apprCount+1) * 100 + "px");
+					//$('#lineTableA').css('display','');
+					//$('#lineTableR').css('display','');
+					$('#lineTableA').css('width', (apprCount+1) * 100 + "px").show();
 					$('#dutyTableA').html(textApprDuty);
 					$('#empNameTableA').html(textApprEmpName);
 					
-					$('#lineTableR').css('width', (refCount+1) * 100 + "px");
-					$('#dutyTableR').html(textRefEmpDuty);
-					$('#empNameTableR').html(textRefEmpName);
+					if(refCount >0) {
+						$('#lineTableR').css('width', (refCount+1) * 100 + "px").show();
+						$('#dutyTableR').html(textRefEmpDuty);
+						$('#empNameTableR').html(textRefEmpName);
+					} else {
+						$('#lineTableR').hide();
+					}
 					
 				} ,
 				error : function(jqXHR) {
@@ -370,16 +377,14 @@
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_1">상신</button>
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_2">임시저장</button>
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_0">취소</button>			
-		<table id='lineTableA' class="table table-striped ">
+		<table id='lineTableA' class="table table-striped">
 			<tr id='dutyTableA'>
-				<th rowspan="2" class="">결재</th>
 			</tr>
 			<tr id='empNameTableA'>
 			</tr>
 		</table>
 		<table id='lineTableR' class="table table-striped">
 			<tr id='dutyTableR' >
-				<th rowspan="2" >참조</th>
 			</tr>
 			<tr id='empNameTableR'>
 			</tr>
