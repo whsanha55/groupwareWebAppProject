@@ -49,7 +49,8 @@ public class WriteApprovalController {
 	// 문서 작성 폼 요청
 	@RequestMapping(value = "/writeApproval.do", method = RequestMethod.GET)
 	public ModelAndView form(@RequestParam(value="tmpNo", required=false, defaultValue="0") int tmpNo ,
-							@RequestParam(value="apprNo", required=false, defaultValue="0") int apprNo) {
+							@RequestParam(value="apprNo", required=false, defaultValue="0") int apprNo,
+							@RequestParam(value="reApprDelete",required=false, defaultValue="0") int reApprDelete) {
 		ApprovalVO appr=new ApprovalVO();
 
  		ModelAndView mv = new ModelAndView();
@@ -66,7 +67,7 @@ public class WriteApprovalController {
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		mv.addObject("user", user);
 		mv.addObject("receivers", receiverService.retrieveReceiverList(user.getUsername()));
-
+		mv.addObject("reApprDelete", reApprDelete);
 		mv.setViewName("approval/writeApproval");
 		return mv;
 

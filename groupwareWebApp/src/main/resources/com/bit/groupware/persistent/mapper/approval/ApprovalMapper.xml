@@ -120,8 +120,14 @@
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
 			and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>
+		
 		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 || apprFinalStatus == 5">
-			and appr.appr_final_status in ('C-01-00','C-01-02','C-01-05')
+			<if test="linempNo != null">
+				and appr.appr_final_status in ('C-01-00','C-01-02')
+			</if>
+			<if test="empNo !=null">
+				and appr.appr_final_status in ('C-01-00','C-01-02','C-01-05')
+			</if>
 		</if>
 		<if test="apprFinalStatus == 4 ">
 			and appr.appr_final_status ='C-01-04'
@@ -552,6 +558,7 @@
 				<id property="recordNo" column="record_no"  />
 				<result property="confirmDate" column="confirm_date"/>
 				<result property="isDelegation" column="isdelegation" />
+				<result property="apprStatus" column="appr_status" />
 				<association property="depEmployee" column="dep_emp_no" javaType="EmployeeVO">
 					<id property="empNo" column="dep_emp_no"/>
 					<result property="empName" column="dep_emp_name"/>
@@ -603,7 +610,7 @@
      		  t5.line_emp_no, t5.line_emp_name, t5.confirm_date, t5.record_no, 
               t5.isdelegation, 
               t5.comment_no, t5.comment_content, t5.comment_date ,
-              t5.signname, t5.systemsignname ,
+              t5.signname, t5.systemsignname ,substr(t5.appr_status,-1,1) as appr_status,
               t5.dep_emp_no, t5.dep_emp_name , t5.dep_department, t5.dep_duty
         from approval t1, approval_file t2, template t3 , emp_view t4 ,
              (select (select e1.emp_name
@@ -614,7 +621,7 @@
              		  where r1.line_emp_no = e1.emp_no) as line_emp_no ,
              		 to_char(r2.confirm_date,'yy"년"mm"월"dd"일"') as confirm_date, 
              		 r2.dep_emp_no, r2.isdelegation, 
-             		 r2.record_no, r2.appr_no, 
+             		 r2.record_no, r2.appr_no, r2.appr_status,
              		 r3.comment_no, r3.comment_content, r3.comment_date ,
              		 r4.signname, r4.systemsignname ,
              		 r4.empname as dep_emp_name , r4.department as dep_department,
@@ -622,7 +629,7 @@
               from receiver_line r1, approval_record r2, approval_comment r3, emplist_view r4
               where r1.line_no = r2.line_no
               and r2.record_no = r3.record_no(+) 
-              and r2.confirm_date is not null
+             <!--  and r2.confirm_date is not null -->
               and r4.empno = case when r2.dep_emp_no is null then r1.line_emp_no
                              else r2.dep_emp_no
                              end
@@ -632,7 +639,7 @@
        and t1.tmp_no = t3.tmp_no
        and t1.emp_no = t4.emp_no
        and t1.appr_no = t5.appr_no(+)
-       and t1.appr_no = #{apprNo}
+       and t1.appr_no = #{apprNo}   
 	</select>
 	
 	
