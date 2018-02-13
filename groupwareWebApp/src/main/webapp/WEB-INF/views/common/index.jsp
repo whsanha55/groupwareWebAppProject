@@ -48,7 +48,6 @@
 					<tiles:insertAttribute name="menu" ignore="true" />
 				</div>
 			</div>
-
 			<!-- top navigation -->
 			<div class="top_nav">
 				<tiles:insertAttribute name="header" ignore="true" />
