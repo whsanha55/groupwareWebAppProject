@@ -25,7 +25,7 @@
 			success : function(data, textStatus, jqXHR){
 				var htmlStr = "";
 				for(var i=0; i<data.length; i++){
-					htmlStr += "<li id=" +data[i].boardNo + " class='boardList'><a href='<c:url value='/postList.do'/>'>" + data[i].boardName + "</a></li>" ; 
+					htmlStr += "<li id=" +data[i].boardNo + " class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"&boardName="+data[i].boardName+"'/>'>" + data[i].boardName + "</a></li>" ; 
 					}
 					$('#boardNameList').html(htmlStr);
 				}
@@ -97,12 +97,12 @@
 	<!-- menu profile quick info -->
 	<div class="profile clearfix">
 		<div class="profile_pic">
-			<img src="${pageContext.request.contextPath}/resources/images/img.jpg"
+			<img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/${employee.photoName}"
 				alt="..." class="img-circle profile_img">
 		</div>
 		<div class="profile_info">
 			<span>Welcome,</span>
-			<h2>John Doe</h2>
+			<h2>${employee.empName }</h2>
 		</div>
 	</div>
 	<!-- /menu profile quick info -->
@@ -145,8 +145,8 @@
 					<ul class="nav child_menu" style="display: block;">
 						<li><a href='<c:url value="/noticeList.do"/>'>공지사항</a></li>
 						<li><a>게시판 <span class="fa fa-chevron-down"></span></a>
-							<ul class="nav child_menu" i id="boardNameList">
-								<li><a href='<c:url value="/postList.do"/>'>게시판</a></li>
+							<ul class="nav child_menu" id="boardNameList">
+
 							</ul>
 					</ul></li>
 				<br>

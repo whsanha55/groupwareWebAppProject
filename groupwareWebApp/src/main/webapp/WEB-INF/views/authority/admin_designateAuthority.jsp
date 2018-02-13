@@ -58,7 +58,7 @@ p {
 	function Paging(currentPageNo) {
 
 		var totalCount = 0; //총 양식서 수
-		var countPerPage = 5; //한 페이지당 보여주는 양식서 수
+		var countPerPage = 10; //한 페이지당 보여주는 양식서 수
 		var pageSize = 5; //페이지 리스트에 게시되는 페이지 수
 		var startRow = (currentPageNo - 1) * countPerPage + 1;
 		var endRow = currentPageNo * countPerPage;
@@ -90,7 +90,7 @@ p {
 
 							text += "<tr class='even pointer'>";
 							text += "<td class='empNo text-center'>"+ data.authEmps[i].empNo + "</td>";
-							text += "<td class='empName text-center' id="+ data.authEmps[i].empName +">"+ data.authEmps[i].empName + "</td>";
+							text += "<td class='empName text-center'>"+ data.authEmps[i].empName + "</td>";
 							text += "<td class='department text-center'>"+ data.authEmps[i].department + "</td>";
 							text += "<td class='duty text-center'>"+ data.authEmps[i].duty + "</td>";
 							text += "<td class='aNo text-center'><label class='radio-inline'> <input type='radio' name='aNo["+ i +"]' id='inlineRadio1' value='0' checked> 등록 </label> <label class='radio-inline'> <input type='radio' name='aNo["+ i +"]' id='inlineRadio2' value='1'>미등록</label></td>";
@@ -172,8 +172,27 @@ p {
 	}
 
 $(document).ready(function() {
+	var  selected = [];
+	var  unselected = []; 
+	
+	
 	Paging(1);
 
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	$('#datatable').on('click', 'input[type=radio]', function() {
+	   
+		if($(this).val() == '0') {
+			selected.push($(this).parents('tr').find('td:eq(0)').text());		
+		} else {
+			unselected.push($(this).parents('tr').find('td:eq(0)').text());				
+		}		
+	});
+	
+	
+	
+	
 	//검색조건
 	$('.search-panel .dropdown-menu').on('click','a',function(e) {
 		e.preventDefault();
@@ -229,24 +248,9 @@ $(document).ready(function() {
 			Paging(1);
 		});
 	
+	
 	//등록
 	$('.x_content').on('click','#selectBtn',function(){
-		var arr1 = [];
-		var checkbox = $("input[type='radio']:checked");
-		
-		checkbox.each(function(i){
-			var tr = checkbox.parent().parent().parent().eq(i);
-		    var td = tr.children();
-		    arr1.push(td.eq(0).text());
-		    console.log(arr1.join());
-		});
-		
-		var arr = [];      
-		
-		$("input[type='radio']:checked").each(function(i){ 
-			arr.push($(this).val());
-			console.log(arr.join());
-		}); 
 		
 		 $.ajax({
              url: '${pageContext.request.contextPath}/registerAuthEmpAjax.do'
@@ -254,10 +258,10 @@ $(document).ready(function() {
              method: 'POST'
              ,           
              data: {
-             		isRegistration : arr.join(),
-             		aNo : '${param.aNo}',
-             		empNos : arr1.join()
-             		}
+             		isRegistration : selected.join(),
+             		isNotRegistration : unselected.join(),             		
+             		aNo : '${param.aNo}'
+             }
              , 
              success: function(data) {
              	swal("등록 완료","등록되었습니다", "success");
@@ -270,6 +274,7 @@ $(document).ready(function() {
              
           });    
 	});
+	
 	
 
 	// fancytree 조직도 검색 
@@ -312,22 +317,31 @@ $(document).ready(function() {
 				var text = "";
 				var temp = selectedNameAndDuty.split(' ');
 				
-				if($('.empName').attr('id') == temp[0]){
-					swal('이미 존재하는 사원입니다.');
-					return;
+				var a= true;
+				
+				$('.empNo').each(function(){
+					if($(this).text() == selectedEmpNo){
+						swal('이미 존재하는 사원입니다.');
+						a = false;
+						return ;	
+					}
+				})
+				
+				if(a){
+					text += "<tr class='even pointer'>";
+					text += "<td class='empNo text-center'>"	+selectedEmpNo + "</td>";
+					text += "<td class='empName text-center'>"+ temp[0] + "</td>";
+					text += "<td class='department text-center'>"+ selectedDepartment + "</td>";
+					text += "<td class='duty text-center'>"+ temp[1] + "</td>";
+					text += "<td class='aNo text-center'><label class='radio-inline'> <input type='radio' name='"+ count +"' id='inlineRadio1' value='0' > 등록 </label> <label class='radio-inline'> <input type='radio' name='"+ count +"' id='inlineRadio2' value='1' checked>미등록</label></td>";
+					text += "</tr>";
+					$('tbody').append(text);
+					
+					count++;
+					
 				}
 				
-				text += "<tr class='even pointer'>";
-				text += "<td class='empNo text-center'>"	+selectedEmpNo + "</td>";
-				text += "<td class='empName text-center'>"+ temp[0] + "</td>";
-				text += "<td class='department text-center'>"+ selectedDepartment + "</td>";
-				text += "<td class='duty text-center'>"+ temp[1] + "</td>";
-				text += "<td class='aNo text-center'><label class='radio-inline'> <input type='radio' name='"+ count +"' id='inlineRadio1' value='0' > 등록 </label> <label class='radio-inline'> <input type='radio' name='"+ count +"' id='inlineRadio2' value='1' checked>미등록</label></td>";
-				text += "</tr>";
-				$('tbody').append(text);
-				
-				count++;
-				
+			
 				
 				
 				
