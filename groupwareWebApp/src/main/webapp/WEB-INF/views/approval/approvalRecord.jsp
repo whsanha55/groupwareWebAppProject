@@ -115,10 +115,19 @@
 								
 								<td class=" ">
 									<c:if test="${pageScope.record.apprStatus==0}">미결 </c:if>
-									<c:if test="${pageScope.record.apprStatus==1}">결재 </c:if>
+									<c:if test="${pageScope.record.apprStatus==1}">
+										<c:choose>
+											<c:when test="${pageScope.record.isDelegation==1}">
+												전결
+											</c:when>
+											<c:otherwise>
+												결재
+											</c:otherwise>
+										</c:choose>
+									 </c:if>
 									<c:if test="${pageScope.record.apprStatus==2}">보류 </c:if>
 									<c:if test="${pageScope.record.apprStatus==3}">반려 </c:if>
-									<c:if test="${pageScope.record.apprStatus==4}">전결 </c:if>
+									<%-- <c:if test="${pageScope.record.apprStatus==4}">전결 </c:if> --%>
 									<c:if test="${pageScope.record.apprStatus==5}">대결 </c:if>
 								</td>
 	                            <td class=" ">${pageScope.record.assignDate}</td>
