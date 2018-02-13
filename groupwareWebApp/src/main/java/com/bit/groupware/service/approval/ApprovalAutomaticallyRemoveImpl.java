@@ -14,7 +14,7 @@ public class ApprovalAutomaticallyRemoveImpl implements ApprovalAutomaticallyRem
 	@Autowired
 	private ApprovalAutomaticDAO dao;
 	
-	@Scheduled(fixedRate = 600000)
+/*	@Scheduled(fixedRate = 600000)*/
 	/*@Bean*/
 	public void automaticallyRemove() {
 		//발표용 - 10분마다 실행 
