@@ -11,8 +11,8 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 	a:link {color:blue;}
- 	a:hover{color:yellow;}
-	a:visited{color:red;}
+ 	a:hover{color:gold;}
+	a:visited{color:purple;}
 </style>
 <script>
 	var eKeyfield;
@@ -209,7 +209,7 @@
 							text += "</tr>";
 						}
 					}
-					$('#datatable').find('tbody').html(text);
+					$('#datatable').html(text);
 				}
 				,
 				error: function(jqXHR) {
@@ -275,8 +275,7 @@
 					</div>
 					<div class="col-md-6"></div>
 				</div>
-				<table id="datatable"
-					class="table table-striped table-bordered text-center" style="font-size:15px;">
+				<table class="table table-striped jambo_table bulk_action" style="text-align:center;">
 					<thead>
 						<tr>
 							<th id="1" class="text-center">코드번호</th>
@@ -287,7 +286,7 @@
 							<th id="5" class="text-center">삭제</th>
 						</tr>
 					</thead>
-						<tbody>
+						<tbody id="datatable">
 						
 						</tbody>
 				</table>
