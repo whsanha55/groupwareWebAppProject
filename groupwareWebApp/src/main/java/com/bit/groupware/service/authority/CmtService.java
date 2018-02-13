@@ -13,5 +13,7 @@ public interface CmtService {
 	int modifyCmt(CmtVO cmt) throws Exception;
 
 	int removeCmt(int cmtNo) throws Exception;
+	
+	int removeCmtList(int postNo) throws Exception;
 
 }
