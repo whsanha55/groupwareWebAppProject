@@ -8,11 +8,6 @@
 </head>
 <body>
 
-			<!-- top tiles -->
-			<div class="col-md-12 col-sm-12 col-xs-12 dashboard_graph"
-				style="margin-bottom: 10px;">
-				<a><i class="glyphicon glyphicon-plus"></i></a> 기능 모아보기
-			</div>
 			
 			<br>
 			<!-- /top tiles -->

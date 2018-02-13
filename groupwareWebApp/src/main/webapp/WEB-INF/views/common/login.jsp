@@ -73,11 +73,11 @@ page contentType="text/html; charset=utf-8"%>
 						</div>
 				
 						<c:if test="${not empty param.fail}">
-							<div style="color: red; font-weigt:bold;">아이디 또는 비밀번호가 틀렸습니다.</div>
+							<div style="color: red; font-weight:bold; font-size:16px; ">아이디 또는 비밀번호가 틀렸습니다.</div>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />
 						</c:if>
 						<c:if test="${not empty param.authFail}">
-							<div style="color: red; font-weigt:bold;">관리자 권한이 없습니다.</div>
+							<div style="color: red; font-weigt:bold;  font-weight:bold; font-size:16px;">관리자 권한이 없습니다.</div>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />
 						</c:if>
 						
