@@ -188,8 +188,8 @@ $(document).ready(function() {
 						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
 						text += "<td colspan='4' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
 						if(data.posts[i].cmtWriter == empName) {
-							text += "<td class='selectBtn'><button type='button' >수정</button></td>";
-							text += "<td class='selectBtn'><button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn'>수정</button></td>";
+							text += "<td class='selectBtn'><button type='button' class='btn btn-primary' >수정</button></td>";
+							text += "<td class='selectBtn'><button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-primary' >삭제</button></td>";
 						}
 						text += "</tr>";
 					} 
