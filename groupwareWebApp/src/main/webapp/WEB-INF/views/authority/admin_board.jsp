@@ -412,11 +412,11 @@ $(document).ready(function(){
 
 						</tr>
 					</table>
-					<div class="text-right">
-						<button class="btn btn-primary" type="button" id="modify">수정</button>
-						<button class="btn btn-primary" type="button" id="remove">삭제</button>
-						<button class="btn btn-primary" type="button" id="submit">등록</button>
-						<button class="btn btn-primary" type="button" id="reset">닫기</button>
+					<div>
+						<button class="btn btn-primary col-md-2" type="button" id="modify">수정</button>
+						<button class="btn btn-primary col-md-2" type="button" id="remove">삭제</button>
+						<button class="btn btn-primary col-md-2" type="button" id="submit">등록</button>
+						<button class="btn btn-primary col-md-2" type="button" id="reset">닫기</button>
 					</div>
 					
 				</div>

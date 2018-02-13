@@ -38,15 +38,6 @@ public class RoleServiceImpl implements RoleService {
 		  map1.put("list2",list2);
 		  roleDAO.nonInsertAuthRole(map1);
 	  }
-	  
-	  try {
-		  ///////////////////////////////////////////
-		  metaSource.reload();
-	  } catch (Exception e) {
-		 logger.error("Error : {}", e);
-	}
-	  
-	  
    }
 
    public void removeAuthRole(Map<String, Object> map) {
