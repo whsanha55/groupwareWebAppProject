@@ -34,4 +34,8 @@ public class CmtDAOImpl implements CmtDAO {
 		return sqlSession.delete(NAMESPACE + ".deleteCmt", cmtNo);
 	}
 
+	public int deleteCmtList(int postNo) {		
+		return sqlSession.delete(NAMESPACE + ".deleteCmtList", postNo);
+	}
+
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bit.groupware.domain.authority.PostFileVO;
 import com.bit.groupware.domain.authority.PostVO;
+import com.bit.groupware.persistent.authority.CmtDAO;
 import com.bit.groupware.persistent.authority.PostDAO;
 import com.bit.groupware.persistent.authority.PostFileDAO;
 
@@ -18,6 +19,8 @@ public class PostServiceImpl implements PostService {
 	private PostDAO postDAO;
 	@Autowired
 	private PostFileDAO postFileDAO;
+	@Autowired
+	private CmtDAO cmtDAO;
 	
 
 	public void registerPost(PostVO post) {
@@ -63,7 +66,8 @@ public class PostServiceImpl implements PostService {
 
 	public void removePost(int postNo) {
 		postFileDAO.deletePostFile(postNo);
-		postDAO.deletePost(postNo);
+		cmtDAO.deleteCmtList(postNo);
+		postDAO.deletePost(postNo);		
 	}
 	
 	public int retrievePostCount() {

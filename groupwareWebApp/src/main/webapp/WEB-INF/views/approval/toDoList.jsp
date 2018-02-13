@@ -19,6 +19,10 @@
 	#return{
 		cursor:pointer;
 	}
+	.btn-group {
+		float : right;
+		margin-right : 20px;
+	}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
@@ -193,7 +197,7 @@
 		
 		//검색후 다시 리스트로
 			$('#return').click(function(){
-				location.href="${pageContext.request.contextPath}/approvalMyRequest.do";
+				location.href="${pageContext.request.contextPath}/approvalTodo.do";
 			});
 	 
 	});

@@ -14,10 +14,10 @@ public class LoggingAdvice {
 	      String methodName = jp.getSignature().getName();
 	      Object[] args = jp.getArgs();
 	      
-	      logger.info("ClassName : {}", className);
+	      /*logger.info("ClassName : {}", className);
 	      logger.info("MethodName : {}", methodName);
 	      logger.info("Args : {}", args);
-	      logger.info("Fracy : {}", jp.getThis().getClass().getName());
+	      logger.info("Fracy : {}", jp.getThis().getClass().getName());*/
 	      
 	      Object retVal = null;
 	      try {
@@ -29,9 +29,9 @@ public class LoggingAdvice {
 	         throw (Exception)th;
 	      } finally {
 	         //메소드 실행후
-	         logger.info("ClassName : {}", className);
+	         /*logger.info("ClassName : {}", className);
 	         logger.info("MethodName : {}", methodName);
-	         logger.info("RetVal : {}", retVal);
+	         logger.info("RetVal : {}", retVal);*/
 	      }
 	      return retVal;
 	   }
