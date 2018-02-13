@@ -158,14 +158,14 @@ public class ProceedMessageController {
 		message.setReceipientEmployee(employee2);
 		
 		//등록시 줄바꿈 이루어지게 바꾸기.
-		String fixedMessage = msgContent.replaceAll("\n", "<br>");
+		//String fixedMessage = msgContent.replaceAll("\n", "<br>");
 		
 		if(respondMsg != null) {
 			message.setMsgTitle(respondMsg + msgTitle);
-			message.setMsgContent(fixedMessage);
+			message.setMsgContent(msgContent);
 		}else{
 		message.setMsgTitle(msgTitle);
-		message.setMsgContent(fixedMessage);
+		message.setMsgContent(msgContent);
 		}
 		
 		
