@@ -58,7 +58,8 @@ page contentType="text/html; charset=utf-8"%>
 						action="${pageContext.request.contextPath}/j_spring_security_check"
 						method="POST">
 						
-						<h1>로고</h1>
+						<img src="${pageContext.request.contextPath }/resources/upload/approvalFile/logo2.png">
+						
 						<div>
 							<h2 class="text-left">사원 번호</h2>
 							<input type="text" name="id" class="form-control"
