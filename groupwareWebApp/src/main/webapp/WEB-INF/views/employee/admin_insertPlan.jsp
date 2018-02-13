@@ -8,7 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a4a3a00a16a7cd71ecd7bba0eca8ed4a&libraries=services"></script> -->
+<script type="text/javascript" 
+		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
 <style>
 .modal-dialog.modal-cSize {
 	width:600px;

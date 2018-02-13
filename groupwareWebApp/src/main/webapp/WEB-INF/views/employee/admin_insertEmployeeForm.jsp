@@ -96,6 +96,31 @@
 			}
 		});
 		
+		$('input[name=empPwd]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		
+		$('input[name=empPwd]').blur(function() {	
+			if($(this).val() < 5 || $(this).val() > 12) {
+				$(this).after('<span style="color:red;">5~12자리 사이로 입력해주세요.</span>');
+			}
+		});
+				
+		$('input[name=empPwdCheck]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		
+		$('input[name=empPwdCheck]').blur(function() {
+			
+			if($(this).val() != $('input[name=empPwd]').val()) {
+				$(this).after('<span style="color:red;">비밀번호가 일치하지 않습니다.</span>');
+			}
+		});
+		
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;

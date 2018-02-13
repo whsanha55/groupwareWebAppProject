@@ -35,6 +35,10 @@
 	<delete id="deleteCmt" parameterType="int" statementType="PREPARED">
 		delete from cmt where cmt_no = #{cmtNo}
 	</delete>
+	
+	<delete id="deleteCmtList" parameterType="int" statementType="PREPARED">
+		delete from cmt where post_no = #{postNo}
+	</delete>
 
 
 
