@@ -75,6 +75,8 @@ select[name=apprType] {
 .col-sm-7 h3 {
 	margin-left : 20px;	
 }
+
+
 </style>
 <script>
 	$(document).ready(function() {
@@ -247,7 +249,9 @@ select[name=apprType] {
 					swal("결재자가 너무 많습니다");
 					return;
 				}
+				
 				var text = "";
+				
 				text += '<td>';
 				text += '<select class="form-control" name="apprType">';
 				text += '<option value="0" selected>결재</option>';
@@ -263,6 +267,7 @@ select[name=apprType] {
 				$(temp).html(text);
 				receiverLineApprCount++;
 				doTableDnD();
+			
 			} else {	//참조
 				var text = "<tr id='" + selectedEmpNo + "'>";
 				text += '<td>';
@@ -478,11 +483,12 @@ select[name=apprType] {
 			});
 		}
 		
-		
+	
 		
 		//결재라인 셀렉트박스(결재,참조) 변경 이벤트
 		$("table[id^=tableDnD]").on("change","select[name=apprType]",function() {
 			if($(this).val() ==0) { //참조->결재로 변경
+				
 				if(receiverLineApprCount >=9) {
 					swal("결재자가 너무 많습니다");
 					return;
@@ -491,14 +497,18 @@ select[name=apprType] {
 				var temp = $(this).closest('tr');
 				$($('#tableDnDAppr').find('tr')[receiverLineApprCount]).html(temp.html())
 				.attr('class','')
-				.find('select').val('0').prop('selected',true);
+				.find('select').val('0').prop('selected',true).not('tr:first');
 				temp.remove();
 				receiverLineApprCount++;
 				doTableDnD();
+				
+				
 			} else { //결재 -> 참조로 변경
 				var temp = $(this).closest('tr');
+				
+				
 				$('#tableDnDRef:last-child').append(temp)
-				.find('select').val('1').prop('selected',true);
+				.find('select').val('1').prop('selected',true).not('tr:first');
 				$('#tableDnDRef').find('tr').css('cursor','auto');				
 				receiverLineApprCount--;
 				
