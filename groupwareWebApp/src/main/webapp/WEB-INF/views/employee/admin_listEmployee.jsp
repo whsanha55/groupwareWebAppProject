@@ -8,6 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+	.modal-dialog {
+		width:670px;
+	}
+</style>
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -566,21 +571,31 @@
 							</div>
 						</div>
 						<br> <br> <br>
-						<table id="datatable" class="table table-striped table-bordered">
+						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
 							<tbody>
 								<tr>
-									<th>사번</th>
-									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
+									<th colspan='1'>사번</th>
+									<td colspan='5'><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
 										readonly readonly value=""></td>
+								</tr>
+								<tr>
+									<th>이름</th>
+									<td colspan='2'><input id="modEmpName" name="empName" type="text" class="form-control"
+										required="required" value="" style="width:100px;"></td>
+									<th>영문이름</th>
+									<td colspan='2'><input id="modEngName" name="engName" type="text" class="form-control"
+										value="" style="width:100px;"></td>
+								</tr>
+								<tr>
 									<th>직책</th>
-									<td><div>
+									<td colspan='2'><div>
 											<div class="col-xs-2 col-xs-offset-2">
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
 															class="btn btn-default dropdown-toggle"
 															data-toggle="dropdown">
-															<span id="search_concept" class="preDuty">직책</span><span class="caret"></span>
+															<span id="search_concept" class="preDuty" >직책</span><span class="caret"></span>
 														</button>
 														<ul id="dutyBtnList" class="dropdown-menu" role="menu">
 															<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
@@ -593,26 +608,8 @@
 												</div>
 											</div>
 										</div></td>
-								</tr>
-								<tr>
-									<th>이름</th>
-									<td><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value=""></td>
-									<th>영문이름</th>
-									<td><input id="modEngName" name="engName" type="text" class="form-control"
-										value=""></td>
-								</tr>
-								<tr>
-									<th>연락처</th>
-									<td><input id="modPhoneNumber" name="phoneNumber" type="text" class="form-control"
-										required="required" value=""></td>
-									<th>주민번호</th>
-									<td><input id="modRegNumber" name="regNumber" type="text" class="form-control"
-										required="required" value=""></td>
-								</tr>
-								<tr>
 									<th>부서</th>
-									<td><div>
+									<td colspan='2'><div>
 											<div class="col-xs-2 col-xs-offset-2">
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
@@ -632,28 +629,71 @@
 												</div>
 											</div>
 										</div></td>
-									<th>이메일</th>
-									<td><input id="modEmail" name="email" type="text" class="form-control"
-										required="required" value=""></td>
+								</tr>
+								<tr>
+									<th colspan='1'>연락처</th>
+									<td colspan='5' class="form-inline">
+											<input type="hidden" id="phoneNumber" name="phoneNumber"
+												 class="form-control col-md-7 col-xs-12">
+											<div class="form-group">
+												<select id="phoneNumber1" name="phoneNumber1" style="width:50px;height:30px;">
+												<option value="010">010</option>
+												<option value="011">011</option>
+												<option value="016">016</option>
+												</select>
+											</div>
+												 &nbsp;-&nbsp;
+											<input type="text" id="phoneNumber2" name="phoneNumber2"
+												 class="form-control" style="width:100px;">
+												 &nbsp;-&nbsp;
+											<input type="text" id="phoneNumber3" name="regNumber3"
+												 class="form-control" style="width:100px;">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th colspan='1'>주민번호</th>
+									<td colspan='5' class="form-inline">
+										<input type="hidden" id="regNumber" name="regNumber"
+											 class="form-control col-md-7 col-xs-12" value="">
+										<input type="text" id="regNumber1" name="regNumber1"
+											 class="form-control" style="width:200px;">
+											&nbsp;-&nbsp;
+										<input type="text" id="regNumber2" name="regNumber2"
+											 class="form-control" style="width:200px;">
+									</div></td>
+								</tr>
+								<tr>
+									<th colspan='1'>이메일</th>
+									<td colspan='5' class="form-inline">
+										<input type="hidden" id="email" name="email" value="" >
+										<input type='text' id="email1" name="email1" class="form-control" style="width:100px;">&nbsp;@&nbsp;
+			            				<input type='text' id="email2" name="email2" class="form-control" style="width:150px;">
+						              <select name="emailaddr" class="form-control" style="width:150px;">
+						                 <option value="">직접입력</option>
+						                 <option value="naver.com">naver.com</option>
+						                 <option value="gmail.com">gmail.com</option>
+						                 <option value="nate.com">nate.com</option>
+						                 <option value="daum.net">daum.net</option>
+						                 <option value="hanmail.net">hanmail.net</option>
+						                 <option value="empal.com">empal.com</option>
+						                 <option value="msn.com">msn.com</option>
+						              </select>
+									</td>
 								</tr>
 								<tr>
 									<th>입사일</th>
 									<td><input id="modHireDate" name="hireDate" type="text" class="form-control"
-										required="required" value="" readonly></td>
-									<th>계좌번호</th>
-									<td><input id="modnull" type="text" class="form-control"
-										required="required" value="110-328-521548"></td>
-								</tr>
-								<tr>
+										required="required" value="" readonly style="width:100px;"></td>
 									<th>퇴사여부</th>
 									<td><input id="modRetireStatus" name="retireStatus" type="text" class="form-control"
-										required="required" readonly value=""></td>
+										required="required" readonly value="" style="width:60px;"></td>
 									<th>퇴사일</th>
-									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly></td>
+									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly style="width:100px;"></td>
 								</tr>
 								<tr>
-									<th>주소</th>
-									<td colspan="3">
+									<th colspan='1'>주소</th>
+									<td colspan="5">
 									<div class="col-md-6 col-sm-6 col-xs-6">
 										<input type="text" id="modpostcode" name="postcode" placeholder="우편번호" readonly
 												required="required" class="form-control col-sm-6 col-xs-6">
@@ -661,11 +701,11 @@
 									<button type="button" id="findpostcode" class="btn btn-success">우편번호 찾기</button><br>
 									<div class="col-md-12 col-sm-6 col-xs-12">
 										<input type="text" id="modAddress" name="address" placeholder="주소" readonly
-												required="required" class="form-control col-md-7 col-xs-12">
+												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
 									</div><br>
 									<div class="col-md-12 col-sm-6 col-xs-12">
 										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="상세주소"
-												required="required" class="form-control col-md-7 col-xs-12">
+												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
 									</div>
 								</tr>
 							</tbody>

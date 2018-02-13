@@ -10,7 +10,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="images/favicon.ico" type="image/ico" />
+<link rel="icon"
+	href="${pageContext.request.contextPath}/resources/images/favicon.ico"
+	type="image/ico" />
 
 <title>전자결재관리시스템</title>
 <!-- jQuery -->
@@ -55,6 +57,9 @@
 	
 <!-- bootstrap-wysiwyg -->
     <link href="${pageContext.request.contextPath}/resources/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+
+<!-- 파비콘 -->
+	<link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/favicon.ico"/>
 
 </head>
 

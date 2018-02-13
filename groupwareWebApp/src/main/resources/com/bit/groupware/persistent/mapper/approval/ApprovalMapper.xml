@@ -23,7 +23,7 @@
 			)
 	  </insert>
 
-	
+	  
 		<update id="updateApproval" parameterType="ApprovalVO" statementType="PREPARED">
 			update approval
 			set appr_final_status= 'C-01-0' || #{apprFinalStatus} ,
