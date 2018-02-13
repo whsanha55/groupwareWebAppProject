@@ -50,20 +50,12 @@ public class AdminRetrieveRoleList2Controller {
       
       AuthRoleVO arole = new AuthRoleVO();
       arole.setaNo(aNo);
-
+      
+      roleService.modifyAllIsRegistartion();
+      roleService.modifyIsRegistartion(aNo);
+      
       List<RoleVO> roles = roleService.retrieveRoleList(map);
-      for(RoleVO role : roles) {
-         arole.setrId(role.getrId());
-         int count = roleService.rIdIsExist(arole);
-         System.out.print("1111111111111111!"+count);
-         if(count == 0) {
-            System.out.print("2222222222222222222!"+role.getrId());
-            role.setIsRegistration("1");
-         } else if(count == 1){  
-            System.out.print("33333333333333333333333333!"+role.getrId());
-            role.setIsRegistration("0");
-         }
-      }
+
       Map<String, Object> returnMap = new HashMap<String, Object>();
       returnMap.put("totalCount", totalCount);
       returnMap.put("roles", roles);

@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.service.employee.EmployeeService;
@@ -19,15 +19,16 @@ public class SignRemoveController {
 	private EmployeeService employeeService;
 	
 	@RequestMapping(value="/removeSign.do", method=RequestMethod.POST)
-	public String removeController(String empNo) {
+	@ResponseBody
+	public String removeController() {
 		
 		SecurityContext context1 = SecurityContextHolder.getContext();
 		Authentication authentication = context1.getAuthentication();
 		UserVO user = (UserVO)authentication.getPrincipal();
 		
-		empNo = user.getUsername();
+		String empNo = user.getUsername();
 		
 		employeeService.removeSign(empNo);
-		return "data";
+		return "삭제완료";
 	}
 }

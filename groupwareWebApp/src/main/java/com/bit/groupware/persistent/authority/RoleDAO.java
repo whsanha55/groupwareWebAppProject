@@ -10,9 +10,9 @@ public interface RoleDAO {
    
    //해당 권한에 역할을 일괄 등록한다.
    void insertAuthRole(Map<String, Object> map);
-   
+    
    //역할을 일괄 삭제(미등록)한다.
-   void nonInsertAuthRole(String aNo);
+   void nonInsertAuthRole(Map<String, Object> map);
    
    //역할을 추가한다.
    void addRole(RoleVO role);
@@ -49,4 +49,10 @@ public interface RoleDAO {
    
    //rId 중복 제거
    int rIdIsExist(AuthRoleVO arole);
+   
+	//등록여부를 전체 수정한다.
+	void updateAllIsRegistartion();
+	
+	//권한에 해당하는 역할의 등록여부를 수정한다.
+	void updateIsRegistartion(String aNo);
 }

@@ -70,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeVO> retrieveEmployeeNameAndDutyList() {
 		return employeeDAO.selectEmployeeNameAndDutyList();
 	}
-
+	
 	public void registerEmployee(EmployeeVO employee) {
 		
 		String empNo = employeeDAO.insertEmployee(employee);
@@ -96,6 +96,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			map1.put("photos", photos);
 			photoDAO.insertPhoto(map1);
 		}
+		
+		employeeDAO.insertAuthority(empNo);
 	}
 	
 	public void modifyEmployee(EmployeeVO employee) {
@@ -129,6 +131,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	public void retireEmployee(String empNo) {
 		employeeDAO.retireEmployee(empNo);
+		employeeDAO.deleteAuthority(empNo);
 	}
 	
 	public void registerDeputy(DeputyVO deputy) {

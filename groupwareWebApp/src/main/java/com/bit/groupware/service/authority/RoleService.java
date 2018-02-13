@@ -10,9 +10,9 @@ public interface RoleService {
 
    // 해당 권한에 역할을 일괄 등록한다.
    void registerAuthRole(Map<String, Object> map);
-   
+    
    // 해당 권한에 역할을 일괄 삭제한다.
-   void removeAuthRole(String aNo);
+   void removeAuthRole(Map<String, Object> map);
 
    //역할을 추가한다.
    void registerRole(RoleVO role);
@@ -49,4 +49,10 @@ public interface RoleService {
    
    //rId에 해당하는 권한이 존재하는지 여부
    int aNoIsExist(String rId);
+   
+	//등록여부를 전체 수정한다.
+	void modifyAllIsRegistartion();
+	
+	//권한에 해당하는 역할의 등록여부를 수정한다.
+	void modifyIsRegistartion(String aNo);
 }

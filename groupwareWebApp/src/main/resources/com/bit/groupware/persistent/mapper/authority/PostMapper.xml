@@ -10,17 +10,18 @@
 			select post_no_seq.nextval from dual		
 		</selectKey>
 
-		insert into post(post_no, post_title, writer, post_date, post_content, document_no, c_no, board_no)
-		values(#{postNo}, #{postTitle}, '홍길동', sysdate, #{postContent}, #{documentNo}, #{cNo}, 1)
+		insert into post(post_no, post_title, writer, post_date, post_content, c_no, document_no, board_no)
+		values(#{postNo}, #{postTitle}, '홍길동', sysdate, #{postContent}, 'A-05', #{documentNo}, #{boardNo})
 	</insert>	
 	
 	
 	<select id="selectPostList" resultType="PostVO" statementType="PREPARED" parameterType="map">
-		select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, d_name as documentNo, c_name as cNo  
-	    from( select rownum as rn, post1.*    									
-  			  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.c_name as d_name, c.c_name
-                    from post p, code c, code d
-                    where c.c_no = p.c_no and d.c_no = p.document_no
+		 select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, d_name as documentNo, c_name as cNo, board_no as boardNo  
+	  from( select rownum as rn, post1.*    									
+  			  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.c_name as d_name, c.c_name, b.board_no
+                    from post p, code c, code d, board b
+                    where c.c_no = p.c_no and d.c_no = p.document_no and b.board_no = p.board_no and b.board_no= #{no}
+					
                     <if test="keyfield == 'documentNo' and keyword != null">                   
                        and d.c_name like '%' || #{keyword} || '%'
                     </if>
@@ -49,6 +50,7 @@
 		<result column="post_content" 			 	 property="postContent" />
 		<result column="document_no"   		 	 	 property="documentNo" />
 		<result column="c_no" 					 	 property="cNo" />
+		<result column="board_no" 					 	 property="boardNo" />		
 		
 		<!--  1:N 관계 -->
 		<collection property="postFiles" javaType="list" ofType="PostFileVO">
@@ -70,10 +72,11 @@
 	 
 	<select id="selectPost" resultMap="selectPostResultMap" statementType="PREPARED" parameterType="int">
 		 select p1.post_no, p1.post_title, p1.writer, p1.post_date, p1.post_content, c.c_name as c_no, d.c_name as document_no, 
-          		p2.no, p2.original_file_name, p2.system_file_name, cm.cmt_no, cm.cmt_content, cm.cmt_writer, cm.cmt_date 
-		 from post p1 , postfile p2, code c, code d, cmt cm
-		 where p1.post_no = p2.post_no(+) and p1.c_no = c.c_no and p1.document_no = d.c_no 
-                  and p1.post_no = cm.post_no(+) and p1.post_no = #{postNo} 		
+          		p2.no, p2.original_file_name, p2.system_file_name, cm.cmt_no, cm.cmt_content, cm.cmt_writer, cm.cmt_date, b.board_no 
+		 from post p1 , postfile p2, code c, code d, cmt cm, board b
+		 where p1.post_no = p2.post_no(+) and p1.c_no = c.c_no and p1.document_no = d.c_no and b.board_no = p1.board_no
+                  and p1.post_no = cm.post_no(+) and p1.post_no = #{postNo} 	
+                     order by cmt_date asc	
 	</select> 
 	
 	<update id="updatePost" parameterType="PostVO" statementType="PREPARED">
@@ -93,10 +96,7 @@
 			</if>
 			<if test="documentNo != null">
 				, document_no = #{documentNo}
-			</if>			
-			<if test="cNo != null">
-				, c_no = #{cNo}
-			</if>		
+			</if>				
 		</trim>	
 		where post_no = #{postNo}
 	</update>

@@ -13,7 +13,7 @@ import com.bit.groupware.domain.authority.RoleVO;
 @Repository
 public class RoleDAOImpl implements RoleDAO {
    private static final String NAMESPACE = "com.bit.groupware.persistent.mapper.authority.RoleMapper";   
-   
+    
    @Autowired
    private SqlSessionTemplate sqlSession;
    
@@ -39,8 +39,8 @@ public class RoleDAOImpl implements RoleDAO {
       return roles;
    }
 
-   public void nonInsertAuthRole(String aNo) {
-      sqlSession.delete(NAMESPACE + ".nonDesignateRole", aNo);
+   public void nonInsertAuthRole(Map<String, Object> map) {
+      sqlSession.delete(NAMESPACE + ".nonDesignateRole", map);
    }
 
    public void updateRoleRegistration(RoleVO role) {
@@ -77,4 +77,11 @@ public class RoleDAOImpl implements RoleDAO {
     return sqlSession.selectOne(NAMESPACE + ".rIdIsExist", arole);
    }
 
+	public void updateAllIsRegistartion() {
+		sqlSession.update(NAMESPACE + ".updateAllIsRegistartion");
+	}
+
+	public void updateIsRegistartion(String aNo) {
+		sqlSession.update(NAMESPACE + ".updateIsRegistartion", aNo);
+	}
 }

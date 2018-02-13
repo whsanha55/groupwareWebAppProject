@@ -10,10 +10,29 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+    <script>
+   $(document).ready(function() {       
+       
+  		//첨부파일 용량 체크
+		$('.controls').on('change','input[name=upload]',function() {
+			if($(this).val() != '') {
+				alert($(this).val());
+				var fileSize = this.files[0].size;
+				var maxSize = 1024*1024*1;
+				if(fileSize > maxSize) {
+					swal('1mb 이하의 첨부만 가능합니다','요청 파일 크기 : ' + Math.round(fileSize/1024) + "kb",'error');
+					$(this).val('');
+				}
+			}
+		});
+
+   });
+</script>
 </head>
 <body>
 	<form action="<%=request.getContextPath()%>/addPost.do" method="post"
 		enctype="multipart/form-data">
+		<input type = "text" name ="boardNo" value = "${requestScope.boardNo}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
@@ -37,28 +56,17 @@
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<input type="text" name="postTitle"
 							id="autocomplete-custom-append" class="form-control col-md-10" />
-					</div>
-					<label class="control-label col-md-3 col-sm-3 col-xs-12">부서구분</label>
-					<div class="col-md-9 col-sm-9 col-xs-12">
-						<select class="form-control" name="cNo">
-							<option>부서를 선택하세요</option>
-							<option value="A-01">경영관리부</option>
-							<option value="A-02">인사부</option>
-							<option value="A-03">회계부</option>
-							<option value="A-04">영업부</option>
-							<option value="A-05">개발부</option>
-						</select>
-					</div>
+					</div>					
 					<label class="control-label col-md-3 col-sm-3 col-xs-12">문서종류</label>
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<select class="form-control" name="documentNo">
 							<option>문서를 선택하세요</option>
-							<option value="DC-1">문서보관함</option>
-							<option value="DC-2">회의문서</option>
-							<option value="DC-3">각종 증명서</option>
-							<option value="DC-4">공문서</option>
-							<option value="DC-5">거래문서</option>
-							<option value="DC-6">기타</option>
+							<option value="D-01">문서보관함</option>
+							<option value="D-02">회의문서</option>
+							<option value="D-03">각종 증명서</option>
+							<option value="D-04">공문서</option>
+							<option value="D-05">거래문서</option>
+							<option value="D-06">기타</option>
 						</select>
 					</div>
 					<div class="x_content">
@@ -72,14 +80,20 @@
 								focus : true
 							// set focus to editable area after initializing summernote
 							});
-						</script>								
-
-
-						파 일 : <input type="file" name="upload"> 
-						파 일 : <input type="file" name="upload"> 
-						파 일 : <input type="file" name="upload">
+						</script>
 
 						<div class="ln_solid"></div>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="control-group" id="fields">
+									<div class="controls">
+										파 일 : <input type="file" name="upload"> 
+										파 일 : <input type="file" name="upload"> 
+										파 일 : <input type="file" name="upload">
+									</div>
+								</div>
+							</div>
+						</div>
 
 
 					</div>

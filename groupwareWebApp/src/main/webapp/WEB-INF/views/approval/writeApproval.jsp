@@ -471,6 +471,7 @@
  
 	<input type="hidden" name="tmpNo" >	
 	<input type="hidden" name="apprFinalStatus" >
+	<input type="hidden" name="reApprDelete" value="${requestScope.reApprDelete }">
 	<c:if test="${requestScope.approval.apprFinalStatus !=3 }">
 		<input type="hidden" name="deleteAppr" value="${requestScope.approval.apprNo}" >
 	</c:if>

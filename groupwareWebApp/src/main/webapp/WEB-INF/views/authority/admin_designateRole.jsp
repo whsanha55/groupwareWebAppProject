@@ -12,8 +12,23 @@
    var pKeyfield='desigRole';
    var pKeyword;
    $(document).ready(function() {
-
+	   var  selected = [];
+	   var  unselected = [];
+	 
+	 
       Paging(1); 
+      
+      $('#datatable').on('click', 'input[type=radio]', function() {
+          
+          if($(this).val() == '0') {
+             selected.push($(this).parents('tr').find('td:eq(0)').text());      
+          } else {
+             unselected.push($(this).parents('tr').find('td:eq(0)').text());      
+             
+          }      
+       });
+
+      
       
       //   검색조건
       $('.search-panel .dropdown-menu').on('click','a',function(e) {
@@ -50,32 +65,16 @@
       $('#deleteBtn').on('click', function() {   
          alert("call");  
          var no = $(this).val();
-         var arr1 = [];    
-         var checkbox = $("input[type='radio']:checked");
-         
-         checkbox.each(function(i) {
-         var tr = checkbox.parent().parent().parent().eq(i);
-             var td = tr.children();
-             arr1.push(td.eq(0).text());
-             console.log(arr1.join());
-         });
-         var arr = [];            
-                   
-         $("input[type='radio']:checked").each(function(i){ 
-            arr.push($(this).val());
-            console.log(arr.join());
-         }); 
-                
           $.ajax({
                 url: '${pageContext.request.contextPath}/admin/modifyDesignate.do'
                 ,
                 method: 'POST'
                 ,           
                 data: {
-                      aNo : no,
-                      isRegistration : arr.join(),
-                      rId : arr1.join()}
-                , 
+                	 isRegistration : selected.join(),
+                     isNotRegistration : unselected.join(),       
+                     aNo : no}
+                ,  
                 success: function(data) {
                    swal("등록 완료","등록되었습니다", "success");
                   Paging(1); 
@@ -121,30 +120,21 @@
              //datatable테이블 변경하기
                var text = "";
                for(var i=0;i<data.roles.length;i++) {
+                 text += "<tr class='even pointer'>";
+                 text += "<td class='rId'>"+ data.roles[i].rId + "</td>";
+                 text += "<td class='rName'>"+ data.roles[i].rName + "</td>";
+                 text += "<td class='rType'>"+ data.roles[i].rType + "</td>";
+                 text += "<td class='rExplan'>"+ data.roles[i].rExplan + "</td>";
+                 text += "<td>"+ data.roles[i].rDate + "</td>"; 
                  if(data.roles[i].isRegistration == '0') {
-                  text += "<tr class='even pointer'>";
-                  text += "<td class='rId'>"+ data.roles[i].rId + "</td>";
-                  text += "<td class='rName'>"+ data.roles[i].rName + "</td>";
-                  text += "<td class='rType'>"+ data.roles[i].rType + "</td>";
-                  text += "<td class='rExplan'>"+ data.roles[i].rExplan + "</td>";
-                  text += "<td>"+ data.roles[i].rDate + "</td>"; 
-                  text += "<td><label> <input type='radio'  name='tests["+i+"]' class='radioBtnClass1'  value='0' checked='checked'> 등록</label><label> <input type='radio'  name='tests["+i+"]'  class='radioBtnClass2'  value='1'>미등록</label></td>";
-                  text += "</tr>";
-                 } 
+                	 text += "<td><label> <input type='radio'  name='tests["+i+"]' class='radioBtnClass1'  value='0' checked='checked'> 등록</label><label> <input type='radio'  name='tests["+i+"]'  class='radioBtnClass2'  value='1'>미등록</label></td>";
+                 } else {
+                	 text += "<td><label> <input type='radio'  name='tests["+i+"]' class='radioBtnClass1'  value='0' > 등록</label><label> <input type='radio'  name='tests["+i+"]'  class='radioBtnClass2'  value='1' checked='checked'>미등록</label></td>";
+                 }
+                 text += "</tr>";
+                
                }
-               
-               for(var i=0;i<data.roles.length;i++) {
-                  if(data.roles[i].isRegistration == '1') {
-                     text += "<tr class='even pointer'>";
-                     text += "<td class='rId'>"+ data.roles[i].rId + "</td>";
-                     text += "<td class='rName'>"+ data.roles[i].rName + "</td>";
-                     text += "<td class='rType'>"+ data.roles[i].rType + "</td>";
-                     text += "<td class='rExplan'>"+ data.roles[i].rExplan + "</td>";
-                     text += "<td>"+ data.roles[i].rDate + "</td>"; 
-                     text += "<td><label> <input type='radio'  name='tests["+i+"]' class='radioBtnClass1'  value='0' > 등록</label><label> <input type='radio'  name='tests["+i+"]'  class='radioBtnClass2'  value='1'checked='checked'>미등록</label></td>";
-                     text += "</tr>";
-                     }
-                  }
+             
                   $('#datatable').find('tbody').html(text);
             
             

@@ -21,10 +21,9 @@ public class AdminRetireEmployeeController {
 	@RequestMapping(value="/admin/retireEmployee.do", method=RequestMethod.POST)
 	@ResponseBody
 	public EmployeeVO retireController(@RequestParam("empNo") String empNo) {
-		logger.info("empNo : {}", empNo);
+		
 		employeeService.retireEmployee(empNo);
-		EmployeeVO employee = employeeService.retrieveEmployee(empNo);
-		logger.info("employee : {}", employee);
+		EmployeeVO employee = employeeService.retrieveEmployee(empNo);		
 		return employee;
 	}
 }
