@@ -266,6 +266,9 @@ $(document).ready(function() {
              success: function(data) {
              	swal("등록 완료","등록되었습니다", "success");
          		Paging(1); 
+         		
+         		selected.splice(0,selected.length);
+         		unselected.splice(0,unselected.length);
              }
              , 
              error: function(jqXHR) {

@@ -87,13 +87,6 @@
 		
 		$("#findpostcode").click(execDaumPostcode);
 
-		$('#check').click(function() {
-			console.log($('#dutyBtn option:selected').val());
-			console.log($('#deptBtn option:selected').val());
-			console.log($('input[name=deptCode]').val());
-			console.log($('input[name=dutyCode]').val());
-		});
-		
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;
