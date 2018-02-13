@@ -175,7 +175,10 @@
 							<c:param name="boardName" value="${param.boardName}" />
 						</c:url>
 						<c:url var="removeUrl" value="/removePost.do" scope="page">
-							<c:param name="postNo" value="${requestScope.post.postNo }" />						
+							<c:param name="postNo" value="${requestScope.post.postNo }" />
+							<c:param name="boardNo" value="${param.boardNo }" />
+							<c:param name="boardName" value="${param.boardName }" />
+							<c:param name="empName" value="${param.empName }" />						
 						</c:url>
 					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
 					<c:if test="${requestScope.post.writer == param.empName}">

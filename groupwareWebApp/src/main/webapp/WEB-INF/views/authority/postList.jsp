@@ -88,7 +88,7 @@
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
 					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
-							+ data.posts[i].postNo + "&boardName="+boardName+"&empName=${param.empName}'>"+data.posts[i].postTitle + "</a></td>";
+							+ data.posts[i].postNo + "&boardName="+boardName+"&boardNo="+no+"&empName=${param.empName}'>"+data.posts[i].postTitle + "</a></td>";
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";
 					text += "</tr>";								
