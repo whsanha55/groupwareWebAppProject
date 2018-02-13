@@ -88,7 +88,14 @@
 		$("#upload-image").on("change", handleImgFileSelect);
 		
 		$("#findpostcode").click(execDaumPostcode);
-
+		
+		$('select[name=emailaddr]').on('change', function () {	
+			if($('select[name=emailaddr]').val() != "") {
+				$('#email2').attr('readonly', true);
+				$('#email2').val($('select[name=emailaddr]').val());				
+			}
+		});
+		
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;
