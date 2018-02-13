@@ -19,6 +19,11 @@
 		}
 	} */
 </script>
+<style>
+	a:link {color:blue;}
+ 	a:hover{color:yellow;}
+	a:visited{color:red;}
+</style>
 <script>
 	var eKeyfield;
 	var eKeyword;

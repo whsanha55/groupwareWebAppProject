@@ -69,6 +69,7 @@ public class AdminListCodeController {
 		map.put("keyword", "ÄÚµå¸í");
 		logger.info("map : {}", map);
 		mv.addObject("codes", codeService.retrieveCodeList2(map));
+		mv.addObject("relationCode", relationCode);
 		mv.setViewName("employee/admin_listCode2");
 		return mv;
 	}
@@ -108,6 +109,7 @@ public class AdminListCodeController {
 		map.put("endRow", 10);
 		logger.info("map : {}", map);
 		mv.addObject("codes", codeService.retrieveCodeList2(map));
+		mv.addObject("relationCode", relationCode);
 		mv.setViewName("employee/admin_listCode3");
 		return mv;
 	}
