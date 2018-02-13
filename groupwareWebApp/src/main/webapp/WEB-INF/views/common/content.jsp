@@ -186,8 +186,8 @@ $(document).ready(function(){
 					</dt>
 					<dd>
 						<h2 class="text-center">
-							<a><strong><a
-									href='<c:url value="/postList.do?boardNo=235"/>'>게시판</strong></a>
+							<a><strong>
+							<a href='<c:url value="/postList.do?boardNo=235"/>'>게시판</strong></a>
 						</h2>
 					</dd>
 				</dl>

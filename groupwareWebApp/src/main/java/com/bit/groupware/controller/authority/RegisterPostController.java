@@ -43,7 +43,9 @@ public class RegisterPostController {
 
 	// 게시글 쓰기 요청을 처리할 컨틀롤러 메소드
 	@RequestMapping(value = "/addPost.do", method = RequestMethod.POST)
-	public String submit(PostVO post, HttpSession session) throws Exception { 
+	public String submit(PostVO post, HttpSession session,
+			@RequestParam(value="empName", required = true) String empName) throws Exception { 
+		post.setWriter(empName);
 		logger.info("입력!!!!!!!!!!!!!!!!! : {}", post);
 		List<MultipartFile> uploadFiles = post.getUpload();
 		for (MultipartFile file : uploadFiles) {
