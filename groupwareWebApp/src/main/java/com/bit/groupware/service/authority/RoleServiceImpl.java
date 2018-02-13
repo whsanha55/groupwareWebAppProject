@@ -1,5 +1,6 @@
 package com.bit.groupware.service.authority;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,13 +14,25 @@ import com.bit.groupware.persistent.authority.RoleDAO;
 public class RoleServiceImpl implements RoleService {
    @Autowired
    private RoleDAO roleDAO;
-   
+    
    public void registerAuthRole(Map<String, Object> map) {
-      roleDAO.insertAuthRole(map);
+	  List<AuthRoleVO> list = (List<AuthRoleVO>)map.get("list");
+	  List<AuthRoleVO> list2 = (List<AuthRoleVO>)map.get("list2");
+	  
+	  Map<String, Object> map1 = new HashMap<String, Object>();
+	 
+	  if(list.size() != 0) {
+		  map1.put("list",list);
+		  roleDAO.insertAuthRole(map1);
+	  }
+	  if(list2.size() != 0) {
+		  map1.put("list2",list2);
+		  roleDAO.nonInsertAuthRole(map1);
+	  }
    }
 
-   public void removeAuthRole(String aNo) {
-      roleDAO.nonInsertAuthRole(aNo);
+   public void removeAuthRole(Map<String, Object> map) {
+      roleDAO.nonInsertAuthRole(map);
    }
 
    public List<RoleVO> retrieveRoleList(String aName) {
@@ -31,7 +44,6 @@ public class RoleServiceImpl implements RoleService {
    }
 
    public RoleVO retrieveRole(String rId) {
-      System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+rId);
       return roleDAO.selectRole(rId);
    }
 
@@ -39,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
       roleDAO.updateRoleRegistration(role);
    }
 
-public void registerRole(RoleVO role) {
+   public void registerRole(RoleVO role) {
       roleDAO.addRole(role);
    }
    public void modifyRole(RoleVO role) {
