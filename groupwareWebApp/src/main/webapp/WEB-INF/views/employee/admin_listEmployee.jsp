@@ -151,10 +151,15 @@
 		});
 		
 		$('#closeBtn2').click(function() {
-			if($('#modalForm').is($('#modifyCompBtn')) != true) {
+			console.log($('#modalForm').is($('#modifyCompBtn')));
+			if($('#modalForm').is($('#modifyCompBtn')) == true) {
 				$('#modifyCompBtn').remove();
 				$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
-			}			
+			} 
+			if($('#modalForm').is($('#modifyBtn')) == true) {
+				$('#modifyBtn').remove();
+				$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
+			}	
 		}); 
 		
 		/* $('#modifyBtn').click(function () {
