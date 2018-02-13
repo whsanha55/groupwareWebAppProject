@@ -5,13 +5,13 @@
   
 <mapper namespace="com.bit.groupware.persistent.mapper.authority.PostMapper">
 
-	<insert id="insertPost" parameterType="PostVO" statementType="PREPARED">
+	<insert id="insertPost" parameterType="PostVO" statementType="PREPARED" >
 		<selectKey keyProperty="postNo" resultType="int" statementType="STATEMENT" order="BEFORE">
 			select post_no_seq.nextval from dual		
 		</selectKey>
 
 		insert into post(post_no, post_title, writer, post_date, post_content, c_no, document_no, board_no)
-		values(#{postNo}, #{postTitle}, '홍길동', sysdate, #{postContent}, 'A-05', #{documentNo}, #{boardNo})
+		values(#{postNo}, #{postTitle}, '${writer}', sysdate, #{postContent}, 'A-05', #{documentNo}, #{boardNo})
 	</insert>	
 	
 	

@@ -432,8 +432,10 @@
 				    <tr class="">
                         <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >                                                    
                       		<td class="apprLineAppr2">
-                       			<img class="delegation${record.isDelegation }" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
+                      			<c:if test="${pageScope.record.receiverLine.lineEmployee.systemSignName !=null}">
+                       			<img class="delegation${record.isDelegation }" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
                        				style="height:65px; width:65px;">
+                       			</c:if>
                        		</td>
 						</c:forEach>
 						<c:forEach begin="1" end="${9-requestScope.recCount}">
