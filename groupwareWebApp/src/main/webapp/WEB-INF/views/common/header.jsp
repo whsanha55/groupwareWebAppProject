@@ -202,7 +202,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="javascript:;">내 정보</a></li>
-                    <li><a href='<c:url value="/login.do"/>'><i class="fa fa-sign-out pull-right"></i>로그 아웃</a></li>
+                    <li><a href='<c:url value="/logout.do"/>'><i class="fa fa-sign-out pull-right"></i>로그 아웃</a></li>
                   </ul>
                 </li>
 				<!-- 알림 -->
