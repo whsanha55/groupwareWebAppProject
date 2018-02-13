@@ -21,7 +21,7 @@ $(document).ready(function(){
 			$('input:radio[name=aWhether]').focus;
 			return false;
 		} 
-		alert("call");
+	
 	});
 });
 </script>
