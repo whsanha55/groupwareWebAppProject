@@ -46,7 +46,7 @@ page contentType="text/html; charset=utf-8"%>
 
 </head>
 
-<body class="login">
+<body class="login" style="background:#2A3F54;">
 	<div>
 		<a class="hiddenanchor" id="signup"></a> <a class="hiddenanchor"
 			id="signin"></a>
@@ -58,16 +58,16 @@ page contentType="text/html; charset=utf-8"%>
 						action="${pageContext.request.contextPath}/j_spring_security_check"
 						method="POST">
 						
-						<img src="${pageContext.request.contextPath }/resources/images/loginLogo.png">
+						<img src="${pageContext.request.contextPath }/resources/images/logo22.png">
 					
 						
 						<div style="margin-top:50px">
-							<h2 class="text-left">사원 번호</h2>
+							<h2 class="text-left" style="color:#fff;">ID</h2>
 							<input type="text" name="id" class="form-control"
-								placeholder="아이디를 입력해주세요." required="" />
+								placeholder="사번을 입력해주세요." required="" />
 						</div>
 						<div>
-							<h2 class="text-left">비밀번호</h2>
+							<h2 class="text-left" style="color:#fff;">PW</h2>
 							<input type="password" name="pwd" class="form-control"
 								placeholder="비밀번호를 입력해주세요" required="" />
 						</div>
@@ -81,9 +81,9 @@ page contentType="text/html; charset=utf-8"%>
 							<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION" />
 						</c:if>
 						
-						<div class="clearfix">
-						<input type = "radio" name = "role" value = "user" >사용자
-						<input type = "radio" name = "role" value = "admin">관리자<br>
+						<div class="clearfix" style="color:#fff;">
+						<input type = "radio" name = "role" value = "user" >User &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type = "radio" name = "role" value = "admin">Admin<br>
 						</div>
 
 						<div class="separator">

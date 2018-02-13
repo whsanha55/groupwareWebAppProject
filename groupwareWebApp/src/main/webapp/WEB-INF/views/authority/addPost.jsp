@@ -7,6 +7,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
@@ -32,11 +33,12 @@
 <body>
 	<form action="<%=request.getContextPath()%>/addPost.do" method="post"
 		enctype="multipart/form-data">
-		<input type = "text" name ="boardNo" value = "${requestScope.boardNo}">
+		<input type = "hidden" name ="boardNo" value = "${requestScope.boardNo}">
+		<input type = "hidden" name ="empName" value = "${param.empName}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>게시글</h2>
+					<h2>${param.boardName}</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 						</li>
@@ -98,9 +100,10 @@
 
 					</div>
 				</div>
-				<a class="btn btn-primary pull-right" href='<c:url value="postList.do" />'>취소</a>
+				<a class="btn btn-primary pull-right" type="reset">취소</a>
 				&nbsp;
-				<button type="submit" class="btn btn-primary pull-right">등록</button>				 
+				<button type="submit" class="btn btn-primary pull-right">등록</button>
+				<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${param.boardNo } &boardName=${param.boardName} &empName=${param.empName} "/>'>목록</a>				 
 			</div>
 		</div>
 	</form>

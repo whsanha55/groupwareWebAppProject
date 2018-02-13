@@ -29,8 +29,9 @@ public class CmtController {
 	// ´ñ±Û ÀÔ·Â
     @RequestMapping("/insert.do")
     @ResponseBody
-    public void insert(@ModelAttribute CmtVO cmt, HttpSession session) throws Exception{
-    	cmt.setCmtWriter("test");
+    public void insert(@ModelAttribute CmtVO cmt, HttpSession session,
+    		@RequestParam(value="empName") String empName) throws Exception{
+    	cmt.setCmtWriter(empName);
     	logger.info("´ñ±Û@@@@@@@@@@@@@@@@@@@@@@@ : {}", cmt);    	
         cmtService.registerCmt(cmt);
     }

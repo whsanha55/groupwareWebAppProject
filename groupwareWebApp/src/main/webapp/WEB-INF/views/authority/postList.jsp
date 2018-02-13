@@ -49,7 +49,7 @@
 
 	function Paging(currentPageNo) {
 		var totalCount =  0;		//총 양식서 수
-		var countPerPage = 3;   //한 페이지당 보여주는 회원 수
+		var countPerPage = 5;   //한 페이지당 보여주는 회원 수
 		var pageSize = 2;		//페이지 리스트에 게시되는 페이지 수
 		var startRow = (currentPageNo - 1) * countPerPage + 1;
 		var endRow = currentPageNo * countPerPage;
@@ -86,7 +86,7 @@
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
 					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
-							+ data.posts[i].postNo + "&boardName= "+boardName+"'>"	+ data.posts[i].postTitle + "</a></td>";
+							+ data.posts[i].postNo + "&boardName="+boardName+"&empName=${param.empName}'>"+data.posts[i].postTitle + "</a></td>";
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";
 					text += "</tr>";								
@@ -177,7 +177,7 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2 >
-				${param.boardName}
+				${param.boardName}				
 				</h2>
 
 				<div class="container">
@@ -228,6 +228,8 @@
 					<div class="text-right">
 					<c:url var="addUrl" value="/addPost.do" scope="page">
 						<c:param name="boardNo" value="${param.boardNo}" />
+						<c:param name="boardName" value="${param.boardName}" />
+						<c:param name="empName" value="${param.empName}" />
 					</c:url>
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 						
 					</div>

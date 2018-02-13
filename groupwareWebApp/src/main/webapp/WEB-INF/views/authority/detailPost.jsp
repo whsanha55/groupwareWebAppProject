@@ -15,12 +15,16 @@
 				$("#btnReply").click(
 					function() {
 						var cmtContent = $("#cmtContent").val();
-						var postNo = "${requestScope.post.postNo }"
-						var param = "cmtContent="+ cmtContent + "&postNo="+ postNo;
+						var empName = '${param.empName}';
+						var postNo = "${requestScope.post.postNo }";						
 						$.ajax({
 							type : "POST",
 							url : "${pageContext.request.contextPath}/insert.do",
-							data : param,
+							data: {
+								postNo : postNo,
+								cmtContent : cmtContent,
+								empName: empName 
+							},
 							success : function() {
 								alert("댓글이 등록되었습니다.");
 								location.reload();
@@ -164,16 +168,20 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>${param.boardName}</h2>
-				<div class="text-right">
-					<c:url var="modifyUrl" value="/modifyPost.do" scope="page">
-						<c:param name="postNo" value="${requestScope.post.postNo }" />
-					</c:url>
-					<c:url var="removeUrl" value="/removePost.do" scope="page">
-						<c:param name="postNo" value="${requestScope.post.postNo }" />
-					</c:url>
-					<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
-					<a class="btn btn-danger" href="${removeUrl}">삭제</a> 
-					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }"/>'>목록</a>
+				<div class="text-right">					
+						<c:url var="modifyUrl" value="/modifyPost.do" scope="page">
+							<c:param name="postNo" value="${requestScope.post.postNo }" />
+							<c:param name="boardName" value="${param.boardName}" />
+						</c:url>
+						<c:url var="removeUrl" value="/removePost.do" scope="page">
+							<c:param name="postNo" value="${requestScope.post.postNo }" />						
+						</c:url>
+					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
+					<c:if test="${requestScope.post.writer == param.empName}">
+						<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
+						<a class="btn btn-danger" href="${removeUrl}">삭제</a>
+					</c:if> 
+					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo } &boardName=${param.boardName} &empName=${param.empName} "/>'>목록</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -184,8 +192,8 @@
 						<td>${requestScope.post.postTitle}</td>
 					</tr>
 					<tr>
-						<td>부서구분</td>
-						<td>${requestScope.post.cNo}</td>
+						<td>작성자</td>
+						<td>${requestScope.post.writer}</td>
 					</tr>
 					<tr>
 						<td>문서종류</td>
@@ -228,13 +236,16 @@
 						</tr>
 						<tr >
 							<td class='cmtNo' style="display:none;">${pageScope.cmt.cmtNo }</td>
-							<td colspan="4" class='cmtContent'>${pageScope.cmt.cmtContent }</td>	
+							<td colspan="4" class='cmtContent'>${pageScope.cmt.cmtContent }</td>
+							 <!-- 본인이 쓴 댓글만 수정, 삭제가 가능하도록 처리 -->
+        					<c:if test="${pageScope.cmt.cmtWriter ==  param.empName}">	
 							<td class='selectBtn'>
 								<button type='button' >수정</button>
 							</td>						
 							<td>
 								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn"  >삭제</button>								
 							</td>
+							</c:if>
 						</tr>
 						
 						
@@ -247,10 +258,11 @@
 			<!-- 댓글 입력 -->
 			<div style="width: 200px; text-align: center;">
 				<br>
-				<textarea class="resizable_textarea form-control" id="cmtContent"
+				<div style="text-align: left;">${param.empName}</div>				
+				<textarea style="width: 300px;"  id="cmtContent"
 					placeholder="댓글을 작성해주세요"></textarea>
-				<br>
 				<button type="button" id="btnReply">댓글 작성</button>
+				
 			</div>
 
 
