@@ -20,6 +20,9 @@ public interface CmtDAO {
  
     // 댓글 삭제
     public int deleteCmt(int cmtNo) throws Exception;
+    
+    // 게시글과 함께 댓글 삭제
+    public int deleteCmtList(int postNo);
 
 
 

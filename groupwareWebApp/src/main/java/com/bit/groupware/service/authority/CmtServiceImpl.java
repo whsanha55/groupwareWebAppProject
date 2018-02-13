@@ -30,4 +30,8 @@ public class CmtServiceImpl implements CmtService {
 		return cmtDAO.deleteCmt(cmtNo);
 	}
 
+	public int removeCmtList(int postNo) throws Exception {
+		return cmtDAO.deleteCmt(postNo);
+	}
+
 }
