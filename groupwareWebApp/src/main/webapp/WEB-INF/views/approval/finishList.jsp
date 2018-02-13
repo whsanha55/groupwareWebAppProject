@@ -195,24 +195,23 @@
 			        num = num + '';
 			        return num.length < 2 ? '0' + num : num;
 		     }
-		   
-			   function convertDate(date) {
-			       return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());
-	
-			   }
 			   
-	 			if(pKeyfield != "apprDate" && pKeyword == "") {
-	 				if(pKeyfield!="finDate"){
-						swal("검색어를 입력해주세요.", "");
-						return;
-	 				}
-				}
-	 			if(pKeyfield == "apprDate" ||pKeyfield == "finDate"){
-		 			if( pKeyword == "" || pKeyword1 == "") {
-						swal("날짜를 입력해주세요.", "");
-						return;
-		 			}  
-	 			}
+			 function convertDate(date) {
+			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
+			 }
+			  
+ 			if(pKeyfield != "apprDate" && pKeyword == "") {
+ 				if(pKeyfield!="finDate"){
+					swal("검색어를 입력해주세요.", "");
+					return;
+ 				}
+			}
+ 			if(pKeyfield == "apprDate" ||pKeyfield == "finDate"){
+	 			if( pKeyword == "" || pKeyword1 == "") {
+					swal("날짜를 입력해주세요.", "");
+					return;
+	 			}  
+ 			}
 			 
 			 templatePaging(1);
 		 });
