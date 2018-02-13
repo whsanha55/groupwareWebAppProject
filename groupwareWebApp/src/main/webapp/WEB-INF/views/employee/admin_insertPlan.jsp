@@ -17,13 +17,9 @@
 </style>
 <script>
 
-<<<<<<< HEAD
 
-$(document).ready(function() {
-=======
 $(document).ready(function() {	
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
-	
+
 	$('#registerBtn').on('click', function() {
 		event.preventDefault();
 		checkUnload = false;
