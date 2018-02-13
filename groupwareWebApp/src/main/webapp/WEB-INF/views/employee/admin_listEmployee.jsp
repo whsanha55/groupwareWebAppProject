@@ -121,7 +121,7 @@
 			}
 		});
 		
-		$('#modifyBtn').click(function() {
+		$('#modalForm').on('click', '#modifyBtn', function() {
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
 			$('select[name=phoneNumber1]').attr('disabled', false);
@@ -138,11 +138,6 @@
 			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button>");
 		});
 		
-		$('#check').click(function() {
-			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
-			console.log(phoneNumber);
-		});
-		
 		$('#modalForm').on('click', '#modifyCompBtn' , function() {
 			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
 			$('#phoneNumber').val(phoneNumber);
@@ -154,6 +149,13 @@
 			$(this).submit();
 			employeePaging(1);
 		});
+		
+		$('#closeBtn2').click(function() {
+			if($('#modalForm').is($('#modifyCompBtn')) != true) {
+				$('#modifyCompBtn').remove();
+				$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
+			}			
+		}); 
 		
 		/* $('#modifyBtn').click(function () {
 			console.log($('#modRetireStatus').val())
@@ -220,10 +222,6 @@
 					alert("error : " + jqXHR.status);
 				}				
 			});
-		});
-		
-		$('#closeBtn').click(function() {
-			employeePaging(1);
 		});
 		
 		$("#upload-image").on("change", handleImgFileSelect);
