@@ -57,6 +57,9 @@
 					} else {
 						$('#teamBtn').remove();
 					}
+					$('#teamBtn').on('change', function() {
+						$('input[name=deptCode]').val($('#teamBtn option:selected').val());
+					});
 				}
 				,
 				error: function(jqXHR) {
@@ -64,7 +67,6 @@
 				}
 			});
 		});
-		$('input[name=deptCode]').val($('#teamBtn option:selected').val());
 		
 		
 		/* $('#regibtn').click(function() {
@@ -86,12 +88,37 @@
 		$("#upload-image").on("change", handleImgFileSelect);
 		
 		$("#findpostcode").click(execDaumPostcode);
-
-		$('#check').click(function() {
-			console.log($('#dutyBtn option:selected').val());
-			console.log($('#deptBtn option:selected').val());
-			console.log($('input[name=deptCode]').val());
-			console.log($('input[name=dutyCode]').val());
+		
+		$('select[name=emailaddr]').on('change', function () {	
+			if($('select[name=emailaddr]').val() != "") {
+				$('#email2').attr('readonly', true);
+				$('#email2').val($('select[name=emailaddr]').val());				
+			}
+		});
+		
+		$('input[name=empPwd]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		
+		$('input[name=empPwd]').blur(function() {	
+			if($(this).val() < 5 || $(this).val() > 12) {
+				$(this).after('<span style="color:red;">5~12자리 사이로 입력해주세요.</span>');
+			}
+		});
+				
+		$('input[name=empPwdCheck]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		
+		$('input[name=empPwdCheck]').blur(function() {
+			
+			if($(this).val() != $('input[name=empPwd]').val()) {
+				$(this).after('<span style="color:red;">비밀번호가 일치하지 않습니다.</span>');
+			}
 		});
 		
 		$('#regibtn').on('click', function() {

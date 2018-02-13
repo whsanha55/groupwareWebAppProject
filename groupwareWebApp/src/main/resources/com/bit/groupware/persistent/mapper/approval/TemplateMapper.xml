@@ -22,6 +22,7 @@
 		<result property="tmpDate" column="tmp_date" />
 		<result property="tmpUsing" column="tmp_using" />
 		
+		
 		<association property="templateCategory" column="category_no" javaType="TemplateCategoryVO">
 			<id property="categoryNo" column="category_no" />
 			<result property="categoryName" column="category_name" />

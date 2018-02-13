@@ -8,6 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+	.modal-dialog {
+		width:670px;
+	}
+</style>
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -109,28 +114,40 @@
 			$('input[name=deptCode]').val($(this).attr('value'));
 		});
 		
-		$('#modifyBtn').click(function() {
+		$('select[name=emailaddr]').on('change', function () {	
+			if($('select[name=emailaddr]').val() != "") {
+				$('#email2').attr('readonly', true);
+				$('#email2').val($('select[name=emailaddr]').val());				
+			}
+		});
+		
+		$('#modalForm').on('click', '#modifyBtn', function() {
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
-			$('#modPhoneNumber').attr('readonly', false);
-			$('#modRegNumber').attr('readonly', false);
-			$('#modEmail').attr('readonly', false);
+			$('select[name=phoneNumber1]').attr('disabled', false);
+			$('#phoneNumber2').attr('readonly', false);
+			$('#phoneNumber3').attr('readonly', false);
+			$('#regNumber1').attr('readonly', false);
+			$('#regNumber2').attr('readonly', false);
+			$('#email1').attr('readonly', false);
+			$('#email2').attr('readonly', false);
+			$('select[name=emailaddr]').attr('disabled', false);
 			$('#moddetailAddress').attr('readonly', false);
-			$('#modnull').attr('readonly', false);
 			
 			$(this).remove();
 			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button>");
-			
-			console.log($('#modifyCompBtn').text());
 		});
 		
 		$('#modalForm').on('click', '#modifyCompBtn' , function() {
-			if($('#modRetireStatus').val()=='재직') {
-				$('#modRetireStatus').val('1');	
-			} else {
-				$('#modRetireStatus').val('0');	
-			}
+			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
+			$('#phoneNumber').val(phoneNumber);
+			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
+			$('#regNumber').val(regNumber);
+			var email = $('#email1').val() + '@' + $('#email2').val();
+			$('#email').val(email);
+			
 			$(this).submit();
+			employeePaging(1);
 		});
 		
 		/* $('#modifyBtn').click(function () {
@@ -198,10 +215,6 @@
 					alert("error : " + jqXHR.status);
 				}				
 			});
-		});
-		
-		$('#closeBtn').click(function() {
-			employeePaging(1);
 		});
 		
 		$("#upload-image").on("change", handleImgFileSelect);
@@ -313,7 +326,6 @@
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
 						text += "<input id='submitPhotoName' type='hidden' value='"+ data.employees[i].systemPhotoName +"'>";
-						text += "<input id='submitSignName' type='hidden' value='"+ data.employees[i].systemSignName +"'>";
 						text += "<td id='submitEmpNo'><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
 						text += "<td id='submitEmpName'>"+ data.employees[i].empName 		+ "</td>";
 						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
@@ -335,42 +347,65 @@
 						text += "<input id='submitAddress' type='hidden' value='"+ data.employees[i].address +"'>";
 						text += "<input id='submitdetailAddress' type='hidden' value='"+ data.employees[i].detailAddress +"'>";
 						text += "</tr>";
-						
-						
-						$('#datatable').on('click','#submitEmpNo', function(){
-							$('#modEmpName').attr('readonly', true);
-							$('#modEngName').attr('readonly', true);
-							$('#modPhoneNumber').attr('readonly', true);
-							$('#modRegNumber').attr('readonly', true);
-							$('#modEmail').attr('readonly', true);
-							$('#moddetailAddress').attr('readonly', true);
-							$('#modnull').attr('readonly', true);
-																					
-							$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
-							$('#sign').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/' + ($(this).parent().children('#submitSignName').val()));
-							$('#modifyEmpNo').val($(this).text());
-							$('#modEmpName').val($(this).next('#submitEmpName').text());							
-							$('#modEngName').val($(this).parent().children('#submitEngName').val());
-							$('input[name=dutyCode]').val($(this).parent().children('#submitDutyNo').val());
-							$('.preDuty').text($(this).nextAll('#submitDuty').text());
-							$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
-							$('.preDept').text($(this).nextAll('#submitDept').text());
-							$('#modPhoneNumber').val($(this).nextAll('#submitPhoneNumber').text());
-							$('#modRegNumber').val($(this).nextAll('#submitRegNumber').val());
-							$('#modEmail').val($(this).nextAll('#submitEmail').text());
-							$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
-							if($(this).nextAll('#submitRetireStatus').text() == '퇴사') {
-								$('#modRetireStatus').val('퇴사');
-								$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());													
-							} else {
-								$('#modRetireStatus').val('재직');
-								$('#modRetireDate').val("");
-							}
-							$('#modpostcode').val($(this).parent().children('#submitpostcode').val());
-							$('#modAddress').val($(this).parent().children('#submitAddress').val());	
-							$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
-						})
 					}
+						
+					$('#datatable').on('click','#submitEmpNo', function(){
+						$('#modEmpName').attr('readonly', true);
+						$('#modEngName').attr('readonly', true);
+						$('select[name=phoneNumber1]').attr('disabled', true);
+						$('#phoneNumber2').attr('readonly', true);
+						$('#phoneNumber3').attr('readonly', true);
+						$('#regNumber1').attr('readonly', true);
+						$('#regNumber2').attr('readonly', true);
+						$('#email1').attr('readonly', true);
+						$('#email2').attr('readonly', true);
+						$('select[name=emailaddr]').attr('disabled', true);
+						$('#moddetailAddress').attr('readonly', true);
+						
+						if($('#modifyBtn').length > 0) {
+							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
+						}
+						$('#modifyBtn').remove();
+						
+						if($('#modifyCompBtn').length > 0) {
+							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
+						}
+						$('#modifyCompBtn').remove();
+																				
+						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
+						$('#modifyEmpNo').val($(this).text());
+						$('#modEmpName').val($(this).next('#submitEmpName').text());							
+						$('#modEngName').val($(this).parent().children('#submitEngName').val());
+						$('input[name=dutyCode]').val($(this).parent().children('#submitDutyNo').val());
+						$('.preDuty').text($(this).nextAll('#submitDuty').text());
+						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
+						$('.preDept').text($(this).nextAll('#submitDept').text());
+						
+						var phoneArr = $(this).nextAll('#submitPhoneNumber').text().split('-');
+						$('#phoneNumber1').val(phoneArr[0]);
+						$('#phoneNumber2').val(phoneArr[1]);
+						$('#phoneNumber3').val(phoneArr[2]);
+						
+						var regNumArr = $(this).nextAll('#submitRegNumber').val().split('-');
+						$('#regNumber1').val(regNumArr[0]);
+						$('#regNumber2').val(regNumArr[1]);
+												
+						var emailArr = $($(this).nextAll('#submitEmail').text().split('@'));
+						$('#email1').val(emailArr[0]);
+						$('#email2').val(emailArr[1]);
+						
+						$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
+						if($(this).nextAll('#submitRetireStatus').text() == '퇴사') {
+							$('#modRetireStatus').val('퇴사');
+							$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());													
+						} else {
+							$('#modRetireStatus').val('재직');
+							$('#modRetireDate').val("");
+						}
+						$('#modpostcode').val($(this).parent().children('#submitpostcode').val());
+						$('#modAddress').val($(this).parent().children('#submitAddress').val());	
+						$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
+					});
 				}
 				$('#datatable').find('tbody').html(text);
 				
@@ -544,43 +579,44 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<div class="col-md-5 col-sm-3 col-xs-12 profile_left">
+						<div class="col-md-5 col-sm-3 col-xs-12 profile_center">
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
 									<img id="photo" width="250px" height="250px" 
 									src="" class="img-responsive center-block"/>
+									<input id="upload-image" name="upload"
+									type="file" data-role="magic-overlay" data-target="#pictureBtn"
+									data-edit="insertImage">
 								</div>
 							</div>
-							<br> <input id="upload-image" name="upload"
-								type="file" data-role="magic-overlay" data-target="#pictureBtn"
-								data-edit="insertImage">
-						</div>
-						<div class="col-md-3 col-sm-3 col-xs-12 profile_left">
-							<div class="profile_img">
-								<div id="crop-avatar">
-									<!-- Current avatar -->
-									<img id="sign" width="250px" height="250px" 
-									src="" class="img-responsive center-block"/>
-								</div>
-							</div>
-						</div>
+						</div>						
 						<br> <br> <br>
-						<table id="datatable" class="table table-striped table-bordered">
+						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
 							<tbody>
 								<tr>
-									<th>사번</th>
-									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
+									<th colspan='1'>사번</th>
+									<td colspan='5'><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
 										readonly readonly value=""></td>
+								</tr>
+								<tr>
+									<th>이름</th>
+									<td colspan='2'><input id="modEmpName" name="empName" type="text" class="form-control"
+										required="required" value="" style="width:100px;"></td>
+									<th>영문이름</th>
+									<td colspan='2'><input id="modEngName" name="engName" type="text" class="form-control"
+										value="" style="width:100px;"></td>
+								</tr>
+								<tr>
 									<th>직책</th>
-									<td><div>
+									<td colspan='2'><div>
 											<div class="col-xs-2 col-xs-offset-2">
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
 															class="btn btn-default dropdown-toggle"
 															data-toggle="dropdown">
-															<span id="search_concept" class="preDuty">직책</span><span class="caret"></span>
+															<span id="search_concept" class="preDuty" >직책</span><span class="caret"></span>
 														</button>
 														<ul id="dutyBtnList" class="dropdown-menu" role="menu">
 															<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
@@ -593,26 +629,8 @@
 												</div>
 											</div>
 										</div></td>
-								</tr>
-								<tr>
-									<th>이름</th>
-									<td><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value=""></td>
-									<th>영문이름</th>
-									<td><input id="modEngName" name="engName" type="text" class="form-control"
-										value=""></td>
-								</tr>
-								<tr>
-									<th>연락처</th>
-									<td><input id="modPhoneNumber" name="phoneNumber" type="text" class="form-control"
-										required="required" value=""></td>
-									<th>주민번호</th>
-									<td><input id="modRegNumber" name="regNumber" type="text" class="form-control"
-										required="required" value=""></td>
-								</tr>
-								<tr>
 									<th>부서</th>
-									<td><div>
+									<td colspan='2'><div>
 											<div class="col-xs-2 col-xs-offset-2">
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
@@ -632,28 +650,71 @@
 												</div>
 											</div>
 										</div></td>
-									<th>이메일</th>
-									<td><input id="modEmail" name="email" type="text" class="form-control"
-										required="required" value=""></td>
+								</tr>
+								<tr>
+									<th colspan='1'>연락처</th>
+									<td colspan='5' class="form-inline">
+											<input type="hidden" id="phoneNumber" name="phoneNumber"
+												 class="form-control col-md-7 col-xs-12">
+											<div class="form-group">
+												<select id="phoneNumber1" name="phoneNumber1" style="width:50px;height:30px;">
+												<option value="010">010</option>
+												<option value="011">011</option>
+												<option value="016">016</option>
+												</select>
+											</div>
+												 &nbsp;-&nbsp;
+											<input type="text" id="phoneNumber2" name="phoneNumber2"
+												 class="form-control" style="width:100px;">
+												 &nbsp;-&nbsp;
+											<input type="text" id="phoneNumber3" name="phoneNumber3"
+												 class="form-control" style="width:100px;">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th colspan='1'>주민번호</th>
+									<td colspan='5' class="form-inline">
+										<input type="hidden" id="regNumber" name="regNumber"
+											 class="form-control col-md-7 col-xs-12" value="">
+										<input type="text" id="regNumber1" name="regNumber1"
+											 class="form-control" style="width:200px;">
+											&nbsp;-&nbsp;
+										<input type="text" id="regNumber2" name="regNumber2"
+											 class="form-control" style="width:200px;">
+									</div></td>
+								</tr>
+								<tr>
+									<th colspan='1'>이메일</th>
+									<td colspan='5' class="form-inline">
+										<input type="hidden" id="email" name="email" value="" >
+										<input type='text' id="email1" name="email1" class="form-control" style="width:100px;">&nbsp;@&nbsp;
+			            				<input type='text' id="email2" name="email2" class="form-control" style="width:150px;">
+						              <select name="emailaddr" class="form-control" style="width:150px;">
+						                 <option value="">직접입력</option>
+						                 <option value="naver.com">naver.com</option>
+						                 <option value="gmail.com">gmail.com</option>
+						                 <option value="nate.com">nate.com</option>
+						                 <option value="daum.net">daum.net</option>
+						                 <option value="hanmail.net">hanmail.net</option>
+						                 <option value="empal.com">empal.com</option>
+						                 <option value="msn.com">msn.com</option>
+						              </select>
+									</td>
 								</tr>
 								<tr>
 									<th>입사일</th>
 									<td><input id="modHireDate" name="hireDate" type="text" class="form-control"
-										required="required" value="" readonly></td>
-									<th>계좌번호</th>
-									<td><input id="modnull" type="text" class="form-control"
-										required="required" value="110-328-521548"></td>
-								</tr>
-								<tr>
+										required="required" value="" readonly style="width:100px;"></td>
 									<th>퇴사여부</th>
 									<td><input id="modRetireStatus" name="retireStatus" type="text" class="form-control"
-										required="required" readonly value=""></td>
+										required="required" readonly value="" style="width:60px;"></td>
 									<th>퇴사일</th>
-									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly></td>
+									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly style="width:100px;"></td>
 								</tr>
 								<tr>
-									<th>주소</th>
-									<td colspan="3">
+									<th colspan='1'>주소</th>
+									<td colspan="5">
 									<div class="col-md-6 col-sm-6 col-xs-6">
 										<input type="text" id="modpostcode" name="postcode" placeholder="우편번호" readonly
 												required="required" class="form-control col-sm-6 col-xs-6">
@@ -661,11 +722,11 @@
 									<button type="button" id="findpostcode" class="btn btn-success">우편번호 찾기</button><br>
 									<div class="col-md-12 col-sm-6 col-xs-12">
 										<input type="text" id="modAddress" name="address" placeholder="주소" readonly
-												required="required" class="form-control col-md-7 col-xs-12">
+												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
 									</div><br>
 									<div class="col-md-12 col-sm-6 col-xs-12">
 										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="상세주소"
-												required="required" class="form-control col-md-7 col-xs-12">
+												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
 									</div>
 								</tr>
 							</tbody>
@@ -675,8 +736,7 @@
 						<div class="text-center">
 							<button id="modifyBtn" type="button" class="btn btn-primary">수정</button>
 							<button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button>
-							<button id="closeBtn2" type="button" class="btn btn-default"
-								data-dismiss="modal">>닫기</button>
+							<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 						</div>
 					</div>
 				</div>

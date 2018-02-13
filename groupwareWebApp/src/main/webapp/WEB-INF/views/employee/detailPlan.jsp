@@ -7,6 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>일정 상세보기</title>
+<script type="text/javascript" 
+		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">

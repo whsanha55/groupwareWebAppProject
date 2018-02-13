@@ -9,9 +9,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서 코드 목록 조회</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript">
-	
-</script>
+<style>
+	a:link {color:blue;}
+ 	a:hover{color:gold;}
+	a:visited{color:purple;}
+</style>
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -207,7 +209,7 @@
 							text += "</tr>";
 						}
 					}
-					$('#datatable').find('tbody').html(text);
+					$('#datatable').html(text);
 				}
 				,
 				error: function(jqXHR) {
@@ -241,7 +243,7 @@
 					<div>
 						<div class="col-md-6">
 							<div class="col-md-2">
-								<h2>코드목록</h2>
+								<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.relationCode }</h2>
 							</div>
 							<button type="button" id="insert" class="btn btn-success">등록</button>&nbsp;&nbsp;&nbsp;※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 						</div>
@@ -273,8 +275,7 @@
 					</div>
 					<div class="col-md-6"></div>
 				</div>
-				<table id="datatable"
-					class="table table-striped table-bordered text-center" style="font-size:15px;">
+				<table class="table table-striped jambo_table bulk_action" style="text-align:center;">
 					<thead>
 						<tr>
 							<th id="1" class="text-center">코드번호</th>
@@ -285,7 +286,7 @@
 							<th id="5" class="text-center">삭제</th>
 						</tr>
 					</thead>
-						<tbody>
+						<tbody id="datatable">
 						
 						</tbody>
 				</table>
