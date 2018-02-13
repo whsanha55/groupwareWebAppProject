@@ -58,9 +58,10 @@ page contentType="text/html; charset=utf-8"%>
 						action="${pageContext.request.contextPath}/j_spring_security_check"
 						method="POST">
 						
-						<img src="${pageContext.request.contextPath }/resources/upload/approvalFile/logo2.png">
+						<img src="${pageContext.request.contextPath }/resources/images/loginLogo.png">
+					
 						
-						<div>
+						<div style="margin-top:50px">
 							<h2 class="text-left">사원 번호</h2>
 							<input type="text" name="id" class="form-control"
 								placeholder="아이디를 입력해주세요." required="" />
