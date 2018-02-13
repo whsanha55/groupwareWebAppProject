@@ -434,7 +434,7 @@
                       		<td class="apprLineAppr2">
                       			<c:if test="${pageScope.record.confirmDate  !=null}">
                       				<c:choose>
-                      					<c:when test="${pageScope.record.receiverLine.lineEmployee.systemSignName !=''}">
+                      					<c:when test="${pageScope.record.receiverLine.lineEmployee.systemSignName!=null}">
 			                       			<img class="delegation${record.isDelegation }" 
 			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
 			                       				style="height:65px; width:65px;">
