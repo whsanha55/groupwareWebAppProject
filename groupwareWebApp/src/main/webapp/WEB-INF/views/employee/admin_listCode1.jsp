@@ -45,6 +45,12 @@
 	        }
 		});
 		
+		//하위 코드로 이동		
+		$(document).on('click', '.listCode2', function(){
+			var relationCode = $(this).attr('id');
+			location.href = '${pageContext.request.contextPath}/admin/listCode2.do?relationCode='+relationCode;
+		});
+		
 		//등록 버튼 클릭시 팝업창 생성
 		$('#insert').click(function(){
 			var url = '${pageContext.request.contextPath}/admin/registerCode1.do';
@@ -155,7 +161,7 @@
 					} else {
 						for(var i=0; i<data.codes.length;i++) {
 							text += "<tr>";
-							text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode2.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
+							text += "<td id='" + data.codes[i].cNo + "'class='listCode2'>" + data.codes[i].cNo + "</td>";
 							text += "<td id='cName'" + i + ">" + data.codes[i].cName + "</td>";
 							text += "<td id='countRelationCode'" + i + ">" + data.codes[i].countRelationCode + "</td>";
 							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-success' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
@@ -197,7 +203,7 @@
 					<div>
 						<div class="col-md-6">
 							<div class="col-md-4">
-								<h2>최상위 코드</h2>
+								<h2>[ 최상위코드 ]</h2>
 							</div>
 							※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 						</div>

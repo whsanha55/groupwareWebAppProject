@@ -35,6 +35,12 @@
 	        }
 		});
 		
+		//하위 코드로 이동		
+		$(document).on('click', '.listCode3', function(){
+			var relationCode = $(this).attr('id');
+			location.href = '${pageContext.request.contextPath}/admin/listCode3.do?superRelationCode=' + "${requestScope.superRelationCode}" + '&relationCode=' + relationCode;
+		});
+		
 		//등록 버튼 클릭시 팝업창 생성
 		$('#insert').click(function(){
 			var relationCode = $("#relationCode").val();
@@ -154,9 +160,8 @@
 						for(var i=0; i<data.codes.length;i++) {
 							text += "<input id='relationCode' type='hidden' value='" + data.codes[i].relationCode + "'>";
 							text += "<tr>";
-							text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode3.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
+							text += "<td id='" + data.codes[i].cNo + "'class='listCode3'>" + data.codes[i].cNo + "</td>";
 							text += "<td id='cName'" + i + ">" + data.codes[i].cName + "</td>";
-							text += "<td id='relationCode'" + i + "><a href=/groupware/admin/listCode1.do>" + data.codes[i].relationCode + "</td>";
 							text += "<td id='countRelationCode'" + i + ">" + data.codes[i].countRelationCode + "</td>";
 							if(data.codes[i].countRelationCode != 0) {
 								text += "<td id='useable'" + i + ">O</td>"
@@ -244,7 +249,7 @@
 					<div>
 						<div class="col-md-6">
 							<div class="col-md-4">
-								<h2><a href=/groupware/admin/listCode1.do>최상위 코드</a> → ${requestScope.relationCode }</a></h2>
+								<h2><a href=/groupware/admin/listCode1.do>[ 최상위코드 ]</a> → [ ${requestScope.superRelationCode } ]</h2>
 							</div>
 							※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 						</div>
@@ -281,7 +286,6 @@
 						<tr>
 							<th id="1" class="text-center">코드번호</th>
 							<th id="2" class="text-center">코드명</th>
-							<th id="3" class="text-center">상위코드</th>
 							<th id="5" class="text-center">등록된 하위 코드 수</th>
 							<th id="6" class="text-center">코드 사용 여부</th>
 							<th id="7" class="text-center">수정</th>
