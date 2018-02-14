@@ -282,15 +282,14 @@ $(document).ready(function() {
 				</table>
 			</div>
 			<div class="ln_solid"></div>
-<c:if test="${param.isComment == 'Y'}">	
+			<!-- 댓글보기 -->
+			<c:if test="${param.isComment == 'Y'}">	
 				<table id="datatable"  style="width:100%">
 				  <tbody style='border-bottom: 1px  solid darkgray;'>
                   </tbody >
+				</table>			
 
-				</table>
-	</c:if>
-			
-
+			<!-- 댓글쓰기 -->
 			<br><br>
 			<div class="form-group">
             <label class="control-label col-md-1 col-md-2 col-xs-1">${param.empName}</label>
@@ -302,6 +301,8 @@ $(document).ready(function() {
              <button type="button" id="btnReply" class="btn btn-primary btn-sm" >댓글 작성</button>   
             </div>
          </div>
+		</c:if>
+
 
 		</div>        
 	</div>
