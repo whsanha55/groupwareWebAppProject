@@ -298,12 +298,12 @@ $(document).ready(function() {
                <textarea id="cmtContent" class="resizable_textarea form-control"
                   placeholder="댓글을 작성해주세요"></textarea>
             </div>
-            <div class="col-md-2" >
+            <div class="col-md-2" style="position: absolute; left: 750px; top: 650px;">
              <button type="button" id="btnReply" class="btn btn-primary btn-sm" >댓글 작성</button>   
             </div>
          </div>
 
-		</div>
+		</div>        
 	</div>
 </body>
 </html>
