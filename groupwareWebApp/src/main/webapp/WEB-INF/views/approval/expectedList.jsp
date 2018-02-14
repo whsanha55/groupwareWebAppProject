@@ -19,6 +19,10 @@
 	#return{
 		cursor:pointer;
 	}
+	.btn-group {
+		float : right;
+		margin-right : 20px;
+	}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"

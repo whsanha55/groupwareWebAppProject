@@ -230,11 +230,11 @@
 			<!--------------------- 댓글 ----------------------->
 			<!-- 댓글 조회 -->			
 			<c:if test="${fn: length(sessionScope.post.cmts ) > 0 }">
-				<table id="datatable">
+				<table id="datatable" style="margin-left:10px;">
 					<c:forEach var="cmt" items="${sessionScope.post.cmts }"
 						varStatus="loop">
 						<tr>							
-							<td colspan="3">${pageScope.cmt.cmtWriter }</td>
+							<td style="font-weight:bold;" colspan="3">${pageScope.cmt.cmtWriter }</td>
 							<td>(${pageScope.cmt.cmtDate })</td>		
 							<td></td>
 							<td></td>
@@ -246,10 +246,10 @@
 							 <!-- 본인이 쓴 댓글만 수정, 삭제가 가능하도록 처리 -->
         					<c:if test="${pageScope.cmt.cmtWriter ==  param.empName}">	
 							<td class='selectBtn'>
-								<button type='button' >수정</button>
+								<button type='button' class="btn btn-primary pull-right">수정</button>
 							</td>						
 							<td>
-								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn"  >삭제</button>								
+								<button class="btn btn-primary pull-right" type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn"  >삭제</button>								
 							</td>
 							</c:if>
 						</tr>
@@ -261,7 +261,7 @@
 			
 			
 
-			<!-- 댓글 입력 -->
+			<%-- <!-- 댓글 입력 -->
 			<div style="width: 200px; text-align: center;">
 				<br>
 				<div style="text-align: left;">${param.empName}</div>				
@@ -269,7 +269,19 @@
 					placeholder="댓글을 작성해주세요"></textarea>
 				<button type="button" id="btnReply">댓글 작성</button>
 				
-			</div>
+			</div> --%>
+			<br><br>
+			<div class="form-group">
+            <label class="control-label col-md-1 col-md-2 col-xs-1">${param.empName}</label>
+            <div class="col-md-6 col-sm-9 col-xs-12">
+               <textarea id="cmtContent" class="resizable_textarea form-control"
+                  placeholder="댓글을 작성해주세요"></textarea>
+            </div>
+            <div class="col-md-2">
+             <button type="button" id="btnReply" class="btn btn-primary pull-right" >댓글 작성</button>
+            </div>
+         </div>
+			
 
 
 		</div>
