@@ -180,15 +180,15 @@
 					</div>
 					<div class="col-md-6"></div>
 				</div>
-				<table id="datatable" class="table table-striped table-bordered">
+				<table id="datatable" class="table table-striped jambo_table bulk_action" style="text-align:center;">
 					<thead>
 						<tr>
-							<th>부서코드번호</th>
-							<th>부서명</th>
-							<th>업무 담당자</th>
-							<th>담당자 연락처</th>
-							<th>부서원</th>
-							<th>부서별 팀 수</th>
+							<th id="1" class="text-center">부서코드번호</th>
+							<th id="2" class="text-center">부서명</th>
+							<th id="3" class="text-center">업무 담당자</th>
+							<th id="4" class="text-center">담당자 연락처</th>
+							<th id="5" class="text-center">부서원</th>
+							<th id="6" class="text-center">부서별 팀 수</th>
 						</tr>
 					</thead>
 					<tbody>
