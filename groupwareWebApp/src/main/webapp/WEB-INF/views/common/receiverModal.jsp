@@ -231,6 +231,11 @@ select[name=apprType] {
 				swal('부적절한  요청입니다');
 				return;
 			}
+			if(selectedEmpNo =='${empNo}') {	//자기자신에게 기안X
+				swal('자신을 선택할 수 없습니다');
+				return;
+			}
+			
 			var isExist = false;	//이미 존재하는 결재라인 확인여부
 			$('table[id^=tableDnD] tr').each(function() {
 				if($(this).attr('id') == selectedEmpNo) {

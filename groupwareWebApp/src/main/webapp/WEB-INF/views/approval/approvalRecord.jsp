@@ -41,8 +41,8 @@
 <script>
 
 	$(document).ready(function(){
-		
-			$('#close').click(function() {
+
+		$('#close').click(function() {
 				window.close();
 			});
 	
@@ -95,12 +95,12 @@
 	                        <thead>
 	                          <tr class="headings">
 	                            
-	                            <th class="column-title">순번</th>
-	                            <th class="column-title">결재자</th>
-	                            <th class="column-title">결재유형</th>
-								<th class="column-title">배정일시</th>
-	                            <th class="column-title">확인일시</th>
-	                            <th class="column-title">결재일시</th>      
+	                            <th class="column-title" style="text-align:center;">순번</th>
+	                            <th class="column-title" style="text-align:center;">결재자</th>
+	                            <th class="column-title" style="text-align:center;">결재유형</th>
+								<th class="column-title" style="text-align:center;">배정일시</th>
+	                            <th class="column-title" style="text-align:center;">확인일시</th>
+	                            <th class="column-title" style="text-align:center;">결재일시</th>      
 	                            
 	                          </tr>
 	                        </thead>
