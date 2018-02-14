@@ -103,8 +103,8 @@
 		});
 		
 		$('input[name=empPwd]').blur(function() {	
-			if($(this).val() < 5 || $(this).val() > 12) {
-				$(this).after('<span style="color:red;">5~12자리 사이로 입력해주세요.</span>');
+			if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
+				$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
 			}
 		});
 				
@@ -114,14 +114,14 @@
 			}
 		});
 		
-		$('input[name=empPwdCheck]').blur(function() {
-			
+		$('input[name=empPwdCheck]').blur(function() {			
 			if($(this).val() != $('input[name=empPwd]').val()) {
-				$(this).after('<span style="color:red;">비밀번호가 일치하지 않습니다.</span>');
+				$(this).after('<span id="errorSpan" style="color:red;">비밀번호가 일치하지 않습니다.</span>');
 			}
 		});
 		
 		$('#regibtn').on('click', function() {
+			console.log($('#errorSpan').is(null));
 			event.preventDefault();
 			checkUnload = false;
 			if($('input[name=upload]').val().trim() == '') {
@@ -165,6 +165,12 @@
 				return;
 			}
 			
+			/* 
+			if($('#errorSpan').is(null) == false) {
+				swal("정확하지 않은 정보가 있습니다. 다시 확인해주세요!");
+				return;
+			}
+			 */
 			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
 			$('#phoneNumber').val(phoneNumber);
 			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();

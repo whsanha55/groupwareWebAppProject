@@ -433,8 +433,19 @@
                         <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >                                                    
                       		<td class="apprLineAppr2">
                       			<c:if test="${pageScope.record.confirmDate  !=null}">
-                       			<img class="delegation${record.isDelegation }" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
-                       				style="height:65px; width:65px;">
+                      				<c:choose>
+                      					<c:when test="${pageScope.record.receiverLine.lineEmployee.systemSignName!=null}">
+			                       			<img class="delegation${record.isDelegation }" 
+			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
+			                       				style="height:65px; width:65px;">
+                      					</c:when>
+                      					<c:otherwise>
+                      						<img class="delegation${record.isDelegation }" 
+			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/대표이미지.png" 
+			                       				style="height:65px; width:65px;">
+                      					</c:otherwise>
+                      				</c:choose>
+                      				
                        			</c:if>
                        		</td>
 						</c:forEach>

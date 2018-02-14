@@ -183,19 +183,19 @@
 							}
 							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-success' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
 							if(data.codes[i].countRelationCode != 0) {
-								text += "<td id='useable'" + i + "></td>"
+								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countEmployee != 0) {
-								text += "<td id='useable'" + i + "></td>"
+								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countApproval != 0) {
-								text += "<td id='useable'" + i + "></td>"
+								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countApprovalRecord != 0) {
-								text += "<td id='useable'" + i + "></td>"
+								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countNotification != 0) {
-								text += "<td id='useable'" + i + "></td>"
+								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countPost != 0) {
-								text += "<td id='useable'" + i + "></td>"
+								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countPlan != 0) {
-								text += "<td id='useable'" + i + "></td>"
+								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countRelationCode == 0 &&
 									  data.codes[i].countEmployee == 0 &&
 									  data.codes[i].countApproval == 0 &&
@@ -236,10 +236,10 @@
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
 						<div class="col-md-6">
-							<div class="col-md-2">
-								<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.relationCode }</h2>
+							<div class="col-md-5">
+								<h2><a href=/groupware/admin/listCode1.do>최상위 코드</a> → ${requestScope.highRelationCode } → ${requestScope.relationCode } </a></h2>
 							</div>
-							<button type="button" id="insert" class="btn btn-success">등록</button>
+							
 						</div>
 						<div>
 							<div>
@@ -273,9 +273,9 @@
 						<tr>
 							<th id="1" class="text-center">코드번호</th>
 							<th id="2" class="text-center">코드명</th>
-							<th id="3" class="text-center">코드 사용 여부</th>
-							<th id="4" class="text-center">수정</th>
-							<th id="5" class="text-center">삭제</th>
+							<th id="5" class="text-center">코드 사용 여부</th>
+							<th id="6" class="text-center">수정</th>
+							<th id="7" class="text-center">삭제</th>
 						</tr>
 					</thead>
 						<tbody id="datatable">
@@ -283,6 +283,11 @@
 						</tbody>
 				</table>
 			</div>
+			<div class="col-md-5"></div>
+				<button type="button" id="insert" class="btn btn-success">등록</button>
+				<c:url var="previousCodeURL" value="/admin/listCode2.do?relationCode=${requestScope.highRelationCode }" scope="page" ></c:url>
+				<a id="previous" href="${pageScope.previousCodeURL }"><button type="button" class="btn btn-primary" >이전</button></a>
+			
 		</div>
 	</div>
 </body>
