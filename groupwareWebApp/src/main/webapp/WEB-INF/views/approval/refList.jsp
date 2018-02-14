@@ -29,6 +29,9 @@
 		float : right;
 		margin-right : 20px;
 	}
+	#templatePaging li {
+		cursor : pointer;
+	}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
