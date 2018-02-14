@@ -17,6 +17,11 @@
 		
 		newMsg();
 		//var msg = setInterval(newMsg, 2000);
+<<<<<<< HEAD
+
+		
+=======
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 		
 		//최초이벤트(5개씩)
 		$('#alerts').find('a').on('click', newAlarm);

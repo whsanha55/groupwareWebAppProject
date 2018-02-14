@@ -150,18 +150,6 @@
 			employeePaging(1);
 		});
 		
-		$('#closeBtn2').click(function() {
-			console.log($('#modalForm').is($('#modifyCompBtn')));
-			if($('#modalForm').is($('#modifyCompBtn')) == true) {
-				$('#modifyCompBtn').remove();
-				$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
-			} 
-			if($('#modalForm').is($('#modifyBtn')) == true) {
-				$('#modifyBtn').remove();
-				$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
-			}	
-		}); 
-		
 		/* $('#modifyBtn').click(function () {
 			console.log($('#modRetireStatus').val())
 			if($('#modRetireStatus').val()=='재직') {
@@ -338,7 +326,6 @@
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
 						text += "<input id='submitPhotoName' type='hidden' value='"+ data.employees[i].systemPhotoName +"'>";
-						text += "<input id='submitSignName' type='hidden' value='"+ data.employees[i].systemSignName +"'>";
 						text += "<td id='submitEmpNo'><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
 						text += "<td id='submitEmpName'>"+ data.employees[i].empName 		+ "</td>";
 						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
@@ -373,13 +360,27 @@
 						$('#email1').attr('readonly', true);
 						$('#email2').attr('readonly', true);
 						$('select[name=emailaddr]').attr('disabled', true);
-						$('#moddetailAddress').attr('readonly', true);						
+						$('#moddetailAddress').attr('readonly', true);
+						
+						if($('#modifyBtn').length > 0) {
+							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
+						}
+						$('#modifyBtn').remove();
+						
+						if($('#modifyCompBtn').length > 0) {
+							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
+						}
+						$('#modifyCompBtn').remove();
 																				
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
-						$('#sign').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/' + ($(this).parent().children('#submitSignName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
+						
 						$('#modEngName').val($(this).parent().children('#submitEngName').val());
+						if($('#modEngName').val() == 'null') {
+							$('#modEngName').val("");
+						}					
+						
 						$('input[name=dutyCode]').val($(this).parent().children('#submitDutyNo').val());
 						$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
@@ -408,7 +409,14 @@
 						}
 						$('#modpostcode').val($(this).parent().children('#submitpostcode').val());
 						$('#modAddress').val($(this).parent().children('#submitAddress').val());	
+						
 						$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
+						if($('#moddetailAddress').val() == 'null') {
+							$('#moddetailAddress').val("");
+						}
+						
+						
+						
 					});
 				}
 				$('#datatable').find('tbody').html(text);
@@ -583,27 +591,18 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<div class="col-md-5 col-sm-3 col-xs-12 profile_left">
+						<div class="col-md-5 col-sm-3 col-xs-12 profile_center">
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
 									<img id="photo" width="250px" height="250px" 
 									src="" class="img-responsive center-block"/>
+									<input id="upload-image" name="upload"
+									type="file" data-role="magic-overlay" data-target="#pictureBtn"
+									data-edit="insertImage">
 								</div>
 							</div>
-							<br> <input id="upload-image" name="upload"
-								type="file" data-role="magic-overlay" data-target="#pictureBtn"
-								data-edit="insertImage">
-						</div>
-						<div class="col-md-3 col-sm-3 col-xs-12 profile_left">
-							<div class="profile_img">
-								<div id="crop-avatar">
-									<!-- Current avatar -->
-									<img id="sign" width="250px" height="250px" 
-									src="" class="img-responsive center-block"/>
-								</div>
-							</div>
-						</div>
+						</div>						
 						<br> <br> <br>
 						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
 							<tbody>
