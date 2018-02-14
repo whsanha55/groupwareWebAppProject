@@ -41,6 +41,10 @@ public class AdminRegisterPlanController {
 	@RequestMapping(value="/admin/registerPlan.do", method=RequestMethod.GET)
 	public ModelAndView form() {
 		ModelAndView mv = new ModelAndView();
+		PlanVO plan = new PlanVO();
+		String pContent = plan.getpContent();
+		pContent = pContent.replaceAll("\r\n", "<br>");
+		mv.addObject("pContent", pContent);
 		mv.addObject("deptCodes", employeeFancyTreeService.retrieveEmployeeDeptList());
 		mv.setViewName("employee/admin_insertPlan");
 		return mv;
