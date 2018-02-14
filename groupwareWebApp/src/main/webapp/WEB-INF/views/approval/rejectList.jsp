@@ -23,6 +23,9 @@
 		float : right;
 		margin-right : 20px;
 	}
+	#templatePaging li {
+		cursor : pointer;
+	}
 	
 </style>
 <link
