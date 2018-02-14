@@ -11,6 +11,7 @@ public class CodeVO {
 	private String countNotification;
 	private String countPost;
 	private String countPlan;
+	private String highRelationCode;
 		
 	
 	public CodeVO() {
@@ -105,13 +106,24 @@ public class CodeVO {
 		this.countPlan = countPlan;
 	}
 
+	public String getHighRelationCode() {
+		return highRelationCode;
+	}
+
+	public void setHighRelationCode(String highRelationCode) {
+		this.highRelationCode = highRelationCode;
+	}
+
 	@Override
 	public String toString() {
 		return "CodeVO [cNo=" + cNo + ", cName=" + cName + ", relationCode=" + relationCode + ", countRelationCode="
 				+ countRelationCode + ", countEmployee=" + countEmployee + ", countApproval=" + countApproval
 				+ ", countApprovalRecord=" + countApprovalRecord + ", countNotification=" + countNotification
-				+ ", countPost=" + countPost + ", countPlan=" + countPlan + "]";
+				+ ", countPost=" + countPost + ", countPlan=" + countPlan + ", highRelationCode=" + highRelationCode
+				+ "]";
 	}
+
+	
 
 	
 	

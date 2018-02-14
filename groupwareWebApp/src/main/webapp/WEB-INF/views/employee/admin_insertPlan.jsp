@@ -36,6 +36,10 @@ $(document).ready(function() {
 			swal("종료일을 입력해주세요.","");
 			return;
 		}
+		if($('input[name=startDate]').val() >= $('input[name=endDate]').val()) {
+			swal("종료일이 시작일보다 빠릅니다.","");
+			return;
+		}
 		if($('input[name=destination]').val().trim() == '') {
 			swal("장소정보를 입력해주세요.","");
 			return;
@@ -204,7 +208,7 @@ $(document).ready(function() {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								 <textarea name="pContent" rows="20" style="width: 100%" ></textarea>
+								 <textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%" ></textarea>
 							</div>
 						</div>
 						
@@ -223,7 +227,7 @@ $(document).ready(function() {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12">중요도 *</label>
 								<div class="form-group">
 									&nbsp;&nbsp;
-									하: <input type="radio" name="pImpt" id="pImpt" value="1">
+									하: <input type="radio" name="pImpt" id="pImpt" value="1" checked="">
 									&nbsp;&nbsp;
 									중: <input type="radio" name="pImpt" id="pImpt" value="2">
 									&nbsp;&nbsp;

@@ -113,22 +113,34 @@
 		<if test="empNo != null">
 			and emp.emp_no = #{empNo}
 		</if>
-		<if test="linempNo != null">
-			and (line.line_emp_no = #{linempNo} or rec.dep_emp_no = #{linempNo})
+		<if test="linempNo != null and apprStatus == 0">
+			and ((line.line_emp_no = #{linempNo} and rec.dep_emp_no is null)  
+				 or rec.dep_emp_no = #{linempNo})
 		</if>
+		<if test="linempNo != null and apprStatus == 1">
+			and (line.line_emp_no = #{linempNo} or rec.dep_emp_no = #{linempNo})
+		</if>		
+		
+		<if test="linempNo != null and apprStatus == 6">
+			and line.line_emp_no = #{linempNo}
+			and line.appr_type = 1
+		</if>
+		
 		
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
 			and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>
 		
-		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 || apprFinalStatus == 5">
+		<if test="(apprFinalStatus == 0 and apprStatus != 6) || apprFinalStatus == 2 || apprFinalStatus == 5">
 			<if test="linempNo != null">
 				and appr.appr_final_status in ('C-01-00','C-01-02')
 			</if>
 			<if test="empNo !=null">
 				and appr.appr_final_status in ('C-01-00','C-01-02','C-01-05')
 			</if>
-		</if>
+		</if>		
+		
+		
 		<if test="apprFinalStatus == 4 ">
 			and appr.appr_final_status ='C-01-04'
 		</if>
@@ -261,7 +273,7 @@
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
 		<if test="empNo != 'admin'">
-		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo})
+		and ((line.line_emp_no=#{empNo} and line.appr_type=0) or rec.dep_emp_no=#{empNo})
 		</if> 
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
@@ -435,14 +447,23 @@
 		<if test="empNo != null">
 			and emp.emp_no = #{empNo}
 		</if>
-		<if test="linempNo != null">
+		<if test="linempNo != null and apprStatus == 0">
+			and ((line.line_emp_no = #{linempNo} and rec.dep_emp_no is null)  
+				 or rec.dep_emp_no = #{linempNo})
+		</if>
+		<if test="linempNo != null and apprStatus == 1">
 			and (line.line_emp_no = #{linempNo} or rec.dep_emp_no = #{linempNo})
+		</if>
+		
+		<if test="linempNo != null and apprStatus == 6">
+			and line.line_emp_no = #{linempNo}
+			and line.appr_type = 1
 		</if>
 		
 		<if test="apprFinalStatus == 1 || apprFinalStatus == 3">
 			and appr.appr_final_status = concat('C-01-0', #{apprFinalStatus})
 		</if>
-		<if test="apprFinalStatus == 0 || apprFinalStatus == 2 ||apprFinalStatus==5">
+		<if test="(apprFinalStatus == 0 and apprStatus != 6 )|| apprFinalStatus == 2 ||apprFinalStatus==5">
 			and appr.appr_final_status in ('C-01-00','C-01-02','C-01-05')
 		</if>
 		<if test="apprFinalStatus == 4 ">
@@ -579,7 +600,7 @@
 		and rec.appr_no=appr.appr_no
 		and rec.line_no=line.line_no
 		<if test="empNo != 'admin'">
-		and (line.line_emp_no=#{empNo} or rec.dep_emp_no=#{empNo})
+		and ((line.line_emp_no=#{empNo} and line.appr_type=0) or rec.dep_emp_no=#{empNo})
 		</if> 
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}

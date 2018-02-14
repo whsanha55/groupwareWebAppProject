@@ -46,5 +46,9 @@ public interface AuthorityService {
 	
 	//권한 사원 존재여부
 	int retrieveAuthEmpCountByaNo(String aNo);
+	
+	
+	//권한번호에 해당하는 사번리스트 조회
+	List<String> retrieveAuthEmpNo(String aNo);
 
 } 

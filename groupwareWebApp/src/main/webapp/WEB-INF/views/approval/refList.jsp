@@ -272,7 +272,11 @@
 						}
 						
 						text += "<td>"+ data.approvals[i].apprNo + "</td>";
-						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
+						if(data.approvals[i].template ==null){
+							text += "<td>기타</td>";														
+						}else{
+							text += "<td>"+ data.approvals[i].template.tmpName + "</td>";							
+						}
 						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";
