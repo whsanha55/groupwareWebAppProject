@@ -9,11 +9,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-	$(document).ready(
-			function() {
+$(document).ready(function() {
+			
+			listCmt();
 				// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
-				$("#btnReply").click(
-					function() {
+				$('#btnReply').on('click', function() {
 						var cmtContent = $("#cmtContent").val();
 						var empName = '${param.empName}';
 						var postNo = "${requestScope.post.postNo }";						
@@ -27,13 +27,16 @@
 							},
 							success : function() {
 								alert("댓글이 등록되었습니다.");
-								location.reload();
+							 	
+								listCmt();
+								
 							}
 						});
 					});
+			
 
 			//댓글 삭제 
-			$('#deleteBtn').on('click', function() {	
+			$('#datatable').on('click','button:contains(삭제)', function () {
 				var cmtNo = $(this).val();
 				swal({
 					title: "댓글 삭제" ,
@@ -44,7 +47,8 @@
 					if(e) {
 						deleteCmt(cmtNo);							
 					}
-				});		
+				});	
+			
 							
 			//alert($(this).val());
 			function deleteCmt(cmtNo) {	
@@ -66,9 +70,7 @@
 							icon: "info",
 							buttons : "확인" 
 						}).then((e) => {
-							if(e) {
-							location.reload();		
-							}
+							listCmt();
 						});		
 					}
 					, 
@@ -87,7 +89,7 @@
 			// 수정
 		      $('#datatable').on('click','button:contains(수정)', function () {
 		         var cmtContent = $(this).parents("tr").find('.cmtContent').text();
-		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent' value="+cmtContent +" />");   
+		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent'/>");   
 		          $(this).parents("tr").find('.cmtContent').find(':text[name=cmtContent]').val(cmtContent);
 		          
 		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' >완료</button><button type='button'>취소</button></td>");
@@ -101,7 +103,7 @@
 		          var cmtNo = $(this).parents("tr").find('.cmtNo').text();      
 		          var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();	            
 		          
-		          var name = $(this).parents("tr").find('.cmtContent');
+		          var content = $(this).parents("tr").find('.cmtContent');
 		          var selectBtn = $(this).parents("tr").find('.selectBtn');
 		          
 		          var a = $(this).parents("tr").find('input[name=rName]');
@@ -130,9 +132,9 @@
 		                        ,
 		                        success : function(data, textStatus, jqXHR){   		                           
 		                              swal("수정 완료!","");
-		                              $(name).html(data.cmt.cmtContent);		                             
+		                              $(content).html(data.cmt.cmtContent);		                             
 		                              $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
-		                              	
+		                          	  listCmt();	
 		                        }
 		                        ,
 		                        error : function(jqXHR, textStatus, errorThrown){
@@ -140,7 +142,7 @@
 		                        }
 		                  
 		                     });
-		                  location.reload();
+		      		
 		               }
 		            });
 
@@ -157,11 +159,45 @@
 		          $('button:contains(수정)').prop("disabled", false);
 		       });  
 			
-		
-						
+		   });
 	
-						
-});
+	function listCmt() {
+		var postNo = "${requestScope.post.postNo }";				
+		var empName = '${param.empName}';
+		$.ajax({
+			url: '${pageContext.request.contextPath}/listCmt.do' 
+			,
+			data: {
+				postNo : postNo
+			},
+			type: 'POST' ,
+			cache: false ,
+			dataType: 'json' ,
+			success: function (data, textStatus, jqXHR) {
+				var text = "";  
+				 for(var i=0;i<data.posts.length;i++) {
+						text += "<tr style='border-top: 1px  solid;'><td style='width:50px;'>"+data.posts[i].cmtWriter+"</td>";
+						text += "<td style='width:700px;'>("+data.posts[i].cmtDate+ ")</td>";
+						if(data.posts[i].cmtWriter == empName) {
+						text += "<td rowspan='2' class='selectBtn'><button type='button' class='btn btn-primary btn-xs' >수정</button><button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-primary btn-xs' >삭제</button></td></tr>";
+						}   
+				
+						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
+						text += "<td colspan='2' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
+			
+						text += "</tr>";
+					} 
+					$('#datatable').find('tbody').html(text);
+				
+			} ,
+			error: function(jqXHR) {
+				alert("에러: " + jqXHR.status);
+			}
+			
+		});
+		
+
+	}
 </script>
 </head>
 <body>
@@ -228,53 +264,19 @@
 			</div>
 			<div class="ln_solid"></div>
 
-
 			<!--------------------- 댓글 ----------------------->
 			<!-- 댓글 조회 -->
 			<!-- 코멘트 사용 유무 -->
-        	<c:if test="${param.isComment == 'Y'}">		
-			<c:if test="${fn: length(sessionScope.post.cmts ) > 0 }">
-				<table id="datatable" style="margin-left:10px;">
-					<c:forEach var="cmt" items="${sessionScope.post.cmts }"
-						varStatus="loop">
-						<tr>							
-							<td style="font-weight:bold;" colspan="3">${pageScope.cmt.cmtWriter }</td>
-							<td>(${pageScope.cmt.cmtDate })</td>		
-							<td></td>
-							<td></td>
-							<td></td>													
-						</tr>
-						<tr >
-							<td class='cmtNo' style="display:none;">${pageScope.cmt.cmtNo }</td>
-							<td colspan="4" class='cmtContent'>${pageScope.cmt.cmtContent }</td>
-							 <!-- 본인이 쓴 댓글만 수정, 삭제가 가능하도록 처리 -->
-        					<c:if test="${pageScope.cmt.cmtWriter ==  param.empName}">	
-							<td class='selectBtn'>
-								<button type='button' class="btn btn-primary pull-right">수정</button>
-							</td>						
-							<td>
-								<button class="btn btn-primary pull-right" type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn"  >삭제</button>								
-							</td>
-							</c:if>
-						</tr>
-						
-						
-					</c:forEach>
+        	<c:if test="${param.isComment == 'Y'}">	
+				<table id="datatable" style="width: 100%">
+					<tbody style='border-bottom: 1px solid;'>
+					</tbody>
 				</table>
 			</c:if>
-			
-			
 
-			<%-- <!-- 댓글 입력 -->
-			<div style="width: 200px; text-align: center;">
-				<br>
-				<div style="text-align: left;">${param.empName}</div>				
-				<textarea style="width: 300px;"  id="cmtContent"
-					placeholder="댓글을 작성해주세요"></textarea>
-				<button type="button" id="btnReply">댓글 작성</button>
-				
-			</div> --%>
-			<br><br>
+
+
+			<br> <br>
 			<div class="form-group">
             <label class="control-label col-md-1 col-md-2 col-xs-1">${param.empName}</label>
             <div class="col-md-6 col-sm-9 col-xs-12">
@@ -285,10 +287,6 @@
              <button type="button" id="btnReply" class="btn btn-primary pull-right" >댓글 작성</button>
             </div>
          </div>
-         
-         </c:if>
-			
-
 
 		</div>
 	</div>

@@ -175,7 +175,7 @@ $(document).ready(function(){
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
-								<i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
+								<img alt="게시판" src="${pageContext.request.contextPath}/resources/images/icon4.png">
 						</dt>
 						<dd>
 							<h2 class="text-center">
@@ -186,16 +186,16 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</a>
-		<a href='<c:url value="/retrieveMessageList.do"/>'>
+		<a href='<c:url value="/approvalMyRequest.do"/>'>
 			<div class="col-md-2 col-sm-4 col-xs-12">
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
-								<i class="fa fa-comments-o fa-5x" aria-hidden="true"></i>
+								<img alt="결재요청" src="${pageContext.request.contextPath}/resources/images/icon3.png">
 						</dt>
 						<dd>
 							<h2 class="text-center">
-								<strong>쪽지함</strong>
+								<strong>결재요청</strong>
 							</h2>
 						</dd>
 					</dl>
@@ -208,7 +208,7 @@ $(document).ready(function(){
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
-							<i class="fa fa-briefcase fa-5x" aria-hidden="true"></i>
+							<img alt="문서작성" src="${pageContext.request.contextPath}/resources/images/icon5.png">
 						</dt>
 						<dd>
 							<h2 class="text-center">
@@ -225,8 +225,7 @@ $(document).ready(function(){
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
-							<i class="fa fa-chevron-circle-down fa-5x"
-								aria-hidden="true"></i>
+							<img alt="결재대기함" src="${pageContext.request.contextPath}/resources/images/icon2.png">
 						</dt>
 						<dd>
 							<h2 class="text-center">
@@ -243,7 +242,7 @@ $(document).ready(function(){
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
-							<i class="fa fa-picture-o fa-5x" aria-hidden="true"></i>
+							<img alt="결재요청" src="${pageContext.request.contextPath}/resources/images/icon7.png">
 						</dt>
 						<dd>
 							<h2 class="text-center">
@@ -255,20 +254,22 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</a>
+		<a href='<c:url value="/approvalFinish.do"/>'>
 		<div class="col-md-2 col-sm-4 col-xs-12">
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a><i class="fa fa-bell fa-5x" aria-hidden="true"></i></a>
+						<a><img alt="승인문서함" src="${pageContext.request.contextPath}/resources/images/icon6.png"></a>
 					</dt>
 					<dd>
 						<h2 class="text-center">
-							<a><strong>알림사항</strong></a>
+							<a><strong>승인문서함</strong></a>
 						</h2>
 					</dd>
 				</dl>
 			</div>
 		</div>
+		</a>
 	</div>
 	<div class="row">
 		<!-- 캘린더  -->

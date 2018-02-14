@@ -21,6 +21,22 @@
 			   $('textarea#froala-editor').froalaEditor()
 			 });
 		
+		   $('#modiNotice').click(function(){
+			    
+				if($($('input:text[name=noticeTitle]')).val() == "" ){
+					swal("제목을 입력하세요.");
+					$('#noticeTitle').focus();
+					return false;
+				} 
+				
+		 		if($($('textarea[name=noticeContents]')).val() == "" ){
+					swal("내용을 입력하세요.");
+					$('#noticeContents').focus();
+					return false;
+				}  
+			
+			});
+		   
 		 //첨부파일 추가 및 삭제 이벤트
 		$('form').on('click', '.btn-add', function(e) {
 	        e.preventDefault();
@@ -181,7 +197,7 @@
 						</div>
 					</div>   
 
-					<button type="submit" class="btn btn-primary pull-right">등록</button>
+					<button type="submit" class="btn btn-primary pull-right" id="modiNotice">수정</button>
 					&nbsp;
 					<button type="reset" class="btn btn-primary pull-right">취소</button>
 				</div>
