@@ -36,7 +36,7 @@ $(document).ready(function() {
 			
 
 			//댓글 삭제 
-			$('#deleteBtn').on('click', function() {	
+			$('#datatable').on('click','button:contains(삭제)', function () {
 				var cmtNo = $(this).val();
 				swal({
 					title: "댓글 삭제" ,
@@ -70,9 +70,7 @@ $(document).ready(function() {
 							icon: "info",
 							buttons : "확인" 
 						}).then((e) => {
-							if(e) {
-							location.reload();		
-							}
+							listCmt();
 						});		
 					}
 					, 
@@ -91,7 +89,7 @@ $(document).ready(function() {
 			// 수정
 		      $('#datatable').on('click','button:contains(수정)', function () {
 		         var cmtContent = $(this).parents("tr").find('.cmtContent').text();
-		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent' value="+cmtContent +" />");   
+		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent'/>");   
 		          $(this).parents("tr").find('.cmtContent').find(':text[name=cmtContent]').val(cmtContent);
 		          
 		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' >완료</button><button type='button'>취소</button></td>");
@@ -105,7 +103,7 @@ $(document).ready(function() {
 		          var cmtNo = $(this).parents("tr").find('.cmtNo').text();      
 		          var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();	            
 		          
-		          var name = $(this).parents("tr").find('.cmtContent');
+		          var content = $(this).parents("tr").find('.cmtContent');
 		          var selectBtn = $(this).parents("tr").find('.selectBtn');
 		          
 		          var a = $(this).parents("tr").find('input[name=rName]');
@@ -134,9 +132,9 @@ $(document).ready(function() {
 		                        ,
 		                        success : function(data, textStatus, jqXHR){   		                           
 		                              swal("수정 완료!","");
-		                              $(name).html(data.cmt.cmtContent);		                             
+		                              $(content).html(data.cmt.cmtContent);		                             
 		                              $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
-		                              	
+		                          	  listCmt();	
 		                        }
 		                        ,
 		                        error : function(jqXHR, textStatus, errorThrown){
@@ -144,7 +142,7 @@ $(document).ready(function() {
 		                        }
 		                  
 		                     });
-		                  location.reload();
+		      		
 		               }
 		            });
 
@@ -164,7 +162,6 @@ $(document).ready(function() {
 		   });
 	
 	function listCmt() {
-		alert("call");   
 		var postNo = "${requestScope.post.postNo }";				
 		var empName = '${param.empName}';
 		$.ajax({
@@ -179,18 +176,14 @@ $(document).ready(function() {
 			success: function (data, textStatus, jqXHR) {
 				var text = "";  
 				 for(var i=0;i<data.posts.length;i++) {
-						text += "<tr><td colspan='3'>"+data.posts[i].cmtWriter+"</td>";
-						text += "<td>("+data.posts[i].cmtDate+ ")</td>";
-						text += "<td></td>";
-						text += "<td></td>";
-						text += "<td></td></tr>";
-						
-						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
-						text += "<td colspan='4' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
+						text += "<tr style='border-top: 1px  solid;'><td style='width:50px;'>"+data.posts[i].cmtWriter+"</td>";
+						text += "<td style='width:700px;'>("+data.posts[i].cmtDate+ ")</td>";
 						if(data.posts[i].cmtWriter == empName) {
-							text += "<td class='selectBtn'><button type='button' class='btn btn-primary' >수정</button></td>";
-							text += "<td class='selectBtn'><button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-primary' >삭제</button></td>";
-						}
+						text += "<td rowspan='2' class='selectBtn'><button type='button' class='btn btn-primary btn-xs' >수정</button><button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-primary btn-xs' >삭제</button></td></tr>";
+						}   
+				
+						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
+						text += "<td colspan='2' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
 						text += "</tr>";
 					} 
 					$('#datatable').find('tbody').html(text);
@@ -270,9 +263,9 @@ $(document).ready(function() {
 			<!--------------------- 댓글 ----------------------->
 			<!-- 댓글 조회 -->			
 			<c:if test="${fn: length(sessionScope.post.cmts ) > 0 }">
-				<table id="datatable">
-				  <tbody>
-                  </tbody>
+				<table id="datatable"  style="width:100%">
+				  <tbody style='border-bottom: 1px  solid;'>
+                  </tbody >
 				
 				</table>
 			</c:if>
@@ -284,8 +277,8 @@ $(document).ready(function() {
                <textarea id="cmtContent" class="resizable_textarea form-control"
                   placeholder="댓글을 작성해주세요"></textarea>
             </div>
-            <div class="col-md-2">
-             <button type="button" id="btnReply" class="btn btn-primary pull-right" >댓글 작성</button>
+            <div class="col-md-1"  style="position: relative; left: 10px; top: 25px;">
+             <button type="button" id="btnReply" class="btn btn-primary pull-right btn-sm" >댓글 작성</button>
             </div>
 
 		</div>

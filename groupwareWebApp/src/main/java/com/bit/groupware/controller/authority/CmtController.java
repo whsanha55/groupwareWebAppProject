@@ -61,7 +61,7 @@ public class CmtController {
 		Map<String, String> map = new HashMap<String, String>();
 		cmtService.modifyCmt(cmt);
 		
-		
+		map.put("cmt", "cmt");
 		return map;
 	}
     
