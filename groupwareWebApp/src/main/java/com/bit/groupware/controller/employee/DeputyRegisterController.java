@@ -57,7 +57,17 @@ public class DeputyRegisterController {
 */
 	@RequestMapping(value="/registerDeputy.do", method=RequestMethod.POST)
 	public String submit(DeputyVO deputy) {
-		logger.info("deputy : {}", deputy);
+		logger.info("11!!!!!!!!!!"+deputy.getStartDate()); 
+		deputy.getStartDate().replace("년 ","/");
+		deputy.getStartDate().replace("월 ","/");
+		deputy.getStartDate().replace("일","/");
+		deputy.getStartDate().replace("시","");
+		deputy.getEndDate().replace("년 ", "/");
+		deputy.getEndDate().replace("월 ", "/");
+		deputy.getEndDate().replace("일", "/");
+		deputy.getEndDate().replace("시", "");
+		
+		logger.info("ㅋㅋㅋㅋㅋㅋㅋ"+deputy.getEndDate()); 
 		employeeService.registerDeputy(deputy);
 		return "redirect:registerDeputy.do";
 	}
