@@ -96,7 +96,7 @@
 												
 											centerMarker.setMap(map);
 											
-											var iwContent = '<div style="padding:5px;text-align:center;color:red">${requestScope.plan.destination}</div>',
+											var iwContent = '<div style="padding:5px;text-align:center;color:red"><a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" target="_blank">${requestScope.plan.destination}</a></div></div>',
 												iwRemoveable = true;
 												
 											var infowindow = new daum.maps.InfoWindow({
