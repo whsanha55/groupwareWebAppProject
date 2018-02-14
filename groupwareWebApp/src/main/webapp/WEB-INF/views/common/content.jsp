@@ -171,7 +171,7 @@ $(document).ready(function(){
 
 	<div class="row">
 		<a href='<c:url value="/postList.do?boardNo=235"/>'>
-			<div class="col-md-2 col-sm-4 col-xs-12">
+			<div class="col-md-3 col-sm-4 col-xs-12">
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
@@ -186,8 +186,8 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</a>
-		<a href='<c:url value="/retrieveMessageList.do"/>'>
-			<div class="col-md-2 col-sm-4 col-xs-12">
+		<%-- <a href='<c:url value="/retrieveMessageList.do"/>'>
+			<div class="col-md-3 col-sm-4 col-xs-12">
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
@@ -201,10 +201,10 @@ $(document).ready(function(){
 					</dl>
 				</div>
 			</div>
-		</a>
+		</a> --%>
 		
 		<a href='<c:url value="/selectTemplate.do"/>'>
-			<div class="col-md-2 col-sm-4 col-xs-12">
+			<div class="col-md-3 col-sm-4 col-xs-12">
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
@@ -221,7 +221,7 @@ $(document).ready(function(){
 	    </a>
 	    
 	    <a href='<c:url value="/approvalTodo.do"/>'>
-			<div class="col-md-2 col-sm-4 col-xs-12">
+			<div class="col-md-3 col-sm-4 col-xs-12">
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
@@ -239,7 +239,7 @@ $(document).ready(function(){
 		</a>
 		
 		<a href='<c:url value="/detailEmployee.do"/>'>
-			<div class="col-md-2 col-sm-4 col-xs-12">
+			<div class="col-md-3 col-sm-4 col-xs-12">
 				<div class="x_panel tile fixed_height_200">
 					<dl style="margin-top: 40px;">
 						<dt class="text-center">
@@ -255,7 +255,7 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</a>
-		<div class="col-md-2 col-sm-4 col-xs-12">
+		<!-- <div class="col-md-2 col-sm-4 col-xs-12">
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
@@ -268,7 +268,7 @@ $(document).ready(function(){
 					</dd>
 				</dl>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<div class="row">
 		<!-- 캘린더  -->
