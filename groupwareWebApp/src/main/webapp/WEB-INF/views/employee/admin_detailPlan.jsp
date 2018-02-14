@@ -61,7 +61,6 @@
 				}
 			});
 			
-			alert($(this).val());
 			function removePlan(pNo) {	
 				$.ajax({
 					url: '${pageContext.request.contextPath}/admin/removePlan.do'

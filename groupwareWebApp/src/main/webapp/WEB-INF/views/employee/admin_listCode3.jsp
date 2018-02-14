@@ -36,6 +36,14 @@
 	        }
 		});
 		
+		$('#listCode1').click(function(){
+			location.href = '${pageContext.request.contextPath}/admin/listCode1.do';
+		});
+		
+		$('#listCode2').click(function(){
+			location.href = '${pageContext.request.contextPath}/admin/listCode2.do?relationCode=${requestScope.superRelationCode }';
+		});
+		
 		//등록버튼 클릭시 팝업창 생성
 		$('#insert').click(function(){
 			var relationCode = $("#relationCode").val();
@@ -55,7 +63,7 @@
 		//삭제버튼 클릭시 삭제
 		$('#datatable').on('click', '.removeBtn', function() {
 			var cNo = $(this).val();
-			
+
 			swal({
 				 title: "코드 삭제",
 				 text: "코드를 삭제합니다. 계속 진행하시겠습니까?",
@@ -272,9 +280,9 @@
 					<div>
 						<div class="col-md-8">
 								
-								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">최상위 코드</a><div class="tri"></div></div>
+								<div id="listCode1" class="box3">최상위 코드<div class="tri"></div></div>
 								&nbsp;
-								<div class="box4"><a style="color:#fff" href=/groupware/admin/listCode2.do?relationCode=${requestScope.superRelationCode }>${requestScope.superRelationCode }</a><div class="tri2"></div></div>
+								<div id="listCode2" class="box4">${requestScope.superRelationCode }<div class="tri2"></div></div>
 								&nbsp;
 								<div class="box5">${requestScope.relationCode }<div class="tri3"></div></div>
 								<br>

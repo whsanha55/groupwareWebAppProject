@@ -113,6 +113,10 @@ $(document).ready(function () {
 			swal("종료일을 입력해주세요.","");
 			return;
 		}
+		if($('input[name=startDate]').val() >= $('input[name=endDate]').val()) {
+			swal("시작일이 종료일보다 클 수 없습니다.","");
+			return;
+		}
 		if($('input[name=destination]').val().trim() == '') {
 			swal("장소정보를 입력해주세요.","");
 			return;
