@@ -109,8 +109,12 @@
 	                         <c:forEach var="record" items="${requestScope.records}" >
 							<c:if test="${pageScope.record.apprStatus<6 }">
 								<tr class="even pointer">
-
-	                            <td>${pageScope.record.receiverLine.lineOrder}</td>
+								<c:if test="${record.receiverLine.lineOrder !=9}">
+									<td>${pageScope.record.receiverLine.lineOrder}</td>
+								</c:if>
+								<c:if test="${record.receiverLine.lineOrder ==9}">
+									<td>최종</td>
+								</c:if>
 	                            <td class=" ">${pageScope.record.receiverLine.lineEmployee.department} ${pageScope.record.receiverLine.lineEmployee.empName} ${pageScope.record.receiverLine.lineEmployee.duty}</td>
 								
 								<td class=" ">
