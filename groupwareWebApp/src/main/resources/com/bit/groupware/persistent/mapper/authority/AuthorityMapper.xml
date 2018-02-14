@@ -257,6 +257,15 @@
        where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
    </select>
    
+   <!-- 권한번호에 해당하는 사번 리스트 조회 -->
+   <select id="selectListAuthEmpNo" resultType="String" statementType="PREPARED" parameterType="String" >      
+      select ae.emp_no as empNo
+      from empList_view e , authority_employee ae, authority a
+      where ae.a_no = a.a_no
+      and ae.emp_no = e.empNo
+      and a.a_no = #{aNo}
+   </select>
+   
     <select id="selectAuthEmpCount" statementType="PREPARED" parameterType="map" resultType="int">
       select count(*)
 	  from empList_view e , authority_employee ae, authority a
