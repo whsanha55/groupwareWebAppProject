@@ -35,7 +35,7 @@ $(document).ready(function(){
 		 
 		 pKeyfield=$('#pKeyfield').val();
 		 pKeyword=$('.pKeyword').val();
-
+ 
 		 templatePaging(1);
 	 });
 	
@@ -284,7 +284,7 @@ $(document).ready(function(){
 							
 							 <select id="pKeyfield" name="pKeyfield" style="height:28px; width:80px;"  > 
 								<option value="template" >양식명</option>
-								<option value="duty" >직급</option>
+								<option value="duty" >직책</option>
 						    </select>
 							 <input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요" style="width:172px;height:28px;">
 								<button id="btn3" class="btn btn-primary" type="button" style="height:28px; margin-bottom:4px; padding-top:2px;">검색</button>
