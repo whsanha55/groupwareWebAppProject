@@ -272,7 +272,6 @@ $(document).ready(function() {
 					<tbody style='border-bottom: 1px solid;'>
 					</tbody>
 				</table>
-			</c:if>
 
 
 
@@ -287,6 +286,8 @@ $(document).ready(function() {
              <button type="button" id="btnReply" class="btn btn-primary pull-right" >댓글 작성</button>
             </div>
          </div>
+         
+         </c:if>
 
 		</div>
 	</div>
