@@ -242,7 +242,8 @@ $(document).ready(function(){
 		<%-- 		<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
 						action="${pageContext.request.contextPath }/registerDeputy.do" method="POST"> --%>
 					<div class="form-group form-inline">
-					 <div id="insertDeleg" style="height:50px;">
+					 <div id="insertDeleg col-md-6" style="height:50px; display:inline-block;">
+						<div>
 						<form id="search">
 						전결 조건 추가 : 
 						<select id="delegationTmp" name="delegationTmp" style="height:28px;"  > 
@@ -257,6 +258,19 @@ $(document).ready(function(){
 						</select>
 						<button id="btn1" class="btn btn-primary" type="button" style="height:28px; margin-bottom:4px; padding-top:2px;">추가</button>
 						</form>
+					 </div>
+					 <div class="col-md-6"> 
+					 	<div class="input-group" style="display:inline-flex;  margin-top:10px;">
+							
+							 <select id="pKeyfield" name="pKeyfield" style="height:28px; width:80px;"  > 
+								<option value="template" >양식명</option>
+								<option value="duty" >직급</option>
+						    </select>
+							 <input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요" style="width:172px;height:28px;">
+								<button id="btn3" class="btn btn-primary" type="button" style="height:28px; margin-bottom:4px; padding-top:2px;">검색</button>
+							
+						
+					</div>
 					 </div>
 					 
 					<div class="ln_solid"></div>
@@ -280,17 +294,7 @@ $(document).ready(function(){
 					<nav aria-label="Page navigation" id = 'templatePaging' style="text-align:center;">
 				
 					</nav>
-					<div class="input-group" style="display:inline-flex; margin-left:320px; margin-top:10px;">
-							
-							 <select id="pKeyfield" name="pKeyfield" style="height:28px; width:80px;"  > 
-								<option value="template" >양식명</option>
-								<option value="duty" >직급</option>
-						    </select>
-							 <input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요" style="width:172px;height:28px;">
-								<button id="btn3" class="btn btn-primary" type="button" style="height:28px; margin-bottom:4px; padding-top:2px;">검색</button>
-							
-						
-					</div>
+					
 					
 				
 			</div>
