@@ -292,7 +292,7 @@ select[name=apprType] {
 			$('table[id^=tableDnD] tr').each(function() {
 				if($(this).attr('id') == selectedEmpNo) {
 					if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//테이블중 결재부분에서 삭제 시도
-						var text = "<tr>";
+						var text = "<tr class='nodrag nodrop'>";
 						text += '<td></td>';
 						text += '<td></td>';
 						text += '<td></td>';
@@ -592,7 +592,7 @@ select[name=apprType] {
 			if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//결재 테이블 삭제 요청
 				$(this).closest('tr').remove();
 				receiverLineApprCount--;
-				var text = "<tr>";
+				var text = "<tr class='nodrag nodrop'>";
 				text += '<td></td>';
 				text += '<td></td>';
 				text += '<td></td>';
