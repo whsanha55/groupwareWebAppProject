@@ -187,7 +187,7 @@
 									  ) {
 								text += "<td id='useable'" + i + ">X</td>"
 							}
-							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-success' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
+							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-primary' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
 							if(data.codes[i].countRelationCode != 0) {
 								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countEmployee != 0) {
@@ -323,7 +323,7 @@
 				</table>
 			</div>
 			<div class="col-md-5"></div>
-				<button type="button" id="insert" class="btn btn-success">등록</button>
+				<button type="button" id="insert" class="btn btn-primary">등록</button>
 				<c:url var="previousCodeURL" value="/admin/listCode1.do" scope="page" ></c:url>
 				<a id="previous" href="${pageScope.previousCodeURL }"><button type="button" class="btn btn-primary" >이전</button></a>
 		</div>
