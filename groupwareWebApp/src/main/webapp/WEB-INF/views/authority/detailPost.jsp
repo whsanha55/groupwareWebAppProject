@@ -175,6 +175,8 @@
 							<c:param name="boardNo" value="${param.boardNo }" />
 							<c:param name="boardName" value="${param.boardName }" />
 							<c:param name="empName" value="${param.empName }" />
+							<c:param name="fileCount" value="${param.fileCount }" />
+							<c:param name="isComment" value="${param.isComment}" />
 						</c:url>
 						<c:url var="removeUrl" value="/removePost.do" scope="page">
 							<c:param name="postNo" value="${requestScope.post.postNo }" />
@@ -187,7 +189,7 @@
 						<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
 						<a class="btn btn-danger" href="${removeUrl}">삭제</a>
 					</c:if> 
-					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo } &boardName=${param.boardName} &empName=${param.empName} "/>'>목록</a>
+					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName} "/>'>목록</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -228,7 +230,9 @@
 
 
 			<!--------------------- 댓글 ----------------------->
-			<!-- 댓글 조회 -->			
+			<!-- 댓글 조회 -->
+			<!-- 코멘트 사용 유무 -->
+        	<c:if test="${param.isComment == 'Y'}">		
 			<c:if test="${fn: length(sessionScope.post.cmts ) > 0 }">
 				<table id="datatable" style="margin-left:10px;">
 					<c:forEach var="cmt" items="${sessionScope.post.cmts }"
@@ -281,6 +285,8 @@
              <button type="button" id="btnReply" class="btn btn-primary pull-right" >댓글 작성</button>
             </div>
          </div>
+         
+         </c:if>
 			
 
 
