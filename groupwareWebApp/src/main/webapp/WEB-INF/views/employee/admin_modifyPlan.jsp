@@ -10,6 +10,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>일정수정</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" 
+		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
 <style>
 .modal-dialog.modal-cSize {
 	width:600px;

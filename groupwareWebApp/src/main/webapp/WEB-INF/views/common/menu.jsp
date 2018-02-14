@@ -25,7 +25,7 @@
 			success : function(data, textStatus, jqXHR){
 				var htmlStr = "";
 				for(var i=0; i<data.length; i++){
-					htmlStr += "<li id=" +data[i].boardNo + " class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"&boardName="+data[i].boardName+"'/>'>" + data[i].boardName + "</a></li>" ; 
+					htmlStr += "<li id="+data[i].boardNo+" class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"&boardName="+data[i].boardName+"&empName=${employee.empName}'/>'>" + data[i].boardName + "</a></li>" ; 
 					}
 					$('#boardNameList').html(htmlStr);
 				}
@@ -144,6 +144,8 @@
 					<ul class="nav child_menu" style="display: block;">
 						<li><a href='<c:url value="/noticeList.do"/>'>공지사항</a></li>
 						<li><a>게시판 <span class="fa fa-chevron-down"></span></a>
+							<input type="hidden"  name="fileCount"/>
+							<input type="hidden"  name="isComment"/>
 							<ul class="nav child_menu" id="boardNameList">
 
 							</ul>

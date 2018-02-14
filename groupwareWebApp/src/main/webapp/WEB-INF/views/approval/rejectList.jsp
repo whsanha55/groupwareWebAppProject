@@ -19,6 +19,10 @@
 	#return{
 		cursor:pointer;
 	}
+	.btn-group {
+		float : right;
+		margin-right : 20px;
+	}
 	
 </style>
 <link
@@ -215,7 +219,7 @@
 		
 		//검색후 다시 리스트로
 			$('#return').click(function(){
-				location.href="${pageContext.request.contextPath}/approvalMyRequest.do";
+				location.href="${pageContext.request.contextPath}/approvalReject.do";
 			});	
 		
 		//체크박스 전체 선택&해제

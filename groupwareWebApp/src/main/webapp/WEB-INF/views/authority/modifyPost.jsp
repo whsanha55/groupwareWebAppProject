@@ -14,6 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 	<script>
 	$(document).ready(function() {
+		var boardName = '${param.boardName}';
+		
 		$('#something').click(function() {
 			location.reload();
 			});
@@ -102,10 +104,13 @@
 	<form id="datatable" action="${pageContext.request.contextPath }/modifyPost.do" method="post"
 		enctype="multipart/form-data">
 		<input type = "hidden" name ="posteNo" value = "${sessionScope.post.postNo}">
+		<input type = "hidden" name ="boardNo" value = "${param.boardNo}">
+		<input type = "hidden" name ="boardName" value = "${param.boardName}">
+		<input type = "hidden" name ="empName" value = "${param.empName}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>게시글</h2>
+					<h2>${param.boardName}</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 						</li>
@@ -126,17 +131,7 @@
 						<input type="text" name="postTitle" value="${sessionScope.post.postTitle}"
 							id="autocomplete-custom-append" class="form-control col-md-10" />
 					</div>
-					<label class="control-label col-md-3 col-sm-3 col-xs-12">부서구분</label>
-					<div class="col-md-9 col-sm-9 col-xs-12">
-						<select class="form-control" name="cNo" >
-							<option >부서를 선택하세요</option>
-							<option value="A-01">경영관리부</option>
-							<option value="A-02">인사부</option>
-							<option value="A-03">회계부</option>
-							<option value="A-04">영업부</option>
-							<option value="A-05">개발부</option>
-						</select>
-					</div>
+					
 					<label class="control-label col-md-3 col-sm-3 col-xs-12">문서종류</label>
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<select class="form-control" name="documentNo">
@@ -199,8 +194,8 @@
 					</div>
 					
 				</div>
-					<a class="btn btn-primary pull-right" href='<c:url value="postList.do" />'>목록</a>
-					<button type="reset" class="btn btn-primary pull-right">취소</button>		
+					<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo } &boardName=${param.boardName}"/>'>목록</a>
+					<button type="reset" class="btn btn-primary pull-right">취소</button>					 		
 					<button type="submit" class="btn btn-primary pull-right">등록</button>
 					 
 			</div>

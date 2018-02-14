@@ -49,10 +49,11 @@
 
 	function Paging(currentPageNo) {
 		var totalCount =  0;		//총 양식서 수
-		var countPerPage = 3;   //한 페이지당 보여주는 회원 수
-		var pageSize = 2;		//페이지 리스트에 게시되는 페이지 수
+		var countPerPage = 10;   //한 페이지당 보여주는 양식서 수
+		var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 		var startRow = (currentPageNo - 1) * countPerPage + 1;
 		var endRow = currentPageNo * countPerPage;
+		var num = 0;	//현재 페이지번호에 속한 게시글의 시작번호
 		
 		var no = '${param.boardNo}';
 		var boardName = '${param.boardName}';
@@ -73,6 +74,7 @@
 			success: function (data, textStatus, jqXHR) {
 				
 				totalCount = data.totalCount;
+				num = totalCount - (currentPageNo - 1) * countPerPage;
 				
 				//datatable테이블 변경하기
 				var text = "";
@@ -82,11 +84,11 @@
 				
 				for (var i = 0; i < data.posts.length; i++) {	
 					/* data.posts[i].boardNo */
-					text += "<tr>";					
+					text += "<tr>";
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
 					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
-							+ data.posts[i].postNo + "&boardName= "+boardName+"'>"	+ data.posts[i].postTitle + "</a></td>";
+							+ data.posts[i].postNo + "&boardName="+boardName+"&boardNo="+no+"&empName=${param.empName}'>"+data.posts[i].postTitle + "</a></td>";
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";
 					text += "</tr>";								
@@ -116,36 +118,32 @@
 	
 	//페이징 처리
 	function jqueryPager(subOption) {
-		
-		var pageBlock = subOption.countPerPage;      
+	
+		var pageBlock = subOption.countPerPage;   
 		var pageSize = subOption.pageSize;        
-		var currentPage = subOption.currentPageNo;   
+		var currentPage = subOption.currentPageNo;  
 		var pageTotal = subOption.totalCount;       
+ 		var pageTotalCnt = Math.ceil(pageTotal/pageBlock); 	
+		var pageBlockCnt = Math.ceil(currentPage/pageSize);
+		var sPage = (pageBlockCnt-1) * pageSize + 1;
+		var ePage;
 		
-		var pageTotalCnt = Math.ceil(pageTotal/pageSize);
-		var pageBlockCnt = Math.ceil(currentPage/pageBlock);
-		var sPage, ePage;
 		
 		var html ="<ul class='pagination'>";
+	
 		
-		if(pageBlock > 1) {
-			sPage = (pageBlockCnt-1) * pageBlock + 1;
-		} else {
-			sPage = 1;
-		}
-		
-		if((pageBlockCnt * pageBlock) >= pageTotalCnt) {
+		 if((pageBlockCnt * pageSize) >= pageTotalCnt) {
 			ePage = pageTotalCnt;
 		} else {
-			ePage = pageBlockCnt * pageBlock;
-		}
+			ePage = pageBlockCnt * pageSize;
+		} 
 		
 		if(sPage <= 1) {
 			html += '<li class="page-item disabled">';
 			html += '<a class="page-link" aria-label="Previous">' 
 		} else {
 			html += '<li class="page-item ">';
-			html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageBlock) + ')">'; 
+			html += '<a class="page-link" aria-label="Previous" onclick = "Paging(' + (sPage - pageSize) + ')">'; 
 		}
 		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
 		
@@ -156,7 +154,7 @@
 				html += '<li class="page-item"><a class="page-link" onclick="Paging(' + i + ');">' + i + '</a></li>';
 			}
 		}				
-
+	
 		if (ePage >= pageTotalCnt) {
 			html += '<li class="page-item disabled">';
 			html += '<a class="page-link" aria-label="Next">';
@@ -177,7 +175,7 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2 >
-				${param.boardName}
+				${param.boardName}				
 				</h2>
 
 				<div class="container">
@@ -210,10 +208,10 @@
 				<div class="clearfix"></div>
 			</div>
 
-			<div class="table-responsive">
+			<div>
 				<table id="datatable" class="table table-striped jambo_table bulk_action">
 					<thead>
-						<tr class="headings">							
+						<tr class="headings">													
 							<th class="column-title">NO</th>
 							<th class="column-title">문서종류</th>
 							<th class="column-title">제목</th>							
@@ -228,6 +226,8 @@
 					<div class="text-right">
 					<c:url var="addUrl" value="/addPost.do" scope="page">
 						<c:param name="boardNo" value="${param.boardNo}" />
+						<c:param name="boardName" value="${param.boardName}" />
+						<c:param name="empName" value="${param.empName}" />
 					</c:url>
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 						
 					</div>

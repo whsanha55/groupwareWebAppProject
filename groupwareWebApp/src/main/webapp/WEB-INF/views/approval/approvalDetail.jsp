@@ -264,7 +264,7 @@
 					if(data){	//data true일때만 회수처리 된거니깐 			
 						swal("결재 회수가 완료되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+							opener.location='${pageContext.request.contextPath}/approvalMyRequest.do'
 						});				
 					}else{
 						swal({ 
@@ -301,17 +301,17 @@
 					if(data == 1) { // 결재 승인
 						swal("결재가 승인되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});
 					} else if(data ==2) { //결재 보류
 						swal("결재가 보류되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});	
 					} else  {		//반려
 						swal("결재가 반려되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});
 					}
 										
@@ -340,7 +340,7 @@
 				success : function(data) {
 					swal("문서 삭제가 완료되었습니다.").then((e)=>{
 						self.close();
-						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+						opener.location='${pageContext.request.contextPath}/approvalMyRequest.do'
 					});					
 				}
 				,
@@ -432,8 +432,21 @@
 				    <tr class="">
                         <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >                                                    
                       		<td class="apprLineAppr2">
-                       			<img class="delegation${record.isDelegation }" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
-                       				style="height:65px; width:65px;">
+                      			<c:if test="${pageScope.record.confirmDate  !=null}">
+                      				<c:choose>
+                      					<c:when test="${pageScope.record.receiverLine.lineEmployee.systemSignName!=null}">
+			                       			<img class="delegation${record.isDelegation }" 
+			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
+			                       				style="height:65px; width:65px;">
+                      					</c:when>
+                      					<c:otherwise>
+                      						<img class="delegation${record.isDelegation }" 
+			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/대표이미지.png" 
+			                       				style="height:65px; width:65px;">
+                      					</c:otherwise>
+                      				</c:choose>
+                      				
+                       			</c:if>
                        		</td>
 						</c:forEach>
 						<c:forEach begin="1" end="${9-requestScope.recCount}">
