@@ -232,19 +232,23 @@ $(document).ready(function() {
 							<c:param name="boardNo" value="${param.boardNo }" />
 							<c:param name="boardName" value="${param.boardName }" />
 							<c:param name="empName" value="${param.empName }" />
+							<c:param name="fileCount" value="${param.fileCount }" />
+							<c:param name="isComment" value="${param.isComment }" />
 						</c:url>
 						<c:url var="removeUrl" value="/removePost.do" scope="page">
 							<c:param name="postNo" value="${requestScope.post.postNo }" />
 							<c:param name="boardNo" value="${param.boardNo }" />
 							<c:param name="boardName" value="${param.boardName }" />
-							<c:param name="empName" value="${param.empName }" />						
+							<c:param name="empName" value="${param.empName }" />
+							<c:param name="fileCount" value="${param.fileCount }" />
+							<c:param name="isComment" value="${param.isComment }" />						
 						</c:url>
 					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
 					<c:if test="${requestScope.post.writer == param.empName}">
 						<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
 						<a class="btn btn-danger" href="${removeUrl}">삭제</a>
 					</c:if> 
-					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo } &boardName=${param.boardName} &empName=${param.empName} "/>'>목록</a>
+					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment} "/>'>목록</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
