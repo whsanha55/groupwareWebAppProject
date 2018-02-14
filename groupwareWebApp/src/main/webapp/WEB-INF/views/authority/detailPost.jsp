@@ -185,7 +185,9 @@ $(document).ready(function() {
 						if(data.posts[i].cmtWriter == empName) {
 							text += "<td class='selectBtn'><button type='button' class='btn btn-modify btn-xs' >수정</button>";
 							text +="<button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-modify btn-xs' >삭제</button></td></tr>";
-							}        
+							} else {
+			                     text += "<td tyle='border-bottom: 1px  solid darkgray;'></td>";
+			                }    
 					
 						text += "</tr>";
 					} 
