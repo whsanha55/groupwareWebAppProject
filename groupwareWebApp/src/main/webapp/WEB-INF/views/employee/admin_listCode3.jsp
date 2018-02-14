@@ -223,6 +223,40 @@
 	});	//$(document).ready End
 	
 </script>
+<style type="text/css">
+	.box3{width:100px; display:inline-block; height:26px; background:#26B99A; text-align:center; line-height:26px; color:#fff;}
+	.tri{    position: absolute;
+    top: 0px;
+    left: 110px;
+    width: 0px;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    border-left: 15px solid #26B99A;
+    border-right: 15px solid transparent;
+}
+
+.box4{width:100px; height:26px;margin-left:10px; display:inline-block;background:#26B99A; text-align:center; line-height:26px; color:#fff;}
+	.tri2{    position: absolute; 
+    top: 0px;
+    left: 231px;
+    width: 0px;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    border-left: 15px solid #26B99A;
+    border-right: 15px solid transparent;
+}
+
+.box5{width:100px; height:26px;margin-left:10px; margin-bottom:5px; display:inline-block;background:#26B99A; text-align:center; line-height:26px; color:#fff;}
+	.tri3{    position: absolute; 
+    top: 0px;
+    left: 352px;
+    width: 0px;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    border-left: 15px solid #26B99A;
+    border-right: 15px solid transparent;
+}
+</style>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -234,25 +268,29 @@
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
+				
 					<div>
-						<div class="col-md-6">
-							<div class="col-md-6">
-								<h2>
+						<div class="col-md-8">
 								
-								<a href=/groupware/admin/listCode1.do>[ 최상위코드 ]</a> →
-                 				<a href=/groupware/admin/listCode2.do?relationCode=${requestScope.superRelationCode }>[ ${requestScope.superRelationCode } ]</a> → [ ${requestScope.relationCode } ]</h2>
-							</div>
-							
+								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">[최상위 코드]</a><div class="tri"></div></div>
+								&nbsp;
+								<div class="box4"><a style="color:#fff" href=/groupware/admin/listCode2.do?relationCode=${requestScope.superRelationCode }>[ ${requestScope.superRelationCode } ]</a><div class="tri2"></div></div>
+								&nbsp;
+								<div class="box5">[ ${requestScope.relationCode } ]<div class="tri3"></div></div>
+								<br>
+								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
+
 						</div>
+						
 						<div>
 							<div>
-							<div class="col-md-4 col-xs-offset-2">
+							<div>
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
-										<ul class="dropdown-menu" role="menu" >
+										<ul class="dropdown-menu" role="menu">
 											<li><a id="cNo">코드번호</a></li>
 											<li><a id="cName">코드명</a></li>
 										</ul>
@@ -269,7 +307,6 @@
 						</div>
 						</div>
 					</div>
-					<div class="col-md-6"></div>
 				</div>
 				<table class="table table-striped jambo_table bulk_action" style="text-align:center;">
 					<thead>
