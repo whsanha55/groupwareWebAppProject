@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.AuthEmpListVO;
 import com.bit.groupware.domain.authority.AuthEmpVO;
@@ -27,8 +28,12 @@ public class AdminDesignateAuthorityController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminDesignateAuthorityController.class);
 
 	@RequestMapping(value = "/admin/designAuthority.do", method = RequestMethod.GET)
-	public String form() {
-		return "authority/admin_designateAuthority";
+	public ModelAndView form(@RequestParam(value="aNo") String aNo) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("empNos", authorityService.retrieveAuthEmpNo(aNo));
+		mv.setViewName("authority/admin_designateAuthority");
+		
+		return mv;
 	}
 
 	@RequestMapping(value = "/AuthEmpListAjax.do", method = RequestMethod.POST)

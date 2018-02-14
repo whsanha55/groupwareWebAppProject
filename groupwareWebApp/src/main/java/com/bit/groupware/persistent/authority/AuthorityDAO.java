@@ -51,4 +51,8 @@ public interface AuthorityDAO {
 	
 	//권한 사원을 삭제한다.
 	void deleteAuthEmp(Map<String, Object> map);
+	
+	
+	//권한번호에 해당하는 사번리스트 조회
+	List<String> selectListAuthEmpNo(String aNo);
 }

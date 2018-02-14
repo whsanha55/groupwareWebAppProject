@@ -1,7 +1,10 @@
 package com.bit.groupware.controller.approval;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,25 +44,53 @@ public class ApprovalController {
 			List<ReceiverLineVO> lines=receiverLineService.retrieveReceiverLineByApprNo(apprNo);
 			int apprCount=0;
 			int refCount=0;
+			boolean isDelegation = true;
 			for(ReceiverLineVO line:lines) {
 				if(line.getApprType()==0) {
 					apprCount++;
 				}else {
 					refCount++;
 				}
+				if(line.getLineEmployee().getEmpNo().equals(principal.getName())) {
+					isDelegation = false;
+				}
+			
 			}
 			
 			ApprovalVO approval = approvalService.retrieveApproval(apprNo);
 			int apprStatus=approval.getApprovalRecords().get(approval.getApprovalRecords().size()-1).getApprStatus();
-			logger.info("디테일 :"+apprStatus+"/size : "+approval.getApprovalRecords().size()); 
-		
+			
+			
+			//recordNo 구하기
+			int recordNo=0;
+			for(ApprovalRecordVO record : approval.getApprovalRecords()) {
+				if(!isDelegation) {
+					if(record.getReceiverLine().getLineEmployee().getEmpNo().equals(principal.getName())) {
+						recordNo = record.getRecordNo();
+						break;
+					}
+				} else {
+					try {
+						if(record.getDepEmployee().getEmpNo().equals(principal.getName())) {
+							recordNo = record.getRecordNo();
+							break;
+						}
+					} catch (NullPointerException e) {
+						//depEmployee가 없는 에러 잡기용 
+					}
+				}
+				
+			}
+			System.out.println("\nzzzzzzzzzzzzzzzz" + approval.getApprovalRecords());
 			mv.addObject("apprStatus",apprStatus);
 			mv.addObject("apprCount",apprCount);
 			mv.addObject("refCount",refCount);
 			mv.addObject("recCount",approval.getApprovalRecords().size());
+			mv.addObject("isDelegation",isDelegation);
 			mv.addObject("receiverLine",lines);
 			mv.addObject("approval",approval);
 			mv.addObject("empNo", principal.getName());
+			mv.addObject("recordNo", recordNo);
 			mv.setViewName("approval/approvalDetail/pop");
 			return mv;
 		}

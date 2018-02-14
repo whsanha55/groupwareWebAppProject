@@ -7,12 +7,72 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0//js/froala_editor.pkgd.min.js"></script>
     <script>
-   $(document).ready(function() {       
+   $(document).ready(function() { 
+		var total = 0;
+	   $(function() {
+		   $('textarea#froala-editor').froalaEditor()
+		 });
+	   
+		$('#addPost').click(function(){			
+		    
+			if($($('input:text[name=postTitle]')).val() == "" ){
+				swal("제목을 입력하세요.");
+				$('#postTitle').focus();
+				return false;
+			} 
+			
+			if($($('select[name=documentNo]')).val() == "D-00" ){
+				
+				swal("문서를 선택하세요.");
+				$('#documentNo').focus();
+				return false;
+			} 
+			
+	 		if($($('textarea[name=postContent]')).val() == "" ){
+				swal("내용을 입력하세요.");
+				$('#postContent').focus();
+				return false;
+			}  
+		
+		});
+		
+       //첨부파일 추가 및 삭제 이벤트
+      $('form').on('click', '.btn-add', function(e) {
+           e.preventDefault();
+		   var fileCount = ${param.fileCount};
+           var controlForm = $('.controls:first') ;
+           var currentEntry = $(this).parents('.entry:first');
+           var newEntry = $(currentEntry.clone()).appendTo(controlForm);
+			var count = $(this).size();
+		    total = total + count;           
+           newEntry.find('input').val('');
+           controlForm.find('.entry:not(:last) .btn-add').removeClass('btn-add').addClass('btn-remove')
+           .removeClass('btn-success').addClass('btn-danger').html('<span class="glyphicon glyphicon-minus"></span>');
+           if(fileCount < total+1) {
+				swal(fileCount + "개의 파일만 첨부 가능합니다.",'error');
+				$(this).parents('.entry:first').remove();
+				$(this).val('');
+			}
+           
+      }).on('click', '.btn-remove', function(e) {
+            $(this).parents('.entry:first').remove();
+            var count = $(this).size();
+            total = total - count;
+            total = total - 1;
+            e.preventDefault();
+         return false;
+      });
        
   		//첨부파일 용량 체크
 		$('.controls').on('change','input[name=upload]',function() {
@@ -29,9 +89,15 @@
 
    });
 </script>
+<style>
+	.fr-element {
+		height: 400px;
+	} 
+
+</style>
 </head>
 <body>
-	<form action="<%=request.getContextPath()%>/addPost.do" method="post"
+	<form action="<%=request.getContextPath()%>/addPost.do"  method="post"
 		enctype="multipart/form-data">
 		<input type = "hidden" name ="boardNo" value = "${requestScope.boardNo}">
 		<input type = "hidden" name ="boardName" value = "${param.boardName}">
@@ -62,8 +128,8 @@
 					</div>					
 					<label class="control-label col-md-3 col-sm-3 col-xs-12">문서종류</label>
 					<div class="col-md-9 col-sm-9 col-xs-12">
-						<select class="form-control" name="documentNo">
-							<option>문서를 선택하세요</option>
+						<select class="form-control" name="documentNo" >
+							<option value="D-00">문서를 선택하세요</option>
 							<option value="D-01">문서보관함</option>
 							<option value="D-02">회의문서</option>
 							<option value="D-03">각종 증명서</option>
@@ -74,25 +140,21 @@
 					</div>
 					<div class="x_content">
 
-						<textarea id="summernote" name="postContent"></textarea>
-						<script>
-							$('#summernote').summernote({
-								height : 300, // set editor height
-								minHeight : null, // set minimum height of editor
-								maxHeight : null, // set maximum height of editor
-								focus : true
-							// set focus to editable area after initializing summernote
-							});
-						</script>
+						<textarea id="froala-editor" name="postContent" rows="20" style="width: 100%" ></textarea>
 
 						<div class="ln_solid"></div>
 						<div class="col-md-12">
 							<div class="row">
 								<div class="control-group" id="fields">
 									<div class="controls">
-										파 일 : <input type="file" name="upload"> 
-										파 일 : <input type="file" name="upload"> 
-										파 일 : <input type="file" name="upload">
+										<div class="entry input-group col-xs-3">
+											<input type="file" class="btn btn-dark" name="upload">
+											<span class="input-group-btn">
+												<button class="btn btn-success btn-add" type="button">
+													<span class="glyphicon glyphicon-plus"></span>
+												</button>
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -103,8 +165,8 @@
 				</div>
 				<a class="btn btn-primary pull-right" type="reset">취소</a>
 				&nbsp;
-				<button type="submit" class="btn btn-primary pull-right">등록</button>
-				<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${param.boardNo } &boardName=${param.boardName} &empName=${param.empName} "/>'>목록</a>				 
+				<button type="submit" class="btn btn-primary pull-right" id="addPost">등록</button>
+				<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${param.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName} "/>'>목록</a>				 
 			</div>
 		</div>
 	</form>
