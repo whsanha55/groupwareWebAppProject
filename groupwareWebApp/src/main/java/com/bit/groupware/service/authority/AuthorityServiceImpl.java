@@ -100,6 +100,10 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDAO.selectAuthEmpCountByaNo(aNo);
 	}
 
+	public List<String> retrieveAuthEmpNo(String aNo) {
+		return authorityDAO.selectListAuthEmpNo(aNo);
+	}
+
 	
 	
 }

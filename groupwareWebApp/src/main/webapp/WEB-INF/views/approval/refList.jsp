@@ -29,6 +29,9 @@
 		float : right;
 		margin-right : 20px;
 	}
+	#templatePaging li {
+		cursor : pointer;
+	}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
@@ -62,7 +65,7 @@
 		  $('#datatable').on('click','.currentRecord',function() {
 			 	var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalRecord.do?apprNo='+apprNo;
-				window.open(url, "결재문서","width=750, height=300");
+				window.open(url, "현황","width=1000, height=300");
 			}); 
 		
 		//결재문서 상세조회 팝업창 생성
@@ -272,7 +275,11 @@
 						}
 						
 						text += "<td>"+ data.approvals[i].apprNo + "</td>";
-						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
+						if(data.approvals[i].template ==null){
+							text += "<td>기타</td>";														
+						}else{
+							text += "<td>"+ data.approvals[i].template.tmpName + "</td>";							
+						}
 						text += "<td id="+ data.approvals[i].apprNo +" class='detailApproval' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td>"+ data.approvals[i].employee.empName + "</td>";
 						text += "<td>"+ data.approvals[i].employee.department + "</td>";

@@ -27,7 +27,7 @@ import com.bit.groupware.util.UploadFiles;
 public class RemovePostController {
 	private static final Logger logger = LoggerFactory.getLogger(RemovePostController.class);
 	@Autowired
-	private PostService postService;	
+	private PostService postService;
 
 	// 게시글 쓰기 요청을 처리할 컨틀롤러 메소드
 	@RequestMapping(value="/removePost.do", method=RequestMethod.GET)
@@ -35,13 +35,17 @@ public class RemovePostController {
 			@RequestParam(value="postNo", required=true)int postNo,
 			@RequestParam(value="boardNo", required = true) int boardNo,
 			@RequestParam(value="empName", required = true) String empName,
-			@RequestParam(value="boardName", required = true) String boardName) {		
+			@RequestParam(value="boardName", required = true) String boardName,
+			@RequestParam(value="fileCount", required = true) String fileCount,
+			@RequestParam(value="isComment", required = true) String isComment) {		
 		logger.info("보드번호!!!!!!!!!!!!!!: {}", boardNo);
 		postService.removePost(postNo);
 		
 		redirectAttributes.addAttribute("boardNo", boardNo);
 		redirectAttributes.addAttribute("empName", empName);
-		redirectAttributes.addAttribute("boardName", boardName);		
+		redirectAttributes.addAttribute("boardName", boardName);
+		redirectAttributes.addAttribute("fileCount", fileCount);		
+		redirectAttributes.addAttribute("isComment", isComment);		
 		return "redirect:/postList.do";			
 	}
 

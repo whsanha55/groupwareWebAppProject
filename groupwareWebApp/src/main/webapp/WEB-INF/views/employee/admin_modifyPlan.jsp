@@ -113,6 +113,10 @@ $(document).ready(function () {
 			swal("종료일을 입력해주세요.","");
 			return;
 		}
+		if($('input[name=startDate]').val() >= $('input[name=endDate]').val()) {
+			swal("시작일이 종료일보다 클 수 없습니다.","");
+			return;
+		}
 		if($('input[name=destination]').val().trim() == '') {
 			swal("장소정보를 입력해주세요.","");
 			return;
@@ -279,7 +283,7 @@ $(document).ready(function () {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<textarea name="pContent" rows="10" style="width: 100%">${requestScope.plan.pContent }</textarea>
+								<textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%">${requestScope.plan.pContent }</textarea>
 							</div>
 						</div>
 						

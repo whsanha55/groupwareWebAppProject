@@ -24,7 +24,7 @@
 						</div>
 						<div class="col-md-6"></div>
 					</div>
-					<table id="datatable" class="table table-striped table-bordered" style="font-size:15px;">
+					<table id="datatable" class="table table-striped table-bordered" style="font-size:16px;">
 						<tbody>
 							<tr>
 								<th>일정구분</th>
@@ -58,6 +58,10 @@
 							<tr>
 								<th>기간</th>
 								<td id="date">${requestScope.plan.startDate } ~ ${requestScope.plan.endDate }</td>
+							</tr>
+							<tr>
+								<th>담당자</th>
+								<td id="empName">${requestScope.plan.empName } ${requestScope.plan.dutyName }</td>
 							</tr>
 							<tr>
 								<th>장소</th>
@@ -97,6 +101,7 @@
 											centerMarker.setMap(map);
 											
 											var iwContent = '<div style="padding:5px;text-align:center;color:red"><a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" target="_blank">${requestScope.plan.destination}</a></div></div>',
+
 												iwRemoveable = true;
 												
 											var infowindow = new daum.maps.InfoWindow({
@@ -116,11 +121,9 @@
 							</tr>
 							<tr>
 								<th>내용</th>
-								<td id="pContent"><textarea name="pContent" rows="10" style="width: 100%" readonly >${requestScope.plan.pContent }</textarea></td>
-							</tr>
-							<tr>
-								<th>담당자</th>
-								<td id="empName">${requestScope.plan.empName }</td>
+								<td id="pContent">
+									${requestScope.plan.pContent }
+								</td>
 							</tr>
 							<tr>
 								<th>첨부파일</th>

@@ -26,6 +26,7 @@ public class PlanVO {
 	
 	private String cName;
 	private String empName;
+	private String dutyName;
 	
 	public PlanVO() {
 		super();
@@ -180,14 +181,24 @@ public class PlanVO {
 		this.longitude = longitude;
 	}
 
+	public String getDutyName() {
+		return dutyName;
+	}
+
+	public void setDutyName(String dutyName) {
+		this.dutyName = dutyName;
+	}
+
 	@Override
 	public String toString() {
 		return "PlanVO [pNo=" + pNo + ", pTitle=" + pTitle + ", deptNo=" + deptNo + ", pClass=" + pClass + ", pImpt="
 				+ pImpt + ", rspbNo=" + rspbNo + ", pContent=" + pContent + ", startDate=" + startDate + ", endDate="
 				+ endDate + ", destination=" + destination + ", latitude=" + latitude + ", longitude=" + longitude
 				+ ", codes=" + codes + ", employee=" + employee + ", upload=" + upload + ", files=" + files + ", cName="
-				+ cName + ", empName=" + empName + "]";
+				+ cName + ", empName=" + empName + ", dutyName=" + dutyName + "]";
 	}
+
+	
 
 	
 
