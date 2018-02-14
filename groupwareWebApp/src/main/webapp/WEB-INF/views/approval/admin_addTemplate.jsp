@@ -13,9 +13,14 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
-	#templateData th, #templateData td {
+	#templateData th {
 		font-size : 15px;
 		text-align: center;
+		vertical-align: middle;
+	}
+	
+	#templateData td {
+		font-size : 15px;
 		vertical-align: middle;
 	}
 </style>
