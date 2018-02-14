@@ -652,6 +652,8 @@
 					<result property="empName" column="dep_emp_name"/>
 					<result property="department" column="dep_department"/>
 					<result property="duty" column="dep_duty"/>
+					<result property="signName" column="dep_signName"/>
+					<result property="systemSignName" column="dep_systemSignName"/>
 				</association>
 				<association property="approvalComment" column="comment_no" javaType="ApprovalCommentVO">
 					<id property="commentNo" column="comment_no"/>
@@ -699,7 +701,8 @@
               t5.isdelegation, 
               t5.comment_no, t5.comment_content, t5.comment_date ,
               t5.signname, t5.systemsignname ,substr(t5.appr_status,-1,1) as appr_status,
-              t5.dep_emp_no, t5.dep_emp_name , t5.dep_department, t5.dep_duty
+              t5.dep_emp_no, t5.dep_emp_name , t5.dep_department, t5.dep_duty ,
+              t5.dep_signName, t5.dep_systemSignName
         from approval t1, approval_file t2, template t3 , emp_view t4 ,
              (select (select e1.emp_name
              		  from employee e1
@@ -713,7 +716,8 @@
              		 r3.comment_no, r3.comment_content, r3.comment_date ,
              		 r4.signname, r4.systemsignname ,
              		 r4.empname as dep_emp_name , r4.department as dep_department,
-                     r4.duty as dep_duty
+                     r4.duty as dep_duty, r4.signname as dep_signName,
+                     r4.systemsignname as dep_systemSignName
               from receiver_line r1, approval_record r2, approval_comment r3, emplist_view r4
               where r1.line_no = r2.line_no
               and r2.record_no = r3.record_no(+) 
@@ -724,7 +728,7 @@
               and r1.appr_type = 0
               order by r1.line_order asc) t5 
        where t1.appr_no = t2.appr_no(+)
-       and t1.tmp_no = t3.tmp_no
+       and t1.tmp_no = t3.tmp_no(+)
        and t1.emp_no = t4.emp_no
        and t1.appr_no = t5.appr_no(+)
        and t1.appr_no = #{apprNo}   
