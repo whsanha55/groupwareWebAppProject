@@ -1,5 +1,7 @@
 package com.bit.groupware.controller.approval;
 
+import java.security.Principal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +77,9 @@ public class WriteApprovalController {
 	
 	//결재선 관리 요청 
 	@RequestMapping("/receiverModal.do")
-	public ModelAndView receiverModal() {
+	public ModelAndView receiverModal(Principal principal) {
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("empNo", principal.getName());
 		mv.setViewName("receiverModal");
 		return mv;
 	}
