@@ -34,14 +34,6 @@
     display: inline;
     margin-right: 15px;
 }
-/* 
-#table1{
-	border-collapse:collapse;
-}
- */
-#table1 td{
-	
-}
 
 </style>
 
@@ -50,7 +42,6 @@
 	$(document).ready(function(){
 		
 		var status = '${param.status}';
-		var finalStatus = "${param.finalStatus}";
 				
 		if(status==1){
 			$('#return').attr('disabled',false);
@@ -65,7 +56,7 @@
 			$('#deleteAppr').hide();
 			$('#appr').attr('disabled',false);	
 			$('#reject').attr('disabled',false);
-			if(finalStatus==0){
+			if(${requestScope.apprStatus}!=2){
 				$('#postpone').attr('disabled',false);
 			}
 		} else if(status==3) {
@@ -100,7 +91,9 @@
 					depEmpNo : "${record.depEmployee.empNo}" ,
 					depEmpName : "${record.depEmployee.empName}" ,
 					depDepartment : "${record.depEmployee.department}" ,
-					depDuty : "${record.depEmployee.duty}"
+					depDuty : "${record.depEmployee.duty}" ,
+					depSignName : "${record.depEmployee.signName}",
+					depSystemSignName : "${record.depEmployee.systemSignName}"
 					});
 			</c:if>
 		</c:forEach>
@@ -110,33 +103,31 @@
 					var thisIndex = $(this).index();
 					var trTemp = $(this).closest('tr');
 					$(this).text(records[i].depDuty);
-					trTemp.next().find('td:nth-child(' + thisIndex + ')').text(records[i].depEmpName+"<대결>");
+					trTemp.next().find('td:nth-child(' + thisIndex + ')').html("<대결><br>" + records[i].depEmpName);
 					trTemp.next().next().find('td:nth-child(' + thisIndex + ')').text(records[i].depDepartment);
+					trTemp.next().next().next().find('td:nth-child(' + thisIndex + ')').attr('src',records[i].depSystemSignName);
+				}
+			}
+		});
+		$('.commentEmp').each(function() {
+			for(var i=0;i<records.length;i++) {
+				if(records[i].lineEmpNo == $(this).attr('id').substr(7)) {
+					$(this).text(records[i].depEmpName);
 				}
 			}
 		});
 		
 		
 		
-		/* var temp = $('.apprLineAppr2').length;
-		var text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
+		//전결 여부 확인
+		if($('.delegation1').length) {
+			var temp = $('.delegation1').closest('td');
+			var index = ${apprCount} -1;
+			$('.delegation1').closest('tr').find('td:eq(' + index + ')').html(temp.html());
+			$(temp).html('<b>전결</b>');
+			
 		}
-		$('.apprLineAppr2').parent().append(text);
-		$('.apprLineAppr2').parent().next().next().append(text);
-		 temp = $('.apprLineAppr3').length;
-		 text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineAppr3').parent().append(text);
-		$('.apprLineAppr3').parent().next().next().append(text); */
 		
-		
-	
 		
 		//결재 회수
 		$('#return').on('click',function(){
@@ -169,6 +160,10 @@
 		
 		//재기안
 		$('#reAppr').on('click',function(){
+			var reApprDelete=0;
+			if(status!=4){
+				reApprDelete=1;
+			}
 			swal({
 				  title: "문서 재기안",
 				  text: "선택한 문서를 재기안 하시겠습니까?",
@@ -176,7 +171,7 @@
 				  buttons : true 
 				}).then((e) => {
 					if(e) {
-						window.opener.top.location.href="${pageContext.request.contextPath}/writeApproval.do?apprNo="+${requestScope.approval.apprNo};
+						window.opener.top.location.href="${pageContext.request.contextPath}/writeApproval.do?apprNo="+${requestScope.approval.apprNo}+"&reApprDelete="+reApprDelete;
 						window.close()						
 					}	
 				});
@@ -205,28 +200,33 @@
 				  buttons : true 
 				}).then((e) => {
 					if(e) {												
-					  swal({
-							  title: "코멘트 입력",
-							  text: "결재 문서에 대한 코멘트를 입력해주세요.",
-							  content: {
-								  element : "input"
-							  } ,
-							  buttons : '반려하기'						  
-						}).then((commentContent) => {
-							if(commentContent){
-								 executeApproval(commentContent,3);	
-							}else{
+						confirmComment();
+						function confirmComment() {
 								swal({
-									  title: "결재 반려",
-									  text: "코멘트를 입력해주세요",
-									  icon: "warning",
-									  buttons:false
-									})
-							}
+									  title: "코멘트 입력",
+									  text: "결재 문서에 대한 코멘트를 입력해주세요.",
+									  content: {
+										  element : "input"
+									  } ,
+									  buttons : '반려하기'						  
+								}).then((commentContent) => {
+									if(commentContent){
+										 executeApproval(commentContent,3);
+									}else{
+										swal({
+											  title: "결재 반려",
+											  text: "반려 사유를 작성해주세요",
+											  icon: "warning",
+											  buttons: "확인"
+											}).then(function() {
+												confirmComment();
+											});
+									}
+								});
+								
+						}
+					}
 						
-				           					
-						});
-					}	
 				});
 		})//end of reject.on
 			
@@ -272,10 +272,18 @@
 				,
 				
 				success : function(data) {
-					swal("결재 회수가 완료되었습니다.").then((e)=>{
-						self.close();
-						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
-					});					
+					if(data){	//data true일때만 회수처리 된거니깐 			
+						swal("결재 회수가 완료되었습니다.").then((e)=>{
+							self.close();
+							opener.location='${pageContext.request.contextPath}/approvalMyRequest.do'
+						});				
+					}else{
+						swal({ 
+						  title: "결재 회수",
+						  text: "현재 문서는 결재 회수 처리를 할 수 없습니다.",
+						  icon: "error"
+						});
+					}
 				}
 				,
 				error: function(jqXHR) {
@@ -284,37 +292,8 @@
 			});
 		}
 		
-		/* //재기안	
-		function executeReAppr(){
-			
-			$.ajax({
-				url: '${pageContext.request.contextPath}/writeApproval.do'
-				,
-				method : 'GET'
-				,
-				data: {
-					apprNo : '${requestScope.approval.apprNo}'
-				}
-				,
-				datatype : 'json'
-				,
-				
-				success : function(data) {
-					swal("결재 회수가 완료되었습니다.").then((e)=>{
-						self.close();
-						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
-					});					
-				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-			});
-		} */
-		
 		//결재 반려 또는 승인 
 		function executeApproval(commentContent,apprStatus) {
-			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/executeApprovalAjax.do'
 				,
@@ -323,7 +302,9 @@
 				data: {
 					apprNo : '${requestScope.approval.apprNo}',
 					commentContent: commentContent ,
-					apprStatus : apprStatus 
+					apprStatus : apprStatus ,
+					isDelegation : ${isDelegation},
+					recordNo : ${recordNo}
 				}
 				,
 				datatype : 'json'
@@ -332,17 +313,17 @@
 					if(data == 1) { // 결재 승인
 						swal("결재가 승인되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});
 					} else if(data ==2) { //결재 보류
 						swal("결재가 보류되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});	
 					} else  {		//반려
 						swal("결재가 반려되었습니다.").then((e)=>{
 							self.close();
-							opener.location='http://localhost:9000/groupware/approvalTodo.do';
+							opener.location='${pageContext.request.contextPath}/approvalTodo.do';
 						});
 					}
 										
@@ -371,7 +352,7 @@
 				success : function(data) {
 					swal("문서 삭제가 완료되었습니다.").then((e)=>{
 						self.close();
-						opener.location='http://localhost:9000/groupware/approvalMyRequest.do'
+						opener.location='${pageContext.request.contextPath}/approvalMyRequest.do'
 					});					
 				}
 				,
@@ -416,19 +397,21 @@
 			 		<button type="button" class="btn btn-success" id='reAppr' disabled='true'>재기안</button>			 				 		
 			 		<button type="button" class="btn btn-success" id='deleteAppr' disabled='true'>삭제</button>			 				 		
 			</div>
-			<div class="table-responsive" id="datas" style="border:0px;">
+			<div class="table-responsive" id="datas" style="border:0px;width:100%">
 				<h2><strong>결재 라인</strong></h2>
 				
 				<%-- 결재 --%>
 				<table id="table1" class="table table-hover" style="text-align:center; width:100%;">
 					<tr class="headings" style=" color:#ECF0F1;">
-                    	<td rowspan="5" class="" style="width:70px; height:35px;background-color:#4a6075;">결재</td>
+                    	<th rowspan="5" class="" style="width:60px; height:35px;background-color:#4a6075;text-align:center">결재</th>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
                            <c:if test="${ line.apprType == 0}">
-                              <th class="apprLineAppr" style="width:110px; height:35px; text-align:center; background-color:#4a6075;">${pageScope.line.lineEmployee.duty }</th>
+                              <th class="apprLineAppr" id="${line.lineEmployee.empNo }"
+                              	style="width:110px; height:35px; text-align:center; background-color:#4a6075;">
+                              ${pageScope.line.lineEmployee.duty }</th>
                      	   </c:if>
                         </c:forEach>
-                        <c:forEach begin="1" end="${12-requestScope.apprCount}">
+                        <c:forEach begin="1" end="${9-requestScope.apprCount}">
                            <th style="width:50px;background-color:#4a6075;"></th>
                         </c:forEach>
                     </tr>
@@ -441,7 +424,7 @@
                           		</td>
                            </c:if>	 
 				   		</c:forEach>	
-				   		<c:forEach begin="1" end="${12-requestScope.apprCount}">
+				   		<c:forEach begin="1" end="${9-requestScope.apprCount}">
                           	<td style="width:139px; background-color:;"></td>
                         </c:forEach>				
                     </tr>
@@ -454,7 +437,7 @@
                           	 </td>
                           </c:if>	 
 				   	    </c:forEach>	
-				  		<c:forEach begin="1" end="${12-requestScope.apprCount}">
+				  		<c:forEach begin="1" end="${9-requestScope.apprCount}">
                           	<td style="width:139px; background-color:;"></td>
                         </c:forEach>				
                     </tr>
@@ -462,11 +445,24 @@
 				    <tr class="">
                         <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >                                                    
                       		<td class="apprLineAppr2">
-                       			<img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
-                       				style="height:40px; width:40px;">
+                      			<c:if test="${pageScope.record.confirmDate  !=null}">
+                      				<c:choose>
+                      					<c:when test="${pageScope.record.receiverLine.lineEmployee.systemSignName!=null}">
+			                       			<img class="delegation${record.isDelegation }" 
+			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${pageScope.record.receiverLine.lineEmployee.systemSignName }" 
+			                       				style="height:65px; width:65px;">
+                      					</c:when>
+                      					<c:otherwise>
+                      						<img class="delegation${record.isDelegation }" 
+			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/도장기본.png" 
+			                       				style="height:65px; width:65px;">
+                      					</c:otherwise>
+                      				</c:choose>
+                      				
+                       			</c:if>
                        		</td>
 						</c:forEach>
-						<c:forEach begin="1" end="${12-requestScope.recCount}">
+						<c:forEach begin="1" end="${9-requestScope.recCount}">
                           	<td style="width:139px; background-color:;"></td>
                         </c:forEach>
                     </tr>
@@ -475,7 +471,7 @@
                         <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
                             <td class="apprLineAppr3">${pageScope.record.confirmDate }</td>
 				        </c:forEach>
-				        <c:forEach begin="1" end="${12-requestScope.recCount}">
+				        <c:forEach begin="1" end="${9-requestScope.recCount}">
                           	<td style="width:139px; background-color:;"></td>
                         </c:forEach>
 			        </tr>
@@ -485,7 +481,7 @@
 			  <table class='table table-hover' style="text-align:center;width:100%;">
  			  	<c:if test="${requestScope.refCount!=0 }">
                 	<tr class=""style=" color:#ECF0F1;">
-                    	<th rowspan="3" class="" style="background-color:#4a6075;">참조</th>
+                    	<th rowspan="3" class="" style="background-color:#4a6075;width:60px;text-align:center">참조</th>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
                             <c:if test="${ line.apprType == 1}">
                          	   <th class="apprLineRef" style="width:110px; height:35px; text-align:center;background-color:#4a6075;" >
@@ -493,7 +489,7 @@
                          	   </th>
                    		   </c:if>
                         </c:forEach>
-                        <c:forEach begin="1" end="${12-requestScope.refCount}">
+                        <c:forEach begin="1" end="${9-requestScope.refCount}">
                         	  <th style="width:139px; background-color:#4a6075;"></th>
                         </c:forEach>
                    </tr>
@@ -504,7 +500,7 @@
                            		 <td class="apprLineRef1">${pageScope.line.lineEmployee.empName }</td>
                       		</c:if>
                         </c:forEach>
-                        <c:forEach begin="1" end="${12-requestScope.refCount}">
+                        <c:forEach begin="1" end="${9-requestScope.refCount}">
                            	<td style="width:139px;"></td>
                         </c:forEach>
                     </tr>
@@ -527,9 +523,11 @@
                <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
 	                <c:if test="${record.approvalComment != null }">
 	                  <tr class="even pointer">
-	                    <td class=" ">${record.receiverLine.lineEmployee.empName}</td>
+	                    <td class="commentEmp" id='comment${record.receiverLine.lineEmployee.empNo }'>
+	                    	${record.receiverLine.lineEmployee.empName}
+	                    </td>
 						<td class=" ">${record.approvalComment.commentContent }</td>
-	                    <td class=" ">${record.approvalComment.commentDate }</td>
+	                    <td class="">${record.approvalComment.commentDate }</td>
 	                  </tr>
 	                </c:if>
                 </c:forEach>

@@ -6,20 +6,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>서명등록</title>
 <script>
-/* 	$('#modifyBtn').click(function() {
-		$.ajax ({
-			url:'${pageContext.request.contextPath}/',
-			method:,
-			data:,
-			dataType:,
-			success:function() {
-				
-			},
-			error:function() {
-				
-			}
+
+	$(document).ready(function() {
+		$('#modifyBtn').click(function() {
+			$.ajax ({
+				url:'${pageContext.request.contextPath}/removeSign.do',
+				method:'POST',
+				dataType:'json',
+				success:function(data) {
+					if(data=="삭제완료"){
+						location.href="${pageContext.request.contextPath}/retrieveSign.do"
+					}
+				},
+				error:function(jqXHR) {
+					alert("error : " + jqXHR.status);
+				}
+			});
 		});
-	}); */
+	});
 </script>
 </head>
 <body>
@@ -39,7 +43,7 @@
 							<%-- <i class="fa fa-picture-o"> --%>
 							<img id="img" width="250px" height="250px" 
 									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${requestScope.signName}"
-									class="img-responsive center-block"/>
+									class="img-responsive"/>
 						</div>
 					</div>
 					<div class="ln_solid"></div>

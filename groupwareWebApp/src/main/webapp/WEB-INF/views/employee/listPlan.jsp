@@ -157,7 +157,7 @@ $(document).ready(function(){
 							<div class="col-md-2">
 								<h2>일정목록</h2>
 							</div>
-							<button type="button" id="allPlanList" class="btn btn-primary">모든 일정 보기</button>
+							<button type="button" id="allPlanList" class="btn btn-primary">모든 일정 보기</button>&nbsp;&nbsp;&nbsp;※일정 클릭 시, 일정 상세 정보로 이동합니다.
 						</div>
 					</div>
 					<div>

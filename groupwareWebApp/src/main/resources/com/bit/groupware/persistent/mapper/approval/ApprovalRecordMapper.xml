@@ -39,6 +39,7 @@
 		<result property="assignDate" column="assign_date"/>
 		<result property="checkDate" column="check_date"/>
 		<result property="confirmDate" column="confirm_date"/>
+		<result property="isDelegation" column="isdelegation"/>
 		
 		<association property="approval" column="appr_no" javaType="ApprovalVO" >
 			<id property="apprNo" column="appr_no"/>		
@@ -58,7 +59,7 @@
 		
 	</resultMap>
 	<select id="selectApprovlaRecordList" parameterType="int" resultMap="RecordResultMap" statementType="PREPARED">
-     	select rec.appr_no, rec.check_date, rec.confirm_date, rec.assign_date,rec.record_no ,
+     	select rec.appr_no, rec.check_date, rec.confirm_date, rec.assign_date,rec.record_no ,rec.isdelegation,
 		substr(rec.appr_status,-1,1) as appr_status,
 		line.line_order, line.line_no, emp.emp_no, emp.emp_name,
 		(select  case when emp.emp_history > 0  
@@ -107,8 +108,10 @@
    
    <update id="updateApprovalRecordStatus" parameterType="ApprovalRecordVO" statementType="PREPARED">
     	update approval_record
-		set appr_status= 'C-02-0' || #{apprStatus},
-		confirm_date= sysdate
+		set appr_status= 'C-02-0' || #{apprStatus}
+		<if test="apprStatus!=2">
+			,confirm_date= sysdate
+		</if>  
 		where record_no= #{recordNo}
    </update>
    
@@ -133,35 +136,34 @@
    
    
    	<select id="selectNewRecordCount" statementType="PREPARED" parameterType="String" resultType="int">
-		select nvl(count(appr_status),0)
+		select nvl(count(*),0)
 		from approval_record t1, receiver_line t2
 		where t1.line_no = t2.line_no
-		and t2.LINE_EMP_NO = #{empNo}
+		and ((t2.LINE_EMP_NO = #{empNo} and t1.dep_emp_no is null)
+			 or t1.dep_emp_no = #{empNo}) 
 		and t1.check_date is null
-		and appr_status ='C-02-00'
+		and t1.appr_status ='C-02-00'
+		
 		union all
-		select nvl(count(appr_status),0)
+		
+		select nvl(count(*),0)
 		from approval_record t1, receiver_line t2
 		where t1.line_no = t2.line_no
 		and t2.LINE_EMP_NO = #{empNo}
 		and t1.check_date is null
-		and appr_status ='C-02-06'
+		and t1.appr_status ='C-02-06'
+		
+		
 	</select>
    
     <select id="checkisFinalApprovalLine" statementType="PREPARED" parameterType="int" resultType="int">
-   		select case 
-	        	when t2.line_order = 9 then 1
-	        	when t3.duty_no = t6.duty_no then 1
-	        	else 0
-       		end
-		from approval_record t1, receiver_line t2, emp_view t3, approval t4, template t5, DELEGATION t6
-		where t1.LINE_NO = t2.line_no
-		and t2.line_emp_no = t3.emp_no
-		and t1.appr_no = t4.appr_no
-		and t4.tmp_no = t5.tmp_no
-		and t5.tmp_no = t6.tmp_no(+)
-		and t1.record_no = #{recordNo}
-		and rownum = 1 <!-- 테스트용 -->
+   		select case when t2.line_order = 9 then 1
+            	    when t1.isdelegation = 1 then 1
+                    else 0
+               end
+		from approval_record t1, receiver_line t2
+		where t1.line_no = t2.line_no
+		and record_no = #{recordNo}
    </select>
    
    <update id="updateCheckDate" statementType="PREPARED" parameterType="int">

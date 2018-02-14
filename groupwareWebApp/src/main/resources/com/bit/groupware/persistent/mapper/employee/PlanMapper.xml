@@ -20,11 +20,16 @@
 			p.destination as destination,
 			p.latitude as latitude,
 			p.longitude as longitude,
+            e.emp_no as emp_no,
 			e.emp_name as empName,
-			c.c_name as cName
-		from plan p, employee e, code c
+			c1.c_name as cName,
+            c2.c_name as dutyName
+		from plan p, employee e, code c1, employee_code ec, code c2
 		where p.rspb_no=e.emp_no
-		and p.dept_no=c.c_no
+		and p.dept_no=c1.c_no
+        and e.emp_no=ec.emp_no
+        and c2.c_no=ec.c_no
+        and ec.c_no like 'B%'
 		<choose>
 			<when test="keyfield == 'pTitle'  and keyword != null " >
 				and p_title like '%' || #{keyword} || '%'
@@ -55,7 +60,23 @@
 		from plan p, employee e, code c
 		where p.rspb_no=e.emp_no
 		and p.dept_no=c.c_no
-		and (c.c_name='부서' or c.c_name=#{cName})
+ 		<choose>
+			<when test="cName == '영업1팀'">
+				and (c.c_name='부서' or c.c_name='영업부' or c.c_name=#{cName})
+			</when>
+			<when test="cName == '영업2팀'">
+				and (c.c_name='부서' or c.c_name='영업부' or c.c_name=#{cName})
+			</when>
+			<when test="cName == '개발1팀'">
+				and (c.c_name='부서' or c.c_name='개발부' or c.c_name=#{cName})
+			</when>
+			<when test="cName == '개발2팀'">
+				and (c.c_name='부서' or c.c_name='개발부' or c.c_name=#{cName})
+			</when>
+			<otherwise>
+				and (c.c_name='부서' or c.c_name=#{cName})
+ 			</otherwise>
+		</choose>
 		<choose>
 			<when test="keyfield == 'pTitle'  and keyword != null " >
 				and p_title like '%' || #{keyword} || '%'
@@ -93,6 +114,7 @@
 		<result column="destination"	property="destination"/>
 		<result column="latitude"			property="latitude" />
 		<result column="longitude"		property="longitude" />
+		<result column="duty_name"		property="dutyName" />
 		<!-- 1:N 관계 -->
 		<collection property="files" javaType="list" ofType="PlanFileVO">
 			<id column="file_no"			property="fileNo" />
@@ -113,8 +135,6 @@
 			p.rspb_no,
 			e.emp_name,
 			p.p_content,
-			<!-- to_date(p.start_date, 'YYYY-MM-DD"T"HH24:mi:ss') as start_date,
-			to_date(p.end_date, 'YYYY-MM-DD"T"HH24:mi:ss') as end_date, -->
 			p.start_date,
 			p.end_date,
 			p.destination,
@@ -124,10 +144,14 @@
 			f.file_name,
 			f.system_file_name,
 			f.file_size,
-			f.p_no
-        from plan p, plan_file f, code c1, employee e
+			f.p_no,
+            c2.c_name as duty_name
+        from plan p, plan_file f, code c1, employee e, employee_code ec, code c2
         where p.dept_no=c1.c_no
            and p.rspb_no=e.emp_no
+           and e.emp_no=ec.emp_no
+           and c2.c_no=ec.c_no
+           and ec.c_no like 'B%'
            and p.p_no=f.p_no(+)
            and p.p_no=#{value}
 	</select>	

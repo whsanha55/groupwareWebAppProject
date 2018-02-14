@@ -16,13 +16,41 @@
 	.currentRecord{
 		cursor:pointer;
 	}
+	#return{
+		cursor:pointer;
+	}
+	.btn-group {
+		float : right;
+		margin-right : 20px;
+	}
+	#templatePaging li {
+		cursor : pointer;
+	}
 	
 </style>
+<link
+	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script>
 
 	var pKeyfield;  
 	var pKeyword;
 	var pKeyword1;
+	
+	 $.datepicker.setDefaults({
+		    dateFormat: 'yy-mm',
+		    prevText: '이전 달',
+		    nextText: '다음 달',
+		    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+		    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+		    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+		    showMonthAfterYear: true,
+		    yearSuffix: '년'
+		  });
 	
 	$(document).ready(function(){
 		
@@ -32,7 +60,7 @@
 		  $('#datatable').on('click','.currentRecord',function() {
 			 	var apprNo=$(this).attr('id');
 				var url = '${pageContext.request.contextPath}/approvalRecord.do?apprNo='+apprNo;
-				window.open(url, "결재문서","width=750, height=300");
+				window.open(url, "현황","width=1000, height=300");
 			}); 
 		
 		//결재문서 상세조회 팝업창 생성
@@ -41,37 +69,112 @@
 				var apprNo=$(this).attr('id');
 				var status=$(this).attr('name');
 				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status='+status+'&finalStatus=3';
-				window.open(url, "결재문서","width=750, height=800");
+				window.open(url, "결재문서","width=1100, height=800");
 				
 			});
 		//검색창 타입 바꾸기
 		 $('#pKeyfield').on("change",function(){
-			if($(this).val()=='apprDate'){
+			 if($(this).val()=='apprDate'){
 				$('#pKeyword1').remove();
 				$('#temp').remove();
-				$(this).next().attr('type','date');
+				$('#pKeyword').val('');
+				$(this).next().attr('placeholder','기간을 선택하세요');
 				
-				$(this).next().after("<b id=temp>&nbsp;~</b> ")
-				$(this).next().next().after("<input type=date id=pKeyword1>")
-				console.log($('form').html());
+				$(this).next().after("<b id=temp>~</b> ")
+				$(this).next().next().after("<input type=text id=pKeyword1 placeholder='기간을 선택하세요'>")
+				
+				$("#pKeyword").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'              
+		        });
+				$('#pKeyword').datepicker("option", "maxDate", $("#pKeyword1").val());
+			    $('#pKeyword').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword1").datepicker( "option", "minDate", selectedDate );
+			    });
+				
+				$("#pKeyword1").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'  
+		        });
+				$('#pKeyword1').datepicker("option", "minDate", $("#pKeyword").val());
+			    $('#pKeyword1').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword").datepicker( "option", "maxDate", selectedDate );
+			    });
 			}else if($(this).val()=='finDate'){
 								
 				$('#pKeyword1').remove();
 				$('#temp').remove();
-				$(this).next().attr('type','date');
-				$(this).next().after("<b id=temp>&nbsp;~</b> ")
-				$(this).next().next().after("<input type=date id=pKeyword1>")
-				console.log($('form').html());
-			}else{
-				$(this).next().attr('type','text');
+				$('#pKeyword').val('');
+				$(this).next().attr('placeholder','기간을 선택하세요');
 				
+				$(this).next().after("<b id=temp>~</b> ")
+				$(this).next().next().after("<input type=text id=pKeyword1 placeholder='기간을 선택하세요'>")
+				
+				$("#pKeyword").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'              
+		        });
+				$('#pKeyword').datepicker("option", "maxDate", $("#pKeyword1").val());
+			    $('#pKeyword').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword1").datepicker( "option", "minDate", selectedDate );
+			    });
+				
+				$("#pKeyword1").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'  
+		        });
+				$('#pKeyword1').datepicker("option", "minDate", $("#pKeyword").val());
+			    $('#pKeyword1').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword").datepicker( "option", "maxDate", selectedDate );
+			    });
+			}else{
+				$(this).next().attr('placeholder','검색어를 입력하세요');
+				$('#pKeyword').datepicker("destroy");
+				$('#pKeyword').val('');
 				$('#pKeyword1').remove();
 				$('#temp').remove();
 
-				console.log($('form').html());
+				var url = ''; 
+				switch ($(this).val()) {
+					case 'apprTitle':
+						$("input[name=pKeyword]").autocomplete('option','source',[]);
+						return;
+					case 'tmpName':
+						url = 'retrieveTemplateNameList.do';
+						break;
+					case 'empName':
+						url = 'retrieveEmployeeNameAndDutyList.do';
+						break;
+					case 'department':
+						url = 'retrieveDepartmentList.do';
+						break;
+				}
+				
+				$.ajax({
+					 url : '${pageContext.request.contextPath}/' + url ,
+					 cache : false ,
+					 type : 'GET' ,
+					 datatype : 'json' ,
+					 success : function(data) {
+						 $("input[name=pKeyword]").autocomplete('option','source',data);
+					 } ,
+					 error : function(jqXHR) {
+							alert(jqXHR.status);
+							console.log(jqXHR);
+					 }
+					 
+				});	
 			}
 			 
 		 });
+		
+		 $("input[name=pKeyword]").autocomplete({  //자동완성
+				focus : function() {
+					return false;
+				}
+		 });
+
+	/* 	 //기간 선택시 기간 유효성 체크
+		 $('#search').on('c','#pKeyword1',function(){
+			 
+		 }); */
+		 
 		 
 		//검색조건 엔터키 눌렀을때 트리거 발동--?
 		$('#pKeyword').on('keydown', function(e) {
@@ -84,8 +187,22 @@
 		//검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
-			 pKeyword=$('#pKeyword').val();
-			 pKeyword1=$('#pKeyword1').val();
+			 if(pKeyfield=='finDate' || pKeyfield=='apprDate'){
+				 pKeyword=convertDate($('#pKeyword').datepicker('getDate'));
+				 pKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
+			 }else{
+				 pKeyword=$('#pKeyword').val();
+			 }
+			 
+			 function pad(num) {
+			        num = num + '';
+			        return num.length < 2 ? '0' + num : num;
+		     }
+		   
+			   function convertDate(date) {
+			       return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());
+	
+			   }
 			 
 	 			if(pKeyfield != "apprDate" && pKeyword == "") {
 	 				if(pKeyfield!="finDate"){
@@ -102,6 +219,11 @@
 			 
 			 templatePaging(1);
 		 });
+		
+		//검색후 다시 리스트로
+			$('#return').click(function(){
+				location.href="${pageContext.request.contextPath}/approvalReject.do";
+			});	
 		
 		//체크박스 전체 선택&해제
 		 $("#allCheck").click(function(){ 	
@@ -164,7 +286,11 @@
 					var text = "";
 					for(var i=0;i<data.approvals.length;i++) {
 						text += "<tr><td>"+ data.approvals[i].apprNo + "</td>";
-						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
+						if(data.approvals[i].template ==null){
+							text += "<td>기타</td>";														
+						}else{
+							text += "<td>"+ data.approvals[i].template.tmpName + "</td>";							
+						}
 						if(data.empNo == data.approvals[i].employee.empNo){
 							
 							text += "<td  id="+ data.approvals[i].apprNo +" class='detailApproval' name='4' style='font-weight:bolder;'>"+data.approvals[i].apprTitle+"</td>";
@@ -281,6 +407,7 @@
 						<!-- <span id="keywordSpan"> -->
 						<input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요"><!-- </span> -->
 						<button id="btn3" type="button">검색</button>
+						<i class="fa fa-undo" id="return">되돌리기</i>
 					</form>
 					<div class="col-sm-3">
 					

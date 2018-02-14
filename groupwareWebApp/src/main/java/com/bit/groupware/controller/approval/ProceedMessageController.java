@@ -110,10 +110,16 @@ public class ProceedMessageController {
 		ModelAndView mv = new ModelAndView();
 
 		// 쪽지 상세정보를 조회한다. - 쪽지 읽음 여부를 변경한다. 트랜잭션을 수행한다. (서비스에서)
-
-		mv.addObject("message", msgService.retrieveMessage(msgNo));
+		
+		// /n을 br로 변환한다
+		MessageVO message = msgService.retrieveMessage(msgNo);
+		String contents = message.getMsgContent().replaceAll("\n", "<br>");
+		message.setMsgContent(contents);
+		
+		mv.addObject("message", message);
 		mv.addObject("isSender",isSender);
- 		// 팝업페이지
+ 		
+		// 팝업페이지
 		mv.setViewName("approval/messageDetail/pop");
 		return mv;
 
@@ -150,6 +156,10 @@ public class ProceedMessageController {
 		employee2.setEmpNo(empNo2);
 		
 		message.setReceipientEmployee(employee2);
+		
+		//등록시 줄바꿈 이루어지게 바꾸기.
+		//String fixedMessage = msgContent.replaceAll("\n", "<br>");
+		
 		if(respondMsg != null) {
 			message.setMsgTitle(respondMsg + msgTitle);
 			message.setMsgContent(msgContent);

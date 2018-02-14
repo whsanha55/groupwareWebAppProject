@@ -23,7 +23,6 @@ ent-Type" content="text/html; charset=UTF-8">
 	type="image/ico" />
 
 <title>전자결재관리시스템</title>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a4a3a00a16a7cd71ecd7bba0eca8ed4a&libraries=services"></script>
 <!-- Bootstrap -->
 <link
 	href="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/css/bootstrap.min.css"
@@ -32,29 +31,7 @@ ent-Type" content="text/html; charset=UTF-8">
 <link
 	href="${pageContext.request.contextPath}/resources/vendors/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
-	<%-- 
-<!-- NProgress -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/nprogress/nprogress.css"
-	rel="stylesheet">
-<!-- iCheck -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/iCheck/skins/flat/green.css"
-	rel="stylesheet">
 
-<!-- bootstrap-progressbar -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"
-	rel="stylesheet">
-<!-- JQVMap -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/jqvmap/dist/jqvmap.min.css"
-	rel="stylesheet" />
-<!-- bootstrap-daterangepicker -->
-<link
-	href="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.css"
-	rel="stylesheet">
- --%>
 <!-- Custom Theme Style -->
 <link
 	href="${pageContext.request.contextPath}/resources/css/custom.min.css"
@@ -92,65 +69,11 @@ ent-Type" content="text/html; charset=UTF-8">
 		<!-- /page content -->
 		<footer> <tiles:insertAttribute name="footer" ignore="true" /></footer>
 
-	</div>
-
 	
 	<!-- Bootstrap -->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-	<%-- <!-- FastClick -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/fastclick/lib/fastclick.js"></script>
-	<!-- NProgress -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/nprogress/nprogress.js"></script>
-	<!-- Chart.js -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/Chart.js/dist/Chart.min.js"></script>
-	<!-- gauge.js -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/gauge.js/dist/gauge.min.js"></script>
-	<!-- bootstrap-progressbar -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-	<!-- iCheck -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/iCheck/icheck.min.js"></script>
-	<!-- Skycons -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/skycons/skycons.js"></script>
-	<!-- Flot -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/Flot/jquery.flot.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/Flot/jquery.flot.pie.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/Flot/jquery.flot.time.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/Flot/jquery.flot.stack.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/Flot/jquery.flot.resize.js"></script>
-	<!-- Flot plugins -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/flot.curvedlines/curvedLines.js"></script>
-	<!-- DateJS -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/DateJS/build/date.js"></script>
-	<!-- JQVMap -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/jqvmap/dist/jquery.vmap.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-	<!-- bootstrap-daterangepicker -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
- --%>
+	
 	<!-- Custom Theme Scripts -->
 	<script
 		src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>

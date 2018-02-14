@@ -52,15 +52,18 @@ public class ApprovalAjaxController {
 	public int approvalAjax(ApprovalVO approval, 
 			@RequestParam(value="tmpNo",required=false,defaultValue="0") int tmpNo, 
 			@RequestParam int receiverNo, 
-			@RequestParam(value="deleteAppr", required=false, defaultValue="0") int deleteAppr , 
+			@RequestParam(value="deleteAppr", required=false, defaultValue="0") int deleteAppr ,
+			@RequestParam(value="reApprDelete", required=false, defaultValue="0") int reApprDelete,
 			HttpSession session, 
 			Principal principal) throws Exception {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
+		System.out.println(session.getServletContext().getRealPath("/") +"zzzzzzzzzzzzzzzzzzz");
 		
 		List<Integer> apprNos =new ArrayList<Integer>();
 		apprNos.add(deleteAppr); 
-		approvalService.removeApproval(apprNos);  
-		
+		if(reApprDelete==1) {
+			approvalService.removeApproval(apprNos);  
+		}
 		EmployeeVO employee = new EmployeeVO();
 		employee.setEmpNo(principal.getName());
 		
@@ -76,14 +79,13 @@ public class ApprovalAjaxController {
 				approval.addApprovalFile(approvalFile);
 			}
 		}
-		System.out.println(session.getServletContext().getRealPath("/") +"zzzzzzzzzzzzzzzzz");
 		approvalService.registerApproval(approval, receiverNo);
 		
 		return approval.getApprFinalStatus();
 	}
 	
 	
-	//ajax 페이지 처리
+	//ajax 페이지 처리(결재 보관함들!)
 		@RequestMapping(value="/approvalPaging.do", method=RequestMethod.POST)
 		@ResponseBody
 		public Map<String,Object> listRequestApproval(
@@ -148,6 +150,46 @@ public class ApprovalAjaxController {
 			
 		}
 		
+		
+		//ajax 페이지 처리(결재 예정함)
+		@RequestMapping(value="/approvalExpectedPaging.do", method=RequestMethod.POST)
+		@ResponseBody
+		public Map<String,Object> listExpectedApproval(
+				@RequestParam(required=false,defaultValue="false") boolean isAdmin,
+				@RequestParam(value="keyfield",required=false) String keyfield ,
+				@RequestParam(value="keyword",required=false) String keyword ,
+				@RequestParam(value="keyword1",required=false) String keyword1 ,
+				@RequestParam(value="startRow") int startRow ,
+				@RequestParam(value="endRow") int endRow){
+			
+			
+			Map<String,Object> map=new HashMap<String,Object>();
+			SecurityContext context=SecurityContextHolder.getContext();
+			Authentication authentication = context.getAuthentication();
+			UserVO user=(UserVO)authentication.getPrincipal();
+			String id =user.getUsername();
+			 
+			map.put("empNo", id);			
+			map.put("keyfield", keyfield);
+			map.put("keyword", keyword);	
+			map.put("keyword1", keyword1);
+			
+			int totalCount=approvalService.retrieveExpectedCount(map);
+			
+			if(totalCount < endRow) {
+				endRow = totalCount;
+			}
+			
+			map.put("startRow", startRow);
+			map.put("endRow", endRow);
+			
+			Map<String, Object> returnMap = new HashMap<String, Object>();
+			returnMap.put("totalCount", totalCount);
+			returnMap.put("approvals", approvalService.retrieveExpectedList(map));
+			return returnMap;
+			
+		}	
+
 	
 	//결재 회수 처리
 	@RequestMapping(value="/returnApproval.do",method=RequestMethod.GET)
@@ -177,6 +219,8 @@ public class ApprovalAjaxController {
 	public int executeApprovalAjax(@RequestParam(value="apprNo") int apprNo, 
 				   @RequestParam(value="apprStatus") int apprStatus ,
 			       @RequestParam(value="commentContent") String commentContent,
+			       @RequestParam(value="isDelegation") boolean isDelegation,
+			       @RequestParam(value="recordNo") int recordNo ,
 			       Principal principal) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -184,8 +228,9 @@ public class ApprovalAjaxController {
 		map.put("apprNo", apprNo);
 		map.put("apprStatus",apprStatus);
 		map.put("empNo", principal.getName());
-		map.put("recordNo", approvalRecordService.retrieveRecNo(map));  
+		map.put("recordNo", recordNo);  
 		map.put("commentContent", commentContent);
+		map.put("isDelegation", isDelegation);
 		approvalRecordService.executeApprovalRecord(map);
 		return apprStatus;
 	

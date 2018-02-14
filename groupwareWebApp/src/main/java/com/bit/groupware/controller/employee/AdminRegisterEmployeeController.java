@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bit.groupware.domain.employee.DeputyVO;
 import com.bit.groupware.domain.employee.EmployeeCodeVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.domain.employee.PhotoVO;
@@ -30,8 +30,12 @@ public class AdminRegisterEmployeeController {
 	
 	@Autowired
 	private EmployeeService employeeService;
+	
 	@Autowired
 	private CodeService codeService;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@RequestMapping(value="/admin/registerEmployee.do",method=RequestMethod.GET)
 	public ModelAndView form() {
@@ -63,9 +67,11 @@ public class AdminRegisterEmployeeController {
 				employee.addPhoto(photo);
 			}
 		}
+		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
 		employeeService.registerEmployee(employee);
 		return "redirect:/admin/listEmployee.do";
 	}
+	
 }
 
 

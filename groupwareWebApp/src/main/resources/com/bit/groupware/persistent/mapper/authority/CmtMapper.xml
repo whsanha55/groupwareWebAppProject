@@ -14,7 +14,8 @@
 		select cmt_no as cmtNo, post_no as postNo, cmt_content as cmtContent, 
 		       cmt_writer as cmtWriter, cmt_date as cmtDate
 		from cmt
-		where post_no = #{cmtNo}
+		where post_no = #{postNo}
+		  order by cmt_no asc
 	</select>
 
 
@@ -33,6 +34,10 @@
 
 	<delete id="deleteCmt" parameterType="int" statementType="PREPARED">
 		delete from cmt where cmt_no = #{cmtNo}
+	</delete>
+	
+	<delete id="deleteCmtList" parameterType="int" statementType="PREPARED">
+		delete from cmt where post_no = #{postNo}
 	</delete>
 
 

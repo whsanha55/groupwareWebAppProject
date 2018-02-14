@@ -7,45 +7,7 @@
 <title>Insert title here</title>
 <style>
 map_wrap {overflow:hidden;height:330px}
-    /* 지도위에 로드뷰의 위치와 각도를 표시하기 위한 map walker 아이콘의 스타일 */
-   /*  .MapWalker {position:absolute;margin:-26px 0 0 -51px}
-    .MapWalker .figure {position:absolute;width:25px;left:38px;top:-2px;
-        height:39px;background:url(http://t1.daumcdn.net/localimg/localimages/07/2012/roadview/roadview_minimap_wk.png) -298px -114px no-repeat}
-    .MapWalker .angleBack {width:102px;height:52px;background: url(http://t1.daumcdn.net/localimg/localimages/07/2012/roadview/roadview_minimap_wk.png) -834px -2px no-repeat;}
-    .MapWalker.m0 .figure {background-position: -298px -114px;}
-    .MapWalker.m1 .figure {background-position: -335px -114px;}
-    .MapWalker.m2 .figure {background-position: -372px -114px;}
-    .MapWalker.m3 .figure {background-position: -409px -114px;}
-    .MapWalker.m4 .figure {background-position: -446px -114px;}
-    .MapWalker.m5 .figure {background-position: -483px -114px;}
-    .MapWalker.m6 .figure {background-position: -520px -114px;}
-    .MapWalker.m7 .figure {background-position: -557px -114px;}
-    .MapWalker.m8 .figure {background-position: -2px -114px;}
-    .MapWalker.m9 .figure {background-position: -39px -114px;}
-    .MapWalker.m10 .figure {background-position: -76px -114px;}
-    .MapWalker.m11 .figure {background-position: -113px -114px;}
-    .MapWalker.m12 .figure {background-position: -150px -114px;}
-    .MapWalker.m13 .figure {background-position: -187px -114px;}
-    .MapWalker.m14 .figure {background-position: -224px -114px;}
-    .MapWalker.m15 .figure {background-position: -261px -114px;}
-    .MapWalker.m0 .angleBack {background-position: -834px -2px;}
-    .MapWalker.m1 .angleBack {background-position: -938px -2px;}
-    .MapWalker.m2 .angleBack {background-position: -1042px -2px;}
-    .MapWalker.m3 .angleBack {background-position: -1146px -2px;}
-    .MapWalker.m4 .angleBack {background-position: -1250px -2px;}
-    .MapWalker.m5 .angleBack {background-position: -1354px -2px;}
-    .MapWalker.m6 .angleBack {background-position: -1458px -2px;}
-    .MapWalker.m7 .angleBack {background-position: -1562px -2px;}
-    .MapWalker.m8 .angleBack {background-position: -2px -2px;}
-    .MapWalker.m9 .angleBack {background-position: -106px -2px;}
-    .MapWalker.m10 .angleBack {background-position: -210px -2px;}
-    .MapWalker.m11 .angleBack {background-position: -314px -2px;}
-    .MapWalker.m12 .angleBack {background-position: -418px -2px;}
-    .MapWalker.m13 .angleBack {background-position: -522px -2px;}
-    .MapWalker.m14 .angleBack {background-position: -626px -2px;}
-    .MapWalker.m15 .angleBack {background-position: -730px -2px;}
-	 */
-    
+   
     #container {overflow:hidden;height:500px;position:relative;}
 	#mapWrapper {width:100%;height:500px;z-index:1;}
 	#rvWrapper {width:100%;height:100%;top:0;right:0;position:absolute;z-index:0;}
@@ -54,8 +16,9 @@ map_wrap {overflow:hidden;height:330px}
 	#roadviewControl span {background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mapworker.png) no-repeat;  padding-left:23px;height:24px;font-size: 12px;display: inline-block;line-height: 2;font-weight: bold;}
 	#roadviewControl.active {background: #ccc;box-shadow: 0px 1px #5F616D;border: 1px solid #7F818A;}
 	#roadviewControl.active span {background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mapworker_on.png) no-repeat;color: #4C4E57;}
-	#roadviewClose {position: absolute;padding: 4px;top: 5px;left: 5px;cursor: pointer;background: #fff;border-radius: 4px;border: 1px solid #c8c8c8;box-shadow: 0px 1px #888;}
+	#roadviewClose {position: absolute;padding: 4px;bottom: 5px;left: 5px;cursor: pointer;background: #fff;border-radius: 4px;border: 1px solid #c8c8c8;box-shadow: 0px 1px #888;}
 	#roadviewClose .img {display: block;background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/rv_close.png) no-repeat;width: 14px;height: 14px;}
+
 </style>
 </head>
 <body>
@@ -63,6 +26,7 @@ map_wrap {overflow:hidden;height:330px}
 	<div>
 		<input id="keyWord" placeholder="지도검색 장소입력">	
 		<button id="mapSearchBTN" type="button" class="btn btn-default">검색</button>
+		<a href="#" id="relayout" style="color:white;">'</a>
 	</div>
 
 	<div id="container">	
@@ -145,7 +109,7 @@ map_wrap {overflow:hidden;height:330px}
 				mapContainer = document.getElementById('map'), //지도를 담을 영역의 DOM 레퍼런스
 				rvContainer = document.getElementById('roadview');
 			 
-			if($('#latitude').val() == null && $('#longitude').val() == null) {		
+			if($('#latitude').val() == "" && $('#longitude').val() == "") {		
 				var	mapCenter = new daum.maps.LatLng(37.49952673450098, 127.0292843723033); //지도의 중심좌표. 	
 			} else {
 				var mapCenter = new daum.maps.LatLng($('#latitude').val(), $('#longitude').val());
@@ -154,9 +118,10 @@ map_wrap {overflow:hidden;height:330px}
 					center: mapCenter, //지도의 중심좌표.
 					level: 3 //지도의 레벨(확대, 축소 정도)
 				};
-				
+			
 			var map = new daum.maps.Map(mapContainer, mapOptions);
 			
+			map.relayout();
 			// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
 			var mapTypeControl = new daum.maps.MapTypeControl();
 			map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
@@ -335,8 +300,8 @@ map_wrap {overflow:hidden;height:330px}
 			    var position = marker.getPosition();
 			    toggleMapWrapper(true, position);
 			}	
-				
-			if($('#destination').val() == null) {
+			
+			if($('#destination').val() == "") {
 				var iwContent = '<div style="padding:5px;text-align:center;color:red">갓트킹프</div>';
 			} else {
 				var iwContent = '<div style="padding:5px;text-align:center;color:red">'+ $('#destination').val() +'</div>';
@@ -353,7 +318,7 @@ map_wrap {overflow:hidden;height:330px}
 			var myMarker = new daum.maps.Marker;
 				
 			myMarker.setMap(map);
-				
+				 
 			// 지도에 클릭 이벤트를 등록합니다
 			// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다	
 			daum.maps.event.addListener(map, 'click', function(mouseEvent) { 
@@ -414,12 +379,17 @@ map_wrap {overflow:hidden;height:330px}
 			// 마커에 클릭이벤트를 등록합니다
 				daum.maps.event.addListener(marker, 'click', function() {
 					// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-				    infowindow.setContent('<div style="text-align:center;padding:5px;font-size:12px;color:black;">' + place.place_name + '<br><a href="http://map.daum.net/link/to/목적지,'+ place.y  +','+ place.x +'"style="color:blue" target="_blank">길찾기</a></div>');
+				    infowindow.setContent('<div style="text-align:center;padding:5px;font-size:12px;color:black;"><a href="http://map.daum.net/link/to/목적지,'+ place.y  +','+ place.x +'"style="color:blue" target="_blank">' + place.place_name + '</a></div>');
 				    infowindow.open(map, marker);
 				    selectedDest = place.place_name;
 				    selectedLat = place.y;
 				    selectedLng = place.x;
 				});
+			}
+			
+			function relayout() {
+				map.relayout();
+				map.panTo(mapCenter);
 			}
 			
 			// 엔터키 누르면 위치검색 가능 메서드
@@ -439,7 +409,10 @@ map_wrap {overflow:hidden;height:330px}
 				// 키워드로 장소를 검색합니다
 				places.keywordSearch($('#keyWord').val(), placesSearchCB);
 				myMarker.setMap(null);
-				
+			});
+			
+			$('#relayout').on('click', function() {
+				relayout();
 			});
 		
 			$('#roadviewControl').on('click',function() {
@@ -447,13 +420,15 @@ map_wrap {overflow:hidden;height:330px}
 			});
 			
 			$('#roadviewClose').on('click', function() {
+				$('#roadviewControl').attr('class', "");
+				toggleOverlay(false);
 				closeRoadview();
-			})
-		
-		});			
-		
+			});
+			$('#layerpop2').on('shown.bs.modal', function() {
+				relayout();
+			});
+		});
 	});
-
 
 	</script>
 </body>

@@ -12,6 +12,19 @@
 <script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+<style>
+	#templateData th {
+		font-size : 15px;
+		text-align: center;
+		vertical-align: middle;
+	}
+	
+	#templateData td {
+		font-size : 15px;
+		vertical-align: middle;
+	}
+</style>
+
 <script>
 	$(document).ready(function(){
 		
@@ -271,7 +284,7 @@
 	  <a class="btn btn-primary pull-right" id="reset">취소</a>
 	  <a class="btn btn-primary pull-right" id="register">등록</a>
 	  
-	  <table id="templateData" class="table table-striped table-bordered">
+	  <table id="templateData" class="table table-striped table-bordered align-center">
 		<tr>
 			<th>양식 구분</th>
 			<td><select class="form-control" id="category">

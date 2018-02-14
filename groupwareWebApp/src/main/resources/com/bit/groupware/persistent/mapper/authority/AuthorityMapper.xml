@@ -88,8 +88,8 @@
    
    
    <!-- 권한사원 등록 -->
-   <insert id="insertAuthEmp" parameterType="AuthEmpVO" statementType="PREPARED">
-	   <foreach collection="list" item="item" open="insert all" close="select * from dual" >
+   <insert id="insertAuthEmp" parameterType="map" statementType="PREPARED">
+	   <foreach collection="addList" item="item" open="insert all" close="select * from dual" >
 		into authority_employee(emp_no, a_no)
 		values(#{item.empNo}, #{item.aNo})
 	   </foreach>
@@ -257,18 +257,27 @@
        where rn<![CDATA[>=]]>#{startRow} and rn<![CDATA[<=]]>#{endRow}
    </select>
    
+   <!-- 권한번호에 해당하는 사번 리스트 조회 -->
+   <select id="selectListAuthEmpNo" resultType="String" statementType="PREPARED" parameterType="String" >      
+      select ae.emp_no as empNo
+      from empList_view e , authority_employee ae, authority a
+      where ae.a_no = a.a_no
+      and ae.emp_no = e.empNo
+      and a.a_no = #{aNo}
+   </select>
+   
     <select id="selectAuthEmpCount" statementType="PREPARED" parameterType="map" resultType="int">
-      select count(a.a_no)
+      select count(*)
 	  from empList_view e , authority_employee ae, authority a
       where ae.a_no = a.a_no
       	and ae.emp_no = e.empNo
-        and a.a_no is not null
       <if test="keyfield == 'empNo' and keyword != null">
           and e.empNo like '%' || #{keyword} || '%' 
        </if>
        <if test="keyfield == 'empName' and keyword != null">
            and e.empName like '%' || #{keyword}  || '%' 
        </if>
+       and a.a_no = #{aNo}
    </select>
    
    <select id="selectAuthEmpCountByaNo" statementType="PREPARED" parameterType="String" resultType="int">
@@ -279,9 +288,14 @@
     	and a.a_no = #{aNo}
    </select>
    
-   <delete id="deleteAutEmp" parameterType="String" statementType="PREPARED">
-      delete from authority_employee 
-      where a_no = #{aNo}
+   <delete id="deleteAutEmp" parameterType="map" statementType="PREPARED">
+      delete from authority_employee
+	  where ae_no in (
+	 <foreach item="item" collection="removeList"  open="(" separator="),(" close=")" >
+	  select ae_no from authority_employee
+                    		where emp_no = #{item.empNo} and a_no = #{item.aNo} 
+  	  </foreach>
+  	  )
    </delete>
    
 </mapper>

@@ -10,16 +10,14 @@
 <body>
 <div class="nav_menu">
             <nav>
-
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="${pageContext.request.contextPath}/resources/images/img.jpg" alt="">John Doe
+                    <img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/${employee.photoName}" alt="">${employee.empName }
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;">내 정보</a></li>
-                    <li><a href='<c:url value="/login.do" />'><i class="fa fa-sign-out pull-right"></i>로그 아웃</a></li>
+                    <li><a href='<c:url value="/logout.do" />'><i class="fa fa-sign-out pull-right"></i>로그 아웃</a></li>
                   </ul>
                 </li>
 

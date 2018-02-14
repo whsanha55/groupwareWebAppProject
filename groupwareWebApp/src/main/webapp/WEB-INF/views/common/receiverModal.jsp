@@ -75,6 +75,8 @@ select[name=apprType] {
 .col-sm-7 h3 {
 	margin-left : 20px;	
 }
+
+
 </style>
 <script>
 	$(document).ready(function() {
@@ -229,6 +231,11 @@ select[name=apprType] {
 				swal('부적절한  요청입니다');
 				return;
 			}
+			if(selectedEmpNo =='${empNo}') {	//자기자신에게 기안X
+				swal('자신을 선택할 수 없습니다');
+				return;
+			}
+			
 			var isExist = false;	//이미 존재하는 결재라인 확인여부
 			$('table[id^=tableDnD] tr').each(function() {
 				if($(this).attr('id') == selectedEmpNo) {
@@ -247,7 +254,9 @@ select[name=apprType] {
 					swal("결재자가 너무 많습니다");
 					return;
 				}
+				
 				var text = "";
+				
 				text += '<td>';
 				text += '<select class="form-control" name="apprType">';
 				text += '<option value="0" selected>결재</option>';
@@ -263,6 +272,7 @@ select[name=apprType] {
 				$(temp).html(text);
 				receiverLineApprCount++;
 				doTableDnD();
+			
 			} else {	//참조
 				var text = "<tr id='" + selectedEmpNo + "'>";
 				text += '<td>';
@@ -287,7 +297,7 @@ select[name=apprType] {
 			$('table[id^=tableDnD] tr').each(function() {
 				if($(this).attr('id') == selectedEmpNo) {
 					if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//테이블중 결재부분에서 삭제 시도
-						var text = "<tr>";
+						var text = "<tr class='nodrag nodrop'>";
 						text += '<td></td>';
 						text += '<td></td>';
 						text += '<td></td>';
@@ -478,11 +488,12 @@ select[name=apprType] {
 			});
 		}
 		
-		
+	
 		
 		//결재라인 셀렉트박스(결재,참조) 변경 이벤트
 		$("table[id^=tableDnD]").on("change","select[name=apprType]",function() {
 			if($(this).val() ==0) { //참조->결재로 변경
+				
 				if(receiverLineApprCount >=9) {
 					swal("결재자가 너무 많습니다");
 					return;
@@ -491,14 +502,18 @@ select[name=apprType] {
 				var temp = $(this).closest('tr');
 				$($('#tableDnDAppr').find('tr')[receiverLineApprCount]).html(temp.html())
 				.attr('class','')
-				.find('select').val('0').prop('selected',true);
+				.find('select').val('0').prop('selected',true).not('tr:first');
 				temp.remove();
 				receiverLineApprCount++;
 				doTableDnD();
+				
+				
 			} else { //결재 -> 참조로 변경
 				var temp = $(this).closest('tr');
+				
+				
 				$('#tableDnDRef:last-child').append(temp)
-				.find('select').val('1').prop('selected',true);
+				.find('select').val('1').prop('selected',true).not('tr:first');
 				$('#tableDnDRef').find('tr').css('cursor','auto');				
 				receiverLineApprCount--;
 				
@@ -582,7 +597,7 @@ select[name=apprType] {
 			if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//결재 테이블 삭제 요청
 				$(this).closest('tr').remove();
 				receiverLineApprCount--;
-				var text = "<tr>";
+				var text = "<tr class='nodrag nodrop'>";
 				text += '<td></td>';
 				text += '<td></td>';
 				text += '<td></td>';
@@ -599,7 +614,7 @@ select[name=apprType] {
 	}); //document ready End
 	
 	//결재선 이름 조회 함수 
-	//modal팝업창 닫을때도 사용하므로 파라미터로 boolean값 받아옴
+	//modal팝업창 닫을때도 사용하므로 파라미터로 모달페이지면 true, 아니면 receiverNo를 받아옴
 	function myReceiverList(isModalPage) {
 
 		$.ajax({
@@ -609,17 +624,18 @@ select[name=apprType] {
 			type : 'GET',
 			success : function(data) {
 				var text = "";
-				if(!isModalPage) {	//모달창 닫기 클릭시
+				if(!(isModalPage===true)) {	//모달창 닫기 클릭시
 					text += "<option value='0'>결재선을 선택하세요</option>";
 				}
 				for (var i = 0; i < data.length; i++) {
 					text += "<option value='"+ data[i].receiverNo + "'>";
 					text += data[i].receiverName + "</option>";
 				}
-				if(isModalPage) {
+				if(isModalPage === true) {
 					$('select[name=receiverNo2]').html(text);
 				} else {	//모달창 닫기 클릭시
 					$('select[name=receiverNo]').html(text);
+					$('select[name=receiverNo]').val(isModalPage);
 					
 				}
 			},

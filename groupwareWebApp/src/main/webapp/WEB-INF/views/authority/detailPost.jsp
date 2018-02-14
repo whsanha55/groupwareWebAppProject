@@ -9,28 +9,41 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-	$(document).ready(
-			function() {
+$(document).ready(function() {
+			
+			listCmt();
 				// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
-				$("#btnReply").click(
-					function() {
+				$('#btnReply').on('click', function() {
+					
+					if($($('textarea[name=cmtContent]')).val() == "" ){
+						swal("내용을 입력하세요.");
+						$('#cmtContent').focus();
+						return false;
+					}  
 						var cmtContent = $("#cmtContent").val();
-						var postNo = "${requestScope.post.postNo }"
-						var param = "cmtContent="+ cmtContent + "&postNo="+ postNo;
+						var empName = '${param.empName}';
+						var postNo = "${requestScope.post.postNo }";						
 						$.ajax({
 							type : "POST",
 							url : "${pageContext.request.contextPath}/insert.do",
-							data : param,
+							data: {
+								postNo : postNo,
+								cmtContent : cmtContent,
+								empName: empName 
+							},
 							success : function() {
-								alert("댓글이 등록되었습니다.");
-								location.reload();
+								swal("댓글이 등록되었습니다.");								
+								listCmt();
+								$("#cmtContent").val('');
+								
 							}
 						});
 					});
+			
 
 			//댓글 삭제 
-			$('#deleteBtn').on('click', function() {	
-				var no = $(this).val();
+			$('#datatable').on('click','button:contains(삭제)', function () {
+				var cmtNo = $(this).val();
 				swal({
 					title: "댓글 삭제" ,
 					text: "댓글을 삭제합니다. 계속 진행하시겠습니까?",
@@ -38,18 +51,19 @@
 					buttons : true 
 				}).then((e) => {
 					if(e) {
-						deleteCmt(no);							
+						deleteCmt(cmtNo);							
 					}
-				});		
+				});	
+			
 							
 			//alert($(this).val());
-			function deleteCmt(no) {	
+			function deleteCmt(cmtNo) {	
 				$.ajax({
 					url: '${pageContext.request.contextPath}/deleteCmt.do'
 					,
 					method: 'GET'
 					,
-					data: {no}
+					data: {cmtNo}
 					, 
 					async: true
 					,
@@ -62,9 +76,7 @@
 							icon: "info",
 							buttons : "확인" 
 						}).then((e) => {
-							if(e) {
-							location.reload();		
-							}
+							listCmt();
 						});		
 					}
 					, 
@@ -83,9 +95,10 @@
 			// 수정
 		      $('#datatable').on('click','button:contains(수정)', function () {
 		         var cmtContent = $(this).parents("tr").find('.cmtContent').text();
-		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent' value="+cmtContent +" />");   
-		     
-		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
+		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent'/>");   
+		          $(this).parents("tr").find('.cmtContent').find(':text[name=cmtContent]').val(cmtContent);
+		          
+		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-modify btn-xs' >완료</button><button type='button' class='btn btn-modify btn-xs' >취소</button></td>");
 		          $('button:contains(수정)').prop("disabled", true);
 		         
 		      });
@@ -96,19 +109,19 @@
 		          var cmtNo = $(this).parents("tr").find('.cmtNo').text();      
 		          var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();	            
 		          
-		          var name = $(this).parents("tr").find('.cmtContent');
+		          var content = $(this).parents("tr").find('.cmtContent');
 		          var selectBtn = $(this).parents("tr").find('.selectBtn');
 		          
 		          var a = $(this).parents("tr").find('input[name=rName]');
 		          
 		         swal({
-		              title: "댓글을 수정하시겠습니까?"+cmtNo,
+		              title: "댓글을 수정하시겠습니까?",
 		              icon: "info",
 		              buttons : true 
 		            }).then((e) => {
 		               if(e) {
 		                  $.ajax({
-		                     url : '${pageContext.request.contextPath}/modifyCmtAjax.do?' 
+		                     url : '${pageContext.request.contextPath}/modifyCmt.do?' 
 		                        ,
 		                        method : 'POST'
 		                        ,
@@ -125,9 +138,9 @@
 		                        ,
 		                        success : function(data, textStatus, jqXHR){   		                           
 		                              swal("수정 완료!","");
-		                              $(name).html(data.cmt.cmtContent);		                             
-		                              $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
-		                              	
+		                              $(content).html(data.cmt.cmtContent);		                             
+		                              $(selectBtn).html("<button type='button' class='btn btn-modify btn-xs' >수정</button><button type='button'  value='"+data.cmt.cmtNo  +"' id='deleteBtn' class='btn btn-modify btn-xs' >삭제</button>");
+		                          	  listCmt();	
 		                        }
 		                        ,
 		                        error : function(jqXHR, textStatus, errorThrown){
@@ -135,6 +148,7 @@
 		                        }
 		                  
 		                     });
+		      		
 		               }
 		            });
 
@@ -144,35 +158,105 @@
 		     //수정 취소
 		       $('#datatable').on('click','button:contains(취소)', function () { 
 		          var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();		           
-		         
+		          var cmtNo = $(this).parents("tr").find('.cmtNo').text();     
 		         $(this).parents("tr").find('.cmtContent').html(cmtContent);		        
 		         
-		         $(this).parents("tr").find('.selectBtn').html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
+		         $(this).parents("tr").find('.selectBtn').html("<button type='button' class='btn btn-modify btn-xs' >수정</button><button type='button'  value='"+cmtNo  +"' id='deleteBtn' class='btn btn-modify btn-xs' >삭제</button>");
 		          $('button:contains(수정)').prop("disabled", false);
 		       });  
 			
-		
-						
+		   });
 	
-						
-});
+	function listCmt() {
+		var postNo = "${requestScope.post.postNo }";				
+		var empName = '${param.empName}';
+		$.ajax({
+			url: '${pageContext.request.contextPath}/listCmt.do' 
+			,
+			data: {
+				postNo : postNo
+			},
+			type: 'POST' ,
+			cache: false ,
+			dataType: 'json' ,
+			success: function (data, textStatus, jqXHR) {
+				var text = "";  
+				 for(var i=0;i<data.posts.length;i++) {
+						text += "<tr style='border-top: 1px  solid darkgray;'><td style='width:50px;'>"+data.posts[i].cmtWriter+"</td>";
+						text += "<td style='width:200px;'>("+data.posts[i].cmtDate+ ")</td>";
+						text += "<td></td>";
+				
+						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
+						text += "<td colspan='2' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
+						if(data.posts[i].cmtWriter == empName) {
+							text += "<td class='selectBtn'><button type='button' class='btn btn-modify btn-xs' >수정</button>";
+							text +="<button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-modify btn-xs' >삭제</button></td></tr>";
+							} else {
+			                     text += "<td tyle='border-bottom: 1px  solid darkgray;'></td>";
+			                }    
+					
+						text += "</tr>";
+					} 
+					$('#datatable').find('tbody').html(text);
+				
+			} ,
+			error: function(jqXHR) {
+				alert("에러: " + jqXHR.status);
+			}
+			
+		});
+		
+
+	}
 </script>
+<style>
+.btn-modify{
+    background-color: white;
+    border-color: white;
+    color: #2196F3; }
+.btn-modify:hover,
+.btn-modify:focus {
+    border-color: white;
+    background-color: white;
+    color: balck; }
+.btn-modify:active,
+.btn-modify:visited,
+.btn-modify:active:focus,
+.btn-modify:active:hover {
+    border-color: white;
+    background-color: white;
+    color: balck; }
+
+</style>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>게시글</h2>
-				<div class="text-right">
-					<c:url var="modifyUrl" value="/modifyPost.do" scope="page">
-						<c:param name="postNo" value="${requestScope.post.postNo }" />
-					</c:url>
-					<c:url var="removeUrl" value="/removePost.do" scope="page">
-						<c:param name="postNo" value="${requestScope.post.postNo }" />
-					</c:url>
-					<a class="btn btn-primary" href="${modifyUrl}">수정</a> <a
-						class="btn btn-danger" href="${removeUrl}">삭제</a> <a
-						class="btn btn-primary" href='<c:url value="postList.do"/>'>목록</a>
+				<h2>${param.boardName}</h2>
+				<div class="text-right">					
+						<c:url var="modifyUrl" value="/modifyPost.do" scope="page">
+							<c:param name="postNo" value="${requestScope.post.postNo }" />
+							<c:param name="boardNo" value="${param.boardNo }" />
+							<c:param name="boardName" value="${param.boardName }" />
+							<c:param name="empName" value="${param.empName }" />
+							<c:param name="fileCount" value="${param.fileCount }" />
+							<c:param name="isComment" value="${param.isComment }" />
+						</c:url>
+						<c:url var="removeUrl" value="/removePost.do" scope="page">
+							<c:param name="postNo" value="${requestScope.post.postNo }" />
+							<c:param name="boardNo" value="${param.boardNo }" />
+							<c:param name="boardName" value="${param.boardName }" />
+							<c:param name="empName" value="${param.empName }" />
+							<c:param name="fileCount" value="${param.fileCount }" />
+							<c:param name="isComment" value="${param.isComment }" />						
+						</c:url>
+					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
+					<c:if test="${requestScope.post.writer == param.empName}">
+						<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
+						<a class="btn btn-danger" href="${removeUrl}">삭제</a>
+					</c:if> 
+					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment} "/>'>목록</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -183,8 +267,8 @@
 						<td>${requestScope.post.postTitle}</td>
 					</tr>
 					<tr>
-						<td>부서구분</td>
-						<td>${requestScope.post.cNo}</td>
+						<td>작성자</td>
+						<td>${requestScope.post.writer}</td>
 					</tr>
 					<tr>
 						<td>문서종류</td>
@@ -210,43 +294,29 @@
 				</table>
 			</div>
 			<div class="ln_solid"></div>
+			<!-- 댓글보기 -->
+			<c:if test="${param.isComment == 'Y'}">	
+				<table id="datatable"  style="width:100%">
+				  <tbody style='border-bottom: 1px  solid darkgray;'>
+                  </tbody >
+				</table>			
+
+			<!-- 댓글쓰기 -->
+			<br><br>
+			<div class="form-group">
+            <label class="control-label col-md-1 col-md-2 col-xs-1">${param.empName}</label>
+            <div class="col-md-6 col-sm-9 col-xs-12">
+               <textarea id="cmtContent" name="cmtContent" class="resizable_textarea form-control"
+                  placeholder="댓글을 작성해주세요"></textarea>
+            </div>    
+            <div class="col-md-2" style="position: relative; left: 10px; top: 25px;">
+             <button type="button" id="btnReply" class="btn btn-primary btn-sm" >댓글 작성</button>   
+            </div>
+         </div>
+		</c:if>
 
 
-			<!--------------------- 댓글 ----------------------->
-			<!-- 댓글 조회 -->			
-			<c:if test="${fn: length(sessionScope.post.cmts ) > 0 }">
-				<table id="datatable">
-					<c:forEach var="cmt" items="${sessionScope.post.cmts }"
-						varStatus="loop">
-						<tr>
-							<td class='cmtNo'>${pageScope.cmt.cmtNo }  </td>
-							<td>${pageScope.cmt.cmtWriter }</td>
-							<td>(${pageScope.cmt.cmtDate })</td>		
-							<td class='selectBtn'><button type='button'  class='modifyBtn btn btn-primary'>수정</button></td>						
-							<td>
-								<button type="button"  value="${pageScope.cmt.cmtNo }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button>								
-							</td>
-							<td  class='cmtContent'>${pageScope.cmt.cmtContent }</td>							
-						</tr>
-						
-						
-					</c:forEach>
-				</table>
-			</c:if>
-			
-			
-
-			<!-- 댓글 입력 -->
-			<div style="width: 200px; text-align: center;">
-				<br>
-				<textarea rows="5" cols="80" id="cmtContent"
-					placeholder="댓글을 작성해주세요"></textarea>
-				<br>
-				<button type="button" id="btnReply">댓글 작성</button>
-			</div>
-
-
-		</div>
+		</div>        
 	</div>
 </body>
 </html>

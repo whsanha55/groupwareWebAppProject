@@ -41,8 +41,8 @@
 <script>
 
 	$(document).ready(function(){
-		
-			$('#close').click(function() {
+
+		$('#close').click(function() {
 				window.close();
 			});
 	
@@ -95,12 +95,12 @@
 	                        <thead>
 	                          <tr class="headings">
 	                            
-	                            <th class="column-title">순번</th>
-	                            <th class="column-title">결재자</th>
-	                            <th class="column-title">결재유형</th>
-								<th class="column-title">배정일시</th>
-	                            <th class="column-title">확인일시</th>
-	                            <th class="column-title">결재일시</th>      
+	                            <th class="column-title" style="text-align:center;">순번</th>
+	                            <th class="column-title" style="text-align:center;">결재자</th>
+	                            <th class="column-title" style="text-align:center;">결재유형</th>
+								<th class="column-title" style="text-align:center;">배정일시</th>
+	                            <th class="column-title" style="text-align:center;">확인일시</th>
+	                            <th class="column-title" style="text-align:center;">결재일시</th>      
 	                            
 	                          </tr>
 	                        </thead>
@@ -109,16 +109,29 @@
 	                         <c:forEach var="record" items="${requestScope.records}" >
 							<c:if test="${pageScope.record.apprStatus<6 }">
 								<tr class="even pointer">
-
-	                            <td>${pageScope.record.receiverLine.lineOrder}</td>
+								<c:if test="${record.receiverLine.lineOrder !=9}">
+									<td>${pageScope.record.receiverLine.lineOrder}</td>
+								</c:if>
+								<c:if test="${record.receiverLine.lineOrder ==9}">
+									<td>최종</td>
+								</c:if>
 	                            <td class=" ">${pageScope.record.receiverLine.lineEmployee.department} ${pageScope.record.receiverLine.lineEmployee.empName} ${pageScope.record.receiverLine.lineEmployee.duty}</td>
 								
 								<td class=" ">
 									<c:if test="${pageScope.record.apprStatus==0}">미결 </c:if>
-									<c:if test="${pageScope.record.apprStatus==1}">결재 </c:if>
+									<c:if test="${pageScope.record.apprStatus==1}">
+										<c:choose>
+											<c:when test="${pageScope.record.isDelegation==1}">
+												전결
+											</c:when>
+											<c:otherwise>
+												결재
+											</c:otherwise>
+										</c:choose>
+									 </c:if>
 									<c:if test="${pageScope.record.apprStatus==2}">보류 </c:if>
 									<c:if test="${pageScope.record.apprStatus==3}">반려 </c:if>
-									<c:if test="${pageScope.record.apprStatus==4}">전결 </c:if>
+									<%-- <c:if test="${pageScope.record.apprStatus==4}">전결 </c:if> --%>
 									<c:if test="${pageScope.record.apprStatus==5}">대결 </c:if>
 								</td>
 	                            <td class=" ">${pageScope.record.assignDate}</td>

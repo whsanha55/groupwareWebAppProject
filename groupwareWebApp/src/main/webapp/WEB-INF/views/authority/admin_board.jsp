@@ -30,7 +30,6 @@ $(document).ready(function(){
 		$('input[name="isUse"]:radio').removeAttr('checked');
 		$('input[name="isNotice"]:radio').removeAttr('checked');
 		$('input[name="isComment"]:radio').removeAttr('checked');
-		$('input[name="isDeptDivide"]:radio').removeAttr('checked');
 		$('input[name="isDocuType"]:radio').removeAttr('checked');
 		$('#fileCount option').removeAttr('selected');
 	}); 
@@ -49,10 +48,10 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		if($('#fileCount').val()== '') {
-			swal("파일개수를 선택해주세요");
-			$('#fileCount').focus;
-		    return false;
+		if($("select[name='fileCount'] option:selected").index() <1) {
+			swal("파일 개수를 선택해주세요");
+			$("select[name='fileCount'] : eq(0)").focus();
+			return false;
 		}
 		
 		
@@ -68,12 +67,7 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		if(!($('input:radio[name=isDeptDivide]').is(':checked'))){
-			swal("부서 사용유무를 선택해주세요");
-			$('input:radio[name=isDeptDivide]').focus;
-			return false;
-		}
-		
+
 		if(!($('input:radio[name=isDocuType]').is(':checked'))){
 			swal("게시판 사용유무를 선택해주세요");
 			$('input:radio[name=isDocuType]').focus;
@@ -125,7 +119,6 @@ $(document).ready(function(){
 			$('input[name="isUse"]:radio').removeAttr('checked');
 			$('input[name="isNotice"]:radio').removeAttr('checked');
 			$('input[name="isComment"]:radio').removeAttr('checked');
-			$('input[name="isDeptDivide"]:radio').removeAttr('checked');
 			$('input[name="isDocuType"]:radio').removeAttr('checked');
 			$('#fileCount option').removeAttr('selected');
 		}); 
@@ -174,11 +167,6 @@ $(document).ready(function(){
 						$('input[name=isComment][value=N]').prop('checked', true);
 					}
 					
-					if( data.isDeptDivide == 'Y') {
-						$('input[name=isDeptDivide][value=Y]').prop('checked', true);
-					}else{
-						$('input[name=isDeptDivide][value=N]').prop('checked', true);
-					}
 			
 					if( data.isDocuType == 'Y') {
 						$('input[name=isDocuType][value=Y]').prop('checked', true);
@@ -393,16 +381,6 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<td class="col-md-4"
-								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">부서
-								구분 사용 유무</td>
-							<td><div class="radio">
-									<label> <input type="radio" name="isDeptDivide" value="Y"> 사용함</label>
-									<label> <input type="radio" name="isDeptDivide" value="N">사용안함</label>
-								</div></td>
-
-						</tr>
-						<tr>
-							<td class="col-md-4"
 								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">게시판
 								카테고리 사용 유무</td>
 							<td><div class="radio">
@@ -412,11 +390,11 @@ $(document).ready(function(){
 
 						</tr>
 					</table>
-					<div class="text-right">
-						<button class="btn btn-primary" type="button" id="modify">수정</button>
-						<button class="btn btn-primary" type="button" id="remove">삭제</button>
-						<button class="btn btn-primary" type="button" id="submit">등록</button>
-						<button class="btn btn-primary" type="button" id="reset">닫기</button>
+					<div>
+						<button class="btn btn-primary col-md-2" type="button" id="modify">수정</button>
+						<button class="btn btn-primary col-md-2" type="button" id="remove">삭제</button>
+						<button class="btn btn-primary col-md-2" type="button" id="submit">등록</button>
+						<button class="btn btn-primary col-md-2" type="button" id="reset">닫기</button>
 					</div>
 					
 				</div>
