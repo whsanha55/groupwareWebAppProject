@@ -184,6 +184,7 @@ $(document).ready(function() {
 				
 						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
 						text += "<td colspan='2' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
+			
 						text += "</tr>";
 					} 
 					$('#datatable').find('tbody').html(text);
