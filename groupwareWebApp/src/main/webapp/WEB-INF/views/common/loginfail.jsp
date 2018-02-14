@@ -29,7 +29,8 @@
         <div class="col-md-12">
           <div class="col-middle">
             <div class="text-center text-center">
-              <img src="${pageContext.request.contextPath}/resources/images/warningSmall.png"  width="250"/> 
+              <img src="${pageContext.request.contextPath}/resources/images/warningSmall.png"  width="200px"/> 
+              <br> <br>
               <h2 style="margin-top:15px;">서비스를 사용할 수 없습니다.</h2>
               <p>관리자에게 문의바랍니다. <br><a href="#">ztz33@naver.com</a>
               </p>
