@@ -236,8 +236,11 @@
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
 						<div class="col-md-6">
-							<div class="col-md-5">
-								<h2><a href=/groupware/admin/listCode1.do>최상위 코드</a> → ${requestScope.highRelationCode } → ${requestScope.relationCode } </a></h2>
+							<div class="col-md-6">
+								<h2>
+								
+								<a href=/groupware/admin/listCode1.do>[ 최상위코드 ]</a> →
+                 				<a href=/groupware/admin/listCode2.do?relationCode=${requestScope.superRelationCode }>[ ${requestScope.superRelationCode } ]</a> → [ ${requestScope.relationCode } ]</h2>
 							</div>
 							
 						</div>
@@ -285,7 +288,7 @@
 			</div>
 			<div class="col-md-5"></div>
 				<button type="button" id="insert" class="btn btn-success">등록</button>
-				<c:url var="previousCodeURL" value="/admin/listCode2.do?relationCode=${requestScope.highRelationCode }" scope="page" ></c:url>
+				<c:url var="previousCodeURL" value="/admin/listCode2.do?relationCode=${requestScope.superRelationCode }" scope="page" ></c:url>
 				<a id="previous" href="${pageScope.previousCodeURL }"><button type="button" class="btn btn-primary" >이전</button></a>
 			
 		</div>
