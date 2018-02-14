@@ -294,7 +294,7 @@ $(document).ready(function(){
 					<nav aria-label="Page navigation" id = 'templatePaging' style="text-align:center;">
 				
 					</nav>
-<<<<<<< HEAD
+
 					<div class="input-group" style="display:inline-flex; margin-left:320px; margin-top:10px;">
 							
 							 <select id="pKeyfield" name="pKeyfield" style="height:28px; width:80px;"  > 
@@ -306,10 +306,7 @@ $(document).ready(function(){
 							
 						
 					</div>
-=======
-					
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
-					
+		
 				
 			</div>
 		</div>

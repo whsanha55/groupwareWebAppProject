@@ -38,7 +38,7 @@ public class DownloadPlanFileView extends AbstractView {
 		FileInputStream fis = null;
 		ServletOutputStream sos = null;
 		try {
-			String path = req.getSession().getServletContext().getRealPath("/upload");
+			String path = req.getSession().getServletContext().getRealPath("/resources/upload/employeeFiles/planFiles");
 			logger.info("Upload Path : {}", path);
 			
 			fis = new FileInputStream(path + File.separator + systemFileName);
