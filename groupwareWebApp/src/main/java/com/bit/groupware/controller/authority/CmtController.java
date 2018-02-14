@@ -1,6 +1,7 @@
 package com.bit.groupware.controller.authority;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -25,14 +26,30 @@ public class CmtController {
 	
 	@Autowired
 	private CmtService cmtService;
-
+	
 	// ´ñ±Û ÀÔ·Â
+    @RequestMapping("/listCmt.do")
+    @ResponseBody
+    public Map<String,Object> list( @RequestParam(value="postNo") int postNo) throws Exception{
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	
+    	List<CmtVO> posts = cmtService.retrieveComment(postNo);
+
+    	System.out.println("@@@@@@@@@@@@@@@@@@@@@" +postNo );
+      
+        map.put("posts", posts);
+		
+		return map;
+    }
+    
+    // ´ñ±Û ÀÔ·Â
     @RequestMapping("/insert.do")
     @ResponseBody
     public void insert(@ModelAttribute CmtVO cmt, HttpSession session,
-    		@RequestParam(value="empName") String empName) throws Exception{
-    	cmt.setCmtWriter(empName);
-    	logger.info("´ñ±Û@@@@@@@@@@@@@@@@@@@@@@@ : {}", cmt);    	
+          @RequestParam(value="empName") String empName) throws Exception{
+       cmt.setCmtWriter(empName);
+       logger.info("´ñ±Û@@@@@@@@@@@@@@@@@@@@@@@ : {}", cmt);       
         cmtService.registerCmt(cmt);
     }
     
@@ -44,7 +61,7 @@ public class CmtController {
 		Map<String, String> map = new HashMap<String, String>();
 		cmtService.modifyCmt(cmt);
 		
-		
+		map.put("cmt", "cmt");
 		return map;
 	}
     

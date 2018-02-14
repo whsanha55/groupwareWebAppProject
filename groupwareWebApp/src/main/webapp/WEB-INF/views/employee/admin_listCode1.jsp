@@ -45,6 +45,12 @@
 	        }
 		});
 		
+		//하위 코드로 이동		
+		$(document).on('click', '.listCode2', function(){
+			var relationCode = $(this).attr('id');
+			location.href = '${pageContext.request.contextPath}/admin/listCode2.do?relationCode='+relationCode;
+		});
+		
 		//등록 버튼 클릭시 팝업창 생성
 		$('#insert').click(function(){
 			var url = '${pageContext.request.contextPath}/admin/registerCode1.do';
@@ -155,21 +161,14 @@
 					} else {
 						for(var i=0; i<data.codes.length;i++) {
 							text += "<tr>";
-							if(data.codes[i].cNo == 'B') {
-								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode3.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
-							} else if (data.codes[i].cNo == 'D') {
-								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode3.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
-							} else {
-								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode2.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
-							}
-							
+							text += "<td id='" + data.codes[i].cNo + "'class='listCode2'>" + data.codes[i].cNo + "</td>";
 							text += "<td id='cName'" + i + ">" + data.codes[i].cName + "</td>";
 							text += "<td id='countRelationCode'" + i + ">" + data.codes[i].countRelationCode + "</td>";
 							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-success' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
 							if(data.codes[i].countRelationCode == 0) {
 								text += "<td id='remove'" + i + ">" + "<button class='btn btn-primary removeBtn' value='" + data.codes[i].cNo + "'type='button'>삭제</button></td>";
 							} else {
-								text +="<td></td>"
+								text +="<td><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							}
 							text += "</tr>";
 						}
@@ -189,6 +188,18 @@
 	});	//$(document).ready End
 	
 </script>
+<style type="text/css">
+	.box3{width:100px; height:26px; background:#4aa3ef; text-align:center; line-height:26px; color:#fff; margin-bottom:5px;}
+	.tri{    position: absolute;
+    top: 0px;
+    left: 110px;
+    width: 0px;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    border-left: 15px solid #4aa3ef;
+    border-right: 15px solid transparent;
+}
+</style>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -200,24 +211,24 @@
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
-
+				
 					<div>
-						<div class="col-md-6">
-							<div class="col-md-2">
-								<h2>코드목록</h2>
-							</div>
-							<button type="button" id="insert" class="btn btn-success">등록</button>&nbsp;&nbsp;&nbsp;※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
+						<div class="col-md-8">
+								
+								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">최상위 코드</a><div class="tri"></div></div>
+								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
+
 						</div>
 						
 						<div>
 							<div>
-							<div class="col-md-4 col-xs-offset-2">
+							<div>
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
-										<ul class="dropdown-menu" role="menu" >
+										<ul class="dropdown-menu" role="menu">
 											<li><a id="cNo">코드번호</a></li>
 											<li><a id="cName">코드명</a></li>
 										</ul>
@@ -233,9 +244,6 @@
 							</div>
 						</div>
 						</div>
-					</div>
-					<div class="col-md-6"></div>
-				</div>
 			<form id="#form">
 				<table class="table table-striped jambo_table bulk_action" style="text-align:center;">
 					<thead>
@@ -253,6 +261,8 @@
 				</table>
 				</form>
 			</div>
+			<div class="col-md-5"></div>
+				<button type="button" id="insert" class="btn btn-success">등록</button>
 		</div>
 	</div>
 </div>

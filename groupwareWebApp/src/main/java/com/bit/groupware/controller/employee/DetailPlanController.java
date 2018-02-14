@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.groupware.domain.employee.PlanVO;
 import com.bit.groupware.service.employee.PlanService;
 
 @Controller
@@ -23,7 +24,9 @@ public class DetailPlanController {
 	public ModelAndView detailPlan(@RequestParam(value="pNo") String pNo) {
 		logger.info("pNo : {} ", pNo);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("plan", planService.retrievePlan(pNo));
+		PlanVO plan = planService.retrievePlan(pNo);
+		plan.setpContent(plan.getpContent().replaceAll("\n", "<br>"));
+		mv.addObject("plan",plan );
 		mv.setViewName("employee/detailPlan");
 		return mv;
 	}
@@ -33,7 +36,9 @@ public class DetailPlanController {
 	public ModelAndView detailPlan2(@RequestParam(value="pNo") String pNo) {
 		logger.info("pNo : {} ", pNo);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("plan", planService.retrievePlan(pNo));
+		PlanVO plan = planService.retrievePlan(pNo);
+		plan.setpContent(plan.getpContent().replaceAll("\n", "<br>"));
+		mv.addObject("plan",plan );
 		mv.setViewName("employee/admin_detailPlan");
 		return mv;
 	}
