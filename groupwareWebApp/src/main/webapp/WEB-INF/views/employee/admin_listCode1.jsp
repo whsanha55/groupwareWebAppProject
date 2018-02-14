@@ -155,21 +155,14 @@
 					} else {
 						for(var i=0; i<data.codes.length;i++) {
 							text += "<tr>";
-							if(data.codes[i].cNo == 'B') {
-								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode3.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
-							} else if (data.codes[i].cNo == 'D') {
-								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode3.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
-							} else {
-								text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode2.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
-							}
-							
+							text += "<td id='cNo'" + i +"><a href=/groupware/admin/listCode2.do?relationCode=" + data.codes[i].cNo + ">" + data.codes[i].cNo + "</td>";
 							text += "<td id='cName'" + i + ">" + data.codes[i].cName + "</td>";
 							text += "<td id='countRelationCode'" + i + ">" + data.codes[i].countRelationCode + "</td>";
 							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-success' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
 							if(data.codes[i].countRelationCode == 0) {
 								text += "<td id='remove'" + i + ">" + "<button class='btn btn-primary removeBtn' value='" + data.codes[i].cNo + "'type='button'>삭제</button></td>";
 							} else {
-								text +="<td></td>"
+								text +="<td><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							}
 							text += "</tr>";
 						}
@@ -203,10 +196,10 @@
 
 					<div>
 						<div class="col-md-6">
-							<div class="col-md-2">
-								<h2>코드목록</h2>
+							<div class="col-md-4">
+								<h2>최상위 코드</h2>
 							</div>
-							<button type="button" id="insert" class="btn btn-success">등록</button>&nbsp;&nbsp;&nbsp;※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
+							※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 						</div>
 						
 						<div>
@@ -253,6 +246,8 @@
 				</table>
 				</form>
 			</div>
+			<div class="col-md-5"></div>
+				<button type="button" id="insert" class="btn btn-success">등록</button>
 		</div>
 	</div>
 </div>

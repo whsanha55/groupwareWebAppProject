@@ -68,8 +68,13 @@ public class AdminListCodeController {
 		map.put("keyfield", "코드번호");
 		map.put("keyword", "코드명");
 		logger.info("map : {}", map);
+		List<CodeVO> codes = codeService.retrieveCodeList2(map);
 		mv.addObject("codes", codeService.retrieveCodeList2(map));
 		mv.addObject("relationCode", relationCode);
+		for(CodeVO code : codes) {
+			String highRelationCode = code.getHighRelationCode();
+			mv.addObject("highRelationCode", highRelationCode);
+		}
 		mv.setViewName("employee/admin_listCode2");
 		return mv;
 	}
@@ -108,8 +113,13 @@ public class AdminListCodeController {
 		map.put("startRow", 1);
 		map.put("endRow", 10);
 		logger.info("map : {}", map);
+		List<CodeVO> codes = codeService.retrieveCodeList2(map);
 		mv.addObject("codes", codeService.retrieveCodeList2(map));
 		mv.addObject("relationCode", relationCode);
+		for(CodeVO code : codes) {
+			String highRelationCode = code.getHighRelationCode();
+			mv.addObject("highRelationCode", highRelationCode);
+		}
 		mv.setViewName("employee/admin_listCode3");
 		return mv;
 	}

@@ -114,7 +114,7 @@
 							</tr>
 							<tr>
 								<th>내용</th>
-								<td id="pContent"><textarea name="pContent" rows="10" style="width: 100%" readonly >${requestScope.plan.pContent }</textarea></td>
+								<td id="pContent"><textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%" readonly >${requestScope.plan.pContent }</textarea></td>
 							</tr>
 							<tr>
 								<th>담당자</th>
