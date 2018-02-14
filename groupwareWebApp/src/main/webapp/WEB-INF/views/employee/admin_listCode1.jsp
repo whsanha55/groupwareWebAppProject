@@ -164,7 +164,7 @@
 							text += "<td id='" + data.codes[i].cNo + "'class='listCode2'>" + data.codes[i].cNo + "</td>";
 							text += "<td id='cName'" + i + ">" + data.codes[i].cName + "</td>";
 							text += "<td id='countRelationCode'" + i + ">" + data.codes[i].countRelationCode + "</td>";
-							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-success' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
+							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-primary' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
 							if(data.codes[i].countRelationCode == 0) {
 								text += "<td id='remove'" + i + ">" + "<button class='btn btn-primary removeBtn' value='" + data.codes[i].cNo + "'type='button'>삭제</button></td>";
 							} else {
@@ -262,7 +262,7 @@
 				</form>
 			</div>
 			<div class="col-md-5"></div>
-				<button type="button" id="insert" class="btn btn-success">등록</button>
+				<button type="button" id="insert" class="btn btn-primary">등록</button>
 		</div>
 	</div>
 </div>
