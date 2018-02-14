@@ -93,6 +93,13 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 		sqlSession.delete(NAMESPACE + ".deleteAutEmp" , map);
 		
 	}
+
+	//권한번호에 해당하는 사번리스트 조회
+	public List<String> selectListAuthEmpNo(String aNo) {
+		return sqlSession.selectList(NAMESPACE + ".selectListAuthEmpNo" ,aNo);
+	}
+	
+
 	
 	
 	

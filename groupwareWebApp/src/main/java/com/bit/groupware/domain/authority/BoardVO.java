@@ -10,7 +10,6 @@ public class BoardVO {
 	private int fileCount; 			//업로드 파일 개수
 	private String isNotice; 		//공지사항 사용 유무
 	private String isComment; 	//코멘트 사용 유무
-	private String isDeptDivide; 	//부서 구분 사용 유무
 	private String isDocuType; 	//문서 종류 사용 유무
 	private List<PostVO> posts = new ArrayList<PostVO>();
 	
@@ -74,9 +73,6 @@ public class BoardVO {
 		this.isComment = isComment;
 	}
 
-	public String getIsDeptDivide() {
-		return isDeptDivide;
-	}
 
 
 
@@ -90,9 +86,6 @@ public class BoardVO {
 	}
 
 
-	public void setIsDeptDivide(String isDeptDivide) {
-		this.isDeptDivide = isDeptDivide;
-	}
 
 	public String getIsDocuType() {
 		return isDocuType;
@@ -106,8 +99,7 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		return "BoardVO [boardNo=" + boardNo + ", boardName=" + boardName + ", isUse=" + isUse + ", fileCount="
-				+ fileCount + ", isNotice=" + isNotice + ", isComment=" + isComment + ", isDeptDivide=" + isDeptDivide
-				+ ", isDocuType=" + isDocuType + ", posts=" + posts + "]";
+				+ fileCount + ", isNotice=" + isNotice + ", isComment=" + isComment  + ", isDocuType=" + isDocuType + ", posts=" + posts + "]";
 	}
 
 
