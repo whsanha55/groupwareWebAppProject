@@ -49,10 +49,10 @@ p {
 	var receiverLineApprCount = 0;
 	var lazyloadList = [];
 
-
 	var pKeyfield = '';
 	var pKeyword;
-
+	var empNos = '${empNos}'
+	
 	//////////////////////////////////// 페이징 처리 ///////////////////////////////////////////////////////////
 
 	function Paging(currentPageNo) {
@@ -322,13 +322,11 @@ $(document).ready(function() {
 				
 				var a= true;
 				
-				$('.empNo').each(function(){
-					if($(this).text() == selectedEmpNo){
-						swal('이미 존재하는 사원입니다.');
-						a = false;
-						return ;	
-					}
-				})
+				if(empNos.indexOf(selectedEmpNo) != -1) {
+					swal('이미 존재하는 사원입니다.');
+					a = false;
+					return ;	
+				}
 				
 				if(a){
 					text += "<tr class='even pointer'>";
