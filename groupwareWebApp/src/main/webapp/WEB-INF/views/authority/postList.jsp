@@ -88,7 +88,7 @@
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
 					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
-							+ data.posts[i].postNo + "&boardName="+boardName+"&boardNo="+no+"&empName=${param.empName}'>"+data.posts[i].postTitle + "</a></td>";
+							+ data.posts[i].postNo + "&boardName="+boardName+"&boardNo="+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}'>"+data.posts[i].postTitle + "</a></td>";
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";
 					text += "</tr>";								
@@ -228,6 +228,8 @@
 						<c:param name="boardNo" value="${param.boardNo}" />
 						<c:param name="boardName" value="${param.boardName}" />
 						<c:param name="empName" value="${param.empName}" />
+						<c:param name="fileCount" value="${param.fileCount}" />
+						<c:param name="isComment" value="${param.isComment}" />
 					</c:url>
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 						
 					</div>

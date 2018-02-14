@@ -189,14 +189,14 @@
 	
 </script>
 <style type="text/css">
-	.box3{width:100px; height:26px; background:#26B99A; text-align:center; line-height:26px; color:#fff; margin-bottom:5px;}
+	.box3{width:100px; height:26px; background:#4aa3ef; text-align:center; line-height:26px; color:#fff; margin-bottom:5px;}
 	.tri{    position: absolute;
     top: 0px;
     left: 110px;
     width: 0px;
     border-top: 13px solid transparent;
     border-bottom: 13px solid transparent;
-    border-left: 15px solid #26B99A;
+    border-left: 15px solid #4aa3ef;
     border-right: 15px solid transparent;
 }
 </style>
@@ -215,7 +215,7 @@
 					<div>
 						<div class="col-md-8">
 								
-								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">[최상위 코드]</a><div class="tri"></div></div>
+								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">최상위 코드</a><div class="tri"></div></div>
 								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 
 						</div>

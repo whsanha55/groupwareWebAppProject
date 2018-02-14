@@ -282,13 +282,13 @@ $(document).ready(function() {
 				</table>
 			</div>
 			<div class="ln_solid"></div>
-
+<c:if test="${param.isComment == 'Y'}">	
 				<table id="datatable"  style="width:100%">
 				  <tbody style='border-bottom: 1px  solid darkgray;'>
                   </tbody >
 
 				</table>
-
+	</c:if>
 			
 
 			<br><br>
