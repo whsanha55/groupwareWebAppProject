@@ -187,7 +187,7 @@
 									  ) {
 								text += "<td id='useable'" + i + ">X</td>"
 							}
-							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-success' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
+							text += "<td id='modify'" + i + ">" + "<button class='modify btn btn-primary' id='" + data.codes[i].cNo + "'type='button'>수정</button></td>";
 							if(data.codes[i].countRelationCode != 0) {
 								text += "<td id='useable'" + i + "><button class='btn btn-primary' type='button' disabled='true'>삭제</button></td>"
 							} else if(data.codes[i].countEmployee != 0) {
@@ -235,25 +235,25 @@
 	
 </script>
 <style type="text/css">
-	.box3{width:100px; display:inline-block; height:26px; background:#26B99A; text-align:center; line-height:26px; color:#fff;}
+	.box3{width:100px; display:inline-block; height:26px; background:#4aa3ef; text-align:center; line-height:26px; color:#fff;}
 	.tri{    position: absolute;
     top: 0px;
     left: 110px;
     width: 0px;
     border-top: 13px solid transparent;
     border-bottom: 13px solid transparent;
-    border-left: 15px solid #26B99A;
+    border-left: 15px solid #4aa3ef;
     border-right: 15px solid transparent;
 }
 
-.box4{width:100px; height:26px;margin-left:10px; margin-bottom:5px; display:inline-block;background:#26B99A; text-align:center; line-height:26px; color:#fff;}
+.box4{width:100px; height:26px;margin-left:10px; margin-bottom:5px; display:inline-block;background:#4aa3efc4; text-align:center; line-height:26px; color:#fff;}
 	.tri2{    position: absolute; 
     top: 0px;
     left: 231px;
     width: 0px;
     border-top: 13px solid transparent;
     border-bottom: 13px solid transparent;
-    border-left: 15px solid #26B99A;
+    border-left: 15px solid #4aa3efc4;
     border-right: 15px solid transparent;
 }
 </style>
@@ -272,9 +272,9 @@
 					<div>
 						<div class="col-md-8">
 								
-								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">[최상위 코드]</a><div class="tri"></div></div>
+								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">최상위 코드</a><div class="tri"></div></div>
 								&nbsp;
-								<div class="box4">[ ${requestScope.superRelationCode } ]<div class="tri2"></div></div>
+								<div class="box4">${requestScope.superRelationCode }<div class="tri2"></div></div>
 								<br>
 								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 
@@ -323,7 +323,7 @@
 				</table>
 			</div>
 			<div class="col-md-5"></div>
-				<button type="button" id="insert" class="btn btn-success">등록</button>
+				<button type="button" id="insert" class="btn btn-primary">등록</button>
 				<c:url var="previousCodeURL" value="/admin/listCode1.do" scope="page" ></c:url>
 				<a id="previous" href="${pageScope.previousCodeURL }"><button type="button" class="btn btn-primary" >이전</button></a>
 		</div>

@@ -91,7 +91,9 @@
 					depEmpNo : "${record.depEmployee.empNo}" ,
 					depEmpName : "${record.depEmployee.empName}" ,
 					depDepartment : "${record.depEmployee.department}" ,
-					depDuty : "${record.depEmployee.duty}"
+					depDuty : "${record.depEmployee.duty}" ,
+					depSignName : "${record.depEmployee.signName}",
+					depSystemSignName : "${record.depEmployee.systemSignName}"
 					});
 			</c:if>
 		</c:forEach>
@@ -101,11 +103,20 @@
 					var thisIndex = $(this).index();
 					var trTemp = $(this).closest('tr');
 					$(this).text(records[i].depDuty);
-					trTemp.next().find('td:nth-child(' + thisIndex + ')').text(records[i].depEmpName+"<대결>");
+					trTemp.next().find('td:nth-child(' + thisIndex + ')').html("<대결><br>" + records[i].depEmpName);
 					trTemp.next().next().find('td:nth-child(' + thisIndex + ')').text(records[i].depDepartment);
+					trTemp.next().next().next().find('td:nth-child(' + thisIndex + ')').attr('src',records[i].depSystemSignName);
 				}
 			}
 		});
+		$('.commentEmp').each(function() {
+			for(var i=0;i<records.length;i++) {
+				if(records[i].lineEmpNo == $(this).attr('id').substr(7)) {
+					$(this).text(records[i].depEmpName);
+				}
+			}
+		});
+		
 		
 		
 		//전결 여부 확인
@@ -283,7 +294,6 @@
 		
 		//결재 반려 또는 승인 
 		function executeApproval(commentContent,apprStatus) {
-			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/executeApprovalAjax.do'
 				,
@@ -292,7 +302,9 @@
 				data: {
 					apprNo : '${requestScope.approval.apprNo}',
 					commentContent: commentContent ,
-					apprStatus : apprStatus 
+					apprStatus : apprStatus ,
+					isDelegation : ${isDelegation},
+					recordNo : ${recordNo}
 				}
 				,
 				datatype : 'json'
@@ -394,7 +406,8 @@
                     	<th rowspan="5" class="" style="width:60px; height:35px;background-color:#4a6075;text-align:center">결재</th>
                         <c:forEach var="line" items="${requestScope.receiverLine}" >
                            <c:if test="${ line.apprType == 0}">
-                              <th class="apprLineAppr" style="width:110px; height:35px; text-align:center; background-color:#4a6075;">
+                              <th class="apprLineAppr" id="${line.lineEmployee.empNo }"
+                              	style="width:110px; height:35px; text-align:center; background-color:#4a6075;">
                               ${pageScope.line.lineEmployee.duty }</th>
                      	   </c:if>
                         </c:forEach>
@@ -510,9 +523,11 @@
                <c:forEach var="record" items="${requestScope.approval.approvalRecords}" >
 	                <c:if test="${record.approvalComment != null }">
 	                  <tr class="even pointer">
-	                    <td class=" ">${record.receiverLine.lineEmployee.empName}</td>
+	                    <td class="commentEmp" id='comment${record.receiverLine.lineEmployee.empNo }'>
+	                    	${record.receiverLine.lineEmployee.empName}
+	                    </td>
 						<td class=" ">${record.approvalComment.commentContent }</td>
-	                    <td class=" ">${record.approvalComment.commentDate }</td>
+	                    <td class="">${record.approvalComment.commentDate }</td>
 	                  </tr>
 	                </c:if>
                 </c:forEach>

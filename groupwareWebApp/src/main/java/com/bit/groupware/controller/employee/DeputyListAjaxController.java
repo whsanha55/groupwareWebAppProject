@@ -36,6 +36,7 @@ public class DeputyListAjaxController {
 	public Map<String, Object> form(
 						@RequestParam(required=false) String keyfield,
 						@RequestParam(required=false) String keyword,
+						@RequestParam(required=false) String keyword1,
 						@RequestParam int startRow,
 						@RequestParam int endRow
 						) {
@@ -45,6 +46,7 @@ public class DeputyListAjaxController {
 		UserVO user = (UserVO)authentication.getPrincipal();
 		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
+		map.put("keyword1", keyword1);
 		map.put("empNo", user.getUsername());
 		int totalCount = employeeService.retrieveDeputyListCount(map);
 		if(totalCount < endRow) {

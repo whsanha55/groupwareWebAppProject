@@ -18,8 +18,7 @@
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a href='<c:url value="/admin/approval.do"/>'><i class="fa fa-chevron-circle-down fa-5x"
-							aria-hidden="true"></i>
+						<a href='<c:url value="/admin/approval.do"/>'><img alt="결재" src="${pageContext.request.contextPath}/resources/images/icon6.png">
 					</dt>
 					<dd>
 						<h2 class="text-center">
@@ -34,7 +33,7 @@
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a href='<c:url value="/admin/template.do"/>'><i class="fa fa-briefcase fa-5x" aria-hidden="true"></i>
+						<a href='<c:url value="/admin/template.do"/>'><img alt="양식" src="${pageContext.request.contextPath}/resources/images/icon2.png">
 					</dt>
 					<dd>
 						<h2 class="text-center">
@@ -48,11 +47,11 @@
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a href='<c:url value="/admin/listCode1.do"/>'><i class="fa fa-smile-o fa-5x" aria-hidden="true"></i>
+						<a href='<c:url value="/admin/listCode1.do"/>'><img alt="부서" src="${pageContext.request.contextPath}/resources/images/icon8.png">
 					</dt>
 					<dd>
 						<h2 class="text-center">
-							<a href='<c:url value="/admin/listCode1.do"/>'><strong>코드</strong></a>
+							<a href='<c:url value="/admin/listCode1.do"/>'><strong>부서</strong></a>
 						</h2>
 					</dd>
 				</dl>
@@ -62,7 +61,7 @@
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a href='<c:url value="/admin/listPlan.do"/>'><i class="fa fa-comments-o fa-5x" aria-hidden="true"></i>
+						<a href='<c:url value="/admin/listPlan.do"/>'><img alt="일정" src="${pageContext.request.contextPath}/resources/images/icon5.png"></i>
 					</dt>
 					<dd>
 						<h2 class="text-center">
@@ -76,7 +75,7 @@
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a href='<c:url value="/admin/listEmployee.do"/>'><i class="fa fa-picture-o fa-5x" aria-hidden="true"></i></a>
+						<a href='<c:url value="/admin/listEmployee.do"/>'><img alt="사원" src="${pageContext.request.contextPath}/resources/images/icon1.png" ></a>
 					</dt>
 					<dd>
 						<h2 class="text-center">
@@ -91,7 +90,7 @@
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a href='<c:url value="/admin/noticeList.do"/>'><i class="fa fa-file-text fa-5x" aria-hidden="true"></i></a>
+						<a href='<c:url value="/admin/noticeList.do"/>'><img alt="공지사항" src="${pageContext.request.contextPath}/resources/images/icon4.png"></a>
 					</dt>
 					<dd>
 						<h2 class="text-center">
@@ -99,6 +98,11 @@
 						</h2>
 					</dd>
 				</dl>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<img alt="admin" src="${pageContext.request.contextPath}/resources/images/admin.jpg" width=100%; height=100%;/>
 			</div>
 		</div>
 
