@@ -596,8 +596,8 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" width="250px" height="250px" 
-									src="" class="img-responsive center-block"/>
+									<img id="photo" style='width:250px;height:250px;' 
+									src="" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
