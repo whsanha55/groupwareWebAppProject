@@ -503,7 +503,7 @@
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div class="col-md-7">
+						<div class="col-md-8">
 							<div class="col-md-2">
 								<h2>사원명부</h2>
 							</div>
@@ -512,7 +512,7 @@
 								등록하기
 							</button>
 						</div>
-						<div class="col-md-3 col-xs-offset-2">
+						<div>
 							<div class="input-group">
 								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle"
@@ -537,7 +537,7 @@
 										</li>
 									</ul>
 								</div>
-								<input type="text" class="form-control keyword" placeholder="검색어">
+								<input type="text" class="form-control keyword" placeholder="검색어" >
 								<span class="input-group-btn">
 									<button class="btn btn-default" id="findEmployee" type="button">
 										<span class="glyphicon glyphicon-search"></span>
@@ -545,17 +545,17 @@
 								</span>
 							</div>
 						</div>
-						<table id="datatable" class="table table-striped table-bordered">
+						<table id="datatable" class="table table-striped jambo_table bulk_action" style="text-align:center;">
 							<thead>
 								<tr>
-									<th>사번</th>
-									<th>이름</th>
-									<th>직책</th>
-									<th>부서</th>
-									<th>연락처</th>
-									<th>입사일자</th>
-									<th>이메일</th>
-									<th>퇴사여부</th>
+									<th id="1" class="text-center">사번</th>
+									<th id="2" class="text-center">이름</th>
+									<th id="3" class="text-center">직책</th>
+									<th id="4" class="text-center">부서</th>
+									<th id="5" class="text-center">연락처</th>
+									<th id="6" class="text-center">입사일자</th>
+									<th id="7" class="text-center">이메일</th>
+									<th id="8" class="text-center">퇴사여부</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -563,6 +563,7 @@
 							</tbody>
 						</table>
 					</div>
+					<div class="col-md-5"></div>
 					<nav aria-label="Page navigation" id = 'employeePaging'>
 				
 					</nav>
@@ -595,30 +596,37 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" width="250px" height="250px" 
-									src="" class="img-responsive center-block"/>
+									<img id="photo" style='width:200px;height:250px;' 
+									src="" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
 								</div>
 							</div>
-						</div>						
-						<br> <br> <br>
-						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
+						</div>
+						<table class="table table-striped table-bordered" style="width:350px;height:250px;">
 							<tbody>
 								<tr>
-									<th colspan='1'>사번</th>
-									<td colspan='5'><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
-										readonly readonly value=""></td>
+									<th>사번</th>
+									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
+										readonly readonly value="" style="width:200px;"></td>
 								</tr>
 								<tr>
 									<th>이름</th>
-									<td colspan='2'><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value="" style="width:100px;"></td>
-									<th>영문이름</th>
-									<td colspan='2'><input id="modEngName" name="engName" type="text" class="form-control"
-										value="" style="width:100px;"></td>
+									<td><input id="modEmpName" name="empName" type="text" class="form-control"
+										required="required" value="" style="width:200px;"></td>
 								</tr>
+								<tr>
+									<th>영문이름</th>
+									<td><input id="modEngName" name="engName" type="text" class="form-control"
+										value="" style="width:200px;"></td>
+								</tr>
+							</tbody>
+						</table>						
+						<br> <br> <br>
+						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
+							<tbody>
+								
 								<tr>
 									<th>직책</th>
 									<td colspan='2'><div>
