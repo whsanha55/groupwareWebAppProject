@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bit.groupware.domain.authority.PostFileVO;
 import com.bit.groupware.domain.authority.PostVO;
@@ -43,8 +44,11 @@ public class ModifyPostController {
 	//게시글 수정 요청
 	@RequestMapping(value = "/modifyPost.do", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("post") PostVO post, 
-		SessionStatus status, HttpSession session) throws Exception {
-		logger.info("수정2@@@@@@@@@@@@@@@ : {}", post);
+		SessionStatus status, HttpSession session, RedirectAttributes redirectAttributes,
+		@RequestParam(value="boardName", required = true) String boardName,
+		@RequestParam(value="boardNo", required = true) int boardNo,
+		@RequestParam(value="empName", required = true) String empName) throws Exception {
+		logger.info("수정2@@@@@@@@@@@@@@@ : {}", boardNo);
 		post.getPostFiles().clear();
 		List<MultipartFile> uploadFiles = post.getUpload();
 		ServletContext context = session.getServletContext();
@@ -56,6 +60,9 @@ public class ModifyPostController {
 		}
 		postService.modifyPost(post);
 		status.setComplete();
+		redirectAttributes.addAttribute("boardName", boardName);
+		redirectAttributes.addAttribute("boardNo", boardNo);
+		redirectAttributes.addAttribute("empName", empName);		
 		return "redirect:/detailPost.do?postNo=" + post.getPostNo();
 		
 	}	

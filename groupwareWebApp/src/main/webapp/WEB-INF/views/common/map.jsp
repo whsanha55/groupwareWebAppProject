@@ -379,7 +379,7 @@ map_wrap {overflow:hidden;height:330px}
 			// 마커에 클릭이벤트를 등록합니다
 				daum.maps.event.addListener(marker, 'click', function() {
 					// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-				    infowindow.setContent('<div style="text-align:center;padding:5px;font-size:12px;color:black;">' + place.place_name + '<br><a href="http://map.daum.net/link/to/목적지,'+ place.y  +','+ place.x +'"style="color:blue" target="_blank">길찾기</a></div>');
+				    infowindow.setContent('<div style="text-align:center;padding:5px;font-size:12px;color:black;"><a href="http://map.daum.net/link/to/목적지,'+ place.y  +','+ place.x +'"style="color:blue" target="_blank">' + place.place_name + '</a></div>');
 				    infowindow.open(map, marker);
 				    selectedDest = place.place_name;
 				    selectedLat = place.y;

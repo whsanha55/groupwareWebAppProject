@@ -23,6 +23,9 @@
 		float : right;
 		margin-right : 20px;
 	}
+	#templatePaging li {
+		cursor : pointer;
+	}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
@@ -227,7 +230,7 @@
 
 						text += "<tr ><td>"+ data.approvals[i].apprNo + "</td>";
 						if(data.approvals[i].template ==null){
-							text += "<td>직접작성</td>";														
+							text += "<td>기타</td>";														
 						}else{
 							text += "<td>"+ data.approvals[i].template.tmpName + "</td>";							
 						}
