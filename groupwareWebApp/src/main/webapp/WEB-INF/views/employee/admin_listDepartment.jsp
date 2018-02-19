@@ -8,6 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
+<style>
+	#modalBtn , .click {
+		cursor: pointer;
+	}
+</style>
 	<script>
 		var eKeyfield;				
 		var eKeyword;
@@ -82,13 +87,13 @@
 							text += '<tr>';
 							text += '<td id="check'+ i +'">'+ data.departments[i].cNo		 									 			+'</td>';
 							text += '<td><a id="modalBtn" data-toggle="modal" data-target="#myModal">'+ data.departments[i].cName	 	 					+'</a></td>';
-							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" data-toggle="modal">'+ data.departments[i].headDept 	+'</td>';
+							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" class="click" data-toggle="modal">'+ data.departments[i].headDept 	+'</a></td>';
 							text += '<td>'+ data.departments[i].phoneNumber												+'</td>';
 							text += '<td>'+ data.departments[i].memberCount 											+'</td>';
 							text += '<td>'+ data.departments[i].teamCount 												+'</td>';
 							text += '</tr>';
 							
-							$('tbody').on('click','#searchEmp' + i, function() {
+							$('#tbody1').on('click','#searchEmp' + i, function() {
 								$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
 								$('#layerpop').modal({
 									backdrop: 'static', 
@@ -124,40 +129,42 @@
 							});
 						});
 						
-						$('tbody').on('click','#modalBtn',function(){
+						$('#tbody1').on('click','#modalBtn',function() {
+					
 							$.ajax ({
 								url: '${pageContext.request.contextPath}/admin/deptMemberListAjax.do'
 									,
-									data: {
-										cNo : $(this).parent().parent().find('td:nth-child(1)').text();
+								data: {
+									cNo : $(this).parent().parent().find('td:nth-child(1)').text()
+								}
+								,
+								type: 'POST' 
+								,
+								cache: false 
+								,
+								dataType: 'json' 
+								,
+								success: function (data) {
+									var txt = "";
+									for(var i = 0; i<data.length;i++) {
+										txt += '<tr>';
+										txt += '<td>' + data[i].empNo + '</td>';
+										txt += '<td>' + data[i].empName + '</td>';
+										txt += '<td>' + data[i].duty + '</td>';
+										txt += '<td>' + data[i].hireDate + '</td>';
+										txt += '<td>' + data[i].department + '</td>';
+										txt += '</tr>';
 									}
-									,
-									type: 'POST' 
-									,
-									cache: false 
-									,
-									dataType: 'json' 
-									,
-									success: function (data) {
-										var txt = "";
-										for(var i = 0; i<data.length;i++) {
-											txt += '<tr>';
-											txt += '<td>' + data[i].empNo + '</td>';
-											txt += '<td>' + data[i].empName + '</td>';
-											txt += '<td>' + data[i].duty + '</td>';
-											txt += '<td>' + data[i].hiredate + '</td>';
-											txt += '<td>' + data[i].department + '</td>';
-											txt += '</tr>';
-										}										
-									}
-									,
-									error: function(jqXHR) {
-										alert("에러: " + jqXHR.status);
-									}	
+									$('#datatable2').find('#tbody2').html(txt);
+								}
+								,
+								error: function(jqXHR) {
+									alert("에러: " + jqXHR.status);
+								}
 							});
 						});
 					}
-					$('#datatable').find('tbody').html(text);
+					$('#datatable').find('#tbody1').html(text);
 				} 
 				,
 				error: function(jqXHR) {
@@ -225,7 +232,7 @@
 							<th id="6" class="text-center">부서별 팀 수</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tbody1">
 			
 					</tbody>
 				</table>
@@ -260,20 +267,18 @@
 				<div class="modal-body">
 					<div>
 						<table id="datatable2" class="table table-striped table-bordered">
-							<tr>
-								<th>사번</th>
-								<th>이름</th>
-								<th>직책</th>
-								<th>입사일</th>
-								<th>소속부서</th>
-							</tr>
-							<tr>
-								<td>사번</td>
-								<td>이름</td>
-								<td>직책</td>
-								<td>입사일</td>
-								<td>소속부서</td>
-							</tr>
+							<thead>
+								<tr id="deptEmpListTR">
+									<th>사번</th>
+									<th>이름</th>
+									<th>직책</th>
+									<th>입사일</th>
+									<th>소속부서</th>
+								</tr>
+							</thead>
+							<tbody id="tbody2">
+								
+							</tbody>
 						</table>
 						<br>
 						<div class="text-center">

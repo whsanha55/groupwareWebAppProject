@@ -7,6 +7,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<style>
+	.current-page a{
+		    text-shadow: 1px 0px;
+	}
+</style>
 <script>
 	$(document).ready(function(){
 		$.ajax({
