@@ -9,6 +9,9 @@
 <title>대결권자 등록</title>
 <style>
 .pagination {align:center};
+.current-page a{
+	background-color:#5a69798a;
+}
 </style>
   <link href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.min.css" />
