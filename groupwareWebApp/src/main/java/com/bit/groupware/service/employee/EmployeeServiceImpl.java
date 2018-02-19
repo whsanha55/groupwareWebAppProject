@@ -170,6 +170,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		map.put("teamCount", departmentDAO.selectDeptTeam(cNo));
 		return map;
 	}
+	
+	public List<EmployeeVO> retrieveMemberDetail(String cNo) {
+		return departmentDAO.selectDeptEmpDetail(cNo);
+	}
 
 	public void modifyHead(Map<String, Object> map) {
 		departmentDAO.retireHead((String)map.get("oldHead"));

@@ -61,7 +61,6 @@
 				}
 			});
 			
-			alert($(this).val());
 			function removePlan(pNo) {	
 				$.ajax({
 					url: '${pageContext.request.contextPath}/admin/removePlan.do'
@@ -186,7 +185,7 @@
 												
 											centerMarker.setMap(map);
 								
-											var iwContent = '<div style="padding:5px;text-align:center;color:red">${requestScope.plan.destination} &nbsp; <a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" style="color:blue" target="_blank">길찾기</a></div>',
+											var iwContent = '<div style="padding:5px;text-align:center;color:red"><a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" target="_blank">${requestScope.plan.destination}</a></div>',
 												iwRemoveable = true;
 												
 											var infowindow = new daum.maps.InfoWindow({

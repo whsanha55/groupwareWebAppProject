@@ -454,7 +454,7 @@
                       					</c:when>
                       					<c:otherwise>
                       						<img class="delegation${record.isDelegation }" 
-			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/대표이미지.png" 
+			                       				src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/도장기본.png" 
 			                       				style="height:65px; width:65px;">
                       					</c:otherwise>
                       				</c:choose>

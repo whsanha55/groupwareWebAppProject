@@ -67,8 +67,7 @@ public class AdminRegisterEmployeeController {
 				employee.addPhoto(photo);
 			}
 		}
-		String encodedPassword = passwordEncoder.encode(employee.getEmpPwd());
-		employee.setEmpPwd(encodedPassword);
+		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
 		employeeService.registerEmployee(employee);
 		return "redirect:/admin/listEmployee.do";
 	}

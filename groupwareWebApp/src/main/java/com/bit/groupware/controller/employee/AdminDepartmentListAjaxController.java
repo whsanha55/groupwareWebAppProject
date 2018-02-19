@@ -66,4 +66,11 @@ public class AdminDepartmentListAjaxController {
 		map.put("departments", departments);
 		return map;
 	}
+	
+	@RequestMapping(value="/admin/deptMemberListAjax.do", method=RequestMethod.POST)
+	@ResponseBody
+	public List<EmployeeVO> retrieveMemberController(@RequestParam("cNo")String cNo) {
+		logger.info("return value : {}", employeeService.retrieveMemberDetail(cNo));
+		return employeeService.retrieveMemberDetail(cNo);
+	}
 }
