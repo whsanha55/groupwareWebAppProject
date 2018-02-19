@@ -329,7 +329,7 @@
 								text += "<td id='endDate'>"+ data.deputies[i].endDate +"</td>";
 								text += "<td>"+ data.deputies[i].progression +"</td>";
 								text += "<td>"+ data.deputies[i].depReason +"</td>";
-								text += "<td><button id='stopUse' type='button'>사용중단</button><button id='candep' type='button'>취소</button></td>";
+								text += "<td><button id='stopUse' type='button' class='btn btn-default'>사용중단</button><button id='candep' type='button' class='btn btn-default'>취소</button></td>";
 								text += "</tr>";
 							}
 						}
@@ -468,7 +468,7 @@
 									<option value="empName">이름</option>
 									<option value="date">기간</option>
 								</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
-								<button id="btn3" type="button">검색</button>
+								<button id="btn3" type="button" class="btn btn-primary btn-sm">검색</button>
 								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
 					</div>
