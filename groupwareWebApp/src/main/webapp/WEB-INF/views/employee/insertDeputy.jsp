@@ -9,46 +9,177 @@
 <title>대결권자 등록</title>
 <style>
 .pagination {align:center};
+.current-page a{
+	background-color:#5a69798a;
+}
 </style>
+  <link href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.min.css" />
+  <script src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.js"></script>
+  <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/ko.js"></script> --%>
+
 <script>
 	var eKeyfield;
 	var eKeyword;
+	var eKeyword1;
 	
+	 $.datepicker.setDefaults({
+		    dateFormat: 'yy-mm',
+		    prevText: '이전 달',
+		    nextText: '다음 달',
+		    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+		    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+		    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+		    showMonthAfterYear: true,
+		    yearSuffix: '년'
+		  });
+	 
 	$(document).ready(function () {		
 
 		employeePaging1(1);
 		
-		//검색조건
-		$('.searchList2 .dropdown-menu').on('click','a',function(e) {
-			e.preventDefault();
-			$('.keyfield1').text($(this).text());
-			$('.keyfield1').attr('id',$(this).attr('id'));
-			console.log($(this).attr('id'));
+		$('#startDate1').datetimepicker({
+			format : "YYYY/MM/DD HH:00",		
+			defaultDate : new Date().setHours(00) 
+
+			
 		});
+		$('#endDate1').datetimepicker({
+			format : "YYYY/MM/DD HH:00",	 
+			defaultDate : new Date().setHours(00)
+
+		});
+		
+		
+		//검색창 타입 바꾸기
+		 $('.keyfield1').on("change",function(){
+			if($(this).val()=='date'){
+				$(this).next().attr('placeholder','기간을 선택하세요');
+				
+				$(this).next().after("<b id=temp>~</b> ")
+				$(this).next().next().after("<input type=text id=pKeyword1 placeholder='기간을 선택하세요'>")
+				
+				$("#pKeyword").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'              
+		        });
+				$('#pKeyword').datepicker("option", "maxDate", $("#pKeyword1").val());
+			    $('#pKeyword').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword1").datepicker( "option", "minDate", selectedDate );
+			    });
+				
+				$("#pKeyword1").datepicker({
+		            dateFormat: 'yy년 mm월 dd일'  
+		        });
+				$('#pKeyword1').datepicker("option", "minDate", $("#pKeyword").val());
+			    $('#pKeyword1').datepicker("option", "onClose", function ( selectedDate ) {
+			        $("#pKeyword").datepicker( "option", "maxDate", selectedDate );
+			    });
+				
+				console.log($('form').html());
+			} else{
+				$(this).next().attr('placeholder','검색어를 입력하세요');
+				$('#pKeyword').datepicker("destroy");
+				$('#pKeyword').val('');
+				$('#pKeyword1').remove();
+				$('#temp').remove();
+
+				console.log($('form').html());
+				
+				//$("input[name=pKeyword]").autocomplete('option','source',
+				//[ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]);
+				var url = ''; 
+				switch ($(this).val()) {
+					case 'empName':
+						url = 'retrieveEmployeeNameAndDutyList.do';
+						break;
+					case 'department':
+						url = 'retrieveDepartmentList.do';
+						break;
+					default :
+						break;
+				}
+				
+				$.ajax({
+					 url : '${pageContext.request.contextPath}/' + url ,
+					 cache : false ,
+					 type : 'GET' ,
+					 datatype : 'json' ,
+					 success : function(data) {
+						 $("input[name=pKeyword]").autocomplete('option','source',data);
+					 } ,
+					 error : function(jqXHR) {
+							alert(jqXHR.status);
+							console.log(jqXHR);
+					 }
+					 
+				});	
+					 
+					
+			}
+			
+			
+			 
+		 });
+		
+		 $("input[name=pKeyword]").autocomplete({
+				focus : function() {
+					return false;
+				}
+		 });
+		 
+	
 		
 		
 		//검색조건 엔터키 눌렀을때 트리거 발동
-		$('#keyword1').on('keydown', function(e) {
+		$('#pKeyword').on('keydown', function(e) {
 			if(e.keyCode == 13){
-				$('#findEmployee1').trigger('click');
+				e.preventDefault();
+				$('#btn3').trigger('click');
 	        }
 		});
 		
+		
 		// 검색 실행
-		$('#findEmployee1').on('click', function() {
-			if($('.keyfield1').attr('id') == undefined) {
-				alert("choose keyfield");
-				return false;
-			} else if($('.keyword1').val() == "") {
-				alert("enter keyword");
-				return false;
-			}
-	
-			eKeyfield = $('.keyfield1').attr('id');
-			eKeyword = $('.keyword1').val();
-
-			employeePaging1(1);
-		});
+		$("#btn3").on("click",function(){
+			eKeyfield=$('#pKeyfield').val();
+			 if(pKeyfield=='date'){ 
+				 eKeyword=convertDate($('#pKeyword').datepicker('getDate'));
+				 eKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
+			 }else{
+				 eKeyword=$('#pKeyword').val();
+			 }
+			 
+			 function pad(num) {
+			        num = num + '';
+			        return num.length < 2 ? '0' + num : num;
+		     }
+			   
+			 function convertDate(date) {
+			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
+			 }
+			 
+	 			if(eKeyfield != "date" && eKeyword == "") { 			
+					swal("검색어를 입력해주세요.", "");
+					return; 				
+				}
+	 			if(eKeyfield == "date" ){
+		 			if( pKeyword == "" || eKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "");
+						return;
+		 			}  
+	 			}
+			 
+			 employeePaging1(1);
+		 });
+		
+		//검색후 다시 리스트로
+		$('#return').click(function(){
+			location.href="${pageContext.request.contextPath}/registerDeputy.do";
+		});	
 		
 		$('#searchEmp').click(function() {
 			$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
@@ -134,11 +265,13 @@
 			})
 		});
 		
+		//대결 등록
 		$('#submitBtn').click(function(e) {
 			var startDate = $( "input[name='startDate']" ).val();
-			var startDateArr = startDate.split('-');
-		         
 			var endDate = $( "input[name='endDate']" ).val();
+		     
+			
+			/* var startDateArr = startDate.split('-');
 			var endDateArr = endDate.split('-');
 		                 
 			var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
@@ -147,7 +280,7 @@
 			if(startDateCompare.getTime() > endDateCompare.getTime()) {        
 		    	e.preventDefault();
 				alert("시작날짜와 종료날짜를 확인해 주세요.");
-			}
+			} */
 		});
 		
 	});
@@ -165,6 +298,7 @@
 				data: {
 					keyfield: eKeyfield ,
 					keyword: eKeyword ,	
+					keyword1: eKeyword1 ,	
 					startRow : startRow ,
 					endRow : endRow
 				}
@@ -301,10 +435,10 @@
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="ex3">기간지정 :</label> 
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
-							<input type="date" id="startDate" class="form-control" name="startDate"
+							<input type="text" id="startDate1" class="form-control" name="startDate"
 									required="required" style="width:250px;">&nbsp;&nbsp;&nbsp;
 									~&nbsp;&nbsp;&nbsp;
-							<input type="date" id="endDate"	class="form-control" name="endDate"
+							<input type="text" id="endDate1"	class="form-control" name="endDate"
 									required="required" style="width:250px;">
 						</div>
 					</div>
@@ -326,40 +460,20 @@
 					<div class="ln_solid"></div>
 					
 					<div class="col-md-3">
-						<div class="input-group">
-							<div class="input-group-btn searchList2">
-								<button class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" type="button">
-									<span class="keyfield1">검색조건</span><span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li>
-										<a id="dempNo" role="menuitem">사원번호</a>
-									</li>
-									<li>
-										<a id="duty" role="menuitem">직책</a>
-									</li>
-									<li>
-										<a id="empName" role="menuitem">이름</a>
-									</li>
-									<li>
-										<a id="startDate" role="menuitem">시작일</a>
-									</li>
-									<li>
-										<a id="endDate" role="menuitem">종료일</a>
-									</li>
-								</ul>
-							</div>
-							<input type="keyword1" class="form-control keyword1" placeholder="검색어">
-							<span class="input-group-btn">
-								<button class="btn btn-default" id="findEmployee1" type="button">
-									<span class="glyphicon glyphicon-search"></span>
-								</button>
-							</span>
+						<div class="input-group">  
+							<div class="searchList2" style="width:700px;">
+								<select class="keyfield1" name="pKeyfield" style="height:25px;" >
+									<option value="dempNo">사원번호</option>
+									<option value="duty">직책</option>
+									<option value="empName">이름</option>
+									<option value="date">기간</option>
+								</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
+								<button id="btn3" type="button">검색</button>
+								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
 					</div>
 						
-					<table id="datatable" class="table table-striped table-bordered">
+					<table id="datatable" class="table table-striped table-bordered" style="width:1202px;">
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>
@@ -376,9 +490,11 @@
 							
 						</tbody>
 					</table>
-					<nav aria-label="Page navigation" id='employeePaging1'>
+					<div class="text-center">
+				 		<nav aria-label="Page navigation" id = 'employeePaging1'>
 				
-					</nav>
+						</nav> 
+						</div>
 				</form>
 			</div>
 		</div>

@@ -12,6 +12,9 @@
 	.modal-dialog {
 		width:670px;
 	}
+	#employeePaging li , #submitEmpNo{
+		cursor: pointer;
+	}
 </style>
 <script>
 	var eKeyfield;
@@ -133,6 +136,8 @@
 			$('#email2').attr('readonly', false);
 			$('select[name=emailaddr]').attr('disabled', false);
 			$('#moddetailAddress').attr('readonly', false);
+			$('#deptBtn').attr('disabled', false);
+			$('#dutyBtn').attr('disabled', false);
 			
 			$(this).remove();
 			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button>");
@@ -361,6 +366,8 @@
 						$('#email2').attr('readonly', true);
 						$('select[name=emailaddr]').attr('disabled', true);
 						$('#moddetailAddress').attr('readonly', true);
+						$('#dutyBtn').attr('disabled',true);
+						$('#deptBtn').attr('disabled',true);
 						
 						if($('#modifyBtn').length > 0) {
 							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
@@ -596,30 +603,37 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" width="250px" height="250px" 
-									src="" class="img-responsive center-block"/>
+									<img id="photo" style='width:200px;height:250px;' 
+									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
 								</div>
 							</div>
-						</div>						
-						<br> <br> <br>
-						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
+						</div>
+						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:250px;">
 							<tbody>
 								<tr>
-									<th colspan='1'>사번</th>
-									<td colspan='5'><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
-										readonly readonly value=""></td>
+									<th class='text-center'>사번</th>
+									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
+										readonly value="" style="width:200px;"></td>
 								</tr>
 								<tr>
 									<th>이름</th>
-									<td colspan='2'><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value="" style="width:100px;"></td>
-									<th>영문이름</th>
-									<td colspan='2'><input id="modEngName" name="engName" type="text" class="form-control"
-										value="" style="width:100px;"></td>
+									<td><input id="modEmpName" name="empName" type="text" class="form-control"
+										required="required" value="" style="width:200px;"></td>
 								</tr>
+								<tr>
+									<th>영문이름</th>
+									<td><input id="modEngName" name="engName" type="text" class="form-control"
+										value="" style="width:200px;"></td>
+								</tr>
+							</tbody>
+						</table>						
+						<br> <br> <br>
+						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
+							<tbody>
+								
 								<tr>
 									<th>직책</th>
 									<td colspan='2'><div>
@@ -627,7 +641,7 @@
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
-															class="btn btn-default dropdown-toggle"
+															class="btn btn-default dropdown-toggle btn-sm"
 															data-toggle="dropdown">
 															<span id="search_concept" class="preDuty" >직책</span><span class="caret"></span>
 														</button>
@@ -647,12 +661,12 @@
 											<div class="col-xs-2 col-xs-offset-2">
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
-														<button id="deptBtn" type="button"
-															class="btn btn-default dropdown-toggle"
+														<button id="deptBtn" type="button" 
+															class="btn btn-default dropdown-toggle btn-sm"
 															data-toggle="dropdown">
 															<span id="search_concept" class="preDept">부서</span> <span class="caret"></span>
 														</button>
-														<ul id="deptBtnList" class="dropdown-menu" role="menu">
+														<ul id="deptBtnList" class="dropdown-menu" role="menu" >
 															<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 																<li role="presentation">
 																	<a role="menuitem" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>

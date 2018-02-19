@@ -137,21 +137,25 @@
    
    	<select id="selectNewRecordCount" statementType="PREPARED" parameterType="String" resultType="int">
 		select nvl(count(*),0)
-		from approval_record t1, receiver_line t2
+		from approval_record t1, receiver_line t2, approval t3
 		where t1.line_no = t2.line_no
+		and t1.appr_no = t3.appr_no
 		and ((t2.LINE_EMP_NO = #{empNo} and t1.dep_emp_no is null)
 			 or t1.dep_emp_no = #{empNo}) 
 		and t1.check_date is null
 		and t1.appr_status ='C-02-00'
+		and t3.appr_final_status != 'C-01-05'
 		
 		union all
 		
 		select nvl(count(*),0)
-		from approval_record t1, receiver_line t2
+		from approval_record t1, receiver_line t2, approval t3
 		where t1.line_no = t2.line_no
+		and t1.appr_no = t3.appr_no
 		and t2.LINE_EMP_NO = #{empNo}
 		and t1.check_date is null
 		and t1.appr_status ='C-02-06'
+		and t3.appr_final_status != 'C-01-05'
 		
 		
 	</select>

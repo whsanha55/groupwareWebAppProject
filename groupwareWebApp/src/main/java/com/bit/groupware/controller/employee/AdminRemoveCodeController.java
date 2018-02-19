@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.bit.groupware.domain.employee.CodeVO;
@@ -38,9 +39,10 @@ public class AdminRemoveCodeController {
 	
 	//최하위 코드 삭제 요청
 	@RequestMapping(value="/admin/removeCode3.do")
+	@ResponseBody
 	public String submit3(@ModelAttribute("code")CodeVO code) {
 		logger.info("code : {}", code);
 		codeService.removeCode(code.getcNo());
-		return "redirect:/admin/listCode3.do?relationCode=" + code.getRelationCode();
+		return null;
 	}
 }

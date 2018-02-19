@@ -13,6 +13,9 @@
 	a:link {color:blue;}
  	a:hover{color:gold;}
 	a:visited{color:purple;}
+	.listCode3 {
+		cursor : pointer;	
+	}
 </style>
 <script>
 	var eKeyfield;
@@ -33,6 +36,10 @@
 			if(e.keyCode == 13){
 				$('#findCode').trigger('click');
 	        }
+		});
+		
+		$('#listCode1').click(function(){
+			location.href = '${pageContext.request.contextPath}/admin/listCode1.do';
 		});
 		
 		//하위 코드로 이동		
@@ -272,9 +279,9 @@
 					<div>
 						<div class="col-md-8">
 								
-								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">최상위 코드</a><div class="tri"></div></div>
+								<div id="listCode1" class="box3">최상위 코드<div class="tri"></div></div>
 								&nbsp;
-								<div class="box4">${requestScope.superRelationCode }<div class="tri2"></div></div>
+								<div id="listCode2" class="box4">${requestScope.superRelationCode }<div class="tri2"></div></div>
 								<br>
 								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 

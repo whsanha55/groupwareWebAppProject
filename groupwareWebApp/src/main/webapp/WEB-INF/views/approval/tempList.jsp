@@ -13,7 +13,9 @@
 	
 	table { table-layout:fixed; }
 
-	
+	#templatePaging li {
+		cursor : pointer;
+	}
 </style>
 <script>
 
