@@ -17,6 +17,11 @@
 	#templatePaging li {
 		cursor : pointer;
 	}
+	
+	.detailApproval, .currentRecord {
+		cursor : pointer;
+	}
+	
 </style>
 
 <link
