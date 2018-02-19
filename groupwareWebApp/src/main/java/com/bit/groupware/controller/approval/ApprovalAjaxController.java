@@ -57,7 +57,6 @@ public class ApprovalAjaxController {
 			HttpSession session, 
 			Principal principal) throws Exception {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
-		System.out.println(session.getServletContext().getRealPath("/") +"zzzzzzzzzzzzzzzzzzz");
 		
 		List<Integer> apprNos =new ArrayList<Integer>();
 		apprNos.add(deleteAppr); 

@@ -458,7 +458,7 @@ $(document).ready(function() {
 
 				<div class="clearfix"></div>
 			</div>
-			권한번호 : ${param.aNo} 권한명 : ${param.aName}
+			<h2>권한명 : ${param.aName}</h2>
 			<div class="container">
 				<div class="row">
 

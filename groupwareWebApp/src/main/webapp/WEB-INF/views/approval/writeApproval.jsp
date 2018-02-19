@@ -78,7 +78,6 @@
 					receiverNo : receiverNo
 				} ,
 				success : function(data) {
-					console.log(data);
 					var textApprEmpName = "";
 					var textApprDuty = "<th rowspan='2'>결재</th>";
 					var textRefEmpName = "";
@@ -344,14 +343,27 @@
 				keyboard: false
 			});
 		});
-	
-		$('#receiverContent').on('click',function() {
-			
-		})
 		
 		$('#modalCloseBtn').on('click',function() {
-			myReceiverList($('select[name=receiverNo]').val());
-			$('#receiverBody').html("");
+			event.stopPropagation();
+			if(isMaintainModal) {
+				swal({
+					  title: "수정 중인 결재선이 있습니다.",
+					  text: "닫으시겠습니까?",
+					  icon: "info",
+					  buttons : ['취소','닫기'] 
+					}).then((e) => {
+						if(e) {
+							myReceiverList(false, $('select[name=receiverNo]').val());
+							$('#layerpop').modal('toggle');
+							//$('#receiverBody').html("");
+						}	
+					});
+			} else {
+				myReceiverList(false, $('select[name=receiverNo]').val());
+				$('#layerpop').modal('toggle');
+			}
+			
 			 
 		})
 		
