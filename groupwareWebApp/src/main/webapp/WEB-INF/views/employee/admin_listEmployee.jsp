@@ -414,7 +414,7 @@
 						if($(this).nextAll('#submitRetireStatus').text() == 'Åð»ç') {
 							$('#modRetireStatus').val('Åð»ç');
 							$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
-							$('#retireBtn').remove();
+							$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">´Ý±â</button>');
 						} else {
 							$('#modRetireStatus').val('ÀçÁ÷');
 							$('#modRetireDate').val("");
@@ -425,10 +425,7 @@
 						$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
 						if($('#moddetailAddress').val() == 'null') {
 							$('#moddetailAddress').val("");
-						}
-						
-						
-						
+						}						
 					});
 				}
 				$('#datatable').find('tbody').html(text);
