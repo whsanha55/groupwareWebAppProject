@@ -244,7 +244,7 @@ $(document).ready(function(){
 				<%-- 		<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
 						action="${pageContext.request.contextPath }/registerDeputy.do" method="POST"> --%>
 				<div class="form-group form-inline">
-					<div id="insertDeleg col-md-3" style="display: inline-block; margin-left:70px; border-bottom:2px solid #e6e9ed;">
+					<div id="insertDeleg col-md-3" style="display: inline-block; margin-left:70px; ">
 						<form id="search" style="margin-bottom:10px;">
 							전결 조건 추가 : <select id="delegationTmp" name="delegationTmp"
 								style="height: 28px;">
@@ -263,7 +263,7 @@ $(document).ready(function(){
 					</div>
 					<div class="col-md-3">
 						 <div class="input-group"
-							style="display: inline-flex; margin-top: 66px; margin-left:464px;">
+							style="display: inline-flex; margin-top: 130px; margin-left:464px;">
 
 							<select id="pKeyfield" name="pKeyfield"
 								style="height: 28px; width: 80px;">
