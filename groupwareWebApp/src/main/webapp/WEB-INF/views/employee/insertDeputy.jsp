@@ -322,14 +322,14 @@
 							for(var j=0;j<data.deputies[i].employees.length;j++) {
 								text += "<tr id='parent" + i + "'>";
 								text += "<input type='hidden' id='depNo"+ i +"' value='"+ data.deputies[i].depNo +"'>";
-								text += "<td>"+ data.deputies[i].dempNo +"</td>";
-								text += "<td>"+ data.deputies[i].employees[j].duty +"</td>";
-								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
-								text += "<td id='startDate'>"+ data.deputies[i].startDate +"</td>";
-								text += "<td id='endDate'>"+ data.deputies[i].endDate +"</td>";
-								text += "<td>"+ data.deputies[i].progression +"</td>";
-								text += "<td>"+ data.deputies[i].depReason +"</td>";
-								text += "<td><button id='stopUse' type='button'>사용중단</button><button id='candep' type='button'>취소</button></td>";
+								text += "<td class='text-center'>"+ data.deputies[i].dempNo +"</td>";
+								text += "<td class='text-center'>"+ data.deputies[i].employees[j].duty +"</td>";
+								text += "<td class='text-center'>"+ data.deputies[i].employees[j].empName; + "</td>";
+								text += "<td id='startDate' class='text-center'>"+ data.deputies[i].startDate +"</td>";
+								text += "<td id='endDate' class='text-center'>"+ data.deputies[i].endDate +"</td>";
+								text += "<td class='text-center'>"+ data.deputies[i].progression +"</td>";
+								text += "<td class='text-center'>"+ data.deputies[i].depReason +"</td>";
+								text += "<td class='text-center'><button id='stopUse' type='button'>사용중단</button><button id='candep' type='button'>취소</button></td>";
 								text += "</tr>";
 							}
 						}
@@ -473,7 +473,7 @@
 						</div>
 					</div>
 						
-					<table id="datatable" class="table table-striped table-bordered" style="width:1202px;">
+					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>
@@ -491,10 +491,10 @@
 						</tbody>
 					</table>
 					<div class="text-center">
-				 		<nav aria-label="Page navigation" id = 'employeePaging1'>
+				 	<nav aria-label="Page navigation" id = 'employeePaging1'>
 				
-						</nav> 
-						</div>
+					</nav> 
+					</div>
 				</form>
 			</div>
 		</div>

@@ -139,8 +139,8 @@
 			$('#deptBtn').attr('disabled', false);
 			$('#dutyBtn').attr('disabled', false);
 			
-			$(this).remove();
-			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>È®ÀÎ</button>");
+			//$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>È®ÀÎ</button>");
+			$('#btnDiv').html("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>È®ÀÎ</button><button id='closeBtn2' type='button' class='btn btn-default' data-dismiss='modal'>´Ý±â</button>");
 		});
 		
 		$('#modalForm').on('click', '#modifyCompBtn' , function() {
@@ -200,20 +200,21 @@
 			}); 
 		});  */
 		
-		$("#retireBtn").click(function() {
+		$("#modalForm").on('click','#retireBtn',function() {
 			$.ajax ({
 				url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
 				method : 'POST',
 				data : {
 					empNo : $('#modifyEmpNo').val()
 				},
-				dateType : 'json',
+				dataType : 'json',
 				success : function(data) {
 					$('#modRetireStatus').val(data.retireStatus);
 					if($('#modRetireStatus').val() == 0) {
 						$('#modRetireStatus').val('Åð»ç');
 					}
 					$('#modRetireDate').val(data.retireDate);
+					$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">´Ý±â</button>');
 					employeePaging(1);
 				},
 				error : function(jqXHR) {
@@ -369,6 +370,9 @@
 						$('#dutyBtn').attr('disabled',true);
 						$('#deptBtn').attr('disabled',true);
 						
+						$('#btnDiv').html('<button id="modifyBtn" type="button" class="btn btn-primary">¼öÁ¤</button><button id="retireBtn" type="button" class="btn btn-primary retire">Åð»ç</button><button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">´Ý±â</button>');
+						
+		/*
 						if($('#modifyBtn').length > 0) {
 							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>¼öÁ¤</button>");
 						}
@@ -378,7 +382,7 @@
 							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>¼öÁ¤</button>");
 						}
 						$('#modifyCompBtn').remove();
-																				
+											*/									
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
@@ -409,7 +413,8 @@
 						$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
 						if($(this).nextAll('#submitRetireStatus').text() == 'Åð»ç') {
 							$('#modRetireStatus').val('Åð»ç');
-							$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());													
+							$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
+							$('#retireBtn').remove();
 						} else {
 							$('#modRetireStatus').val('ÀçÁ÷');
 							$('#modRetireDate').val("");
@@ -760,10 +765,10 @@
 						</table> 
 						
 						<br>
-						<div class="text-center">
-							<button id="modifyBtn" type="button" class="btn btn-primary">¼öÁ¤</button>
+						<div id="btnDiv" class="text-center">
+							<%-- <button id="modifyBtn" type="button" class="btn btn-primary">¼öÁ¤</button>
 							<button id="retireBtn" type="button" class="btn btn-primary retire">Åð»ç</button>
-							<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">´Ý±â</button>
+							<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">´Ý±â</button> --%>
 						</div>
 					</div>
 				</div>

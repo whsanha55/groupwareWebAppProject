@@ -72,23 +72,6 @@
 			});
 		});
 		
-		
-		/* $('#regibtn').click(function() {
-
-			swal({
-				  title: "사원 등록",
-				  text: "사원을 등록합니다. 계속 진행하시겠습니까?",
-				  icon: "info",
-				  buttons : true 
-				}).then((e) => {
-					if(e) {
-						registerEmployee();
-					} else if(!e) {
-						return;
-					}	
-				});
-		}); */
-		
 		$("#upload-image").on("change", handleImgFileSelect);
 		
 		$("#findpostcode").click(execDaumPostcode);
@@ -135,13 +118,13 @@
 			}
 		});		
 		$('input[name=email1]').focus(function() {
-			if($('input[name=email2]').next('span').text() != null){
-				$('input[name=email2]').next('span').remove();
+			if($('select[name=emailaddr]').next('span').text() != null){
+				$('select[name=emailaddr]').next('span').remove();
 			}
 		});
 		$('input[name=email2]').focus(function() {
-			if($(this).next('span').text() != null){
-				$(this).next('span').remove();
+			if($('select[name=emailaddr]').next('span').text() != null){
+				$('select[name=emailaddr]').next('span').remove();
 			}
 		});
 		$('input[name=address]').focus(function() {
@@ -153,25 +136,34 @@
 		
 		$('input[name=empPwd]').blur(function() {	
 			if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
-				$(this).after('<span id="errorSpan">4~12자리 사이로 입력해주세요.</span>');
+				$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
 			}
 		});
 		
 		$('input[name=empPwdCheck]').blur(function() {			
 			if($(this).val() != $('input[name=empPwd]').val()) {
-				$(this).after('<span id="errorSpan">비밀번호가 일치하지 않습니다.</span>');
+				$(this).after('<span id="errorSpan" style="color:red;">비밀번호가 일치하지 않습니다.</span>');
 			}
 		});
 		
 		$('input[name=phoneNumber2], input[name=phoneNumber3]').blur(function() {
-			if($('input[name=phoneNumber2]').val().trim().length != 4 || $('input[name=phoneNumber3]').val().trim().length != 4 ) {
-				$('input[name=phoneNumber3]').after('<span id="errorSpan">연락처를 정확히 입력해주세요.</span>');
+			if(!($('input[name=phoneNumber2]').val().trim().length == 4 && $('input[name=phoneNumber3]').val().trim().length == 4)) {
+				$('input[name=phoneNumber3]').after('<span id="errorSpan" style="color:red;">연락처를 정확히 입력해주세요.</span>');
 			}
 		});
 		
 		$('input[name=regNumber1], input[name=regNumber2]').blur(function() {			
-			if($('input[name=regNumber1]').val().trim().length != 6 || $('input[name=regNumber2]').val().trim().length != 7) {
-				$('input[name=regNumber2]').after('<span id="errorSpan">주민번호를 정확히 입력해주세요.</span>');
+			if(!($('input[name=regNumber1]').val().trim().length == 6 && $('input[name=regNumber2]').val().trim().length == 7)) {
+				$('input[name=regNumber2]').after('<span id="errorSpan" style="color:red;">주민번호를 정확히 입력해주세요.</span>');
+			}
+		});
+		
+		$('input[name=email1], input[name=email2]').blur(function() {
+			var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+			var email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
+			$('#email').val(email);
+			if(!regEmail.test($('#email').val())) {
+				$('select[name=emailaddr]').after('<span id="errorSpan" style="color:red;">이메일을 정확히 입력해주세요.</span>');
 			}
 		});
 		
@@ -249,123 +241,6 @@
 		});
 
 	});
-	
-
-	/* //양식 등록 함수
-	function registerEmployee(){
-		var upload = $('#upload-image').val();
-		var empName = $('#empName').val();
-		var empPwd = $('#empPwd').val();
-		var engName = $('#engName').val();
-		var phoneNumber = $('#phoneNumber').val();
-		var deptCode =$('#deptCode').val();
-		var dutyCode = $('#dutyCode').val();
-		var email = $('#email').val();
-		var regNumber = $('#regNumber').val();
-		var postcode = $('#postcode').val();
-		var address = $('#address').val();
-		var detailAddress = $('#detailAddress').val();
-		
-		if(upload == "") {
-			swal("프로필 사진을 등록해주세요!", "");
-			return;
-		}
-		
-		if(empName == "") {
-			swal("이름을 입력해주세요!", "");
-			return;
-		}
-		
-		if(engName == "") {
-			swal("영문 이름을 입력해주세요!", "");
-			return;
-		}
-		
-		if(empPwd == "") {
-			swal("비밀번호를 입력해주세요!", "");
-			return;
-		}
-		
-		if(phoneNumber == "") {
-			swal("연락처를 입력해주세요!", "");
-			return;
-		}
-		
-		if(deptCode == "") {
-			swal("부서를 선택해주세요!", "");
-			return;
-		}
-		
-		if(dutyCode == "") {
-			swal("직책을 선택해주세요!", "");
-			return;
-		}
-		
-		if(email == "") {
-			swal("이메일을 입력해주세요!", "");
-			return;
-		}
-		
-		if(regNumber == "") {
-			swal("주민번호를 입력해주세요", "");
-			return;
-		}
-		
-		if(postcode == "") {
-			swal("주소등록을 위해 우측 주소찾기 버튼을 이용해주세요!", "");
-			return;
-		}
-		
-		if(detailAddress == "") {
-			swal("상세 주소 정보를 입력해주세요!.", "");
-			return;
-		}
-		
-		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/admin/registerEmployee.do'
-			,
-			method: 'POST'
-			,
-			data: {
-				upload : upload,
-				empName : empName,
-				empPwd : empPwd,
-				engName : engName,
-				phoneNumber : phoneNumber,
-				deptCode : deptCode,
-				dutyCode : dutyCode,
-				email : email,
-				regNumber : regNumber,
-				postcode : postcode,
-				address : address,
-				detailAddress : detailAddress			
-			}
-			,
-			dataType: 'json'
-			,
-			success: function(data) {
-				if(data == "등록 완료") {
-					swal({
-						  title: "등록 완료",
-						  text: "사원정보가 등록되었습니다.",
-						  icon: "success",
-						  confirmButton: true,
-						  showCancelButton: false
-						}).then((e) => {
-							if(e) {
-								location.href="${pageContext.request.contextPath}/admin/listEmployee.do";
-							}	
-						});	
-				}
-				
-			},
-			error: function(jqXHR, textStatus, error) {
-				alert("Error : " + jqXHR.status);
-			}
-		});
-	}
- */
 	
 	function execDaumPostcode() {
         new daum.Postcode({
