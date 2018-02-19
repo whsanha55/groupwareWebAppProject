@@ -12,6 +12,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>content</title>
 </head>
+<style>
+	.current-page a{
+		    text-shadow: 1px 0px;
+	}
+</style>
 <body>
 	
 	<div class="navbar nav_title" style="border: 0;">

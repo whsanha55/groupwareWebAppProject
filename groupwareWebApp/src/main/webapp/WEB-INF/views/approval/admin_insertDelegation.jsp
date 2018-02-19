@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>전결관리</title>
 <style>
-	#insertDeleg{margin : 0 auto;  width:590px;}
-
+#insertDeleg {
+	margin: 0 auto;
+	width: 590px;
+}
 </style>
 <script>
 var pKeyfield;  
@@ -239,82 +241,84 @@ $(document).ready(function(){
 			</div>
 			<div class="x_content">
 				<br>
-		<%-- 		<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
+				<%-- 		<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
 						action="${pageContext.request.contextPath }/registerDeputy.do" method="POST"> --%>
-					<div class="form-group form-inline">
-					 <div id="insertDeleg col-md-6" style="height:50px; display:inline-block;">
-						<div>
+				<div class="form-group form-inline">
+					<div id="insertDeleg col-md-3" style="display: inline-block; margin-left:70px;">
 						<form id="search">
-						전결 조건 추가 : 
-						<select id="delegationTmp" name="delegationTmp" style="height:28px;"  > 
-						   <c:forEach var="template" items="${requestScope.template}"> 
- 						     <option value="${pageScope.template.tmpNo }">${pageScope.template.tmpName }</option> 
-						   </c:forEach> 
-						</select>
-						<select id="delegationDuty" name="delegationDuty" style="height:28px; width:150px;" >
-						    <c:forEach var="duty" items="${requestScope.duty}"> 
- 							  <option value="${pageScope.duty.cNo }">${pageScope.duty.cName }</option> 
-						    </c:forEach> 
-						</select>
-						<button id="btn1" class="btn btn-primary" type="button" style="height:28px; margin-bottom:4px; padding-top:2px;">추가</button>
+							전결 조건 추가 : <select id="delegationTmp" name="delegationTmp"
+								style="height: 28px;">
+								<c:forEach var="template" items="${requestScope.template}">
+									<option value="${pageScope.template.tmpNo }">${pageScope.template.tmpName }</option>
+								</c:forEach>
+							</select> <select id="delegationDuty" name="delegationDuty"
+								style="height: 28px; width: 150px;">
+								<c:forEach var="duty" items="${requestScope.duty}">
+									<option value="${pageScope.duty.cNo }">${pageScope.duty.cName }</option>
+								</c:forEach>
+							</select>
+							<button id="btn1" class="btn btn-primary" type="button"
+								style="height: 28px; margin-bottom: 4px; padding-top: 2px;">추가</button>
 						</form>
-					 </div>
-					 <div class="col-md-6"> 
-					 	<div class="input-group" style="display:inline-flex;  margin-top:10px;">
-							
-							 <select id="pKeyfield" name="pKeyfield" style="height:28px; width:80px;"  > 
-								<option value="template" >양식명</option>
-								<option value="duty" >직급</option>
-						    </select>
-							 <input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요" style="width:172px;height:28px;">
-								<button id="btn3" class="btn btn-primary" type="button" style="height:28px; margin-bottom:4px; padding-top:2px;">검색</button>
-							
-						
 					</div>
-					 </div>
-					 
-					<div class="ln_solid"></div>
-					
-					<div class="col-md-3" style="width:100%">
-						
-						
-					<table  class="table table-striped table-bordered" style="width:80%; text-align:center; margin:auto;" >
-						<thead > 
+					<div class="col-md-3">
+						<div class="input-group"
+							style="display: inline-flex; margin-top: 10px;">
+
+							<select id="pKeyfield" name="pKeyfield"
+								style="height: 28px; width: 80px;">
+								<option value="template">양식명</option>
+								<option value="duty">직급</option>
+							</select> <input class="pKeyword" type="text" name="pKeyword"
+								placeholder="검색어를 입력하세요" style="width: 172px; height: 28px;">
+							<button id="btn3" class="btn btn-primary" type="button"
+								style="height: 28px; margin-bottom: 4px; padding-top: 2px;">검색</button>
+
+
+						</div>
+					</div>
+					<div class="input-group col-md-3 pull-right"
+						style="display: inline-flex; ">
+
+						<select id="pKeyfield" name="pKeyfield"
+							style="height: 28px; width: 80px;">
+							<option value="template">양식명</option>
+							<option value="duty">직책</option>
+						</select> <input class="pKeyword" type="text" name="pKeyword"
+							placeholder="검색어를 입력하세요" style="width: 172px; height: 28px;">
+						<button id="btn3" class="btn btn-primary" type="button"
+							style="height: 28px; margin-bottom: 4px; padding-top: 2px;">검색</button>
+
+
+					</div>
+
+				</div>
+				<div class="col-md-12" style="width: 100%">
+
+
+					<table class="table table-striped table-bordered"
+						style="width: 80%; text-align: center; margin: auto;">
+						<thead>
 							<tr>
-								<th style="text-align:center;">양식명</th>
-								<th style="text-align:center;">직책</th>
-								<th style="text-align:center;">지정일</th>
-								<th style="text-align:center;">삭제</th>
+								<th style="text-align: center;">양식명</th>
+								<th style="text-align: center;">직책</th>
+								<th style="text-align: center;">지정일</th>
+								<th style="text-align: center;">삭제</th>
 							</tr>
 						</thead>
 						<tbody id="datatable">
-							
+
 						</tbody>
 					</table>
-					<nav aria-label="Page navigation" id = 'templatePaging' style="text-align:center;">
-				
-					</nav>
+					<nav aria-label="Page navigation" id='templatePaging'
+						style="text-align:center;"> </nav>
 
-					<div class="input-group" style="display:inline-flex; margin-left:320px; margin-top:10px;">
-							
-							 <select id="pKeyfield" name="pKeyfield" style="height:28px; width:80px;"  > 
-								<option value="template" >양식명</option>
-								<option value="duty" >직책</option>
-						    </select>
-							 <input class="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요" style="width:172px;height:28px;">
-								<button id="btn3" class="btn btn-primary" type="button" style="height:28px; margin-bottom:4px; padding-top:2px;">검색</button>
-							
-						
-					</div>
-		
-				
-			</div>
-		</div>
-	</div>
-	
-	
-	
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	
+
+
+
+				</div>
+
+
+				<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>
