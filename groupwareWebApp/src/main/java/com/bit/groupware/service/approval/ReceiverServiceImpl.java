@@ -18,7 +18,7 @@ public class ReceiverServiceImpl implements ReceiverService{
 	@Autowired
 	private ReceiverLineDAO receiverLineDAO;
 
-	public void registerReceiver(ReceiverVO receiver) {
+	public int registerReceiver(ReceiverVO receiver) {
 		
 		int receiverNo = receiverDAO.insertReceiver(receiver);
 		receiver.setReceiverNo(receiverNo);
@@ -29,7 +29,7 @@ public class ReceiverServiceImpl implements ReceiverService{
 		}
 		
 		receiverLineDAO.insertReceiverLineList(receiverLines);
-		
+		return receiverNo;
 	}
 
 	public List<ReceiverVO> retrieveReceiverList(String empNo) {
