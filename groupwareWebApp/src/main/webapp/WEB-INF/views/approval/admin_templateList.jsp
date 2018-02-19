@@ -16,6 +16,10 @@
 	.x_content {
 		float : none;
 	}
+	
+	.detailTemplate {
+		cursor : pointer;
+	}
 </style>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
