@@ -62,7 +62,7 @@
 	<select id="selectDeptEmpDetail" parameterType="String" resultType="EmployeeVO">
 		select empNo, empName, duty, hiredate, department
 		from emplist_view
-		where deptno like #{cNo}||'%';
+		where deptno like #{cNo}||'%'
 	</select>
 </mapper>
 	

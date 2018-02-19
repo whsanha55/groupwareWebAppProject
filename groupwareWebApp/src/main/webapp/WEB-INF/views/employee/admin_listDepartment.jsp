@@ -128,32 +128,34 @@
 							$.ajax ({
 								url: '${pageContext.request.contextPath}/admin/deptMemberListAjax.do'
 									,
-									data: {
-										cNo : $(this).parent().parent().find('td:nth-child(1)').text();
+								data: {
+									cNo : $(this).parent().parent().find('td:nth-child(1)').text()
+								}
+								,
+								type: 'POST' 
+								,
+								cache: false 
+								,
+								dataType: 'json' 
+								,
+								success: function (data) {
+									var txt = "";
+									console.log(data);
+									for(var i = 0; i<data.length;i++) {
+										txt += '<tr>';
+										txt += '<td>' + data[i].empNo + '</td>';
+										txt += '<td>' + data[i].empName + '</td>';
+										txt += '<td>' + data[i].duty + '</td>';
+										txt += '<td>' + data[i].hireDate + '</td>';
+										txt += '<td>' + data[i].department + '</td>';
+										txt += '</tr>';
 									}
-									,
-									type: 'POST' 
-									,
-									cache: false 
-									,
-									dataType: 'json' 
-									,
-									success: function (data) {
-										var txt = "";
-										for(var i = 0; i<data.length;i++) {
-											txt += '<tr>';
-											txt += '<td>' + data[i].empNo + '</td>';
-											txt += '<td>' + data[i].empName + '</td>';
-											txt += '<td>' + data[i].duty + '</td>';
-											txt += '<td>' + data[i].hiredate + '</td>';
-											txt += '<td>' + data[i].department + '</td>';
-											txt += '</tr>';
-										}										
-									}
-									,
-									error: function(jqXHR) {
-										alert("에러: " + jqXHR.status);
-									}	
+									$("#deptEmpListTR").after(txt);
+								}
+								,
+								error: function(jqXHR) {
+									alert("에러: " + jqXHR.status);
+								}
 							});
 						});
 					}
@@ -260,19 +262,12 @@
 				<div class="modal-body">
 					<div>
 						<table id="datatable2" class="table table-striped table-bordered">
-							<tr>
+							<tr id="deptEmpListTR">
 								<th>사번</th>
 								<th>이름</th>
 								<th>직책</th>
 								<th>입사일</th>
 								<th>소속부서</th>
-							</tr>
-							<tr>
-								<td>사번</td>
-								<td>이름</td>
-								<td>직책</td>
-								<td>입사일</td>
-								<td>소속부서</td>
 							</tr>
 						</table>
 						<br>
