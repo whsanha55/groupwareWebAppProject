@@ -33,5 +33,7 @@ public class ReceiverDAOImpl implements ReceiverDAO {
 		sqlSession.update(NAMESPACE + ".deleteReceiver", receiverNo);
 		
 	}
+
+	
 	
 }
