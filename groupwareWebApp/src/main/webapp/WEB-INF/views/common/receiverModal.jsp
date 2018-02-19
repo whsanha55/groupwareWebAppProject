@@ -231,6 +231,12 @@ select[name=apprType] {
 				swal('부적절한  요청입니다');
 				return;
 			}
+			
+			if(selectedEmpNo =='${empNo}') {	//자기자신에게 기안X
+				swal('자신을 선택할 수 없습니다');
+				return;
+			}
+			
 			var isExist = false;	//이미 존재하는 결재라인 확인여부
 			$('table[id^=tableDnD] tr').each(function() {
 				if($(this).attr('id') == selectedEmpNo) {
@@ -242,7 +248,6 @@ select[name=apprType] {
 			if(isExist) {
 				return;
 			}
-			
 			
 			if($('input[name=apprTypeRadio]:checked').val() == 0) {	//결재
 				if(receiverLineApprCount >=9) {
@@ -257,6 +262,7 @@ select[name=apprType] {
 				text += '<option value="0" selected>결재</option>';
 				text += '<option value="1">참조</option>';
 				text += '</select>';
+				text += '<td>순위</td>';
 				text += '</td>';
 				text += '<td>'+ selectedDepartment + '</td>';
 				text += '<td>' + selectedNameAndDuty  +'</td>';
@@ -283,7 +289,7 @@ select[name=apprType] {
 				
 				$('#tableDnDRef:last-child').append(text);
 			}
-			
+			rankingApprAndRef();
 		}); //조직도에서 결재라인 등록 이벤트 End
 		
 		
@@ -293,6 +299,7 @@ select[name=apprType] {
 				if($(this).attr('id') == selectedEmpNo) {
 					if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//테이블중 결재부분에서 삭제 시도
 						var text = "<tr class='nodrag nodrop'>";
+						text += '<td>순위</td>';
 						text += '<td></td>';
 						text += '<td></td>';
 						text += '<td></td>';
@@ -304,12 +311,11 @@ select[name=apprType] {
 					} else {	//참조에서 삭제 시도
 						$(this).remove();
 					}
+					rankingApprAndRef();
 					return;
 				}
 			});
 		});	//조직도에서 결재라인 삭제 이벤트 End
-		
-		
 		
 		
 	
@@ -336,6 +342,7 @@ select[name=apprType] {
 							text += '<option value="1">참조</option>';
 							text += '</select>';
 							text += '</td>';
+							text += '<td>순위</td>';
 							text += '<td>'+ data[i].lineEmployee.department + '</td>';
 							text += '<td>' + data[i].lineEmployee.empName + ' ' + data[i].lineEmployee.duty +'</td>';
 							text += '<td><button class="btn btn-link btn-sm">삭제</button></td>';
@@ -354,6 +361,7 @@ select[name=apprType] {
 							text += '<option value="1" selected>참조</option>';
 							text += '</select>';
 							text += '</td>';
+							text += '<td>순위</td>';
 							text += '<td>'+ data[i].lineEmployee.department + '</td>';
 							text += '<td>' + data[i].lineEmployee.empName + ' ' + data[i].lineEmployee.duty +'</td>';
 							text += '<td><button class="btn btn-link btn-sm">삭제</button></td>';
@@ -376,7 +384,7 @@ select[name=apprType] {
 						$(temp).attr('class','nodrag');
 					}  
 					receiverLineApprCount++;
-					
+					rankingApprAndRef();
 					doTableDnD();
 					
 				} ,
@@ -386,6 +394,28 @@ select[name=apprType] {
 				}
 			});
 		}); //결재선 선택 이벤트 End
+		
+		
+	
+		
+		//결재라인테이블안 삭제 버튼 선택하는 이벤트
+		$('table').on('click','button.btn-link',function() {
+			if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//결재 테이블 삭제 요청
+				$(this).closest('tr').remove();
+				receiverLineApprCount--;
+				var text = "<tr class='nodrag nodrop'>";
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '<td></td>';
+				text += '</tr>';
+				$('#tableDnDAppr').append(text);
+			} else {	//참조 테이블 삭제 요청
+				$(this).closest('tr').remove();
+			}
+			rankingApprAndRef();
+			
+		});
 		
 		
 		//결재선 이름 변경 이벤트
@@ -475,15 +505,6 @@ select[name=apprType] {
 			
 		});
 		
-		//tableDnD 함수 (테이블 변동 있을 때 마다 호출해야함)		
-		function doTableDnD() {
-			$('#tableDnDAppr').tableDnD({
-					onDragClass: "dragRow"
-					
-			});
-		}
-		
-	
 		
 		//결재라인 셀렉트박스(결재,참조) 변경 이벤트
 		$("table[id^=tableDnD]").on("change","select[name=apprType]",function() {
@@ -500,6 +521,7 @@ select[name=apprType] {
 				.find('select').val('0').prop('selected',true).not('tr:first');
 				temp.remove();
 				receiverLineApprCount++;
+				rankingApprAndRef();
 				doTableDnD();
 				
 				
@@ -519,9 +541,40 @@ select[name=apprType] {
 				text += '<td></td>';
 				text += '</tr>';
 				$('#tableDnDAppr').append(text); 
+				rankingApprAndRef();
 			}
 		});
  
+		
+		
+		//tableDnD 함수 (테이블 변동 있을 때 마다 호출해야함)		
+		function doTableDnD() {
+			$('#tableDnDAppr').tableDnD({
+					onDragClass: "dragRow" ,
+					onDrop : function() {
+						rankingApprAndRef();
+					}
+					
+			});
+		}
+		
+		
+		//결재 순위 매기는 함수 이벤트발생시마다 실행해야함
+		function rankingApprAndRef() {
+			var totalLength = $('#tableDnDAppr tr:not(.nodrag)').length;
+			$('#tableDnDAppr tr').not('.nodrag').each(function(i) {
+				if(totalLength-1 != i) {
+					$('td:nth-child(2)',this).html(i+1 + '번 결재자');
+				} else {
+					$('td:nth-child(2)',this).html('최종 결재자');
+				}
+			});
+			
+			$('#tableDnDRef tr').each(function() {
+				$('td:nth-child(2)',this).html('참조자')
+			});
+			
+		}
 		
 		
 		//새로운 결재선과 결재선 라인 등록 이벤트
@@ -585,26 +638,7 @@ select[name=apprType] {
 			}); 
 			
 		});
-		
-		
-		//결재라인테이블안 삭제 버튼 선택하는 이벤트
-		$('table').on('click','button.btn-link',function() {
-			if($(this).closest('table').attr('id') == 'tableDnDAppr') {	//결재 테이블 삭제 요청
-				$(this).closest('tr').remove();
-				receiverLineApprCount--;
-				var text = "<tr class='nodrag nodrop'>";
-				text += '<td></td>';
-				text += '<td></td>';
-				text += '<td></td>';
-				text += '<td></td>';
-				text += '</tr>';
-				$('#tableDnDAppr').append(text);
-			} else {	//참조 테이블 삭제 요청
-				$(this).closest('tr').remove();
-			}
-			
-		});
-		
+	
 		
 	}); //document ready End
 	
@@ -619,9 +653,7 @@ select[name=apprType] {
 			type : 'GET',
 			success : function(data) {
 				var text = "";
-				if(!(isModalPage===true)) {	//모달창 닫기 클릭시
-					text += "<option value='0'>결재선을 선택하세요</option>";
-				}
+				text += "<option value='0'>결재선을 선택하세요</option>";
 				for (var i = 0; i < data.length; i++) {
 					text += "<option value='"+ data[i].receiverNo + "'>";
 					text += data[i].receiverName + "</option>";
@@ -661,7 +693,7 @@ select[name=apprType] {
                         <button id="btnOpenAll" class="btn btn-default">모두 펼치기</button>
                         <button id="btnCloseAll" class="btn btn-default">모두 닫기</button>
 
-     </div>
+  				   </div>
 				</p>
 
 			<div id="tree"></div>

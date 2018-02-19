@@ -14,6 +14,12 @@ $(document).ready(function() {
 			listCmt();
 				// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
 				$('#btnReply').on('click', function() {
+					
+					if($($('textarea[name=cmtContent]')).val() == "" ){
+						swal("내용을 입력하세요.");
+						$('#cmtContent').focus();
+						return false;
+					}  
 						var cmtContent = $("#cmtContent").val();
 						var empName = '${param.empName}';
 						var postNo = "${requestScope.post.postNo }";						
@@ -26,9 +32,9 @@ $(document).ready(function() {
 								empName: empName 
 							},
 							success : function() {
-								alert("댓글이 등록되었습니다.");
-							 	
+								swal("댓글이 등록되었습니다.");								
 								listCmt();
+								$("#cmtContent").val('');
 								
 							}
 						});
@@ -300,7 +306,7 @@ $(document).ready(function() {
 			<div class="form-group">
             <label class="control-label col-md-1 col-md-2 col-xs-1">${param.empName}</label>
             <div class="col-md-6 col-sm-9 col-xs-12">
-               <textarea id="cmtContent" class="resizable_textarea form-control"
+               <textarea id="cmtContent" name="cmtContent" class="resizable_textarea form-control"
                   placeholder="댓글을 작성해주세요"></textarea>
             </div>    
             <div class="col-md-2" style="position: relative; left: 10px; top: 25px;">

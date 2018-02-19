@@ -59,4 +59,5 @@ public interface EmployeeService {
 	
 	public void modifyHead(Map<String, Object> map);
 	
+	public List<EmployeeVO> retrieveMemberDetail(String cNo);
 }

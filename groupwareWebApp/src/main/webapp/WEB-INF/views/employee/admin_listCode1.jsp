@@ -51,6 +51,10 @@
 			location.href = '${pageContext.request.contextPath}/admin/listCode2.do?relationCode='+relationCode;
 		});
 		
+		$('#listCode1').click(function(){
+			location.href = '${pageContext.request.contextPath}/admin/listCode1.do';
+		});
+		
 		//등록 버튼 클릭시 팝업창 생성
 		$('#insert').click(function(){
 			var url = '${pageContext.request.contextPath}/admin/registerCode1.do';
@@ -215,7 +219,7 @@
 					<div>
 						<div class="col-md-8">
 								
-								<div class="box3"><a style="color:#fff" href="/groupware/admin/listCode1.do">최상위 코드</a><div class="tri"></div></div>
+								<div id="listCode1" class="box3">최상위 코드<div class="tri"></div></div>
 								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 
 						</div>

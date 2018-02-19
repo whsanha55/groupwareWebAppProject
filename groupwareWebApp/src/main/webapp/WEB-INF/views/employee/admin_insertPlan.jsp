@@ -37,7 +37,7 @@ $(document).ready(function() {
 			return;
 		}
 		if($('input[name=startDate]').val() >= $('input[name=endDate]').val()) {
-			swal("종료일이 시작일보다 빠릅니다.","");
+			swal("시작일이 종료일보다 클 수 없습니다.","");
 			return;
 		}
 		if($('input[name=destination]').val().trim() == '') {
