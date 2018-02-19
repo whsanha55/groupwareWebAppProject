@@ -270,43 +270,68 @@
 		function executeApproval(approvalStatus) {
 			$('input[name=apprFinalStatus]').val(approvalStatus);
 			var _data = new FormData($("#approvalForm")[0]);
+			var receiverNo = $('select[name=receiverNo]').val();
 			
 			$.ajax({
-				url : '${pageContext.request.contextPath}/approvalAjax.do',
-				cache : false ,
-				dataType : 'json' ,
-				processData :false ,
-				contentType : false ,
-				type : 'POST' ,
-				data : _data ,
-				success : function(data) {
-					if(data == 4) {		//임시저장
+				url : '${pageContext.request.contextPath}/retireCheck.do',
+				cache : false,
+				dataType : 'json', 
+				type : 'GET',
+				data : {
+					receiverNo : receiverNo
+				},
+				success : function(data){
+					if(data){
+						$.ajax({
+							url : '${pageContext.request.contextPath}/approvalAjax.do',
+							cache : false ,
+							dataType : 'json' ,
+							processData :false ,
+							contentType : false ,
+							type : 'POST' ,
+							data : _data ,
+							success : function(data) {
+								if(data == 4) {		//임시저장
+									swal({
+										  title: "임시 저장성공",
+										  text: "확인을 누르시면 임시 보관함으로 이동합니다",
+										  icon: "success",
+										}).then((e) => {
+											location.href = '${pageContext.request.contextPath}/approvalTemp.do';
+										});
+										
+									
+								} else { //data == 0, 상신
+									swal({
+										  title: "작성 완료",
+										  text: "확인을 누르시면 결재 요청함으로 이동합니다",
+										  icon: "success",
+										}).then((e) => {
+											location.href = '${pageContext.request.contextPath}/approvalMyRequest.do';
+										});
+										
+									
+								}
+							} ,
+							error : function(jqXHR) {
+								alert(jqXHR.status);
+								console.log(jqXHR);
+							}
+						});
+					}else{
 						swal({
-							  title: "임시 저장성공",
-							  text: "확인을 누르시면 임시 보관함으로 이동합니다",
-							  icon: "success",
-							}).then((e) => {
-								location.href = '${pageContext.request.contextPath}/approvalTemp.do';
-							});
-							
-						
-					} else { //data == 0, 상신
-						swal({
-							  title: "작성 완료",
-							  text: "확인을 누르시면 결재 요청함으로 이동합니다",
-							  icon: "success",
-							}).then((e) => {
-								location.href = '${pageContext.request.contextPath}/approvalMyRequest.do';
-							});
-							
-						
+							  title: "상신 불가",
+							  text: "결재선에 퇴사자가 포함되어있습니다.",
+							  icon: "error"
+							})
 					}
-				} ,
-				error : function(jqXHR) {
-					alert(jqXHR.status);
+				},
+				error : function(jqXHR){
+					alert("error : "+jqXHR.stats);
 					console.log(jqXHR);
 				}
-			});
+			})
+			
 		} // 등록 ajax function End
 	
 		

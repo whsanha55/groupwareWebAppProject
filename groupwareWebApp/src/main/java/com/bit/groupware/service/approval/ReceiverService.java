@@ -18,4 +18,5 @@ public interface ReceiverService {
 	//결재선 삭제
 	void removeReceiver(int receiverNo);
 	
+	
 }

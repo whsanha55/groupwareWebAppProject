@@ -15,4 +15,6 @@ public interface ReceiverLineDAO {
 	void deleteReceiverLines(int receiverNo);
 	
 	List<ReceiverLineVO> selectReceiverLineByApprNo(int apprNo);
+	
+	int selectRetire(int receiverNo);
 }
