@@ -44,7 +44,7 @@
 		
 		// 검색 실행
 		$('#findEmployee').on('click', function() {
-			if($('.keyfield').attr('id') == "") {
+			if($('.keyfield').attr('id') == undefined) {
 				swal("검색조건를 선택해주세요");
 				return;
 			}
@@ -143,14 +143,13 @@
 			$('#deptBtn').attr('disabled', false);
 			$('#dutyBtn').attr('disabled', false);
 			
-			//$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button>");
 			$('#btnDiv').html("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button><button id='closeBtn2' type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>");
 		});
 		
 		$('#modalForm').on('click', '#modifyCompBtn' , function() {
 			event.preventDefault();
 			checkUnload = false;
-			if($('input[name=upload]').val().trim() == '') {
+			if($('#photo').attr('src') == '') {
 				swal("프로필 사진을 추가해주세요.","");
 				return;
 			}
@@ -158,11 +157,11 @@
 				swal("사원이름을 입력해주세요.","");
 				return;
 			}
-			if($('input[name=empPwd]').val().trim() == '') {
+			if($('input[name=empPwd]').val() == '') {
 				swal("비밀번호를 입력해주세요.","");
 				return;
 			}
-			if($('input[name=empPwdCheck]').val().trim() == '') {
+			if($('input[name=empPwdCheck]').val() == '') {
 				swal("비밀번호 확인을 해주세요.","");
 				return;
 			}
@@ -388,18 +387,7 @@
 						$('#deptBtn').attr('disabled',true);
 						
 						$('#btnDiv').html('<button id="modifyBtn" type="button" class="btn btn-primary">수정</button><button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button><button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
-						
-		/*
-						if($('#modifyBtn').length > 0) {
-							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
-						}
-						$('#modifyBtn').remove();
-						
-						if($('#modifyCompBtn').length > 0) {
-							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
-						}
-						$('#modifyCompBtn').remove();
-											*/									
+													
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
