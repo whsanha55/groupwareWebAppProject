@@ -118,11 +118,15 @@
 		});
 		
 		$('select[name=emailaddr]').on('change', function () {	
+			if ($('select[name=emailaddr]').val() == "") {
+				$('#email2').attr('readonly', false);
+				$('#email2').val("");
+			}			
 			if($('select[name=emailaddr]').val() != "") {
 				$('#email2').attr('readonly', true);
 				$('#email2').val($('select[name=emailaddr]').val());				
-			}
-		});
+			} 
+		});	
 		
 		$('#modalForm').on('click', '#modifyBtn', function() {
 			$('#modEmpName').attr('readonly', false);
@@ -144,61 +148,74 @@
 		});
 		
 		$('#modalForm').on('click', '#modifyCompBtn' , function() {
+			event.preventDefault();
+			checkUnload = false;
+			if($('input[name=upload]').val().trim() == '') {
+				swal("프로필 사진을 추가해주세요.","");
+				return;
+			}
+			if($('input[name=empName]').val().trim() == '') {
+				swal("사원이름을 입력해주세요.","");
+				return;
+			}
+			if($('input[name=empPwd]').val().trim() == '') {
+				swal("비밀번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=empPwdCheck]').val().trim() == '') {
+				swal("비밀번호 확인을 해주세요.","");
+				return;
+			}
+			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
+				swal("연락처를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=regNumber1]').val() == '' || $('input[name=regNumber2]').val() == '') {
+				swal("주민등록번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=dutyCode]').val().trim() == '') {
+				swal("직책을 선택해주세요.","");
+				return;
+			}
+			if($('input[name=deptCode]').val().trim() == '') {
+				swal("부서를 선택해주세요.","");
+				return;
+			}
+			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
+				swal("이메일 입력해주세요.","");
+				return;
+			}
+			if($('input[name=address]').val() == '') {
+				swal("주소정보를 입력해주세요.","");
+				return;
+			}
+			
+			
+			
 			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
 			$('#phoneNumber').val(phoneNumber);
 			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
 			$('#regNumber').val(regNumber);
 			var email = $('#email1').val() + '@' + $('#email2').val();
 			$('#email').val(email);
-			
-			$(this).submit();
-			employeePaging(1);
-		});
 		
-		/* $('#modifyBtn').click(function () {
-			console.log($('#modRetireStatus').val())
-			if($('#modRetireStatus').val()=='재직') {
-				$('#modRetireStatus').val('1');	
-			} else {
-				$('#modRetireStatus').val('0');	
-			}
-			$.ajax ({
-				url:'${pageContext.request.contextPath}/admin/modifyEmployee.do'
-				,
-				method:'POST'
-				,
-				data: $('#modalForm').serialize()
-				,
-				dataType:'json'
-				,
-				success: function(data) {
-					if(data==0) {
-					swal({
-						title : "사원정보를 수정합니다.",
-						text : "계속 진행하시겠습니까?",
-						icon : "info",
-						buttons : ["취소", "확인"] 
-					}).then((e) => {
-					     if(e) {
-						     swal("수정이 완료되었습니다!", {
-						    	 icon : "success"						    	
-						     });
-					     } else {
-					    	 swal("취소되었습니다.");							
-						 }
-					});
-						employeePaging(1);
-						$('#myModal').modal('hide');
-					}
-					
+			swal({
+				title: "사원 등록",
+				text: "사원을 등록합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					$('#modalform').submit();
+					employeePaging(1);
+				} else if(!e) {
+					checkUnload = true;
+					return;
 				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-					
-			}); 
-		});  */
+			});			
+
+		});
 		
 		$("#modalForm").on('click','#retireBtn',function() {
 			$.ajax ({
@@ -693,10 +710,10 @@
 												</select>
 											</div>
 												 &nbsp;-&nbsp;
-											<input type="text" id="phoneNumber2" name="phoneNumber2"
+											<input type="text" id="phoneNumber2" name="phoneNumber2" maxlength="4"
 												 class="form-control" style="width:100px;">
 												 &nbsp;-&nbsp;
-											<input type="text" id="phoneNumber3" name="phoneNumber3"
+											<input type="text" id="phoneNumber3" name="phoneNumber3" maxlength="4"
 												 class="form-control" style="width:100px;">
 										</div>
 									</td>
@@ -704,14 +721,14 @@
 								<tr>
 									<th colspan='1'>주민번호</th>
 									<td colspan='5' class="form-inline">
-										<input type="hidden" id="regNumber" name="regNumber"
-											 class="form-control col-md-7 col-xs-12" value="">
-										<input type="text" id="regNumber1" name="regNumber1"
+										<input type="hidden" id="regNumber" name="regNumber" 
+											 class="form-control col-md-7 col-xs-12" value="" >
+										<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
 											 class="form-control" style="width:200px;">
 											&nbsp;-&nbsp;
-										<input type="text" id="regNumber2" name="regNumber2"
+										<input type="text" id="regNumber2" name="regNumber2" maxlength="7"
 											 class="form-control" style="width:200px;">
-									</div></td>
+									</td>
 								</tr>
 								<tr>
 									<th colspan='1'>이메일</th>
