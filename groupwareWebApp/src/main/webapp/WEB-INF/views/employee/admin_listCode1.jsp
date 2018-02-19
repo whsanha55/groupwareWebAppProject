@@ -196,13 +196,13 @@
 	
 </script>
 <style type="text/css">
-	.box3{width:100px; height:26px; background:#4aa3ef; text-align:center; line-height:26px; color:#fff; margin-bottom:5px;}
+	.box3{width:100px; height:34px; background:#4aa3ef; text-align:center; line-height:34px; color:#fff; margin-bottom:5px;}
 	.tri{    position: absolute;
     top: 0px;
     left: 110px;
     width: 0px;
-    border-top: 13px solid transparent;
-    border-bottom: 13px solid transparent;
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent;
     border-left: 15px solid #4aa3ef;
     border-right: 15px solid transparent;
 }
@@ -232,7 +232,7 @@
 							<div>
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
@@ -243,7 +243,7 @@
 									<input type="hidden" name="search_param" value="all" id="search_param">
 									<input type="text" class="form-control" id="keyword" name="x" placeholder="대문자, 소문자를 구분해주세요!">
 									<span class="input-group-btn">
-										<button id="findCode" class="btn btn-default" type="button">
+										<button id="findCode" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>

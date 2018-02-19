@@ -13,4 +13,6 @@ public interface ReceiverDAO {
 	void updateReceiver(ReceiverVO receiver);
 
 	void deleteReceiver(int receiverNo);
+	
+	
 }

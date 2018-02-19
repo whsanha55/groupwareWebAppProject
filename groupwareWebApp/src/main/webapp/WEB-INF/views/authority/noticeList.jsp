@@ -171,7 +171,7 @@
 			        <div class="col-xs-7 col-xs-offset-5">
 					    <div class="input-group">
 			                <div class="input-group-btn search-panel">
-			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
 			                    	<span class="keyfield">검색조건</span> <span class="caret"></span>
 			                    </button>
 			                    <ul class="dropdown-menu" role="menu">
@@ -180,7 +180,7 @@
 			                </div>
 			                <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
 			                <span class="input-group-btn">
-			                    <button class="btn btn-default find" type="button">
+			                    <button class="btn btn-default find" type="button" style="margin-left:3px">
 			                    	<span class="glyphicon glyphicon-search"></span>
 			                    </button>
 			                </span>

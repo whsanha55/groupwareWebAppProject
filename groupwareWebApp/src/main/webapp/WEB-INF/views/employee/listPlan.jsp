@@ -164,7 +164,7 @@ $(document).ready(function(){
 						<div class="col-md-4 col-xs-offset-2">
 							<div class="input-group">
 								<div class="input-group-btn search-panel">
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
 										<span class="keyfield">검색조건</span> <span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu" >
@@ -175,7 +175,7 @@ $(document).ready(function(){
 								<input type="hidden" name="search_param" value="all" id="search_param">
 								<input type="text" class="form-control" id="keyword" name="x" placeholder="대문자, 소문자를 구분해주세요!">
 								<span class="input-group-btn">
-									<button id="findPlan" class="btn btn-default" type="button">
+									<button id="findPlan" class="btn btn-default" type="button" style="margin-left:3px;">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								</span>

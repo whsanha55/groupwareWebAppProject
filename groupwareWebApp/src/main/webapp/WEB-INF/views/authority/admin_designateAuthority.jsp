@@ -458,7 +458,7 @@ $(document).ready(function() {
 
 				<div class="clearfix"></div>
 			</div>
-			권한번호 : ${param.aNo} 권한명 : ${param.aName}
+			<h2>권한명 : ${param.aName}</h2>
 			<div class="container">
 				<div class="row">
 
@@ -466,7 +466,7 @@ $(document).ready(function() {
 					<div class="input-group">
 
 							<div class="input-group-btn search-panel">
-								<button type="button" class="btn btn-default dropdown-toggle"
+								<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 									data-toggle="dropdown">
 									<span class="keyfield">검색조건</span> <span class="caret"></span>
 								</button>
@@ -477,7 +477,7 @@ $(document).ready(function() {
 							</div>
 							<input type="text" class="form-control keyword"
 								placeholder="검색어를 입력하세요"> <span class="input-group-btn">
-								<button class="btn btn-default find" type="button">
+								<button class="btn btn-default find" type="button" style="margin-left:3px; height:34px;">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
 							</span>
@@ -491,7 +491,7 @@ $(document).ready(function() {
 			<div class="x_content">
 				<div class="col-md-4">
 					<p>
-						<input name="search" placeholder="검색어를 입력하세요...">
+						<input name="search" placeholder="검색어를 입력하세요..." style="height:32px;">
 						<button id="btnSearch" class="btn btn-primary btn-sm">검색</button>
 						<button id="btnResetSearch" class="btn btn-primary btn-sm">초기화</button>
 						<div id="matches"></div>

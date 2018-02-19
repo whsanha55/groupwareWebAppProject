@@ -19,6 +19,32 @@
 	#errorSpan : {
 		color : red;
 	}
+	input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
+}
+
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: '사진선택';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+input[type=file]::-webkit-file-upload-button {
+  visibility: hidden;
+}
 </style>
 <script>
 	$(document).ready(function () {
