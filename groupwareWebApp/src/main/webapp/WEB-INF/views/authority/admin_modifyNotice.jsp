@@ -21,6 +21,7 @@
 			   $('textarea#froala-editor').froalaEditor()
 			 });
 		
+		   //수정
 		   $('#modiNotice').click(function(){
 			    
 				if($($('input:text[name=noticeTitle]')).val() == "" ){
@@ -34,7 +35,7 @@
 					$('#noticeContents').focus();
 					return false;
 				}  
-			
+				
 			});
 		   
 		 //첨부파일 추가 및 삭제 이벤트
@@ -68,6 +69,7 @@
 				}
 			}
 		});
+		
 		
 		//파일 삭제 
 	    $('#datatable').on('click','button:contains(삭제)', function () {

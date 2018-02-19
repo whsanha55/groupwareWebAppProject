@@ -278,6 +278,8 @@
                <div class="text-center">
             <nav aria-label="Page navigation" id = 'Paging'></nav> 
              </div>
+             	<a class="btn btn-default pull-right"
+					href='<c:url value="/admin/authorityList.do"/>'>뒤로가기</a>
                <button type="submit"  id="deleteBtn"  class="btn btn-primary pull-right" value="${param.aNo}">일괄 등록</button>
          </div>       
          
