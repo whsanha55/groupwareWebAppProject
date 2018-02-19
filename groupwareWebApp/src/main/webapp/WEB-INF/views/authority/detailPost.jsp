@@ -10,6 +10,55 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 $(document).ready(function() {
+	$('#deletePost').click(function(){			
+		var postNo = "${requestScope.post.postNo }";
+		var empName = '${param.empName}';
+		var boardNo = '${param.boardNo}';
+		var boardName = '${param.boardName}';
+		var fileCount = '${param.fileCount}';
+		var isComment = '${param.isComment}';
+	    
+		swal({
+			  title: "게시글 삭제",
+			  text: "게시글을 삭제합니다. 계속 진행하시겠습니까?",
+			  icon: "info",
+			  buttons : true 
+		}).then((e) => {
+		     if(e) {
+				$.ajax({
+					url: '${pageContext.request.contextPath}/removePost.do'
+					,
+					method: 'GET'
+					,
+					data: {
+						postNo : postNo,
+						empName : empName,
+						boardNo: boardNo,
+						boardName : boardName,
+						fileCount: fileCount,
+						isComment : isComment
+					}, 
+					success: function(data) {
+						
+						swal("삭제 완료", "선택하신 항목이 삭제되었습니다.", "success");
+						location.href='${pageContext.request.contextPath}/postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment} ';
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);
+					}	 			
+					
+				});	
+								
+			 }
+		     
+		});	
+	
+	});
+	
+	
+	
+	
 			
 			listCmt();
 				// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
@@ -204,10 +253,12 @@ $(document).ready(function() {
 				alert("에러: " + jqXHR.status);
 			}
 			
-		});
-		
-
+		});	
 	}
+	
+	
+	
+	
 </script>
 <style>
 .btn-modify{
@@ -254,7 +305,7 @@ $(document).ready(function() {
 					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
 					<c:if test="${requestScope.post.writer == param.empName}">
 						<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
-						<a class="btn btn-danger" href="${removeUrl}">삭제</a>
+						<button type="button"  id="deletePost" class="btn btn-danger pull-right" >삭제</button>
 					</c:if> 
 					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment} "/>'>목록</a>
 				</div>
