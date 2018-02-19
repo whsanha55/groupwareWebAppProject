@@ -27,7 +27,7 @@ import com.bit.groupware.util.UploadFiles;
 public class RemovePostController {
 	private static final Logger logger = LoggerFactory.getLogger(RemovePostController.class);
 	@Autowired
-	private PostService postService;	
+	private PostService postService;
 
 	// 게시글 쓰기 요청을 처리할 컨틀롤러 메소드
 	@RequestMapping(value="/removePost.do", method=RequestMethod.GET)

@@ -8,14 +8,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>사원등록</title>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 	#img : {
 		max-width : 100%;
 		height : auto;
 	}
+	
+	#errorSpan : {
+		color : red;
+	}
 </style>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 	$(document).ready(function () {
 		
@@ -90,38 +94,88 @@
 		$("#findpostcode").click(execDaumPostcode);
 		
 		$('select[name=emailaddr]').on('change', function () {	
+			if ($('select[name=emailaddr]').val() == "") {
+				$('#email2').attr('readonly', false);
+				$('#email2').val("");
+			}			
 			if($('select[name=emailaddr]').val() != "") {
 				$('#email2').attr('readonly', true);
 				$('#email2').val($('select[name=emailaddr]').val());				
-			}
-		});
+			} 
+		});		
 		
 		$('input[name=empPwd]').focus(function() {
 			if($(this).next('span').text() != null){
 				$(this).next('span').remove();
 			}
-		});
-		
-		$('input[name=empPwd]').blur(function() {	
-			if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
-				$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
-			}
-		});
-				
+		});		
 		$('input[name=empPwdCheck]').focus(function() {
 			if($(this).next('span').text() != null){
 				$(this).next('span').remove();
 			}
 		});
+		$('input[name=phoneNumber2]').focus(function() {
+			if($('input[name=phoneNumber3]').next('span').text() != null){
+				$('input[name=phoneNumber3]').next('span').remove();
+			}
+		});
+		$('input[name=phoneNumber3]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		$('input[name=regNumber1]').focus(function() {
+			if($('input[name=regNumber2]').next('span').text() != null){
+				$('input[name=regNumber2]').next('span').remove();
+			}
+		});
+		$('input[name=regNumber2]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});		
+		$('input[name=email1]').focus(function() {
+			if($('input[name=email2]').next('span').text() != null){
+				$('input[name=email2]').next('span').remove();
+			}
+		});
+		$('input[name=email2]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		$('input[name=address]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		
+		
+		$('input[name=empPwd]').blur(function() {	
+			if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
+				$(this).after('<span id="errorSpan">4~12자리 사이로 입력해주세요.</span>');
+			}
+		});
 		
 		$('input[name=empPwdCheck]').blur(function() {			
 			if($(this).val() != $('input[name=empPwd]').val()) {
-				$(this).after('<span id="errorSpan" style="color:red;">비밀번호가 일치하지 않습니다.</span>');
+				$(this).after('<span id="errorSpan">비밀번호가 일치하지 않습니다.</span>');
+			}
+		});
+		
+		$('input[name=phoneNumber2], input[name=phoneNumber3]').blur(function() {
+			if($('input[name=phoneNumber2]').val().trim().length != 4 || $('input[name=phoneNumber3]').val().trim().length != 4 ) {
+				$('input[name=phoneNumber3]').after('<span id="errorSpan">연락처를 정확히 입력해주세요.</span>');
+			}
+		});
+		
+		$('input[name=regNumber1], input[name=regNumber2]').blur(function() {			
+			if($('input[name=regNumber1]').val().trim().length != 6 || $('input[name=regNumber2]').val().trim().length != 7) {
+				$('input[name=regNumber2]').after('<span id="errorSpan">주민번호를 정확히 입력해주세요.</span>');
 			}
 		});
 		
 		$('#regibtn').on('click', function() {
-			console.log($('#errorSpan').is(null));
 			event.preventDefault();
 			checkUnload = false;
 			if($('input[name=upload]').val().trim() == '') {
@@ -137,7 +191,7 @@
 				return;
 			}
 			if($('input[name=empPwdCheck]').val().trim() == '') {
-				swal("비밀번호 확인을 입력해주세요.","");
+				swal("비밀번호 확인을 해주세요.","");
 				return;
 			}
 			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
@@ -165,12 +219,12 @@
 				return;
 			}
 			
-			/* 
-			if($('#errorSpan').is(null) == false) {
+			
+			if($("#errorSpan").text() != "") {
 				swal("정확하지 않은 정보가 있습니다. 다시 확인해주세요!");
 				return;
 			}
-			 */
+			
 			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
 			$('#phoneNumber').val(phoneNumber);
 			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
@@ -397,7 +451,8 @@
 					<div class="form-group">		
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
-							<img id="img" width="250px" height="250px" class="img-responsive center-block"/>
+							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" 
+									width="200px" height="200px" class="img-responsive center-block"/>
 						</div>
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
@@ -459,10 +514,10 @@
 								</select>
 							</div>
 								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-							<input type="text" id="phoneNumber2" name="phoneNumber2"
+							<input type="text" id="phoneNumber2" name="phoneNumber2" maxlength="4"
 								 class="form-control" style="width:100px;">
 								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-							<input type="text" id="phoneNumber3" name="regNumber3"
+							<input type="text" id="phoneNumber3" name="phoneNumber3" maxlength="4"
 								 class="form-control" style="width:100px;">
 						</div>
 					</div>
@@ -471,12 +526,12 @@
 							for="regNumber">주민번호 <span class="required">*</span>
 						</label>
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
-							<input type="hidden" id="regNumber" name="regNumber"
+							<input type="hidden" id="regNumber" name="regNumber" 
 								 class="form-control col-md-7 col-xs-12" value="">
-							<input type="text" id="regNumber1" name="regNumber1"
+							<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
 								 class="form-control" style="width:200px;">
 								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-							<input type="text" id="regNumber2" name="regNumber2"
+							<input type="password" id="regNumber2" name="regNumber2" maxlength="7"
 								 class="form-control" style="width:200px;">
 						</div>
 					</div>
@@ -510,17 +565,17 @@
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" id="email" name="email" value="" >
 							<input type='text' id="email1" name="email1" class="form-control" style="width:150px;">@
-            				<input type='text' id="email2" name="email2" class="form-control" style="width:250px;">
-			              <select name="emailaddr" class="form-control">
-			                 <option value="">직접입력</option>
-			                 <option value="naver.com">naver.com</option>
-			                 <option value="gmail.com">gmail.com</option>
-			                 <option value="nate.com">nate.com</option>
-			                 <option value="daum.net">daum.net</option>
-			                 <option value="hanmail.net">hanmail.net</option>
-			                 <option value="empal.com">empal.com</option>
-			                 <option value="msn.com">msn.com</option>
-			              </select>
+            				<input type='text' id="email2" name="email2" class="form-control" style="width:150px;">
+				              <select name="emailaddr" class="form-control">
+				                 <option value="">직접입력</option>
+				                 <option value="naver.com">naver.com</option>
+				                 <option value="gmail.com">gmail.com</option>
+				                 <option value="nate.com">nate.com</option>
+				                 <option value="daum.net">daum.net</option>
+				                 <option value="hanmail.net">hanmail.net</option>
+				                 <option value="empal.com">empal.com</option>
+				                 <option value="msn.com">msn.com</option>
+				              </select>
 						</div>
 					</div>
 					<div class="form-group">

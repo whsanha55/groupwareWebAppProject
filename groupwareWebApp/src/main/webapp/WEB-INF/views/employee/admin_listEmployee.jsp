@@ -133,6 +133,8 @@
 			$('#email2').attr('readonly', false);
 			$('select[name=emailaddr]').attr('disabled', false);
 			$('#moddetailAddress').attr('readonly', false);
+			$('#deptBtn').attr('disabled', false);
+			$('#dutyBtn').attr('disabled', false);
 			
 			$(this).remove();
 			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button>");
@@ -361,6 +363,8 @@
 						$('#email2').attr('readonly', true);
 						$('select[name=emailaddr]').attr('disabled', true);
 						$('#moddetailAddress').attr('readonly', true);
+						$('#dutyBtn').attr('disabled',true);
+						$('#deptBtn').attr('disabled',true);
 						
 						if($('#modifyBtn').length > 0) {
 							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
@@ -596,30 +600,37 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" style='width:250px;height:250px;' 
-									src="" class="img-responsive center-block"/> 
+									<img id="photo" style='width:200px;height:250px;' 
+									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
 								</div>
 							</div>
-						</div>						
-						<br> <br> <br>
-						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
+						</div>
+						<table class="table table-striped table-bordered" style="width:350px;height:250px;">
 							<tbody>
 								<tr>
-									<th colspan='1'>사번</th>
-									<td colspan='5'><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
-										readonly readonly value=""></td>
+									<th>사번</th>
+									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
+										readonly readonly value="" style="width:200px;"></td>
 								</tr>
 								<tr>
 									<th>이름</th>
-									<td colspan='2'><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value="" style="width:100px;"></td>
-									<th>영문이름</th>
-									<td colspan='2'><input id="modEngName" name="engName" type="text" class="form-control"
-										value="" style="width:100px;"></td>
+									<td><input id="modEmpName" name="empName" type="text" class="form-control"
+										required="required" value="" style="width:200px;"></td>
 								</tr>
+								<tr>
+									<th>영문이름</th>
+									<td><input id="modEngName" name="engName" type="text" class="form-control"
+										value="" style="width:200px;"></td>
+								</tr>
+							</tbody>
+						</table>						
+						<br> <br> <br>
+						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
+							<tbody>
+								
 								<tr>
 									<th>직책</th>
 									<td colspan='2'><div>
