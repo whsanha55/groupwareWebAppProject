@@ -36,7 +36,7 @@ public class ApprovalController {
 		//문서 상세조회
 		@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
 		public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
-										   @RequestParam(required=false) int finalStatus,
+										   @RequestParam(required=false, defaultValue="0") int finalStatus,
 										   Principal principal) {
 
 				
