@@ -16,6 +16,10 @@
 	.x_content {
 		float : none;
 	}
+	
+	.detailTemplate {
+		cursor : pointer;
+	}
 </style>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -40,7 +44,7 @@
 		$(document).on('click', '.detailTemplate', function(){
 			var tmpNo = $(this).attr('id');
 			var url = '${pageContext.request.contextPath}/admin/templateDetail.do?tmpNo='+tmpNo;
-			window.open(url, "양식 상세보기","width=1200, height=900");
+			window.open(url, "양식 상세보기","width=900, height=900");
 		});
 
 		

@@ -463,10 +463,7 @@ $(document).ready(function() {
 				<div class="row">
 
 					<div class="col-xs-7 col-xs-offset-5">
-						<button type="submit" id="searchEmp"
-							class="btn btn-default pull-left">추가</button>
-
-						<div class="input-group">
+					<div class="input-group">
 
 							<div class="input-group-btn search-panel">
 								<button type="button" class="btn btn-default dropdown-toggle"
