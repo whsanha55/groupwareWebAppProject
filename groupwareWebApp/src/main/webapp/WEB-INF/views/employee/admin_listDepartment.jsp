@@ -88,7 +88,7 @@
 							text += '<td>'+ data.departments[i].teamCount 												+'</td>';
 							text += '</tr>';
 							
-							$('tbody').on('click','#searchEmp' + i, function() {
+							$('#tbody1').on('click','#searchEmp' + i, function() {
 								$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
 								$('#layerpop').modal({
 									backdrop: 'static', 
@@ -124,7 +124,8 @@
 							});
 						});
 						
-						$('tbody').on('click','#modalBtn',function(){
+						$('#tbody1').on('click','#modalBtn',function() {
+					
 							$.ajax ({
 								url: '${pageContext.request.contextPath}/admin/deptMemberListAjax.do'
 									,
@@ -150,7 +151,7 @@
 										txt += '<td>' + data[i].department + '</td>';
 										txt += '</tr>';
 									}
-									$("#deptEmpListTR").after(txt);
+									$('#datatable2').find('#tbody2').html(txt);
 								}
 								,
 								error: function(jqXHR) {
@@ -159,7 +160,7 @@
 							});
 						});
 					}
-					$('#datatable').find('tbody').html(text);
+					$('#datatable').find('#tbody1').html(text);
 				} 
 				,
 				error: function(jqXHR) {
@@ -227,7 +228,7 @@
 							<th id="6" class="text-center">부서별 팀 수</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tbody1">
 			
 					</tbody>
 				</table>
@@ -262,13 +263,18 @@
 				<div class="modal-body">
 					<div>
 						<table id="datatable2" class="table table-striped table-bordered">
-							<tr id="deptEmpListTR">
-								<th>사번</th>
-								<th>이름</th>
-								<th>직책</th>
-								<th>입사일</th>
-								<th>소속부서</th>
-							</tr>
+							<thead>
+								<tr id="deptEmpListTR">
+									<th>사번</th>
+									<th>이름</th>
+									<th>직책</th>
+									<th>입사일</th>
+									<th>소속부서</th>
+								</tr>
+							</thead>
+							<tbody id="tbody2">
+								
+							</tbody>
 						</table>
 						<br>
 						<div class="text-center">
