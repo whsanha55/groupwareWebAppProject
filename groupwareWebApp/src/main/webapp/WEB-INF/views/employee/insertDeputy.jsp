@@ -467,8 +467,8 @@
 									<option value="duty">직책</option>
 									<option value="empName">이름</option>
 									<option value="date">기간</option>
-								</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
-								<button id="btn3" type="button" class="btn btn-primary btn-sm">검색</button>
+								</select> <input style="height:25px;" id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
+								<button id="btn3" type="button" class="btn btn-primary btn-xs">검색</button>
 								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
 					</div>

@@ -522,7 +522,7 @@
 						<div>
 							<div class="input-group">
 								<div id="search-panel" class="input-group-btn search-panel">
-									<button class="btn btn-default dropdown-toggle"
+									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
 										<span class="keyfield">검색조건</span><span class="caret"></span>
 									</button>
@@ -546,7 +546,7 @@
 								</div>
 								<input type="text" class="form-control keyword" placeholder="검색어" >
 								<span class="input-group-btn">
-									<button class="btn btn-default" id="findEmployee" type="button">
+									<button class="btn btn-default" id="findEmployee" type="button" style="margin-left:3px; height:34px;">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								</span>
