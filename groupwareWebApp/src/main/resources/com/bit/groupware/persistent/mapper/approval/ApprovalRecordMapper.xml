@@ -40,7 +40,6 @@
 		<result property="checkDate" column="check_date"/>
 		<result property="confirmDate" column="confirm_date"/>
 		<result property="isDelegation" column="isdelegation"/>
-		
 		<association property="approval" column="appr_no" javaType="ApprovalVO" >
 			<id property="apprNo" column="appr_no"/>		
 		</association>
@@ -54,55 +53,79 @@
 				<result property="duty" column="duty"/>
 				<result property="department" column="department"/>
 			</association>
-				
 		</association>
+		<association property="depEmployee" column="dep_emp_no" javaType="EmployeeVO">
+			<id property="empNo" column="dep_emp_no"/>
+			<result property="empName" column="dep_emp_name"/>
+			<result property="department" column="dep_department"/>
+			<result property="duty" column="dep_duty"/>
+			<collection property="deputies" javaType="list" ofType="DeputyVO">
+				<id property="depNo" column="dep_no"/>
+				<result property="startDate" column="start_date"/>
+				<result property="endDate" column="end_date"/>
+				<result property="depReason" column="dep_reason"/>
+			</collection>
+		</association>
+		
 		
 	</resultMap>
 	<select id="selectApprovlaRecordList" parameterType="int" resultMap="RecordResultMap" statementType="PREPARED">
-     	select rec.appr_no, rec.check_date, rec.confirm_date, rec.assign_date,rec.record_no ,rec.isdelegation,
-		substr(rec.appr_status,-1,1) as appr_status,
-		line.line_order, line.line_no, emp.emp_no, emp.emp_name,
-		(select  case when emp.emp_history > 0  
-		  then (select case when ( select count(*) 
-		                    from code_history 
-		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
-		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
-		                    and emp_no=line.line_emp_no) <![CDATA[>]]>0 
-		             then (select c_name from code
-		                   where c_no=(select duty_no 
-		                        from code_history 
-		                        where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
-		                        and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
-		                        and emp_no=line.line_emp_no))
-		        else emp.duty
-		        end as emp_duty from dual ) 
-		        
-		  else emp.duty
-		  end as emp_duty
-		  from dual) as duty ,
-		(select  case when emp.emp_history > 0  
-		  then (select case when ( select count(*) 
-		                    from code_history 
-		                    where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
-		                    and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
-		                    and emp_no=line.line_emp_no)<![CDATA[>]]>0 
-		             then (select c_name from code
-		                   where c_no=(select dept_no 
-		                                from code_history 
-		                                where start_date<![CDATA[<=]]>to_date(appr.appr_date,'YY/MM/DD') 
-		                                and end_date<![CDATA[>=]]>to_date(appr.appr_date,'YY/MM/DD')
-		                                and emp_no=line.line_emp_no))
-		        else emp.department
-		        end as department from dual ) 
-		  else emp.department
-		  end as department
-		  from dual) as department
-		from approval_record rec, receiver_line line, emp_view emp,approval appr
-		where rec.line_no=line.line_no
-		and line.line_emp_no=emp.emp_no
-		and appr.appr_no=rec.appr_no
-		and appr.appr_no=#{apprNo}
-		order by line.line_order asc nulls last
+     	select t1.*, t2.dep_no, 
+     	       to_char(t2.start_date,'yyyy-mm-dd hh24"시"') as start_date, 
+     	       to_char(t2.end_date,'yyyy-mm-dd hh24"시"') as end_date, t2.dep_reason
+		from(select r3.emp_no, r3.emp_name ,
+        			case when r3.emp_history  =0 then r3.department
+              		     when (select count(t1.no)
+                               from code_history t1
+                               where r5.appr_date between t1.start_date and t1.end_date) = 0 then r3.department
+                         else (select c_name
+                               from code_history t1, code t2
+                   	           where r3.emp_no = t1.emp_no
+                   	           and t1.dept_no = t2.c_no)
+                    end as department,
+	                case when r3.emp_history  =0 then r3.duty
+	                     when (select count(t1.no)
+	                           from code_history t1
+	                           where r5.appr_date between t1.start_date and t1.end_date) = 0 then r3.duty
+	                     else (select c_name
+	                           from code_history t1, code t2
+	                           where r3.emp_no = t1.emp_no
+	                           and t1.dept_no = t2.c_no)
+	                end as duty ,
+             		r2.assign_date, r2.check_date, r2.confirm_date, r2.isdelegation, 
+             		r2.record_no, r2.appr_no, substr(r2.appr_status,-1,1) as appr_status,
+                    r1.line_order, r1.line_no, r5.appr_date ,
+             		r2.dep_emp_no, r4.empname as dep_emp_name , 
+                    case when r4.emp_history  =0 then r4.department
+              		     when (select count(t1.no)
+                               from code_history t1
+                               where r5.appr_date between t1.start_date and t1.end_date) = 0 then r4.department
+                         else (select c_name
+                               from code_history t1, code t2
+                   		       where r4.empno = t1.emp_no
+                   	           and t1.dept_no = t2.c_no)
+                    end as dep_department,
+	                case when r4.emp_history  =0 then r4.duty
+	                     when (select count(t1.no)
+	                           from code_history t1
+	                           where r5.appr_date between t1.start_date and t1.end_date) = 0 then r4.duty
+	                     else (select c_name
+	                           from code_history t1, code t2
+	                           where r4.empno = t1.emp_no
+	                           and t1.dept_no = t2.c_no)
+	                end as dep_duty
+              from receiver_line r1, approval_record r2, emp_view r3, emplist_view r4, approval r5
+              where r1.line_no = r2.line_no
+              and r1.line_emp_no = r3.emp_no
+              and r2.appr_no = r5.appr_no
+              and r4.empno = case when r2.dep_emp_no is null then r1.line_emp_no
+                             else r2.dep_emp_no
+                             end
+              and r1.appr_type = 0
+              and r2.appr_no = #{apprNo}) t1, deputy t2
+        where t1.emp_no = t2.emp_no(+)
+        and t1.dep_emp_no = t2.demp_no(+)
+        order by t1.line_order asc
    </select>
    
    
@@ -137,21 +160,25 @@
    
    	<select id="selectNewRecordCount" statementType="PREPARED" parameterType="String" resultType="int">
 		select nvl(count(*),0)
-		from approval_record t1, receiver_line t2
+		from approval_record t1, receiver_line t2, approval t3
 		where t1.line_no = t2.line_no
+		and t1.appr_no = t3.appr_no
 		and ((t2.LINE_EMP_NO = #{empNo} and t1.dep_emp_no is null)
 			 or t1.dep_emp_no = #{empNo}) 
 		and t1.check_date is null
 		and t1.appr_status ='C-02-00'
+		and t3.appr_final_status != 'C-01-05'
 		
 		union all
 		
 		select nvl(count(*),0)
-		from approval_record t1, receiver_line t2
+		from approval_record t1, receiver_line t2, approval t3
 		where t1.line_no = t2.line_no
+		and t1.appr_no = t3.appr_no
 		and t2.LINE_EMP_NO = #{empNo}
 		and t1.check_date is null
 		and t1.appr_status ='C-02-06'
+		and t3.appr_final_status != 'C-01-05'
 		
 		
 	</select>

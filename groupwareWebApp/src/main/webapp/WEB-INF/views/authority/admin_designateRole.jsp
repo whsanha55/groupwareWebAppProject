@@ -233,7 +233,7 @@
                  
                    <div class="input-group">
                          <div class="input-group-btn search-panel">
-                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
                                 <span class="keyfield">검색조건</span> <span class="caret"></span>
                              </button>
                              <ul class="dropdown-menu" role="menu">
@@ -243,7 +243,7 @@
                          </div>
                          <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
                          <span class="input-group-btn">
-                             <button class="btn btn-default find" type="button">
+                             <button class="btn btn-default find" type="button" style="height:34px; margin-left:3px">
                                 <span class="glyphicon glyphicon-search"></span>
                              </button>
                          </span>
@@ -278,6 +278,8 @@
                <div class="text-center">
             <nav aria-label="Page navigation" id = 'Paging'></nav> 
              </div>
+             	<a class="btn btn-default pull-right"
+					href='<c:url value="/admin/authorityList.do"/>'>뒤로가기</a>
                <button type="submit"  id="deleteBtn"  class="btn btn-primary pull-right" value="${param.aNo}">일괄 등록</button>
          </div>       
          

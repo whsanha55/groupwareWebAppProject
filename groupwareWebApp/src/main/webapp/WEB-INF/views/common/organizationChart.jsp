@@ -193,7 +193,7 @@ p {
 <body>
 
 	<p>
-		<input name="search" placeholder="검색어를 입력하세요...">
+		<input name="search" placeholder="검색어를 입력하세요..." style="height:32px;">
 		<button id="btnSearch" class="btn btn-primary btn-sm">검색</button>
 		<button id="btnResetSearch" class="btn btn-primary btn-sm">초기화</button>
 	<div id="matches"></div>

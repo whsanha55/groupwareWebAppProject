@@ -46,7 +46,8 @@
 				swal("내용을 입력하세요.");
 				$('#postContent').focus();
 				return false;
-			}  
+			} 		
+	 		
 		
 		});
 		

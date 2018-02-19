@@ -8,14 +8,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>사원등록</title>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 	#img : {
 		max-width : 100%;
 		height : auto;
 	}
+	
+	#errorSpan : {
+		color : red;
+	}
+	input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
+}
+
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: '사진선택';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+input[type=file]::-webkit-file-upload-button {
+  visibility: hidden;
+}
 </style>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 	$(document).ready(function () {
 		
@@ -68,35 +98,62 @@
 			});
 		});
 		
-		
-		/* $('#regibtn').click(function() {
-
-			swal({
-				  title: "사원 등록",
-				  text: "사원을 등록합니다. 계속 진행하시겠습니까?",
-				  icon: "info",
-				  buttons : true 
-				}).then((e) => {
-					if(e) {
-						registerEmployee();
-					} else if(!e) {
-						return;
-					}	
-				});
-		}); */
-		
 		$("#upload-image").on("change", handleImgFileSelect);
 		
 		$("#findpostcode").click(execDaumPostcode);
 		
 		$('select[name=emailaddr]').on('change', function () {	
+			if ($('select[name=emailaddr]').val() == "") {
+				$('#email2').attr('readonly', false);
+				$('#email2').val("");
+			}			
 			if($('select[name=emailaddr]').val() != "") {
 				$('#email2').attr('readonly', true);
 				$('#email2').val($('select[name=emailaddr]').val());				
-			}
-		});
+			} 
+		});		
 		
 		$('input[name=empPwd]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});		
+		$('input[name=empPwdCheck]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		$('input[name=phoneNumber2]').focus(function() {
+			if($('input[name=phoneNumber3]').next('span').text() != null){
+				$('input[name=phoneNumber3]').next('span').remove();
+			}
+		});
+		$('input[name=phoneNumber3]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		$('input[name=regNumber1]').focus(function() {
+			if($('input[name=regNumber2]').next('span').text() != null){
+				$('input[name=regNumber2]').next('span').remove();
+			}
+		});
+		$('input[name=regNumber2]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});		
+		$('input[name=email1]').focus(function() {
+			if($('select[name=emailaddr]').next('span').text() != null){
+				$('select[name=emailaddr]').next('span').remove();
+			}
+		});
+		$('input[name=email2]').focus(function() {
+			if($('select[name=emailaddr]').next('span').text() != null){
+				$('select[name=emailaddr]').next('span').remove();
+			}
+		});
+		$('input[name=address]').focus(function() {
 			if($(this).next('span').text() != null){
 				$(this).next('span').remove();
 			}
@@ -107,12 +164,6 @@
 				$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
 			}
 		});
-				
-		$('input[name=empPwdCheck]').focus(function() {
-			if($(this).next('span').text() != null){
-				$(this).next('span').remove();
-			}
-		});
 		
 		$('input[name=empPwdCheck]').blur(function() {			
 			if($(this).val() != $('input[name=empPwd]').val()) {
@@ -120,8 +171,28 @@
 			}
 		});
 		
+		$('input[name=phoneNumber2], input[name=phoneNumber3]').blur(function() {
+			if(!($('input[name=phoneNumber2]').val().trim().length == 4 && $('input[name=phoneNumber3]').val().trim().length == 4)) {
+				$('input[name=phoneNumber3]').after('<span id="errorSpan" style="color:red;">연락처를 정확히 입력해주세요.</span>');
+			}
+		});
+		
+		$('input[name=regNumber1], input[name=regNumber2]').blur(function() {			
+			if(!($('input[name=regNumber1]').val().trim().length == 6 && $('input[name=regNumber2]').val().trim().length == 7)) {
+				$('input[name=regNumber2]').after('<span id="errorSpan" style="color:red;">주민번호를 정확히 입력해주세요.</span>');
+			}
+		});
+		
+		$('input[name=email1], input[name=email2]').blur(function() {
+			var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+			var email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
+			$('#email').val(email);
+			if(!regEmail.test($('#email').val())) {
+				$('select[name=emailaddr]').after('<span id="errorSpan" style="color:red;">이메일을 정확히 입력해주세요.</span>');
+			}
+		});
+		
 		$('#regibtn').on('click', function() {
-			console.log($('#errorSpan').is(null));
 			event.preventDefault();
 			checkUnload = false;
 			if($('input[name=upload]').val().trim() == '') {
@@ -137,7 +208,7 @@
 				return;
 			}
 			if($('input[name=empPwdCheck]').val().trim() == '') {
-				swal("비밀번호 확인을 입력해주세요.","");
+				swal("비밀번호 확인을 해주세요.","");
 				return;
 			}
 			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
@@ -165,12 +236,12 @@
 				return;
 			}
 			
-			/* 
-			if($('#errorSpan').is(null) == false) {
+			
+			if($("#errorSpan").text() != "") {
 				swal("정확하지 않은 정보가 있습니다. 다시 확인해주세요!");
 				return;
 			}
-			 */
+			
 			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
 			$('#phoneNumber').val(phoneNumber);
 			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
@@ -195,123 +266,6 @@
 		});
 
 	});
-	
-
-	/* //양식 등록 함수
-	function registerEmployee(){
-		var upload = $('#upload-image').val();
-		var empName = $('#empName').val();
-		var empPwd = $('#empPwd').val();
-		var engName = $('#engName').val();
-		var phoneNumber = $('#phoneNumber').val();
-		var deptCode =$('#deptCode').val();
-		var dutyCode = $('#dutyCode').val();
-		var email = $('#email').val();
-		var regNumber = $('#regNumber').val();
-		var postcode = $('#postcode').val();
-		var address = $('#address').val();
-		var detailAddress = $('#detailAddress').val();
-		
-		if(upload == "") {
-			swal("프로필 사진을 등록해주세요!", "");
-			return;
-		}
-		
-		if(empName == "") {
-			swal("이름을 입력해주세요!", "");
-			return;
-		}
-		
-		if(engName == "") {
-			swal("영문 이름을 입력해주세요!", "");
-			return;
-		}
-		
-		if(empPwd == "") {
-			swal("비밀번호를 입력해주세요!", "");
-			return;
-		}
-		
-		if(phoneNumber == "") {
-			swal("연락처를 입력해주세요!", "");
-			return;
-		}
-		
-		if(deptCode == "") {
-			swal("부서를 선택해주세요!", "");
-			return;
-		}
-		
-		if(dutyCode == "") {
-			swal("직책을 선택해주세요!", "");
-			return;
-		}
-		
-		if(email == "") {
-			swal("이메일을 입력해주세요!", "");
-			return;
-		}
-		
-		if(regNumber == "") {
-			swal("주민번호를 입력해주세요", "");
-			return;
-		}
-		
-		if(postcode == "") {
-			swal("주소등록을 위해 우측 주소찾기 버튼을 이용해주세요!", "");
-			return;
-		}
-		
-		if(detailAddress == "") {
-			swal("상세 주소 정보를 입력해주세요!.", "");
-			return;
-		}
-		
-		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/admin/registerEmployee.do'
-			,
-			method: 'POST'
-			,
-			data: {
-				upload : upload,
-				empName : empName,
-				empPwd : empPwd,
-				engName : engName,
-				phoneNumber : phoneNumber,
-				deptCode : deptCode,
-				dutyCode : dutyCode,
-				email : email,
-				regNumber : regNumber,
-				postcode : postcode,
-				address : address,
-				detailAddress : detailAddress			
-			}
-			,
-			dataType: 'json'
-			,
-			success: function(data) {
-				if(data == "등록 완료") {
-					swal({
-						  title: "등록 완료",
-						  text: "사원정보가 등록되었습니다.",
-						  icon: "success",
-						  confirmButton: true,
-						  showCancelButton: false
-						}).then((e) => {
-							if(e) {
-								location.href="${pageContext.request.contextPath}/admin/listEmployee.do";
-							}	
-						});	
-				}
-				
-			},
-			error: function(jqXHR, textStatus, error) {
-				alert("Error : " + jqXHR.status);
-			}
-		});
-	}
- */
 	
 	function execDaumPostcode() {
         new daum.Postcode({
@@ -397,7 +351,8 @@
 					<div class="form-group">		
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
-							<img id="img" width="250px" height="250px" class="img-responsive center-block"/>
+							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" 
+									width="200px" height="200px" class="img-responsive center-block"/>
 						</div>
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
@@ -459,10 +414,10 @@
 								</select>
 							</div>
 								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-							<input type="text" id="phoneNumber2" name="phoneNumber2"
+							<input type="text" id="phoneNumber2" name="phoneNumber2" maxlength="4"
 								 class="form-control" style="width:100px;">
 								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-							<input type="text" id="phoneNumber3" name="regNumber3"
+							<input type="text" id="phoneNumber3" name="phoneNumber3" maxlength="4"
 								 class="form-control" style="width:100px;">
 						</div>
 					</div>
@@ -471,12 +426,12 @@
 							for="regNumber">주민번호 <span class="required">*</span>
 						</label>
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
-							<input type="hidden" id="regNumber" name="regNumber"
+							<input type="hidden" id="regNumber" name="regNumber" 
 								 class="form-control col-md-7 col-xs-12" value="">
-							<input type="text" id="regNumber1" name="regNumber1"
+							<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
 								 class="form-control" style="width:200px;">
 								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-							<input type="text" id="regNumber2" name="regNumber2"
+							<input type="password" id="regNumber2" name="regNumber2" maxlength="7"
 								 class="form-control" style="width:200px;">
 						</div>
 					</div>
@@ -510,17 +465,17 @@
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" id="email" name="email" value="" >
 							<input type='text' id="email1" name="email1" class="form-control" style="width:150px;">@
-            				<input type='text' id="email2" name="email2" class="form-control" style="width:250px;">
-			              <select name="emailaddr" class="form-control">
-			                 <option value="">직접입력</option>
-			                 <option value="naver.com">naver.com</option>
-			                 <option value="gmail.com">gmail.com</option>
-			                 <option value="nate.com">nate.com</option>
-			                 <option value="daum.net">daum.net</option>
-			                 <option value="hanmail.net">hanmail.net</option>
-			                 <option value="empal.com">empal.com</option>
-			                 <option value="msn.com">msn.com</option>
-			              </select>
+            				<input type='text' id="email2" name="email2" class="form-control" style="width:150px;">
+				              <select name="emailaddr" class="form-control">
+				                 <option value="">직접입력</option>
+				                 <option value="naver.com">naver.com</option>
+				                 <option value="gmail.com">gmail.com</option>
+				                 <option value="nate.com">nate.com</option>
+				                 <option value="daum.net">daum.net</option>
+				                 <option value="hanmail.net">hanmail.net</option>
+				                 <option value="empal.com">empal.com</option>
+				                 <option value="msn.com">msn.com</option>
+				              </select>
 						</div>
 					</div>
 					<div class="form-group">
