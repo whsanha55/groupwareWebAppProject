@@ -14,6 +14,7 @@ page contentType="text/html; charset=utf-8"%>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script type="text/javascript">
    $(document).ready(function() {
+	  $('#idn').focus(); 
       var checkedRole = $('input[name=role]:checked').val();
       
       $('#login').click(function(){
@@ -35,6 +36,7 @@ page contentType="text/html; charset=utf-8"%>
             return false;
          }
       });
+
    }); 
 </script> 
 <!-- Bootstrap -->
@@ -63,7 +65,7 @@ page contentType="text/html; charset=utf-8"%>
                   
                   <div style="margin-top:50px">
                      <h2 class="text-left">사원 번호</h2>
-                     <input type="text" name="id" class="form-control"
+                     <input type="text" name="id" class="form-control" id="idn"
                         placeholder="아이디를 입력해주세요." required="" />
                   </div>
                   <div>
