@@ -159,7 +159,6 @@ input[type=file]::-webkit-file-upload-button {
 			}
 		});
 		
-		
 		$('input[name=empPwd]').blur(function() {	
 			if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
 				$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
