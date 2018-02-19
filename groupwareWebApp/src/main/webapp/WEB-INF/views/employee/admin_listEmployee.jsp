@@ -133,6 +133,8 @@
 			$('#email2').attr('readonly', false);
 			$('select[name=emailaddr]').attr('disabled', false);
 			$('#moddetailAddress').attr('readonly', false);
+			$('#deptBtn').attr('disabled', false);
+			$('#dutyBtn').attr('disabled', false);
 			
 			$(this).remove();
 			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button>");
@@ -361,6 +363,8 @@
 						$('#email2').attr('readonly', true);
 						$('select[name=emailaddr]').attr('disabled', true);
 						$('#moddetailAddress').attr('readonly', true);
+						$('#dutyBtn').attr('disabled',true);
+						$('#deptBtn').attr('disabled',true);
 						
 						if($('#modifyBtn').length > 0) {
 							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
@@ -597,7 +601,7 @@
 								<div id="crop-avatar">
 									<!-- Current avatar -->
 									<img id="photo" style='width:200px;height:250px;' 
-									src="" class="img-responsive center-block"/> 
+									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
