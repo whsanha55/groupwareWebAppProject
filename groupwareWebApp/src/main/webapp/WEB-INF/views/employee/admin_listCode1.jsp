@@ -193,13 +193,13 @@
 	
 </script>
 <style type="text/css">
-	.box3{width:100px; height:26px; background:#4aa3ef; text-align:center; line-height:26px; color:#fff; margin-bottom:5px;}
+	.box3{width:100px; height:34px; background:#4aa3ef; text-align:center; line-height:34px; color:#fff; margin-bottom:5px;}
 	.tri{    position: absolute;
     top: 0px;
     left: 110px;
     width: 0px;
-    border-top: 13px solid transparent;
-    border-bottom: 13px solid transparent;
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent;
     border-left: 15px solid #4aa3ef;
     border-right: 15px solid transparent;
 }

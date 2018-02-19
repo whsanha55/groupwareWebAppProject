@@ -239,24 +239,24 @@
 	
 </script>
 <style type="text/css">
-	.box3{width:100px; display:inline-block; height:26px; background:#4aa3ef; text-align:center; line-height:26px; color:#fff;}
+	.box3{width:100px; height:34px; background:#4aa3ef; text-align:center; line-height:34px; color:#fff; margin-bottom:5px; display:inline-block;}
 	.tri{    position: absolute;
     top: 0px;
     left: 110px;
     width: 0px;
-    border-top: 13px solid transparent;
-    border-bottom: 13px solid transparent;
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent;
     border-left: 15px solid #4aa3ef;
     border-right: 15px solid transparent;
 }
 
-.box4{width:100px; height:26px;margin-left:10px; margin-bottom:5px; display:inline-block;background:#4aa3efc4; text-align:center; line-height:26px; color:#fff;}
+.box4{width:100px; height:34px;margin-left:10px; margin-bottom:5px; display:inline-block;background:#4aa3efc4; text-align:center; line-height:34px; color:#fff;}
 	.tri2{    position: absolute; 
     top: 0px;
     left: 231px;
     width: 0px;
-    border-top: 13px solid transparent;
-    border-bottom: 13px solid transparent;
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent;
     border-left: 15px solid #4aa3efc4;
     border-right: 15px solid transparent;
 }
