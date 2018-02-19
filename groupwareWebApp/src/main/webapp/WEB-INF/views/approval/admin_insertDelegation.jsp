@@ -244,8 +244,8 @@ $(document).ready(function(){
 				<%-- 		<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
 						action="${pageContext.request.contextPath }/registerDeputy.do" method="POST"> --%>
 				<div class="form-group form-inline">
-					<div id="insertDeleg col-md-3" style="display: inline-block; margin-left:70px;">
-						<form id="search">
+					<div id="insertDeleg col-md-3" style="display: inline-block; margin-left:70px; border-bottom:2px solid #e6e9ed;">
+						<form id="search" style="margin-bottom:10px;">
 							전결 조건 추가 : <select id="delegationTmp" name="delegationTmp"
 								style="height: 28px;">
 								<c:forEach var="template" items="${requestScope.template}">
@@ -262,8 +262,8 @@ $(document).ready(function(){
 						</form>
 					</div>
 					<div class="col-md-3">
-						<div class="input-group"
-							style="display: inline-flex; margin-top: 10px;">
+						 <div class="input-group"
+							style="display: inline-flex; margin-top: 66px; margin-left:464px;">
 
 							<select id="pKeyfield" name="pKeyfield"
 								style="height: 28px; width: 80px;">
@@ -275,9 +275,9 @@ $(document).ready(function(){
 								style="height: 28px; margin-bottom: 4px; padding-top: 2px;">검색</button>
 
 
-						</div>
+						</div> 
 					</div>
-					<div class="input-group col-md-3 pull-right"
+					<!-- <div class="input-group col-md-3 pull-right"
 						style="display: inline-flex; ">
 
 						<select id="pKeyfield" name="pKeyfield"
@@ -290,7 +290,7 @@ $(document).ready(function(){
 							style="height: 28px; margin-bottom: 4px; padding-top: 2px;">검색</button>
 
 
-					</div>
+					</div> -->
 
 				</div>
 				<div class="col-md-12" style="width: 100%">
