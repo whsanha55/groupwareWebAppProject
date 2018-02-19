@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.domain.employee.DepartmentVO;
+import com.bit.groupware.domain.employee.EmployeeVO;
 
 @Repository
 public class DepartmentDAOImpl implements DepartmentDAO {
@@ -38,6 +39,10 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	
 	public void retireHead(String oldHead) {
 		sqlSession.update(NAMESPACE + ".retireHead", oldHead);
+	}
+	
+	public List<EmployeeVO> selectDeptEmpDetail(String cNo) {
+		return sqlSession.selectList(NAMESPACE + ".selectDeptEmpDetail", cNo);
 	}
 	
 }
