@@ -65,7 +65,7 @@ public class ReceiverAjaxController {
 	
 	@RequestMapping(value = "/submitReceiverAjax.do", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean submitReceiver(
+	public int submitReceiver(
 			@RequestParam(value = "receiverName", required = true) String receiverName ,
 			@RequestParam(value = "apprLines", required = true) String apprLines ,
 			@RequestParam(value = "refLines", required = true) String refLines,
@@ -108,7 +108,6 @@ public class ReceiverAjaxController {
 		}
 		receiver.setReceiverLines(receiverLines);
 		
-		receiverService.registerReceiver(receiver);
-		return true;
+		return receiverService.registerReceiver(receiver);
 	}
 }

@@ -8,6 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
+<style>
+	#modalBtn , .click {
+		cursor: pointer;
+	}
+</style>
 	<script>
 		var eKeyfield;				
 		var eKeyword;
@@ -82,7 +87,7 @@
 							text += '<tr>';
 							text += '<td id="check'+ i +'">'+ data.departments[i].cNo		 									 			+'</td>';
 							text += '<td><a id="modalBtn" data-toggle="modal" data-target="#myModal">'+ data.departments[i].cName	 	 					+'</a></td>';
-							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" data-toggle="modal">'+ data.departments[i].headDept 	+'</td>';
+							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" class="click" data-toggle="modal">'+ data.departments[i].headDept 	+'</a></td>';
 							text += '<td>'+ data.departments[i].phoneNumber												+'</td>';
 							text += '<td>'+ data.departments[i].memberCount 											+'</td>';
 							text += '<td>'+ data.departments[i].teamCount 												+'</td>';
@@ -141,7 +146,6 @@
 								,
 								success: function (data) {
 									var txt = "";
-									console.log(data);
 									for(var i = 0; i<data.length;i++) {
 										txt += '<tr>';
 										txt += '<td>' + data[i].empNo + '</td>';

@@ -10,7 +10,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 $(document).ready(function() {
-	$('#deletePost').click(function(){			
+				$('#deletePost').click(function(){			
 		var postNo = "${requestScope.post.postNo }";
 		var empName = '${param.empName}';
 		var boardNo = '${param.boardNo}';
@@ -59,11 +59,10 @@ $(document).ready(function() {
 	
 	
 	
-			
 			listCmt();
 				// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
 				$('#btnReply').on('click', function() {
-					
+				
 					if($($('textarea[name=cmtContent]')).val() == "" ){
 						swal("내용을 입력하세요.");
 						$('#cmtContent').focus();
@@ -81,7 +80,8 @@ $(document).ready(function() {
 								empName: empName 
 							},
 							success : function() {
-								swal("댓글이 등록되었습니다.");								
+								alert("댓글이 등록되었습니다.");
+							 	
 								listCmt();
 								$("#cmtContent").val('');
 								
@@ -236,14 +236,14 @@ $(document).ready(function() {
 						text += "<td></td>";
 				
 						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
-						text += "<td colspan='2' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
+						text += "<td colspan='2' class='cmtContent' >"+ data.posts[i].cmtContent + "</td>";
 						if(data.posts[i].cmtWriter == empName) {
 							text += "<td class='selectBtn'><button type='button' class='btn btn-modify btn-xs' >수정</button>";
 							text +="<button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-modify btn-xs' >삭제</button></td></tr>";
-							} else {
-			                     text += "<td tyle='border-bottom: 1px  solid darkgray;'></td>";
-			                }    
-					
+						}else {
+							text += "<td tyle='border-bottom: 1px  solid darkgray;'></td>";
+						}        
+			
 						text += "</tr>";
 					} 
 					$('#datatable').find('tbody').html(text);
@@ -253,12 +253,10 @@ $(document).ready(function() {
 				alert("에러: " + jqXHR.status);
 			}
 			
-		});	
+		});
+		
+
 	}
-	
-	
-	
-	
 </script>
 <style>
 .btn-modify{
@@ -294,14 +292,7 @@ $(document).ready(function() {
 							<c:param name="fileCount" value="${param.fileCount }" />
 							<c:param name="isComment" value="${param.isComment }" />
 						</c:url>
-						<c:url var="removeUrl" value="/removePost.do" scope="page">
-							<c:param name="postNo" value="${requestScope.post.postNo }" />
-							<c:param name="boardNo" value="${param.boardNo }" />
-							<c:param name="boardName" value="${param.boardName }" />
-							<c:param name="empName" value="${param.empName }" />
-							<c:param name="fileCount" value="${param.fileCount }" />
-							<c:param name="isComment" value="${param.isComment }" />						
-						</c:url>
+						
 					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
 					<c:if test="${requestScope.post.writer == param.empName}">
 						<a class="btn btn-primary" href="${modifyUrl}">수정</a> 

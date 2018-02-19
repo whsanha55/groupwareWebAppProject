@@ -71,7 +71,6 @@ public class AdminDepartmentListAjaxController {
 	@ResponseBody
 	public List<EmployeeVO> retrieveMemberController(@RequestParam("cNo")String cNo) {
 		List<EmployeeVO> employees = employeeService.retrieveMemberDetail(cNo);
-		logger.info("employees : {}", employees);
 		return employees;
 	}
 }

@@ -12,6 +12,9 @@
 	.modal-dialog {
 		width:670px;
 	}
+	#employeePaging li , #submitEmpNo{
+		cursor: pointer;
+	}
 </style>
 <script>
 	var eKeyfield;
@@ -608,12 +611,12 @@
 								</div>
 							</div>
 						</div>
-						<table class="table table-striped table-bordered" style="width:350px;height:250px;">
+						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:250px;">
 							<tbody>
 								<tr>
-									<th>사번</th>
+									<th class='text-center'>사번</th>
 									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
-										readonly readonly value="" style="width:200px;"></td>
+										readonly value="" style="width:200px;"></td>
 								</tr>
 								<tr>
 									<th>이름</th>
@@ -638,7 +641,7 @@
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
-															class="btn btn-default dropdown-toggle"
+															class="btn btn-default dropdown-toggle btn-sm"
 															data-toggle="dropdown">
 															<span id="search_concept" class="preDuty" >직책</span><span class="caret"></span>
 														</button>
@@ -658,12 +661,12 @@
 											<div class="col-xs-2 col-xs-offset-2">
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
-														<button id="deptBtn" type="button"
-															class="btn btn-default dropdown-toggle"
+														<button id="deptBtn" type="button" 
+															class="btn btn-default dropdown-toggle btn-sm"
 															data-toggle="dropdown">
 															<span id="search_concept" class="preDept">부서</span> <span class="caret"></span>
 														</button>
-														<ul id="deptBtnList" class="dropdown-menu" role="menu">
+														<ul id="deptBtnList" class="dropdown-menu" role="menu" >
 															<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 																<li role="presentation">
 																	<a role="menuitem" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>

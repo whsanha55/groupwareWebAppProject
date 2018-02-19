@@ -4,6 +4,7 @@ public class CodeVO {
 	private String cNo;
 	private String cName;
 	private String relationCode;
+	private String isUsed;
 	private String countRelationCode;
 	private String countEmployee;
 	private String countApproval;
@@ -113,31 +114,29 @@ public class CodeVO {
 	public void setHighRelationCode(String highRelationCode) {
 		this.highRelationCode = highRelationCode;
 	}
+	
+	
+
+	public String getIsUsed() {
+		return isUsed;
+	}
+
+	public void setIsUsed(String isUsed) {
+		this.isUsed = isUsed;
+	}
 
 	@Override
 	public String toString() {
-		return "CodeVO [cNo=" + cNo + ", cName=" + cName + ", relationCode=" + relationCode + ", countRelationCode="
-				+ countRelationCode + ", countEmployee=" + countEmployee + ", countApproval=" + countApproval
-				+ ", countApprovalRecord=" + countApprovalRecord + ", countNotification=" + countNotification
-				+ ", countPost=" + countPost + ", countPlan=" + countPlan + ", highRelationCode=" + highRelationCode
-				+ "]";
+		return "CodeVO [cNo=" + cNo + ", cName=" + cName + ", relationCode=" + relationCode + ", isUsed=" + isUsed
+				+ ", countRelationCode=" + countRelationCode + ", countEmployee=" + countEmployee + ", countApproval="
+				+ countApproval + ", countApprovalRecord=" + countApprovalRecord + ", countNotification="
+				+ countNotification + ", countPost=" + countPost + ", countPlan=" + countPlan + ", highRelationCode="
+				+ highRelationCode + "]";
 	}
 
 	
-
-	
 	
 
-	
-	
-	
-
-	
-
-	
-	
-	
-	
 	
 
 }
