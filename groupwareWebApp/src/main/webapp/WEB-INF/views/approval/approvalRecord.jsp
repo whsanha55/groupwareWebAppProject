@@ -81,10 +81,11 @@
 											<a data-toggle="popover" data-placement="bottom" style="cursor:pointer;"
 											title="${pageScope.record.receiverLine.lineEmployee.department} 
 			                            		   ${pageScope.record.receiverLine.lineEmployee.empName} 
-			                            	       ${pageScope.record.receiverLine.lineEmployee.duty}" 
-			                            	data-content = '사유 : ${record.depEmployee.deputies[0].depReason }
-			                            	                &lt;br&gt; 대결 시작일자 : ${record.depEmployee.deputies[0].startDate}
-			                            	                &lt;br&gt; 대결 종료일자 : ${record.depEmployee.deputies[0].endDate}'>
+			                            	       ${pageScope.record.receiverLine.lineEmployee.duty}
+			                            	       &lt;br&gt;
+			                            	       [${record.depEmployee.deputies[0].startDate} ~
+			                            	        ${record.depEmployee.deputies[0].endDate}]" 
+			                            	data-content = '사유 : ${record.depEmployee.deputies[0].depReason }'>
 												&lt;대결&gt;
 												${record.depEmployee.department}
 												${record.depEmployee.empName}
