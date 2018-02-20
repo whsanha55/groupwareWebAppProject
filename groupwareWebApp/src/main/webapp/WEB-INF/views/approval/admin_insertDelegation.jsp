@@ -17,6 +17,9 @@
 
 input {height:34px !important;}
 	
+#delegationTmp {
+	width : 140px;
+}
 </style>
 <script>
 var pKeyfield;  
@@ -31,6 +34,7 @@ $(document).ready(function(){
 	$('#categorySelect').on('change',function() {
 		var categoryNo = $(this).val();
 		if(categoryNo==0) {	//대분류 선택버튼
+			$('#delegationTmp').html('<option value="0">양식서 선택</option>');
 			return;
 		}
 		if(categoryNo =='all'){	//전체 조회
@@ -45,7 +49,13 @@ $(document).ready(function(){
 			dataType: 'json'
 			,
 			success: function(data) {
-				console.log(data);
+				var text = '<option value="0">양식서 선택</option>';
+				for(var i=0; i<data.length;i++) {
+					text += '<option value="' + data[i].tmpNo +'">';
+					text += data[i].tmpName;
+					text += '</option>';
+				}
+				$('#delegationTmp').html(text);
 			
 			},
 			error: function(jqXHR, textStatus, error) {

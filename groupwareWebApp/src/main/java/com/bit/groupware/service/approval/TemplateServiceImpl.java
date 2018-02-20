@@ -48,8 +48,8 @@ public class TemplateServiceImpl implements TemplateService {
 		return templateDAO.selectTemplateNameList();
 	}
 
-	public List<TemplateVO> retrieveTemplateListByCategoryNo(int categoryNo) {
-		return templateDAO.selectTemplateListByCategoryNo(categoryNo);
+	public List<TemplateVO> retrieveTemplateListByCategoryNo(Map<String, Integer> map) {
+		return templateDAO.selectTemplateListByCategoryNo(map);
 	}
 
 	public void updateTemplateUsing(Map<String, Object> map) {
