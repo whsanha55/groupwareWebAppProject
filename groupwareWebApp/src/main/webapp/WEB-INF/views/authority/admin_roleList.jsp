@@ -317,7 +317,8 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>역할 리스트</h2>
-                    
+                    <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
+                  <button type="button"  id="deleteBtn" class="btn btn-default pull-right">삭제</button>
                     <div class="clearfix"></div>
                   </div>
      
@@ -372,8 +373,7 @@
                  <div class="text-center">
                   <nav aria-label="Page navigation" id = 'Paging'></nav> 
                 </div>
-                 <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
-                  <button type="button"  id="deleteBtn" class="btn btn-danger pull-right">삭제</button>
+                 
                </div>
                   
                   </div>

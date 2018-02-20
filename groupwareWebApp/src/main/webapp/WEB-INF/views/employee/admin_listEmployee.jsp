@@ -533,7 +533,7 @@ input[type=file]:before {
 			<div class="x_title">
 				<h2>사원관리</h2>
 				<button id="regisBtn" type="button" class="btn btn-primary pull-right" data-toggle="modal">
-					등록하기
+					등록
 				</button>
 				<div class="clearfix"></div>
 			</div>

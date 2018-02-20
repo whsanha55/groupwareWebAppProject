@@ -184,14 +184,7 @@
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
-					<div>
-						<div class="col-md-6">
-							<div class="col-md-2">
-								<h2>ºÎ¼­</h2>
-							</div>
-						</div>
-						<div>
-							<div class="col-xs-4 col-xs-offset-2">
+							<div class="col-xs-4 col-xs-offset-2  pull-right">
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px;"
