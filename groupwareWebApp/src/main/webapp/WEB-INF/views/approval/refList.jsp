@@ -32,6 +32,9 @@
 	#templatePaging li {
 		cursor : pointer;
 	}
+	#ui-datepicker-div {
+      z-index: 1051 !important;
+   }
 	input {height:34px !important;}
 </style>
 <link
@@ -179,6 +182,18 @@
 		///검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
+			 
+			 if(pKeyfield != "apprDate" && pKeyword == "") { 			
+					swal("검색어를 입력해주세요.", "","error");
+					return; 				
+				}
+	 			if(pKeyfield == "apprDate" ){
+		 			if( pKeyword == "" || pKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "","error");
+						return;
+		 			}  
+	 			}
+	 			
 			 if(pKeyfield=='finDate' || pKeyfield=='apprDate'){
 				 pKeyword=convertDate($('#pKeyword').datepicker('getDate'));
 				 pKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
@@ -195,16 +210,7 @@
 			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
 			 }
 			 
-	 			if(pKeyfield != "apprDate" && pKeyword == "") { 			
-					swal("검색어를 입력해주세요.", "");
-					return; 				
-				}
-	 			if(pKeyfield == "apprDate" ){
-		 			if( pKeyword == "" || pKeyword1 == "") {
-						swal("날짜를 입력해주세요.", "");
-						return;
-		 			}  
-	 			}
+	 			
 			 
 			 templatePaging(1);
 		 });
