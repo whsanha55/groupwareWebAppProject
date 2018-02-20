@@ -81,7 +81,7 @@ $(document).ready(function() {
 			swal("장소정보를 입력해주세요.","");
 			return;
 		}
-		if($('input[name=pContent]').val() == null) {
+		if($('textarea[name=pContent]').val().trim() == '') {
 			swal("내용을 입력해주세요.","");
 			return;
 		}
