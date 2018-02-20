@@ -177,7 +177,8 @@
 				<h2 >
 				${param.boardName}				
 				</h2>
-
+				<div class="clearfix"></div>
+			</div>
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-7 col-xs-offset-5">
@@ -205,8 +206,7 @@
 				</div>
 
 
-				<div class="clearfix"></div>
-			</div>
+				
 
 			<div>
 				<table id="datatable" class="table table-striped jambo_table bulk_action">
