@@ -118,5 +118,11 @@ public class AdminDesignateAuthorityController {
 	public boolean check(@RequestParam(value="aNo") String aNo, @RequestParam(value="empNo") String empNo) {
 			List<String> list = authorityService.retrieveAuthEmpNo(aNo);
 			return list.contains(empNo);
+			/*for(int i=0; i<list.size(); i++){
+				if(empNo.equals(list.get(i))){
+					return true;
+				}
+			}
+		return false;*/
 	}
 }
