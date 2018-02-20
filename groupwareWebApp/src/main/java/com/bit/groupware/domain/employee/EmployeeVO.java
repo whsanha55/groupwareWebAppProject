@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class EmployeeVO extends EmployeeCodeViewVO{
+public class EmployeeVO extends EmployeeCodeViewVO {
 	private String empNo;
 	private String empName;
 	private String empPwd;
@@ -18,18 +18,17 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 	private String postcode;
 	private String address;
 	private String detailAddress;
-	private String isAdmin;	
+	private String isAdmin;
 	private List<MultipartFile> upload;
 	private List<CodeVO> codes;
 	private List<EmployeeCodeVO> codeList;
 	private List<PhotoVO> photos = new ArrayList<PhotoVO>();
-	
+	private List<DeputyVO> deputies = new ArrayList<DeputyVO>();
 
 	public EmployeeVO() {
 		super();
 	}
 
-	
 	public EmployeeVO(String empNo, String empName, String empPwd, String engName, String phoneNumber, String email,
 			String regNumber, String hireDate, String retireStatus, String retireDate, String postcode, String address,
 			String detailAddress, String isAdmin, List<MultipartFile> upload, List<CodeVO> codes,
@@ -54,7 +53,6 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 		this.codeList = codeList;
 		this.photos = photos;
 	}
-
 
 	public List<EmployeeCodeVO> getCodeList() {
 		return codeList;
@@ -196,21 +194,29 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 		return postcode;
 	}
 
-
 	public void setPostcode(String postcode) {
 		this.postcode = postcode;
 	}
-
 
 	public String getDetailAddress() {
 		return detailAddress;
 	}
 
-
 	public void setDetailAddress(String detailAddress) {
 		this.detailAddress = detailAddress;
 	}
 
+	public List<DeputyVO> getDeputies() {
+		return deputies;
+	}
+
+	public void setDeputies(List<DeputyVO> deputies) {
+		this.deputies = deputies;
+	}
+
+	public void addDeputy(DeputyVO deputy) {
+		deputies.add(deputy);
+	}
 
 	@Override
 	public String toString() {
@@ -218,8 +224,8 @@ public class EmployeeVO extends EmployeeCodeViewVO{
 				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", regNumber=" + regNumber + ", hireDate="
 				+ hireDate + ", retireStatus=" + retireStatus + ", retireDate=" + retireDate + ", postcode=" + postcode
 				+ ", address=" + address + ", detailAddress=" + detailAddress + ", isAdmin=" + isAdmin + ", upload="
-				+ upload + ", codes=" + codes + ", codeList=" + codeList + ", photos=" + photos + "]";
+				+ upload + ", codes=" + codes + ", codeList=" + codeList + ", photos=" + photos + ", deputies="
+				+ deputies + "]";
 	}
-
 
 }

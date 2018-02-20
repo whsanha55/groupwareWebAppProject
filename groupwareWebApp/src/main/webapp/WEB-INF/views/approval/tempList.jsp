@@ -39,12 +39,11 @@
 		 //기안페이지로 넘어가기
 		  $('#datatable').on('click','.writeButton',function(){
 			var apprNo=$(this).attr('id');  
-			alert(apprNo);
 			var url='${pageContext.request.contextPath}/writeApproval.do?apprNo='+ apprNo;
 			location.href=url;
 		 });
 		  
-		 
+		   
 		 //선택삭제
 		 $('#deleteApproval').click(function(){
 			 var checkRow="";

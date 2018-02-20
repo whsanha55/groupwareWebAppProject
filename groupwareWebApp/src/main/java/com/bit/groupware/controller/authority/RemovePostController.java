@@ -45,7 +45,8 @@ public class RemovePostController {
 		redirectAttributes.addAttribute("empName", empName);
 		redirectAttributes.addAttribute("boardName", boardName);
 		redirectAttributes.addAttribute("fileCount", fileCount);		
-		redirectAttributes.addAttribute("isComment", isComment);		
+		redirectAttributes.addAttribute("isComment", isComment);
+		
 		return "redirect:/postList.do";			
 	}
 

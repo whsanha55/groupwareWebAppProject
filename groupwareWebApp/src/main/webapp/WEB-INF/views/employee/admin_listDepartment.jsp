@@ -8,6 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
+<style>
+	#modalBtn , .click {
+		cursor: pointer;
+	}
+</style>
 	<script>
 		var eKeyfield;				
 		var eKeyword;
@@ -50,7 +55,7 @@
 			$('#modalCloseBtn').on('click',function() {
 				$('#chartBody').html(""); 
 			});
-				
+										
 		});
 		
 		function employeePaging() {
@@ -81,14 +86,14 @@
 						for(var i=0;i<data.departments.length;i++) {
 							text += '<tr>';
 							text += '<td id="check'+ i +'">'+ data.departments[i].cNo		 									 			+'</td>';
-							text += '<td>'+ data.departments[i].cName	 	 											+'</td>';
-							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" data-toggle="modal">'+ data.departments[i].headDept 	+'</td>';
+							text += '<td><a id="modalBtn" data-toggle="modal" data-target="#myModal">'+ data.departments[i].cName	 	 					+'</a></td>';
+							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" class="click" data-toggle="modal">'+ data.departments[i].headDept 	+'</a></td>';
 							text += '<td>'+ data.departments[i].phoneNumber												+'</td>';
 							text += '<td>'+ data.departments[i].memberCount 											+'</td>';
 							text += '<td>'+ data.departments[i].teamCount 												+'</td>';
 							text += '</tr>';
 							
-							$('tbody').on('click','#searchEmp' + i, function() {
+							$('#tbody1').on('click','#searchEmp' + i, function() {
 								$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
 								$('#layerpop').modal({
 									backdrop: 'static', 
@@ -97,7 +102,8 @@
 								oldHead = $(this).text().split(" ")[1];
 								checkCno = $(this).parent().parent().find('td:nth-child(1)').text();
 							});
-						}	
+						}
+						
 						$('#modalChooseBtn').on('click',function() {
 							checkChooseCno = selectedDeptNo;
 
@@ -122,8 +128,43 @@
 								}
 							});
 						});
+						
+						$('#tbody1').on('click','#modalBtn',function() {
+					
+							$.ajax ({
+								url: '${pageContext.request.contextPath}/admin/deptMemberListAjax.do'
+									,
+								data: {
+									cNo : $(this).parent().parent().find('td:nth-child(1)').text()
+								}
+								,
+								type: 'POST' 
+								,
+								cache: false 
+								,
+								dataType: 'json' 
+								,
+								success: function (data) {
+									var txt = "";
+									for(var i = 0; i<data.length;i++) {
+										txt += '<tr>';
+										txt += '<td>' + data[i].empNo + '</td>';
+										txt += '<td>' + data[i].empName + '</td>';
+										txt += '<td>' + data[i].duty + '</td>';
+										txt += '<td>' + data[i].hireDate + '</td>';
+										txt += '<td>' + data[i].department + '</td>';
+										txt += '</tr>';
+									}
+									$('#datatable2').find('#tbody2').html(txt);
+								}
+								,
+								error: function(jqXHR) {
+									alert("에러: " + jqXHR.status);
+								}
+							});
+						});
 					}
-					$('#datatable').find('tbody').html(text);	
+					$('#datatable').find('#tbody1').html(text);
 				} 
 				,
 				error: function(jqXHR) {
@@ -156,7 +197,7 @@
 							<div class="col-xs-4 col-xs-offset-2">
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle"
+										<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 											data-toggle="dropdown">
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
@@ -168,9 +209,9 @@
 									</div>
 									<input type="hidden" name="search_param" value="all"
 										id="search_param"> <input type="text" 
-										class="form-control" id="keyword" name="x" placeholder="Search term...">
+										class="form-control" id="keyword" name="x" placeholder="검색어">
 									<span class="input-group-btn">
-										<button id="findDept" class="btn btn-default" type="button">
+										<button id="findDept" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
@@ -191,7 +232,7 @@
 							<th id="6" class="text-center">부서별 팀 수</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tbody1">
 			
 					</tbody>
 				</table>
@@ -215,6 +256,40 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">부서원 상세정보</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<table id="datatable2" class="table table-striped table-bordered">
+							<thead>
+								<tr id="deptEmpListTR">
+									<th>사번</th>
+									<th>이름</th>
+									<th>직책</th>
+									<th>입사일</th>
+									<th>소속부서</th>
+								</tr>
+							</thead>
+							<tbody id="tbody2">
+								
+							</tbody>
+						</table>
+						<br>
+						<div class="text-center">
+							<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	
 </body>
 </html>
