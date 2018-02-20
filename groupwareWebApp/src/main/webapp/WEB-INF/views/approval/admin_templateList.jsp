@@ -71,12 +71,12 @@
 			}
 			
  			if(pKeyfield != "tmpDate" && pKeyword == "") {
-				swal("검색어를 입력해주세요.", "");
+ 	 			swal("검색어를 입력해주세요","", "error");
 				return;
 			}
  			
  			if(pKeyfield == "tmpDate" && (pKeyword == "" || pKeyword1 == "")) {
-				swal("등록일을 지정해주세요.", "");
+ 	 			swal("등록일을 지정해주세요","", "error");
 				return;
  			}
 
@@ -90,11 +90,11 @@
 				$('#wrap').empty();
 				$('#wrap').html('<input type=date id=pKeyword>'
 								+'&nbsp;<b id=temp>~</b>' + '<input type=date id=pKeyword1>');
-			} else if($(this).val()=='tmpUsing') {
+			} /* else if($(this).val()=='tmpUsing') {
 				$('#wrap').empty();
 				$('#wrap').html('&nbsp;&nbsp;<input type="radio" name="using" value="1" checked>사용'
 								+'&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="using" value="0">미사용&nbsp;');
-			} else{
+			} */ else{
 				$('#wrap').empty();
 				$('#wrap').html('<input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">');
 			}
@@ -283,7 +283,6 @@
 										<th>번호</th>
 										<th>양식명</th>
 										<th>카테고리</th>
-										<th>사용여부</th>
 									</tr>
 								</thead>
 
