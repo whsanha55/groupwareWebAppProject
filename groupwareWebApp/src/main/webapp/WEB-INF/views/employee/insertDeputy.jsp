@@ -9,9 +9,6 @@
 <title>대결권자 등록</title>
 <style>
 .pagination {align:center};
-.current-page a{
-	background-color:#5a69798a;
-}
 </style>
   <link href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.min.css" />
@@ -87,37 +84,6 @@
 				$('#pKeyword1').remove();
 				$('#temp').remove();
 
-				console.log($('form').html());
-				
-				//$("input[name=pKeyword]").autocomplete('option','source',
-				//[ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]);
-				var url = ''; 
-				switch ($(this).val()) {
-					case 'empName':
-						url = 'retrieveEmployeeNameAndDutyList.do';
-						break;
-					case 'department':
-						url = 'retrieveDepartmentList.do';
-						break;
-					default :
-						break;
-				}
-				
-				$.ajax({
-					 url : '${pageContext.request.contextPath}/' + url ,
-					 cache : false ,
-					 type : 'GET' ,
-					 datatype : 'json' ,
-					 success : function(data) {
-						 $("input[name=pKeyword]").autocomplete('option','source',data);
-					 } ,
-					 error : function(jqXHR) {
-							alert(jqXHR.status);
-							console.log(jqXHR);
-					 }
-					 
-				});	
-					 
 					
 			}
 			
@@ -146,7 +112,7 @@
 		// 검색 실행
 		$("#btn3").on("click",function(){
 			eKeyfield=$('#pKeyfield').val();
-			 if(pKeyfield=='date'){ 
+			 if(eKeyfield=='date'){ 
 				 eKeyword=convertDate($('#pKeyword').datepicker('getDate'));
 				 eKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
 			 }else{
@@ -322,14 +288,6 @@
 							for(var j=0;j<data.deputies[i].employees.length;j++) {
 								text += "<tr id='parent" + i + "'>";
 								text += "<input type='hidden' id='depNo"+ i +"' value='"+ data.deputies[i].depNo +"'>";
-								text += "<td class='text-center'>"+ data.deputies[i].dempNo +"</td>";
-								text += "<td class='text-center'>"+ data.deputies[i].employees[j].duty +"</td>";
-								text += "<td class='text-center'>"+ data.deputies[i].employees[j].empName; + "</td>";
-								text += "<td id='startDate' class='text-center'>"+ data.deputies[i].startDate +"</td>";
-								text += "<td id='endDate' class='text-center'>"+ data.deputies[i].endDate +"</td>";
-								text += "<td class='text-center'>"+ data.deputies[i].progression +"</td>";
-								text += "<td class='text-center'>"+ data.deputies[i].depReason +"</td>";
-								text += "<td class='text-center'><button id='stopUse' type='button'>사용중단</button><button id='candep' type='button'>취소</button></td>";
 								text += "<td>"+ data.deputies[i].dempNo +"</td>";
 								text += "<td>"+ data.deputies[i].employees[j].duty +"</td>";
 								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
@@ -337,7 +295,7 @@
 								text += "<td id='endDate'>"+ data.deputies[i].endDate +"</td>";
 								text += "<td>"+ data.deputies[i].progression +"</td>";
 								text += "<td>"+ data.deputies[i].depReason +"</td>";
-								text += "<td><button id='stopUse' type='button' class='btn btn-default'>사용중단</button><button id='candep' type='button' class='btn btn-default'>취소</button></td>";
+								text += "<td><button id='stopUse' type='button'>사용중단</button><button id='candep' type='button'>취소</button></td>";
 								text += "</tr>";
 							}
 						}
@@ -475,13 +433,13 @@
 									<option value="duty">직책</option>
 									<option value="empName">이름</option>
 									<option value="date">기간</option>
-								</select> <input style="height:25px;" id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
-								<button id="btn3" type="button" class="btn btn-primary btn-xs">검색</button>
+								</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
+								<button id="btn3" type="button">검색</button>
 								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
 					</div>
 						
-					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
+					<table id="datatable" class="table table-striped table-bordered" style="width:1202px;">
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>
@@ -499,10 +457,10 @@
 						</tbody>
 					</table>
 					<div class="text-center">
-				 	<nav aria-label="Page navigation" id = 'employeePaging1'>
+				 		<nav aria-label="Page navigation" id = 'employeePaging1'>
 				
-					</nav> 
-					</div>
+						</nav> 
+						</div>
 				</form>
 			</div>
 		</div>
