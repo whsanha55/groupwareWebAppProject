@@ -13,6 +13,15 @@
 	a:link {color:blue;}
  	a:hover{color:gold;}
 	a:visited{color:purple;}
+	.listCode3 {
+		cursor : pointer;	
+	}
+	.box3 {
+		cursor : pointer;
+	}
+	.box4 {
+		cursor : pointer;
+	}
 </style>
 <script>
 	var eKeyfield;
@@ -52,11 +61,11 @@
 			window.open(url, "코드 등록", "width=700, height=600");
 		});
 		
-		//수정버튼 클릭시 팝업창 생성
-		$('.modify').click(function(){
+		//수정 버튼 클릭시 팝업창 생성
+		$('#datatable').on('click', '.modify', function() {
 			var c_no = $(this).attr('id');
 			var url = '${pageContext.request.contextPath}/admin/modifyCode3.do?cNo='+ c_no;
-
+			
 			window.open(url, "코드 수정", "width=700, height=600");
 		});
 		
@@ -285,7 +294,6 @@
 								&nbsp;
 								<div class="box5">${requestScope.relationCode }<div class="tri3"></div></div>
 								<br>
-								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 
 						</div>
 						

@@ -24,7 +24,10 @@
  	a:hover{color:gold;}
 	a:visited{color:purple;}
 	.listCode2 {
-		cursor : pointer;	
+		cursor : pointer;
+	}
+	.box3 {
+		cursor : pointer;
 	}
 </style>
 <script>
