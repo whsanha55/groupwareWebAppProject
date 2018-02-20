@@ -24,7 +24,7 @@
 						</div>
 						<div class="col-md-6"></div>
 					</div>
-					<table id="datatable" class="table table-striped table-bordered" style="font-size:16px;">
+					<table id="datatable" class="table table-striped table-bordered" style="font-size:14px;">
 						<tbody>
 							<tr>
 								<th>일정구분</th>

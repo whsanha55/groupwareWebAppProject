@@ -210,7 +210,10 @@
     <div class="x_panel">
         <div class="x_title">
              <h2>공지사항</h2>
-             
+              <a class="btn btn-primary pull-right" href='<c:url value="/admin/addNotice.do"/>'>등록</a>
+                <button type="button"  id="deleteBtn" class="btn btn-default pull-right" >삭제</button>
+          <div class="clearfix"></div>
+        </div>
            	<div class="container">
 			    <div class="row">    
 			        <div class="col-xs-5 col-xs-offset-7">
@@ -234,8 +237,7 @@
 				</div>
 			</div>     
              
-        <div class="clearfix"></div>
-        </div>
+        
         
         <div class="table-responsive">
                 <table id="datatable" class="table table-striped jambo_table bulk_action">
@@ -251,8 +253,7 @@
                   <tbody>
                   </tbody>
                 </table>
-			     <a class="btn btn-primary pull-right" href='<c:url value="/admin/addNotice.do"/>'>등록</a>
-                <button type="button"  id="deleteBtn" class="btn btn-danger pull-right" >삭제</button>
+			    
          <div>
          	<div class="text-center">
 				<nav aria-label="Page navigation" id = 'Paging'></nav> 
