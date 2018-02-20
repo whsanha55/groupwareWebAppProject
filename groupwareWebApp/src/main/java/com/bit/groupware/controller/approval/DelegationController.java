@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.approval.DelegationVO;
+import com.bit.groupware.persistent.approval.TemplateCategoryDAO;
 import com.bit.groupware.service.approval.DelegationService;
 import com.bit.groupware.service.approval.TemplateService;
 import com.bit.groupware.service.employee.CodeService;
@@ -27,13 +28,18 @@ public class DelegationController {
 	private TemplateService templateService;
 	@Autowired
 	private DelegationService delegationService;
+	@Autowired
+	private TemplateCategoryDAO templateCategoryDAO;
+	
 	
 	//페이지 요청
 	@RequestMapping(value="/admin/delegation.do",method=RequestMethod.GET)
 	public ModelAndView form() {
 		ModelAndView mv= new ModelAndView();
 		mv.addObject("duty",codeService.retrieveDutyCodeList());
+		
 		mv.addObject("template",templateService.retrieveTemplateNameList());
+		mv.addObject("categories",templateCategoryDAO.selectCategoryList());
 		mv.setViewName("approval/admin_insertDelegation");
 		return mv;
 	}
