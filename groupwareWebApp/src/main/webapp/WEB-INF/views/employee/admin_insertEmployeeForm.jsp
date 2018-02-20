@@ -353,7 +353,7 @@ input[type=file]::-webkit-file-upload-button {
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
 							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" 
-									width="200px" height="200px" class="img-responsive center-block"/>
+									width="200px" height="200px;"  style=" border: 2px solid #ccc;"   class="img-responsive center-block"/>
 						</div>
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
