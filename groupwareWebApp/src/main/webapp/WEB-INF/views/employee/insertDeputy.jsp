@@ -46,13 +46,13 @@
 
 		employeePaging1(1);
 		
-		$('#startDate1').datetimepicker({
+		$('#startDate1').datepicker({
 			format : "YYYY/MM/DD HH:00",		
 			minDate : new Date().setHours(00) ,
 			defaultDate : new Date().setHours(8)
 			
 		});
-		$('#endDate1').datetimepicker({
+		$('#endDate1').datepicker({
 			format : "YYYY/MM/DD HH:00",	 
 			minDate : new Date().setHours(00) ,
 			defaultDate : new Date().setHours(18)

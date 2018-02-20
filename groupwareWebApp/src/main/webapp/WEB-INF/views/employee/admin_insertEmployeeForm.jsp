@@ -176,13 +176,14 @@ input[type=file]::-webkit-file-upload-button {
 				$('input[name=phoneNumber3]').after('<span id="errorSpan" style="color:red;">연락처를 정확히 입력해주세요.</span>');
 			}
 		});
-		
+		/*
 		$('input[name=regNumber1], input[name=regNumber2]').blur(function() {			
 			if(!($('input[name=regNumber1]').val().trim().length == 6 && $('input[name=regNumber2]').val().trim().length == 7)) {
 				$('input[name=regNumber2]').after('<span id="errorSpan" style="color:red;">주민번호를 정확히 입력해주세요.</span>');
 			}
 		});
-		
+		*/
+		/*
 		$('input[name=email1], input[name=email2]').blur(function() {
 			var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 			var email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
@@ -191,7 +192,7 @@ input[type=file]::-webkit-file-upload-button {
 				$('select[name=emailaddr]').after('<span id="errorSpan" style="color:red;">이메일을 정확히 입력해주세요.</span>');
 			}
 		});
-		
+		*/
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;
@@ -352,7 +353,7 @@ input[type=file]::-webkit-file-upload-button {
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
 							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" 
-									width="200px" height="200px" class="img-responsive center-block"/>
+									width="200px" height="200px;"  style=" border: 2px solid #ccc;"   class="img-responsive center-block"/>
 						</div>
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
 						<div class="btn-group">
@@ -429,10 +430,10 @@ input[type=file]::-webkit-file-upload-button {
 							<input type="hidden" id="regNumber" name="regNumber" 
 								 class="form-control col-md-7 col-xs-12" value="">
 							<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
-								 class="form-control" style="width:200px;">
+								 class="form-control" style="width:150px;">
 								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 							<input type="password" id="regNumber2" name="regNumber2" maxlength="7"
-								 class="form-control" style="width:200px;">
+								 class="form-control" style="width:150px;">
 						</div>
 					</div>
 					<div class="form-group">
@@ -510,7 +511,7 @@ input[type=file]::-webkit-file-upload-button {
 						<div class="center-block" align="center">
 							<c:url var="listEmployeeURL" value="/admin/listEmployee.do" scope="page" ></c:url>
 							<a id="list" href="${pageScope.listEmployeeURL }"><button class="btn btn-primary" type="button">목록</button></a>
-							<button id="regibtn" type="submit" class="btn btn-success">사원등록</button>
+							<button id="regibtn" type="submit" class="btn btn-success">등록</button>
 						</div>
 					</div>
 				</form>

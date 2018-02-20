@@ -471,6 +471,9 @@ $(document).ready(function() {
 });
 
 </script>
+<style>
+	.page-link{cursor:pointer !important;}
+</style>
 <title>content</title>
 </head>
 <body>

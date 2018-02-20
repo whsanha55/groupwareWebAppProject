@@ -29,14 +29,22 @@ public class DelegationDAOImpl implements DelegationDAO {
 	}
 
 	public List<DelegationVO> selectDelegations(Map<String,Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE+".selectDeleg" ,map);
 	}
 
 	public int selectDelegationsCount(Map<String,Object> map) {
-		// TODO Auto-generated method stub
 		int count=sqlSession.selectOne(NAMESPACE+".selectDelegCount",map);
 		return count;
+	}
+	
+	
+	public int selectDelegationIsTmpExist(int tmpNo) {
+		return sqlSession.selectOne(NAMESPACE+".checkDelegationIsTmpExist",tmpNo);
+	}
+
+	public void updateDelegationDelete(int deleNo) {
+		sqlSession.update(NAMESPACE+".updateDelegationDelete",deleNo);
 	}   
+	
 	
 }

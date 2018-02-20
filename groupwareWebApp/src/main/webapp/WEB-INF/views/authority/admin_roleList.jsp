@@ -306,6 +306,9 @@
    }
    
 </script>
+<style>
+	.page-link{cursor:pointer !important;}
+</style>
 <title>content</title>
 </head>
 <body>
@@ -314,7 +317,8 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>역할 리스트</h2>
-                    
+                    <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
+                  <button type="button"  id="deleteBtn" class="btn btn-default pull-right">삭제</button>
                     <div class="clearfix"></div>
                   </div>
      
@@ -323,7 +327,7 @@
                  <div class="col-xs-6 col-xs-offset-6">
                    <div class="input-group">
                          <div class="input-group-btn search-panel">
-                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
                                 <span class="keyfield">검색조건</span> <span class="caret"></span>
                              </button>
                              <ul class="dropdown-menu" role="menu">
@@ -333,7 +337,7 @@
                          </div>
                          <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
                          <span class="input-group-btn">
-                             <button class="btn btn-default find" type="button">
+                             <button class="btn btn-default find" type="button" style="margin-left:3px; height:34px;">
                                 <span class="glyphicon glyphicon-search"></span>
                              </button>
                          </span>
@@ -369,8 +373,7 @@
                  <div class="text-center">
                   <nav aria-label="Page navigation" id = 'Paging'></nav> 
                 </div>
-                 <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
-                  <button type="button"  id="deleteBtn" class="btn btn-danger pull-right">삭제</button>
+                 
                </div>
                   
                   </div>

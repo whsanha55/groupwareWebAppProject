@@ -15,6 +15,29 @@
 	#employeePaging li , #submitEmpNo{
 		cursor: pointer;
 	}
+	
+	input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
+}
+
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: '사진선택';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
 </style>
 <script>
 	var eKeyfield;
@@ -45,7 +68,7 @@
 		// 검색 실행
 		$('#findEmployee').on('click', function() {
 			if($('.keyfield').attr('id') == undefined) {
-				swal("검색조건를 선택해주세요");
+				swal("검색조건를 선택해주세요","", "error");
 				return;
 			}
 	
@@ -129,6 +152,7 @@
 		});	
 		
 		$('#modalForm').on('click', '#modifyBtn', function() {
+			$('#upload-image').attr('disabled', false);
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
 			$('select[name=phoneNumber1]').attr('disabled', false);
@@ -189,9 +213,7 @@
 				swal("주소정보를 입력해주세요.","");
 				return;
 			}
-			
-			
-			
+					
 			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
 			$('#phoneNumber').val(phoneNumber);
 			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
@@ -200,13 +222,13 @@
 			$('#email').val(email);
 		
 			swal({
-				title: "사원 등록",
-				text: "사원을 등록합니다. 계속 진행하시겠습니까?",
+				title: "사원 수정",
+				text: "사원을 수정합니다. 계속 진행하시겠습니까?",
 				icon: "info",
 				buttons : true 
 			}).then((e) => {
 				if(e) {
-					$('#modalform').submit();
+					$('#modalForm').submit();
 					employeePaging(1);
 				} else if(!e) {
 					checkUnload = true;
@@ -343,7 +365,7 @@
 				//datatable테이블 변경하기
 				var text = "";
 				if(totalCount == 0) {
-					text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+					text += '<tr class="text-center"><td colspan=8>조회된 검색결과가 없습니다</td></tr>';
 				} else {
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
@@ -372,6 +394,7 @@
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						$('#upload-image').attr('disabled', true);
 						$('#modEmpName').attr('readonly', true);
 						$('#modEngName').attr('readonly', true);
 						$('select[name=phoneNumber1]').attr('disabled', true);
@@ -511,23 +534,17 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>사원관리</h2>
+				<button id="regisBtn" type="button" class="btn btn-primary pull-right" data-toggle="modal">
+					등록
+				</button>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div class="col-md-8">
-							<div class="col-md-2">
-								<h2>사원명부</h2>
-							</div>
-							<%-- <c:url var=registerEmployee value="/admin/registerEmployee.do" scope="page" /> --%>
-							<button id="regisBtn" type="button" class="btn btn-primary" data-toggle="modal">
-								등록하기
-							</button>
-						</div>
 						<div>
-							<div class="input-group">
+							<div class="input-group col-md-6 pull-right">
 								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
@@ -610,7 +627,7 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" style='width:200px;height:250px;' 
+									<img id="photo" style='width:200px;height:250px;   ' 
 									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
@@ -712,10 +729,10 @@
 										<input type="hidden" id="regNumber" name="regNumber" 
 											 class="form-control col-md-7 col-xs-12" value="" >
 										<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
-											 class="form-control" style="width:200px;">
+											 class="form-control" style="width:150px;">
 											&nbsp;-&nbsp;
 										<input type="text" id="regNumber2" name="regNumber2" maxlength="7"
-											 class="form-control" style="width:200px;">
+											 class="form-control" style="width:150px;">
 									</td>
 								</tr>
 								<tr>

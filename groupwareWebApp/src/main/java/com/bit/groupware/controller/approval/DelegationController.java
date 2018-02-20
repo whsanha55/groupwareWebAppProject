@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.approval.DelegationVO;
+import com.bit.groupware.persistent.approval.TemplateCategoryDAO;
 import com.bit.groupware.service.approval.DelegationService;
 import com.bit.groupware.service.approval.TemplateService;
 import com.bit.groupware.service.employee.CodeService;
@@ -27,13 +28,18 @@ public class DelegationController {
 	private TemplateService templateService;
 	@Autowired
 	private DelegationService delegationService;
+	@Autowired
+	private TemplateCategoryDAO templateCategoryDAO;
+	
 	
 	//페이지 요청
 	@RequestMapping(value="/admin/delegation.do",method=RequestMethod.GET)
 	public ModelAndView form() {
 		ModelAndView mv= new ModelAndView();
 		mv.addObject("duty",codeService.retrieveDutyCodeList());
+		
 		mv.addObject("template",templateService.retrieveTemplateNameList());
+		mv.addObject("categories",templateCategoryDAO.selectCategoryList());
 		mv.setViewName("approval/admin_insertDelegation");
 		return mv;
 	}
@@ -69,6 +75,16 @@ public class DelegationController {
 		
 	}
 	
+	//전결 등록 전에 기존에 양식서가 등록된 상태인지 확인하는 메소드
+	@RequestMapping(value="/admin/checkDelegationIsTmpExist.do",method=RequestMethod.GET)
+	@ResponseBody
+	public boolean checkDelegationIsTmpExist(@RequestParam(value="tmpNo") int tmpNo) {
+		
+		return delegationService.retreiveDelegationIsTmpExist(tmpNo) > 0 ? true : false; 
+		
+
+	}
+	
 	//전결 추가
 	@RequestMapping(value="/admin/registerDelegation.do",method=RequestMethod.POST)
 	@ResponseBody
@@ -86,7 +102,7 @@ public class DelegationController {
 	//전결 삭제
 	@RequestMapping(value="/admin/removeDelegation.do", method=RequestMethod.GET) 
 	public String removeDele(@RequestParam(value="deleNo") int deleNo) {
-		delegationService.removeDelegations(deleNo); 
+		delegationService.modifyDelegationDelete(deleNo); 
 		return "redirect:/admin/delegation.do";
 	}
 }

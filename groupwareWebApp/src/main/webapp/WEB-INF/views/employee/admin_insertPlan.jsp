@@ -7,19 +7,56 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<link href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.min.css" />
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" 
 		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.js"></script>
 <style>
 .modal-dialog.modal-cSize {
 	width:600px;
 	height:auto;
+}
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: '사진선택';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+	input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
 }
 </style>
 <script>
 
 
 $(document).ready(function() {	
+	
+	$('#startDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:mm",		
+		defaultDate : new Date()
+	});
+	
+	$('#endDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:mm",	 
+		defaultDate : new Date()
+	});
 
 	$('#registerBtn').on('click', function() {
 		event.preventDefault();
@@ -44,7 +81,7 @@ $(document).ready(function() {
 			swal("장소정보를 입력해주세요.","");
 			return;
 		}
-		if($('input[name=pContent]').val() == '') {
+		if($('textarea[name=pContent]').val().trim() == '') {
 			swal("내용을 입력해주세요.","");
 			return;
 		}
@@ -179,11 +216,11 @@ $(document).ready(function() {
 											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="startDate" id="startDate"
+												<input type="text" name="startDate" id="startDate1"
 														class="form-control" required="required" style="width:262px;" >
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="endDate" id="endDate" 
+												<input type="text" name="endDate" id="endDate1" 
 														class="form-control" required="required" style="width:262px;" >
 											</div>
 										</div>
@@ -206,7 +243,7 @@ $(document).ready(function() {
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용</label>&nbsp;&nbsp;
+							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용 *</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								 <textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%" ></textarea>
 							</div>

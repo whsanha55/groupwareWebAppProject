@@ -16,6 +16,9 @@
 	.listCode3 {
 		cursor : pointer;	
 	}
+	.box3 {
+		cursor : pointer;
+	}
 </style>
 <script>
 	var eKeyfield;
@@ -54,7 +57,7 @@
 			console.log(relationCode);
 
 			var url = '${pageContext.request.contextPath}/admin/registerCode2.do?relationCode='+ "${param.relationCode}";
-			window.open(url, "코드 등록", "width=700, height=600");
+			window.open(url, "코드 등록", "width=700, height=300");
 		});
 		
 		//수정 버튼 클릭시 팝업창 생성
@@ -62,7 +65,7 @@
 			var c_no = $(this).attr('id');
 			var url = '${pageContext.request.contextPath}/admin/modifyCode2.do?cNo='+ c_no;
 			
-			window.open(url, "코드 수정", "width=700, height=600");
+			window.open(url, "코드 수정", "width=700, height=300");
 		});
 		
 		//삭제 버튼 클릭시 삭제
@@ -270,6 +273,11 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>코드관리</h2>
+				<div class="pull-right">
+					<button type="button" id="insert" class="btn btn-primary">등록</button>
+				<c:url var="previousCodeURL" value="/admin/listCode1.do" scope="page" ></c:url>
+				<a id="previous" href="${pageScope.previousCodeURL }"><button type="button" class="btn btn-primary" >이전</button></a>
+				</div>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
@@ -329,10 +337,7 @@
 						</tbody>
 				</table>
 			</div>
-			<div class="col-md-5"></div>
-				<button type="button" id="insert" class="btn btn-primary">등록</button>
-				<c:url var="previousCodeURL" value="/admin/listCode1.do" scope="page" ></c:url>
-				<a id="previous" href="${pageScope.previousCodeURL }"><button type="button" class="btn btn-primary" >이전</button></a>
+			
 		</div>
 	</div>
 </body>
