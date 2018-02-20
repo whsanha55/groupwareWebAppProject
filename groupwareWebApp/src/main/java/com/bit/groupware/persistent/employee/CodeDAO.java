@@ -54,5 +54,7 @@ public interface CodeDAO {
 	
 	//페이징 처리
 	int selectCodeCount(Map<String, Object> map);
+	
+	int selectCodeHistoryListByAdminCount(Map<String, Object> map);
 
 }

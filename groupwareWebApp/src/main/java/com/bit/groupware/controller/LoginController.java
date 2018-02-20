@@ -59,7 +59,7 @@ public class LoginController {
 	@RequestMapping(value = "/admin/index.do", method = RequestMethod.GET)
 	public ModelAndView form3() throws Exception {
 		
-		metaSource.reload();
+		/*metaSource.reload();*/
 		
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

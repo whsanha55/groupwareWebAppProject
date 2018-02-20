@@ -82,4 +82,8 @@ public class CodeServiceImpl implements CodeService {
 	public int retrieveCodeCount(Map<String, Object> map) {
 		return codeDAO.selectCodeCount(map);
 	}
+	
+	public int retrieveHistoryCount(Map<String, Object> map) {
+		return codeDAO.selectCodeHistoryListByAdminCount(map);
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bit.groupware.controller.approval.AdminTemplateController;
+import com.bit.groupware.domain.approval.TemplateCategoryVO;
 import com.bit.groupware.domain.approval.TemplateVO;
 @Repository
 public class TemplateDAOImpl implements TemplateDAO{
@@ -46,6 +47,10 @@ private final static Logger logger = LoggerFactory.getLogger(AdminTemplateContro
 
 	public List<TemplateVO> selectTemplateNameList() {
 		return sqlSession.selectList(NAMESPACE + ".selectTemplateNameList");
+	}
+	
+	public List<TemplateVO> selectTemplateListByCategoryNo(int categoryNo) {
+		return sqlSession.selectList(NAMESPACE+".selectTemplateListByCategoryNo",categoryNo);
 	}
 
 	public void updateTemplateUsing(Map<String, Object> map) {

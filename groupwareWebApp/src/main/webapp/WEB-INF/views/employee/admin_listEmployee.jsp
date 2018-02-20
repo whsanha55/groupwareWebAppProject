@@ -152,6 +152,7 @@ input[type=file]:before {
 		});	
 		
 		$('#modalForm').on('click', '#modifyBtn', function() {
+			$('#upload-image').attr('disabled', false);
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
 			$('select[name=phoneNumber1]').attr('disabled', false);
@@ -364,7 +365,7 @@ input[type=file]:before {
 				//datatable테이블 변경하기
 				var text = "";
 				if(totalCount == 0) {
-					text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+					text += '<tr class="text-center"><td colspan=8>조회된 검색결과가 없습니다</td></tr>';
 				} else {
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
@@ -393,6 +394,7 @@ input[type=file]:before {
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						$('#upload-image').attr('disabled', true);
 						$('#modEmpName').attr('readonly', true);
 						$('#modEngName').attr('readonly', true);
 						$('select[name=phoneNumber1]').attr('disabled', true);

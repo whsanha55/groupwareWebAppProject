@@ -14,21 +14,20 @@ import com.bit.groupware.persistent.approval.TemplateDAO;
 
 @Service
 public class TemplateServiceImpl implements TemplateService {
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(AdminTemplateController.class);
-	
+
 	@Autowired
 	private TemplateDAO templateDAO;
-	
+
 	public List<TemplateVO> retrieveTemplateList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return templateDAO.selectTemplateList(map); 
+		return templateDAO.selectTemplateList(map);
 	}
-	
 
 	public TemplateVO retrieveTemplate(int tmpNo) {
 		// TODO Auto-generated method stub
-		return templateDAO.selectTemplate(tmpNo); 
+		return templateDAO.selectTemplate(tmpNo);
 	}
 
 	public void registerTemplate(TemplateVO templateVO) {
@@ -45,14 +44,16 @@ public class TemplateServiceImpl implements TemplateService {
 		return templateDAO.selectTemplateCount(map);
 	}
 
-
 	public List<TemplateVO> retrieveTemplateNameList() {
 		return templateDAO.selectTemplateNameList();
 	}
-	
+
+	public List<TemplateVO> retrieveTemplateListByCategoryNo(int categoryNo) {
+		return templateDAO.selectTemplateListByCategoryNo(categoryNo);
+	}
+
 	public void updateTemplateUsing(Map<String, Object> map) {
 		templateDAO.updateTemplateUsing(map);
 	}
-	
 
 }

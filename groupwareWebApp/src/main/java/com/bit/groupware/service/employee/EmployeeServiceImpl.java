@@ -120,6 +120,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 		List<EmployeeCodeVO> codeList = employee.getCodeList();
 		
+		employeeDAO.insertCodeHistoryProcedure(empNo);
 		employeeDAO.deleteEmployeeCode(empNo);		
 		for(EmployeeCodeVO code : codeList) { 
 			code.setEmpNo(empNo);
@@ -195,10 +196,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 		deputyDAO.deleteDeputy(depNo);
 	}
 	
-	public void stopUseDeputy(String depNo) {
-		deputyDAO.stopUseDeputy(depNo);
+	public void stopUseDeputy(Map<String, Object> map) {
+		deputyDAO.stopUseDeputy(map); 
 	}
 	
+	public int retrieveDeputyCheck(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return deputyDAO.selectDeputyCheck(map);
+ 	}
+
 	public void removeSign(String empNo) {
 		photoDAO.deleteSign(empNo);
 	}
