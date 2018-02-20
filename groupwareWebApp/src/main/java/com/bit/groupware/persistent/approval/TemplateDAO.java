@@ -20,7 +20,7 @@ public interface TemplateDAO {
 
 	List<TemplateVO> selectTemplateNameList();
 
-	List<TemplateVO> selectTemplateListByCategoryNo(int categoryNo);
+	List<TemplateVO> selectTemplateListByCategoryNo(Map<String, Integer> map);
 
 	void updateTemplateUsing(Map<String, Object> map);
 }
