@@ -260,7 +260,6 @@ $(document).ready(function(){
 							success : function(data, textStatus, jqXHR){	
 								swal("수정 완료!","");
 								$('#'+ boardNo).text(data.boardName);
-								$('#display').css('display','none');
 								
 							}
 							,

@@ -106,6 +106,30 @@
 		});
 	}
 </script>
+<style>
+input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
+}
+
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: '사진선택';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
+</style>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -119,7 +143,7 @@
 				<form id="modisign" data-parsley-validate="" action="${pageContext.request.contextPath }/modifySign.do"
 						method="POST" class="form-horizontal form-label-left" enctype="multipart/form-data">
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12"
+						<label class="control-label col-md-4 col-sm-3 col-xs-12"
 							for="last-name">서명 </label>
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
@@ -133,9 +157,9 @@
 					</div>
 					<div class="ln_solid"></div>
 					<div class="form-group">
-						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button id="modifyBtn" type="button" class="btn btn-success">수정</button>
-							<button id="removeBtn" type="button" class="btn btn-success">삭제</button>							
+						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 text-center">
+							<button id="modifyBtn" type="button" class="btn btn-primary">수정</button>
+							<button id="removeBtn" type="button" class="btn btn-primary">삭제</button>							
 						</div>
 					</div>
 				</form>

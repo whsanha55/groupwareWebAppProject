@@ -187,7 +187,7 @@
 					<div>
 						<div class="col-md-6">
 							<div class="col-md-2">
-								<h2>부서목록</h2>
+								<h2>부서</h2>
 							</div>
 						</div>
 						<div>
