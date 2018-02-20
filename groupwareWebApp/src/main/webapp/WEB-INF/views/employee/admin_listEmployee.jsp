@@ -240,26 +240,55 @@ input[type=file]:before {
 		});
 		
 		$("#modalForm").on('click','#retireBtn',function() {
-			$.ajax ({
-				url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
-				method : 'POST',
-				data : {
-					empNo : $('#modifyEmpNo').val()
-				},
-				dataType : 'json',
-				success : function(data) {
-					$('#modRetireStatus').val(data.retireStatus);
-					if($('#modRetireStatus').val() == 0) {
-						$('#modRetireStatus').val('퇴사');
-					}
-					$('#modRetireDate').val(data.retireDate);
-					$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
-					employeePaging(1);
-				},
-				error : function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}				
-			});
+			
+			var empNo = $('#modifyEmpNo').val();
+			console.log(empNo);
+			swal({
+				title: "사원 퇴사",
+				text: "사원을 퇴사처리 합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					retireEmployee(empNo);
+				} else if(!e) {
+					return;
+				}
+			});			
+
+			
+			function retireEmployee(empNo) {
+				$.ajax ({
+					url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
+					method : 'POST',
+					data : {
+						empNo : empNo
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						$('#modRetireStatus').val(data.retireStatus);
+						if($('#modRetireStatus').val() == 0) {
+							$('#modRetireStatus').val('퇴사');
+						}
+						$('#modRetireDate').val(data.retireDate);
+						$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
+						swal({
+							  title: "퇴사 완료",
+							  text: "해당 사원이 퇴사처리 되었습니다.",
+							  icon: "info",
+							  buttons : "확인" 
+						}).then((e) => {
+							if(e) {
+								employeePaging(1);
+							}
+						});						
+					},
+					error : function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}				
+				});
+			}
 		});
 		
 		$("#upload-image").on("change", handleImgFileSelect);
