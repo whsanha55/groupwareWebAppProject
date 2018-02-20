@@ -24,8 +24,8 @@
 							<div class="col-md-2"></div>
 						</div>
 						<div>
-							<div class="col-md-3 col-xs-offset-2">
-								<div class="input-group">
+							<div class="col-md-4 col-xs-offset-2 pull-right">
+								<div class="input-group" style="margin-right:-25px;">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px"
 											data-toggle="dropdown">
