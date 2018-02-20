@@ -128,7 +128,9 @@ public class TemplateAjaxController {
 	@RequestMapping(value="/admin/retrieveTemplateList.do", method=RequestMethod.GET)
 	@ResponseBody
 	public List<TemplateVO> retrieveTemplateList(@RequestParam(value="categoryNo") int categoryNo) {
-		return templateService.retrieveTemplateListByCategoryNo(categoryNo);
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("categoryNo", categoryNo);
+		return templateService.retrieveTemplateListByCategoryNo(map);
 	} 
 	
 }

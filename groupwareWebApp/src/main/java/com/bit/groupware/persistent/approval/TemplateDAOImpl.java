@@ -49,8 +49,8 @@ private final static Logger logger = LoggerFactory.getLogger(AdminTemplateContro
 		return sqlSession.selectList(NAMESPACE + ".selectTemplateNameList");
 	}
 	
-	public List<TemplateVO> selectTemplateListByCategoryNo(int categoryNo) {
-		return sqlSession.selectList(NAMESPACE+".selectTemplateListByCategoryNo",categoryNo);
+	public List<TemplateVO> selectTemplateListByCategoryNo(Map<String, Integer> map) {
+		return sqlSession.selectList(NAMESPACE+".selectTemplateListByCategoryNo",map);
 	}
 
 	public void updateTemplateUsing(Map<String, Object> map) {
