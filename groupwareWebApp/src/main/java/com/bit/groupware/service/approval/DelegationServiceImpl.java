@@ -23,13 +23,21 @@ public class DelegationServiceImpl implements DelegationService {
 	}
 
 	public List<DelegationVO> retrieveDelegations(Map<String,Object> map) {
-		// TODO Auto-generated method stub
 		return delegationDAO.selectDelegations(map); 
 	}
 
 	public int retrieveDelegationsCount(Map<String,Object> map) {
-		// TODO Auto-generated method stub
 		return delegationDAO.selectDelegationsCount(map); 
 	}
 
+	
+	public int retreiveDelegationIsTmpExist(int tmpNo) {
+		return delegationDAO.selectDelegationIsTmpExist(tmpNo);
+	}
+
+	public void modifyDelegationDelete(int deleNo) {
+		delegationDAO.updateDelegationDelete(deleNo);
+	}
+
+	
 }

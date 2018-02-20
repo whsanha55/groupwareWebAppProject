@@ -15,4 +15,8 @@ public interface DelegationDAO {
 	
 	int selectDelegationsCount(Map<String,Object> map);
 	
+	int selectDelegationIsTmpExist(int tmpNo);
+	
+	void updateDelegationDelete(int deleNo);
+	
 }
