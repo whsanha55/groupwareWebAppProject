@@ -152,6 +152,7 @@ input[type=file]:before {
 		});	
 		
 		$('#modalForm').on('click', '#modifyBtn', function() {
+			$('#upload-image').attr('disabled', false);
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
 			$('select[name=phoneNumber1]').attr('disabled', false);
@@ -393,6 +394,7 @@ input[type=file]:before {
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						$('#upload-image').attr('disabled', true);
 						$('#modEmpName').attr('readonly', true);
 						$('#modEngName').attr('readonly', true);
 						$('select[name=phoneNumber1]').attr('disabled', true);
