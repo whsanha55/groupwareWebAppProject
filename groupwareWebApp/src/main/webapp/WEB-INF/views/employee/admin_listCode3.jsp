@@ -13,6 +13,15 @@
 	a:link {color:blue;}
  	a:hover{color:gold;}
 	a:visited{color:purple;}
+	.listCode3 {
+		cursor : pointer;	
+	}
+	.box3 {
+		cursor : pointer;
+	}
+	.box4 {
+		cursor : pointer;
+	}
 </style>
 <script>
 	var eKeyfield;
@@ -285,7 +294,6 @@
 								&nbsp;
 								<div class="box5">${requestScope.relationCode }<div class="tri3"></div></div>
 								<br>
-								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 
 						</div>
 						

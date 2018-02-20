@@ -159,6 +159,9 @@
 	}
 	
 </script>
+<style>
+	.page-link{cursor:pointer !important;}
+</style>
 <title>Insert title here</title>
 </head>
 <body>

@@ -63,7 +63,6 @@
       
       //등록
       $('#deleteBtn').on('click', function() {   
-         alert("call");  
          var no = $(this).val();
           $.ajax({
                 url: '${pageContext.request.contextPath}/admin/modifyDesignate.do'
@@ -215,6 +214,9 @@
    
    }
 </script>
+<style>
+	.page-link{cursor:pointer !important;}
+</style>
 <title>content</title>
 </head>
 <body>
