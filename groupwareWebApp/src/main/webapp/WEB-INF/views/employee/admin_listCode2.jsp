@@ -16,6 +16,9 @@
 	.listCode3 {
 		cursor : pointer;	
 	}
+	.box3 {
+		cursor : pointer;
+	}
 </style>
 <script>
 	var eKeyfield;
