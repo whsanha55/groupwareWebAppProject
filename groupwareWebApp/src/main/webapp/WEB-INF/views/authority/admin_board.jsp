@@ -316,7 +316,7 @@ $(document).ready(function(){
 					<table id="datatable-keytable table_empty" class="table table-striped col-8">
 						<tr>
 							<td class="col-md-4 " 
-								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">문서관리
+								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold; height:51px">게시판 관리
 								리스트</td>
 							<td>&nbsp;</td>
 						</tr>
@@ -336,12 +336,6 @@ $(document).ready(function(){
 									<label> <input type="radio" name="isUse" value="Y"> 사용함</label>
 									<label> <input type="radio" name="isUse" value="N">사용안함</label>
 								</div></td>
-
-						</tr>
-						<tr>
-							<td class="col-md-4"
-								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">게시판 관리 리스트</td>
-							<td>게시판 관리</td>
 
 						</tr>
 						<tr>
