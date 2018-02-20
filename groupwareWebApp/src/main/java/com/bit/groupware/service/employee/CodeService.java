@@ -43,4 +43,6 @@ public interface CodeService {
 	
 	int retrieveCodeCount(Map<String, Object> map);
 	
+	int retrieveHistoryCount(Map<String, Object> map);
+	
 }

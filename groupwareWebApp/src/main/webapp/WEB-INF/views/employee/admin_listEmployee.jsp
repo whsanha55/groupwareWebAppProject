@@ -364,7 +364,7 @@ input[type=file]:before {
 				//datatable테이블 변경하기
 				var text = "";
 				if(totalCount == 0) {
-					text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+					text += '<tr class="text-center"><td colspan=8>조회된 검색결과가 없습니다</td></tr>';
 				} else {
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
