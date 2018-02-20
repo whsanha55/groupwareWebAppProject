@@ -6,7 +6,56 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>서명등록</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: '사진선택';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
+}
+</style>
 <script>
+
+	$(document).ready(function() {
+		$("#upload-image").on("change", handleImgFileSelect);
+		
+		$('#regSignBtn').click(function() {
+			if($('#upload-image').val() == "") {
+				swal("등록할 서명파일을 첨부해주세요.","");
+				return;
+			}
+			
+			swal({
+				title: "서명 등록",
+				text: "서명을 등록합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					$('#regSign').submit();
+				} else if(!e) {
+					return;
+				}
+			});
+		});		
+		
+	});
 
 	function handleImgFileSelect(e) {
 		var files = e.target.files;
@@ -49,8 +98,8 @@
 						</div>				
 						<label class="control-label col-md-4 col-sm-3 col-xs-6">서명</label>
 						<div class="btn-group center-block">
-							<a class="btn center-block" title="Insert picture (or just drag &amp; drop)"
-								id="signBtn"></a> 
+							<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
+								<i class="fa fa-picture-o"></i></a>
 								<input id="upload-image" name="upload"
 								type="file" data-role="magic-overlay" data-target="#signBtn"
 								data-edit="insertImage">
@@ -59,8 +108,7 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 text-center">
-							<button class="btn btn-primary" type="button">취소</button>
-							<button id="regSignBtn" type="submit" class="btn btn-success">등록</button>
+							<button id="regSignBtn" type="button" class="btn btn-success">등록</button>
 						</div>
 					</div>
 					
