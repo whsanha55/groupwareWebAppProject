@@ -69,6 +69,16 @@ public class DelegationController {
 		
 	}
 	
+	//전결 등록 전에 기존에 양식서가 등록된 상태인지 확인하는 메소드
+	@RequestMapping(value="/admin/checkDelegationIsTmpExist.do",method=RequestMethod.GET)
+	@ResponseBody
+	public boolean checkDelegationIsTmpExist(@RequestParam(value="tmpNo") int tmpNo) {
+		
+		return delegationService.retreiveDelegationIsTmpExist(tmpNo) > 0 ? true : false; 
+		
+
+	}
+	
 	//전결 추가
 	@RequestMapping(value="/admin/registerDelegation.do",method=RequestMethod.POST)
 	@ResponseBody
@@ -86,7 +96,7 @@ public class DelegationController {
 	//전결 삭제
 	@RequestMapping(value="/admin/removeDelegation.do", method=RequestMethod.GET) 
 	public String removeDele(@RequestParam(value="deleNo") int deleNo) {
-		delegationService.removeDelegations(deleNo); 
+		delegationService.modifyDelegationDelete(deleNo); 
 		return "redirect:/admin/delegation.do";
 	}
 }

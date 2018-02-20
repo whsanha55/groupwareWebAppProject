@@ -15,6 +15,7 @@
 	#employeePaging li , #submitEmpNo{
 		cursor: pointer;
 	}
+	
 	input[type=file] {
   cursor: pointer;
   width: 80px;
@@ -37,7 +38,6 @@ input[type=file]:before {
   text-align: center;
   font-family: Helvetica, Arial, sans-serif;
 }
-	
 </style>
 <script>
 	var eKeyfield;
@@ -68,7 +68,7 @@ input[type=file]:before {
 		// 검색 실행
 		$('#findEmployee').on('click', function() {
 			if($('.keyfield').attr('id') == undefined) {
-				swal("검색조건를 선택해주세요");
+				swal("검색조건를 선택해주세요","", "error");
 				return;
 			}
 	
@@ -212,9 +212,7 @@ input[type=file]:before {
 				swal("주소정보를 입력해주세요.","");
 				return;
 			}
-			
-			
-			
+					
 			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
 			$('#phoneNumber').val(phoneNumber);
 			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
@@ -223,13 +221,13 @@ input[type=file]:before {
 			$('#email').val(email);
 		
 			swal({
-				title: "사원 등록",
-				text: "사원을 등록합니다. 계속 진행하시겠습니까?",
+				title: "사원 수정",
+				text: "사원을 수정합니다. 계속 진행하시겠습니까?",
 				icon: "info",
 				buttons : true 
 			}).then((e) => {
 				if(e) {
-					$('#modalform').submit();
+					$('#modalForm').submit();
 					employeePaging(1);
 				} else if(!e) {
 					checkUnload = true;
@@ -535,7 +533,7 @@ input[type=file]:before {
 			<div class="x_title">
 				<h2>사원관리</h2>
 				<button id="regisBtn" type="button" class="btn btn-primary pull-right" data-toggle="modal">
-					등록하기
+					등록
 				</button>
 				<div class="clearfix"></div>
 			</div>

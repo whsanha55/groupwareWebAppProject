@@ -273,6 +273,11 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>코드관리</h2>
+				<div class="pull-right">
+					<button type="button" id="insert" class="btn btn-primary">등록</button>
+				<c:url var="previousCodeURL" value="/admin/listCode1.do" scope="page" ></c:url>
+				<a id="previous" href="${pageScope.previousCodeURL }"><button type="button" class="btn btn-primary" >이전</button></a>
+				</div>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
@@ -332,10 +337,7 @@
 						</tbody>
 				</table>
 			</div>
-			<div class="col-md-5"></div>
-				<button type="button" id="insert" class="btn btn-primary">등록</button>
-				<c:url var="previousCodeURL" value="/admin/listCode1.do" scope="page" ></c:url>
-				<a id="previous" href="${pageScope.previousCodeURL }"><button type="button" class="btn btn-primary" >이전</button></a>
+			
 		</div>
 	</div>
 </body>

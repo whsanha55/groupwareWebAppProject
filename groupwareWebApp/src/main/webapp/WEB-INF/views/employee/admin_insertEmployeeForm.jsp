@@ -183,6 +183,7 @@ input[type=file]::-webkit-file-upload-button {
 			}
 		});
 		*/
+		/*
 		$('input[name=email1], input[name=email2]').blur(function() {
 			var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 			var email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
@@ -191,7 +192,7 @@ input[type=file]::-webkit-file-upload-button {
 				$('select[name=emailaddr]').after('<span id="errorSpan" style="color:red;">이메일을 정확히 입력해주세요.</span>');
 			}
 		});
-		
+		*/
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;

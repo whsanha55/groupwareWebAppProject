@@ -9,8 +9,10 @@
 <title>전결관리</title>
 <style>
 #insertDeleg {
-	margin: 0 auto;
-	width: 590px;
+	text-align: center;
+}
+#datatable tr td:last-child {
+	padding:0px;
 }
 </style>
 <script>
@@ -37,13 +39,16 @@ $(document).ready(function(){
 		 
 		 pKeyfield=$('#pKeyfield').val();
 		 pKeyword=$('.pKeyword').val();
- 
+ 		 if(pKeyword.trim() == '') {
+ 			swal("검색조건를 선택해주세요","", "error");
+ 			 return;
+ 		 } 
 		 templatePaging(1);
 	 });
 	
 	
 	//삭제
-	 $("#datatable").on("click",'.pull-right',function(){
+	 $("#datatable").on("click",'.deleteDelegationBtn',function(){
 		 swal({
 			  title: "전결 조건 삭제",
 			  text: "선택된 조건을 삭제하시겠습니까?",
@@ -70,7 +75,30 @@ $(document).ready(function(){
 				  buttons : true 
 				}).then((e) => {
 					if(e) {
-						registerDelegation();
+						$.ajax({
+							url: '${pageContext.request.contextPath}/admin/checkDelegationIsTmpExist.do'
+							,
+							method: 'GET' 
+							,
+							data: {
+								tmpNo : $('#delegationTmp').val() 
+							}
+							,
+							dataType: 'json'
+							,
+							success: function(data) {
+								if(!data) {	//false는 미등록된 양식서
+									registerDelegation();
+								} else {	//등록된 양식서
+									swal("이미 전결 등록된 양식명입니다.","");									
+								}		
+									
+							},
+							error: function(jqXHR, textStatus, error) {
+								alert("Error : " + jqXHR.status + "," + error);
+							}
+						});
+						
 					}	
 				});
 		 
@@ -153,7 +181,7 @@ $(document).ready(function(){
 					text += "<tr><td>"+ data.delegations[i].template.tmpName + "</td>";
 					text += "<td>"+ data.delegations[i].code.cName + "</td>";
 					text += "<td>"+ data.delegations[i].deleDate + "</td>";
-					text += "<td style='width:30px;'><a class='btn btn-primary pull-right'  name="+data.delegations[i].deleNo+" style='padding:0px; margin:auto; background-color:#c53b31; border-color:#c53b31; color:white;'>삭제</a></td>";
+					text += "<td style='width:30px;'><a class='btn deleteDelegationBtn' name="+data.delegations[i].deleNo+" style='margin:0px;'>삭제</a></td>";
 					text += "</tr>";
 				}
 					$('#datatable').html(text);
@@ -241,63 +269,53 @@ $(document).ready(function(){
 			</div>
 			<div class="x_content">
 				<br>
-				<%-- 		<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left"
-						action="${pageContext.request.contextPath }/registerDeputy.do" method="POST"> --%>
-				<div class="form-group form-inline">
-					<div id="insertDeleg col-md-3" style="display: inline-block; margin-left:70px; ">
+				<div class="form-group form-inline" style='border-bottom : 2px solid #d8d3d3;'>
+					<div id="insertDeleg" >
 						<form id="search" style="margin-bottom:10px;">
-							전결 조건 추가 : <select id="delegationTmp" name="delegationTmp"
-								style="height: 28px;">
+							<span>전결 조건 추가 </span> 
+							<select id="delegationTmp" name="delegationTmp" style="height: 28px;">
 								<c:forEach var="template" items="${requestScope.template}">
-									<option value="${pageScope.template.tmpNo }">${pageScope.template.tmpName }</option>
+									<option value="${pageScope.template.tmpNo }">
+										${pageScope.template.tmpName }
+									</option>
 								</c:forEach>
-							</select> <select id="delegationDuty" name="delegationDuty"
-								style="height: 28px; width: 150px;">
+							</select> 
+							<select id="delegationDuty" name="delegationDuty" style="height: 28px; width: 150px;">
 								<c:forEach var="duty" items="${requestScope.duty}">
-									<option value="${pageScope.duty.cNo }">${pageScope.duty.cName }</option>
+									<option value="${pageScope.duty.cNo }">
+										${pageScope.duty.cName }
+									</option>
 								</c:forEach>
 							</select>
 							<button id="btn1" class="btn btn-primary" type="button"
-								style="height: 28px; margin-bottom: 4px; padding-top: 2px;">추가</button>
+								    style="height: 28px; margin-bottom: 4px; padding-top: 2px;">
+								추가
+							</button>
 						</form>
 					</div>
-					<div class="col-md-3">
-						 <div class="input-group"
-							style="display: inline-flex; margin-top: 130px; margin-left:464px;">
-
-							<select id="pKeyfield" name="pKeyfield"
-								style="height: 28px; width: 80px; margin-right:3px;">
-								<option value="template">양식명</option>
-								<option value="duty">직급</option>
-							</select> <input class="pKeyword" type="text" name="pKeyword"
-								placeholder="검색어를 입력하세요" style="width: 172px; height: 28px;">
-							<button id="btn3" class="btn btn-primary" type="button"
-								style="height: 28px; margin-bottom: 4px; padding-top: 2px; margin-left:3px;">검색</button>
-
-
-						</div> 
-					</div>
-					<!-- <div class="input-group col-md-3 pull-right"
-						style="display: inline-flex; ">
-
-						<select id="pKeyfield" name="pKeyfield"
-							style="height: 28px; width: 80px;">
-							<option value="template">양식명</option>
-							<option value="duty">직책</option>
-						</select> <input class="pKeyword" type="text" name="pKeyword"
-							placeholder="검색어를 입력하세요" style="width: 172px; height: 28px;">
-						<button id="btn3" class="btn btn-primary" type="button"
-							style="height: 28px; margin-bottom: 4px; padding-top: 2px;">검색</button>
-
-
-					</div> -->
+					
 
 				</div>
-				<div class="col-md-12" style="width: 100%">
-
-
+				<div class='col-md-1'></div>
+				
+				<div class='col-md-10' style='margin-top:30px;'>
+					<div style='float:right;margin-right:10px;margin-bottom:10px;'>
+		                    <select id="pKeyfield" name="pKeyfield"
+								style="height: 28px; width: 80px; ">
+								<option value="template">양식명</option>
+								<option value="duty">직급</option>
+							</select>
+		                <input class="pKeyword" type="text" name="pKeyword"
+								placeholder="검색어를 입력하세요" style="width: 172px; height: 28px;">
+		                    <button id="btn3" class="btn btn-primary" type="button"
+								style="height: 28px; margin-bottom: 4px; padding-top: 2px; margin-left:3px;">
+								검색
+							</button>
+		            </div>
+				
+				
 					<table class="table table-striped table-bordered"
-						style="width: 80%; text-align: center; margin: auto;">
+						style=" text-align: center; margin: auto;">
 						<thead>
 							<tr>
 								<th style="text-align: center;">양식명</th>
@@ -307,18 +325,17 @@ $(document).ready(function(){
 							</tr>
 						</thead>
 						<tbody id="datatable">
-
 						</tbody>
 					</table>
-					<nav aria-label="Page navigation" id='templatePaging'
-						style="text-align:center;"> </nav>
-
-
-
-
+				
+					<nav aria-label="Page navigation" id='templatePaging' style="text-align:center;">
+					</nav>
 				</div>
-
-
-				<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+				
+				<div class='col-md-1'></div>
+			</div>
+		</div>
+	</div>
+					<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

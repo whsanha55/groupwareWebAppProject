@@ -216,6 +216,7 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>코드관리</h2>
+				<button type="button" id="insert" class="btn btn-primary pull-right">등록</button>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
@@ -271,8 +272,7 @@
 				</table>
 				</form>
 			</div>
-			<div class="col-md-5"></div>
-				<button type="button" id="insert" class="btn btn-primary">등록</button>
+
 		</div>
 	</div>
 </div>

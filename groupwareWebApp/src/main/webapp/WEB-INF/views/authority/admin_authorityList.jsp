@@ -452,7 +452,7 @@ $(document).ready(function() {
 				<h2>권한 리스트</h2>
 				<div class="removeBtn1">
 						<button id="removeBtn2" class="btn btn-primary pull-right" type="button">삭제</button>
-						<a class="btn btn-default pull-right" href='<c:url value="/admin/authority.do"/>'>추가</a>
+						<a class="btn btn-default pull-right" href='<c:url value="/admin/authority.do"/>'>등록</a>
 					</div>
 					<div class="clearfix"></div>
 				</div>
