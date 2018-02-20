@@ -35,12 +35,9 @@
 			
 			$('#findDept').on('click', function() {
 				if($('.keyfield').attr('id') == undefined) {
-					alert("choose keyfield");
+					swal("검색조건를 선택해주세요","", "error");
 					return false;
-				} else if($('#keyword').val() == "") {
-					alert("enter keyword");
-					return false;
-				}
+				} 
 			
 				eKeyfield = $('.keyfield').attr('id');
 				eKeyword = $('#keyword').val();
