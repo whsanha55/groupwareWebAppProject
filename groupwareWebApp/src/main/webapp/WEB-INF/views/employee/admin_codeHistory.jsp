@@ -53,12 +53,12 @@
 					class="table table-striped table-bordered text-center">
 					<thead>
 						<tr>
-							<th>사번</th>
-							<th>이름</th>
-							<th>부서</th>
-							<th>직책</th>
-							<th>시작일</th>
-							<th>종료일</th>
+							<th class="text-center">사번</th>
+							<th class="text-center">이름</th>
+							<th class="text-center">부서</th>
+							<th class="text-center">직책</th>
+							<th class="text-center">시작일</th>
+							<th class="text-center">종료일</th>
 						</tr>
 					</thead>
 					<tbody>
