@@ -295,7 +295,7 @@
 								text += "<td id='endDate'>"+ data.deputies[i].endDate +"</td>";
 								text += "<td>"+ data.deputies[i].progression +"</td>";
 								text += "<td>"+ data.deputies[i].depReason +"</td>";
-								text += "<td><button id='stopUse' type='button'>사용중단</button><button id='candep' type='button'>취소</button></td>";
+								text += "<td><button id='stopUse' type='button'>사용중단</button>&nbsp;<button id='candep' type='button'>취소</button></td>";
 								text += "</tr>";
 							}
 						}
@@ -439,7 +439,7 @@
 						</div>
 					</div>
 						
-					<table id="datatable" class="table table-striped table-bordered" style="width:1202px;">
+					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>

@@ -55,24 +55,12 @@ public class ListHistoryAjaxController {
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("histories", histories);
 		return returnMap;
-		
-	/*	Map<String, Object> map = new HashMap<String, Object>();
-		map.put("keyfield", keyfield);
-		map.put("keyword", keyword);
-
-		int totalCount = codeService.retrieveHistoryCount(map);
-		if(totalCount < endRow) {
-			endRow = totalCount;
-		}
-		
-		map.put("startRow", startRow);
-		map.put("endRow", endRow);
-		
-		List<CodeHistoryVO> histories = codeService.retrieveCodeHistoryListByAdmin(map);
-		
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		returnMap.put("totalCount", totalCount);
-		returnMap.put("histories", histories);
-		return returnMap;*/
+	}
+	
+	@RequestMapping(value="/admin/removeHistory.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String removeAjaxController(@RequestParam("no")int no) {
+		codeService.removeHistory(no);
+		return "yes";
 	}
 }

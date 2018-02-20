@@ -102,8 +102,12 @@ public class CodeDAOImpl implements CodeDAO {
 	
 
 	//코드 변경 이력 조회하기 (관리자)
-	public	 List<CodeHistoryVO> selectCodeHistoryListByAdmin(Map<String,Object> map) {
+	public List<CodeHistoryVO> selectCodeHistoryListByAdmin(Map<String,Object> map) {
 		return sqlSession.selectList(NAMESPACE + ".selectCodeHistoryByAdmin", map);
+	}
+	
+	public void deleteHistory(int no) {
+		sqlSession.delete(NAMESPACE + ".deleteHistory", no);
 	}
 	
 	//페이징 처리
