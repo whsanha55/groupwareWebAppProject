@@ -296,7 +296,7 @@ $(document).ready(function(){
 					</thead>
 
 
-					<tbody>
+					<tbody style="cursor: pointer;">
 						<c:forEach var="board" items="${requestScope.board}" >
 						<tr class="selectBoardNo">		
 							<td class="selectBoard" id="${pageScope.board.boardNo}">${pageScope.board.boardName}</td>
