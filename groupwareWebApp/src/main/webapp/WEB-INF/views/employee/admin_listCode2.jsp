@@ -57,7 +57,7 @@
 			console.log(relationCode);
 
 			var url = '${pageContext.request.contextPath}/admin/registerCode2.do?relationCode='+ "${param.relationCode}";
-			window.open(url, "코드 등록", "width=700, height=600");
+			window.open(url, "코드 등록", "width=700, height=300");
 		});
 		
 		//수정 버튼 클릭시 팝업창 생성
@@ -65,7 +65,7 @@
 			var c_no = $(this).attr('id');
 			var url = '${pageContext.request.contextPath}/admin/modifyCode2.do?cNo='+ c_no;
 			
-			window.open(url, "코드 수정", "width=700, height=600");
+			window.open(url, "코드 수정", "width=700, height=300");
 		});
 		
 		//삭제 버튼 클릭시 삭제

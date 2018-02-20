@@ -62,21 +62,15 @@ var eKeyword;
 
 $(document).ready(function () {
 	
-	/* $('#startDate1').datetimepicker({
-		format : "YYYY/MM/DD HH:00",		
-		defaultDate : new Date().setHours(00) 
+	$('#startDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:mm",	
+		defaultDate : new Date()
 	});
 	
 	$('#endDate1').datetimepicker({
-		format : "YYYY/MM/DD HH:00",	 
-		defaultDate : new Date().setHours(00)
-	}); */
-	
-	//페이지 이동 방지
-    var checkUnload = true;
-    $(window).on("beforeunload", function(){
-    	if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-    });
+		format : "YYYY/MM/DD HH:mm", 
+		defaultDate : new Date()
+	});
 
 	//파일 삭제 
 	$('.deleteBtn').on('click', function() {	
@@ -149,7 +143,7 @@ $(document).ready(function () {
 			swal("장소정보를 입력해주세요.","");
 			return;
 		}
-		if($('input[name=pContent]').val() == '') {
+		if($('input[name=pContent]').val() == null) {
 			swal("내용을 입력해주세요.","");
 			return;
 		}
@@ -279,12 +273,12 @@ $(document).ready(function () {
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
 												<%-- <fmt:parseDate var="parsedDate" value="${requestScope.plan.startDate }" pattern="YYYY/MM/DD HH24:mm:ss" />
 												<fmt:formatDate var="newFormattedStartDate" value="${parsedDate }" pattern="YYYY-MM-DD'T'HH24:mi:ss" /> --%>
-												<input type="datetime-local" name="startDate" id="startDate1"
+												<input type="text" name="startDate" id="startDate1"
 													class="form-control" required="required"
 													style="width:262px;" value="${requestScope.plan.startDate }">
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="endDate" id="endDate1" 
+												<input type="text" name="endDate" id="endDate1" 
 														class="form-control" required="required"
 														style="width:262px;" value="${requestScope.plan.endDate }" >
 											</div>
@@ -309,7 +303,7 @@ $(document).ready(function () {
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용</label>&nbsp;&nbsp;
+							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용 *</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%">${requestScope.plan.pContent }</textarea>
 							</div>
