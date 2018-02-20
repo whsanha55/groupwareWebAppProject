@@ -10,6 +10,7 @@ public class DeputyVO {
 	private String depReason;
 	private String dempNo;
 	private String empNo;
+	private String status;
 	private List<EmployeeVO> employees;
 	
 	public DeputyVO() {
@@ -25,8 +26,10 @@ public class DeputyVO {
 		this.empNo = empNo;
 	}
 
+	
+
 	public DeputyVO(String depNo, String startDate, String endDate, String progression, String depReason, String dempNo,
-			String empNo, List<EmployeeVO> employees) {
+			String empNo, String status, List<EmployeeVO> employees) {
 		super();
 		this.depNo = depNo;
 		this.startDate = startDate;
@@ -35,6 +38,7 @@ public class DeputyVO {
 		this.depReason = depReason;
 		this.dempNo = dempNo;
 		this.empNo = empNo;
+		this.status = status;
 		this.employees = employees;
 	}
 
@@ -102,11 +106,21 @@ public class DeputyVO {
 		this.employees = employees;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "DeputyVO [depNo=" + depNo + ", startDate=" + startDate + ", endDate=" + endDate + ", progression="
-				+ progression + ", depReason=" + depReason + ", dempNo=" + dempNo + ", empNo=" + empNo + ", employees="
-				+ employees + "]";
+				+ progression + ", depReason=" + depReason + ", dempNo=" + dempNo + ", empNo=" + empNo + ", status="
+				+ status + ", employees=" + employees + "]";
 	}
+
+	
 	
 }
