@@ -258,7 +258,7 @@
 				  <div>
 					
 				   <div class="btn-group" >
-                    <form id="search">
+                    <form id="search" style="margin-right: -20px;">
 						<select id="pKeyfield" name="pKeyfield" style="height:34px;" >
 							<option value="tmpName">양식명</option>
 							<option value="categoryName">카테고리명</option>

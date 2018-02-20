@@ -323,7 +323,7 @@
 				  <div>
 					
 				   <div class="btn-group" >
-                    <form id="search">
+                    <form id="search" style="margin-right: -20px;">
 						<select id="pKeyfield" name="pKeyfield" style="height:34px;" >
 							<option value="apprTitle">제목</option>
 							<option value="tmpName">양식명</option>
