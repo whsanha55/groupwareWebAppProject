@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 	#modalBtn , .click {
 		cursor: pointer;
@@ -256,14 +257,14 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<table id="datatable2" class="table table-striped table-bordered">
+						<table id="datatable2" class="table table-striped table-bordered" style="text-align:center;">
 							<thead>
 								<tr id="deptEmpListTR">
-									<th>사번</th>
-									<th>이름</th>
-									<th>직책</th>
-									<th>입사일</th>
-									<th>소속부서</th>
+									<th class="text-center">사번</th>
+									<th class="text-center">이름</th>
+									<th class="text-center">직책</th>
+									<th class="text-center">입사일</th>
+									<th class="text-center">소속부서</th>
 								</tr>
 							</thead>
 							<tbody id="tbody2">
