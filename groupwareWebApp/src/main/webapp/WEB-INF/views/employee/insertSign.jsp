@@ -5,11 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>서명등록</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-
-	$(document).ready(function() {
-		$("#upload-image").on("change", handleImgFileSelect);
-	});
 
 	function handleImgFileSelect(e) {
 		var files = e.target.files;
@@ -42,7 +39,7 @@
 			</div>
 			<div class="x_content">
 				<br>
-				<form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" 
+				<form id="regSign" data-parsley-validate="" class="form-horizontal form-label-left" 
 						action="${pageContext.request.contextPath }/registerSign.do" method="POST" 
 						enctype="multipart/form-data">
 					<div class="form-group">
@@ -53,19 +50,20 @@
 						<label class="control-label col-md-4 col-sm-3 col-xs-6">서명</label>
 						<div class="btn-group center-block">
 							<a class="btn center-block" title="Insert picture (or just drag &amp; drop)"
-								id="signBtn"></a>
-								<input id="upload-image" name="upload" class="center-block"
+								id="signBtn"></a> 
+								<input id="upload-image" name="upload"
 								type="file" data-role="magic-overlay" data-target="#signBtn"
 								data-edit="insertImage">
 						</div>
 					</div>
 					<div class="ln_solid"></div>
-					<div class="form-group center-block">
-						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+					<div class="form-group">
+						<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 text-center">
 							<button class="btn btn-primary" type="button">취소</button>
 							<button id="regSignBtn" type="submit" class="btn btn-success">등록</button>
 						</div>
 					</div>
+					
 				</form>
 			</div>
 		</div>
