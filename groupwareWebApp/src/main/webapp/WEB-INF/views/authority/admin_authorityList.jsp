@@ -461,7 +461,7 @@ $(document).ready(function() {
 			        
 			        
 				</div>
-					<div class="col-xs-5">
+					<div class="col-xs-5 pull-right">
 					    <div class="input-group">
 			                <div class="input-group-btn search-panel">
 			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">

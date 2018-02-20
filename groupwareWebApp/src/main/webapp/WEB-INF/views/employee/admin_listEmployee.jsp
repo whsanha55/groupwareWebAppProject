@@ -534,23 +534,17 @@ input[type=file]:before {
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>사원관리</h2>
+				<button id="regisBtn" type="button" class="btn btn-primary pull-right" data-toggle="modal">
+					등록하기
+				</button>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div class="col-md-8">
-							<div class="col-md-2">
-								<h2>사원명부</h2>
-							</div>
-							<%-- <c:url var=registerEmployee value="/admin/registerEmployee.do" scope="page" /> --%>
-							<button id="regisBtn" type="button" class="btn btn-primary" data-toggle="modal">
-								등록하기
-							</button>
-						</div>
 						<div>
-							<div class="input-group">
+							<div class="input-group col-md-6 pull-right">
 								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
