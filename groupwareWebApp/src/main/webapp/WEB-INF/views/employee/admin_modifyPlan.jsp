@@ -8,10 +8,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<link href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.min.css" />
 <title>일정수정</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" 
 		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.js"></script>
 <style>
 .modal-dialog.modal-cSize {
 	width:600px;
@@ -42,7 +47,30 @@
 var eKeyfield;
 var eKeyword;
 
-$(document).ready(function () {		
+$.datepicker.setDefaults({
+    dateFormat: 'yy-mm',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년'
+});
+
+$(document).ready(function () {
+	
+	$('#startDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:00",		
+		defaultDate : new Date().setHours(00) 
+	});
+	
+	$('#endDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:00",	 
+		defaultDate : new Date().setHours(00)
+	});
 	
 	//페이지 이동 방지
     var checkUnload = true;
@@ -251,12 +279,12 @@ $(document).ready(function () {
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
 												<%-- <fmt:parseDate var="parsedDate" value="${requestScope.plan.startDate }" pattern="YYYY/MM/DD HH24:mm:ss" />
 												<fmt:formatDate var="newFormattedStartDate" value="${parsedDate }" pattern="YYYY-MM-DD'T'HH24:mi:ss" /> --%>
-												<input type="datetime-local" name="startDate" id="startDate"
+												<input type="text" name="startDate" id="startDate1"
 													class="form-control" required="required"
 													style="width:262px;" value="${requestScope.plan.startDate }">
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="endDate" id="endDate" 
+												<input type="text" name="endDate" id="endDate1" 
 														class="form-control" required="required"
 														style="width:262px;" value="${requestScope.plan.endDate }" >
 											</div>
