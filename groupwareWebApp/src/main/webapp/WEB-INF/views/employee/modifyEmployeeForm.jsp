@@ -10,6 +10,17 @@
 <script>
 
 	$(document).ready(function() {
+		
+		$('select[name=emailaddr]').on('change', function () {	
+			if ($('select[name=emailaddr]').val() == "") {
+				$('#email2').attr('readonly', false);
+				$('#email2').val("");
+			}			
+			if($('select[name=emailaddr]').val() != "") {
+				$('#email2').attr('readonly', true);
+				$('#email2').val($('select[name=emailaddr]').val());				
+			} 
+		});	
 			
 		var phoneArr = $('#phoneNumber').val().split('-');
 		$('#phoneNumber1').val(phoneArr[0]);
@@ -20,6 +31,7 @@
 		console.log(emailArr);
 		$('#email1').val(emailArr[0]);
 		$('#email2').val(emailArr[1]);
+		
 		
 		
 		$('#checkPwdBtn').click(function () {
@@ -104,6 +116,7 @@
 				$('input[name=phoneNumber3]').after('<span id="errorSpan" style="color:red;">연락처를 정확히 입력해주세요.</span>');
 			}
 		});
+		/*
 		$('input[name=email1], input[name=email2]').blur(function() {
 			var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 			var email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
@@ -112,12 +125,12 @@
 				$('select[name=emailaddr]').after('<span id="errorSpan" style="color:red;">이메일을 정확히 입력해주세요.</span>');
 			}
 		});
-		
+		*/
 		$('#modifyBtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;
 			if($('input[name=checkPwd]').val().trim() == '') {
-				swal("본인확인을 위해 기존 비밀번호를 입력해주세요.","");
+				swal("본인확인이 필요합니다!","기존 비밀번호를 입력해주세요.");
 				return;
 			}
 			if($('input[name=empPwd]').val().trim() == '') {
@@ -131,7 +144,7 @@
 			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
 				swal("연락처를 입력해주세요.","");
 				return;
-			}				
+			}
 			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
 				swal("이메일 입력해주세요.","");
 				return;

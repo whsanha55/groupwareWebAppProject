@@ -120,6 +120,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 		List<EmployeeCodeVO> codeList = employee.getCodeList();
 		
+		employeeDAO.insertCodeHistoryProcedure(empNo);
 		employeeDAO.deleteEmployeeCode(empNo);		
 		for(EmployeeCodeVO code : codeList) { 
 			code.setEmpNo(empNo);
