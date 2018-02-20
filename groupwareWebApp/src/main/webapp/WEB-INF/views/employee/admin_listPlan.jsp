@@ -35,10 +35,14 @@ $(document).ready(function(){
 		success: function (data, textStatus, jqXHR) {
 
 			$('#calendar1').fullCalendar({
+				theme: false,
 				header: {
 					right: 'prev,next today',
 					center: 'title',
 					left: 'month,listWeek,listDay'
+				},
+				buttonIcons: {  
+					addEvent: 'plusthick'
 				},
 				slotEventOverlap: false,
 				allDaySlot: false,

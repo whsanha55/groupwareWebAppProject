@@ -17,6 +17,9 @@
 
 input {height:34px !important;}
 	
+#delegationTmp {
+	width : 140px;
+}
 </style>
 <script>
 var pKeyfield;  
@@ -26,6 +29,40 @@ var pKeyword;
 $(document).ready(function(){
 	
 	templatePaging(1);//최초로드시 페이지처리
+	
+	//대분류 (양식서 카테고리) 선택 이벤트
+	$('#categorySelect').on('change',function() {
+		var categoryNo = $(this).val();
+		if(categoryNo==0) {	//대분류 선택버튼
+			$('#delegationTmp').html('<option value="0">양식서 선택</option>');
+			return;
+		}
+		if(categoryNo =='all'){	//전체 조회
+			categoryNo = 0;
+		}
+		$.ajax({
+			url: '${pageContext.request.contextPath}/admin/retrieveTemplateList.do' ,
+			method: 'GET' ,
+			data: {
+				categoryNo : categoryNo
+			},
+			dataType: 'json'
+			,
+			success: function(data) {
+				var text = '<option value="0">양식서 선택</option>';
+				for(var i=0; i<data.length;i++) {
+					text += '<option value="' + data[i].tmpNo +'">';
+					text += data[i].tmpName;
+					text += '</option>';
+				}
+				$('#delegationTmp').html(text);
+			
+			},
+			error: function(jqXHR, textStatus, error) {
+				alert("Error : " + jqXHR.status + "," + error);
+			}
+		});
+	});
 	
 	 
 	//검색조건 엔터키 눌렀을때 트리거 발동
@@ -93,7 +130,7 @@ $(document).ready(function(){
 								if(!data) {	//false는 미등록된 양식서
 									registerDelegation();
 								} else {	//등록된 양식서
-									swal("이미 전결 등록된 양식명입니다.","");									
+									swal("등록 실패","이미 등록된 양식서입니다.","error");									
 								}		
 									
 							},
@@ -275,13 +312,19 @@ $(document).ready(function(){
 				<div class="form-group form-inline" style='border-bottom : 2px solid #d8d3d3;'>
 					<div id="insertDeleg" >
 						<form id="search" style="margin-bottom:10px;">
-							<span>전결 조건 추가 </span> 
-							<select id="delegationTmp" name="delegationTmp" style="height: 34px;">
-								<c:forEach var="template" items="${requestScope.template}">
-									<option value="${pageScope.template.tmpNo }">
-										${pageScope.template.tmpName }
+							<select id='categorySelect' style='height:34px;'>
+								<option value='0' >대분류</option>
+								<c:forEach var="category" items="${requestScope.categories}">
+									<option value="${pageScope.category.categoryNo}">
+										${pageScope.category.categoryName }
 									</option>
 								</c:forEach>
+								<option value='all' >전체</option>
+							</select>
+							<select id="delegationTmp" name="delegationTmp" style="height: 34px;">
+								<option value='0'>
+									양식서 선택
+								</option>
 							</select> 
 							<select id="delegationDuty" name="delegationDuty" style="height: 34px; width: 150px;">
 								<c:forEach var="duty" items="${requestScope.duty}">
@@ -291,8 +334,8 @@ $(document).ready(function(){
 								</c:forEach>
 							</select>
 							<button id="btn1" class="btn btn-primary" type="button"
-								    style="height: 28px; margin-bottom: 4px; padding-top: 2px; height: 34px;">
-								추가
+								    style="margin-bottom: 4px; padding-top: 2px; height: 34px;">
+								전결 등록
 							</button>
 						</form>
 					</div>
@@ -303,8 +346,7 @@ $(document).ready(function(){
 				
 				<div class='col-md-10' style='margin-top:30px;'>
 					<div style='float:right; margin-bottom:10px;'>
-		                    <select id="pKeyfield" name="pKeyfield" style="height: 34px;"
-								style="height: 28px; width: 80px; ">
+		                    <select id="pKeyfield" name="pKeyfield" style="height: 34px;width:80px;">
 								<option value="template">양식명</option>
 								<option value="duty">직급</option>
 							</select>
