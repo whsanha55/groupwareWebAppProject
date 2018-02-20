@@ -285,7 +285,6 @@
 								&nbsp;
 								<div class="box5">${requestScope.relationCode }<div class="tri3"></div></div>
 								<br>
-								※코드 번호 클릭 시, 하위 코드 목록으로 이동합니다.
 
 						</div>
 						
