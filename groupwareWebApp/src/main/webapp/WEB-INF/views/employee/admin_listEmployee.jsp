@@ -163,6 +163,7 @@ input[type=file]:before {
 			$('#email1').attr('readonly', false);
 			$('#email2').attr('readonly', false);
 			$('select[name=emailaddr]').attr('disabled', false);
+			$('#findpostcode').attr('disabled', false);
 			$('#moddetailAddress').attr('readonly', false);
 			$('#deptBtn').attr('disabled', false);
 			$('#dutyBtn').attr('disabled', false);
@@ -405,6 +406,7 @@ input[type=file]:before {
 						$('#email1').attr('readonly', true);
 						$('#email2').attr('readonly', true);
 						$('select[name=emailaddr]').attr('disabled', true);
+						$('#findpostcode').attr('disabled', true);
 						$('#moddetailAddress').attr('readonly', true);
 						$('#dutyBtn').attr('disabled',true);
 						$('#deptBtn').attr('disabled',true);
