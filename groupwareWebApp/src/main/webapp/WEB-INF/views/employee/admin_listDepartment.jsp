@@ -36,7 +36,7 @@
 			
 			$('#findDept').on('click', function() {
 				if($('.keyfield').attr('id') == undefined) {
-					swal("검색조건를 선택해주세요","", "error");
+					swal("검색조건을 선택해주세요!","", "error");
 					return false;
 				} 
 			
@@ -186,7 +186,7 @@
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 							<div class="col-xs-4 col-xs-offset-2  pull-right">
-								<div class="input-group">
+								<div class="input-group" style="margin-right:-35px;">
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 											data-toggle="dropdown">
@@ -257,7 +257,7 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<table id="datatable2" class="table table-striped table-bordered" style="text-align:center;">
+						<table id="datatable2" class="table table-striped table-bordered jambo_table" style="text-align:center;">
 							<thead>
 								<tr id="deptEmpListTR">
 									<th class="text-center">사번</th>

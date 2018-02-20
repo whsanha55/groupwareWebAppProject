@@ -111,5 +111,9 @@ public class CodeDAOImpl implements CodeDAO {
 		return sqlSession.selectOne(NAMESPACE + ".selectCodeCount", map);
 	}
 	
+	public int selectCodeHistoryListByAdminCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectCodeHistoryByAdminCount", map);
+	}
+	
 	
 }

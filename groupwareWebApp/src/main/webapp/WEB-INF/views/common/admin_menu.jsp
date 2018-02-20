@@ -62,8 +62,9 @@
 								<li><a href="${pageScope.listCodeHistory }">이력조회</a></li>
 							</ul>
 						<li><a href="${pageScope.listCode }">코드</a></li>
-						<li><a href="${pageScope.listDepartment }">부서</a></li>
 					</ul></li>
+				<br>
+				<li><h3><a style="color:#fff" href="${pageScope.listDepartment }">부서관리</a></h3>
 				<br>
 				<li><h3><a style="color:#fff" href="${pageScope.listPlan }">일정관리</a></h3>
 			</ul>

@@ -16,6 +16,8 @@ public interface EmployeeDAO {
 	
 	String updateEmployee(EmployeeVO employee);
 	
+	void insertCodeHistoryProcedure(String empNo);
+	
 	void retireEmployee(String empNo);
 	
 	String insertEmployee(EmployeeVO employee);
