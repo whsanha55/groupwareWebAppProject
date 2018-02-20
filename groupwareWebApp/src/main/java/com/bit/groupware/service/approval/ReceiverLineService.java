@@ -17,4 +17,7 @@ public interface ReceiverLineService {
 	public void removeReceiverLines(int receiverNo);
 	
 	public List<ReceiverLineVO> retrieveReceiverLineByApprNo(int apprNo);
+	
+	//퇴직자 확인
+	public int retreiveRetire(int receiverNo);
 }

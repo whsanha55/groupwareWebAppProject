@@ -40,8 +40,13 @@ public class DeputyDAOImpl implements DeputyDAO {
 		sqlSession.delete(NAMESPACE + ".deleteDeputy", depNo);
 	}
 	
-	public void stopUseDeputy(String depNo) {
-		sqlSession.update(NAMESPACE + ".stopUseDeputy", depNo);
+	public void stopUseDeputy(Map<String, Object> map) {
+		sqlSession.update(NAMESPACE + ".stopUseDeputy", map);
+	}
+
+	public int selectDeputyCheck(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".selectDeputyCheck",map); 
 	}
 
 }

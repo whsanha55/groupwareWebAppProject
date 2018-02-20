@@ -9,30 +9,10 @@
 
 <style>
 .x_panel {
-	width: 100%;
-	height: 100%;
-	padding: 10px 17px;
-	display: inline-block;
-	background: #fff;
-	border: 1px solid #E6E9ED;
-	-webkit-column-break-inside: avoid;
-	-moz-column-break-inside: avoid;
-	column-break-inside: avoid;
-	opacity: 1;
-	transition: all .2s ease;
-	margin-top: 14px; # datas { width : 100%;
-	height: 400px;
-	margin-bottom: 15px;
-	overflow-y: hidden;
-	-ms-overflow-style: -ms-autohiding-scrollbar;
-	border: 1px solid #ddd;
+	min-height: 280px;
 }
-
-.btn-success {
-    background: #26B99A;
-    border: 1px solid #169F85;
-    display: inline;
-    margin-right: 15px;
+.popover-title {
+	text-align: center !important;
 }
 
 
@@ -45,29 +25,9 @@
 		$('#close').click(function() {
 				window.close();
 			});
-	
-	/* 	var temp = $('.apprLineAppr').length;
-		var text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineAppr').parent().append(text);
-		$('.apprLineAppr').parent().next().next().append(text);
-		
-		temp = $('.apprLineRef').length;
-		text = "";
-		for(var i =temp; i<9;i++) {
-			//$('.apprLineAppr').parent().append('<td></td>');
-			text += "<td></td>";
-		}
-		$('.apprLineRef').parent().append(text);
-		$('.apprLineRef').parent().next().append(text);
-		 */
-		
-	
-
-	
+		$('[data-toggle="popover"]').popover({
+			html: true
+		});  
 	});
 
 
@@ -115,7 +75,33 @@
 								<c:if test="${record.receiverLine.lineOrder ==9}">
 									<td>최종</td>
 								</c:if>
-	                            <td class=" ">${pageScope.record.receiverLine.lineEmployee.department} ${pageScope.record.receiverLine.lineEmployee.empName} ${pageScope.record.receiverLine.lineEmployee.duty}</td>
+								<c:choose>
+									<c:when test="${record.depEmployee.empNo != null }">
+										<td >
+											<a data-toggle="popover" data-placement="bottom" style="cursor:pointer;"
+											title="${pageScope.record.receiverLine.lineEmployee.department} 
+			                            		   ${pageScope.record.receiverLine.lineEmployee.empName} 
+			                            	       ${pageScope.record.receiverLine.lineEmployee.duty}
+			                            	       &lt;br&gt;
+			                            	       [${record.depEmployee.deputies[0].startDate} ~
+			                            	        ${record.depEmployee.deputies[0].endDate}]" 
+			                            	data-content = '사유 : ${record.depEmployee.deputies[0].depReason }'>
+												&lt;대결&gt;
+												${record.depEmployee.department}
+												${record.depEmployee.empName}
+												${record.depEmployee.duty}
+											</a>
+										</td>
+									</c:when>
+									<c:otherwise>
+			                            <td class=" ">
+			                            	${pageScope.record.receiverLine.lineEmployee.department} 
+			                            	${pageScope.record.receiverLine.lineEmployee.empName} 
+			                            	${pageScope.record.receiverLine.lineEmployee.duty}
+			                            </td>
+									</c:otherwise>
+								</c:choose>
+								
 								
 								<td class=" ">
 									<c:if test="${pageScope.record.apprStatus==0}">미결 </c:if>

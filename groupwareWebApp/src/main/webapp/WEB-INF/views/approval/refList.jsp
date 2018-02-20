@@ -32,6 +32,10 @@
 	#templatePaging li {
 		cursor : pointer;
 	}
+	#ui-datepicker-div {
+      z-index: 1051 !important;
+   }
+	input {height:34px !important;}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css"
@@ -178,6 +182,18 @@
 		///검색
 		 $("#btn3").on("click",function(){
 			 pKeyfield=$('#pKeyfield').val();
+			 
+			 if(pKeyfield != "apprDate" && pKeyword == "") { 			
+					swal("검색어를 입력해주세요.", "","error");
+					return; 				
+				}
+	 			if(pKeyfield == "apprDate" ){
+		 			if( pKeyword == "" || pKeyword1 == "") {
+						swal("날짜를 입력해주세요.", "","error");
+						return;
+		 			}  
+	 			}
+	 			
 			 if(pKeyfield=='finDate' || pKeyfield=='apprDate'){
 				 pKeyword=convertDate($('#pKeyword').datepicker('getDate'));
 				 pKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
@@ -194,16 +210,7 @@
 			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
 			 }
 			 
-	 			if(pKeyfield != "apprDate" && pKeyword == "") { 			
-					swal("검색어를 입력해주세요.", "");
-					return; 				
-				}
-	 			if(pKeyfield == "apprDate" ){
-		 			if( pKeyword == "" || pKeyword1 == "") {
-						swal("날짜를 입력해주세요.", "");
-						return;
-		 			}  
-	 			}
+	 			
 			 
 			 templatePaging(1);
 		 });
@@ -385,14 +392,14 @@
 					
 				   <div class="btn-group" >
                     <form id="search">
-						<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
+						<select id="pKeyfield" name="pKeyfield" style="height:34px;" >
 							<option value="apprTitle">제목</option>
 							<option value="tmpName">양식명</option>
 							<option value="empName">기안자</option>
 							<option value="department">기안부서</option>
 							<option value="apprDate" id="apprDate">기안일</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
-						<button id="btn3" type="button">검색</button>
+						<button id="btn3" type="button" style="height:34px;">검색</button>
 						<i class="fa fa-undo" id="return">되돌리기</i>
 					</form>
 					<div class="col-sm-3">

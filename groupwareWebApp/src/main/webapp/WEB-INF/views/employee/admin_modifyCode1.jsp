@@ -11,7 +11,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
-<script type="text/javascript">
+	<script type="text/javascript">
 
 	$(document).ready(function() {
 		 
@@ -85,33 +85,40 @@
 
 	});
 	</script>
-	
-	<div class="modal-header">
-		<h4 class="modal-title" id="myModalLabel">코드 수정</h4>
-	</div>
 
-	<div class="modal-body">
-		<div></div>
-		
-	<form id="form" >
-		<div class="modal-body">
-			<table id="datatable" class="table table-striped table-bordered">
-				<tbody>
-					<input type="hidden" id="cNo" name="cNo" value="${param.cNo}">
-					<input type="hidden" id="relationCode" name="relationCode" value="" >
-					<tr>
-						<th>코드명</th>
-						<td><input type="text" id="cName" name="cName" required="required" value="${requestScope.code.cName }" ></td>
-					</tr>
-				</tbody>
-			</table>
-			<br>
-			<div class="text-center">
-				<button type="button"  class="btn btn-success modifyBtn">수정</button>
-				<a href="#" id="close"><button type="button" class="btn btn-primary">닫기</button></a>
+
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel" style="height:300px;">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">코드 수정</h4>
+			</div>
+
+			<div class="modal-body">
+				<div></div>
+
+				<form id="form">
+					<div class="modal-body">
+						<table id="datatable" class="table table-striped table-bordered">
+							<tbody>
+								<input type="hidden" id="cNo" name="cNo" value="${param.cNo}">
+								<input type="hidden" id="relationCode" name="relationCode"
+									value="">
+								<tr>
+									<th>코드명</th>
+									<td><input type="text" id="cName" name="cName"
+										required="required" value="${requestScope.code.cName }"></td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<div class="text-center">
+							<button type="button" class="btn btn-success modifyBtn">수정</button>
+							<a href="#" id="close"><button type="button"
+									class="btn btn-primary">닫기</button></a>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
-	</form>
-	
 </body>
 </html>

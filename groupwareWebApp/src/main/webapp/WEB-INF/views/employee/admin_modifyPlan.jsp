@@ -8,10 +8,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<link href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.min.css" />
 <title>일정수정</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" 
 		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.js"></script>
 <style>
 .modal-dialog.modal-cSize {
 	width:600px;
@@ -42,13 +47,30 @@
 var eKeyfield;
 var eKeyword;
 
-$(document).ready(function () {		
+/* $.datepicker.setDefaults({
+    dateFormat: 'yy-mm',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년'
+}); */
+
+$(document).ready(function () {
 	
-	//페이지 이동 방지
-    var checkUnload = true;
-    $(window).on("beforeunload", function(){
-    	if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-    });
+	$('#startDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:mm",	
+		defaultDate : new Date()
+	});
+	
+	$('#endDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:mm", 
+		defaultDate : new Date()
+	});
 
 	//파일 삭제 
 	$('.deleteBtn').on('click', function() {	
@@ -121,7 +143,7 @@ $(document).ready(function () {
 			swal("장소정보를 입력해주세요.","");
 			return;
 		}
-		if($('input[name=pContent]').val() == '') {
+		if($('textarea[name=pContent]').val().trim() == '') {
 			swal("내용을 입력해주세요.","");
 			return;
 		}
@@ -251,12 +273,12 @@ $(document).ready(function () {
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
 												<%-- <fmt:parseDate var="parsedDate" value="${requestScope.plan.startDate }" pattern="YYYY/MM/DD HH24:mm:ss" />
 												<fmt:formatDate var="newFormattedStartDate" value="${parsedDate }" pattern="YYYY-MM-DD'T'HH24:mi:ss" /> --%>
-												<input type="datetime-local" name="startDate" id="startDate"
+												<input type="text" name="startDate" id="startDate1"
 													class="form-control" required="required"
 													style="width:262px;" value="${requestScope.plan.startDate }">
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="endDate" id="endDate" 
+												<input type="text" name="endDate" id="endDate1" 
 														class="form-control" required="required"
 														style="width:262px;" value="${requestScope.plan.endDate }" >
 											</div>
@@ -281,7 +303,7 @@ $(document).ready(function () {
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용</label>&nbsp;&nbsp;
+							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용 *</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%">${requestScope.plan.pContent }</textarea>
 							</div>
