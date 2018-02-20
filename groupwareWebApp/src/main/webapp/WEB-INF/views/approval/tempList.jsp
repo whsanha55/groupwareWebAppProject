@@ -196,11 +196,11 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>임시 보관함</h2>
-                
+                	<div class="pull-right"> <a class="btn btn-primary pull-right" id="deleteApproval" style="float:left!important; margin-left:10px;">선택 삭제</a></div>
                     <div class="clearfix" id="count1"></div>
                   </div>
 				  <div style="width:100%;">
-				   <div class="btn-group">
+				   <!-- <div class="btn-group">
                      
                    
 					<div class="col-sm-3">
@@ -211,8 +211,8 @@
 						</div>
 					</div>
 					
-                    </div>
-				  <a class="btn btn-primary pull-right" id="deleteApproval" style="float:left!important; margin-left:10px;">선택 삭제</a>
+                    </div> -->
+				 
 				  </div>
                   <div class="x_content">
 					

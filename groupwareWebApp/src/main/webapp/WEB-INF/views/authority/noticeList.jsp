@@ -169,6 +169,8 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>공지사항</h2>
+                   <div class="clearfix"></div>
+                  </div>
         <div class="container">
 			    <div class="row">    
 			        <div class="col-xs-7 col-xs-offset-5">
@@ -191,8 +193,7 @@
 			        </div>
 				</div>
 			</div>
-                    <div class="clearfix"></div>
-                  </div>
+                    
 
                     <div class="table-responsive">
                       <table  id="datatable"  class="table table-striped jambo_table bulk_action">

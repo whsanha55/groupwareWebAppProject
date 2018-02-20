@@ -14,6 +14,9 @@
 #datatable tr td:last-child {
 	padding:0px;
 }
+
+input {height:34px !important;}
+	
 </style>
 <script>
 var pKeyfield;  
@@ -40,7 +43,7 @@ $(document).ready(function(){
 		 pKeyfield=$('#pKeyfield').val();
 		 pKeyword=$('.pKeyword').val();
  		 if(pKeyword.trim() == '') {
- 			 swal('검색어를 입력하세요.','');
+ 			swal("검색조건를 선택해주세요","", "error");
  			 return;
  		 } 
 		 templatePaging(1);
@@ -181,7 +184,7 @@ $(document).ready(function(){
 					text += "<tr><td>"+ data.delegations[i].template.tmpName + "</td>";
 					text += "<td>"+ data.delegations[i].code.cName + "</td>";
 					text += "<td>"+ data.delegations[i].deleDate + "</td>";
-					text += "<td style='width:30px;'><a class='btn btn-link deleteDelegationBtn' name="+data.delegations[i].deleNo+" style='margin:0px;'>삭제</a></td>";
+					text += "<td style='width:30px;'><a class='btn deleteDelegationBtn' name="+data.delegations[i].deleNo+" style='margin:0px;'>삭제</a></td>";
 					text += "</tr>";
 				}
 					$('#datatable').html(text);
@@ -273,14 +276,14 @@ $(document).ready(function(){
 					<div id="insertDeleg" >
 						<form id="search" style="margin-bottom:10px;">
 							<span>전결 조건 추가 </span> 
-							<select id="delegationTmp" name="delegationTmp" style="height: 28px;">
+							<select id="delegationTmp" name="delegationTmp" style="height: 34px;">
 								<c:forEach var="template" items="${requestScope.template}">
 									<option value="${pageScope.template.tmpNo }">
 										${pageScope.template.tmpName }
 									</option>
 								</c:forEach>
 							</select> 
-							<select id="delegationDuty" name="delegationDuty" style="height: 28px; width: 150px;">
+							<select id="delegationDuty" name="delegationDuty" style="height: 34px; width: 150px;">
 								<c:forEach var="duty" items="${requestScope.duty}">
 									<option value="${pageScope.duty.cNo }">
 										${pageScope.duty.cName }
@@ -288,7 +291,7 @@ $(document).ready(function(){
 								</c:forEach>
 							</select>
 							<button id="btn1" class="btn btn-primary" type="button"
-								    style="height: 28px; margin-bottom: 4px; padding-top: 2px;">
+								    style="height: 28px; margin-bottom: 4px; padding-top: 2px; height: 34px;">
 								추가
 							</button>
 						</form>
@@ -299,23 +302,23 @@ $(document).ready(function(){
 				<div class='col-md-1'></div>
 				
 				<div class='col-md-10' style='margin-top:30px;'>
-					<div style='float:right;margin-right:10px;margin-bottom:10px;'>
-		                    <select id="pKeyfield" name="pKeyfield"
+					<div style='float:right; margin-bottom:10px;'>
+		                    <select id="pKeyfield" name="pKeyfield" style="height: 34px;"
 								style="height: 28px; width: 80px; ">
 								<option value="template">양식명</option>
 								<option value="duty">직급</option>
 							</select>
 		                <input class="pKeyword" type="text" name="pKeyword"
-								placeholder="검색어를 입력하세요" style="width: 172px; height: 28px;">
+								placeholder="검색어를 입력하세요" style="width: 172px; height: 34px;">
 		                    <button id="btn3" class="btn btn-primary" type="button"
-								style="height: 28px; margin-bottom: 4px; padding-top: 2px; margin-left:3px;">
+								style="margin-bottom: 4px; padding-top: 2px; margin-left:3px; height: 34px;">
 								검색
 							</button>
 		            </div>
 				
 				
 					<table class="table table-striped table-bordered"
-						style=" text-align: center; margin: auto;">
+						style=" text-align: center; margin-left:-4px;">
 						<thead>
 							<tr>
 								<th style="text-align: center;">양식명</th>
