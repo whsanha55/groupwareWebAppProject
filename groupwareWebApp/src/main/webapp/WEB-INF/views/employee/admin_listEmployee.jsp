@@ -625,7 +625,7 @@ input[type=file]:before {
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" style='width:200px;height:250px;' 
+									<img id="photo" style='width:200px;height:250px;   ' 
 									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
