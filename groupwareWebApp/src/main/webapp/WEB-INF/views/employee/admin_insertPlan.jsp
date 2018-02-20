@@ -26,7 +26,7 @@ input[type=file]:before {
   font-size: 14px;
   line-height: 30px;
   color:#fff;
-  content: '사진선택';
+  content: '파일선택';
   display: inline-block;
   background: #26B99A;
     border: 1px solid #169F85;
@@ -46,7 +46,29 @@ input[type=file]:before {
 <script>
 
 
-$(document).ready(function() {	
+$(document).ready(function() {
+	
+	$('input[name=startDate]').focus(function() {	
+		$('input[name=endDate]').next('span').text("");
+	});
+	
+	$('input[name=endDate]').focus(function() {	
+		$(this).next('span').text("");
+	});
+	
+	$('input[name=endDate]').blur(function() {	
+		if($('input[name=startDate]').val() >= $(this).val()) {
+			console.log($(this).next());
+			$(this).next().text("시작일이 종료일보다 클 수 없습니다.");
+		}
+	});	
+	
+	$('input[name=startDate]').blur(function() {	
+		if($(this).val() >= $('input[name=endDate]').val()) {
+			console.log($(this).next());
+			$('input[name=endDate]').next().text("시작일이 종료일보다 클 수 없습니다.");
+		}
+	});	
 	
 	$('#startDate1').datetimepicker({
 		format : "YYYY/MM/DD HH:mm",		
@@ -57,7 +79,7 @@ $(document).ready(function() {
 		format : "YYYY/MM/DD HH:mm",	 
 		defaultDate : new Date()
 	});
-
+	
 	$('#registerBtn').on('click', function() {
 		event.preventDefault();
 		checkUnload = false;
@@ -209,23 +231,13 @@ $(document).ready(function() {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >기간 *</label>&nbsp;&nbsp;
 							</label>
-							<div class="col-md-6 col-sm-6 col-xs-12">
-								<fieldset>
-									<div class="control-group">
-										<div class="controls">
-											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
-												<span class="add-on input-group-addon">
-												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="text" name="startDate" id="startDate1"
-														class="form-control" required="required" style="width:262px;" >
-												<span class="add-on input-group-addon">
-												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="text" name="endDate" id="endDate1" 
-														class="form-control" required="required" style="width:262px;" >
-											</div>
-										</div>
-									</div>
-								</fieldset>
+							<div class="form-inline col-md-9 col-sm-6 col-xs-12">
+								<input type="text" id="startDate1" class="form-control" name="startDate"
+										required="required" style="width:200px;">&nbsp;&nbsp;&nbsp;
+										~&nbsp;&nbsp;&nbsp;
+								<input type="text" id="endDate1"	class="form-control" name="endDate"
+										required="required" style="width:200px;">
+								<span></span>
 							</div>
 						</div>
 						
