@@ -257,7 +257,7 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<table id="datatable2" class="table table-striped table-bordered" style="text-align:center;">
+						<table id="datatable2" class="table table-striped table-bordered jambo_table" style="text-align:center;">
 							<thead>
 								<tr id="deptEmpListTR">
 									<th class="text-center">ป็น๘</th>

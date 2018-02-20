@@ -256,9 +256,9 @@
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">사번
 						</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="col-md-4 col-sm-6 col-xs-12">
 							<input type="text" class="form-control" 
-								id="empNo" name="empNo" readonly style="width:300px;"
+								id="empNo" name="empNo" readonly
 								value="${requestScope.employee.empNo }">
 						</div>
 					</div>
@@ -266,9 +266,9 @@
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="checkPwd">기존 비밀번호 <span class="required">*</span>
 						</label>
-						<div class=<%-- "col-md-6 col-sm-6 col-xs-12" --%>col-md-3 col-sm-6 col-xs-6>
+						<div class="col-md-4 col-sm-6 col-xs-6">
 							<input type="password" id="checkPwd" name="checkPwd"
-								 class="form-control col-sm-6 col-xs-6" style="width:300px;">
+								 class="form-control col-sm-4 col-xs-6" >
 						</div>
 						<button type="button" id="checkPwdBtn" class="btn btn-success">비밀번호 확인</button>
 					</div>
@@ -276,18 +276,18 @@
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="empPwd">새 비밀번호 <span class="required">*</span>
 						</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="col-md-4 col-sm-6 col-xs-12">
 							<input type="password" id="empPwd" name="empPwd"
-								 class="form-control col-md-7 col-xs-12" style="width:300px;">
+								 class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="empPwdCheck">새 비밀번호 확인 <span class="required">*</span>
 						</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="col-md-4 col-sm-6 col-xs-12">
 							<input type="password" id="empPwdCheck" name="empPwdCheck"
-								 class="form-control col-md-7 col-xs-12" style="width:300px;">
+								 class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="ln_solid"></div>
