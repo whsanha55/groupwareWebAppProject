@@ -40,7 +40,7 @@ $(document).ready(function(){
 		 pKeyfield=$('#pKeyfield').val();
 		 pKeyword=$('.pKeyword').val();
  		 if(pKeyword.trim() == '') {
- 			 swal('검색어를 입력하세요.','');
+ 			swal("검색조건를 선택해주세요","", "error");
  			 return;
  		 } 
 		 templatePaging(1);
@@ -181,7 +181,7 @@ $(document).ready(function(){
 					text += "<tr><td>"+ data.delegations[i].template.tmpName + "</td>";
 					text += "<td>"+ data.delegations[i].code.cName + "</td>";
 					text += "<td>"+ data.delegations[i].deleDate + "</td>";
-					text += "<td style='width:30px;'><a class='btn btn-link deleteDelegationBtn' name="+data.delegations[i].deleNo+" style='margin:0px;'>삭제</a></td>";
+					text += "<td style='width:30px;'><a class='btn deleteDelegationBtn' name="+data.delegations[i].deleNo+" style='margin:0px;'>삭제</a></td>";
 					text += "</tr>";
 				}
 					$('#datatable').html(text);
