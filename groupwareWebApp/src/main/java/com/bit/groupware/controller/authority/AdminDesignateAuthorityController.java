@@ -28,9 +28,8 @@ public class AdminDesignateAuthorityController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminDesignateAuthorityController.class);
 
 	@RequestMapping(value = "/admin/designAuthority.do", method = RequestMethod.GET)
-	public ModelAndView form(@RequestParam(value="aNo") String aNo) {
+	public ModelAndView form() {
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("empNos", authorityService.retrieveAuthEmpNo(aNo));
 		mv.setViewName("authority/admin_designateAuthority");
 		
 		return mv;
@@ -114,4 +113,16 @@ public class AdminDesignateAuthorityController {
 		return true;
 	}
 
+	@RequestMapping(value="/checkEmpNo.do" , method=RequestMethod.POST)
+	@ResponseBody
+	public boolean check(@RequestParam(value="aNo") String aNo, @RequestParam(value="empNo") String empNo) {
+			List<String> list = authorityService.retrieveAuthEmpNo(aNo);
+			return list.contains(empNo);
+			/*for(int i=0; i<list.size(); i++){
+				if(empNo.equals(list.get(i))){
+					return true;
+				}
+			}
+		return false;*/
+	}
 }

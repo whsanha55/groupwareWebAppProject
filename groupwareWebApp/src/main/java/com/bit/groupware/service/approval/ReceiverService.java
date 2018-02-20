@@ -7,7 +7,7 @@ import com.bit.groupware.domain.approval.ReceiverVO;
 public interface ReceiverService {
 
 	//결재라인 추가
-	void registerReceiver(ReceiverVO receiver);
+	int registerReceiver(ReceiverVO receiver);
 	
 	//결재선 조회
 	List<ReceiverVO> retrieveReceiverList(String empNo);
@@ -17,5 +17,6 @@ public interface ReceiverService {
 	
 	//결재선 삭제
 	void removeReceiver(int receiverNo);
+	
 	
 }

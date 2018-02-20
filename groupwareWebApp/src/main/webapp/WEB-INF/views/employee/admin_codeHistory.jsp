@@ -27,7 +27,7 @@
 							<div class="col-md-3 col-xs-offset-2">
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle"
+										<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px"
 											data-toggle="dropdown">
 											<span id="search_concept">검색</span> <span class="caret"></span>
 										</button>
@@ -37,9 +37,9 @@
 									</div>
 									<input type="hidden" name="search_param" value="all"
 										id="search_param"> <input type="text"
-										class="form-control" name="x" placeholder="Search term...">
+										class="form-control" name="x" placeholder="검색어">
 									<span class="input-group-btn">
-										<button class="btn btn-default" type="button">
+										<button class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
@@ -53,12 +53,12 @@
 					class="table table-striped table-bordered text-center">
 					<thead>
 						<tr>
-							<th>사번</th>
-							<th>이름</th>
-							<th>부서</th>
-							<th>직책</th>
-							<th>시작일</th>
-							<th>종료일</th>
+							<th class="text-center">사번</th>
+							<th class="text-center">이름</th>
+							<th class="text-center">부서</th>
+							<th class="text-center">직책</th>
+							<th class="text-center">시작일</th>
+							<th class="text-center">종료일</th>
 						</tr>
 					</thead>
 					<tbody>

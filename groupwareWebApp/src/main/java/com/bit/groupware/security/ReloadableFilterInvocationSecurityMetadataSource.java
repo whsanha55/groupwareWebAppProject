@@ -32,7 +32,7 @@ public class ReloadableFilterInvocationSecurityMetadataSource implements FilterI
 		this.requestMap = requestMap;
 	}
 
-	// HttpServletRequest 객체와 Ant 패턴으로 맞는 것을 찾아서 그에 따른 궎한 목록을 반환한다.
+	// HttpServletRequest 객체와 Ant 패턴으로 맞는 것을 찾아서 그에 따른 권한 목록을 반환한다.
 	public Collection<ConfigAttribute> getAttributes(Object paramObject) throws IllegalArgumentException {
 		HttpServletRequest request = ((FilterInvocation) paramObject).getRequest();
 		Collection<ConfigAttribute> result = null;

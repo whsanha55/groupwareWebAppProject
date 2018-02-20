@@ -8,7 +8,47 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
+
 	$(document).ready(function() {
+			
+		var phoneArr = $('#phoneNumber').val().split('-');
+		$('#phoneNumber1').val(phoneArr[0]);
+		$('#phoneNumber2').val(phoneArr[1]);
+		$('#phoneNumber3').val(phoneArr[2]);
+					
+		var emailArr = $('#email').val().split('@');
+		console.log(emailArr);
+		$('#email1').val(emailArr[0]);
+		$('#email2').val(emailArr[1]);
+		
+		
+		$('#checkPwdBtn').click(function () {
+			if($(this).next('span').text() != null) {
+				$(this).next('span').remove();
+			}
+			
+			$.ajax ({
+				url:'${pageContext.request.contextPath}/checkPwdEmployee.do',
+				method:'POST',
+				data: {
+					checkPwd : $('#checkPwd').val()
+				},
+				dataType:'json',
+				success: function(data) {
+					txt = "";
+					if(data == true) {
+						txt += "<span id='greenSpan' style='color:green;'>비밀번호가 일치합니다.</span>"
+					} else {
+						txt += "<span id='errorSpan' style='color:red;'>비밀번호가 일치하지 않습니다.</span>"
+					}
+					$('#checkPwdBtn').after(txt);
+				},
+				error : function(jqXHR) {
+					alert('error : ' + jqXHR.status);
+				}
+				
+			});
+		});
 		
 		$('input[name=empPwd]').focus(function() {
 			if($(this).next('span').text() != null){
@@ -16,24 +56,127 @@
 			}
 		});
 		
-		$('input[name=empPwd]').blur(function() {	
-			if($(this).val() < 5 || $(this).val() > 12) {
-				$(this).after('<span style="color:red;">5~12자리 사이로 입력해주세요.</span>');
-			}
-		});
-				
 		$('input[name=empPwdCheck]').focus(function() {
 			if($(this).next('span').text() != null){
 				$(this).next('span').remove();
 			}
 		});
 		
-		$('input[name=empPwdCheck]').blur(function() {
-			
-			if($(this).val() != $('input[name=empPwd]').val()) {
-				$(this).after('<span style="color:red;">비밀번호가 일치하지 않습니다.</span>');
+		$('input[name=phoneNumber2]').focus(function() {
+			if($('input[name=phoneNumber3]').next('span').text() != null){
+				$('input[name=phoneNumber3]').next('span').remove();
 			}
 		});
+		$('input[name=phoneNumber3]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});
+		$('input[name=email1]').focus(function() {
+			if($('select[name=emailaddr]').next('span').text() != null){
+				$('select[name=emailaddr]').next('span').remove();
+			}
+		});
+		$('input[name=email2]').focus(function() {
+			if($('select[name=emailaddr]').next('span').text() != null){
+				$('select[name=emailaddr]').next('span').remove();
+			}
+		});
+		$('input[name=address]').focus(function() {
+			if($(this).next('span').text() != null){
+				$(this).next('span').remove();
+			}
+		});		
+		
+		
+		$('input[name=empPwd]').blur(function() {	
+			if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
+				$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
+			}
+		});		
+		$('input[name=empPwdCheck]').blur(function() {	
+			if($(this).val() != $('input[name=empPwd]').val()) {
+				$(this).after('<span id="errorSpan" style="color:red;">비밀번호가 일치하지 않습니다.</span>');
+			}
+		});		
+		$('input[name=phoneNumber2], input[name=phoneNumber3]').blur(function() {
+			if(!($('input[name=phoneNumber2]').val().trim().length == 4 && $('input[name=phoneNumber3]').val().trim().length == 4)) {
+				$('input[name=phoneNumber3]').after('<span id="errorSpan" style="color:red;">연락처를 정확히 입력해주세요.</span>');
+			}
+		});
+		$('input[name=email1], input[name=email2]').blur(function() {
+			var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+			var email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
+			$('#email').val(email);
+			if(!regEmail.test($('#email.val()'))) {
+				$('select[name=emailaddr]').after('<span id="errorSpan" style="color:red;">이메일을 정확히 입력해주세요.</span>');
+			}
+		});
+		
+		$('#modifyBtn').on('click', function() {
+			event.preventDefault();
+			checkUnload = false;
+			if($('input[name=checkPwd]').val().trim() == '') {
+				swal("본인확인을 위해 기존 비밀번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=empPwd]').val().trim() == '') {
+				swal("새 비밀번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=empPwdCheck]').val().trim() == '') {
+				swal("새 비밀번호 확인을 해주세요.","");
+				return;
+			}
+			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
+				swal("연락처를 입력해주세요.","");
+				return;
+			}				
+			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
+				swal("이메일 입력해주세요.","");
+				return;
+			}
+			if($('input[name=address]').val() == '') {
+				swal("주소정보를 입력해주세요.","");
+				return;
+			}
+			
+			if($("#greenSpan").text() == "") {
+				swal("비밀번호 확인을 해주세요!");
+				return;
+			}
+			
+			if($("#errorSpan").text() != "") {
+				swal("정확하지 않은 정보가 있습니다. 다시 확인해주세요!");
+				return;
+			}
+			
+			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
+			$('#phoneNumber').val(phoneNumber);
+			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
+			$('#regNumber').val(regNumber);
+			var email = $('#email1').val() + '@' + $('#email2').val();
+			$('#email').val(email);
+			
+			swal({
+				title: "사원 수정",
+				text: "사원정보를 수정합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					$('#modiform').submit();
+				} else if(!e) {
+					checkUnload = true;
+					return;
+				}
+			});			
+		});
+		
+		$('#backBtn').click(function() {
+			location.href="${pageContext.request.contextPath}/detailEmployee.do";
+		});
+		
 		
 		$("#findpostcode").click(execDaumPostcode);
 		
@@ -95,7 +238,7 @@
 			</div>
 			<div class="x_content">
 				<br>
-				<form id="demo-form2" action="${pageContext.request.contextPath }/modifyEmployee.do" method="POST" 
+				<form id="modiform" action="${pageContext.request.contextPath }/modifyEmployee.do" method="POST" 
 					data-parsley-validate="" class="form-horizontal form-label-left">
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">사번
@@ -108,17 +251,26 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="empPwd">비밀번호 <span class="required">*</span>
+							for="checkPwd">기존 비밀번호 <span class="required">*</span>
+						</label>
+						<div class=<%-- "col-md-6 col-sm-6 col-xs-12" --%>col-md-3 col-sm-6 col-xs-6>
+							<input type="password" id="checkPwd" name="checkPwd"
+								 class="form-control col-sm-6 col-xs-6" style="width:300px;">
+						</div>
+						<button type="button" id="checkPwdBtn" class="btn btn-success">비밀번호 확인</button>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12"
+							for="empPwd">새 비밀번호 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="password" id="empPwd" name="empPwd"
-								 class="form-control col-md-7 col-xs-12" style="width:300px;"
-								 value="${requestScope.employee.empPwd }">
+								 class="form-control col-md-7 col-xs-12" style="width:300px;">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="empPwdCheck">비밀번호 확인 <span class="required">*</span>
+							for="empPwdCheck">새 비밀번호 확인 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="password" id="empPwdCheck" name="empPwdCheck"
@@ -131,7 +283,7 @@
 							for="empName">이름 <span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<input type="text" id="empName" name="empName"
+							<input type="text" id="empName" name="empName" readonly
 								 class="form-control col-md-7 col-xs-12" style="width:200px;"
 								 value="${requestScope.employee.empName }">
 						</div>
@@ -151,7 +303,7 @@
 							for="phoneNumber">연락처 <span class="required">*</span>
 						</label>
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
-							<input type="hidden" id="phoneNumber" name="phoneNumber"
+							<input type="hidden" id="phoneNumber" name="phoneNumber" value="${requestScope.employee.phoneNumber }"
 								 class="form-control col-md-7 col-xs-12">
 							<div class="form-group">
 								<select id="phoneNumber1" name="phoneNumber1" style="width:100px;height:30px;">
@@ -164,7 +316,7 @@
 							<input type="text" id="phoneNumber2" name="phoneNumber2"
 								 class="form-control" style="width:100px;">
 								 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-							<input type="text" id="phoneNumber3" name="regNumber3"
+							<input type="text" id="phoneNumber3" name="phoneNumber3"
 								 class="form-control" style="width:100px;">
 						</div>
 					</div>
@@ -172,9 +324,9 @@
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">이메일 <span class="required">*</span>
 						</label>
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
-							<input type="hidden" id="email" name="email" value="" >
+							<input type="hidden" id="email" name="email" value="${requestScope.employee.email }" >
 							<input type='text' id="email1" name="email1" class="form-control" style="width:150px;">@
-            				<input type='text' id="email2" name="email2" class="form-control" style="width:250px;">
+            				<input type='text' id="email2" name="email2" class="form-control" style="width:150px;">
 			              <select name="emailaddr" class="form-control">
 			                 <option value="">직접입력</option>
 			                 <option value="naver.com">naver.com</option>
@@ -218,8 +370,8 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button class="btn btn-primary" type="button">취소</button>
-							<button type="submit" class="btn btn-success">수정</button>
+							<button id="backBtn" class="btn btn-primary" type="button">취소</button>
+							<button id="modifyBtn" type="submit" class="btn btn-success">수정</button>
 						</div>
 					</div>
 				</form>

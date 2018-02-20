@@ -9,9 +9,6 @@
 <title>대결권자 등록</title>
 <style>
 .pagination {align:center};
-.current-page a{
-	background-color:#5a69798a;
-}
 </style>
   <link href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.min.css" />
@@ -87,37 +84,6 @@
 				$('#pKeyword1').remove();
 				$('#temp').remove();
 
-				console.log($('form').html());
-				
-				//$("input[name=pKeyword]").autocomplete('option','source',
-				//[ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]);
-				var url = ''; 
-				switch ($(this).val()) {
-					case 'empName':
-						url = 'retrieveEmployeeNameAndDutyList.do';
-						break;
-					case 'department':
-						url = 'retrieveDepartmentList.do';
-						break;
-					default :
-						break;
-				}
-				
-				$.ajax({
-					 url : '${pageContext.request.contextPath}/' + url ,
-					 cache : false ,
-					 type : 'GET' ,
-					 datatype : 'json' ,
-					 success : function(data) {
-						 $("input[name=pKeyword]").autocomplete('option','source',data);
-					 } ,
-					 error : function(jqXHR) {
-							alert(jqXHR.status);
-							console.log(jqXHR);
-					 }
-					 
-				});	
-					 
 					
 			}
 			
@@ -146,7 +112,7 @@
 		// 검색 실행
 		$("#btn3").on("click",function(){
 			eKeyfield=$('#pKeyfield').val();
-			 if(pKeyfield=='date'){ 
+			 if(eKeyfield=='date'){ 
 				 eKeyword=convertDate($('#pKeyword').datepicker('getDate'));
 				 eKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
 			 }else{

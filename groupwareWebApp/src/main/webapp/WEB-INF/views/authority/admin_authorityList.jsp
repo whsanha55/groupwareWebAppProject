@@ -223,7 +223,8 @@ $(document).ready(function() {
 	    $(this).parents("tr").find('.aWhether').html("<label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio1' value='0'> 유 </label> <label class='radio-inline'> <input type='radio' name='aWhether' id='inlineRadio2' value='1'>무</label>");
 	    $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-default'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
 		
-	    if($(this).parents("tr").find('.aWhether').text() == 0) {
+	    
+	    if(aWhether == '유') {
             $('input[name=aWhether][value=0]').prop('checked',true);
          }else{
             $('input[name=aWhether][value=1]').prop('checked',true);
@@ -244,9 +245,13 @@ $(document).ready(function() {
  		var aName = $(this).parents("tr").find('input[name=aName]').val();
  		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
  		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
-
- 	
  		
+ 		 var name = $(this).parents("tr").find('.aName');
+         var note = $(this).parents("tr").find('.aNote');
+         var whether = $(this).parents("tr").find('.aWhether');
+         var selectBtn = $(this).parents("tr").find('.selectBtn');
+         
+         var text = "";
 		swal({
 			  title: "게시판을 수정하시겠습니까?",
 			  icon: "info",
@@ -275,7 +280,21 @@ $(document).ready(function() {
 							success : function(data, textStatus, jqXHR){	
 								if(data.isSuccess == "true"){
 									swal("수정 완료!","");
-									Paging(1);
+									$(name).html(data.authority.aName);
+		                            $(note).html(data.authority.aNote);
+		                            if(data.authority.aWhether ==  '0'){	
+		                            	text += "<td class='aWhether'>유</td>";
+		                			}else{
+		                				text += "<td class='aWhether'>무</td>";
+		                			} 
+		                            $(whether).html(text);
+		                            $(selectBtn).html("<a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ data.authority.aName +"&aNo="+data.authority.aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><button type='button' class='btn btn-default'><a href='<c:url value='/admin/designAuthority.do?aName="+ data.authority.aName +"&aNo="+data.authority.aNo+ "'/>'>사원추가</a></button>"); 
+							
+		                            $('button:contains(수정)').prop("disabled", false);
+		                    	    $('button:contains(사원추가)').prop("disabled", false);
+		                            
+		                    	   
+		                    	    
 								}else if(data.isSuccess == "false"){
 									swal("이미 권한이 존재합니다.");
 								} 
@@ -293,7 +312,24 @@ $(document).ready(function() {
 	
 	//취소
  	$('#datatable').on('click','button:contains(취소)', function () {  
- 		Paging(1);
+ 		var aNo = $(this).parents("tr").find('.aNo').text();		
+ 		var aName = $(this).parents("tr").find('input[name=aName]').val();
+ 		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
+ 		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
+ 		var text = "";
+ 		
+ 		$(this).parents("tr").find('.aName').html(aName);
+        $(this).parents("tr").find('.aNote').html(aNote);
+ 		if(aWhether == '0'){
+ 			text += "<td class='aWhether'>유</td>";
+ 		}else{
+ 			text += "<td class='aWhether'>무</td>";
+ 		}
+ 		$(this).parents("tr").find('.aWhether').html(text);
+ 		$(this).parents("tr").find('.selectBtn').html("<a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ aName +"&aNo="+aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><button type='button' class='btn btn-default'><a href='<c:url value='/admin/designAuthority.do?aName="+ aName +"&aNo="+aNo+ "'/>'>사원추가</a></button>"); 
+	
+        $('button:contains(수정)').prop("disabled", false);
+ 	    $('button:contains(사원추가)').prop("disabled", false);
  	});
 	
 	
@@ -404,6 +440,9 @@ $(document).ready(function() {
 		
 		
 </script>
+<style>
+	.page-link{cursor:pointer !important;}
+</style>
 </head>
 <body>
 	<!-- 등록된 관리자 리스트 -->
@@ -411,12 +450,21 @@ $(document).ready(function() {
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>권한 리스트</h2>
+				<div class="removeBtn1">
+						<button id="removeBtn2" class="btn btn-primary pull-right" type="button">삭제</button>
+						<a class="btn btn-default pull-right" href='<c:url value="/admin/authority.do"/>'>등록</a>
+					</div>
+					<div class="clearfix"></div>
+				</div>
 			 <div class="container">
 			<div class="row">    
-			        <div class="col-xs-5">
+			        
+			        
+				</div>
+					<div class="col-xs-5 pull-right">
 					    <div class="input-group">
 			                <div class="input-group-btn search-panel">
-			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
 			                    	<span class="keyfield">검색조건</span> <span class="caret"></span>
 			                    </button>
 			                    <ul class="dropdown-menu" role="menu">
@@ -427,22 +475,16 @@ $(document).ready(function() {
 			                </div>
 			                <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
 			                <span class="input-group-btn" >
-			                    <button class="btn btn-default find" type="button">
+			                    <button class="btn btn-default find" type="button" style="margin-left:3px; height:34px;">
 			                    	<span class="glyphicon glyphicon-search"></span>
 			                    </button>
 			                </span>
 			            </div>   
 			        </div>
-			        <div class="removeBtn1">
-						<button id="removeBtn2" class="btn btn-primary pull-right" type="button">삭제</button>
-						<a class="btn btn-default pull-right" href='<c:url value="/admin/authority.do"/>'>추가</a>
-					</div>
 				</div>
-					
-				</div>
-			<div class="clearfix"></div>
-			</div>
-
+			
+			
+			
 				<div class="table-responsive">
 					<table id="datatable"  class="table table-striped jambo_table bulk_action">
 						<thead>

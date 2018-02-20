@@ -37,7 +37,7 @@
 		var pKeyword;
 	$(document).ready(function() {
 		
-		templatePaging(1); //최초 로드시 페이징 가즈아ㅏㅏㅏㅏ
+		templatePaging(1); //최초 로드시 페이징 
 		//양식서 카테고리 클릭 이벤트
 		$('.category').on('click',function() {
 			/* var categoryNo = $(this).attr('id').split('_')[1]; */
@@ -73,7 +73,6 @@
 					bookmarkNo : bookmarkNo
 				} ,
 				success : function(data) {
-					/* $('.alert').alert(); */ //언젠가 고칠일이 오겟지
 					if(data == 0) {	//삭제할때 리턴값 0
 						if(pKeyfield == 'bookmark') { 	
 							temp.closest('tr').remove();
@@ -150,13 +149,13 @@
 		//양식서 hover 이벤트
 		$('#datatable tbody').on('mouseover','tr',function() {
 			$(this).css("backgroundColor","#f1f0d8").css('cursor','pointer');
-			
 		});
 		$('#datatable tbody').on('mouseleave','tr',function() {
 			$(this).css("backgroundColor","");
 		});
 		
 		
+		//양식서 선택 이벤트
 		$('#datatable tbody').on('click','td:not(.bookmarkTd)',function(){
 			var tmpNo=$(this).closest('tr').attr('id');
 			location.href="${pageContext.request.contextPath}/writeApproval.do?tmpNo="+tmpNo;
@@ -336,7 +335,7 @@
 					        <div class="col-xs-7 col-xs-offset-5">
 							    <div class="input-group">
 					                <div class="input-group-btn search-panel">
-					                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
 					                    	<span class="keyfield">검색조건</span> <span class="caret"></span>
 					                    </button>
 					                    <ul class="dropdown-menu" role="menu">
@@ -346,7 +345,7 @@
 					                </div>
 					                <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
 					                <span class="input-group-btn">
-					                    <button class="btn btn-default findTemplate" type="button">
+					                    <button class="btn btn-default findTemplate" type="button" style="margin-left:3px">
 					                    	<span class="glyphicon glyphicon-search"></span>
 					                    </button>
 					                </span>
