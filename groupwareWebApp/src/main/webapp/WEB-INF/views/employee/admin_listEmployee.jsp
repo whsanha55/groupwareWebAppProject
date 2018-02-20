@@ -712,10 +712,10 @@
 										<input type="hidden" id="regNumber" name="regNumber" 
 											 class="form-control col-md-7 col-xs-12" value="" >
 										<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
-											 class="form-control" style="width:200px;">
+											 class="form-control" style="width:150px;">
 											&nbsp;-&nbsp;
 										<input type="text" id="regNumber2" name="regNumber2" maxlength="7"
-											 class="form-control" style="width:200px;">
+											 class="form-control" style="width:150px;">
 									</td>
 								</tr>
 								<tr>
