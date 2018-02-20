@@ -23,7 +23,7 @@
 </style>
 <script>
 
-$.datepicker.setDefaults({
+/* $.datepicker.setDefaults({
     dateFormat: 'yy-mm',
     prevText: '이전 달',
     nextText: '다음 달',
@@ -33,13 +33,16 @@ $.datepicker.setDefaults({
     dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
     dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
     showMonthAfterYear: true,
-    yearSuffix: '년'
-});
+    yearSuffix: '년',
+    timeFormat: 'HH:mm',
+    controlType: 'select',
+    oneLine: true
+}); */
 
 
 $(document).ready(function() {	
 	
-	$('#startDate1').datetimepicker({
+	/* $('#startDate1').datetimepicker({
 		format : "YYYY/MM/DD HH:00",		
 		defaultDate : new Date().setHours(00) 
 	});
@@ -47,7 +50,7 @@ $(document).ready(function() {
 	$('#endDate1').datetimepicker({
 		format : "YYYY/MM/DD HH:00",	 
 		defaultDate : new Date().setHours(00)
-	});
+	}); */
 
 	$('#registerBtn').on('click', function() {
 		event.preventDefault();
@@ -207,11 +210,11 @@ $(document).ready(function() {
 											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="text" name="startDate" id="startDate1"
+												<input type="datetime-local" name="startDate" id="startDate1"
 														class="form-control" required="required" style="width:262px;" >
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="text" name="endDate" id="endDate1" 
+												<input type="datetime-local" name="endDate" id="endDate1" 
 														class="form-control" required="required" style="width:262px;" >
 											</div>
 										</div>
