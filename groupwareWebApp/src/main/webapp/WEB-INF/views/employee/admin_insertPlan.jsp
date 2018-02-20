@@ -45,34 +45,18 @@ input[type=file]:before {
 </style>
 <script>
 
-/* $.datepicker.setDefaults({
-    dateFormat: 'yy-mm',
-    prevText: '이전 달',
-    nextText: '다음 달',
-    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-    showMonthAfterYear: true,
-    yearSuffix: '년',
-    timeFormat: 'HH:mm',
-    controlType: 'select',
-    oneLine: true
-}); */
-
 
 $(document).ready(function() {	
 	
-	/* $('#startDate1').datetimepicker({
-		format : "YYYY/MM/DD HH:00",		
-		defaultDate : new Date().setHours(00) 
+	$('#startDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:mm",		
+		defaultDate : new Date()
 	});
 	
 	$('#endDate1').datetimepicker({
-		format : "YYYY/MM/DD HH:00",	 
-		defaultDate : new Date().setHours(00)
-	}); */
+		format : "YYYY/MM/DD HH:mm",	 
+		defaultDate : new Date()
+	});
 
 	$('#registerBtn').on('click', function() {
 		event.preventDefault();
@@ -97,7 +81,7 @@ $(document).ready(function() {
 			swal("장소정보를 입력해주세요.","");
 			return;
 		}
-		if($('input[name=pContent]').val() == '') {
+		if($('input[name=pContent]').val() == null) {
 			swal("내용을 입력해주세요.","");
 			return;
 		}
@@ -232,11 +216,11 @@ $(document).ready(function() {
 											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="startDate" id="startDate1"
+												<input type="text" name="startDate" id="startDate1"
 														class="form-control" required="required" style="width:262px;" >
 												<span class="add-on input-group-addon">
 												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="endDate" id="endDate1" 
+												<input type="text" name="endDate" id="endDate1" 
 														class="form-control" required="required" style="width:262px;" >
 											</div>
 										</div>
@@ -259,7 +243,7 @@ $(document).ready(function() {
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용</label>&nbsp;&nbsp;
+							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용 *</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								 <textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%" ></textarea>
 							</div>

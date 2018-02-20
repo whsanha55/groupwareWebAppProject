@@ -71,12 +71,12 @@
 			}
 			
  			if(pKeyfield != "tmpDate" && pKeyword == "") {
-				swal("검색어를 입력해주세요.", "");
+ 	 			swal("검색어를 입력해주세요","", "error");
 				return;
 			}
  			
  			if(pKeyfield == "tmpDate" && (pKeyword == "" || pKeyword1 == "")) {
-				swal("등록일을 지정해주세요.", "");
+ 	 			swal("등록일을 지정해주세요","", "error");
 				return;
  			}
 

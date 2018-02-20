@@ -170,12 +170,12 @@
 			   }  
 			 
 			 if(pKeyfield != "apprDate" && pKeyword == "") {
-					swal("검색어를 입력해주세요.", "");
+		 			swal("검색어를 입력해주세요","", "error");
 					return;
 				}
 	 			
 	 			if(pKeyfield == "apprDate" && (pKeyword == "" || pKeyword1 == "")) {
-					swal("기안일을 지정해주세요.", "");
+					swal("기안일을 지정해주세요", "");
 					return;
 	 			}
 			 
