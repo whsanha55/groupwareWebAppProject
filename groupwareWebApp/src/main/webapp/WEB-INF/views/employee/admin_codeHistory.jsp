@@ -42,7 +42,52 @@
 				
 			historyPaging(1);
 			
-		});	
+		});
+		
+		$('#datatable').on('click','#removebtn',function() {
+			var no = $(this).parent().prevAll('#no').val();
+			console.log(no);
+			swal({
+				 title: "이력정보 삭제",
+				 text: "이력정보를 삭제합니다. 계속 진행하시겠습니까?",
+				 icon: "info",
+				 buttons : true	
+			}).then((e) => {
+				if(e) {
+					removeHistory(no);
+				}
+			});
+			
+			function removeHistory(no) {
+				$.ajax({
+					url:'${pageContext.request.contextPath}/admin/removeHistory.do',
+					method:'POST',
+					data:{
+						no
+					},
+					async: true
+					,
+					cache: false
+					,
+					dataType:'json',
+					success: function(data) {
+						swal({
+							  title: "삭제 완료",
+							  text: "코드가 삭제되었습니다.",
+							  icon: "info",
+							  buttons : "확인" 
+						}).then((e) => {
+							if(e) {
+							  	historyPaging(1);
+							}
+						});	
+					},
+					error: function(jqXHR) {
+						alert('error :' + jqXHR.status);
+					}
+				});
+			}
+		});
 	
 	});
 	
@@ -81,12 +126,14 @@
 				} else {
 					for (var i=0; i<data.histories.length;i++) {
 						text += '<tr>';
+						text += '<input type="hidden" id="no" name="no" value="'+ data.histories[i].no +'"">'
 						text += '<td>'+ data.histories[i].empNo +'</td>';
 						text += '<td>'+ data.histories[i].empName +'</td>';
 						text += '<td>'+ data.histories[i].deptName +'</td>';
 						text += '<td>'+ data.histories[i].dutyName +'</td>';
 						text += '<td>'+ data.histories[i].startDate +'</td>';
 						text += '<td>'+ data.histories[i].endDate +'</td>';
+						text += '<td><button id="removebtn" type="button">삭제</button></td>';
 						text += '</tr>';
 					}
 				}
@@ -215,19 +262,11 @@
 							<th class="text-center">직책</th>
 							<th class="text-center">시작일</th>
 							<th class="text-center">종료일</th>
+							<th class="text-center">비고</th>
 						</tr>
 					</thead>
 					<tbody>
-						<%-- <c:forEach var="codeHistory" items="${requestScope.codeHistories }" varStatus="loop" >
-							<tr>
-								<td>${pageScope.codeHistory.empNo }</td>
-								<td>${pageScope.codeHistory.empName }</td>
-								<td>${pageScope.codeHistory.deptName }</td>
-								<td>${pageScope.codeHistory.dutyName }</td>
-								<td>${pageScope.codeHistory.startDate }</td>
-								<td>${pageScope.codeHistory.endDate }</td>
-							</tr>
-						</c:forEach> --%>
+						
 					</tbody>
 				</table>
 			</div>

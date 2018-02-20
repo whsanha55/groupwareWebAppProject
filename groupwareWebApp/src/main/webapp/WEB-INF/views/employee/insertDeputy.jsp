@@ -16,7 +16,7 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.js"></script>
   <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/ko.js"></script> --%>
-
+ 
 <script>
 	var eKeyfield;
 	var eKeyword;
@@ -46,13 +46,13 @@
 
 		employeePaging1(1);
 		
-		$('#startDate1').datepicker({
+		$('#startDate1').datetimepicker({
 			format : "YYYY/MM/DD HH:00",		
 			minDate : new Date().setHours(00) ,
 			defaultDate : new Date().setHours(8)
 			
 		});
-		$('#endDate1').datepicker({
+		$('#endDate1').datetimepicker({
 			format : "YYYY/MM/DD HH:00",	 
 			minDate : new Date().setHours(00) ,
 			defaultDate : new Date().setHours(18)
@@ -122,8 +122,21 @@
 		// 검색 실행
 		$("#btn3").on("click",function(){
 			eKeyfield=$('.keyfield1').val();
+
+			if(eKeyfield != "date" && eKeyword == "") { 			
+				swal("검색어를 입력해주세요.", "","error");
+				return; 				
+			}
+ 			if(eKeyfield == "date" ){
+	 			if( eKeyword == "" || eKeyword1 == "") {
+					swal("날짜를 입력해주세요.", "","error");
+					return;
+	 			}  
+ 			}
+ 			
+ 			
 			 if(eKeyfield=='date'){ 
-				 eKeyword=convertDate($('#pKeyword').datepicker('getDate'));
+				 eKeyword=convertDate($('#pKeyword').datepicker('getDate')); 
 				 eKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
 			 }else{
 				 eKeyword=$('#pKeyword').val();
@@ -137,17 +150,9 @@
 			 function convertDate(date) {
 			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
 			 }
+	 				
 			 
-	 			if(eKeyfield != "date" && eKeyword == "") { 			
-					swal("검색어를 입력해주세요.", "");
-					return; 				
-				}
-	 			if(eKeyfield == "date" ){
-		 			if( pKeyword == "" || eKeyword1 == "") {
-						swal("날짜를 입력해주세요.", "");
-						return;
-		 			}  
-	 			}
+	 			
 			 
 			 employeePaging1(1);
 		 });
@@ -336,6 +341,10 @@
 								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
 								text += "<td id='startDate'>"+ data.deputies[i].startDate +"</td>";
 								text += "<td id='endDate'>"+ data.deputies[i].endDate +"</td>";
+								text += "<td>"+ data.deputies[i].progression +"</td>";
+								text += "<td>"+ data.deputies[i].depReason +"</td>";
+								text += "<td><button id='stopUse' type='button'>사용중단</button>&nbsp;<button id='candep' type='button'>취소</button></td>";
+								text += "</tr>";
 								if(data.deputies[i].status == "과거"){
 									text += "<td>만료</td>"
 								}else{
@@ -483,12 +492,12 @@
 							
 						</div>
 					</div>
-					
+					  
 					<div class="ln_solid"></div>
 					
 					<div class="col-md-3" style="width:100%;"> 
-						<div class="input-group">  
-							<div class="searchList2" style="width:700px;">
+						<div class="input-group" style="width:100%;">  
+							<div class="searchList2" style="float:right !important;">
 								<select class="keyfield1" name="pKeyfield" style="height:25px;" >
 									<option value="dempNo">사원번호</option>
 									<option value="duty">직책</option>
@@ -501,7 +510,11 @@
 						</div>
 					</div>
 						
+<<<<<<< HEAD
+					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
+=======
 					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;">
+>>>>>>> refs/remotes/origin/master
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>

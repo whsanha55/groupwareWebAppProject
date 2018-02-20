@@ -86,4 +86,8 @@ public class CodeServiceImpl implements CodeService {
 	public int retrieveHistoryCount(Map<String, Object> map) {
 		return codeDAO.selectCodeHistoryListByAdminCount(map);
 	}
+	
+	public void removeHistory(int no) {
+		codeDAO.deleteHistory(no);
+	}
 }

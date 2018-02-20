@@ -45,4 +45,5 @@ public interface CodeService {
 	
 	int retrieveHistoryCount(Map<String, Object> map);
 	
+	void removeHistory(int no);
 }
