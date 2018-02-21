@@ -20,23 +20,40 @@
 		   $(function() {
 			   $('textarea#froala-editor').froalaEditor()
 			 });
-		
+		   
 		   //수정
-		   $('#modiNotice').click(function(){
-			    
+		   $('#modiNotice').on('click', function() {
+				event.preventDefault();
+				checkUnload = false;
+				  
 				if($($('input:text[name=noticeTitle]')).val() == "" ){
 					swal("제목을 입력하세요.");
 					$('#noticeTitle').focus();
-					return false;
+					return;
 				} 
 				
 		 		if($($('textarea[name=noticeContents]')).val() == "" ){
 					swal("내용을 입력하세요.");
 					$('#noticeContents').focus();
-					return false;
+					return;
 				}  
-				
-			});
+
+				swal({
+					title: "공지사항 수정",   
+					text: "공지사항을 수정합니다. 계속 진행하시겠습니까?",
+					icon: "info",
+					buttons : true 
+				}).then((e) => {
+					if(e) {
+						$('#modify').submit();
+					} else if(!e) {
+						checkUnload = true;
+						return;
+					}
+				});		
+			});   
+		
+
 		   
 		 //첨부파일 추가 및 삭제 이벤트
 		$('form').on('click', '.btn-add', function(e) {
@@ -131,7 +148,7 @@
 </head>
 <body>
 	<!--글쓰기-->
-	<form action = "${pageContext.request.contextPath }/admin/modifyNotice.do"  enctype="multipart/form-data" method = "post">
+	<form id="modify" action = "${pageContext.request.contextPath }/admin/modifyNotice.do"  enctype="multipart/form-data" method = "post">
 		<input type = "hidden" name ="noticeNo" value = "${sessionScope.notice.noticeNo}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
