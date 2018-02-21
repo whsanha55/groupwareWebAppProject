@@ -25,7 +25,7 @@ public interface PostService {
 	//게시글을 삭제한다.
 	void removePost(int postNo);
 	
-	int retrievePostCount();
+	int retrievePostCount(Map<String, Object> map);
 	
 	void removePostFile(int no);
 

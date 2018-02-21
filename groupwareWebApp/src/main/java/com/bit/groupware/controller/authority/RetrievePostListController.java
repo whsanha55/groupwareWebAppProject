@@ -37,7 +37,7 @@ public class RetrievePostListController {
 		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
 		
-		int totalCount = postService.retrievePostCount();
+		int totalCount = postService.retrievePostCount(map);
 		if(totalCount < endRow) {
 			endRow = totalCount;
 		}

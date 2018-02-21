@@ -40,8 +40,8 @@ public class PostDAOImpl implements PostDAO {
 		return sqlSession.selectList(NAMESPACE + ".deletePost", map);
 	}
 	
-	public int selectPostCount() {
-		return sqlSession.selectOne(NAMESPACE + ".selectPostCount");
+	public int selectPostCount(Map<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".selectPostCount", map);
 	}
 
 
