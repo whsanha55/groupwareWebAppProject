@@ -24,7 +24,9 @@
 		   $('textarea#froala-editor').froalaEditor()
 		 });
 	   
-		$('#addPost').click(function(){			
+		$('#addPost').click(function(){	
+			event.preventDefault();
+			checkUnload = false;
 		    
 			if($($('input:text[name=postTitle]')).val() == "" ){
 				swal("제목을 입력하세요.");
