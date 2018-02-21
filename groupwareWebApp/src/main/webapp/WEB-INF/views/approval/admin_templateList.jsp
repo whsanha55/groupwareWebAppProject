@@ -101,6 +101,17 @@
 		 });
 		 
 		
+		//처음으로
+		$('#goBack').on('click', function(){
+			pKeyfield = "";  
+			pKeyword = "";
+			pKeyword1 = "";
+			templatePaging(1);
+		});
+		
+		
+		
+		
 	});//end of document.ready
 	
 
@@ -134,7 +145,7 @@
 				totalCount = data.totalCount;
 				num = totalCount - (currentPageNo - 1) * countPerPage;
 									
-				
+							
 				//datatable테이블 변경하기
 				var text = "";
 				for(var i=0;i<data.templates.length;i++) {
@@ -297,10 +308,12 @@
 							<nav aria-label="Page navigation" id = 'templatePaging'>
 							</nav>
 						</div>
-						
-						
-						
 
+						
+		              <div class="text-center">
+		               	  <button class="btn btn-primary pull-right" id='goBack'>처음으로</button>&nbsp;
+		              </div>
+		              
 					</div>
 				</div>
 			</div>

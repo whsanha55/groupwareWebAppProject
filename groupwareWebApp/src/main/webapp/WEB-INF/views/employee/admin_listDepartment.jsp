@@ -185,6 +185,9 @@
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
+					<div>
+					 ※부서명 클릭 시, 해당 부서에 소속된 사원 목록을 조회합니다.<br>
+					  ※업무 담당자 클릭 시, 업무 담당자를 변경할 수 있습니다.
 							<div class="col-xs-4 col-xs-offset-2  pull-right">
 								<div class="input-group" style="margin-right:-35px;">
 									<div class="input-group-btn search-panel">
@@ -226,6 +229,7 @@
 			
 					</tbody>
 				</table>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -185,7 +185,7 @@
 												
 											centerMarker.setMap(map);
 								
-											var iwContent = '<div style="padding:5px;text-align:center;color:red"><a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" target="_blank">${requestScope.plan.destination}</a></div>',
+											var iwContent = '<div style="width:150px;height:30px;padding:5px;text-align:center;color:red"><a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" target="_blank">${requestScope.plan.destination}</a></div>',
 												iwRemoveable = true;
 												
 											var infowindow = new daum.maps.InfoWindow({
