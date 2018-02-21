@@ -232,7 +232,12 @@
 						<c:param name="isComment" value="${param.isComment}" />
 						<c:param name="department" value="${param.department}" />
 					</c:url>
+					
 					<c:if test="${param.boardName == param.department}">
+					<a class="btn btn-primary" href="${addUrl}">등록</a> 
+					</c:if>
+					
+					<c:if test="${param.boardName == '공용문서관리'}">
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 
 					</c:if>						
 					</div>
