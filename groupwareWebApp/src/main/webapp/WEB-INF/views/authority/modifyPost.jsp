@@ -98,8 +98,7 @@
 		 
 		//첨부파일 용량 체크
 		$('.controls').on('change','input[name=upload]',function() {
-			if($(this).val() != '') {
-				alert($(this).val());
+			if($(this).val() != '') {				
 				var fileSize = this.files[0].size;
 				var maxSize = 1024*1024*1;
 				if(fileSize > maxSize) {
