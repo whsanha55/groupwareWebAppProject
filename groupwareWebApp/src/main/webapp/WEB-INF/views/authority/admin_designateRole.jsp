@@ -19,14 +19,26 @@
       Paging(1); 
       
       $('#datatable').on('click', 'input[type=radio]', function() {
-          
-          if($(this).val() == '0') {
-             selected.push($(this).parents('tr').find('td:eq(0)').text());      
-          } else {
-             unselected.push($(this).parents('tr').find('td:eq(0)').text());      
-             
-          }      
-       });
+  	    var empNo = $(this).parents('tr').find('td:eq(0)').text();
+  	 
+  		if($(this).val() == '0') { //등록
+  			if(selected.indexOf(empNo) == -1) { 
+  				selected.push(empNo);
+  			} 
+  		
+  			if(unselected.indexOf(empNo) != -1) { 
+  				unselected.splice(unselected.indexOf(empNo), 1);
+  			}
+  		
+  		} else {   //미등록
+  			if(unselected.indexOf(empNo) == -1) { 
+  				unselected.push(empNo);		
+  			} 		
+  			if(selected.indexOf(empNo) != -1) { 
+  				selected.splice(selected.indexOf(empNo), 1);
+  			}
+  		}		
+  	});
 
       
       
@@ -63,7 +75,6 @@
       
       //등록
       $('#deleteBtn').on('click', function() {   
-         alert("call");  
          var no = $(this).val();
           $.ajax({
                 url: '${pageContext.request.contextPath}/admin/modifyDesignate.do'
@@ -73,7 +84,6 @@
                 data: {
                 	 isRegistration : selected.join(),
                      isNotRegistration : unselected.join(),       
-                     
                      aNo : no}
                 ,  
                 success: function(data) {
@@ -215,6 +225,9 @@
    
    }
 </script>
+<style>
+	.page-link{cursor:pointer !important;}
+</style>
 <title>content</title>
 </head>
 <body>
@@ -233,7 +246,7 @@
                  
                    <div class="input-group">
                          <div class="input-group-btn search-panel">
-                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
                                 <span class="keyfield">검색조건</span> <span class="caret"></span>
                              </button>
                              <ul class="dropdown-menu" role="menu">
@@ -243,7 +256,7 @@
                          </div>
                          <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
                          <span class="input-group-btn">
-                             <button class="btn btn-default find" type="button">
+                             <button class="btn btn-default find" type="button" style="height:34px; margin-left:3px">
                                 <span class="glyphicon glyphicon-search"></span>
                              </button>
                          </span>

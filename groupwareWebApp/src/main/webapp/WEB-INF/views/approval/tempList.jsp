@@ -39,12 +39,11 @@
 		 //기안페이지로 넘어가기
 		  $('#datatable').on('click','.writeButton',function(){
 			var apprNo=$(this).attr('id');  
-			alert(apprNo);
 			var url='${pageContext.request.contextPath}/writeApproval.do?apprNo='+ apprNo;
 			location.href=url;
 		 });
 		  
-		 
+		   
 		 //선택삭제
 		 $('#deleteApproval').click(function(){
 			 var checkRow="";
@@ -105,13 +104,17 @@
 					var text = "";
 					for(var i=0;i<data.approvals.length;i++) {
 						text += "<tr><td width=50 ><input type=checkbox value="+data.approvals[i].apprNo+" name=checkRow ></td>"
-						text += "<td>"+ data.approvals[i].template.tmpName + "</td>";
+						if(data.approvals[i].template == null){
+							text += "<td>기타</td>";						
+						}else{
+							text += "<td>"+ data.approvals[i].template.tmpName + "</td>";													
+						}
 						text += "<td>"+data.approvals[i].apprTitle+"</td>";
 						text += "<td><button type='button' class='btn btn-primary btn-sm writeButton' id="+ data.approvals[i].apprNo +" style='border-bottom-width:0px; margin-bottom: 0px; padding-top: 3px; padding-bottom: 1px;' >기안하기</button></td>";
 						text += "</tr>";
 					}
 						$('#datatable').html(text);
-						
+						  
 	
 					
 						//페이징 처리
@@ -197,11 +200,11 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>임시 보관함</h2>
-                
+                	<div class="pull-right"> <a class="btn btn-primary pull-right" id="deleteApproval" style="float:left!important; margin-left:10px;">선택 삭제</a></div>
                     <div class="clearfix" id="count1"></div>
                   </div>
 				  <div style="width:100%;">
-				   <div class="btn-group">
+				   <!-- <div class="btn-group">
                      
                    
 					<div class="col-sm-3">
@@ -212,8 +215,8 @@
 						</div>
 					</div>
 					
-                    </div>
-				  <a class="btn btn-primary pull-right" id="deleteApproval" style="float:left!important; margin-left:10px;">선택 삭제</a>
+                    </div> -->
+				 
 				  </div>
                   <div class="x_content">
 					

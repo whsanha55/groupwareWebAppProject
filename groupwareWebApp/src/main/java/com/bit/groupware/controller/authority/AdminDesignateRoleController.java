@@ -16,14 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.groupware.domain.authority.AuthRoleVO;
+import com.bit.groupware.domain.authority.RoleVO;
+import com.bit.groupware.security.ReloadableFilterInvocationSecurityMetadataSource;
 import com.bit.groupware.service.authority.RoleService;
 
 
 @Controller
 public class AdminDesignateRoleController {
-
    @Autowired
    private RoleService roleService;
+   
+   @Autowired
+	private ReloadableFilterInvocationSecurityMetadataSource metaSource;
    
    private static final Logger logger = LoggerFactory.getLogger(AdminDesignateRoleController.class);
    
@@ -35,11 +39,13 @@ public class AdminDesignateRoleController {
       
 	   System.out.println("isNotRegistration"+isNotRegistration.toString());
 	   System.out.println("isRegistration"+isRegistration.toString());
-	    
+	
+	   
       List<AuthRoleVO> list = new ArrayList<AuthRoleVO>();
       List<AuthRoleVO> list2 = new ArrayList<AuthRoleVO>();
       for(int i =0;i<isRegistration.size();i++) {
-    	  AuthRoleVO arole = new AuthRoleVO();
+	 
+		  AuthRoleVO arole = new AuthRoleVO();
     	  arole.setrId(isRegistration.get(i));
     	  arole.setaNo(aNo);
     	  list.add(arole);
@@ -57,7 +63,10 @@ public class AdminDesignateRoleController {
       map.put("list2",list2);
       map.put("list",list);
       roleService.registerAuthRole(map);
-
+      metaSource.reload();
+      
+		logger.error("===============addlist {}" , list);
+		logger.error("================removelist {}", list2);
       return 0;
     }
 }

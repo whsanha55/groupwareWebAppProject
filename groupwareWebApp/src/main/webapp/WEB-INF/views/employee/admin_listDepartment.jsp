@@ -8,6 +8,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+	#modalBtn , .click {
+		cursor: pointer;
+	}
+</style>
 	<script>
 		var eKeyfield;				
 		var eKeyword;
@@ -30,12 +36,9 @@
 			
 			$('#findDept').on('click', function() {
 				if($('.keyfield').attr('id') == undefined) {
-					alert("choose keyfield");
+					swal("검색조건을 선택해주세요!","", "error");
 					return false;
-				} else if($('#keyword').val() == "") {
-					alert("enter keyword");
-					return false;
-				}
+				} 
 			
 				eKeyfield = $('.keyfield').attr('id');
 				eKeyword = $('#keyword').val();
@@ -82,7 +85,7 @@
 							text += '<tr>';
 							text += '<td id="check'+ i +'">'+ data.departments[i].cNo		 									 			+'</td>';
 							text += '<td><a id="modalBtn" data-toggle="modal" data-target="#myModal">'+ data.departments[i].cName	 	 					+'</a></td>';
-							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" data-toggle="modal">'+ data.departments[i].headDept 	+'</td>';
+							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" class="click" data-toggle="modal">'+ data.departments[i].headDept 	+'</a></td>';
 							text += '<td>'+ data.departments[i].phoneNumber												+'</td>';
 							text += '<td>'+ data.departments[i].memberCount 											+'</td>';
 							text += '<td>'+ data.departments[i].teamCount 												+'</td>';
@@ -141,7 +144,6 @@
 								,
 								success: function (data) {
 									var txt = "";
-									console.log(data);
 									for(var i = 0; i<data.length;i++) {
 										txt += '<tr>';
 										txt += '<td>' + data[i].empNo + '</td>';
@@ -183,17 +185,10 @@
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
-					<div>
-						<div class="col-md-6">
-							<div class="col-md-2">
-								<h2>부서목록</h2>
-							</div>
-						</div>
-						<div>
-							<div class="col-xs-4 col-xs-offset-2">
-								<div class="input-group">
+							<div class="col-xs-4 col-xs-offset-2  pull-right">
+								<div class="input-group" style="margin-right:-35px;">
 									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle"
+										<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 											data-toggle="dropdown">
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
@@ -205,9 +200,9 @@
 									</div>
 									<input type="hidden" name="search_param" value="all"
 										id="search_param"> <input type="text" 
-										class="form-control" id="keyword" name="x" placeholder="Search term...">
+										class="form-control" id="keyword" name="x" placeholder="검색어">
 									<span class="input-group-btn">
-										<button id="findDept" class="btn btn-default" type="button">
+										<button id="findDept" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
@@ -262,14 +257,14 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<table id="datatable2" class="table table-striped table-bordered">
+						<table id="datatable2" class="table table-striped table-bordered jambo_table" style="text-align:center;">
 							<thead>
 								<tr id="deptEmpListTR">
-									<th>사번</th>
-									<th>이름</th>
-									<th>직책</th>
-									<th>입사일</th>
-									<th>소속부서</th>
+									<th class="text-center">사번</th>
+									<th class="text-center">이름</th>
+									<th class="text-center">직책</th>
+									<th class="text-center">입사일</th>
+									<th class="text-center">소속부서</th>
 								</tr>
 							</thead>
 							<tbody id="tbody2">

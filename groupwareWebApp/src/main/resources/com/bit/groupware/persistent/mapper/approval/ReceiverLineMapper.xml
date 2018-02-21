@@ -28,6 +28,14 @@
 		order by appr_type asc, line_order asc 
 		<!-- 정렬순서 (결재-참조) -->
 	</select>
+	
+	 <select id="selectRetire" parameterType="int" resultType="int" statementType="PREPARED">
+      	select count(*) 
+		from receiver_line line, employee emp
+		where line.line_emp_no=emp.emp_no
+		and line.receiver_no= #{receiver_no}
+		and emp.retire_status=0
+      </select>
 
 	<!-- <resultMap id="selectApprovalLineRM"  type="ReceiverLineVO">
 		<id property="lineNo" column="line_no" />

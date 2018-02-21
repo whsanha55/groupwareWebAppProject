@@ -25,20 +25,20 @@ public class AdminModifyRoleController {
 	
 	@RequestMapping(value="/modifyRoleAjax.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> modifyAuth(RoleVO role, @RequestParam(value="rName") String rName, 
+	public Map<String, Object> modifyAuth(RoleVO role, @RequestParam(value="rName") String rName, 
 			@RequestParam(value="rName1") String rName1){
 		int name = roleService.rNameIsExist(rName);
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		if(name == 0) {
 			roleService.modifyRole(role);
 			map.put("isSuccess", "true");
-			map.put("role", "role");
+			map.put("role", role);
 		} else {
 			if(rName1.equals(rName)) {
 				roleService.modifyRole(role);
 				map.put("isSuccess", "true");
-				map.put("role", "role");
+				map.put("role", role);
 			}else {
 				map.put("isFail", "false");
 			}

@@ -210,13 +210,16 @@
     <div class="x_panel">
         <div class="x_title">
              <h2>공지사항</h2>
-             
+              <a class="btn btn-primary pull-right" href='<c:url value="/admin/addNotice.do"/>'>등록</a>
+                <button type="button"  id="deleteBtn" class="btn btn-default pull-right" >삭제</button>
+          <div class="clearfix"></div>
+        </div>
            	<div class="container">
 			    <div class="row">    
 			        <div class="col-xs-5 col-xs-offset-7">
 					    <div class="input-group">
 			                <div class="input-group-btn search-panel">
-			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
 			                    	<span class="keyfield">검색조건</span> <span class="caret"></span>
 			                    </button>
 			                    <ul class="dropdown-menu" role="menu">
@@ -225,7 +228,7 @@
 			                </div>
 			                <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
 			                <span class="input-group-btn">
-			                    <button class="btn btn-default find" type="button">
+			                    <button class="btn btn-default find" type="button" style="margin-left:3px; height:34px;">
 			                    	<span class="glyphicon glyphicon-search"></span>
 			                    </button>
 			                </span>
@@ -234,8 +237,7 @@
 				</div>
 			</div>     
              
-        <div class="clearfix"></div>
-        </div>
+        
         
         <div class="table-responsive">
                 <table id="datatable" class="table table-striped jambo_table bulk_action">
@@ -251,8 +253,7 @@
                   <tbody>
                   </tbody>
                 </table>
-			     <a class="btn btn-primary pull-right" href='<c:url value="/admin/addNotice.do"/>'>등록</a>
-                <button type="button"  id="deleteBtn" class="btn btn-danger pull-right" >삭제</button>
+			    
          <div>
          	<div class="text-center">
 				<nav aria-label="Page navigation" id = 'Paging'></nav> 

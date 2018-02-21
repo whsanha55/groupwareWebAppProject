@@ -51,7 +51,7 @@ p {
 
 	var pKeyfield = '';
 	var pKeyword;
-	var empNos = '${empNos}'
+	var empNos = [];
 	
 	//////////////////////////////////// 페이징 처리 ///////////////////////////////////////////////////////////
 
@@ -182,11 +182,24 @@ $(document).ready(function() {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$('#datatable').on('click', 'input[type=radio]', function() {
-	   
-		if($(this).val() == '0') {
-			selected.push($(this).parents('tr').find('td:eq(0)').text());		
-		} else {
-			unselected.push($(this).parents('tr').find('td:eq(0)').text());				
+	    var empNo = $(this).parents('tr').find('td:eq(0)').text();
+	 
+		if($(this).val() == '0') { //등록
+			if(selected.indexOf(empNo) == -1) { 
+				selected.push(empNo);
+			} 
+		
+			if(unselected.indexOf(empNo) != -1) { 
+				unselected.splice(unselected.indexOf(empNo), 1);
+			}
+		
+		} else {   //미등록
+			if(unselected.indexOf(empNo) == -1) { 
+				unselected.push(empNo);		
+			} 		
+			if(selected.indexOf(empNo) != -1) { 
+				selected.splice(selected.indexOf(empNo), 1);
+			}
 		}		
 	});
 	
@@ -266,6 +279,7 @@ $(document).ready(function() {
              success: function(data) {
              	swal("등록 완료","등록되었습니다", "success");
          		Paging(1); 
+         		empNos = [];
          		
          		selected.splice(0,selected.length);
          		unselected.splice(0,unselected.length);
@@ -319,26 +333,49 @@ $(document).ready(function() {
 				
 				var text = "";
 				var temp = selectedNameAndDuty.split(' ');
-				
 				var a= true;
 				
+			
 				if(empNos.indexOf(selectedEmpNo) != -1) {
 					swal('이미 존재하는 사원입니다.');
 					a = false;
 					return ;	
-				}
+				} 
 				
+				empNos.push(selectedEmpNo);
+
 				if(a){
-					text += "<tr class='even pointer'>";
-					text += "<td class='empNo text-center'>"	+selectedEmpNo + "</td>";
-					text += "<td class='empName text-center'>"+ temp[0] + "</td>";
-					text += "<td class='department text-center'>"+ selectedDepartment + "</td>";
-					text += "<td class='duty text-center'>"+ temp[1] + "</td>";
-					text += "<td class='aNo text-center'><label class='radio-inline'> <input type='radio' name='"+ count +"' id='inlineRadio1' value='0' > 등록 </label> <label class='radio-inline'> <input type='radio' name='"+ count +"' id='inlineRadio2' value='1' checked>미등록</label></td>";
-					text += "</tr>";
-					$('tbody').append(text);
-					
-					count++;
+					$.ajax({
+						 url: '${pageContext.request.contextPath}/checkEmpNo.do'
+				             ,
+				             method: 'POST'
+				             ,           
+				             data: {
+				            	 empNo : selectedEmpNo,
+				            	 aNo : '${param.aNo}'
+				             }
+				             , 
+				             success: function(data) {
+				             	if(data){
+				             		swal('이미 존재하는 사원입니다.');
+				             	}else{
+				             		text += "<tr class='even pointer'>";
+									text += "<td class='empNo text-center'>"	+selectedEmpNo + "</td>";
+									text += "<td class='empName text-center'>"+ temp[0] + "</td>";
+									text += "<td class='department text-center'>"+ selectedDepartment + "</td>";
+									text += "<td class='duty text-center'>"+ temp[1] + "</td>";
+									text += "<td class='aNo text-center'><label class='radio-inline'> <input type='radio' name='"+ count +"' id='inlineRadio1' value='0' > 등록 </label> <label class='radio-inline'> <input type='radio' name='"+ count +"' id='inlineRadio2' value='1' checked>미등록</label></td>";
+									text += "</tr>";
+									$('tbody').append(text);
+									
+									count++;
+				             	}
+				             }
+				             , 
+				             error: function(jqXHR) {
+				                alert('Error : ' + jqXHR.status);
+				             }             
+					});
 					
 				}
 				
@@ -447,6 +484,9 @@ $(document).ready(function() {
 });
 
 </script>
+<style>
+	.page-link{cursor:pointer !important;}
+</style>
 <title>content</title>
 </head>
 <body>
@@ -458,7 +498,7 @@ $(document).ready(function() {
 
 				<div class="clearfix"></div>
 			</div>
-			권한번호 : ${param.aNo} 권한명 : ${param.aName}
+			<h2>권한명 : ${param.aName}</h2>
 			<div class="container">
 				<div class="row">
 
@@ -466,7 +506,7 @@ $(document).ready(function() {
 					<div class="input-group">
 
 							<div class="input-group-btn search-panel">
-								<button type="button" class="btn btn-default dropdown-toggle"
+								<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 									data-toggle="dropdown">
 									<span class="keyfield">검색조건</span> <span class="caret"></span>
 								</button>
@@ -477,7 +517,7 @@ $(document).ready(function() {
 							</div>
 							<input type="text" class="form-control keyword"
 								placeholder="검색어를 입력하세요"> <span class="input-group-btn">
-								<button class="btn btn-default find" type="button">
+								<button class="btn btn-default find" type="button" style="margin-left:3px; height:34px;">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
 							</span>
@@ -491,7 +531,7 @@ $(document).ready(function() {
 			<div class="x_content">
 				<div class="col-md-4">
 					<p>
-						<input name="search" placeholder="검색어를 입력하세요...">
+						<input name="search" placeholder="검색어를 입력하세요..." style="height:32px;">
 						<button id="btnSearch" class="btn btn-primary btn-sm">검색</button>
 						<button id="btnResetSearch" class="btn btn-primary btn-sm">초기화</button>
 						<div id="matches"></div>

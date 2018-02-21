@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.AuthEmpListVO;
 import com.bit.groupware.domain.authority.AuthEmpVO;
+import com.bit.groupware.security.ReloadableFilterInvocationSecurityMetadataSource;
 import com.bit.groupware.service.authority.AuthorityService;
 
 @Controller
@@ -25,12 +26,14 @@ public class AdminDesignateAuthorityController {
 	@Autowired
 	private AuthorityService authorityService;
 
+	@Autowired
+	private ReloadableFilterInvocationSecurityMetadataSource metaSource;
+	
 	private static final Logger logger = LoggerFactory.getLogger(AdminDesignateAuthorityController.class);
 
 	@RequestMapping(value = "/admin/designAuthority.do", method = RequestMethod.GET)
-	public ModelAndView form(@RequestParam(value="aNo") String aNo) {
+	public ModelAndView form() {
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("empNos", authorityService.retrieveAuthEmpNo(aNo));
 		mv.setViewName("authority/admin_designateAuthority");
 		
 		return mv;
@@ -72,7 +75,7 @@ public class AdminDesignateAuthorityController {
 	@ResponseBody
 	public boolean submit(@RequestParam(value = "aNo", required=true) String aNo,
 			@RequestParam(value = "isRegistration", required = false, defaultValue="") String isRegistration,
-			@RequestParam(value = "isNotRegistration", required=false, defaultValue="") String isNotRegistration) {
+			@RequestParam(value = "isNotRegistration", required=false, defaultValue="") String isNotRegistration) throws Exception {
 
 		logger.info("////////////////////isRegistration {}", isRegistration);
 		logger.info("////////////////////isNotRegistration {}", isNotRegistration);
@@ -84,13 +87,21 @@ public class AdminDesignateAuthorityController {
 		logger.info("////////////////////isRegistration.size {}", isRegistrationArray.length);
 		logger.info("////////////////////isNotRegistration.size {}", isNotRegistrationArray.length);
 		
+		List<String> list2 = authorityService.retrieveAuthEmpNo(aNo);
+		
+		
+		
+		
 		List<AuthEmpVO> list = new ArrayList<AuthEmpVO>();
 		if(!isRegistration.equals("") && isRegistrationArray.length > 0) {		
 			for (int i = 0; i < isRegistrationArray.length; i++) {
-				AuthEmpVO authEmp = new AuthEmpVO();
-				authEmp.setEmpNo(isRegistrationArray[i]);
-				authEmp.setaNo(aNo);
-				list.add(authEmp);
+				if(!list2.contains(isRegistrationArray[i])) {
+					AuthEmpVO authEmp = new AuthEmpVO();
+					authEmp.setEmpNo(isRegistrationArray[i]);
+					authEmp.setaNo(aNo);
+					list.add(authEmp);
+				}
+			
 			}
 		}
 		
@@ -109,9 +120,28 @@ public class AdminDesignateAuthorityController {
 		map.put("addList", list);
 		map.put("removeList", list1);
 
+		
+		
 		authorityService.registerAuthEmp(map);
+		
+		metaSource.reload();
 
+		logger.info("===============addlist {}" , list);
+		logger.info("================removelist {}", list1);
+		
 		return true;
 	}
 
+	@RequestMapping(value="/checkEmpNo.do" , method=RequestMethod.POST)
+	@ResponseBody
+	public boolean check(@RequestParam(value="aNo") String aNo, @RequestParam(value="empNo") String empNo) {
+			List<String> list = authorityService.retrieveAuthEmpNo(aNo);
+			return list.contains(empNo);
+			/*for(int i=0; i<list.size(); i++){
+				if(empNo.equals(list.get(i))){
+					return true;
+				}
+			}
+		return false;*/
+	}
 }

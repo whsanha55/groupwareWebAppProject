@@ -31,7 +31,7 @@ public class AdminModifyCodeController {
 		logger.info("cNo : {}", cNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("code", codeService.retrieveCode(cNo));
-		mv.setViewName("employee/admin_modifyCode1");
+		mv.setViewName("employee/admin_modifyCode1/pop");
 		return mv;
 	}
 	
@@ -54,7 +54,7 @@ public class AdminModifyCodeController {
 		logger.info("cNo : {}", cNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("code", codeService.retrieveCode(cNo));
-		mv.setViewName("employee/admin_modifyCode2");
+		mv.setViewName("employee/admin_modifyCode2/pop");
 		return mv;
 	}
 		
@@ -77,7 +77,7 @@ public class AdminModifyCodeController {
 		logger.info("cNo : {}", cNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("code", codeService.retrieveCode(cNo));
-		mv.setViewName("employee/admin_modifyCode3");
+		mv.setViewName("employee/admin_modifyCode3/pop");
 		return mv;
 	}
 			

@@ -57,7 +57,6 @@ public class ApprovalAjaxController {
 			HttpSession session, 
 			Principal principal) throws Exception {
 		//approval => validDate, urgency, apprTitle, apprContent,  apprFinalStatus
-		System.out.println(session.getServletContext().getRealPath("/") +"zzzzzzzzzzzzzzzzzzz");
 		
 		List<Integer> apprNos =new ArrayList<Integer>();
 		apprNos.add(deleteAppr); 
@@ -202,7 +201,7 @@ public class ApprovalAjaxController {
 			if(appr.getApprovalRecords().get(0).getConfirmDate()==null) {
 				appr.setApprFinalStatus(5); 
 				approvalService.modifyApproval(appr); 
-				//approvalRecordService.removeApprovalRecord(apprNo); 
+			//	approvalRecordService.removeApprovalRecord(apprNo); 
 				return true;
 			}else {
 				return false;

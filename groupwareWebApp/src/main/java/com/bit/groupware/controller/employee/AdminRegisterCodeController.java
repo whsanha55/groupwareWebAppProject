@@ -23,7 +23,7 @@ public class AdminRegisterCodeController {
 	//최상위 코드 등록 폼 요청
 	@RequestMapping(value="/admin/registerCode1.do", method=RequestMethod.GET)
 	public String form1() {
-		return "employee/admin_insertCode1";	
+		return "employee/admin_insertCode1/pop";	
 	}
 	
 	//최상위 코드 등록 요청
@@ -42,7 +42,7 @@ public class AdminRegisterCodeController {
 	//부서 코드 등록 폼 요청
 	@RequestMapping(value="/admin/registerCode2.do", method=RequestMethod.GET)
 	public String form2() {
-		return "employee/admin_insertCode2";
+		return "employee/admin_insertCode2/pop";
 	}
 			
 	//부서 코드 등록 요청
@@ -61,7 +61,7 @@ public class AdminRegisterCodeController {
 	//최하위 코드 등록 폼 요청
 	@RequestMapping(value="/admin/registerCode3.do", method=RequestMethod.GET)
 	public String form3() {
-		return "employee/admin_insertCode3";
+		return "employee/admin_insertCode3/pop";
 	}
 		
 	//최하위 코드 등록 요청
