@@ -80,7 +80,7 @@ $(document).ready(function(){
 		 pKeyfield=$('#pKeyfield').val();
 		 pKeyword=$('.pKeyword').val();
  		 if(pKeyword.trim() == '') {
- 			swal("검색어를 선택해주세요","", "error");
+ 			swal("검색어를 입력해주세요.","", "error");
  			 return;
  		 } 
 		 templatePaging(1);
