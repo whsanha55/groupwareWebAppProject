@@ -193,9 +193,8 @@
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a id="cNo">부서코드번호</a></li>
-											<li><a id="cName">부서명</a></li>
-											<li><a id="headDept">책임자</a></li>
+											<li><a id="cNo" role="menuitem">부서코드번호</a></li>
+											<li><a id="cName" role="menuitem">부서명</a></li>
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all"
