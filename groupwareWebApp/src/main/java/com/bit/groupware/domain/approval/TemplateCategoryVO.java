@@ -52,9 +52,11 @@ public class TemplateCategoryVO {
 
 	@Override
 	public String toString() {
-		return "TemplateCategoryVO [categoryNo=" + categoryNo + ", categoryName=" + categoryName + ", templates="
-				+ templates + "]";
+		return "TemplateCategoryVO [categoryNo=" + categoryNo + ", categoryName=" + categoryName + ", categoryUsing="
+				+ categoryUsing + ", templates=" + templates + "]";
 	}
+
+
 
 	
 

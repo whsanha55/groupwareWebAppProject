@@ -26,6 +26,7 @@
 		<association property="templateCategory" column="category_no" javaType="TemplateCategoryVO">
 			<id property="categoryNo" column="category_no" />
 			<result property="categoryName" column="category_name" />
+			<result property="categoryUsing" column="category_using" />
 		</association>
 		<collection property="templateBookmarks" javaType="list" column="bookmark_no" ofType="TemplateBookmarkVO">
 			<id property="bookmarkNo" column="bookmark_no"/>
@@ -89,7 +90,7 @@
 		 select t.tmp_no, t.tmp_name, t.tmp_summary,
 		 		to_char(t.tmp_date,'yyyy/mm/dd') as tmp_date, 
 		 		t.tmp_content , t.tmp_using,
-		 		t.category_no , tc.category_name
+		 		t.category_no , tc.category_name, tc.category_using
 		 from template t, template_category tc
 		 where t.category_no = tc.category_no
 		 and t.tmp_no=#{tmpNo}

@@ -14,8 +14,9 @@
 	</insert>
 	
 	<select id="selectTemplateCategoryList" resultType="TemplateCategoryVO" statementType="STATEMENT"> 
-	    select category_no as categoryNo, category_name as categoryName, category_using as categoryUsing
+	    select category_no as categoryNo, category_name as categoryName
 		from template_category
+		where category_using = 1
 		order by category_name asc
 	</select>
 	
@@ -34,7 +35,7 @@
 		select count(t1.tmp_no)
 		from template t1, template_category t2
 		where t1.category_no = t2.category_no
-		and t1.category_using = 1
+		and t1.tmp_using = 1
 		and t2.category_no = #{categoryNo}
 	</select>
 	
