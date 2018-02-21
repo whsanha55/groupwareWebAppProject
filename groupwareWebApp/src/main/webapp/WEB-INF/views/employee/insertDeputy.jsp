@@ -341,17 +341,12 @@
 								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
 								text += "<td id='startDate'>"+ data.deputies[i].startDate +"</td>";
 								text += "<td id='endDate'>"+ data.deputies[i].endDate +"</td>";
-								text += "<td>"+ data.deputies[i].progression +"</td>";
-								text += "<td>"+ data.deputies[i].depReason +"</td>";
-								text += "<td><button id='stopUse' type='button'>사용중단</button>&nbsp;<button id='candep' type='button'>취소</button></td>";
-								text += "</tr>";
 								if(data.deputies[i].status == "과거"){
 									text += "<td>만료</td>"
 								}else{
 									text += "<td>"+ data.deputies[i].progression +"</td>";																	
 								}
 								text += "<td>"+ data.deputies[i].depReason +"</td><td>";
-						//		text += "<td>"+ data.deputies[i].status +"</td>";
 								if(data.deputies[i].progression == "T"){
 									if(data.deputies[i].status == "미래"){
 							  			text += "<button id='stopUse' type='button' class='btn btn-warning' style='padding-top: 1px; padding-bottom: 1px;padding-left: 3px; padding-right: 3px;'>사용중단</button>"
@@ -509,8 +504,13 @@
 								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
 					</div>
+<<<<<<< HEAD
+						
+					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;">
+=======
 						
 					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>
