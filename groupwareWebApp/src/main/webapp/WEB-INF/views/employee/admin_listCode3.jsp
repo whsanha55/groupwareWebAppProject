@@ -316,7 +316,7 @@
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all" id="search_param">
-									<input type="text" class="form-control" id="keyword" name="x" placeholder="대문자, 소문자를 구분해주세요!">
+									<input type="text" class="form-control" id="keyword" name="x" placeholder="대문자, 소문자를 구분해주세요.">
 									<span class="input-group-btn">
 										<button id="findCode" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>

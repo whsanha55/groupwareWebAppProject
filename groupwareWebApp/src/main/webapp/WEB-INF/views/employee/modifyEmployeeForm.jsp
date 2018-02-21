@@ -130,7 +130,7 @@
 			event.preventDefault();
 			checkUnload = false;
 			if($('input[name=checkPwd]').val().trim() == '') {
-				swal("본인확인이 필요합니다!","기존 비밀번호를 입력해주세요.");
+				swal("본인확인이 필요합니다.","기존 비밀번호를 입력해주세요.");
 				return;
 			}
 			if($('input[name=empPwd]').val().trim() == '') {
@@ -146,7 +146,7 @@
 				return;
 			}
 			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
-				swal("이메일 입력해주세요.","");
+				swal("이메일을 입력해주세요.","");
 				return;
 			}
 			if($('input[name=address]').val() == '') {
@@ -155,12 +155,12 @@
 			}
 			
 			if($("#greenSpan").text() == "") {
-				swal("비밀번호 확인을 해주세요!");
+				swal("비밀번호 확인을 해주세요.","");
 				return;
 			}
 			
 			if($("#errorSpan").text() != "") {
-				swal("정확하지 않은 정보가 있습니다. 다시 확인해주세요!");
+				swal("정확하지 않은 정보가 있습니다. 다시 확인해주세요.");
 				return;
 			}
 			
@@ -381,10 +381,10 @@
 						</div>
 					</div>
 					<div class="ln_solid"></div>
-					<div class="form-group">
+					<div class="text-center">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button id="backBtn" class="btn btn-primary" type="button">취소</button>
 							<button id="modifyBtn" type="submit" class="btn btn-success">수정</button>
+							<button id="backBtn" class="btn btn-primary" type="button">취소</button>
 						</div>
 					</div>
 				</form>

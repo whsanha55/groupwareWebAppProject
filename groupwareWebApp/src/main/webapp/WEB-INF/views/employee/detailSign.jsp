@@ -12,7 +12,7 @@
 		
 		$('#modifyBtn').click(function() {
 			if($('#upload-image').val() == "") {
-				swal("수정할 서명을 등록해주세요","");
+				swal("수정할 서명을 등록해주세요.","");
 				return;
 			}
 			
@@ -158,7 +158,7 @@ input[type=file]:before {
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 text-center">
-							<button id="modifyBtn" type="button" class="btn btn-primary">수정</button>
+							<button id="modifyBtn" type="button" class="btn btn-success">수정</button>
 							<button id="removeBtn" type="button" class="btn btn-primary">삭제</button>							
 						</div>
 					</div>

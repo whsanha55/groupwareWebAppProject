@@ -23,8 +23,9 @@
 								src="${pageContext.request.contextPath}/resources/upload/employeeFiles/photos/${requestScope.employee.photoName}">
 						</div>
 					</div>
-					<h3>${requestScope.employee.empName }</h3>
-					<br> <a id="mod-emp" href="${pageContext.request.contextPath }/modifyEmployee.do" class="btn btn-success"><i
+					<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.employee.empName }</h3>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="mod-emp" href="${pageContext.request.contextPath }/modifyEmployee.do" class="btn btn-success"><i
 						class="fa fa-edit m-right-xs"></i>사원 정보 수정</a> <br>
 				</div>
 				<div class="col-md-9 col-sm-9 col-xs-12">
@@ -34,7 +35,7 @@
 						</div>
 						<div class="col-md-6"></div>
 					</div>
-					<table id="datatable" class="table table-striped table-bordered">
+					<table id="datatable" class="table table-striped table-bordered" style="height:450px;font-size:14px;">
 						<tbody>
 							<tr>
 								<th>사번</th>
