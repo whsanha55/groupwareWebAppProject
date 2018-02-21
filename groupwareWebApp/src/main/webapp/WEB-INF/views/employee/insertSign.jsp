@@ -9,11 +9,11 @@
 <style>
 input[type=file]:before {
   width: 80px;
-  height: 30px;
+  height: 35px;
   font-size: 14px;
   line-height: 30px;
   color:#fff;
-  content: '사진선택';
+  content: '서명선택';
   display: inline-block;
   background: #26B99A;
     border: 1px solid #169F85;
@@ -26,7 +26,7 @@ input[type=file]:before {
 input[type=file] {
   cursor: pointer;
   width: 80px;
-  height: 30px;
+  height: 35px;
   overflow: hidden;
 }
 </style>
@@ -94,24 +94,24 @@ input[type=file] {
 					<div class="form-group">
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
-							<img id="img" width="250px" height="250px" class="img-responsive center-block"/>
-						</div>				
-						<label class="control-label col-md-4 col-sm-3 col-xs-6">서명</label>
-						<div class="btn-group center-block">
-							<a class="btn" title="Insert picture (or just drag &amp; drop)" id="fileBtn">
-								<i class="fa fa-picture-o"></i></a>
-								<input id="upload-image" name="upload"
+							<div class="form-group" id="img_wrap">
+							<%-- <i class="fa fa-picture-o"> --%>
+							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/도장기본.png" 
+									width="250px" height="250px"  style=" border: 2px solid #ccc;"   class="img-responsive center-block"/>
+							</div>							
+						</div>
+					</div>				
+					<div class="form-group col-md-3 text-center" style="margin-left:440px;">
+						<div class="btn-group center-block" style="display:inline-block;">
+								<input id="upload-image" name="upload" class='center-block'
 								type="file" data-role="magic-overlay" data-target="#signBtn"
 								data-edit="insertImage">
 						</div>
-					</div>
-					<div class="ln_solid"></div>
-					<div class="form-group">
-						<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 text-center">
-							<button id="regSignBtn" type="button" class="btn btn-success">등록</button>
+					
+						<div class="col-md-2 col-sm-8 col-xs-12 col-md-offset-3 text-center">
+							<button id="regSignBtn" type="button" class="btn btn-primary">등록</button>
 						</div>
 					</div>
-					
 				</form>
 			</div>
 		</div>
