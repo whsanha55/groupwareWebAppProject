@@ -97,21 +97,21 @@
 				
 				$('#datatable').find('tbody').html(text);
 				
-					//페이징 처리
-					jqueryPager({
-						countPerPage : countPerPage,
-						pageSize : pageSize,
-						currentPageNo : currentPageNo,
-						totalCount : totalCount
-					});
-					
+				//페이징 처리
+				jqueryPager({
+					countPerPage : countPerPage,
+					pageSize : pageSize,
+					currentPageNo : currentPageNo,
+					totalCount : totalCount
+				});
 				
-			} ,
-			error: function(jqXHR) {
-				alert("에러: " + jqXHR.status);
-			}
 			
-		});
+		} ,
+		error: function(jqXHR) {
+			alert("에러: " + jqXHR.status);
+		}
+		
+	});
 		
 
 	} //end Paging function
@@ -147,7 +147,7 @@
 		}
 		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
 		
-		for(var i=sPage; i<=ePage; i++) {
+		for(var i=sPage; i<=ePage-1; i++) {
 			if(currentPage == i) {
 				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
 			} else {
@@ -167,7 +167,7 @@
 		
 		$('#Paging').html(html);
 	
-	}//end of jqueryPager
+	}
 </script>
 </head>
 <body>
@@ -208,7 +208,7 @@
 
 				
 
-			<div>
+			<div class="table-responsive">
 				<table id="datatable" class="table table-striped jambo_table bulk_action">
 					<thead>
 						<tr class="headings">													
@@ -222,7 +222,7 @@
 					<tbody>
 					</tbody>
 				</table>
-				<div>
+			
 					<div class="text-right">
 					<c:url var="addUrl" value="/addPost.do" scope="page">
 						<c:param name="boardNo" value="${param.boardNo}" />
@@ -241,10 +241,12 @@
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 
 					</c:if>						
 					</div>
+					 <div>
 					<div class="text-center">
 						<nav aria-label="Page navigation" id = 'Paging'></nav>
 					</div>
-				</div>
+					</div>
+			
 
 			</div>
 

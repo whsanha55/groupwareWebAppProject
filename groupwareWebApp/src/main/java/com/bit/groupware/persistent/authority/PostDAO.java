@@ -26,7 +26,7 @@ public interface PostDAO {
 	//게시글을 검색한다.
 	List<PostVO> searchPost(Map<String, Object> map);
 	
-	int selectPostCount();
+	int selectPostCount(Map<String, Object> map);
 
 
 }
