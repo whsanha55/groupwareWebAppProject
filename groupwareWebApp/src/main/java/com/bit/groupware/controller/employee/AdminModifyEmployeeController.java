@@ -30,7 +30,7 @@ public class AdminModifyEmployeeController {
 	
 	@Autowired
 	private EmployeeService employeeService;
-	/*
+	
 	@RequestMapping(value="/admin/modifyEmployee.do", method=RequestMethod.POST)
 	public String modifyController(EmployeeVO employee,
 			 @RequestParam(value="deptCode", required=false)String deptCode,
@@ -74,7 +74,8 @@ public class AdminModifyEmployeeController {
 		employeeService.modifyEmployeeAdmin(map);
 		return "redirect:/admin/listEmployee.do";
 	}
-	*/
+	
+	/*
 	@RequestMapping(value="/admin/modifyAjaxEmployee.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String modifyController(EmployeeVO employee,
@@ -118,5 +119,5 @@ public class AdminModifyEmployeeController {
 		map.put("employee", employee);
 		employeeService.modifyEmployeeAdmin(map);
 		return "yes";
-	}
+	}*/
 }
