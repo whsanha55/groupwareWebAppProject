@@ -125,6 +125,8 @@
               and r2.appr_no = #{apprNo}) t1, deputy t2
         where t1.emp_no = t2.emp_no(+)
         and t1.dep_emp_no = t2.demp_no(+)
+        and t2.progression(+) = 'T'
+        and t1.appr_date between t2.start_date(+) and t2.end_date(+)
         order by t1.line_order asc
    </select>
    
