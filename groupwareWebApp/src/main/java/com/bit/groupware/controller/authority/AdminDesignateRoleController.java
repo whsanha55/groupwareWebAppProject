@@ -64,6 +64,9 @@ public class AdminDesignateRoleController {
       logger.error("=========================reload");
       metaSource.reload();
       
+      
+      logger.error("===============addlist {}" , list);
+	  logger.error("================removelist {}", list2);
       return 0;
     }
 }

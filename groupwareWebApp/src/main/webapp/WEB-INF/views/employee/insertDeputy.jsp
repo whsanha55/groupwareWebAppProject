@@ -510,11 +510,7 @@
 						</div>
 					</div>
 						
-<<<<<<< HEAD
 					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
-=======
-					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;">
->>>>>>> refs/remotes/origin/master
 						<thead>
 							<tr>
 								<th id='1' class="text-center">ป็น๘</th>

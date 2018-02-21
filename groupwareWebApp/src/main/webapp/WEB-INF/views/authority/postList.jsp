@@ -88,7 +88,7 @@
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
 					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
-							+ data.posts[i].postNo+"&boardName="+boardName+"&boardNo="+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}'>"+data.posts[i].postTitle + "</a></td>";
+							+ data.posts[i].postNo+"&boardName="+boardName+"&boardNo="+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}&department=${param.department}'>"+data.posts[i].postTitle + "</a></td>";
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";
 					text += "</tr>";								
@@ -230,8 +230,11 @@
 						<c:param name="empName" value="${param.empName}" />
 						<c:param name="fileCount" value="${param.fileCount}" />
 						<c:param name="isComment" value="${param.isComment}" />
+						<c:param name="department" value="${param.department}" />
 					</c:url>
-					<a class="btn btn-primary" href="${addUrl}">등록</a> 						
+					<c:if test="${param.boardName == param.department}">
+					<a class="btn btn-primary" href="${addUrl}">등록</a> 
+					</c:if>						
 					</div>
 					<div class="text-center">
 						<nav aria-label="Page navigation" id = 'Paging'></nav>

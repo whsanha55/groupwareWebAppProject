@@ -42,7 +42,7 @@ $(document).ready(function(){
 		}
 		$.ajax({
 			url: '${pageContext.request.contextPath}/admin/retrieveTemplateList.do' ,
-			method: 'GET' ,
+			method: 'POST' ,
 			data: {
 				categoryNo : categoryNo
 			},

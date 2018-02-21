@@ -19,14 +19,26 @@
       Paging(1); 
       
       $('#datatable').on('click', 'input[type=radio]', function() {
-          
-          if($(this).val() == '0') {
-             selected.push($(this).parents('tr').find('td:eq(0)').text());      
-          } else {
-             unselected.push($(this).parents('tr').find('td:eq(0)').text());      
-             
-          }      
-       });
+  	    var empNo = $(this).parents('tr').find('td:eq(0)').text();
+  	 
+  		if($(this).val() == '0') { //등록
+  			if(selected.indexOf(empNo) == -1) { 
+  				selected.push(empNo);
+  			} 
+  		
+  			if(unselected.indexOf(empNo) != -1) { 
+  				unselected.splice(unselected.indexOf(empNo), 1);
+  			}
+  		
+  		} else {   //미등록
+  			if(unselected.indexOf(empNo) == -1) { 
+  				unselected.push(empNo);		
+  			} 		
+  			if(selected.indexOf(empNo) != -1) { 
+  				selected.splice(selected.indexOf(empNo), 1);
+  			}
+  		}		
+  	});
 
       
       
@@ -72,7 +84,6 @@
                 data: {
                 	 isRegistration : selected.join(),
                      isNotRegistration : unselected.join(),       
-                     
                      aNo : no}
                 ,  
                 success: function(data) {
