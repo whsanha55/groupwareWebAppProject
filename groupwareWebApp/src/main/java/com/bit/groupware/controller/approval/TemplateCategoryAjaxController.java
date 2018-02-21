@@ -27,12 +27,21 @@ public class TemplateCategoryAjaxController {
 	}
 	
 	
-	//카테고리 삭제 요청
+	//카테고리 미사용 요청
 	@RequestMapping(value="/admin/removeCategory.do", method=RequestMethod.GET)
 	@ResponseBody
 	public List<TemplateCategoryVO> minus(@RequestParam(value="categoryNo", required=true)int categoryNo) {
-		categoryService.removeTemplateCategory(categoryNo);
+		categoryService.modifyTemplateCategory(categoryNo);
 		return categoryService.retrieveTemplateCategoryList();
 	}
+	
+	
+	//카테고리 내 사용 양식 카운트
+	@RequestMapping(value="/admin/countCategory.do", method=RequestMethod.GET)
+	@ResponseBody
+	public int count(@RequestParam(value="categoryNo", required=true)int categoryNo) {
+		return categoryService.retrieveCategoryCount(categoryNo);
+	}
+	
 	
 }

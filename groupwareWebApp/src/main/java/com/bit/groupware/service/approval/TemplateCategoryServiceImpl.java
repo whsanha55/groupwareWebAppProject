@@ -24,4 +24,15 @@ public class TemplateCategoryServiceImpl implements TemplateCategoryService {
 		templateCategory.deleteTemplateCategory(categoryNo); 
 	}
 
+	public int retrieveCategoryCount(int categoryNo) {
+		int count = templateCategory.selectCategoryCount(categoryNo);
+		return count;
+	}
+
+	public void modifyTemplateCategory(int categoryNo) {
+		templateCategory.updateTemplateCategory(categoryNo);
+	}
+	
+	
+
 }
