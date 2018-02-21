@@ -21,8 +21,7 @@
       where t1.r_id = t2.r_id
       and t2.a_no = t3.a_no
       and t1.r_type = 'url'
-      order by
-      t3.a_name asc, t1.sort_order asc
+      order by t1.sort_order asc
    </select>
 
 

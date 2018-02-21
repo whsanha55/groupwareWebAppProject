@@ -41,6 +41,7 @@ public class ReloadableFilterInvocationSecurityMetadataSource implements FilterI
 		for (Entry<RequestMatcher, Collection<ConfigAttribute>> entry : entries) {
 			if (entry.getKey().matches(request)) {
 				result = entry.getValue();
+				System.out.println("============================================ request : " + entry.getKey());
 				System.out.println("============================================ result : " + result);
 				break; // Áß¿ä
 			}
