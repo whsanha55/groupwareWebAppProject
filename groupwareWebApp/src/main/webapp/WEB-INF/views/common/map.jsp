@@ -18,6 +18,8 @@ map_wrap {overflow:hidden;height:330px}
 	#roadviewControl.active span {background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mapworker_on.png) no-repeat;color: #4C4E57;}
 	#roadviewClose {position: absolute;padding: 4px;bottom: 5px;left: 5px;cursor: pointer;background: #fff;border-radius: 4px;border: 1px solid #c8c8c8;box-shadow: 0px 1px #888;}
 	#roadviewClose .img {display: block;background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/rv_close.png) no-repeat;width: 14px;height: 14px;}
+	#keyWord {height: 34px; width: 250px;}
+	#mapSearchBTN {height: 35px;}
 
 </style>
 </head>
