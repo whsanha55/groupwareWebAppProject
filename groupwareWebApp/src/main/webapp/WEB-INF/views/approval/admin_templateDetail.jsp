@@ -11,12 +11,14 @@
 	
 	var tmpUsing;
 	var tmpNo;
+	var categoryUsing;
 
 	$(document).ready(function(){		
 		tmpUsing = ${requestScope.template.tmpUsing};
 		tmpNo = ${requestScope.template.tmpNo};
+		categoryUsing = ${requestScope.template.templateCategory.categoryUsing};
 		
-		if(tmpUsing == 0) {
+		if(tmpUsing == 0 && categoryUsing == 1) {
 			$('#using').attr('disabled', false);
 		} else if(tmpUsing == 1) {
 			$('#notUsing').attr('disabled', false);
@@ -24,30 +26,34 @@
 		
 		
 		$('#using').on('click', function(){
-		 	swal({
-				  title: "사용여부 변경",
-				  text: "양식을 사용으로 설정합니다. 계속 진행하시겠습니까?",
-				  icon: "info",
-				  buttons : true 
-			}).then((e) => {
-			     if(e) {
-			    	 updateTmpUsing();						
-				 }
-			});	 
+			if(!$(this).attr('disabled')){
+			 	swal({
+					  title: "사용여부 변경",
+					  text: "양식을 사용으로 설정합니다. 계속 진행하시겠습니까?",
+					  icon: "info",
+					  buttons : true 
+				}).then((e) => {
+				     if(e) {
+				    	 updateTmpUsing();						
+					 }
+				});	 
+			}
 		});
 		
 		
 		$('#notUsing').on('click', function(){
-			swal({
-				  title: "사용여부 변경",
-				  text: "양식을 미사용으로 설정합니다. 계속 진행하시겠습니까?",
-				  icon: "info",
-				  buttons : true 
-			}).then((e) => {
-			     if(e) {
-			    	 updateTmpUsing();						
-				 }
-			});	
+			if(!$(this).attr('disabled')){
+				swal({
+					  title: "사용여부 변경",
+					  text: "양식을 미사용으로 설정합니다. 계속 진행하시겠습니까?",
+					  icon: "info",
+					  buttons : true 
+				}).then((e) => {
+				     if(e) {
+				    	 updateTmpUsing();						
+					 }
+				});		
+			}
 		});
 		
 	})//end of document

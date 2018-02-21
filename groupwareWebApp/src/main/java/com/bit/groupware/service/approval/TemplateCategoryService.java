@@ -16,7 +16,11 @@ public interface TemplateCategoryService {
 	//양식서 카테고리 삭제
 	void removeTemplateCategory(int categoryNo);
 	
-	
+	//양식서 카테고리 하위 양식 개수 조회
+	int retrieveCategoryCount(int categoryNo);
+
+	//양식서 카테고리 미사용
+	void modifyTemplateCategory(int categoryNo);
 	
 	
 }

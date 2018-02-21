@@ -25,4 +25,14 @@ public class TemplateCategoryDAOImpl implements TemplateCategoryDAO {
 		sqlSession.delete(NAMESPACE+".deleteTemplateCategory",categoryNo);
 	}
 
+	public int selectCategoryCount(int categoryNo) {
+		return sqlSession.selectOne(NAMESPACE+".selectCategoryCount", categoryNo);
+	}
+
+	public void updateTemplateCategory(int categoryNo) {
+		sqlSession.update(NAMESPACE+".updateTemplateCategory",categoryNo);		
+	}
+	
+	
+
 }
