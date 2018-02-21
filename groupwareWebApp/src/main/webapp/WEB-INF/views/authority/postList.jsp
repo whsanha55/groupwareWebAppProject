@@ -194,7 +194,7 @@
 										<li><a id='writer'>작성자</a></li>									
 									</ul>
 								</div>
-								<input type="text" class="form-control keyword"	placeholder="검색어를 입력하세요"> 
+								<input type="text" class="form-control keyword"	placeholder="검색어을 입력하세요"> 
 								<span class="input-group-btn">
 									<button class="btn btn-default find" type="button" style="margin-left:3px;">
 										<span class="glyphicon glyphicon-search"></span>
