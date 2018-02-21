@@ -10,13 +10,14 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 $(document).ready(function() {
-				$('#deletePost').click(function(){			
-		var postNo = "${requestScope.post.postNo }";
-		var empName = '${param.empName}';
-		var boardNo = '${param.boardNo}';
-		var boardName = '${param.boardName}';
-		var fileCount = '${param.fileCount}';
-		var isComment = '${param.isComment}';
+		$('#deletePost').click(function(){			
+			var postNo = "${requestScope.post.postNo }";
+			var empName = '${param.empName}';
+			var boardNo = '${param.boardNo}';
+			var boardName = '${param.boardName}';
+			var fileCount = '${param.fileCount}';
+			var isComment = '${param.isComment}';
+			var department = '${param.department}';
 	    
 		swal({
 			  title: "게시글 삭제",
@@ -36,7 +37,8 @@ $(document).ready(function() {
 						boardNo: boardNo,
 						boardName : boardName,
 						fileCount: fileCount,
-						isComment : isComment
+						isComment : isComment,
+						department : department
 					}, 
 					success: function(data) {
 						

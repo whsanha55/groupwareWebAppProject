@@ -598,8 +598,9 @@ input[type=file]:before {
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div>
-							<div class="input-group col-md-6 pull-right">
+					 ※사번 클릭 시, 사원 상세 정보를 조회합니다.
+						<div class="col-md-4 col-xs-offset-2 pull-right">
+							<div class="input-group style="margin-right:-25px;">
 								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
