@@ -234,19 +234,19 @@ select[name=apprType] {
 		//조직도에서 결재라인 등록 이벤트
 		$('#inputReceiverLine').on('click',function() {
 			if(selectedEmpNo == '') {
-				swal('부적절한  요청입니다');
+				swal('부적절한  요청입니다','','error');
 				return;
 			}
 			
 			if(selectedEmpNo =='${empNo}') {	//자기자신에게 기안X
-				swal('자신을 선택할 수 없습니다');
+				swal('자신을 선택할 수 없습니다','','error');
 				return;
 			}
 			
 			var isExist = false;	//이미 존재하는 결재라인 확인여부
 			$('table[id^=tableDnD] tr').each(function() {
 				if($(this).attr('id') == selectedEmpNo) {
-					swal('이미 존재하는 사원입니다 ');
+					swal('이미 존재하는 사원입니다 ','','error');
 					isExist = true;
 					return;
 				}
@@ -256,7 +256,7 @@ select[name=apprType] {
 			}
 			if($('input[name=apprTypeRadio]:checked').val() == 0) {	//결재
 				if(receiverLineApprCount >=9) {
-					swal("결재자가 너무 많습니다");
+					swal("결재자가 너무 많습니다",'','error');
 					return;
 				}
 				
@@ -286,6 +286,7 @@ select[name=apprType] {
 				text += '<option value="0">결재</option>';
 				text += '<option value="1" selected>참조</option>';
 				text += '</select>';
+				text += '<td></td>';
 				text += '</td>';
 				text += '<td>'+ selectedDepartment + '</td>';
 				text += '<td>' + selectedNameAndDuty  +'</td>';
@@ -546,8 +547,8 @@ select[name=apprType] {
 				
 				var temp = $(this).closest('tr');
 				$($('#tableDnDAppr').find('tr')[receiverLineApprCount]).html(temp.html())
-				.attr('class','')
-				.find('select').val('0').prop('selected',true).not('tr:first');
+				.attr('class','').attr('id',temp.attr('id'))
+				.find('select').val('0').prop('selected',true);
 				temp.remove();
 				receiverLineApprCount++;
 				rankingApprAndRef();
@@ -559,7 +560,7 @@ select[name=apprType] {
 				
 				
 				$('#tableDnDRef:last-child').append(temp)
-				.find('select').val('1').prop('selected',true).not('tr:first');
+				.find('select').val('1').prop('selected',true);
 				$('#tableDnDRef').find('tr').css('cursor','auto');				
 				receiverLineApprCount--;
 				

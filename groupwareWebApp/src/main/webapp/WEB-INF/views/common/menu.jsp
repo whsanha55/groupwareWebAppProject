@@ -31,7 +31,7 @@
 				var htmlStr = "";
 				for(var i=0; i<data.length; i++){
 						if(data[i].isUse == 'Y'){
-							htmlStr += "<li id="+data[i].boardNo+" class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"&boardName="+data[i].boardName+"&isComment="+data[i].isComment+"&fileCount="+data[i].fileCount+"&empName=${employee.empName}'/>'>" + data[i].boardName + "</a></li>" ; 
+							htmlStr += "<li id="+data[i].boardNo+" class='boardList'><a href='<c:url value='/postList.do?boardNo="+data[i].boardNo+"&boardName="+data[i].boardName+"&isComment="+data[i].isComment+"&fileCount="+data[i].fileCount+"&empName=${employee.empName}&department=${employee.department}'/>'>" + data[i].boardName + "</a></li>" ; 
 						}
 					}
 					$('#boardNameList').html(htmlStr);

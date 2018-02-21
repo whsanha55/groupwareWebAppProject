@@ -125,7 +125,7 @@ public class TemplateAjaxController {
 		
 	
 	//카테고리번호에 해당하는 양식서 조회
-	@RequestMapping(value="/admin/retrieveTemplateList.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/retrieveTemplateList.do", method=RequestMethod.POST)
 	@ResponseBody
 	public List<TemplateVO> retrieveTemplateList(@RequestParam(value="categoryNo") int categoryNo) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
