@@ -47,7 +47,10 @@ public class ModifyPostController {
 		SessionStatus status, HttpSession session, RedirectAttributes redirectAttributes,
 		@RequestParam(value="boardName", required = true) String boardName,
 		@RequestParam(value="boardNo", required = true) int boardNo,
-		@RequestParam(value="empName", required = true) String empName) throws Exception {
+		@RequestParam(value="empName", required = true) String empName,
+		@RequestParam(value="department", required = true) String department,
+		@RequestParam(value="isComment", required = true) String isComment,
+		@RequestParam(value="fileCount", required = true) String fileCount) throws Exception {
 		logger.info("¼öÁ¤2@@@@@@@@@@@@@@@ : {}", boardNo);
 		post.getPostFiles().clear();
 		List<MultipartFile> uploadFiles = post.getUpload();
@@ -62,7 +65,10 @@ public class ModifyPostController {
 		status.setComplete();
 		redirectAttributes.addAttribute("boardName", boardName);
 		redirectAttributes.addAttribute("boardNo", boardNo);
-		redirectAttributes.addAttribute("empName", empName);		
+		redirectAttributes.addAttribute("empName", empName);
+		redirectAttributes.addAttribute("department", department);
+		redirectAttributes.addAttribute("isComment", isComment);
+		redirectAttributes.addAttribute("fileCount", fileCount);
 		return "redirect:/detailPost.do?postNo=" + post.getPostNo();
 		
 	}	
