@@ -29,7 +29,7 @@ public interface EmployeeService {
 	
 	void modifyEmployee(EmployeeVO employee);
 	
-	void modifyEmployeeAdmin(EmployeeVO employee);
+	void modifyEmployeeAdmin(Map<String, Object> map);
 	
 	void retireEmployee(String empNo);
 

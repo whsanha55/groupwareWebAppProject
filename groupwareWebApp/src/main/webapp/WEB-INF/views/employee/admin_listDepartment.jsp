@@ -185,6 +185,9 @@
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
+					<div>
+					 ※부서명 클릭 시, 해당 부서에 소속된 사원 목록을 조회합니다.<br>
+					  ※업무 담당자 클릭 시, 업무 담당자를 변경할 수 있습니다.
 							<div class="col-xs-4 col-xs-offset-2  pull-right">
 								<div class="input-group" style="margin-right:-35px;">
 									<div class="input-group-btn search-panel">
@@ -193,14 +196,13 @@
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a id="cNo">부서코드번호</a></li>
-											<li><a id="cName">부서명</a></li>
-											<li><a id="headDept">책임자</a></li>
+											<li><a id="cNo" role="menuitem">부서코드번호</a></li>
+											<li><a id="cName" role="menuitem">부서명</a></li>
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all"
 										id="search_param"> <input type="text" 
-										class="form-control" id="keyword" name="x" placeholder="검색어">
+										class="form-control" id="keyword" name="x" placeholder="검색어를 입력하세요.">
 									<span class="input-group-btn">
 										<button id="findDept" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
@@ -227,6 +229,7 @@
 			
 					</tbody>
 				</table>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -178,27 +178,27 @@
 		          from code_history ch, emplist_view e
 		          where ch.emp_no = e.empno
 		          <if test="keyfield == 'empNo' and keyword != null">
-		              and empNo like '%' || #{keyword} || '%'
+		              and empno like '%' || #{keyword} || '%'
 		          </if>
-		          <if test="keyfield == 'empNo' and keyword == null">
-		              order by empNo asc
+		          <if test="keyfield == 'empNo' and keyword == ''">
+		              order by empno asc
 		          </if>
 		          <if test="keyfield == 'empName' and keyword != null">
-		              and empName like '%' || #{keyword} || '%'
+		              and empname like '%' || #{keyword} || '%'
 		          </if>
-		          <if test="keyfield == 'empName' and keyword == null">
+		          <if test="keyfield == 'empName' and keyword == ''">
 		              order by empName asc
 		          </if>
-		          <if test="keyfield == 'department' and keyword != null">
+		          <if test="keyfield == 'deptName' and keyword != null">
 		              and department like '%' || #{keyword} || '%'
 		          </if>
-		          <if test="keyfield == 'department' and keyword == null">
+		          <if test="keyfield == 'deptName' and keyword == ''">
 		              order by department asc
 		          </if>
-		          <if test="keyfield == 'duty' and keyword != null">
+		          <if test="keyfield == 'dutyName' and keyword != null">
 		              and duty like '%' || #{keyword} || '%'
 		          </if>
-		          <if test="keyfield == 'duty' and keyword == null">
+		          <if test="keyfield == 'dutyName' and keyword == ''">
 		              order by duty asc
 		          </if>
 		          )emp)e

@@ -100,6 +100,20 @@
  			
  			var respondMsg = $('tr:nth-child(2)').find('td:first').attr('id');
  			
+ 			if($('#dempNo').val() == '') {
+				swal("수신자를 선택해 주세요",'','error'); 				
+ 				return false;
+ 			}
+ 			
+ 			if($('input[name=msgTitle]').val() == '') {
+ 				swal('제목을 입력해 주세요','','error');
+ 				return false;
+ 			}
+ 			
+ 			if($('#textArea').val() == '') {
+ 				swal('내용을 입력해 주세요','','error');
+ 				return false;
+ 			}
 		$.ajax({
 			
 			
@@ -119,7 +133,7 @@
 				text: "쪽지를 전송하였습니다.",
 				icon: "success"
 				}).then((e)=>{
-					opener.parent.location.reload();
+					window.opener.document.location.href = '${pageContext.request.contextPath}/retrieveSendMessageList.do';
 					window.close();
 					
 
@@ -182,7 +196,7 @@
 
 						<tr height="340px">
 							<td>내용</td>
-							<td colspan="2"><textarea style="width:550px; height:340px" name="msgContent" id="textArea"></textarea></td>
+							<td colspan="2"><textarea style="width:550px; height:340px;resize:none;" name="msgContent" id="textArea"></textarea></td>
 							
 						</tr>
 					</tbody>

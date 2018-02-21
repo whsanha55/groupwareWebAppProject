@@ -185,12 +185,10 @@
 						$('#modalCategory').empty();
 						var htmlStr = "";
 						for(var i=0; i<data.length; i++) {
-							if(data[i].categoryUsing = 1) {
-								htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
-								$(htmlStr).appendTo('#category');
-								$(htmlStr).appendTo('#modalCategory');
-								htmlStr = "";
-							}							
+							htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
+							$(htmlStr).appendTo('#category');
+							$(htmlStr).appendTo('#modalCategory');
+							htmlStr = "";					
 						}
 						
 						swal({
@@ -248,12 +246,10 @@
 									$('#modalCategory').empty();
 									var htmlStr = "";
 									for(var i=0; i<data.length; i++) {
-										if(data[i].categoryUsing = 1) {
-											htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
-											$(htmlStr).appendTo('#category');
-											$(htmlStr).appendTo('#modalCategory');
-											htmlStr = "";
-										}
+										htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
+										$(htmlStr).appendTo('#category');
+										$(htmlStr).appendTo('#modalCategory');
+										htmlStr = "";
 									}
 									
 									swal({
@@ -275,7 +271,7 @@
 						});
 						
 					} else {
-						swal("카테고리 내에 사용중인 양식이 있습니다.","양식을 '미사용'으로 변경한 후 다시 시도해주세요.", "error");
+						swal("'사용중'인 양식이 있습니다.","해당 카테고리의 양식들을 모두 '미사용'으로 변경한 후 다시 시도해주세요.", "error");
 					}
 				},
 				error: function(jqXHR, textStatus, error) {
@@ -315,9 +311,7 @@
 			<th>양식 구분</th>
 			<td><select class="form-control" id="category">
 				<c:forEach var="category" items="${requestScope.categories }">
-					<c:if test="${pageScope.category.categoryUsing == 1 }">
-						<option value="${pageScope.category.categoryNo }">${pageScope.category.categoryName }</option>
-					</c:if>
+					<option value="${pageScope.category.categoryNo }">${pageScope.category.categoryName }</option>
 				</c:forEach>
                	</select></td>
              	<td><a data-toggle="modal" data-target="#plusModal" id="modal1"><i class="fa fa-plus-circle fa-3x"></i></a>
@@ -394,9 +388,7 @@
 					<tr class>
 						<td><select class="form-control col-md-10" id="modalCategory">
 							<c:forEach var="category" items="${requestScope.categories }">
-								<c:if test="${pageScope.category.categoryUsing == 1 }">
-									<option value="${pageScope.category.categoryNo }">${pageScope.category.categoryName }</option>
-								</c:if>
+								<option value="${pageScope.category.categoryNo }">${pageScope.category.categoryName }</option>
 							</c:forEach></select>
 						</td>
                     </tr>

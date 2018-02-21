@@ -115,19 +115,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 		String empNo = employeeDAO.updateEmployee(employee);
 	}
 	
-	public void modifyEmployeeAdmin(EmployeeVO employee) {
-		String empNo = employeeDAO.updateEmployee(employee);
-	
-		List<EmployeeCodeVO> codeList = employee.getCodeList();
+	public void modifyEmployeeAdmin(Map<String, Object> map) {
 		
-		employeeDAO.insertCodeHistoryProcedure(empNo);
-		employeeDAO.deleteEmployeeCode(empNo);		
-		for(EmployeeCodeVO code : codeList) { 
-			code.setEmpNo(empNo);
-		}
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("codeList", codeList);
-		employeeDAO.insertEmployeeCode(map);
+		EmployeeVO employee = (EmployeeVO)map.get("employee");
+		
+		String empNo = employeeDAO.updateEmployee(employee);
+		
+		Map<String, Object> procMap = new HashMap<String, Object>();
+		procMap.put("empNo", empNo);
+		procMap.put("oldDuty", map.get("oldDuty"));
+		procMap.put("oldDept", map.get("oldDept"));
+		//boolean isChange = (Boolean)map.get("isChange");
+		logger.info("procMap : {}", procMap);
+		employeeDAO.insertCodeHistoryProcedure(procMap);
+		
+		//if(isChange != false) {
+		List<EmployeeCodeVO> codeList = employee.getCodeList();
+			employeeDAO.deleteEmployeeCode(empNo);
+			for(EmployeeCodeVO code : codeList) { 
+				code.setEmpNo(empNo);
+			}
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("codeList", codeList);
+		employeeDAO.insertEmployeeCode(map1);
+		//}
 		
 		List<PhotoVO> photos = employee.getPhotos();
 		if(photos.size() != 0) {
@@ -135,10 +146,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			for(PhotoVO photo : photos) {
 				photo.setEmpNo(empNo);
 			}
-			Map<String, Object> map1 = new HashMap<String, Object>();
-			map1.put("photos", photos);
-			photoDAO.insertPhoto(map1);
+			Map<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("photos", photos);
+			photoDAO.insertPhoto(map2);
 		}
+		
 	}
 	
 	public void retireEmployee(String empNo) {
