@@ -87,13 +87,21 @@ public class AdminDesignateAuthorityController {
 		logger.info("////////////////////isRegistration.size {}", isRegistrationArray.length);
 		logger.info("////////////////////isNotRegistration.size {}", isNotRegistrationArray.length);
 		
+		List<String> list2 = authorityService.retrieveAuthEmpNo(aNo);
+		
+		
+		
+		
 		List<AuthEmpVO> list = new ArrayList<AuthEmpVO>();
 		if(!isRegistration.equals("") && isRegistrationArray.length > 0) {		
 			for (int i = 0; i < isRegistrationArray.length; i++) {
-				AuthEmpVO authEmp = new AuthEmpVO();
-				authEmp.setEmpNo(isRegistrationArray[i]);
-				authEmp.setaNo(aNo);
-				list.add(authEmp);
+				if(!list2.contains(isRegistrationArray[i])) {
+					AuthEmpVO authEmp = new AuthEmpVO();
+					authEmp.setEmpNo(isRegistrationArray[i]);
+					authEmp.setaNo(aNo);
+					list.add(authEmp);
+				}
+			
 			}
 		}
 		
@@ -112,10 +120,15 @@ public class AdminDesignateAuthorityController {
 		map.put("addList", list);
 		map.put("removeList", list1);
 
+		
+		
 		authorityService.registerAuthEmp(map);
 		
 		metaSource.reload();
 
+		logger.info("===============addlist {}" , list);
+		logger.info("================removelist {}", list1);
+		
 		return true;
 	}
 

@@ -34,7 +34,7 @@
 		// 검색 실행
 		$('#findHistory').on('click', function() {
 			if($('.keyfield').attr('id') == undefined) {
-				swal("검색조건를 선택해주세요","", "error");
+				swal("검색조건을 선택해주세요!","", "error");
 				return;
 			}
 	
