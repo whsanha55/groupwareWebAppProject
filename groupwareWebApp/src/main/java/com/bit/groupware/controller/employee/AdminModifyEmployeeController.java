@@ -52,7 +52,6 @@ public class AdminModifyEmployeeController {
 	//	map.put("isChange", isChange);
 		logger.info("codeList : {}", codeList);
 		employee.setCodeList(codeList);
-
 		
 		List<MultipartFile> uploadPhotos = employee.getUpload();
 		for(MultipartFile file : uploadPhotos) {
