@@ -20,20 +20,36 @@
 		   $('textarea#froala-editor').froalaEditor()
 		 });
 	   
-		$('#addNotice').click(function(){
-		    
+	   
+	   //등록
+	    $('#addNotice').on('click', function() {
+	    	event.preventDefault();
+			checkUnload = false;
+			
 			if($($('input:text[name=noticeTitle]')).val() == "" ){
 				swal("제목을 입력하세요.");
 				$('#noticeTitle').focus();
-				return false;
+				return;
 			} 
 			
 	 		if($($('textarea[name=noticeContents]')).val() == "" ){
 				swal("내용을 입력하세요.");
 				$('#noticeContents').focus();
-				return false;
+				return;
 			}  
-		
+	 		swal({
+				title: "공지사항 등록",   
+				text: "공지사항을 등록합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					$('#add').submit();
+				} else if(!e) {
+					checkUnload = true;
+					return;
+				}
+			});		
 		});
 		
        //첨부파일 추가 및 삭제 이벤트
@@ -79,7 +95,7 @@
 </head>
 <body>
    <!--글쓰기-->
-   <form action="<%=request.getContextPath()%>/admin/addNotice.do" onsubmit=""
+   <form id="add" action="<%=request.getContextPath()%>/admin/addNotice.do" onsubmit=""
       method="post" enctype="multipart/form-data">
       <div class="col-md-12 col-sm-12 col-xs-12">
          <div class="x_panel">
@@ -118,7 +134,7 @@
      	  <div class="control-group" id="fields">
 			<div class="controls">
 				<div class="entry input-group col-xs-3">
-					<input type="file" class="btn btn-dark" name="upload" >
+					<input type="file" class="btn btn-default" name="upload" >  
 					<span class="input-group-btn">
 						<button class="btn btn-success btn-add" type="button">
 							<span class="glyphicon glyphicon-plus"></span>

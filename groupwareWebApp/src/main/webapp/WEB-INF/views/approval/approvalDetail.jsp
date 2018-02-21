@@ -124,10 +124,10 @@
 			var temp = $('.delegation1').closest('td');
 			var index = ${apprCount} -1;
 			$('.delegation1').closest('tr').find('td:eq(' + index + ')').html(temp.html());
-			$(temp).html('<b>전결</b>');
+			$(temp).html('<img src="${pageContext.request.contextPath }/resources/upload/전결.JPG" style="height:65px; width:65px;">');
 			
 		}
-		
+		   
 		
 		//결재 회수
 		$('#return').on('click',function(){

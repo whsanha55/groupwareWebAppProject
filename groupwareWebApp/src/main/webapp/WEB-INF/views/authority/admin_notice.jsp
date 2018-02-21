@@ -33,7 +33,7 @@
 		// 검색 실행
 		$('.find').on('click', function() {
 			if($('.keyfield').attr('id') == null) {
-				swal("검색조건를 선택해주세요","", "error");
+				swal("검색조건을 선택해주세요","", "error");
 				return;
 			}
 
@@ -88,6 +88,15 @@
 				
 			}
 		});	
+		
+      $(':checkbox[name=all]').on('change', function() {		
+  		if($(this).prop('checked'))  {
+  			console.log($(this).val());
+				$(':checkbox[name=selected]').prop('checked', true)
+			} else {
+				$(':checkbox[name=selected]').prop('checked', false)
+			}
+  		});
 		
 	});
 	
@@ -243,7 +252,7 @@
                 <table id="datatable" class="table table-striped jambo_table bulk_action">
                   <thead>
                     <tr class="headings">
-                      <th><input type="checkbox" id="ex_chk"> </th>
+                      <th><input type='checkbox' name='all'></th>
                       <th class="column-title">NO </th>
                       <th class="column-title">제목 </th>
                       <th class="column-title">조회수</th>

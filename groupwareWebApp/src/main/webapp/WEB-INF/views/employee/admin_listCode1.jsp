@@ -64,7 +64,7 @@
 		//등록 버튼 클릭시 팝업창 생성
 		$('#insert').click(function(){
 			var url = '${pageContext.request.contextPath}/admin/registerCode1.do';
-			window.open(url, "코드 등록", "width=700, height=300");
+			window.open(url, "코드 등록", "width=700, height=350");
 		});
 		
 		//수정 버튼 클릭시 팝업창 생성
@@ -72,7 +72,7 @@
 			var c_no = $(this).attr('id');
 			var url = '${pageContext.request.contextPath}/admin/modifyCode1.do?cNo='+ c_no;
 
-			window.open(url, "코드 수정", "width=700, height=300");
+			window.open(url, "코드 수정", "width=700, height=350");
 		});
 		
 		//삭제 버튼 클릭시 삭제
@@ -125,7 +125,7 @@
 		// 검색 실행
 		$('#findCode').on('click', function() {
 			if($('.keyfield').attr('id') == undefined) {
-				swal("검색조건을 선택해주세요!","", "error");
+				swal("검색조건을 선택해주세요.","", "error");
 				return false;
 			} else if($('#keyword').val() == "") {
 				eKeyfield = $('.keyfield').attr('id');

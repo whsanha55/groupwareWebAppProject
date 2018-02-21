@@ -7,6 +7,7 @@ public class TemplateCategoryVO {
 
 	private int categoryNo;
 	private String categoryName;
+	private int categoryUsing;
 	private List<TemplateVO> templates = new ArrayList<TemplateVO>();
 
 	public TemplateCategoryVO() {
@@ -28,6 +29,14 @@ public class TemplateCategoryVO {
 		this.categoryName = categoryName;
 
 	}
+	
+	public int getCategoryUsing() {
+		return categoryUsing;
+	}
+
+	public void setCategoryUsing(int categoryUsing) {
+		this.categoryUsing = categoryUsing;
+	}
 
 	public List<TemplateVO> getTemplates() {
 		return templates;
@@ -43,9 +52,11 @@ public class TemplateCategoryVO {
 
 	@Override
 	public String toString() {
-		return "TemplateCategoryVO [categoryNo=" + categoryNo + ", categoryName=" + categoryName + ", templates="
-				+ templates + "]";
+		return "TemplateCategoryVO [categoryNo=" + categoryNo + ", categoryName=" + categoryName + ", categoryUsing="
+				+ categoryUsing + ", templates=" + templates + "]";
 	}
+
+
 
 	
 

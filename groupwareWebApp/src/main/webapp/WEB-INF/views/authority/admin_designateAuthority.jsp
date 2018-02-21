@@ -184,14 +184,22 @@ $(document).ready(function() {
 	$('#datatable').on('click', 'input[type=radio]', function() {
 	    var empNo = $(this).parents('tr').find('td:eq(0)').text();
 	 
-		if($(this).val() == '0') {
+		if($(this).val() == '0') { //등록
 			if(selected.indexOf(empNo) == -1) { 
 				selected.push(empNo);
 			} 
-		} else {
+		
+			if(unselected.indexOf(empNo) != -1) { 
+				unselected.splice(unselected.indexOf(empNo), 1);
+			}
+		
+		} else {   //미등록
 			if(unselected.indexOf(empNo) == -1) { 
 				unselected.push(empNo);		
-			} 					
+			} 		
+			if(selected.indexOf(empNo) != -1) { 
+				selected.splice(selected.indexOf(empNo), 1);
+			}
 		}		
 	});
 	
