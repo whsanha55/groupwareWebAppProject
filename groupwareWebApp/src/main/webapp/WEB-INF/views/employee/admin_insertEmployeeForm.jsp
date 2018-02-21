@@ -510,7 +510,7 @@ input[type=file]::-webkit-file-upload-button {
 					<div class="form-group">
 						<div class="center-block" align="center">
 							<c:url var="listEmployeeURL" value="/admin/listEmployee.do" scope="page" ></c:url>
-							<a id="list" href="${pageScope.listEmployeeURL }"><button class="btn btn-primary" type="button">목록</button></a>
+							<a id="list" href="${pageScope.listEmployeeURL }"><button class="btn btn-primary" type="button">취소</button></a>
 							<button id="regibtn" type="submit" class="btn btn-success">등록</button>
 						</div>
 					</div>

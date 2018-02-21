@@ -595,32 +595,22 @@ input[type=file]:before {
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div>
-							<div class="input-group col-md-6 pull-right">
+						<div class="col-md-4 col-xs-offset-2 pull-right">
+							<div class="input-group style="margin-right:-25px;">
 								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
 										<span class="keyfield">검색조건</span><span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
-										<li>
-											<a id="empNo" role="menuitem">사원번호</a>
-										</li>
-										<li>
-											<a id="empName" role="menuitem">이름</a>
-										</li>
-										<li>
-											<a id="duty" role="menuitem">직책</a>
-										</li>
-										<li>
-											<a id="department" role="menuitem">부서</a>
-										</li>
-										<li>
-											<a id="retireStatus" role="menuitem">퇴사여부</a>
-										</li>
+										<li><a id="empNo" role="menuitem">사원번호</a></li>
+										<li><a id="empName" role="menuitem">이름</a></li>
+										<li><a id="duty" role="menuitem">직책</a></li>
+										<li><a id="department" role="menuitem">부서</a></li>
+										<li><a id="retireStatus" role="menuitem">퇴사여부</a></li>
 									</ul>
 								</div>
-								<input type="text" class="form-control keyword" placeholder="검색어" >
+								<input type="text" class="form-control keyword" placeholder="검색어를 입력하세요." >
 								<span class="input-group-btn">
 									<button class="btn btn-default" id="findEmployee" type="button" style="margin-left:3px; height:34px;">
 										<span class="glyphicon glyphicon-search"></span>
