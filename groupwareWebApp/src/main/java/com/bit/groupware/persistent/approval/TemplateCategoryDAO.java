@@ -11,4 +11,8 @@ public interface TemplateCategoryDAO {
 	void insertTemplateCategory(TemplateCategoryVO category);
 	
 	void deleteTemplateCategory(int categoryNo);
+	
+	int selectCategoryCount(int categoryNo);
+	
+	void updateTemplateCategory(int categoryNo);
 }
