@@ -27,6 +27,9 @@
 		    e.stopPropagation();
 		});
 		
+		//삭제 이벤트
+		$('#menu1').on('click','#deleteAll',deleteAll);
+		
 		
 		//see All alerts 누르면 전체 알림 목록 뜨고 무한 스크롤 되도록 만듬
 		$('#menu1').on('click','#after',function() {
@@ -48,8 +51,10 @@
 					var htmlStr = "";
 					
 					htmlStr += '<div style="overflow-y:scroll; overflow-x:hidden; width:300px; height:530px;">';
-					
-					for(var i=0;i<data.length;i++) {
+					htmlStr += '<li>';
+					htmlStr += '<a  id="deleteAll" style="font-weight: bold;">' + '전체삭제' + '</a>';
+					htmlStr += '</li>';
+					for(var i=0;i<data.length;i++) {   
 						
 						
 						htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
@@ -65,7 +70,7 @@
 						htmlStr += '</li>';
 						
 						
-						
+						  
 					}
 					
 					
@@ -89,8 +94,25 @@
 		
 		
 		
-		//쪽지 전체삭제
-			
+		//알림 전체삭제
+		function deleteAll(){
+			$.ajax({
+				url: '${pageContext.request.contextPath}/removeAllNotifications.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				success: function(data){
+					$('#menu1').html("<li>알림이 없습니다.</li>");  
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + jqXHR.status);
+				}
+			});	
+		}
+		
+		//처음 조회?
 	   function newAlarm() {
 		   
 		$.ajax({
@@ -107,36 +129,42 @@
 				
 				var htmlStr = "";
 				
-				htmlStr += '<li>';
-				htmlStr += '<a href="#" style="font-weight: bold;">' + '전체삭제' + '</a>';
-				htmlStr += '</li>';
-				
-							
-				for(var i=0;i<data.length;i++) {
-				
-				htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
-				htmlStr += '<a>';
-				htmlStr += '<span>';
-				htmlStr += '<span>'+data[i].noteNo+'</span>';
-				htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
-				htmlStr += '</span>';
-				htmlStr += '<span class="message">';
-				htmlStr += data[i].message;
-				htmlStr += '</span>';
-				htmlStr += '</a>';
-				htmlStr += '</li>';
 				
 				
-				}
+				if(data.length>0){
+					htmlStr += '<li>';
+					htmlStr += '<a id="deleteAll" style="font-weight: bold;">' + '전체삭제' + '</a>';
+					htmlStr += '</li>';
+					for(var i=0;i<data.length;i++) {
+						
+						htmlStr += '<li id="' + data[i].noteNo+ '" class= "direct' + data[i].redirectPath + '">' ;
+						htmlStr += '<a>';
+						htmlStr += '<span>';
+						htmlStr += '<span>'+data[i].noteNo+'</span>';
+						htmlStr += '<span class="time">'+data[i].noteDate+'</span>';
+						htmlStr += '</span>';
+						htmlStr += '<span class="message">';
+						htmlStr += data[i].message;
+						htmlStr += '</span>';
+						htmlStr += '</a>';
+						htmlStr += '</li>';
+						
+						
+						}
+					htmlStr += '<li id="after">';
+					htmlStr += '<div class = "text-center">';
+					htmlStr += '<a href="#">';
+					htmlStr += '<strong>See All Alerts</strong>';
+					htmlStr += ' <i class="fa fa-angle-right"></i>';
+					htmlStr += '</a>';
+					htmlStr += '</div>';
+					htmlStr += '</li>';
+				}else{
+					htmlStr += '<li>알림이 없습니다.</li>';
+				}			
 				
-				htmlStr += '<li id="after">';
-				htmlStr += '<div class = "text-center">';
-				htmlStr += '<a href="#">';
-				htmlStr += '<strong>See All Alerts</strong>';
-				htmlStr += ' <i class="fa fa-angle-right"></i>';
-				htmlStr += '</a>';
-				htmlStr += '</div>';
-				htmlStr += '</li>';
+				
+				
 				
 				
 				$('#menu1').html(htmlStr);

@@ -15,6 +15,29 @@
 	#employeePaging li , #submitEmpNo{
 		cursor: pointer;
 	}
+	
+	input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
+}
+
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: '사진선택';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
 </style>
 <script>
 	var eKeyfield;
@@ -44,8 +67,8 @@
 		
 		// 검색 실행
 		$('#findEmployee').on('click', function() {
-			if($('.keyfield').attr('id') == "") {
-				swal("검색조건를 선택해주세요");
+			if($('.keyfield').attr('id') == undefined) {
+				swal("검색조건를 선택해주세요","", "error");
 				return;
 			}
 	
@@ -118,13 +141,18 @@
 		});
 		
 		$('select[name=emailaddr]').on('change', function () {	
+			if ($('select[name=emailaddr]').val() == "") {
+				$('#email2').attr('readonly', false);
+				$('#email2').val("");
+			}			
 			if($('select[name=emailaddr]').val() != "") {
 				$('#email2').attr('readonly', true);
 				$('#email2').val($('select[name=emailaddr]').val());				
-			}
-		});
+			} 
+		});	
 		
 		$('#modalForm').on('click', '#modifyBtn', function() {
+			$('#upload-image').attr('disabled', false);
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
 			$('select[name=phoneNumber1]').attr('disabled', false);
@@ -135,91 +163,132 @@
 			$('#email1').attr('readonly', false);
 			$('#email2').attr('readonly', false);
 			$('select[name=emailaddr]').attr('disabled', false);
+			$('#findpostcode').attr('disabled', false);
 			$('#moddetailAddress').attr('readonly', false);
 			$('#deptBtn').attr('disabled', false);
 			$('#dutyBtn').attr('disabled', false);
 			
-			$(this).remove();
-			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button>");
+			$('#btnDiv').html("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button><button id='closeBtn2' type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>");
 		});
 		
 		$('#modalForm').on('click', '#modifyCompBtn' , function() {
+			event.preventDefault();
+			checkUnload = false;
+			if($('#photo').attr('src') == '') {
+				swal("프로필 사진을 추가해주세요.","");
+				return;
+			}
+			if($('input[name=empName]').val().trim() == '') {
+				swal("사원이름을 입력해주세요.","");
+				return;
+			}
+			if($('input[name=empPwd]').val() == '') {
+				swal("비밀번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=empPwdCheck]').val() == '') {
+				swal("비밀번호 확인을 해주세요.","");
+				return;
+			}
+			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
+				swal("연락처를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=regNumber1]').val() == '' || $('input[name=regNumber2]').val() == '') {
+				swal("주민등록번호를 입력해주세요.","");
+				return;
+			}
+			if($('input[name=dutyCode]').val().trim() == '') {
+				swal("직책을 선택해주세요.","");
+				return;
+			}
+			if($('input[name=deptCode]').val().trim() == '') {
+				swal("부서를 선택해주세요.","");
+				return;
+			}
+			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
+				swal("이메일 입력해주세요.","");
+				return;
+			}
+			if($('input[name=address]').val() == '') {
+				swal("주소정보를 입력해주세요.","");
+				return;
+			}
+					
 			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
 			$('#phoneNumber').val(phoneNumber);
 			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
 			$('#regNumber').val(regNumber);
 			var email = $('#email1').val() + '@' + $('#email2').val();
 			$('#email').val(email);
-			
-			$(this).submit();
-			employeePaging(1);
+		
+			swal({
+				title: "사원 수정",
+				text: "사원을 수정합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					$('#modalForm').submit();
+					employeePaging(1);
+				} else if(!e) {
+					checkUnload = true;
+					return;
+				}
+			});			
+
 		});
 		
-		/* $('#modifyBtn').click(function () {
-			console.log($('#modRetireStatus').val())
-			if($('#modRetireStatus').val()=='재직') {
-				$('#modRetireStatus').val('1');	
-			} else {
-				$('#modRetireStatus').val('0');	
+		$("#modalForm").on('click','#retireBtn',function() {
+			
+			var empNo = $('#modifyEmpNo').val();
+			console.log(empNo);
+			swal({
+				title: "사원 퇴사",
+				text: "사원을 퇴사처리 합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					retireEmployee(empNo);
+				} else if(!e) {
+					return;
+				}
+			});			
+
+			
+			function retireEmployee(empNo) {
+				$.ajax ({
+					url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
+					method : 'POST',
+					data : {
+						empNo : empNo
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						$('#modRetireStatus').val(data.retireStatus);
+						if($('#modRetireStatus').val() == 0) {
+							$('#modRetireStatus').val('퇴사');
+						}
+						$('#modRetireDate').val(data.retireDate);
+						$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
+						swal({
+							  title: "퇴사 완료",
+							  text: "해당 사원이 퇴사처리 되었습니다.",
+							  icon: "info",
+							  buttons : "확인" 
+						}).then((e) => {
+							if(e) {
+								employeePaging(1);
+							}
+						});						
+					},
+					error : function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}				
+				});
 			}
-			$.ajax ({
-				url:'${pageContext.request.contextPath}/admin/modifyEmployee.do'
-				,
-				method:'POST'
-				,
-				data: $('#modalForm').serialize()
-				,
-				dataType:'json'
-				,
-				success: function(data) {
-					if(data==0) {
-					swal({
-						title : "사원정보를 수정합니다.",
-						text : "계속 진행하시겠습니까?",
-						icon : "info",
-						buttons : ["취소", "확인"] 
-					}).then((e) => {
-					     if(e) {
-						     swal("수정이 완료되었습니다!", {
-						    	 icon : "success"						    	
-						     });
-					     } else {
-					    	 swal("취소되었습니다.");							
-						 }
-					});
-						employeePaging(1);
-						$('#myModal').modal('hide');
-					}
-					
-				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-					
-			}); 
-		});  */
-		
-		$("#retireBtn").click(function() {
-			$.ajax ({
-				url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
-				method : 'POST',
-				data : {
-					empNo : $('#modifyEmpNo').val()
-				},
-				dateType : 'json',
-				success : function(data) {
-					$('#modRetireStatus').val(data.retireStatus);
-					if($('#modRetireStatus').val() == 0) {
-						$('#modRetireStatus').val('퇴사');
-					}
-					$('#modRetireDate').val(data.retireDate);
-					employeePaging(1);
-				},
-				error : function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}				
-			});
 		});
 		
 		$("#upload-image").on("change", handleImgFileSelect);
@@ -326,7 +395,7 @@
 				//datatable테이블 변경하기
 				var text = "";
 				if(totalCount == 0) {
-					text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+					text += '<tr class="text-center"><td colspan=8>조회된 검색결과가 없습니다</td></tr>';
 				} else {
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
@@ -355,6 +424,7 @@
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						$('#upload-image').attr('disabled', true);
 						$('#modEmpName').attr('readonly', true);
 						$('#modEngName').attr('readonly', true);
 						$('select[name=phoneNumber1]').attr('disabled', true);
@@ -365,20 +435,13 @@
 						$('#email1').attr('readonly', true);
 						$('#email2').attr('readonly', true);
 						$('select[name=emailaddr]').attr('disabled', true);
+						$('#findpostcode').attr('disabled', true);
 						$('#moddetailAddress').attr('readonly', true);
 						$('#dutyBtn').attr('disabled',true);
 						$('#deptBtn').attr('disabled',true);
 						
-						if($('#modifyBtn').length > 0) {
-							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
-						}
-						$('#modifyBtn').remove();
-						
-						if($('#modifyCompBtn').length > 0) {
-							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>수정</button>");
-						}
-						$('#modifyCompBtn').remove();
-																				
+						$('#btnDiv').html('<button id="modifyBtn" type="button" class="btn btn-primary">수정</button><button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button><button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
+													
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
@@ -409,7 +472,8 @@
 						$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
 						if($(this).nextAll('#submitRetireStatus').text() == '퇴사') {
 							$('#modRetireStatus').val('퇴사');
-							$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());													
+							$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
+							$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
 						} else {
 							$('#modRetireStatus').val('재직');
 							$('#modRetireDate').val("");
@@ -420,10 +484,7 @@
 						$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
 						if($('#moddetailAddress').val() == 'null') {
 							$('#moddetailAddress').val("");
-						}
-						
-						
-						
+						}						
 					});
 				}
 				$('#datatable').find('tbody').html(text);
@@ -504,25 +565,19 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>사원관리</h2>
+				<button id="regisBtn" type="button" class="btn btn-primary pull-right" data-toggle="modal">
+					등록
+				</button>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div class="col-md-8">
-							<div class="col-md-2">
-								<h2>사원명부</h2>
-							</div>
-							<%-- <c:url var=registerEmployee value="/admin/registerEmployee.do" scope="page" /> --%>
-							<button id="regisBtn" type="button" class="btn btn-primary" data-toggle="modal">
-								등록하기
-							</button>
-						</div>
 						<div>
-							<div class="input-group">
+							<div class="input-group col-md-6 pull-right">
 								<div id="search-panel" class="input-group-btn search-panel">
-									<button class="btn btn-default dropdown-toggle"
+									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
 										<span class="keyfield">검색조건</span><span class="caret"></span>
 									</button>
@@ -546,7 +601,7 @@
 								</div>
 								<input type="text" class="form-control keyword" placeholder="검색어" >
 								<span class="input-group-btn">
-									<button class="btn btn-default" id="findEmployee" type="button">
+									<button class="btn btn-default" id="findEmployee" type="button" style="margin-left:3px; height:34px;">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								</span>
@@ -603,7 +658,7 @@
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" style='width:200px;height:250px;' 
+									<img id="photo" style='width:200px;height:250px;   ' 
 									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
@@ -691,10 +746,10 @@
 												</select>
 											</div>
 												 &nbsp;-&nbsp;
-											<input type="text" id="phoneNumber2" name="phoneNumber2"
+											<input type="text" id="phoneNumber2" name="phoneNumber2" maxlength="4"
 												 class="form-control" style="width:100px;">
 												 &nbsp;-&nbsp;
-											<input type="text" id="phoneNumber3" name="phoneNumber3"
+											<input type="text" id="phoneNumber3" name="phoneNumber3" maxlength="4"
 												 class="form-control" style="width:100px;">
 										</div>
 									</td>
@@ -702,14 +757,14 @@
 								<tr>
 									<th colspan='1'>주민번호</th>
 									<td colspan='5' class="form-inline">
-										<input type="hidden" id="regNumber" name="regNumber"
-											 class="form-control col-md-7 col-xs-12" value="">
-										<input type="text" id="regNumber1" name="regNumber1"
-											 class="form-control" style="width:200px;">
+										<input type="hidden" id="regNumber" name="regNumber" 
+											 class="form-control col-md-7 col-xs-12" value="" >
+										<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
+											 class="form-control" style="width:150px;">
 											&nbsp;-&nbsp;
-										<input type="text" id="regNumber2" name="regNumber2"
-											 class="form-control" style="width:200px;">
-									</div></td>
+										<input type="text" id="regNumber2" name="regNumber2" maxlength="7"
+											 class="form-control" style="width:150px;">
+									</td>
 								</tr>
 								<tr>
 									<th colspan='1'>이메일</th>
@@ -760,10 +815,10 @@
 						</table> 
 						
 						<br>
-						<div class="text-center">
-							<button id="modifyBtn" type="button" class="btn btn-primary">수정</button>
+						<div id="btnDiv" class="text-center">
+							<%-- <button id="modifyBtn" type="button" class="btn btn-primary">수정</button>
 							<button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button>
-							<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+							<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button> --%>
 						</div>
 					</div>
 				</div>

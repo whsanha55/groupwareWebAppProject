@@ -51,7 +51,7 @@ $(document).ready(function(){
 					<label class="control-label col-md-2" for="first-name">권한 명
 					</label>
 					<div class="col-md-8">
-						<input type="text" id="first-name2" required="required" name="aName" id="aName"
+						<input type="text" id="first-name2" required="required" name="aName" id="aName" placeholder="영문 대문자만 입력하세요."
 							class="form-control col-md-7 col-xs-12">
 					</div>
 				</div>

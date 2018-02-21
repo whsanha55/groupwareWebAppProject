@@ -36,7 +36,7 @@ public class ApprovalController {
 		//문서 상세조회
 		@RequestMapping(value="/approvalDetail.do", method= RequestMethod.GET)
 		public ModelAndView approvalDetail(@RequestParam(value="apprNo") int apprNo,
-										   @RequestParam(required=false) int finalStatus,
+										   @RequestParam(required=false, defaultValue="0") int finalStatus,
 										   Principal principal) {
 
 				
@@ -88,7 +88,6 @@ public class ApprovalController {
 				}
 				
 			}
-			System.out.println("\nzzzzzzzzzzzzzzzz" + approval.getApprovalRecords());
 			mv.addObject("apprStatus",apprStatus);
 			mv.addObject("apprCount",apprCount);
 			mv.addObject("refCount",refCount);
@@ -128,6 +127,7 @@ public class ApprovalController {
 
 	 		mv.addObject("records",list);
 			mv.setViewName("approval/approvalRecord/pop"); 
+			System.out.println(list+"zzzzzzzzzzzz");
 			return mv;
 		}
 		

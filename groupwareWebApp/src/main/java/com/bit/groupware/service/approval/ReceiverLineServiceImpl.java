@@ -33,6 +33,11 @@ public class ReceiverLineServiceImpl implements ReceiverLineService {
 		// TODO Auto-generated method stub
 		return receiverLine.selectReceiverLineByApprNo(apprNo);
 	}
+
+	public int retreiveRetire(int receiverNo) {
+		// TODO Auto-generated method stub
+		return receiverLine.selectRetire(receiverNo); 
+	}
 	
 	
 

@@ -190,19 +190,36 @@
                     <if test="keyfield == 'empNo' and keyword != null">
 					where empNo like '%' || #{keyword} || '%' 
 					</if>
+					<if test="keyfield == 'empNo' and keyword == ''">
+						order by empNo asc 
+					</if>
 					<if test="keyfield == 'empName' and keyword != null">
 					where empName like '%' || #{keyword} || '%'
+					</if>
+					<if test="keyfield == 'empName' and keyword == ''">
+						order by empName asc 
 					</if>
 					<if test="keyfield == 'duty' and keyword != null">
 					where duty like '%' || #{keyword} || '%'
 					</if>
+					<if test="keyfield == 'duty' and keyword == ''">
+						order by dutyNo asc 
+					</if>
 					<if test="keyfield == 'department' and keyword != null">
 					where department like '%' || #{keyword} || '%'
+					</if>
+					<if test="keyfield == 'department' and keyword == ''">
+						order by deptNo asc 
 					</if>
 					<if test="keyfield == 'retireStatus' and keyword != null">
 					where retireStatus like '%' || #{keyword} || '%'
 					</if>
-                      order by empNo asc
+					<if test="keyfield == 'retireStatus' and keyword == ''">
+						order by retireStatus asc
+					</if>
+					<if test="keyfield == null and keyword == ''">
+                    	order by empNo asc
+                    </if>
                     ) emp) e
         where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
 	</select>
@@ -272,6 +289,12 @@
 		delete authority_employee
 		where emp_no = #{empNo} 
 	</delete>
+	
+	<insert id="insertCodeHistoryProcedure" parameterType="String" statementType="CALLABLE">
+		{
+			call employee_code_history_proc(#{empNo})
+		}
+	</insert>
 	
 </mapper>
 

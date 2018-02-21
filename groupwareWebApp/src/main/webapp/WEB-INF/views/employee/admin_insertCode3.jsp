@@ -11,7 +11,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
-<script type="text/javascript">
+	<script type="text/javascript">
 
 	$(document).ready(function() {
 		 
@@ -91,40 +91,46 @@
 		
 	});
 	</script>
-	
-	<div class="modal-header">
-		<h4 class="modal-title" id="myModalLabel">코드 등록</h4>
-	</div>
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel" style="height: 300px;">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">코드 등록</h4>
+			</div>
 
-	<div class="modal-body">
-		<div></div>
-		
-	<form id="form" >
-		<div class="modal-body">
-			<table id="datatable" class="table table-striped table-bordered">
-				<tbody>
-					<tr>
-						<th>상위코드</th>
-						<td><input type="text" id="relationCode" name="relationCode" value="${param.relationCode}" readonly >
-						</td>
-					</tr>
-					<tr>
-						<th>코드번호</th>
-						<td><input type="text" id="cNo" name="cNo" required="required" value="${param.relationCode}-"></td>
-					</tr>
-					<tr>
-						<th>코드명</th>
-						<td><input type="text" id="cName" name="cName" required="required" ></td>
-					</tr>
-				</tbody>
-			</table>
-			<br>
-			<div class="text-center">
-				<button type="button"  class="btn btn-success registerBtn">등록</button>
-				<a href="#" id="close"><button type="button" class="btn btn-primary">닫기</button></a>
+			<div class="modal-body">
+				<div></div>
+
+				<form id="form">
+					<div class="modal-body">
+						<table id="datatable" class="table table-striped table-bordered">
+							<tbody>
+								<tr>
+									<th>상위코드</th>
+									<td><input type="text" id="relationCode"
+										name="relationCode" value="${param.relationCode}" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th>코드번호</th>
+									<td><input type="text" id="cNo" name="cNo"
+										required="required" value="${param.relationCode}-"></td>
+								</tr>
+								<tr>
+									<th>코드명</th>
+									<td><input type="text" id="cName" name="cName"
+										required="required"></td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<div class="text-center">
+							<button type="button" class="btn btn-success registerBtn">등록</button>
+							<a href="#" id="close"><button type="button"
+									class="btn btn-primary">닫기</button></a>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
-	</form>
-	
 </body>
 </html>

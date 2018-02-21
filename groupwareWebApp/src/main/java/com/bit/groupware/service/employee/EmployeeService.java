@@ -16,6 +16,8 @@ public interface EmployeeService {
 	
 	String checkSignCount(String empNo);
 	
+	void modifySign(EmployeeVO employee);
+	
 	void removeSign(String empNo);
 	
 	//사원
@@ -49,8 +51,9 @@ public interface EmployeeService {
 	
 	void removeDeputy(String depNo);
 	
-	void stopUseDeputy(String depNo);
+	void stopUseDeputy(Map<String, Object> map);
 	
+	int retrieveDeputyCheck(Map<String, Object> map);
 	
 	//부서
 	public List<DepartmentVO> retrieveDeptList(Map<String,Object> map);

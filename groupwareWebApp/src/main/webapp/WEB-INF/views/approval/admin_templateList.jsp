@@ -20,6 +20,8 @@
 	.detailTemplate {
 		cursor : pointer;
 	}
+	
+	input {height:34px !important;}
 </style>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -69,12 +71,12 @@
 			}
 			
  			if(pKeyfield != "tmpDate" && pKeyword == "") {
-				swal("검색어를 입력해주세요.", "");
+ 	 			swal("검색어를 입력해주세요","", "error");
 				return;
 			}
  			
  			if(pKeyfield == "tmpDate" && (pKeyword == "" || pKeyword1 == "")) {
-				swal("등록일을 지정해주세요.", "");
+ 	 			swal("등록일을 지정해주세요","", "error");
 				return;
  			}
 
@@ -88,11 +90,11 @@
 				$('#wrap').empty();
 				$('#wrap').html('<input type=date id=pKeyword>'
 								+'&nbsp;<b id=temp>~</b>' + '<input type=date id=pKeyword1>');
-			} else if($(this).val()=='tmpUsing') {
+			} /* else if($(this).val()=='tmpUsing') {
 				$('#wrap').empty();
-				$('#wrap').html('&nbsp;&nbsp;<input type="radio" name="using" value="1" checked>사용'
-								+'&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="using" value="0">미사용&nbsp;');
-			} else{
+				 $('#wrap').html('<label class="radio-inline"><input type="radio" name="using" value="1" checked>사용</label>'
+								+'<label class="radio-inline"><input type="radio" name="using" value="0">미사용&nbsp;');
+			} */ else{
 				$('#wrap').empty();
 				$('#wrap').html('<input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">');
 			}
@@ -250,21 +252,21 @@
 					<div class="x_panel">
 						<div class="x_title">
 							<h2>양식관리</h2>
-							<a class="btn btn-primary pull-right" id="add">양식추가</a>
+							<a class="btn btn-primary pull-right" id="add">등록</a>
 							<div class="clearfix"></div>
 						</div>
 				  <div>
 					
 				   <div class="btn-group" >
-                    <form id="search">
-						<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
+                    <form id="search" style="margin-right: -20px;">
+						<select id="pKeyfield" name="pKeyfield" style="height:34px;" >
 							<option value="tmpName">양식명</option>
 							<option value="categoryName">카테고리명</option>
-							<option value="tmpUsing">사용여부</option>
+							<!-- <option value="tmpUsing">사용여부</option> -->
 							<option value="tmpDate" id="tmpDate">등록일</option>
 						</select>&nbsp;<span id="wrap">
 						<input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요"></span>
-						<button id="searchButton" type="button">검색</button>
+						<button id="searchButton" type="button" style="height:34px">검색</button>
 					</form>
 					<div class="col-sm-3">
 					

@@ -22,6 +22,8 @@
 		cursor : pointer;
 	}
 	
+	input {height:34px !important;}
+	
 </style>
 
 <link
@@ -168,12 +170,12 @@
 			   }  
 			 
 			 if(pKeyfield != "apprDate" && pKeyword == "") {
-					swal("검색어를 입력해주세요.", "");
+		 			swal("검색어를 입력해주세요","", "error");
 					return;
 				}
 	 			
 	 			if(pKeyfield == "apprDate" && (pKeyword == "" || pKeyword1 == "")) {
-					swal("기안일을 지정해주세요.", "");
+					swal("기안일을 지정해주세요", "");
 					return;
 	 			}
 			 
@@ -321,15 +323,15 @@
 				  <div>
 					
 				   <div class="btn-group" >
-                    <form id="search">
-						<select id="pKeyfield" name="pKeyfield" style="height:25px;" >
+                    <form id="search" style="margin-right: -20px;">
+						<select id="pKeyfield" name="pKeyfield" style="height:34px;" >
 							<option value="apprTitle">제목</option>
 							<option value="tmpName">양식명</option>
 							<option value="empName">기안자</option>
 							<option value="department">기안부서</option>
 							<option value="apprDate" id="apprDate">기안일자</option>
 						</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
-						<button id="btn3" type="button">검색</button>
+						<button id="btn3" type="button" style="height:34px;">검색</button>
 					</form>
 					<div class="col-sm-3">
 					

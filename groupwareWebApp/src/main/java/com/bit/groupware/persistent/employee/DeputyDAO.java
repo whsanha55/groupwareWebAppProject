@@ -20,5 +20,7 @@ public interface DeputyDAO {
 	
 	void deleteDeputy(String depNo);
 	
-	void stopUseDeputy(String depNo);
+	void stopUseDeputy(Map<String, Object> map);
+	
+	int selectDeputyCheck(Map<String, Object> map);
 }
