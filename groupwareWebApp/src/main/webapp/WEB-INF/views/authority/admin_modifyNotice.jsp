@@ -208,16 +208,18 @@
 						<%-- 업로드된 파일 목록 조회 --%>
 					<c:if test="${fn:length(sessionScope.notice.files) > 0 }">
 						<table id="datatable" >
+						 <tbody style='border-bottom: 1px  solid darkgray;'>
 							<c:forEach var="noticeFile" items="${sessionScope.notice.files }" varStatus="loop">
 								<c:url var="deleteUrl" value="/admin/removeNoticeFile.do" scope="page">
 									<c:param name="noticeNo" value="${pageScope.noticeFile.no }"/>
 								</c:url>
-								<tr style='border-top: 1px  solid darkgray;'>
+								<tr style='height:40px; border-top: 1px  solid darkgray;'>
 									<td style='width:50px;'>파일${pageScope.loop.count }</td>
 									<td style='width:150px;'>${pageScope.noticeFile.originalFileName }</td>							
 									<td><button type="button"  class='btn btn-modify btn-xs' value="${pageScope.noticeFile.no }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td>
 								</tr>
 							</c:forEach>
+							</tbody >
 						</table><br>
 					</c:if>
 						<div class="col-md-12">
@@ -225,7 +227,7 @@
 								<div class="control-group" id="fields">
 									<div class="controls">
 										<div class="entry input-group col-xs-3">
-											<input type="file" class="btn btn-dark" name="upload">             
+											<input type="file" class="btn btn-default" name="upload">             
 											<span class="input-group-btn">
 												<button class="btn btn-success btn-add" type="button">
 													<span class="glyphicon glyphicon-plus"></span>
@@ -237,10 +239,11 @@
 							</div>
 						</div>
 					</div>   
-
-					<button type="submit" class="btn btn-primary pull-right" id="modiNotice">수정</button>
-					&nbsp;
-					<button type="reset" class="btn btn-primary pull-right">취소</button>
+					<div class="text-right">  
+						<button type="submit" class="btn btn-primary pull-right" id="modiNotice">수정</button>
+						&nbsp;
+						<a class="btn btn-default" href='<c:url value="/admin/noticeList.do"/>'>뒤로가기</a>
+					</div>
 				</div>
 			</div>
 	</form>

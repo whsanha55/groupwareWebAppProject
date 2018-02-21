@@ -88,7 +88,7 @@
 
 
 	<div class="col-md-12 col-sm-12 col-xs-12">
-		<div class="x_panel" style="height:300px;">
+		<div class="x_panel" style="height:350px;">
 			<div class="modal-header">
 				<h4 class="modal-title" id="myModalLabel">코드 수정</h4>
 			</div>
