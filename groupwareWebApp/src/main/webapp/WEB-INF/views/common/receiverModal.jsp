@@ -547,8 +547,8 @@ select[name=apprType] {
 				
 				var temp = $(this).closest('tr');
 				$($('#tableDnDAppr').find('tr')[receiverLineApprCount]).html(temp.html())
-				.attr('class','')
-				.find('select').val('0').prop('selected',true).not('tr:first');
+				.attr('class','').attr('id',temp.attr('id'))
+				.find('select').val('0').prop('selected',true);
 				temp.remove();
 				receiverLineApprCount++;
 				rankingApprAndRef();
@@ -560,7 +560,7 @@ select[name=apprType] {
 				
 				
 				$('#tableDnDRef:last-child').append(temp)
-				.find('select').val('1').prop('selected',true).not('tr:first');
+				.find('select').val('1').prop('selected',true);
 				$('#tableDnDRef').find('tr').css('cursor','auto');				
 				receiverLineApprCount--;
 				
