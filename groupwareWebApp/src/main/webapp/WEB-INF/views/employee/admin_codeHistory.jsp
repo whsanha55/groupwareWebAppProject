@@ -34,7 +34,7 @@
 		// 검색 실행
 		$('#findHistory').on('click', function() {
 			if($('.keyfield').attr('id') == undefined) {
-				swal("검색조건을 선택해주세요!","", "error");
+				swal("검색조건을 선택해주세요.","", "error");
 				return;
 			}
 	
@@ -133,7 +133,7 @@
 						text += '<td>'+ data.histories[i].dutyName +'</td>';
 						text += '<td>'+ data.histories[i].startDate +'</td>';
 						text += '<td>'+ data.histories[i].endDate +'</td>';
-						text += '<td><button id="removebtn" type="button">삭제</button></td>';
+						text += '<td><button id="removebtn" class="btn btn-primary" type="button">삭제</button></td>';
 						text += '</tr>';
 					}
 				}
@@ -231,16 +231,16 @@
 									<div class="input-group-btn search-panel">
 										<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px"
 											data-toggle="dropdown">
-											<span class="keyfield">검색</span> <span class="caret"></span>
+											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a id="empNo">사번</a></li>
-											<li><a id="empName">이름</a></li>
-											<li><a id="deptName">부서</a></li>
-											<li><a id="dutyName">직책</a></li>
+											<li><a id="empNo" role="menuitem">사번</a></li>
+											<li><a id="empName" role="menuitem">이름</a></li>
+											<li><a id="deptName" role="menuitem">부서</a></li>
+											<li><a id="dutyName" role="menuitem">직책</a></li>
 										</ul>
 									</div>
-									<input type="text" class="form-control keyword" name="x" placeholder="검색어">
+									<input type="text" class="form-control keyword" name="x" placeholder="검색어를 입력하세요.">
 									<span class="input-group-btn">
 										<button class="btn btn-default" id="findHistory" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
@@ -253,7 +253,7 @@
 					<div class="col-md-6"></div>
 				</div>
 				<table id="datatable"
-					class="table table-striped table-bordered text-center">
+					class="table table-striped jambo_table bulk_action" style="text-align:center;">
 					<thead>
 						<tr>
 							<th class="text-center">사번</th>

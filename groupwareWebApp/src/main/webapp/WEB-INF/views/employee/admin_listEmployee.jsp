@@ -153,6 +153,7 @@ input[type=file]:before {
 		
 		$('#modalForm').on('click', '#modifyBtn', function() {
 			$('#upload-image').attr('disabled', false);
+			$('#upload-image').show();
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
 			$('select[name=phoneNumber1]').attr('disabled', false);
@@ -164,79 +165,12 @@ input[type=file]:before {
 			$('#email2').attr('readonly', false);
 			$('select[name=emailaddr]').attr('disabled', false);
 			$('#findpostcode').attr('disabled', false);
+			$('#')
 			$('#moddetailAddress').attr('readonly', false);
 			$('#deptBtn').attr('disabled', false);
 			$('#dutyBtn').attr('disabled', false);
 			
 			$('#btnDiv').html("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>확인</button><button id='closeBtn2' type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>");
-		});
-		
-		$('#modalForm').on('click', '#modifyCompBtn' , function() {
-			event.preventDefault();
-			checkUnload = false;
-			if($('#photo').attr('src') == '') {
-				swal("프로필 사진을 추가해주세요.","");
-				return;
-			}
-			if($('input[name=empName]').val().trim() == '') {
-				swal("사원이름을 입력해주세요.","");
-				return;
-			}
-			if($('input[name=empPwd]').val() == '') {
-				swal("비밀번호를 입력해주세요.","");
-				return;
-			}
-			if($('input[name=empPwdCheck]').val() == '') {
-				swal("비밀번호 확인을 해주세요.","");
-				return;
-			}
-			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
-				swal("연락처를 입력해주세요.","");
-				return;
-			}
-			if($('input[name=regNumber1]').val() == '' || $('input[name=regNumber2]').val() == '') {
-				swal("주민등록번호를 입력해주세요.","");
-				return;
-			}
-			if($('input[name=dutyCode]').val().trim() == '') {
-				swal("직책을 선택해주세요.","");
-				return;
-			}
-			if($('input[name=deptCode]').val().trim() == '') {
-				swal("부서를 선택해주세요.","");
-				return;
-			}
-			if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
-				swal("이메일 입력해주세요.","");
-				return;
-			}
-			if($('input[name=address]').val() == '') {
-				swal("주소정보를 입력해주세요.","");
-				return;
-			}
-					
-			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
-			$('#phoneNumber').val(phoneNumber);
-			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
-			$('#regNumber').val(regNumber);
-			var email = $('#email1').val() + '@' + $('#email2').val();
-			$('#email').val(email);
-		
-			swal({
-				title: "사원 수정",
-				text: "사원을 수정합니다. 계속 진행하시겠습니까?",
-				icon: "info",
-				buttons : true 
-			}).then((e) => {
-				if(e) {
-					$('#modalForm').submit();
-					employeePaging(1);
-				} else if(!e) {
-					checkUnload = true;
-					return;
-				}
-			});			
-
 		});
 		
 		$("#modalForm").on('click','#retireBtn',function() {
@@ -254,8 +188,7 @@ input[type=file]:before {
 				} else if(!e) {
 					return;
 				}
-			});			
-
+			});
 			
 			function retireEmployee(empNo) {
 				$.ajax ({
@@ -389,7 +322,8 @@ input[type=file]:before {
 			dataType: 'json' 
 			,
 			success: function (data, textStatus, jqXHR) {
-				
+				var checkChangeDept = "";
+				var checkChangeDuty = "";
 				totalCount = data.totalCount;
 				
 				//datatable테이블 변경하기
@@ -425,6 +359,7 @@ input[type=file]:before {
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
 						$('#upload-image').attr('disabled', true);
+						$('#upload-image').hide();
 						$('#modEmpName').attr('readonly', true);
 						$('#modEngName').attr('readonly', true);
 						$('select[name=phoneNumber1]').attr('disabled', true);
@@ -455,7 +390,8 @@ input[type=file]:before {
 						$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
 						$('.preDept').text($(this).nextAll('#submitDept').text());
-						
+						checkChangeDuty = $(this).nextAll('#submitDuty').text();
+						checkChangeDept = $(this).nextAll('#submitDept').text();
 						var phoneArr = $(this).nextAll('#submitPhoneNumber').text().split('-');
 						$('#phoneNumber1').val(phoneArr[0]);
 						$('#phoneNumber2').val(phoneArr[1]);
@@ -485,6 +421,91 @@ input[type=file]:before {
 						if($('#moddetailAddress').val() == 'null') {
 							$('#moddetailAddress').val("");
 						}						
+					});
+					
+					$('#modalForm').on('click', '#modifyCompBtn' , function() {
+						event.preventDefault();
+						checkUnload = false;
+						
+						console.log($('.preDuty').text());
+						console.log(checkChangeDuty);
+						/*
+						if($('.preDuty').text() == checkChangeDuty) {
+							$('input[name=deptCode]').val("");
+							console.log($('input[name=deptCode]').val());
+						}
+						*/
+						/*
+						console.log($('.preDept').text());
+						console.log(checkChangeDept);						
+						if($('.preDept').text() == checkChangeDept) {
+							$('input[name=dutyCode]').val("");
+							console.log($('input[name=dutyCode]').val());
+						}
+						*/						
+						if($('#photo').attr('src') == '') {
+							swal("프로필 사진을 추가해주세요.","");
+							return;
+						}
+						if($('input[name=empName]').val().trim() == '') {
+							swal("사원이름을 입력해주세요.","");
+							return;
+						}
+						if($('input[name=empPwd]').val() == '') {
+							swal("비밀번호를 입력해주세요.","");
+							return;
+						}
+						if($('input[name=empPwdCheck]').val() == '') {
+							swal("비밀번호 확인을 해주세요.","");
+							return;
+						}
+						if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
+							swal("연락처를 입력해주세요.","");
+							return;
+						}
+						if($('input[name=regNumber1]').val() == '' || $('input[name=regNumber2]').val() == '') {
+							swal("주민등록번호를 입력해주세요.","");
+							return;
+						}
+						/* if($('input[name=dutyCode]').val().trim() == '') {
+							swal("직책을 선택해주세요.","");
+							return;
+						}
+						if($('input[name=deptCode]').val().trim() == '') {
+							swal("부서를 선택해주세요.","");
+							return;
+						} */
+						if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
+							swal("이메일 입력해주세요.","");
+							return;
+						}
+						if($('input[name=address]').val() == '') {
+							swal("주소정보를 입력해주세요.","");
+							return;
+						}
+								
+						var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
+						$('#phoneNumber').val(phoneNumber);
+						var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
+						$('#regNumber').val(regNumber);
+						var email = $('#email1').val() + '@' + $('#email2').val();
+						$('#email').val(email);
+					
+						swal({
+							title: "사원 수정",
+							text: "사원을 수정합니다. 계속 진행하시겠습니까?",
+							icon: "info",
+							buttons : true 
+						}).then((e) => {
+							if(e) {
+								$('#modalForm').submit();
+								employeePaging(1);
+							} else if(!e) {
+								checkUnload = true;
+								return;
+							}
+						});			
+
 					});
 				}
 				$('#datatable').find('tbody').html(text);
@@ -574,32 +595,22 @@ input[type=file]:before {
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div>
-							<div class="input-group col-md-6 pull-right">
+						<div class="col-md-4 col-xs-offset-2 pull-right">
+							<div class="input-group style="margin-right:-25px;">
 								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
 										<span class="keyfield">검색조건</span><span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
-										<li>
-											<a id="empNo" role="menuitem">사원번호</a>
-										</li>
-										<li>
-											<a id="empName" role="menuitem">이름</a>
-										</li>
-										<li>
-											<a id="duty" role="menuitem">직책</a>
-										</li>
-										<li>
-											<a id="department" role="menuitem">부서</a>
-										</li>
-										<li>
-											<a id="retireStatus" role="menuitem">퇴사여부</a>
-										</li>
+										<li><a id="empNo" role="menuitem">사원번호</a></li>
+										<li><a id="empName" role="menuitem">이름</a></li>
+										<li><a id="duty" role="menuitem">직책</a></li>
+										<li><a id="department" role="menuitem">부서</a></li>
+										<li><a id="retireStatus" role="menuitem">퇴사여부</a></li>
 									</ul>
 								</div>
-								<input type="text" class="form-control keyword" placeholder="검색어" >
+								<input type="text" class="form-control keyword" placeholder="검색어를 입력하세요." >
 								<span class="input-group-btn">
 									<button class="btn btn-default" id="findEmployee" type="button" style="margin-left:3px; height:34px;">
 										<span class="glyphicon glyphicon-search"></span>
@@ -658,9 +669,9 @@ input[type=file]:before {
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" style='width:200px;height:250px;   ' 
+									<img id="photo" style='width:200px;height:250px;' 
 									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
-									<input id="upload-image" name="upload"
+									<input id="upload-image" name="upload" style="margin-left:80px;margin-top:4px"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
 								</div>
@@ -685,7 +696,7 @@ input[type=file]:before {
 								</tr>
 							</tbody>
 						</table>						
-						<br> <br> <br>
+						<br>
 						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
 							<tbody>
 								

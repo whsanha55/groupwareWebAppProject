@@ -22,7 +22,7 @@
 					<div class="col-md-6"></div>
 				</div>
 				<table id="datatable"
-					class="table table-striped table-bordered text-center" style="text-align:center;">
+					class="table table-striped jambo_table bulk_action" style="text-align:center;">
 					<thead>
 						<tr>
 							<th class="text-center">부서</th>

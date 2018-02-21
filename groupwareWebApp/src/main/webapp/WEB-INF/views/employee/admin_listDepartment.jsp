@@ -193,14 +193,13 @@
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a id="cNo">부서코드번호</a></li>
-											<li><a id="cName">부서명</a></li>
-											<li><a id="headDept">책임자</a></li>
+											<li><a id="cNo" role="menuitem">부서코드번호</a></li>
+											<li><a id="cName" role="menuitem">부서명</a></li>
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all"
 										id="search_param"> <input type="text" 
-										class="form-control" id="keyword" name="x" placeholder="검색어">
+										class="form-control" id="keyword" name="x" placeholder="검색어를 입력하세요.">
 									<span class="input-group-btn">
 										<button id="findDept" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
