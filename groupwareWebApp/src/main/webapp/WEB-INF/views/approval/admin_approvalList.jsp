@@ -254,8 +254,6 @@
 							currentPageNo : currentPageNo,
 							totalCount : totalCount
 						});
-						
-					
 				} ,
 				error: function(jqXHR) {
 					alert("에러: " + jqXHR.status);
