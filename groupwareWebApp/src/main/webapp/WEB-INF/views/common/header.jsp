@@ -16,7 +16,7 @@
 	$(document).ready(function(){	//잠시 끕시다.. 콘솔에 깜빡깜빡
 		
 		newMsg();
-		//var msg = setInterval(newMsg, 2000);
+		var msg = setInterval(newMsg, 5000);
 		
 		//최초이벤트(5개씩)
 		$('#alerts').find('a').on('click', newAlarm);
@@ -105,6 +105,7 @@
 				,
 				success: function(data){
 					$('#menu1').html("<li>알림이 없습니다.</li>");  
+					newMsg();
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					alert('error: ' + jqXHR.status);
