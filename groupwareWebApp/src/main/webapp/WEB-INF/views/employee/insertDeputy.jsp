@@ -504,13 +504,7 @@
 								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
 					</div>
-<<<<<<< HEAD
-						
-					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;">
-=======
-						
 					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>

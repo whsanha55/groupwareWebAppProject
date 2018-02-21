@@ -1,7 +1,9 @@
 package com.bit.groupware.controller.employee;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.groupware.domain.employee.EmployeeCodeVO;
@@ -35,11 +36,17 @@ public class AdminModifyEmployeeController {
 			 @RequestParam(value="dutyCode", required=false)String dutyCode,
 			 					HttpSession session) throws Exception {
 		
+		Map<String, Object> map = new HashMap<String, Object>();
 		List<EmployeeCodeVO> codeList = new ArrayList<EmployeeCodeVO>();
+		//boolean isChange = false;
+		
 		codeList.add(new EmployeeCodeVO(deptCode));
 		codeList.add(new EmployeeCodeVO(dutyCode));
+		
+	//	map.put("isChange", isChange);
 		logger.info("codeList : {}", codeList);
 		employee.setCodeList(codeList);
+
 		
 		List<MultipartFile> uploadPhotos = employee.getUpload();
 		for(MultipartFile file : uploadPhotos) {
@@ -57,7 +64,8 @@ public class AdminModifyEmployeeController {
 		} else {
 			employee.setRetireStatus("0");	
 		}
-		employeeService.modifyEmployeeAdmin(employee);
+		map.put("employee", employee);
+		employeeService.modifyEmployeeAdmin(map);
 		return "redirect:/admin/listEmployee.do";
 	}
 	/*

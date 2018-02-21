@@ -2,6 +2,9 @@ package com.bit.groupware.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
@@ -16,20 +19,24 @@ import com.bit.groupware.domain.employee.PlanFileVO;
 public class UploadPlanFiles {
 
 	private static final Logger logger = LoggerFactory.getLogger(UploadPlanFiles.class);
-	private static int count = 1;
+	//private static int count = 1;
 
 	public static PlanFileVO uploadFile(MultipartFile part, ServletContext context) throws IOException {
 		String root = context.getRealPath("/");
 		String path = root + "resources/upload/employeeFiles/planFiles/";
 		logger.info("path : {} ", path);
+		
+		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat( "yyyyMMddHHmmss", Locale.KOREA );
+		Date currentTime = new Date ();
+		String mTime = mSimpleDateFormat.format(currentTime);
 
 		String fileName = part.getOriginalFilename();
 		String systemFileName = "";
 		File file = new File(path + File.separator + fileName);
 		if (file.exists()) {
-			systemFileName = fileName.substring(0, fileName.lastIndexOf(".")) + "_" + count
+			systemFileName = fileName.substring(0, fileName.lastIndexOf(".")) + "_" + mTime//count
 					+ fileName.substring(fileName.lastIndexOf("."));
-			count++;
+			//count++;
 		} else {
 			systemFileName = fileName;
 		}

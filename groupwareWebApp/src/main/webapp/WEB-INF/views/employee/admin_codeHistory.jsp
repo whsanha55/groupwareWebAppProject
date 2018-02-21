@@ -234,10 +234,10 @@
 											<span class="keyfield">검색</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a id="empNo">사번</a></li>
-											<li><a id="empName">이름</a></li>
-											<li><a id="deptName">부서</a></li>
-											<li><a id="dutyName">직책</a></li>
+											<li><a id="empNo" role="menuitem">사번</a></li>
+											<li><a id="empName" role="menuitem">이름</a></li>
+											<li><a id="deptName" role="menuitem">부서</a></li>
+											<li><a id="dutyName" role="menuitem">직책</a></li>
 										</ul>
 									</div>
 									<input type="text" class="form-control keyword" name="x" placeholder="검색어">
