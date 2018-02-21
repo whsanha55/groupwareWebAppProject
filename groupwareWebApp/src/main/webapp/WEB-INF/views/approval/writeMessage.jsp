@@ -182,7 +182,7 @@
 
 						<tr height="340px">
 							<td>내용</td>
-							<td colspan="2"><textarea style="width:550px; height:340px" name="msgContent" id="textArea"></textarea></td>
+							<td colspan="2"><textarea style="width:550px; height:340px;resize:none;" name="msgContent" id="textArea"></textarea></td>
 							
 						</tr>
 					</tbody>
