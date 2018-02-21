@@ -6,7 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
@@ -24,7 +24,9 @@
 		   $('textarea#froala-editor').froalaEditor()
 		 });
 	   
-		$('#addPost').click(function(){			
+		$('#addPost').click(function(){	
+			event.preventDefault();
+			checkUnload = false;
 		    
 			if($($('input:text[name=postTitle]')).val() == "" ){
 				swal("제목을 입력하세요.");
@@ -44,6 +46,20 @@
 				$('#postContent').focus();
 				return false;
 			}  
+	 		
+	 		swal({
+				title: "게시글 등록",   
+				text: "게시글을 등록합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					$('#add').submit();
+				} else if(!e) {
+					checkUnload = true;
+					return;
+				}
+			});		
 		
 		});
 		
@@ -76,8 +92,7 @@
        
   		//첨부파일 용량 체크
 		$('.controls').on('change','input[name=upload]',function() {
-			if($(this).val() != '') {
-				alert($(this).val());
+			if($(this).val() != '') {				
 				var fileSize = this.files[0].size;
 				var maxSize = 1024*1024*1;
 				if(fileSize > maxSize) {
@@ -97,11 +112,14 @@
 </style>
 </head>
 <body>
-	<form action="<%=request.getContextPath()%>/addPost.do"  method="post"
+	<form id="add" action="<%=request.getContextPath()%>/addPost.do" onsubmit=""  method="post"
 		enctype="multipart/form-data">
 		<input type = "hidden" name ="boardNo" value = "${requestScope.boardNo}">
 		<input type = "hidden" name ="boardName" value = "${param.boardName}">
 		<input type = "hidden" name ="empName" value = "${param.empName}">
+		<input type = "hidden" name ="fileCount" value = "${param.fileCount}">
+		<input type = "hidden" name ="isComment" value = "${param.isComment}">
+		<input type = "hidden" name ="department" value = "${param.department}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
@@ -148,7 +166,7 @@
 								<div class="control-group" id="fields">
 									<div class="controls">
 										<div class="entry input-group col-xs-3">
-											<input type="file" class="btn btn-dark" name="upload">
+											<input type="file" class="btn btn-default" name="upload">
 											<span class="input-group-btn">
 												<button class="btn btn-success btn-add" type="button">
 													<span class="glyphicon glyphicon-plus"></span>
@@ -162,11 +180,11 @@
 
 
 					</div>
-				</div>
-				<a class="btn btn-primary pull-right" type="reset">취소</a>
-				&nbsp;
+				<button type="reset" class="btn btn-primary pull-right">취소</button>				
 				<button type="submit" class="btn btn-primary pull-right" id="addPost">등록</button>
-				<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${param.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName} "/>'>목록</a>				 
+				<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${param.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}&department=${param.department} "/>'>목록</a>				 
+				</div>
+				
 			</div>
 		</div>
 	</form>

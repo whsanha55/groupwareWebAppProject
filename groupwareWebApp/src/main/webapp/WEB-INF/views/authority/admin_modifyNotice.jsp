@@ -20,22 +20,60 @@
 		   $(function() {
 			   $('textarea#froala-editor').froalaEditor()
 			 });
-		
-		   $('#modiNotice').click(function(){
-			    
+	 
+		   //뒤로가기
+		   $('#back').on('click', function(){
+			   checkUnload = false;
+			   var noticeNo = '${param.noticeNo}';
+			   var url = '${pageContext.request.contextPath}/detailNotice.do?noticeNo='+noticeNo;
+				swal({
+					title: "이 페이지에서 뒤로가시겠습니까?",
+					  text: "변경사항이 저장되지 않을 수 있습니다.",
+					  icon: "info",
+					  buttons : true 
+					}).then((e) => {
+						if(e) {
+							location.href=url;
+						} else if(!e) {
+							checkUnload = true;
+							return;
+						}	
+					});
+			     
+		   });
+		   //수정
+		   $('#modiNotice').on('click', function() {
+				event.preventDefault();
+				checkUnload = false;
+				  
 				if($($('input:text[name=noticeTitle]')).val() == "" ){
 					swal("제목을 입력하세요.");
 					$('#noticeTitle').focus();
-					return false;
+					return;
 				} 
 				
 		 		if($($('textarea[name=noticeContents]')).val() == "" ){
 					swal("내용을 입력하세요.");
 					$('#noticeContents').focus();
-					return false;
+					return;
 				}  
-			
-			});
+
+				swal({
+					title: "공지사항 수정",   
+					text: "공지사항을 수정합니다. 계속 진행하시겠습니까?",
+					icon: "info",
+					buttons : true 
+				}).then((e) => {
+					if(e) {
+						$('#modify').submit();
+					} else if(!e) {
+						checkUnload = true;
+						return;
+					}
+				});		
+			});   
+		
+
 		   
 		 //첨부파일 추가 및 삭제 이벤트
 		$('form').on('click', '.btn-add', function(e) {
@@ -68,6 +106,7 @@
 				}
 			}
 		});
+		
 		
 		//파일 삭제 
 	    $('#datatable').on('click','button:contains(삭제)', function () {
@@ -124,12 +163,34 @@
 	.fr-element {
 		height: 400px;
 	} 
+	
+	.btn-modify {
+	    background-color: white;
+	    border-color: white;
+	    color: #2196F3; 
+    }
+    
+	.btn-modify:hover,
+	.btn-modify:focus {
+	    border-color: white;
+	    background-color: white;
+	    color: balck; 
+	 }
+	 
+	.btn-modify:active,
+	.btn-modify:visited,
+	.btn-modify:active:focus,
+	.btn-modify:active:hover {
+	    border-color: white;
+	    background-color: white;
+	    color: balck; 
+    }
 </style>
 <title>Insert title here</title>
 </head>
 <body>
 	<!--글쓰기-->
-	<form action = "${pageContext.request.contextPath }/admin/modifyNotice.do"  enctype="multipart/form-data" method = "post">
+	<form id="modify" action = "${pageContext.request.contextPath }/admin/modifyNotice.do"  enctype="multipart/form-data" method = "post">
 		<input type = "hidden" name ="noticeNo" value = "${sessionScope.notice.noticeNo}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
@@ -166,25 +227,27 @@
 			
 						<%-- 업로드된 파일 목록 조회 --%>
 					<c:if test="${fn:length(sessionScope.notice.files) > 0 }">
-						<table border="1" id="datatable" >
+						<table id="datatable" >
+						 <tbody style='border-bottom: 1px  solid darkgray;'>
 							<c:forEach var="noticeFile" items="${sessionScope.notice.files }" varStatus="loop">
 								<c:url var="deleteUrl" value="/admin/removeNoticeFile.do" scope="page">
 									<c:param name="noticeNo" value="${pageScope.noticeFile.no }"/>
 								</c:url>
-								<tr>
-									<td>파일${pageScope.loop.count }</td>
-									<td>${pageScope.noticeFile.originalFileName }</td>							
-									<td><button type="button"  value="${pageScope.noticeFile.no }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td>
+								<tr style='height:40px; border-top: 1px  solid darkgray;'>
+									<td style='width:50px;'>파일${pageScope.loop.count }</td>
+									<td style='width:150px;'>${pageScope.noticeFile.originalFileName }</td>							
+									<td><button type="button"  class='btn btn-modify btn-xs' value="${pageScope.noticeFile.no }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td>
 								</tr>
 							</c:forEach>
-						</table>
+							</tbody >
+						</table><br>
 					</c:if>
 						<div class="col-md-12">
 							<div class="row">
 								<div class="control-group" id="fields">
 									<div class="controls">
 										<div class="entry input-group col-xs-3">
-											<input type="file" class="btn btn-primary" name="upload">
+											<input type="file" class="btn btn-default" name="upload">             
 											<span class="input-group-btn">
 												<button class="btn btn-success btn-add" type="button">
 													<span class="glyphicon glyphicon-plus"></span>
@@ -196,10 +259,11 @@
 							</div>
 						</div>
 					</div>   
-
-					<button type="submit" class="btn btn-primary pull-right" id="modiNotice">수정</button>
-					&nbsp;
-					<button type="reset" class="btn btn-primary pull-right">취소</button>
+					<div class="text-right">  
+						<button type="submit" class="btn btn-primary pull-right" id="modiNotice">수정</button>
+						&nbsp;
+						<a id="back" class="btn btn-default" >뒤로가기</a>
+					</div>
 				</div>
 			</div>
 	</form>

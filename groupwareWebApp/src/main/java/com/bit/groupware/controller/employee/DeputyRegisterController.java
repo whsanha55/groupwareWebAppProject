@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.UserVO;
@@ -57,7 +58,7 @@ public class DeputyRegisterController {
 */
 	@RequestMapping(value="/registerDeputy.do", method=RequestMethod.POST)
 	public String submit(DeputyVO deputy) {
-		logger.info("11!!!!!!!!!!"+deputy.getStartDate()); 
+
 		deputy.getStartDate().replace("년 ","/");
 		deputy.getStartDate().replace("월 ","/");
 		deputy.getStartDate().replace("일","/");
@@ -67,9 +68,28 @@ public class DeputyRegisterController {
 		deputy.getEndDate().replace("일", "/");
 		deputy.getEndDate().replace("시", "");
 		
-		logger.info("ㅋㅋㅋㅋㅋㅋㅋ"+deputy.getEndDate()); 
 		employeeService.registerDeputy(deputy);
 		return "redirect:registerDeputy.do";
+	}
+	
+	@RequestMapping(value="/checkDeputy.do" ,method=RequestMethod.POST)
+	@ResponseBody
+	public int check(@RequestParam(value="startDate") String startDate,
+					 @RequestParam(value="endDate") String endDate) {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		UserVO user = (UserVO)authentication.getPrincipal();
+		String empNo=user.getUsername();
+		
+		startDate=startDate.substring(0, 10);
+		endDate=endDate.substring(0, 10);
+		
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("empNo", empNo);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		
+		return employeeService.retrieveDeputyCheck(map); 
 	}
 	
 }

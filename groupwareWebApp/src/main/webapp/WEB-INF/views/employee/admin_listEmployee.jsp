@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -12,26 +12,52 @@
 	.modal-dialog {
 		width:670px;
 	}
+	#employeePaging li , #submitEmpNo{
+		cursor: pointer;
+	}
+	
+	input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
+}
+
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: 'ì‚¬ì§„ì„ íƒ';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
 </style>
 <script>
 	var eKeyfield;
 	var eKeyword;
 	$(document).ready(function() {
 	
-		employeePaging(1); //ÃÖÃÊ ·Îµå½Ã ÆäÀÌÂ¡ °¡Áî¾Æ¤¿¤¿¤¿¤¿
+		employeePaging(1); //ìµœì´ˆ ë¡œë“œì‹œ í˜ì´ì§• ê°€ì¦ˆì•„ã…ã…ã…ã…
 		
 		$('#regisBtn').click(function(){
 			location.href="${pageContext.request.contextPath}/admin/registerEmployee.do";
 		});
 
-		//°Ë»öÁ¶°Ç
+		//ê²€ìƒ‰ì¡°ê±´
 		$('#search-panel .dropdown-menu').on('click','a',function(e) {
 			e.preventDefault();
 			$('.keyfield').text($(this).text());
 			$('.keyfield').attr('id',$(this).attr('id'));
 		});
 		
-		//°Ë»öÁ¶°Ç ¿£ÅÍÅ° ´­·¶À»¶§ Æ®¸®°Å ¹ßµ¿
+		//ê²€ìƒ‰ì¡°ê±´ ì—”í„°í‚¤ ëˆŒë €ì„ë•Œ íŠ¸ë¦¬ê±° ë°œë™
 		$('.keyword').on('keydown', function(e) {
 			if(e.keyCode == 13){
 				$('#findEmployee').trigger('click');
@@ -39,18 +65,18 @@
 		});
 		
 		
-		// °Ë»ö ½ÇÇà
+		// ê²€ìƒ‰ ì‹¤í–‰
 		$('#findEmployee').on('click', function() {
-			if($('.keyfield').attr('id') == "") {
-				swal("°Ë»öÁ¶°Ç¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä");
+			if($('.keyfield').attr('id') == undefined) {
+				swal("ê²€ìƒ‰ì¡°ê±´ì„ ì„ íƒí•´ì£¼ì„¸ìš”.","", "error");
 				return;
 			}
 	
 			eKeyfield = $('.keyfield').attr('id');
 			
-			if($('.keyword').val() == 'Åğ»ç') {
+			if($('.keyword').val() == 'í‡´ì‚¬') {
 				eKeyword = '0';
-			} else if($('.keyword').val() == 'ÀçÁ÷') {
+			} else if($('.keyword').val() == 'ì¬ì§') {
 				eKeyword = '1';
 			} else {
 				eKeyword = $('.keyword').val();
@@ -85,7 +111,7 @@
 					
 					if(data.length != 0) {
 						text += '<div class="input-group-btn search-panel">';
-						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="false">ÆÀ';
+						text += '<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="teamBtn" type="button" aria-expanded="false">íŒ€';
 						text += '<span class="caret"></span></button>';					
 						text += '<ul id="teamBtnList" role="menu" class="dropdown-menu teambtn" aria-labelledby="d2Label">';
 						
@@ -115,13 +141,19 @@
 		});
 		
 		$('select[name=emailaddr]').on('change', function () {	
+			if ($('select[name=emailaddr]').val() == "") {
+				$('#email2').attr('readonly', false);
+				$('#email2').val("");
+			}			
 			if($('select[name=emailaddr]').val() != "") {
 				$('#email2').attr('readonly', true);
 				$('#email2').val($('select[name=emailaddr]').val());				
-			}
-		});
+			} 
+		});	
 		
 		$('#modalForm').on('click', '#modifyBtn', function() {
+			$('#upload-image').attr('disabled', false);
+			$('#upload-image').show();
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
 			$('select[name=phoneNumber1]').attr('disabled', false);
@@ -132,89 +164,63 @@
 			$('#email1').attr('readonly', false);
 			$('#email2').attr('readonly', false);
 			$('select[name=emailaddr]').attr('disabled', false);
+			$('#findpostcode').attr('disabled', false);
 			$('#moddetailAddress').attr('readonly', false);
+			$('#deptBtn').attr('disabled', false);
+			$('#dutyBtn').attr('disabled', false);
 			
-			$(this).remove();
-			$('#retireBtn').before("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>È®ÀÎ</button>");
+			$('#btnDiv').html("<button id='modifyCompBtn' type='submit' class='btn btn-primary'>í™•ì¸</button><button id='closeBtn2' type='button' class='btn btn-default' data-dismiss='modal'>ë‹«ê¸°</button>");
 		});
 		
-		$('#modalForm').on('click', '#modifyCompBtn' , function() {
-			var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
-			$('#phoneNumber').val(phoneNumber);
-			var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
-			$('#regNumber').val(regNumber);
-			var email = $('#email1').val() + '@' + $('#email2').val();
-			$('#email').val(email);
+		$("#modalForm").on('click','#retireBtn',function() {
 			
-			$(this).submit();
-			employeePaging(1);
-		});
-		
-		/* $('#modifyBtn').click(function () {
-			console.log($('#modRetireStatus').val())
-			if($('#modRetireStatus').val()=='ÀçÁ÷') {
-				$('#modRetireStatus').val('1');	
-			} else {
-				$('#modRetireStatus').val('0');	
-			}
-			$.ajax ({
-				url:'${pageContext.request.contextPath}/admin/modifyEmployee.do'
-				,
-				method:'POST'
-				,
-				data: $('#modalForm').serialize()
-				,
-				dataType:'json'
-				,
-				success: function(data) {
-					if(data==0) {
-					swal({
-						title : "»ç¿øÁ¤º¸¸¦ ¼öÁ¤ÇÕ´Ï´Ù.",
-						text : "°è¼Ó ÁøÇàÇÏ½Ã°Ú½À´Ï±î?",
-						icon : "info",
-						buttons : ["Ãë¼Ò", "È®ÀÎ"] 
-					}).then((e) => {
-					     if(e) {
-						     swal("¼öÁ¤ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù!", {
-						    	 icon : "success"						    	
-						     });
-					     } else {
-					    	 swal("Ãë¼ÒµÇ¾ú½À´Ï´Ù.");							
-						 }
-					});
-						employeePaging(1);
-						$('#myModal').modal('hide');
-					}
-					
+			var empNo = $('#modifyEmpNo').val();
+			console.log(empNo);
+			swal({
+				title: "ì‚¬ì› í‡´ì‚¬",
+				text: "ì‚¬ì›ì„ í‡´ì‚¬ì²˜ë¦¬ í•©ë‹ˆë‹¤. ê³„ì† ì§„í–‰í•˜ì‹œê² ìŠµë‹ˆê¹Œ?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					retireEmployee(empNo);
+				} else if(!e) {
+					return;
 				}
-				,
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}
-					
-			}); 
-		});  */
-		
-		$("#retireBtn").click(function() {
-			$.ajax ({
-				url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
-				method : 'POST',
-				data : {
-					empNo : $('#modifyEmpNo').val()
-				},
-				dateType : 'json',
-				success : function(data) {
-					$('#modRetireStatus').val(data.retireStatus);
-					if($('#modRetireStatus').val() == 0) {
-						$('#modRetireStatus').val('Åğ»ç');
-					}
-					$('#modRetireDate').val(data.retireDate);
-					employeePaging(1);
-				},
-				error : function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}				
 			});
+			
+			function retireEmployee(empNo) {
+				$.ajax ({
+					url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
+					method : 'POST',
+					data : {
+						empNo : empNo
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						$('#modRetireStatus').val(data.retireStatus);
+						if($('#modRetireStatus').val() == 0) {
+							$('#modRetireStatus').val('í‡´ì‚¬');
+						}
+						$('#modRetireDate').val(data.retireDate);
+						$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">ë‹«ê¸°</button>');
+						swal({
+							  title: "í‡´ì‚¬ ì™„ë£Œ",
+							  text: "í•´ë‹¹ ì‚¬ì›ì´ í‡´ì‚¬ì²˜ë¦¬ ë˜ì—ˆìŠµë‹ˆë‹¤.",
+							  icon: "info",
+							  buttons : "í™•ì¸" 
+						}).then((e) => {
+							if(e) {
+								employeePaging(1);
+							}
+						});						
+					},
+					error : function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}				
+				});
+			}
 		});
 		
 		$("#upload-image").on("change", handleImgFileSelect);
@@ -227,40 +233,40 @@
 		
         new daum.Postcode({
             oncomplete: function(data) {
-                // ÆË¾÷¿¡¼­ °Ë»ö°á°ú Ç×¸ñÀ» Å¬¸¯ÇßÀ»¶§ ½ÇÇàÇÒ ÄÚµå¸¦ ÀÛ¼ºÇÏ´Â ºÎºĞ.
+                // íŒì—…ì—ì„œ ê²€ìƒ‰ê²°ê³¼ í•­ëª©ì„ í´ë¦­í–ˆì„ë•Œ ì‹¤í–‰í•  ì½”ë“œë¥¼ ì‘ì„±í•˜ëŠ” ë¶€ë¶„.
 
-                // °¢ ÁÖ¼ÒÀÇ ³ëÃâ ±ÔÄ¢¿¡ µû¶ó ÁÖ¼Ò¸¦ Á¶ÇÕÇÑ´Ù.
-                // ³»·Á¿À´Â º¯¼ö°¡ °ªÀÌ ¾ø´Â °æ¿ì¿£ °ø¹é('')°ªÀ» °¡Áö¹Ç·Î, ÀÌ¸¦ Âü°íÇÏ¿© ºĞ±â ÇÑ´Ù.
-                var fullAddr = ''; // ÃÖÁ¾ ÁÖ¼Ò º¯¼ö
-                var extraAddr = ''; // Á¶ÇÕÇü ÁÖ¼Ò º¯¼ö
+                // ê° ì£¼ì†Œì˜ ë…¸ì¶œ ê·œì¹™ì— ë”°ë¼ ì£¼ì†Œë¥¼ ì¡°í•©í•œë‹¤.
+                // ë‚´ë ¤ì˜¤ëŠ” ë³€ìˆ˜ê°€ ê°’ì´ ì—†ëŠ” ê²½ìš°ì—” ê³µë°±('')ê°’ì„ ê°€ì§€ë¯€ë¡œ, ì´ë¥¼ ì°¸ê³ í•˜ì—¬ ë¶„ê¸° í•œë‹¤.
+                var fullAddr = ''; // ìµœì¢… ì£¼ì†Œ ë³€ìˆ˜
+                var extraAddr = ''; // ì¡°í•©í˜• ì£¼ì†Œ ë³€ìˆ˜
 
-                // »ç¿ëÀÚ°¡ ¼±ÅÃÇÑ ÁÖ¼Ò Å¸ÀÔ¿¡ µû¶ó ÇØ´ç ÁÖ¼Ò °ªÀ» °¡Á®¿Â´Ù.
-                if (data.userSelectedType === 'R') { // »ç¿ëÀÚ°¡ µµ·Î¸í ÁÖ¼Ò¸¦ ¼±ÅÃÇßÀ» °æ¿ì
+                // ì‚¬ìš©ìê°€ ì„ íƒí•œ ì£¼ì†Œ íƒ€ì…ì— ë”°ë¼ í•´ë‹¹ ì£¼ì†Œ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤.
+                if (data.userSelectedType === 'R') { // ì‚¬ìš©ìê°€ ë„ë¡œëª… ì£¼ì†Œë¥¼ ì„ íƒí–ˆì„ ê²½ìš°
                     fullAddr = data.roadAddress;
 
-                } else { // »ç¿ëÀÚ°¡ Áö¹ø ÁÖ¼Ò¸¦ ¼±ÅÃÇßÀ» °æ¿ì(J)
+                } else { // ì‚¬ìš©ìê°€ ì§€ë²ˆ ì£¼ì†Œë¥¼ ì„ íƒí–ˆì„ ê²½ìš°(J)
                     fullAddr = data.jibunAddress;
                 }
 
-                // »ç¿ëÀÚ°¡ ¼±ÅÃÇÑ ÁÖ¼Ò°¡ µµ·Î¸í Å¸ÀÔÀÏ¶§ Á¶ÇÕÇÑ´Ù.
+                // ì‚¬ìš©ìê°€ ì„ íƒí•œ ì£¼ì†Œê°€ ë„ë¡œëª… íƒ€ì…ì¼ë•Œ ì¡°í•©í•œë‹¤.
                 if(data.userSelectedType === 'R'){
-                    //¹ıÁ¤µ¿¸íÀÌ ÀÖÀ» °æ¿ì Ãß°¡ÇÑ´Ù.
+                    //ë²•ì •ë™ëª…ì´ ìˆì„ ê²½ìš° ì¶”ê°€í•œë‹¤.
                     if(data.bname !== ''){
                         extraAddr += data.bname;
                     }
-                    // °Ç¹°¸íÀÌ ÀÖÀ» °æ¿ì Ãß°¡ÇÑ´Ù.
+                    // ê±´ë¬¼ëª…ì´ ìˆì„ ê²½ìš° ì¶”ê°€í•œë‹¤.
                     if(data.buildingName !== ''){
                         extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                     }
-                    // Á¶ÇÕÇüÁÖ¼ÒÀÇ À¯¹«¿¡ µû¶ó ¾çÂÊ¿¡ °ıÈ£¸¦ Ãß°¡ÇÏ¿© ÃÖÁ¾ ÁÖ¼Ò¸¦ ¸¸µç´Ù.
+                    // ì¡°í•©í˜•ì£¼ì†Œì˜ ìœ ë¬´ì— ë”°ë¼ ì–‘ìª½ì— ê´„í˜¸ë¥¼ ì¶”ê°€í•˜ì—¬ ìµœì¢… ì£¼ì†Œë¥¼ ë§Œë“ ë‹¤.
                     fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
                 }
 
-                // ¿ìÆí¹øÈ£¿Í ÁÖ¼Ò Á¤º¸¸¦ ÇØ´ç ÇÊµå¿¡ ³Ö´Â´Ù.
-                document.getElementById('modpostcode').value = data.zonecode; //5ÀÚ¸® »õ¿ìÆí¹øÈ£ »ç¿ë
+                // ìš°í¸ë²ˆí˜¸ì™€ ì£¼ì†Œ ì •ë³´ë¥¼ í•´ë‹¹ í•„ë“œì— ë„£ëŠ”ë‹¤.
+                document.getElementById('modpostcode').value = data.zonecode; //5ìë¦¬ ìƒˆìš°í¸ë²ˆí˜¸ ì‚¬ìš©
                 document.getElementById('modAddress').value = fullAddr;
 
-                // Ä¿¼­¸¦ »ó¼¼ÁÖ¼Ò ÇÊµå·Î ÀÌµ¿ÇÑ´Ù.
+                // ì»¤ì„œë¥¼ ìƒì„¸ì£¼ì†Œ í•„ë“œë¡œ ì´ë™í•œë‹¤.
                 document.getElementById('moddetailAddress').focus();
                 
                 close();
@@ -276,7 +282,7 @@
 
 		filesArr.forEach(function(f) {
 			if(!f.type.match("image.*")) {
-				alert("È®ÀåÀÚ´Â ÀÌ¹ÌÁö È®ÀåÀÚ¸¸ °¡´ÉÇÕ´Ï´Ù.");
+				alert("í™•ì¥ìëŠ” ì´ë¯¸ì§€ í™•ì¥ìë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 				return;
 			}
 			
@@ -291,9 +297,9 @@
 	}
 	
 	function employeePaging(currentPageNo) {
-		var totalCount =  0;		//ÃÑ  ¼ö
-		var countPerPage = 10;   //ÇÑ ÆäÀÌÁö´ç º¸¿©ÁÖ´Â È¸¿ø ¼ö
-		var pageSize = 5;		//ÆäÀÌÁö ¸®½ºÆ®¿¡ °Ô½ÃµÇ´Â ÆäÀÌÁö ¼ö
+		var totalCount =  0;		//ì´  ìˆ˜
+		var countPerPage = 10;   //í•œ í˜ì´ì§€ë‹¹ ë³´ì—¬ì£¼ëŠ” íšŒì› ìˆ˜
+		var pageSize = 5;		//í˜ì´ì§€ ë¦¬ìŠ¤íŠ¸ì— ê²Œì‹œë˜ëŠ” í˜ì´ì§€ ìˆ˜
 		var startRow = (currentPageNo - 1) * countPerPage + 1;
 		var endRow = currentPageNo * countPerPage;
 		
@@ -315,13 +321,12 @@
 			dataType: 'json' 
 			,
 			success: function (data, textStatus, jqXHR) {
-				
 				totalCount = data.totalCount;
 				
-				//datatableÅ×ÀÌºí º¯°æÇÏ±â
+				//datatableí…Œì´ë¸” ë³€ê²½í•˜ê¸°
 				var text = "";
 				if(totalCount == 0) {
-					text += '<tr><td>Á¶È¸µÈ °Ë»ö°á°ú°¡ ¾ø½À´Ï´Ù<td></tr>';
+					text += '<tr class="text-center"><td colspan=8>ì¡°íšŒëœ ê²€ìƒ‰ê²°ê³¼ê°€ ì—†ìŠµë‹ˆë‹¤</td></tr>';
 				} else {
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
@@ -338,9 +343,9 @@
 						text += "<td id='submitHireDate'>"+ data.employees[i].hireDate		+ "</td>";
 						text += "<td id='submitEmail'>"+ data.employees[i].email			+ "</td>";
 						if(data.employees[i].retireStatus == 0) {
-							text += "<td id='submitRetireStatus'>Åğ»ç</td>";
+							text += "<td id='submitRetireStatus'>í‡´ì‚¬</td>";
 						} else {
-							text += "<td id='submitRetireStatus'>ÀçÁ÷</td>";
+							text += "<td id='submitRetireStatus'>ì¬ì§</td>";
 						}
 						text += "<input id='submitRetireDate' type='hidden' value='"+ data.employees[i].retireDate +"'>";
 						text += "<input id='submitpostcode' type='hidden' value='"+ data.employees[i].postcode +"'>";
@@ -350,6 +355,8 @@
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						$('#upload-image').attr('disabled', true);
+						$('#upload-image').hide();
 						$('#modEmpName').attr('readonly', true);
 						$('#modEngName').attr('readonly', true);
 						$('select[name=phoneNumber1]').attr('disabled', true);
@@ -360,18 +367,17 @@
 						$('#email1').attr('readonly', true);
 						$('#email2').attr('readonly', true);
 						$('select[name=emailaddr]').attr('disabled', true);
+						$('#findpostcode').attr('disabled', true);
 						$('#moddetailAddress').attr('readonly', true);
+						$('#dutyBtn').attr('disabled',true);
+						$('#deptBtn').attr('disabled',true);
 						
-						if($('#modifyBtn').length > 0) {
-							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>¼öÁ¤</button>");
-						}
-						$('#modifyBtn').remove();
+						$('#btnDiv').html('<button id="modifyBtn" type="button" class="btn btn-primary">ìˆ˜ì •</button><button id="retireBtn" type="button" class="btn btn-primary retire">í‡´ì‚¬</button><button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">ë‹«ê¸°</button>');
 						
-						if($('#modifyCompBtn').length > 0) {
-							$('#retireBtn').before("<button id='modifyBtn' type='button' class='btn btn-primary'>¼öÁ¤</button>");
-						}
-						$('#modifyCompBtn').remove();
-																				
+						$('input[name=oldDuty]').val($(this).nextAll('#submitDutyNo').val());
+						console.log($('input[name=oldDuty]').val());
+						$('input[name=oldDept]').val($(this).nextAll('#submitDeptNo').val());
+						console.log($('input[name=oldDept]').val());
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
@@ -400,11 +406,12 @@
 						$('#email2').val(emailArr[1]);
 						
 						$('#modHireDate').val($(this).nextAll('#submitHireDate').text());
-						if($(this).nextAll('#submitRetireStatus').text() == 'Åğ»ç') {
-							$('#modRetireStatus').val('Åğ»ç');
-							$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());													
+						if($(this).nextAll('#submitRetireStatus').text() == 'í‡´ì‚¬') {
+							$('#modRetireStatus').val('í‡´ì‚¬');
+							$('#modRetireDate').val($(this).nextAll('#submitRetireDate').val());
+							$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">ë‹«ê¸°</button>');
 						} else {
-							$('#modRetireStatus').val('ÀçÁ÷');
+							$('#modRetireStatus').val('ì¬ì§');
 							$('#modRetireDate').val("");
 						}
 						$('#modpostcode').val($(this).parent().children('#submitpostcode').val());
@@ -413,16 +420,139 @@
 						$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
 						if($('#moddetailAddress').val() == 'null') {
 							$('#moddetailAddress').val("");
+						}						
+					});
+					
+					$('#modalForm').on('click', '#modifyCompBtn' , function() {
+						/*var oldDept = $('input[name=oldDept]').val();
+						var oldDuty = $('input[name=oldDuty]').val();
+						var deptCode = $('input[name=deptCode]').val();
+						var dutyCode = $('input[name=dutyCode]').val();*/
+						
+						event.preventDefault();
+						checkUnload = false;
+						console.log($('input[name=oldDept]').val());
+						console.log($('input[name=oldDuty]').val());
+						console.log($('input[name=deptCode]').val());
+						console.log($('input[name=dutyCode]').val());
+						
+						/*
+						if($('.preDuty').text() == checkChangeDuty) {
+							$('input[name=deptCode]').val("");
+							console.log($('input[name=deptCode]').val());
 						}
-						
-						
-						
+						*/
+						/*
+						console.log($('.preDept').text());
+						console.log(checkChangeDept);						
+						if($('.preDept').text() == checkChangeDept) {
+							$('input[name=dutyCode]').val("");
+							console.log($('input[name=dutyCode]').val());
+						}
+						*/						
+						if($('#photo').attr('src') == '') {
+							swal("í”„ë¡œí•„ ì‚¬ì§„ì„ ì¶”ê°€í•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+						if($('input[name=empName]').val().trim() == '') {
+							swal("ì‚¬ì›ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+						if($('input[name=empPwd]').val() == '') {
+							swal("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+						if($('input[name=empPwdCheck]').val() == '') {
+							swal("ë¹„ë°€ë²ˆí˜¸ í™•ì¸ì„ í•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+						if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
+							swal("ì—°ë½ì²˜ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+						if($('input[name=regNumber1]').val() == '' || $('input[name=regNumber2]').val() == '') {
+							swal("ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+						/* if($('input[name=dutyCode]').val().trim() == '') {
+							swal("ì§ì±…ì„ ì„ íƒí•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+						if($('input[name=deptCode]').val().trim() == '') {
+							swal("ë¶€ì„œë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.","");
+							return;
+						} */
+						if($('input[name=email1]').val().trim() == '' || $('input[name=email2]').val().trim() == '') {
+							swal("ì´ë©”ì¼ ì…ë ¥í•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+						if($('input[name=address]').val() == '') {
+							swal("ì£¼ì†Œì •ë³´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.","");
+							return;
+						}
+								
+						var phoneNumber = $('#phoneNumber1').val() + '-' + $('#phoneNumber2').val() + '-' + $('#phoneNumber3').val();
+						$('#phoneNumber').val(phoneNumber);
+						var regNumber = $('#regNumber1').val() + '-' + $('#regNumber2').val();
+						$('#regNumber').val(regNumber);
+						var email = $('#email1').val() + '@' + $('#email2').val();
+						$('#email').val(email);
+					
+						swal({
+							title: "ì‚¬ì› ìˆ˜ì •",
+							text: "ì‚¬ì›ì„ ìˆ˜ì •í•©ë‹ˆë‹¤. ê³„ì† ì§„í–‰í•˜ì‹œê² ìŠµë‹ˆê¹Œ?",
+							icon: "info",
+							buttons : true 
+						}).then((e) => {
+							if(e) {
+								$('#modalForm').submit();
+								//modifyEmployee(oldDept, oldDuty ,deptCode, dutyCode)
+								employeePaging(1);
+							} else if(!e) {
+								checkUnload = true;
+								return;
+							}
+						});
+						/*
+						function modifyEmployee(oldDept, oldDuty ,deptCode, dutyCode) {
+							var serialize = $('#modalForm').serialize()
+							
+							$.ajax ({
+								url:'${pageContext.request.contextPath}/admin/modifyAjaxEmployee.do',
+								method:'POST',
+								dataType:'json',
+								data:{
+									oldDept : oldDept,
+									oldDuty : oldDuty,
+									deptCode : deptCode,
+									dutyCode : dutyCode,
+									serialize
+								}								
+								,
+								success:function(data) {
+									swal({
+										  title: "ìˆ˜ì • ì™„ë£Œ",
+										  text: "ì‚¬ì›ì •ë³´ê°€ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.",
+										  icon: "info",
+										  buttons : "í™•ì¸" 
+									}).then((e) => {
+										if(e) {
+										  	employeePaging(1);
+										}
+									});	 
+								},
+								error:function(jqXHR) {
+									alert('error : ' + jqXHR.status);
+								}
+							});
+						}
+*/
 					});
 				}
 				$('#datatable').find('tbody').html(text);
 				
 				
-				//ÆäÀÌÂ¡ Ã³¸®
+				//í˜ì´ì§• ì²˜ë¦¬
 				jqueryPager({
 					countPerPage : countPerPage,
 					pageSize : pageSize,
@@ -432,7 +562,7 @@
 			} 
 			,
 			error: function(jqXHR) {
-				alert("¿¡·¯: " + jqXHR.status);
+				alert("ì—ëŸ¬: " + jqXHR.status);
 			}	
 		});
 		
@@ -496,50 +626,44 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>»ç¿ø°ü¸®</h2>
+				<h2>ì‚¬ì›ê´€ë¦¬</h2>
+				<button id="regisBtn" type="button" class="btn btn-primary pull-right" data-toggle="modal">
+					ë“±ë¡
+				</button>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div class="col-md-8">
-							<div class="col-md-2">
-								<h2>»ç¿ø¸íºÎ</h2>
-							</div>
-							<%-- <c:url var=registerEmployee value="/admin/registerEmployee.do" scope="page" /> --%>
-							<button id="regisBtn" type="button" class="btn btn-primary" data-toggle="modal">
-								µî·ÏÇÏ±â
-							</button>
-						</div>
-						<div>
-							<div class="input-group">
+						<div class="col-md-4 col-xs-offset-2 pull-right">
+							<div class="input-group style="margin-right:-25px;">
 								<div id="search-panel" class="input-group-btn search-panel">
-									<button class="btn btn-default dropdown-toggle"
+									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
-										<span class="keyfield">°Ë»öÁ¶°Ç</span><span class="caret"></span>
+										<span class="keyfield">ê²€ìƒ‰ì¡°ê±´</span><span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
 										<li>
-											<a id="empNo" role="menuitem">»ç¿ø¹øÈ£</a>
+											<a id="empNo" role="menuitem">ì‚¬ì›ë²ˆí˜¸</a>
 										</li>
 										<li>
-											<a id="empName" role="menuitem">ÀÌ¸§</a>
+											<a id="empName" role="menuitem">ì´ë¦„</a>
 										</li>
 										<li>
-											<a id="duty" role="menuitem">Á÷Ã¥</a>
+											<a id="duty" role="menuitem">ì§ì±…</a>
 										</li>
 										<li>
-											<a id="department" role="menuitem">ºÎ¼­</a>
+											<a id="department" role="menuitem">ë¶€ì„œ</a>
 										</li>
 										<li>
-											<a id="retireStatus" role="menuitem">Åğ»ç¿©ºÎ</a>
+											<a id="retireStatus" role="menuitem">í‡´ì‚¬ì—¬ë¶€</a>
 										</li>
 									</ul>
 								</div>
-								<input type="text" class="form-control keyword" placeholder="°Ë»ö¾î" >
+								<input type="text" class="form-control keyword" placeholder="ê²€ìƒ‰ì–´" >
 								<span class="input-group-btn">
-									<button class="btn btn-default" id="findEmployee" type="button">
+									<button class="btn btn-default" id="findEmployee" type="button" style="margin-left:3px; height:34px;">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								</span>
@@ -548,14 +672,14 @@
 						<table id="datatable" class="table table-striped jambo_table bulk_action" style="text-align:center;">
 							<thead>
 								<tr>
-									<th id="1" class="text-center">»ç¹ø</th>
-									<th id="2" class="text-center">ÀÌ¸§</th>
-									<th id="3" class="text-center">Á÷Ã¥</th>
-									<th id="4" class="text-center">ºÎ¼­</th>
-									<th id="5" class="text-center">¿¬¶ôÃ³</th>
-									<th id="6" class="text-center">ÀÔ»çÀÏÀÚ</th>
-									<th id="7" class="text-center">ÀÌ¸ŞÀÏ</th>
-									<th id="8" class="text-center">Åğ»ç¿©ºÎ</th>
+									<th id="1" class="text-center">ì‚¬ë²ˆ</th>
+									<th id="2" class="text-center">ì´ë¦„</th>
+									<th id="3" class="text-center">ì§ì±…</th>
+									<th id="4" class="text-center">ë¶€ì„œ</th>
+									<th id="5" class="text-center">ì—°ë½ì²˜</th>
+									<th id="6" class="text-center">ì…ì‚¬ì¼ì</th>
+									<th id="7" class="text-center">ì´ë©”ì¼</th>
+									<th id="8" class="text-center">í‡´ì‚¬ì—¬ë¶€</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -578,17 +702,19 @@
 	
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
-		<form id="modalForm" action="${pageContext.request.contextPath }/admin/modifyEmployee.do"
-				enctype="multipart/form-data" method="POST">
+		<form id="modalForm" enctype="multipart/form-data" 
+				action="${pageContext.request.contextPath }/admin/modifyEmployee.do" method="POST">
 		<input type="hidden" name="dutyCode" value="">
 		<input type="hidden" name="deptCode" value="">
+		<input type="hidden" name="oldDuty" value="">
+		<input type="hidden" name="oldDept" value="">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">¡¿</span><span class="sr-only">Close</span>
+						<span aria-hidden="true">Ã—</span><span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">»ç¿ø »ó¼¼Á¤º¸ ¹× ¼öÁ¤</h4>
+					<h4 class="modal-title" id="myModalLabel">ì‚¬ì› ìƒì„¸ì •ë³´ ë° ìˆ˜ì •</h4>
 				</div>
 				<div class="modal-body">
 					<div>
@@ -597,46 +723,46 @@
 								<div id="crop-avatar">
 									<!-- Current avatar -->
 									<img id="photo" style='width:200px;height:250px;' 
-									src="" class="img-responsive center-block"/> 
-									<input id="upload-image" name="upload"
+									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
+									<input id="upload-image" name="upload" style="margin-left:80px;margin-top:4px"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
 								</div>
 							</div>
 						</div>
-						<table class="table table-striped table-bordered" style="width:350px;height:250px;">
+						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:250px;">
 							<tbody>
 								<tr>
-									<th>»ç¹ø</th>
+									<th class='text-center'>ì‚¬ë²ˆ</th>
 									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
-										readonly readonly value="" style="width:200px;"></td>
+										readonly value="" style="width:200px;"></td>
 								</tr>
 								<tr>
-									<th>ÀÌ¸§</th>
+									<th>ì´ë¦„</th>
 									<td><input id="modEmpName" name="empName" type="text" class="form-control"
 										required="required" value="" style="width:200px;"></td>
 								</tr>
 								<tr>
-									<th>¿µ¹®ÀÌ¸§</th>
+									<th>ì˜ë¬¸ì´ë¦„</th>
 									<td><input id="modEngName" name="engName" type="text" class="form-control"
 										value="" style="width:200px;"></td>
 								</tr>
 							</tbody>
 						</table>						
-						<br> <br> <br>
+						<br>
 						<table id="datatable" class="table table-striped table-bordered" style="width:630px;">
 							<tbody>
 								
 								<tr>
-									<th>Á÷Ã¥</th>
+									<th>ì§ì±…</th>
 									<td colspan='2'><div>
 											<div class="col-xs-2 col-xs-offset-2">
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
-															class="btn btn-default dropdown-toggle"
+															class="btn btn-default dropdown-toggle btn-sm"
 															data-toggle="dropdown">
-															<span id="search_concept" class="preDuty" >Á÷Ã¥</span><span class="caret"></span>
+															<span id="search_concept" class="preDuty" >ì§ì±…</span><span class="caret"></span>
 														</button>
 														<ul id="dutyBtnList" class="dropdown-menu" role="menu">
 															<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
@@ -649,17 +775,17 @@
 												</div>
 											</div>
 										</div></td>
-									<th>ºÎ¼­</th>
+									<th>ë¶€ì„œ</th>
 									<td colspan='2'><div>
 											<div class="col-xs-2 col-xs-offset-2">
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
-														<button id="deptBtn" type="button"
-															class="btn btn-default dropdown-toggle"
+														<button id="deptBtn" type="button" 
+															class="btn btn-default dropdown-toggle btn-sm"
 															data-toggle="dropdown">
-															<span id="search_concept" class="preDept">ºÎ¼­</span> <span class="caret"></span>
+															<span id="search_concept" class="preDept">ë¶€ì„œ</span> <span class="caret"></span>
 														</button>
-														<ul id="deptBtnList" class="dropdown-menu" role="menu">
+														<ul id="deptBtnList" class="dropdown-menu" role="menu" >
 															<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 																<li role="presentation">
 																	<a role="menuitem" href="#" value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</a>
@@ -672,7 +798,7 @@
 										</div></td>
 								</tr>
 								<tr>
-									<th colspan='1'>¿¬¶ôÃ³</th>
+									<th colspan='1'>ì—°ë½ì²˜</th>
 									<td colspan='5' class="form-inline">
 											<input type="hidden" id="phoneNumber" name="phoneNumber"
 												 class="form-control col-md-7 col-xs-12">
@@ -684,34 +810,34 @@
 												</select>
 											</div>
 												 &nbsp;-&nbsp;
-											<input type="text" id="phoneNumber2" name="phoneNumber2"
+											<input type="text" id="phoneNumber2" name="phoneNumber2" maxlength="4"
 												 class="form-control" style="width:100px;">
 												 &nbsp;-&nbsp;
-											<input type="text" id="phoneNumber3" name="phoneNumber3"
+											<input type="text" id="phoneNumber3" name="phoneNumber3" maxlength="4"
 												 class="form-control" style="width:100px;">
 										</div>
 									</td>
 								</tr>
 								<tr>
-									<th colspan='1'>ÁÖ¹Î¹øÈ£</th>
+									<th colspan='1'>ì£¼ë¯¼ë²ˆí˜¸</th>
 									<td colspan='5' class="form-inline">
-										<input type="hidden" id="regNumber" name="regNumber"
-											 class="form-control col-md-7 col-xs-12" value="">
-										<input type="text" id="regNumber1" name="regNumber1"
-											 class="form-control" style="width:200px;">
+										<input type="hidden" id="regNumber" name="regNumber" 
+											 class="form-control col-md-7 col-xs-12" value="" >
+										<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
+											 class="form-control" style="width:150px;">
 											&nbsp;-&nbsp;
-										<input type="text" id="regNumber2" name="regNumber2"
-											 class="form-control" style="width:200px;">
-									</div></td>
+										<input type="text" id="regNumber2" name="regNumber2" maxlength="7"
+											 class="form-control" style="width:150px;">
+									</td>
 								</tr>
 								<tr>
-									<th colspan='1'>ÀÌ¸ŞÀÏ</th>
+									<th colspan='1'>ì´ë©”ì¼</th>
 									<td colspan='5' class="form-inline">
 										<input type="hidden" id="email" name="email" value="" >
 										<input type='text' id="email1" name="email1" class="form-control" style="width:100px;">&nbsp;@&nbsp;
 			            				<input type='text' id="email2" name="email2" class="form-control" style="width:150px;">
 						              <select name="emailaddr" class="form-control" style="width:150px;">
-						                 <option value="">Á÷Á¢ÀÔ·Â</option>
+						                 <option value="">ì§ì ‘ì…ë ¥</option>
 						                 <option value="naver.com">naver.com</option>
 						                 <option value="gmail.com">gmail.com</option>
 						                 <option value="nate.com">nate.com</option>
@@ -723,29 +849,29 @@
 									</td>
 								</tr>
 								<tr>
-									<th>ÀÔ»çÀÏ</th>
+									<th>ì…ì‚¬ì¼</th>
 									<td><input id="modHireDate" name="hireDate" type="text" class="form-control"
 										required="required" value="" readonly style="width:100px;"></td>
-									<th>Åğ»ç¿©ºÎ</th>
+									<th>í‡´ì‚¬ì—¬ë¶€</th>
 									<td><input id="modRetireStatus" name="retireStatus" type="text" class="form-control"
 										required="required" readonly value="" style="width:60px;"></td>
-									<th>Åğ»çÀÏ</th>
+									<th>í‡´ì‚¬ì¼</th>
 									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly style="width:100px;"></td>
 								</tr>
 								<tr>
-									<th colspan='1'>ÁÖ¼Ò</th>
+									<th colspan='1'>ì£¼ì†Œ</th>
 									<td colspan="5">
 									<div class="col-md-6 col-sm-6 col-xs-6">
-										<input type="text" id="modpostcode" name="postcode" placeholder="¿ìÆí¹øÈ£" readonly
+										<input type="text" id="modpostcode" name="postcode" placeholder="ìš°í¸ë²ˆí˜¸" readonly
 												required="required" class="form-control col-sm-6 col-xs-6">
 									</div>
-									<button type="button" id="findpostcode" class="btn btn-success">¿ìÆí¹øÈ£ Ã£±â</button><br>
+									<button type="button" id="findpostcode" class="btn btn-success">ìš°í¸ë²ˆí˜¸ ì°¾ê¸°</button><br>
 									<div class="col-md-12 col-sm-6 col-xs-12">
-										<input type="text" id="modAddress" name="address" placeholder="ÁÖ¼Ò" readonly
+										<input type="text" id="modAddress" name="address" placeholder="ì£¼ì†Œ" readonly
 												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
 									</div><br>
 									<div class="col-md-12 col-sm-6 col-xs-12">
-										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="»ó¼¼ÁÖ¼Ò"
+										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="ìƒì„¸ì£¼ì†Œ"
 												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
 									</div>
 								</tr>
@@ -753,10 +879,8 @@
 						</table> 
 						
 						<br>
-						<div class="text-center">
-							<button id="modifyBtn" type="button" class="btn btn-primary">¼öÁ¤</button>
-							<button id="retireBtn" type="button" class="btn btn-primary retire">Åğ»ç</button>
-							<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">´İ±â</button>
+						<div id="btnDiv" class="text-center">
+						
 						</div>
 					</div>
 				</div>

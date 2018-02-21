@@ -9,13 +9,14 @@
 		<selectKey keyProperty="categoryNo" resultType="int" statementType="STATEMENT" order="BEFORE">
 			select template_category_seq.nextval from dual
 		</selectKey>
-		insert into TEMPLATE_CATEGORY(category_no,category_name)
-		values(#{categoryNo},#{categoryName})
+		insert into TEMPLATE_CATEGORY(category_no,category_name,category_using)
+		values(#{categoryNo},#{categoryName},1)
 	</insert>
 	
 	<select id="selectTemplateCategoryList" resultType="TemplateCategoryVO" statementType="STATEMENT"> 
 	    select category_no as categoryNo, category_name as categoryName
 		from template_category
+		where category_using = 1
 		order by category_name asc
 	</select>
 	
@@ -23,5 +24,19 @@
 		delete from template_category
 		where category_no=#{categoryNo}
 	</delete>
+	
+	<update id="updateTemplateCategory" parameterType="int" statementType="PREPARED">
+		update template_category
+		set category_using = 0
+		where category_no = #{categoryNo}		
+	</update>
+	
+	<select id="selectCategoryCount" parameterType="int" resultType="int" statementType="PREPARED">
+		select count(t1.tmp_no)
+		from template t1, template_category t2
+		where t1.category_no = t2.category_no
+		and t1.tmp_using = 1
+		and t2.category_no = #{categoryNo}
+	</select>
 	
 </mapper>

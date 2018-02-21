@@ -14,7 +14,7 @@
 			</if>
 			<if test="keyfield == 'cName' and keyword != null">
 			and c_name like '%' || #{keyword} || '%'
-			</if>			
+			</if>	
 		order by 1 asc
 	</select>
 	
@@ -22,9 +22,6 @@
 		select duty||' '||empName as headDept, phoneNumber                  
 		from emplist_view
 		where deptNo = #{cNo}
-			<!-- <if test="keyfield == 'headDept' keyword != null">
-			and empName like '%' || #{empName} || '%'
-			</if> -->
 		    and isadmin = 'T'
 	</select>
 	
@@ -59,5 +56,10 @@
 		where emp_name = #{empName}
 	</update>
 	
+	<select id="selectDeptEmpDetail" parameterType="String" resultType="EmployeeVO">
+		select empNo, empName, duty, hiredate, department
+		from emplist_view
+		where deptno like #{cNo}||'%'
+	</select>
 </mapper>
 	

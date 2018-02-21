@@ -27,9 +27,15 @@ ul.fancytree-container {
 	height: 500px;
 	overflow: auto;
 }
-
+input[name=search] {
+	height: 30px;
+	margin-bottom : 5px;
+}
 input[name=receiverName] {
 	width: 150% !important;
+}
+#btnCloseAll {
+	width : 95px;
 }
 #submitReceiver {
 	margin-left : 90px;
@@ -79,6 +85,7 @@ select[name=apprType] {
 
 </style>
 <script>
+	var isMaintainModal = false;		
 	$(document).ready(function() {
 		myReceiverList(true);
 		
@@ -88,7 +95,6 @@ select[name=apprType] {
 		var selectedDeptNo = "";
 		var receiverLineApprCount = 0;
 		var lazyloadList = [];
-		
 		
 		// fancytree 조직도 검색 
 		$("#tree").fancytree({
@@ -228,19 +234,19 @@ select[name=apprType] {
 		//조직도에서 결재라인 등록 이벤트
 		$('#inputReceiverLine').on('click',function() {
 			if(selectedEmpNo == '') {
-				swal('부적절한  요청입니다');
+				swal('부적절한  요청입니다','','error');
 				return;
 			}
 			
 			if(selectedEmpNo =='${empNo}') {	//자기자신에게 기안X
-				swal('자신을 선택할 수 없습니다');
+				swal('자신을 선택할 수 없습니다','','error');
 				return;
 			}
 			
 			var isExist = false;	//이미 존재하는 결재라인 확인여부
 			$('table[id^=tableDnD] tr').each(function() {
 				if($(this).attr('id') == selectedEmpNo) {
-					swal('이미 존재하는 사원입니다 ');
+					swal('이미 존재하는 사원입니다 ','','error');
 					isExist = true;
 					return;
 				}
@@ -248,10 +254,9 @@ select[name=apprType] {
 			if(isExist) {
 				return;
 			}
-			
 			if($('input[name=apprTypeRadio]:checked').val() == 0) {	//결재
 				if(receiverLineApprCount >=9) {
-					swal("결재자가 너무 많습니다");
+					swal("결재자가 너무 많습니다",'','error');
 					return;
 				}
 				
@@ -281,6 +286,7 @@ select[name=apprType] {
 				text += '<option value="0">결재</option>';
 				text += '<option value="1" selected>참조</option>';
 				text += '</select>';
+				text += '<td></td>';
 				text += '</td>';
 				text += '<td>'+ selectedDepartment + '</td>';
 				text += '<td>' + selectedNameAndDuty  +'</td>';
@@ -290,6 +296,7 @@ select[name=apprType] {
 				$('#tableDnDRef:last-child').append(text);
 			}
 			rankingApprAndRef();
+			isMaintainModal = true;
 		}); //조직도에서 결재라인 등록 이벤트 End
 		
 		
@@ -312,6 +319,7 @@ select[name=apprType] {
 						$(this).remove();
 					}
 					rankingApprAndRef();
+					isMaintainModal = true;
 					return;
 				}
 			});
@@ -333,6 +341,7 @@ select[name=apprType] {
 				} ,
 				success : function(data) {
 					
+					receiverLineApprCount = 0;
 					for(var i=0;i<data.length;i++) {
 						if(data[i].apprType ==0) {
 							var text = "";
@@ -372,8 +381,23 @@ select[name=apprType] {
 						}
 					}
 					
-					 for(var i=receiverLineApprCount+1;i<=9;i++){
+					if(data.length == 0) {	//초기화
 						var text = "";
+						text += '<td></td>';
+						text += '<td></td>';
+						text += '<td></td>';
+						text += '<td></td>';
+						text += '<td></td>';
+						
+						var temp = $('#tableDnDAppr').find('tr')[0];
+						$(temp).html(text);
+						$(temp).attr('class','nodrag nodrop');
+						$(temp).attr('id','');
+					}
+					
+					for(var i=receiverLineApprCount+1;i<=9;i++) {
+						var text = "";
+						text += '<td></td>';
 						text += '<td></td>';
 						text += '<td></td>';
 						text += '<td></td>';
@@ -381,11 +405,16 @@ select[name=apprType] {
 						
 						var temp = $('#tableDnDAppr').find('tr')[i];
 						$(temp).html(text);
-						$(temp).attr('class','nodrag');
+						$(temp).attr('class','nodrag nodrop');
+						$(temp).attr('id','');
 					}  
-					receiverLineApprCount++;
+					
+					if(receiverLineApprCount >0) {	//초기화는 카운트 늘리면안되므로 if문
+						receiverLineApprCount++;
+					}
 					rankingApprAndRef();
 					doTableDnD();
+					isMaintainModal = false;
 					
 				} ,
 				error : function(jqXHR) {
@@ -414,6 +443,7 @@ select[name=apprType] {
 				$(this).closest('tr').remove();
 			}
 			rankingApprAndRef();
+			isMaintainModal = true;
 			
 		});
 		
@@ -517,8 +547,8 @@ select[name=apprType] {
 				
 				var temp = $(this).closest('tr');
 				$($('#tableDnDAppr').find('tr')[receiverLineApprCount]).html(temp.html())
-				.attr('class','')
-				.find('select').val('0').prop('selected',true).not('tr:first');
+				.attr('class','').attr('id',temp.attr('id'))
+				.find('select').val('0').prop('selected',true);
 				temp.remove();
 				receiverLineApprCount++;
 				rankingApprAndRef();
@@ -530,7 +560,7 @@ select[name=apprType] {
 				
 				
 				$('#tableDnDRef:last-child').append(temp)
-				.find('select').val('1').prop('selected',true).not('tr:first');
+				.find('select').val('1').prop('selected',true);
 				$('#tableDnDRef').find('tr').css('cursor','auto');				
 				receiverLineApprCount--;
 				
@@ -543,6 +573,7 @@ select[name=apprType] {
 				$('#tableDnDAppr').append(text); 
 				rankingApprAndRef();
 			}
+			isMaintainModal = true;
 		});
  
 		
@@ -553,6 +584,7 @@ select[name=apprType] {
 					onDragClass: "dragRow" ,
 					onDrop : function() {
 						rankingApprAndRef();
+						isMaintainModal = true;
 					}
 					
 			});
@@ -629,22 +661,22 @@ select[name=apprType] {
 					} ,
 					success : function(data) {
 						swal("등록 성공","새로운 결재선이 등록되었습니다","success");
-						myReceiverList(true);								
+						myReceiverList(true,data);
+						isMaintainModal = false;
 					} ,
 					error : function(jqXHR) {
 						alert(jqXHR.status);
 						console.log(jqXHR);
 					}
 			}); 
-			
 		});
 	
 		
 	}); //document ready End
 	
 	//결재선 이름 조회 함수 
-	//modal팝업창 닫을때도 사용하므로 파라미터로 모달페이지면 true, 아니면 receiverNo를 받아옴
-	function myReceiverList(isModalPage) {
+	//modal팝업창 닫을때도 사용하므로 파라미터로 모달페이지면 true, 두번째로 receiverNo
+	function myReceiverList(isModalPage, receiverNo) {
 
 		$.ajax({
 			url : '${pageContext.request.contextPath}/myReceiverList.do',
@@ -660,9 +692,12 @@ select[name=apprType] {
 				}
 				if(isModalPage === true) {
 					$('select[name=receiverNo2]').html(text);
+					if(receiverNo) {
+						$('select[name=receiverNo2]').val(receiverNo);
+					}
 				} else {	//모달창 닫기 클릭시
 					$('select[name=receiverNo]').html(text);
-					$('select[name=receiverNo]').val(isModalPage);
+					$('select[name=receiverNo]').val(receiverNo);
 					
 				}
 			},
@@ -702,10 +737,10 @@ select[name=apprType] {
 			<div class="col-sm-2 " id='apprTypeDiv'>
 				<div class="btns">
 					<h2>
-						<input type="radio" value="0" name="apprTypeRadio" checked="checked">결재
+						<label><input type="radio" value="0" name="apprTypeRadio" checked="checked">결재</label>
 					</h2>
 				<h2>
-						<input type="radio" value="1" name="apprTypeRadio">참조
+						<label><input type="radio" value="1" name="apprTypeRadio">참조</label>
 					</h2>
 					<br>
 					<div>

@@ -1,7 +1,9 @@
 package com.bit.groupware.controller.employee;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -33,11 +35,21 @@ public class AdminModifyEmployeeController {
 	public String modifyController(EmployeeVO employee,
 			 @RequestParam(value="deptCode", required=false)String deptCode,
 			 @RequestParam(value="dutyCode", required=false)String dutyCode,
+			 @RequestParam(value="oldDept", required=false)String oldDept,
+			 @RequestParam(value="oldDuty", required=false)String oldDuty,
 			 					HttpSession session) throws Exception {
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("oldDept", oldDept);
+		map.put("oldDuty", oldDuty);
 		List<EmployeeCodeVO> codeList = new ArrayList<EmployeeCodeVO>();
+		//boolean isChange = false;
+		
 		codeList.add(new EmployeeCodeVO(deptCode));
 		codeList.add(new EmployeeCodeVO(dutyCode));
+		
+	//	map.put("isChange", isChange);
 		logger.info("codeList : {}", codeList);
 		employee.setCodeList(codeList);
 		
@@ -57,35 +69,56 @@ public class AdminModifyEmployeeController {
 		} else {
 			employee.setRetireStatus("0");	
 		}
-		employeeService.modifyEmployeeAdmin(employee);
+		map.put("employee", employee);
+		employeeService.modifyEmployeeAdmin(map);
 		return "redirect:/admin/listEmployee.do";
 	}
+	
 	/*
-	@RequestMapping(value="/admin/modifyEmployee.do", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/modifyAjaxEmployee.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String modifyController(EmployeeVO employee,
 			 @RequestParam(value="deptCode", required=false)String deptCode,
 			 @RequestParam(value="dutyCode", required=false)String dutyCode,
+			 @RequestParam(value="oldDept", required=false)String oldDept,
+			 @RequestParam(value="oldDuty", required=false)String oldDuty,
 			 					HttpSession session) throws Exception {
-
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("oldDept", oldDept);
+		map.put("oldDuty", oldDuty);
 		List<EmployeeCodeVO> codeList = new ArrayList<EmployeeCodeVO>();
+		//boolean isChange = false;
+		
 		codeList.add(new EmployeeCodeVO(deptCode));
 		codeList.add(new EmployeeCodeVO(dutyCode));
+		
+	//	map.put("isChange", isChange);
 		logger.info("codeList : {}", codeList);
 		employee.setCodeList(codeList);
 
+		
 		List<MultipartFile> uploadPhotos = employee.getUpload();
-		for(MultipartFile file : uploadPhotos) {
-			if(!file.isEmpty()) {
-				ServletContext context = session.getServletContext();
-				
-				PhotoVO photo = UploadPhotos.uploadFile(file, context);
-				logger.info("photo : {}", photo);
-				employee.addPhoto(photo);
+		if(uploadPhotos != null) {
+			for(MultipartFile file : uploadPhotos) {
+				if(!file.isEmpty()) {
+					ServletContext context = session.getServletContext();
+					
+					PhotoVO photo = UploadPhotos.uploadFile(file, context);
+					logger.info("photo : {}", photo);
+					employee.addPhoto(photo);
+				}
 			}
 		}
-
-		employeeService.modifyEmployeeAdmin(employee);
-		return "data";
+		logger.info("employee : {}", employee);
+		if(employee.getRetireStatus().equals("ÀçÁ÷")) {
+			employee.setRetireStatus("1");
+		} else {
+			employee.setRetireStatus("0");	
+		}
+		map.put("employee", employee);
+		employeeService.modifyEmployeeAdmin(map);
+		return "yes";
 	}*/
 }

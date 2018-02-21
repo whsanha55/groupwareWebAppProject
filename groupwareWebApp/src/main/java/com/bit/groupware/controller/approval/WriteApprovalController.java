@@ -6,16 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.approval.ApprovalVO;
 import com.bit.groupware.domain.authority.UserVO;
 import com.bit.groupware.service.approval.ApprovalService;
+import com.bit.groupware.service.approval.ReceiverLineService;
 import com.bit.groupware.service.approval.ReceiverService;
 import com.bit.groupware.service.approval.TemplateCategoryService;
 import com.bit.groupware.service.approval.TemplateService;
@@ -33,6 +34,8 @@ public class WriteApprovalController {
 	private ReceiverService receiverService;
 	@Autowired
 	private ApprovalService approvalService;
+	@Autowired
+	private ReceiverLineService receiverLineService;
 
 	// 문서 작성 - 양식 고르기
 	// public ModelAndView category(@AuthenticationPrincipal UserDetailsCustom udc)
@@ -82,6 +85,18 @@ public class WriteApprovalController {
 		mv.addObject("empNo", principal.getName());
 		mv.setViewName("receiverModal");
 		return mv;
+	}
+	
+	//퇴사자 체크
+	@RequestMapping("/retireCheck.do")
+	@ResponseBody
+	public boolean checkRetire(@RequestParam(value="receiverNo") int receiverNo) {
+		int no=receiverLineService.retreiveRetire(receiverNo);
+		if(no>0) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 
 	

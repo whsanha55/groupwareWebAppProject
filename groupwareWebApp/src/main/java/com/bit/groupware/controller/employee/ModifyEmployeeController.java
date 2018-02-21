@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,8 @@ public class ModifyEmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@RequestMapping(value="/modifyEmployee.do", method=RequestMethod.GET)
 	public ModelAndView detailEmployee()  {
@@ -33,6 +36,9 @@ public class ModifyEmployeeController {
 	
 	@RequestMapping(value="/modifyEmployee.do", method=RequestMethod.POST)
 	public String modifyEmployee(EmployeeVO employee) {
+		if(employee.getEmpPwd() != null) {
+			employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
+		}
 		employeeService.modifyEmployee(employee);
 		return "redirect:/detailEmployee.do";
 	}

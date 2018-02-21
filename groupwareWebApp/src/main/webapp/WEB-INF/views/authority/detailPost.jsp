@@ -10,11 +10,61 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 $(document).ready(function() {
-			
+		$('#deletePost').click(function(){			
+			var postNo = "${requestScope.post.postNo }";
+			var empName = '${param.empName}';
+			var boardNo = '${param.boardNo}';
+			var boardName = '${param.boardName}';
+			var fileCount = '${param.fileCount}';
+			var isComment = '${param.isComment}';
+			var department = '${param.department}';
+	    
+		swal({
+			  title: "게시글 삭제",
+			  text: "게시글을 삭제합니다. 계속 진행하시겠습니까?",
+			  icon: "info",
+			  buttons : true 
+		}).then((e) => {
+		     if(e) {
+				$.ajax({
+					url: '${pageContext.request.contextPath}/removePost.do'
+					,
+					method: 'GET'
+					,
+					data: {
+						postNo : postNo,
+						empName : empName,
+						boardNo: boardNo,
+						boardName : boardName,
+						fileCount: fileCount,
+						isComment : isComment,
+						department : department
+					}, 
+					success: function(data) {
+						
+						swal("삭제 완료", "선택하신 항목이 삭제되었습니다.", "success");
+						location.href='${pageContext.request.contextPath}/postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment}&department=${param.department} ';
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);
+					}	 			
+					
+				});	
+								
+			 }
+		     
+		});	
+	
+	});
+	
+	
+	
+	
 			listCmt();
 				// ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
 				$('#btnReply').on('click', function() {
-					
+				
 					if($($('textarea[name=cmtContent]')).val() == "" ){
 						swal("내용을 입력하세요.");
 						$('#cmtContent').focus();
@@ -32,7 +82,7 @@ $(document).ready(function() {
 								empName: empName 
 							},
 							success : function() {
-								swal("댓글이 등록되었습니다.");								
+								swal("댓글이 등록되었습니다.");
 								listCmt();
 								$("#cmtContent").val('');
 								
@@ -95,19 +145,21 @@ $(document).ready(function() {
 			// 수정
 		      $('#datatable').on('click','button:contains(수정)', function () {
 		         var cmtContent = $(this).parents("tr").find('.cmtContent').text();
-		          $(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent'/>");   
-		          $(this).parents("tr").find('.cmtContent').find(':text[name=cmtContent]').val(cmtContent);
+		          //$(this).parents("tr").find('.cmtContent').html("<input type='text' name='cmtContent'/>");
+		          $(this).parents("tr").find('.cmtContent').html("<textarea style='resize: none; width: 500px; height: 54px; margin-bottom:10px;' name='cmtContent' ></textarea> ");
+	
+		          $(this).parents("tr").find('.cmtContent').find('textarea[name=cmtContent]').val(cmtContent);
 		          
-		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-modify btn-xs' >완료</button><button type='button' class='btn btn-modify btn-xs' >취소</button></td>");
+		          $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary btn-xs' >완료</button><button type='button' class='btn btn-primary btn-xs' >취소</button></td>");
 		          $('button:contains(수정)').prop("disabled", true);
-		         
+	
 		      });
 		      
 		      //수정 완료
 		       $('#datatable').on('click','button:contains(완료)', function () {
 		          
 		          var cmtNo = $(this).parents("tr").find('.cmtNo').text();      
-		          var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();	            
+		          var cmtContent = $(this).parents("tr").find('textarea[name=cmtContent]').val();	            
 		          
 		          var content = $(this).parents("tr").find('.cmtContent');
 		          var selectBtn = $(this).parents("tr").find('.selectBtn');
@@ -139,7 +191,7 @@ $(document).ready(function() {
 		                        success : function(data, textStatus, jqXHR){   		                           
 		                              swal("수정 완료!","");
 		                              $(content).html(data.cmt.cmtContent);		                             
-		                              $(selectBtn).html("<button type='button' class='btn btn-modify btn-xs' >수정</button><button type='button'  value='"+data.cmt.cmtNo  +"' id='deleteBtn' class='btn btn-modify btn-xs' >삭제</button>");
+		                              $(selectBtn).html("<button type='button' class='btn btn-primary btn-xs' >수정</button><button type='button'  value='"+data.cmt.cmtNo  +"' id='deleteBtn' class='btn btn-primary btn-xs' >삭제</button>");
 		                          	  listCmt();	
 		                        }
 		                        ,
@@ -157,11 +209,11 @@ $(document).ready(function() {
 		      
 		     //수정 취소
 		       $('#datatable').on('click','button:contains(취소)', function () { 
-		          var cmtContent = $(this).parents("tr").find('input[name=cmtContent]').val();		           
+		          var cmtContent = $(this).parents("tr").find('textarea[name=cmtContent]').val();		           
 		          var cmtNo = $(this).parents("tr").find('.cmtNo').text();     
 		         $(this).parents("tr").find('.cmtContent').html(cmtContent);		        
 		         
-		         $(this).parents("tr").find('.selectBtn').html("<button type='button' class='btn btn-modify btn-xs' >수정</button><button type='button'  value='"+cmtNo  +"' id='deleteBtn' class='btn btn-modify btn-xs' >삭제</button>");
+		         $(this).parents("tr").find('.selectBtn').html("<button type='button' class='btn btn-primary btn-xs' >수정</button><button type='button'  value='"+cmtNo  +"' id='deleteBtn' class='btn btn-primary btn-xs' >삭제</button>");
 		          $('button:contains(수정)').prop("disabled", false);
 		       });  
 			
@@ -183,18 +235,18 @@ $(document).ready(function() {
 				var text = "";  
 				 for(var i=0;i<data.posts.length;i++) {
 						text += "<tr style='border-top: 1px  solid darkgray;'><td style='width:50px;'>"+data.posts[i].cmtWriter+"</td>";
-						text += "<td style='width:200px;'>("+data.posts[i].cmtDate+ ")</td>";
+						text += "<td style='width:500px;'>("+data.posts[i].cmtDate+ ")</td>";
 						text += "<td></td>";
 				
 						text += "<tr><td class='cmtNo' style='display:none;'>"+ data.posts[i].cmtNo + "</td>";
-						text += "<td colspan='2' class='cmtContent'>"+ data.posts[i].cmtContent + "</td>";
+						text += "<td style='height:64px;' colspan='2' class='cmtContent' >"+ data.posts[i].cmtContent + "</td>";
 						if(data.posts[i].cmtWriter == empName) {
-							text += "<td class='selectBtn'><button type='button' class='btn btn-modify btn-xs' >수정</button>";
-							text +="<button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-modify btn-xs' >삭제</button></td></tr>";
-							} else {
-			                     text += "<td tyle='border-bottom: 1px  solid darkgray;'></td>";
-			                }    
-					
+							text += "<td class='selectBtn'><button type='button' class='btn btn-primary btn-xs' >수정</button>";
+							text +="<button type='button'  value='"+data.posts[i].cmtNo  +"' id='deleteBtn' class='btn btn-primary btn-xs' >삭제</button></td></tr>";
+						}else {
+							text += "<td tyle='border-bottom: 1px  solid darkgray;'></td>";
+						}        
+			
 						text += "</tr>";
 					} 
 					$('#datatable').find('tbody').html(text);
@@ -209,25 +261,7 @@ $(document).ready(function() {
 
 	}
 </script>
-<style>
-.btn-modify{
-    background-color: white;
-    border-color: white;
-    color: #2196F3; }
-.btn-modify:hover,
-.btn-modify:focus {
-    border-color: white;
-    background-color: white;
-    color: balck; }
-.btn-modify:active,
-.btn-modify:visited,
-.btn-modify:active:focus,
-.btn-modify:active:hover {
-    border-color: white;
-    background-color: white;
-    color: balck; }
 
-</style>
 </head>
 <body>
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -242,21 +276,16 @@ $(document).ready(function() {
 							<c:param name="empName" value="${param.empName }" />
 							<c:param name="fileCount" value="${param.fileCount }" />
 							<c:param name="isComment" value="${param.isComment }" />
+							<c:param name="department" value="${param.department}" />
 						</c:url>
-						<c:url var="removeUrl" value="/removePost.do" scope="page">
-							<c:param name="postNo" value="${requestScope.post.postNo }" />
-							<c:param name="boardNo" value="${param.boardNo }" />
-							<c:param name="boardName" value="${param.boardName }" />
-							<c:param name="empName" value="${param.empName }" />
-							<c:param name="fileCount" value="${param.fileCount }" />
-							<c:param name="isComment" value="${param.isComment }" />						
-						</c:url>
+						
+
 					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
 					<c:if test="${requestScope.post.writer == param.empName}">
 						<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
-						<a class="btn btn-danger" href="${removeUrl}">삭제</a>
+						<button type="button"  id="deletePost" class="btn btn-danger pull-right" >삭제</button>
 					</c:if> 
-					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment} "/>'>목록</a>
+					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment}&department=${param.department} "/>'>목록</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -306,8 +335,8 @@ $(document).ready(function() {
 			<div class="form-group">
             <label class="control-label col-md-1 col-md-2 col-xs-1">${param.empName}</label>
             <div class="col-md-6 col-sm-9 col-xs-12">
-               <textarea id="cmtContent" name="cmtContent" class="resizable_textarea form-control"
-                  placeholder="댓글을 작성해주세요"></textarea>
+               <textarea style="resize: none; " id="cmtContent" name="cmtContent" class="resizable_textarea form-control"
+                  placeholder="댓글을 작성해주세요"></textarea> 
             </div>    
             <div class="col-md-2" style="position: relative; left: 10px; top: 25px;">
              <button type="button" id="btnReply" class="btn btn-primary btn-sm" >댓글 작성</button>   

@@ -24,7 +24,7 @@
 						</div>
 						<div class="col-md-6"></div>
 					</div>
-					<table id="datatable" class="table table-striped table-bordered" style="font-size:16px;">
+					<table id="datatable" class="table table-striped table-bordered" style="font-size:14px;">
 						<tbody>
 							<tr>
 								<th>일정구분</th>
@@ -100,7 +100,7 @@
 												
 											centerMarker.setMap(map);
 											
-											var iwContent = '<div style="padding:5px;text-align:center;color:red"><a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" target="_blank">${requestScope.plan.destination}</a></div></div>',
+											var iwContent = '<div style="width:150px;height:30px;padding:5px;text-align:center;color:red"><a href="http://map.daum.net/link/to/목적지,${requestScope.plan.latitude},${requestScope.plan.longitude}" target="_blank">${requestScope.plan.destination}</a></div></div>',
 
 												iwRemoveable = true;
 												

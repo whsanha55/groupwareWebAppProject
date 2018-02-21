@@ -123,7 +123,8 @@
 		
 		<if test="linempNo != null and apprStatus == 6">
 			and line.line_emp_no = #{linempNo}
-			and line.appr_type = 1
+			and line.appr_type = 1 
+			and appr.appr_final_status in ('C-01-00','C-01-01','C-01-03','C-01-02') 
 		</if>
 		
 		
@@ -226,6 +227,9 @@
 		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo} 
 		</if>
+		<if test="apprFinalStatus == 10">
+		and appr.appr_final_status != 'C-01-04'
+		</if>
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>		  
@@ -275,6 +279,9 @@
 		<if test="empNo != 'admin'">
 		and ((line.line_emp_no=#{empNo} and line.appr_type=0) or rec.dep_emp_no=#{empNo})
 		</if> 
+		<if test="apprFinalStatus == 10">
+		and appr.appr_final_status != 'C-01-04'
+		</if>		
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>
@@ -553,6 +560,9 @@
 		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo} 
 		</if>
+		<if test="apprFinalStatus == 10">
+		and appr.appr_final_status != 'C-01-04'
+		</if>		
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>		  
@@ -601,7 +611,10 @@
 		and rec.line_no=line.line_no
 		<if test="empNo != 'admin'">
 		and ((line.line_emp_no=#{empNo} and line.appr_type=0) or rec.dep_emp_no=#{empNo})
-		</if> 
+		</if>
+		<if test="apprFinalStatus == 10">
+		and appr.appr_final_status != 'C-01-04'
+		</if>		 
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>
@@ -736,12 +749,31 @@
              		 r2.record_no, r2.appr_no, r2.appr_status,
              		 r3.comment_no, r3.comment_content, r3.comment_date ,
              		 r4.signname, r4.systemsignname ,
-             		 r4.empname as dep_emp_name , r4.department as dep_department,
-                     r4.duty as dep_duty, r4.signname as dep_signName,
-                     r4.systemsignname as dep_systemSignName
-              from receiver_line r1, approval_record r2, approval_comment r3, emplist_view r4
+             		 r4.empname as dep_emp_name , 
+                     case when r4.emp_history  =0 then r4.department
+              		      when (select count(t6.no)
+                                from code_history t6
+                                where r5.appr_date between t6.start_date and t6.end_date) = 0 then r4.department
+                          else (select c_name
+                                from code_history t6, code t7
+                   		        where r4.empno = t6.emp_no
+                   	            and t6.dept_no = t7.c_no)
+                    end as dep_department,
+	                case when r4.emp_history  =0 then r4.duty
+	                     when (select count(t6.no)
+	                           from code_history t6
+	                           where r5.appr_date between t6.start_date and t6.end_date) = 0 then r4.duty
+	                     else (select c_name
+	                           from code_history t6, code t7
+	                           where r4.empno = t6.emp_no
+	                           and t6.dept_no = t7.c_no)
+	                end as dep_duty,
+                    r4.signname as dep_signName,
+                    r4.systemsignname as dep_systemSignName
+              from receiver_line r1, approval_record r2, approval_comment r3, emplist_view r4, approval r5
               where r1.line_no = r2.line_no
               and r2.record_no = r3.record_no(+) 
+              and r2.appr_no = r5.appr_no
              <!--  and r2.confirm_date is not null -->
               and r4.empno = case when r2.dep_emp_no is null then r1.line_emp_no
                              else r2.dep_emp_no

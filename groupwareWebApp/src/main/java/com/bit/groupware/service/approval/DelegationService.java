@@ -14,4 +14,8 @@ public interface DelegationService {
 	List<DelegationVO> retrieveDelegations(Map<String,Object> map);
 	
 	int retrieveDelegationsCount(Map<String,Object> map);
+	
+	int retreiveDelegationIsTmpExist(int tmpNo);
+	
+	void modifyDelegationDelete(int deleNo);
 }

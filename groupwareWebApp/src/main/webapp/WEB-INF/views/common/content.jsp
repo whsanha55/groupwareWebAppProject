@@ -259,11 +259,11 @@ $(document).ready(function(){
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a><img alt="승인문서함" src="${pageContext.request.contextPath}/resources/images/icon6.png"></a>
+						<img alt="승인문서함" src="${pageContext.request.contextPath}/resources/images/icon6.png">
 					</dt>
 					<dd>
 						<h2 class="text-center">
-							<a><strong>승인문서함</strong></a>
+							<strong>승인문서함</strong>
 						</h2>
 					</dd>
 				</dl>

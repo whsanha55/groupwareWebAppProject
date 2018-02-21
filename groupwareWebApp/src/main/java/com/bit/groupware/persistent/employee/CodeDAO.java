@@ -52,7 +52,11 @@ public interface CodeDAO {
 	//코드 변경 이력 조회하기 (관리자)
 	List<CodeHistoryVO> selectCodeHistoryListByAdmin(Map<String,Object> map);
 	
+	void deleteHistory(int no);
+	
 	//페이징 처리
 	int selectCodeCount(Map<String, Object> map);
+	
+	int selectCodeHistoryListByAdminCount(Map<String, Object> map);
 
 }

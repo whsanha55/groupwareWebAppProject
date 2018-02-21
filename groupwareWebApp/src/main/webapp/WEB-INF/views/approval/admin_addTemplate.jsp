@@ -188,7 +188,7 @@
 							htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
 							$(htmlStr).appendTo('#category');
 							$(htmlStr).appendTo('#modalCategory');
-							htmlStr = "";
+							htmlStr = "";					
 						}
 						
 						swal({
@@ -217,7 +217,7 @@
 			var categoryNo = $('#modalCategory').val();
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/admin/removeCategory.do'	//양식 입력 데이터 끌고
+				url: '${pageContext.request.contextPath}/admin/countCategory.do'	
 				,
 				method: 'GET'
 				,
@@ -227,30 +227,52 @@
 				dataType: 'json'
 				,
 				success: function(data) {
-					if(data.length != 0) {
+					if(data == 0) {
 						
-						$('#category').empty();
-						$('#modalCategory').empty();
-						var htmlStr = "";
-						for(var i=0; i<data.length; i++) {
-							htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
-							$(htmlStr).appendTo('#category');
-							$(htmlStr).appendTo('#modalCategory');
-							htmlStr = "";
-						}
+						$.ajax({
+							url: '${pageContext.request.contextPath}/admin/removeCategory.do'	
+							,
+							method: 'GET'
+							,
+							data: {
+								categoryNo: categoryNo
+							},
+							dataType: 'json'
+							,
+							success: function(data) {
+								if(data.length != 0) {
+									
+									$('#category').empty();
+									$('#modalCategory').empty();
+									var htmlStr = "";
+									for(var i=0; i<data.length; i++) {
+										htmlStr += '<option value="' + data[i].categoryNo + '">' + data[i].categoryName + '</option>';
+										$(htmlStr).appendTo('#category');
+										$(htmlStr).appendTo('#modalCategory');
+										htmlStr = "";
+									}
+									
+									swal({
+										  title: "삭제 완료",
+										  text: "양식 구분을 미사용 처리하였습니다.",
+										  icon: "success",
+										  confirmButton: true,
+										  showCancelButton: false
+										}).then((e) => {
+											if(e) {
+												$('.closeBtnModal2').trigger('click');									
+											}	
+									});	
+								}//end of if
+							},
+							error: function(jqXHR, textStatus, error) {
+								alert("Error : " + jqXHR.status + "," + error);
+							}
+						});
 						
-						swal({
-							  title: "삭제 완료",
-							  text: "양식 구분 삭제가 등록되었습니다.",
-							  icon: "success",
-							  confirmButton: true,
-							  showCancelButton: false
-							}).then((e) => {
-								if(e) {
-									$('.closeBtnModal2').trigger('click');									
-								}	
-						});	
-					}//end of if
+					} else {
+						swal("'사용중'인 양식이 있습니다.","해당 카테고리의 양식들을 모두 '미사용'으로 변경한 후 다시 시도해주세요.", "error");
+					}
 				},
 				error: function(jqXHR, textStatus, error) {
 					alert("Error : " + jqXHR.status + "," + error);

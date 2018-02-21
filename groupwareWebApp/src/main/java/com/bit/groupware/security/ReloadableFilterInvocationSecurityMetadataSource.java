@@ -32,7 +32,7 @@ public class ReloadableFilterInvocationSecurityMetadataSource implements FilterI
 		this.requestMap = requestMap;
 	}
 
-	// HttpServletRequest 객체와 Ant 패턴으로 맞는 것을 찾아서 그에 따른 궎한 목록을 반환한다.
+	// HttpServletRequest 객체와 Ant 패턴으로 맞는 것을 찾아서 그에 따른 권한 목록을 반환한다.
 	public Collection<ConfigAttribute> getAttributes(Object paramObject) throws IllegalArgumentException {
 		HttpServletRequest request = ((FilterInvocation) paramObject).getRequest();
 		Collection<ConfigAttribute> result = null;
@@ -41,6 +41,8 @@ public class ReloadableFilterInvocationSecurityMetadataSource implements FilterI
 		for (Entry<RequestMatcher, Collection<ConfigAttribute>> entry : entries) {
 			if (entry.getKey().matches(request)) {
 				result = entry.getValue();
+				System.out.println("============================================ request : " + entry.getKey());
+				System.out.println("============================================ result : " + result);
 				break; // 중요
 			}
 		}
@@ -62,33 +64,33 @@ public class ReloadableFilterInvocationSecurityMetadataSource implements FilterI
 
 	// DB에서 다시 requestMap을 만들어서 셋팅한다.
 	public void reload() throws Exception {
-		System.out.println("========================================================reload");
+		
 		LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap = securedObjectService.getRolesAndURL();
 
-		/*
-		 * Iterator<Entry<RequestMatcher, List<ConfigAttribute>>> iterator =
-		 * requestMap.entrySet().iterator();
-		 * 
-		 * requestMap.clear();
-		 * 
-		 * while (iterator.hasNext()) { Entry<RequestMatcher, List<ConfigAttribute>>
-		 * entry = iterator.next(); requestMap.put(entry.getKey(), entry.getValue()); }
-		 */
+		Iterator<Entry<RequestMatcher, List<ConfigAttribute>>> iterator = requestMap.entrySet().iterator();
 
 		requestMap.clear();
 
-		Set<Map.Entry<RequestMatcher, List<ConfigAttribute>>> iterator = requestMap.entrySet();
-
-		Collection  c = Collections.synchronizedCollection(iterator);
-
-		synchronized (c) {
-			Iterator i = c.iterator();
-			while (i.hasNext()) {
-				Entry<RequestMatcher, List<ConfigAttribute>> entry = (Entry<RequestMatcher, List<ConfigAttribute>>)i.next();
-				requestMap.put(entry.getKey(), entry.getValue());
-			}
-
+		while (iterator.hasNext()) {
+			Entry<RequestMatcher, List<ConfigAttribute>> entry = iterator.next();
+			requestMap.put(entry.getKey(), entry.getValue());
 		}
+
+		/*
+		 * requestMap.clear();
+		 * 
+		 * Set<Map.Entry<RequestMatcher, List<ConfigAttribute>>> iterator =
+		 * requestMap.entrySet();
+		 * 
+		 * Collection c = Collections.synchronizedCollection(iterator);
+		 * 
+		 * synchronized (c) { Iterator i = c.iterator(); while (i.hasNext()) {
+		 * Entry<RequestMatcher, List<ConfigAttribute>> entry = (Entry<RequestMatcher,
+		 * List<ConfigAttribute>>)i.next(); requestMap.put(entry.getKey(),
+		 * entry.getValue()); }
+		 * 
+		 * }
+		 */
 
 	}
 

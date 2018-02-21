@@ -37,6 +37,11 @@ public class ReceiverLineDAOImpl implements ReceiverLineDAO{
 	public List<ReceiverLineVO> selectReceiverLineByApprNo(int apprNo) {
 		return sqlSession.selectList(NAMESPACE+".selectReceiverLineByApprNo",apprNo); 
 	}
+	
+	public int selectRetire(int receiverNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".selectRetire",receiverNo); 
+	}
 
 	
 }

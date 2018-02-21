@@ -35,7 +35,7 @@
       // 검색 실행
       $('.find').on('click', function() {
          if($('.keyfield').attr('id') == null) {
-            swal("검색조건를 선택해주세요","", "error");
+            swal("검색조건을 선택해주세요","", "error");
             return;
          }
 
@@ -81,6 +81,8 @@
           
           var a = $(this).parents("tr").find('input[name=rName]');
           
+          var temp = $(this).parents("tr");
+          
          swal({
               title: "역할을 수정하시겠습니까?",
               icon: "info",
@@ -109,11 +111,11 @@
                         success : function(data, textStatus, jqXHR){   
                            if(data.isSuccess == "true"){
                               swal("수정 완료!","");
-                              $(name).html(data.role.rName);
+                              $(name).html(data.role.rName);    
                               $(type).html(data.role.rType);
                               $(explan).html(data.role.rExplan);
                               $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
-                              Paging(1);   
+                              $('button:contains(수정)').prop("disabled", false);
                            }else if(data.isFail == "false"){
                               swal("이미 역할이 존재합니다.");
                            } 
@@ -150,6 +152,13 @@
          if($("input[name=selected]").is(':checked') == false) {
             swal("삭제할 항목을 체크해주세요.", "선택된 항목이 없습니다.");
          } else {
+        	 $(':checkbox[name=selected]').each(function() {
+					if($(this).is(':checked')) {
+						arr.push($(this).val());
+						console.log(arr.join());
+					}
+				});
+        	 
             $(':checkbox[name=selected]').each(function() {
                if($(this).is(':checked')) {
                   arr.push($(this).val());
@@ -189,6 +198,15 @@
             
          }
       });   
+      
+      $(':checkbox[name=all]').on('change', function() {		
+  		if($(this).prop('checked'))  {
+  			console.log($(this).val());
+				$(':checkbox[name=selected]').prop('checked', true)
+			} else {
+				$(':checkbox[name=selected]').prop('checked', false)
+			}
+  		});
       
    });
    
@@ -306,6 +324,9 @@
    }
    
 </script>
+<style>
+	.page-link{cursor:pointer !important;}
+</style>
 <title>content</title>
 </head>
 <body>
@@ -314,7 +335,8 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>역할 리스트</h2>
-                    
+                    <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
+                  <button type="button"  id="deleteBtn" class="btn btn-default pull-right">삭제</button>
                     <div class="clearfix"></div>
                   </div>
      
@@ -323,7 +345,7 @@
                  <div class="col-xs-6 col-xs-offset-6">
                    <div class="input-group">
                          <div class="input-group-btn search-panel">
-                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
                                 <span class="keyfield">검색조건</span> <span class="caret"></span>
                              </button>
                              <ul class="dropdown-menu" role="menu">
@@ -333,7 +355,7 @@
                          </div>
                          <input type="text" class="form-control keyword" placeholder="검색어를 입력하세요">
                          <span class="input-group-btn">
-                             <button class="btn btn-default find" type="button">
+                             <button class="btn btn-default find" type="button" style="margin-left:3px; height:34px;">
                                 <span class="glyphicon glyphicon-search"></span>
                              </button>
                          </span>
@@ -348,7 +370,7 @@
                         <thead>
                           <tr class="headings">
                             <th>
-                              <input type="checkbox" id="ex_chk"> 
+                           		 <input type='checkbox' name='all'>
                             </th>
                             <th class="column-title">롤 ID </th>
                             <th class="column-title">롤 명 </th>
@@ -369,8 +391,7 @@
                  <div class="text-center">
                   <nav aria-label="Page navigation" id = 'Paging'></nav> 
                 </div>
-                 <a class="btn btn-primary pull-right" href='<c:url value="/admin/role.do"/>'>등록</a>   
-                  <button type="button"  id="deleteBtn" class="btn btn-danger pull-right">삭제</button>
+                 
                </div>
                   
                   </div>

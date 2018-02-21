@@ -8,6 +8,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>부서목록</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+	#modalBtn , .click {
+		cursor: pointer;
+	}
+</style>
 	<script>
 		var eKeyfield;				
 		var eKeyword;
@@ -30,12 +36,9 @@
 			
 			$('#findDept').on('click', function() {
 				if($('.keyfield').attr('id') == undefined) {
-					alert("choose keyfield");
+					swal("검색조건을 선택해주세요.","", "error");
 					return false;
-				} else if($('#keyword').val() == "") {
-					alert("enter keyword");
-					return false;
-				}
+				} 
 			
 				eKeyfield = $('.keyfield').attr('id');
 				eKeyword = $('#keyword').val();
@@ -50,7 +53,7 @@
 			$('#modalCloseBtn').on('click',function() {
 				$('#chartBody').html(""); 
 			});
-				
+										
 		});
 		
 		function employeePaging() {
@@ -81,14 +84,14 @@
 						for(var i=0;i<data.departments.length;i++) {
 							text += '<tr>';
 							text += '<td id="check'+ i +'">'+ data.departments[i].cNo		 									 			+'</td>';
-							text += '<td>'+ data.departments[i].cName	 	 											+'</td>';
-							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" data-toggle="modal">'+ data.departments[i].headDept 	+'</td>';
+							text += '<td><a id="modalBtn" data-toggle="modal" data-target="#myModal">'+ data.departments[i].cName	 	 					+'</a></td>';
+							text += '<td id="head'+ i +'"><a id="searchEmp'+ i +'" class="click" data-toggle="modal">'+ data.departments[i].headDept 	+'</a></td>';
 							text += '<td>'+ data.departments[i].phoneNumber												+'</td>';
 							text += '<td>'+ data.departments[i].memberCount 											+'</td>';
 							text += '<td>'+ data.departments[i].teamCount 												+'</td>';
 							text += '</tr>';
 							
-							$('tbody').on('click','#searchEmp' + i, function() {
+							$('#tbody1').on('click','#searchEmp' + i, function() {
 								$('#chartBody').load('${pageContext.request.contextPath}/organizationChart.do');
 								$('#layerpop').modal({
 									backdrop: 'static', 
@@ -97,7 +100,8 @@
 								oldHead = $(this).text().split(" ")[1];
 								checkCno = $(this).parent().parent().find('td:nth-child(1)').text();
 							});
-						}	
+						}
+						
 						$('#modalChooseBtn').on('click',function() {
 							checkChooseCno = selectedDeptNo;
 
@@ -122,8 +126,43 @@
 								}
 							});
 						});
+						
+						$('#tbody1').on('click','#modalBtn',function() {
+					
+							$.ajax ({
+								url: '${pageContext.request.contextPath}/admin/deptMemberListAjax.do'
+									,
+								data: {
+									cNo : $(this).parent().parent().find('td:nth-child(1)').text()
+								}
+								,
+								type: 'POST' 
+								,
+								cache: false 
+								,
+								dataType: 'json' 
+								,
+								success: function (data) {
+									var txt = "";
+									for(var i = 0; i<data.length;i++) {
+										txt += '<tr>';
+										txt += '<td>' + data[i].empNo + '</td>';
+										txt += '<td>' + data[i].empName + '</td>';
+										txt += '<td>' + data[i].duty + '</td>';
+										txt += '<td>' + data[i].hireDate + '</td>';
+										txt += '<td>' + data[i].department + '</td>';
+										txt += '</tr>';
+									}
+									$('#datatable2').find('#tbody2').html(txt);
+								}
+								,
+								error: function(jqXHR) {
+									alert("에러: " + jqXHR.status);
+								}
+							});
+						});
 					}
-					$('#datatable').find('tbody').html(text);	
+					$('#datatable').find('#tbody1').html(text);
 				} 
 				,
 				error: function(jqXHR) {
@@ -147,30 +186,25 @@
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div class="col-md-6">
-							<div class="col-md-2">
-								<h2>부서목록</h2>
-							</div>
-						</div>
-						<div>
-							<div class="col-xs-4 col-xs-offset-2">
-								<div class="input-group">
+					 ※부서명 클릭 시, 해당 부서에 소속된 사원 목록을 조회합니다.<br>
+					  ※업무 담당자 클릭 시, 업무 담당자를 변경할 수 있습니다.
+							<div class="col-xs-4 col-xs-offset-2  pull-right">
+								<div class="input-group" style="margin-right:-35px;">
 									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle"
+										<button type="button" class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 											data-toggle="dropdown">
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a id="cNo">부서코드번호</a></li>
-											<li><a id="cName">부서명</a></li>
-											<li><a id="headDept">책임자</a></li>
+											<li><a id="cNo" role="menuitem">부서코드번호</a></li>
+											<li><a id="cName" role="menuitem">부서명</a></li>
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all"
 										id="search_param"> <input type="text" 
-										class="form-control" id="keyword" name="x" placeholder="Search term...">
+										class="form-control" id="keyword" name="x" placeholder="대문자, 소문자를 구분해주세요.">
 									<span class="input-group-btn">
-										<button id="findDept" class="btn btn-default" type="button">
+										<button id="findDept" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
@@ -191,10 +225,11 @@
 							<th id="6" class="text-center">부서별 팀 수</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tbody1">
 			
 					</tbody>
 				</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -215,6 +250,40 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">부서원 상세정보</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<table id="datatable2" class="table table-striped table-bordered jambo_table" style="text-align:center;">
+							<thead>
+								<tr id="deptEmpListTR">
+									<th class="text-center">사번</th>
+									<th class="text-center">이름</th>
+									<th class="text-center">직책</th>
+									<th class="text-center">입사일</th>
+									<th class="text-center">소속부서</th>
+								</tr>
+							</thead>
+							<tbody id="tbody2">
+								
+							</tbody>
+						</table>
+						<br>
+						<div class="text-center">
+							<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	
 </body>
 </html>

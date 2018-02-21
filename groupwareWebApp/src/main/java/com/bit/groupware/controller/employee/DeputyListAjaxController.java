@@ -25,7 +25,7 @@ import com.bit.groupware.service.employee.EmployeeService;
 
 @Controller
 public class DeputyListAjaxController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminListEmployeeAjaxController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DeputyListAjaxController.class);
 	@Autowired
 	private EmployeeService employeeService;
 	@Autowired
@@ -34,9 +34,9 @@ public class DeputyListAjaxController {
 	@RequestMapping(value="/listDeputyAjax.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> form(
-						@RequestParam(required=false) String keyfield,
-						@RequestParam(required=false) String keyword,
-						@RequestParam(required=false) String keyword1,
+						@RequestParam(value="keyfield",required=false) String keyfield,
+						@RequestParam(value="keyword",required=false) String keyword,
+						@RequestParam(value="keyword1",required=false) String keyword1,
 						@RequestParam int startRow,
 						@RequestParam int endRow
 						) {
@@ -44,7 +44,8 @@ public class DeputyListAjaxController {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = context.getAuthentication();
 		UserVO user = (UserVO)authentication.getPrincipal();
-		map.put("keyfield", keyfield);
+
+ 		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
 		map.put("keyword1", keyword1);
 		map.put("empNo", user.getUsername());

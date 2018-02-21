@@ -23,6 +23,12 @@
 	a:link {color:blue;}
  	a:hover{color:gold;}
 	a:visited{color:purple;}
+	.listCode2 {
+		cursor : pointer;
+	}
+	.box3 {
+		cursor : pointer;
+	}
 </style>
 <script>
 	var eKeyfield;
@@ -58,7 +64,7 @@
 		//등록 버튼 클릭시 팝업창 생성
 		$('#insert').click(function(){
 			var url = '${pageContext.request.contextPath}/admin/registerCode1.do';
-			window.open(url, "코드 등록", "width=700, height=600");
+			window.open(url, "코드 등록", "width=700, height=350");
 		});
 		
 		//수정 버튼 클릭시 팝업창 생성
@@ -66,7 +72,7 @@
 			var c_no = $(this).attr('id');
 			var url = '${pageContext.request.contextPath}/admin/modifyCode1.do?cNo='+ c_no;
 
-			window.open(url, "코드 수정", "width=700, height=600");
+			window.open(url, "코드 수정", "width=700, height=350");
 		});
 		
 		//삭제 버튼 클릭시 삭제
@@ -119,7 +125,7 @@
 		// 검색 실행
 		$('#findCode').on('click', function() {
 			if($('.keyfield').attr('id') == undefined) {
-				swal("검색조건을 선택해주세요!","", "error");
+				swal("검색조건을 선택해주세요.","", "error");
 				return false;
 			} else if($('#keyword').val() == "") {
 				eKeyfield = $('.keyfield').attr('id');
@@ -193,13 +199,13 @@
 	
 </script>
 <style type="text/css">
-	.box3{width:100px; height:26px; background:#4aa3ef; text-align:center; line-height:26px; color:#fff; margin-bottom:5px;}
+	.box3{width:100px; height:34px; background:#4aa3ef; text-align:center; line-height:34px; color:#fff; margin-bottom:5px;}
 	.tri{    position: absolute;
     top: 0px;
     left: 110px;
     width: 0px;
-    border-top: 13px solid transparent;
-    border-bottom: 13px solid transparent;
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent;
     border-left: 15px solid #4aa3ef;
     border-right: 15px solid transparent;
 }
@@ -210,6 +216,7 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>코드관리</h2>
+				<button type="button" id="insert" class="btn btn-primary pull-right">등록</button>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
@@ -229,7 +236,7 @@
 							<div>
 								<div class="input-group">
 									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px;">
 											<span class="keyfield">검색조건</span> <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
@@ -238,9 +245,9 @@
 										</ul>
 									</div>
 									<input type="hidden" name="search_param" value="all" id="search_param">
-									<input type="text" class="form-control" id="keyword" name="x" placeholder="대문자, 소문자를 구분해주세요!">
+									<input type="text" class="form-control" id="keyword" name="x" placeholder="대문자, 소문자를 구분해주세요.">
 									<span class="input-group-btn">
-										<button id="findCode" class="btn btn-default" type="button">
+										<button id="findCode" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
@@ -265,8 +272,7 @@
 				</table>
 				</form>
 			</div>
-			<div class="col-md-5"></div>
-				<button type="button" id="insert" class="btn btn-primary">등록</button>
+
 		</div>
 	</div>
 </div>

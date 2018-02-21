@@ -10,32 +10,54 @@
 <script>
 $(document).ready(function(){
 	
-	$('#add').on('click',function(){
+	//등록
+	$('#addRole').on('click',function(){
+		event.preventDefault();
+		checkUnload = false;   
 		    
 		if($($('input:text[name=rName]')).val() == "" ){
 			swal("롤명을 입력하세요.");
 			$('#rName').focus();
-			return false;
+			return;
 		} 
 		
 		if($($('input:text[name=rExplan]')).val() == "" ){
 			swal("롤 설명을 입력하세요.");
 			$('#rExplan').focus();
-			return false;
+			return;
 		} 
 	
 		if($("#sort").val() == ""){
 			swal("롤 Sort를 입력해주세요.");
 			$('#sort').focus;
-			return false;
+			return;
 	   }
+		if($("#sort").val() >= 100) {
+			swal("롤 Sort는 1~100사이로 입력해주세요.");
+			$('#sort').focus;
+			return;
+		}
+		
+		swal({
+			title: "역할 등록",   
+			text: "역할을 등록합니다. 계속 진행하시겠습니까?",
+			icon: "info",
+			buttons : true 
+		}).then((e) => {
+			if(e) {
+				$('#add').submit();
+			} else if(!e) {
+				checkUnload = true;
+				return;
+			}
+		});		
 	});
 });
 </script>
 </head>
 <body>
 	<!-- 역할 등록 -->
-	<form action="<%=request.getContextPath()%>/admin/role.do" method="post" enctype="multipart/form-data">
+	<form id="add" action="<%=request.getContextPath()%>/admin/role.do" method="post" enctype="multipart/form-data">
 	<div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -77,7 +99,7 @@ $(document).ready(function(){
                </div>   
                   </div>
               <div class="text-center">
-               	  <button type="submit" class="btn btn-primary" id='add'>등록</button>&nbsp;
+               	  <button type="submit" class="btn btn-primary" id='addRole'>등록</button>&nbsp;
                   <button type="reset" class="btn btn-default">취소</button>
                   <a class="btn btn-default" href='<c:url value="/admin/roleList.do"/>'>뒤로가기</a>
                </div>

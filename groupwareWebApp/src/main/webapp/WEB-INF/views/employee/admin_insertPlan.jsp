@@ -7,20 +7,79 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<link href="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.min.css" />
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" 
 		src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ad3a3657ebba1b7547bc9c0a370b50dc&libraries=services"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.js"></script>
 <style>
 .modal-dialog.modal-cSize {
 	width:600px;
 	height:auto;
 }
+input[type=file]:before {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:#fff;
+  content: '파일선택';
+  display: inline-block;
+  background: #26B99A;
+    border: 1px solid #169F85;
+       border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+	input[type=file] {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  overflow: hidden;
+}
 </style>
 <script>
 
 
-$(document).ready(function() {	
-
+$(document).ready(function() {
+	
+	$('input[name=startDate]').focus(function() {	
+		$('input[name=endDate]').next('span').text("");
+	});
+	
+	$('input[name=endDate]').focus(function() {	
+		$(this).next('span').text("");
+	});
+	
+	$('input[name=endDate]').blur(function() {	
+		if($('input[name=startDate]').val() >= $(this).val()) {
+			console.log($(this).next());
+			$(this).next().text("시작일이 종료일보다 클 수 없습니다.");
+		}
+	});	
+	
+	$('input[name=startDate]').blur(function() {	
+		if($(this).val() >= $('input[name=endDate]').val()) {
+			console.log($(this).next());
+			$('input[name=endDate]').next().text("시작일이 종료일보다 클 수 없습니다.");
+		}
+	});	
+	
+	$('#startDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:mm",		
+		defaultDate : new Date()
+	});
+	
+	$('#endDate1').datetimepicker({
+		format : "YYYY/MM/DD HH:mm",	 
+		defaultDate : new Date()
+	});
+	
 	$('#registerBtn').on('click', function() {
 		event.preventDefault();
 		checkUnload = false;
@@ -44,7 +103,7 @@ $(document).ready(function() {
 			swal("장소정보를 입력해주세요.","");
 			return;
 		}
-		if($('input[name=pContent]').val() == '') {
+		if($('textarea[name=pContent]').val().trim() == '') {
 			swal("내용을 입력해주세요.","");
 			return;
 		}
@@ -172,23 +231,13 @@ $(document).ready(function() {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >기간 *</label>&nbsp;&nbsp;
 							</label>
-							<div class="col-md-6 col-sm-6 col-xs-12">
-								<fieldset>
-									<div class="control-group">
-										<div class="controls">
-											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
-												<span class="add-on input-group-addon">
-												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="startDate" id="startDate"
-														class="form-control" required="required" style="width:262px;" >
-												<span class="add-on input-group-addon">
-												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="datetime-local" name="endDate" id="endDate" 
-														class="form-control" required="required" style="width:262px;" >
-											</div>
-										</div>
-									</div>
-								</fieldset>
+							<div class="form-inline col-md-9 col-sm-6 col-xs-12">
+								<input type="text" id="startDate1" class="form-control" name="startDate"
+										required="required" style="width:200px;">&nbsp;&nbsp;&nbsp;
+										~&nbsp;&nbsp;&nbsp;
+								<input type="text" id="endDate1"	class="form-control" name="endDate"
+										required="required" style="width:200px;">
+								<span></span>
 							</div>
 						</div>
 						
@@ -206,9 +255,9 @@ $(document).ready(function() {
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용</label>&nbsp;&nbsp;
+							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용 *</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								 <textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%" ></textarea>
+								 <textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width:100%;resize:none;" ></textarea>
 							</div>
 						</div>
 						

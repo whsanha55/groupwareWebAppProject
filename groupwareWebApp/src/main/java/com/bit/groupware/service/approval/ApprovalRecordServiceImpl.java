@@ -1,5 +1,6 @@
 package com.bit.groupware.service.approval;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +37,12 @@ public class ApprovalRecordServiceImpl implements ApprovalRecordService {
 	}
 
 	//결재이력 삭제
-	/*public void removeApprovalRecord(int apprNo) {
-		approvalRecordDAO.deleteApprovalRecord(apprNo); 
-	}*/  
+	public void removeApprovalRecord(int apprNo) {
+		// TODO Auto-generated method stub
+		List<Integer> list=new ArrayList<Integer>();
+		list.add(apprNo);
+		approvalRecordDAO.deleteApprovalRecord(list); 
+	}
 	
 	//결재 승인, 반려
 	public void executeApprovalRecord(Map<String, Object> map) {

@@ -33,19 +33,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private DepartmentDAO departmentDAO;
 	
 
-/*	
-	public void updateSign(String photoNo) {
-		photoDAO.deletePhoto(photoNo);
-	}
-*/
-	public void registerSign(EmployeeVO employee) {
-		
+	public void registerSign(EmployeeVO employee) {		
 		String empNo = employee.getEmpNo();
 		logger.info("empNo : {}", empNo);
 		
 		List<PhotoVO> photos = employee.getPhotos();
 		logger.info("photos : {}", photos);
 		if(photos.size() != 0) {
+			for(PhotoVO photo : photos) {
+				photo.setEmpNo(empNo);
+			}
+			Map<String, Object> map1 = new HashMap<String, Object>();
+			map1.put("photos", photos);
+			photoDAO.insertSign(map1);
+		}
+	}
+	
+	public void modifySign(EmployeeVO employee) {		
+		String empNo = employee.getEmpNo();
+		logger.info("empNo : {}", empNo);
+		
+		List<PhotoVO> photos = employee.getPhotos();
+		logger.info("photos : {}", photos);
+		if(photos.size() != 0) {
+			photoDAO.deleteSign(empNo);
 			for(PhotoVO photo : photos) {
 				photo.setEmpNo(empNo);
 			}
@@ -104,18 +115,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 		String empNo = employeeDAO.updateEmployee(employee);
 	}
 	
-	public void modifyEmployeeAdmin(EmployeeVO employee) {
-		String empNo = employeeDAO.updateEmployee(employee);
-	
-		List<EmployeeCodeVO> codeList = employee.getCodeList();
+	public void modifyEmployeeAdmin(Map<String, Object> map) {
 		
-		employeeDAO.deleteEmployeeCode(empNo);		
+		EmployeeVO employee = (EmployeeVO)map.get("employee");
+		
+		String empNo = employeeDAO.updateEmployee(employee);
+		
+		Map<String, Object> procMap = new HashMap<String, Object>();
+		procMap.put("empNo", empNo);
+		procMap.put("oldDuty", map.get("oldDuty"));
+		procMap.put("oldDept", map.get("oldDept"));
+		logger.info("procMap : {}", procMap);
+		
+		
+		List<EmployeeCodeVO> codeList = employee.getCodeList();
+		if(!(codeList.get(0).getcNo().equals((String)map.get("oldDept")) && codeList.get(1).getcNo().equals((String)map.get("oldDuty")))) {
+			employeeDAO.insertCodeHistoryProcedure(procMap);
+		}
+		employeeDAO.deleteEmployeeCode(empNo);
 		for(EmployeeCodeVO code : codeList) { 
 			code.setEmpNo(empNo);
 		}
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("codeList", codeList);
-		employeeDAO.insertEmployeeCode(map);
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("codeList", codeList);
+		employeeDAO.insertEmployeeCode(map1);
 		
 		List<PhotoVO> photos = employee.getPhotos();
 		if(photos.size() != 0) {
@@ -123,10 +146,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			for(PhotoVO photo : photos) {
 				photo.setEmpNo(empNo);
 			}
-			Map<String, Object> map1 = new HashMap<String, Object>();
-			map1.put("photos", photos);
-			photoDAO.insertPhoto(map1);
+			Map<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("photos", photos);
+			photoDAO.insertPhoto(map2);
 		}
+		
 	}
 	
 	public void retireEmployee(String empNo) {
@@ -170,6 +194,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		map.put("teamCount", departmentDAO.selectDeptTeam(cNo));
 		return map;
 	}
+	
+	public List<EmployeeVO> retrieveMemberDetail(String cNo) {
+		return departmentDAO.selectDeptEmpDetail(cNo);
+	}
 
 	public void modifyHead(Map<String, Object> map) {
 		departmentDAO.retireHead((String)map.get("oldHead"));
@@ -180,10 +208,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 		deputyDAO.deleteDeputy(depNo);
 	}
 	
-	public void stopUseDeputy(String depNo) {
-		deputyDAO.stopUseDeputy(depNo);
+	public void stopUseDeputy(Map<String, Object> map) {
+		deputyDAO.stopUseDeputy(map); 
 	}
 	
+	public int retrieveDeputyCheck(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return deputyDAO.selectDeputyCheck(map);
+ 	}
+
 	public void removeSign(String empNo) {
 		photoDAO.deleteSign(empNo);
 	}

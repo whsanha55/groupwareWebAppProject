@@ -34,6 +34,7 @@
 		            from delegation del, template tmp, code c
 		            where del.tmp_no=tmp.tmp_no
 		            and del.duty_no=c.c_no
+		            and del.isdelete = 0
 		            <if test="keyfield=='template' and keyword!=null">
 	         	  	  and tmp.tmp_name like '%'|| #{keyword} ||'%'
 	         	    </if>
@@ -52,6 +53,7 @@
 		            from delegation del, template tmp, code c
 		            where del.tmp_no=tmp.tmp_no
 		            and del.duty_no=c.c_no
+		             and del.isdelete = 0
 		            <if test="keyfield=='template' and keyword!=null">
 	         	  	  and tmp.tmp_name like '%'|| #{keyword} ||'%'
 	         	    </if>
@@ -59,14 +61,29 @@
 	         	    	and c.c_name like '%'|| #{keyword} ||'%'
 	         	    </if>
 	         ) t1  )t2)
+	</select>
+	
+	<select id="checkDelegationIsTmpExist" parameterType="int"  resultType="int" statementType="PREPARED"> 
+		select count(dele_no)
+		from delegation
+		where isdelete =  0
+		and tmp_no = #{tmpNo}
 	</select> 
+	 
 	
 
-
+	<update id="updateDelegationDelete" parameterType="int" statementType="PREPARED">
+		update delegation
+		set isdelete = 1
+		    ,end_date = sysdate
+		where dele_no = #{deleNo}
+	</update>
 
 	<delete id="deleteDelegation" parameterType="int" statementType="PREPARED" >
 		delete from delegation 
 		where dele_no = #{deleNo} 
 	</delete>
+	
+	
 
 </mapper>

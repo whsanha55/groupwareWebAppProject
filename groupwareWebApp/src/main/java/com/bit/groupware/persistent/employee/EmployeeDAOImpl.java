@@ -64,4 +64,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		sqlSession.delete(NAMESPACE + ".deleteAuthority", empNo);
 	}
 	
+	public void insertCodeHistoryProcedure(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE + ".insertCodeHistoryProcedure", map);
+	}
+	
 }

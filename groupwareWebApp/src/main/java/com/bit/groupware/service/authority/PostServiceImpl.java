@@ -70,8 +70,8 @@ public class PostServiceImpl implements PostService {
 		postDAO.deletePost(postNo);		
 	}
 	
-	public int retrievePostCount() {
-		return postDAO.selectPostCount();
+	public int retrievePostCount(Map<String, Object> map) {
+		return postDAO.selectPostCount(map);
 	}
 	
 	public void removePostFile(int no) {
