@@ -80,7 +80,7 @@ $(document).ready(function(){
 		 pKeyfield=$('#pKeyfield').val();
 		 pKeyword=$('.pKeyword').val();
  		 if(pKeyword.trim() == '') {
- 			swal("검색조건를 선택해주세요","", "error");
+ 			swal("검색어를 선택해주세요","", "error");
  			 return;
  		 } 
 		 templatePaging(1);
@@ -108,6 +108,10 @@ $(document).ready(function(){
 	//전결 추가
 	 $("#btn1").on("click",function(){
 //		 event.preventDefault();
+		if($('#delegationTmp').val() ==0) {
+			swal('등록 실패','양식서를 선택해 주세요','error');
+			return false;
+		}
 			swal({
 				  title: "전결 조건 추가",
 				  text: "전결 조건을 추가 하시겠습니까?",

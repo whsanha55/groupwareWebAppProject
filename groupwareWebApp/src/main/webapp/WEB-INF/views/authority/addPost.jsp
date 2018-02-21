@@ -90,8 +90,7 @@
        
   		//첨부파일 용량 체크
 		$('.controls').on('change','input[name=upload]',function() {
-			if($(this).val() != '') {
-				alert($(this).val());
+			if($(this).val() != '') {				
 				var fileSize = this.files[0].size;
 				var maxSize = 1024*1024*1;
 				if(fileSize > maxSize) {
@@ -165,7 +164,7 @@
 								<div class="control-group" id="fields">
 									<div class="controls">
 										<div class="entry input-group col-xs-3">
-											<input type="file" class="btn btn-dark" name="upload">
+											<input type="file" class="btn btn-default" name="upload">
 											<span class="input-group-btn">
 												<button class="btn btn-success btn-add" type="button">
 													<span class="glyphicon glyphicon-plus"></span>

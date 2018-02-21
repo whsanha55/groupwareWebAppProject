@@ -98,8 +98,7 @@
 		 
 		//첨부파일 용량 체크
 		$('.controls').on('change','input[name=upload]',function() {
-			if($(this).val() != '') {
-				alert($(this).val());
+			if($(this).val() != '') {				
 				var fileSize = this.files[0].size;
 				var maxSize = 1024*1024*1;
 				if(fileSize > maxSize) {
@@ -118,8 +117,7 @@
 				  icon: "info",
 				  buttons : true 
 			}).then((e) => {
-			     if(e) {
-			    	 alert(no);
+			     if(e) {			    
 			    	 $.ajax({
 	                     url: '${pageContext.request.contextPath}/deletePostFile.do'  
 	                     ,
@@ -216,14 +214,16 @@
 
 					<%-- 업로드된 파일 목록 조회 --%>
 					<c:if test="${fn: length(sessionScope.post.postFiles) > 0 }">
-						<table border="1">
+						<table>
+						<tbody style='border-bottom: 1px  solid darkgray;'>
 							<c:forEach var="postFile" items="${sessionScope.post.postFiles }" varStatus="loop">								
-								<tr>
-									<td>파일${pageScope.loop.count }</td>
-									<td>${pageScope.postFile.originalFileName }</td>							
-									<td><button type="button"  value="${pageScope.postFile.no }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td>
+								<tr style='height:40px; border-top: 1px  solid darkgray;'>
+									<td style='width:50px;'>파일${pageScope.loop.count }</td>
+									<td style='width:150px;'>${pageScope.postFile.originalFileName }</td>							
+									<td><button type="button" class="btn btn-modify btn-xs"  value="${pageScope.postFile.no }"  id="deleteBtn"  >삭제</button></td>
 								</tr>
 							</c:forEach>
+						</tbody >
 						</table>
 					</c:if>
 						<div class="col-md-12">
@@ -231,7 +231,7 @@
 								<div class="control-group" id="fields">
 									<div class="controls">
 										<div class="entry input-group col-xs-3">
-											<input type="file" class="btn btn-primary" name="upload">
+											<input type="file" class="btn btn-default" name="upload">
 											<span class="input-group-btn">
 												<button class="btn btn-success btn-add" type="button">
 													<span class="glyphicon glyphicon-plus"></span>
@@ -250,8 +250,7 @@
 					</div>
 					
 				</div>
-					<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}&department=${param.department}"/>'>목록</a>
-					<button type="reset" class="btn btn-primary pull-right">취소</button>					 		
+					<a class="btn btn-default pull-right" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}&department=${param.department}"/>'>뒤로가기</a>	 		
 					<button type="submit" class="btn btn-primary pull-right" id="modifyPost">등록</button>
 					 
 			</div>

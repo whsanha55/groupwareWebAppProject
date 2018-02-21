@@ -43,7 +43,10 @@ public class RegisterPostController {
 	public String submit(PostVO post, HttpSession session, RedirectAttributes redirectAttributes,
 			@RequestParam(value="boardNo", required = true) int boardNo,
 			@RequestParam(value="empName", required = true) String empName,
-			@RequestParam(value="boardName", required = true) String boardName) throws Exception { 
+			@RequestParam(value="boardName", required = true) String boardName,
+			@RequestParam(value="department", required = true) String department,
+			@RequestParam(value="isComment", required = true) String isComment,
+			@RequestParam(value="fileCount", required = true) String fileCount) throws Exception { 
 		post.setWriter(empName);	
 		
 		List<MultipartFile> uploadFiles = post.getUpload();
@@ -60,6 +63,9 @@ public class RegisterPostController {
 		redirectAttributes.addAttribute("boardNo", boardNo);
 		redirectAttributes.addAttribute("empName", empName);
 		redirectAttributes.addAttribute("boardName", boardName);
+		redirectAttributes.addAttribute("department", department);
+		redirectAttributes.addAttribute("isComment", isComment);
+		redirectAttributes.addAttribute("fileCount", fileCount);
 		return "redirect:/postList.do";
 	}
 
