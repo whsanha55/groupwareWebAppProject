@@ -11,6 +11,40 @@
 
 	$(document).ready(function() {
 		
+		$('#modifyPwdBtn').click(function() {
+			$.ajax ({
+				success:function() {
+					txt = "";
+					txt += '<div class="form-group">';
+					txt += '<label class="control-label col-md-3 col-sm-3 col-xs-12" for="checkPwd">기존 비밀번호 <span class="required">*</span>';
+					txt += '</label>';
+					txt += '<div class="col-md-4 col-sm-6 col-xs-6">';
+					txt += '<input type="password" id="checkPwd" name="checkPwd" class="form-control col-sm-4 col-xs-6" >';
+					txt += '</div>';
+					txt += '<button type="button" id="checkPwdBtn" class="btn btn-success">비밀번호 확인</button>';
+					txt += '</div>';
+					txt += '<div class="form-group">';
+					txt += '<label class="control-label col-md-3 col-sm-3 col-xs-12" for="empPwd">새 비밀번호 <span class="required">*</span>';
+					txt += '</label>';
+					txt += '<div class="col-md-4 col-sm-6 col-xs-12">';
+					txt += '<input type="password" id="empPwd" name="empPwd" class="form-control col-md-7 col-xs-12">';
+					txt += '</div>';
+					txt += '</div>';
+					txt += '<div class="form-group">';
+					txt += '<label class="control-label col-md-3 col-sm-3 col-xs-12" for="empPwdCheck">새 비밀번호 확인 <span class="required">*</span>';
+					txt += '</label>';
+					txt += '<div class="col-md-4 col-sm-6 col-xs-12">';
+					txt += '<input type="password" id="empPwdCheck" name="empPwdCheck" class="form-control col-md-7 col-xs-12">';
+					txt += '</div>';
+					txt += '</div>';
+					txt += '<div class="ln_solid"></div>';
+					
+					$('#addPwd').html(txt);
+				
+				}
+			});
+		});
+		
 		$('select[name=emailaddr]').on('change', function () {	
 			if ($('select[name=emailaddr]').val() == "") {
 				$('#email2').attr('readonly', false);
@@ -34,7 +68,7 @@
 		
 		
 		
-		$('#checkPwdBtn').click(function () {
+		$('#modiform').on('click', '#checkPwdBtn', function () {
 			if($(this).next('span').text() != null) {
 				$(this).next('span').remove();
 			}
@@ -61,18 +95,30 @@
 				
 			});
 		});
-		
-		$('input[name=empPwd]').focus(function() {
-			if($(this).next('span').text() != null){
-				$(this).next('span').remove();
-			}
-		});
-		
-		$('input[name=empPwdCheck]').focus(function() {
-			if($(this).next('span').text() != null){
-				$(this).next('span').remove();
-			}
-		});
+		if($('input[name=checkPwd], input[name=empPwd], input[name=empPwdCheck]').length > 0) {
+			
+			$('input[name=empPwd]').focus(function() {
+				if($(this).next('span').text() != null){
+					$(this).next('span').remove();
+				}
+			});
+			$('input[name=empPwdCheck]').focus(function() {
+				if($(this).next('span').text() != null){
+					$(this).next('span').remove();
+				}
+			});
+			
+			$('input[name=empPwd]').blur(function() {	
+				if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
+					$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
+				}
+			});		
+			$('input[name=empPwdCheck]').blur(function() {	
+				if($(this).val() != $('input[name=empPwd]').val()) {
+					$(this).after('<span id="errorSpan" style="color:red;">비밀번호가 일치하지 않습니다.</span>');
+				}
+			});	
+		}
 		
 		$('input[name=phoneNumber2]').focus(function() {
 			if($('input[name=phoneNumber3]').next('span').text() != null){
@@ -100,17 +146,6 @@
 			}
 		});		
 		
-		
-		$('input[name=empPwd]').blur(function() {	
-			if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
-				$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
-			}
-		});		
-		$('input[name=empPwdCheck]').blur(function() {	
-			if($(this).val() != $('input[name=empPwd]').val()) {
-				$(this).after('<span id="errorSpan" style="color:red;">비밀번호가 일치하지 않습니다.</span>');
-			}
-		});		
 		$('input[name=phoneNumber2], input[name=phoneNumber3]').blur(function() {
 			if(!($('input[name=phoneNumber2]').val().trim().length == 4 && $('input[name=phoneNumber3]').val().trim().length == 4)) {
 				$('input[name=phoneNumber3]').after('<span id="errorSpan" style="color:red;">연락처를 정확히 입력해주세요.</span>');
@@ -129,17 +164,28 @@
 		$('#modifyBtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;
-			if($('input[name=checkPwd]').val().trim() == '') {
-				swal("본인확인이 필요합니다.","기존 비밀번호를 입력해주세요.");
-				return;
+			if($('input[name=checkPwd]').length > 0) {
+				if($('input[name=checkPwd]').val().trim() == '') {
+					swal("본인확인이 필요합니다.","기존 비밀번호를 입력해주세요.");
+					return;
+				}
+				
+				if($("#greenSpan").text() == "") {
+					swal("비밀번호 확인을 해주세요.","");
+					return;
+				}
 			}
-			if($('input[name=empPwd]').val().trim() == '') {
-				swal("새 비밀번호를 입력해주세요.","");
-				return;
+			if($('input[name=empPwd]').length > 0) {
+				if($('input[name=empPwd]').val().trim() == '') {
+					swal("새 비밀번호를 입력해주세요.","");
+					return;
+				}
 			}
-			if($('input[name=empPwdCheck]').val().trim() == '') {
-				swal("새 비밀번호 확인을 해주세요.","");
-				return;
+			if($('input[name=empPwdCheck]').length > 0) {
+				if($('input[name=empPwdCheck]').val().trim() == '') {
+					swal("새 비밀번호 확인을 해주세요.","");
+					return;
+				}
 			}
 			if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
 				swal("연락처를 입력해주세요.","");
@@ -152,12 +198,7 @@
 			if($('input[name=address]').val() == '') {
 				swal("주소정보를 입력해주세요.","");
 				return;
-			}
-			
-			if($("#greenSpan").text() == "") {
-				swal("비밀번호 확인을 해주세요.","");
-				return;
-			}
+			}			
 			
 			if($("#errorSpan").text() != "") {
 				swal("정확하지 않은 정보가 있습니다. 다시 확인해주세요.");
@@ -261,7 +302,10 @@
 								id="empNo" name="empNo" readonly
 								value="${requestScope.employee.empNo }">
 						</div>
+						<button type="button" id="modifyPwdBtn" class="btn btn-success">비밀번호 수정</button>
 					</div>
+					<div id="addPwd">
+					<%--
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="checkPwd">기존 비밀번호 <span class="required">*</span>
@@ -290,7 +334,12 @@
 								 class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
+					--%>
+					</div>
+					<%--
 					<div class="ln_solid"></div>
+					--%>
+					
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="empName">이름 <span class="required">*</span>
