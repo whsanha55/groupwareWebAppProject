@@ -24,7 +24,9 @@
 		   $('textarea#froala-editor').froalaEditor()
 		 });
 	   
-		$('#addPost').click(function(){			
+		$('#addPost').click(function(){	
+			event.preventDefault();
+			checkUnload = false;
 		    
 			if($($('input:text[name=postTitle]')).val() == "" ){
 				swal("제목을 입력하세요.");
@@ -178,11 +180,11 @@
 
 
 					</div>
-				</div>
-				<a class="btn btn-primary pull-right" type="reset">취소</a>
-				&nbsp;
+				<button type="reset" class="btn btn-primary pull-right">취소</button>				
 				<button type="submit" class="btn btn-primary pull-right" id="addPost">등록</button>
 				<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${param.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}&department=${param.department} "/>'>목록</a>				 
+				</div>
+				
 			</div>
 		</div>
 	</form>

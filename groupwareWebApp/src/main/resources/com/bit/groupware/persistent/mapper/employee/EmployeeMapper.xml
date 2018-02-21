@@ -290,9 +290,9 @@
 		where emp_no = #{empNo} 
 	</delete>
 	
-	<insert id="insertCodeHistoryProcedure" parameterType="String" statementType="CALLABLE">
+	<insert id="insertCodeHistoryProcedure" parameterType="map" statementType="CALLABLE">
 		{
-			call employee_code_history_proc(#{empNo})
+			call employee_code_history_proc(#{empNo},#{oldDuty},#{oldDept})
 		}
 	</insert>
 	

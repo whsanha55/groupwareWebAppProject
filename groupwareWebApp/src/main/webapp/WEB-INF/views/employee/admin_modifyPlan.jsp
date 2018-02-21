@@ -315,7 +315,7 @@ $(document).ready(function () {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >³»¿ë *</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width: 100%">${requestScope.plan.pContent }</textarea>
+								<textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width:100%;resize:none;">${requestScope.plan.pContent }</textarea>
 							</div>
 						</div>
 						

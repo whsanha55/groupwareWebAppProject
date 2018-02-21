@@ -36,7 +36,9 @@ public class ModifyEmployeeController {
 	
 	@RequestMapping(value="/modifyEmployee.do", method=RequestMethod.POST)
 	public String modifyEmployee(EmployeeVO employee) {
-		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
+		if(employee.getEmpPwd() != null) {
+			employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
+		}
 		employeeService.modifyEmployee(employee);
 		return "redirect:/detailEmployee.do";
 	}

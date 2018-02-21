@@ -16,7 +16,7 @@
 	 -->
 	 	
 	<!-- 최상위 로거 -->
-	<root level="error">
+	<root level="info">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

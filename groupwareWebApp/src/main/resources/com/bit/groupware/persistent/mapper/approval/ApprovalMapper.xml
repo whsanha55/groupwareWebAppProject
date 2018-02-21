@@ -124,7 +124,7 @@
 		<if test="linempNo != null and apprStatus == 6">
 			and line.line_emp_no = #{linempNo}
 			and line.appr_type = 1 
-			and appr.appr_final_status in ('C-01-00','C-01-02')
+			and appr.appr_final_status in ('C-01-00','C-01-01','C-01-03','C-01-02') 
 		</if>
 		
 		
@@ -227,6 +227,9 @@
 		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo} 
 		</if>
+		<if test="apprFinalStatus == 10">
+		and appr.appr_final_status != 'C-01-04'
+		</if>
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>		  
@@ -276,6 +279,9 @@
 		<if test="empNo != 'admin'">
 		and ((line.line_emp_no=#{empNo} and line.appr_type=0) or rec.dep_emp_no=#{empNo})
 		</if> 
+		<if test="apprFinalStatus == 10">
+		and appr.appr_final_status != 'C-01-04'
+		</if>		
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>
@@ -554,6 +560,9 @@
 		<if test="empNo != 'admin'">
 		and emp.emp_no=#{empNo} 
 		</if>
+		<if test="apprFinalStatus == 10">
+		and appr.appr_final_status != 'C-01-04'
+		</if>		
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>		  
@@ -602,7 +611,10 @@
 		and rec.line_no=line.line_no
 		<if test="empNo != 'admin'">
 		and ((line.line_emp_no=#{empNo} and line.appr_type=0) or rec.dep_emp_no=#{empNo})
-		</if> 
+		</if>
+		<if test="apprFinalStatus == 10">
+		and appr.appr_final_status != 'C-01-04'
+		</if>		 
 		<if test="apprFinalStatus != 10">
 		and appr.appr_final_status = 'C-01-0'||#{apprFinalStatus}
 		</if>
