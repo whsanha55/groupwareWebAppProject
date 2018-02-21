@@ -80,8 +80,7 @@ $(document).ready(function() {
 								empName: empName 
 							},
 							success : function() {
-								alert("댓글이 등록되었습니다.");
-							 	
+								swal("댓글이 등록되었습니다.");
 								listCmt();
 								$("#cmtContent").val('');
 								

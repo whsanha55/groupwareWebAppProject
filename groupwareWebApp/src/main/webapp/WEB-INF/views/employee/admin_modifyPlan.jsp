@@ -46,6 +46,8 @@
 <script>
 var eKeyfield;
 var eKeyword;
+var stDate = moment("${requestScope.plan.startDate }", "YYYY/MM/DD HH:mm");
+var edDate = moment("${requestScope.plan.endDate }", "YYYY/MM/DD HH:mm");
 
 /* $.datepicker.setDefaults({
     dateFormat: 'yy-mm',
@@ -62,14 +64,36 @@ var eKeyword;
 
 $(document).ready(function () {
 	
+	$('input[name=startDate]').focus(function() {	
+		$('input[name=endDate]').next('span').text("");
+	});
+	
+	$('input[name=endDate]').focus(function() {	
+		$(this).next('span').text("");
+	});
+	
+	$('input[name=endDate]').blur(function() {	
+		if($('input[name=startDate]').val() >= $(this).val()) {
+			console.log($(this).next());
+			$(this).next().text("시작일이 종료일보다 클 수 없습니다.");
+		}
+	});	
+	
+	$('input[name=startDate]').blur(function() {	
+		if($(this).val() >= $('input[name=endDate]').val()) {
+			console.log($(this).next());
+			$('input[name=endDate]').next().text("시작일이 종료일보다 클 수 없습니다.");
+		}
+	});	
+	
 	$('#startDate1').datetimepicker({
-		format : "YYYY/MM/DD HH:mm",	
-		defaultDate : new Date()
+		format : "YYYY/MM/DD HH:mm",
+		defaultDate : stDate
 	});
 	
 	$('#endDate1').datetimepicker({
-		format : "YYYY/MM/DD HH:mm", 
-		defaultDate : new Date()
+		format : "YYYY/MM/DD HH:mm",
+		defaultDate : edDate
 	});
 
 	//파일 삭제 
@@ -264,27 +288,13 @@ $(document).ready(function () {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >기간 *</label>&nbsp;&nbsp;
 							</label>
-							<div class="col-md-6 col-sm-6 col-xs-12">
-								<fieldset>
-									<div class="btn-group">
-										<div class="controls">
-											<div class="input-prepend input-group col-md-6 col-sm-6 col-xs-12">
-												<span class="add-on input-group-addon">
-												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<%-- <fmt:parseDate var="parsedDate" value="${requestScope.plan.startDate }" pattern="YYYY/MM/DD HH24:mm:ss" />
-												<fmt:formatDate var="newFormattedStartDate" value="${parsedDate }" pattern="YYYY-MM-DD'T'HH24:mi:ss" /> --%>
-												<input type="text" name="startDate" id="startDate1"
-													class="form-control" required="required"
-													style="width:262px;" value="${requestScope.plan.startDate }">
-												<span class="add-on input-group-addon">
-												<i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="text" name="endDate" id="endDate1" 
-														class="form-control" required="required"
-														style="width:262px;" value="${requestScope.plan.endDate }" >
-											</div>
-										</div>
-									</div>
-								</fieldset>
+							<div class="form-inline col-md-9 col-sm-6 col-xs-12">
+								<input type="text" id="startDate1" class="form-control" name="startDate"
+										required="required" style="width:200px;" >&nbsp;&nbsp;&nbsp;
+										~&nbsp;&nbsp;&nbsp;
+								<input type="text" id="endDate1"	class="form-control" name="endDate"
+										required="required" style="width:200px;">
+								<span></span>
 							</div>
 						</div>
 						
