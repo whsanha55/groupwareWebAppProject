@@ -520,12 +520,8 @@
 								    padding-right: 2px; padding-bottom: 2px; padding-top: 2px; margin-bottom: 1px;">검색</button>
 								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
-<<<<<<< HEAD
 					</div>
-						
-=======
-					</div>
->>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
+
 					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
 						<thead>
 							<tr>
