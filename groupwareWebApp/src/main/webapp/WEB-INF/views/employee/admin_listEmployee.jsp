@@ -624,7 +624,7 @@ input[type=file]:before {
 										</li>
 									</ul>
 								</div>
-								<input type="text" class="form-control keyword" placeholder="검색어" >
+								<input type="text" class="form-control keyword" placeholder="검색어를 입력하세요." >
 								<span class="input-group-btn">
 									<button class="btn btn-default" id="findEmployee" type="button" style="margin-left:3px; height:34px;">
 										<span class="glyphicon glyphicon-search"></span>
