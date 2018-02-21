@@ -199,7 +199,7 @@
 									</div>
 									<input type="hidden" name="search_param" value="all"
 										id="search_param"> <input type="text" 
-										class="form-control" id="keyword" name="x" placeholder="검색어">
+										class="form-control" id="keyword" name="x" placeholder="검색어를 입력하세요.">
 									<span class="input-group-btn">
 										<button id="findDept" class="btn btn-default" type="button" style="margin-left:3px; height:34px;">
 											<span class="glyphicon glyphicon-search"></span>

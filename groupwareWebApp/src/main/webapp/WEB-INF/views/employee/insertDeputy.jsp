@@ -248,8 +248,25 @@
 		
 		//대결 등록
 		$('#submitBtn').click(function(e) {
+			event.preventDefault();
+			checkUnload = false;
+			
 			var startDate = $( "input[name='startDate']" ).val();
 			var endDate = $( "input[name='endDate']" ).val();
+			
+			if($('input[name=empName]').val().trim() == '') {
+				swal("대결권자를 지정해주세요.","");
+				return;
+			}
+			if($('input[name=startDate]').val().trim() == '') {
+				swal("기간을 지정해주세요.","");
+				return;
+			}
+			if($('input[name=endDate]').val().trim() == '') {
+				swal("기간을 지정해주세요.","");
+				return;
+			}
+			
 			swal({
 				  title: "대결 등록",
 				  text: "대결을 등록 하시겠습니까?",
@@ -504,7 +521,8 @@
 								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
 					</div>
-					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
+
+					<table id="datatable" class="table table-striped jambo_table bulk_action" style="text-align:center;width:1202px;">
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>

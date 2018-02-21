@@ -194,7 +194,7 @@
 										<li><a id='writer'>작성자</a></li>									
 									</ul>
 								</div>
-								<input type="text" class="form-control keyword"	placeholder="검색어를 입력하세요"> 
+								<input type="text" class="form-control keyword"	placeholder="검색어을 입력하세요"> 
 								<span class="input-group-btn">
 									<button class="btn btn-default find" type="button" style="margin-left:3px;">
 										<span class="glyphicon glyphicon-search"></span>
@@ -232,7 +232,12 @@
 						<c:param name="isComment" value="${param.isComment}" />
 						<c:param name="department" value="${param.department}" />
 					</c:url>
+					
 					<c:if test="${param.boardName == param.department}">
+					<a class="btn btn-primary" href="${addUrl}">등록</a> 
+					</c:if>
+					
+					<c:if test="${param.boardName == '공용문서관리'}">
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 
 					</c:if>						
 					</div>

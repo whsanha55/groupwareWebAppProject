@@ -322,8 +322,6 @@ input[type=file]:before {
 			dataType: 'json' 
 			,
 			success: function (data, textStatus, jqXHR) {
-				var checkChangeDept = "";
-				var checkChangeDuty = "";
 				totalCount = data.totalCount;
 				
 				//datatable테이블 변경하기
@@ -376,7 +374,11 @@ input[type=file]:before {
 						$('#deptBtn').attr('disabled',true);
 						
 						$('#btnDiv').html('<button id="modifyBtn" type="button" class="btn btn-primary">수정</button><button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button><button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
-													
+						
+						$('input[name=oldDuty]').val($(this).nextAll('#submitDutyNo').val());
+						console.log($('input[name=oldDuty]').val());
+						$('input[name=oldDept]').val($(this).nextAll('#submitDeptNo').val());
+						console.log($('input[name=oldDept]').val());
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
@@ -390,8 +392,7 @@ input[type=file]:before {
 						$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
 						$('.preDept').text($(this).nextAll('#submitDept').text());
-						checkChangeDuty = $(this).nextAll('#submitDuty').text();
-						checkChangeDept = $(this).nextAll('#submitDept').text();
+						
 						var phoneArr = $(this).nextAll('#submitPhoneNumber').text().split('-');
 						$('#phoneNumber1').val(phoneArr[0]);
 						$('#phoneNumber2').val(phoneArr[1]);
@@ -426,9 +427,11 @@ input[type=file]:before {
 					$('#modalForm').on('click', '#modifyCompBtn' , function() {
 						event.preventDefault();
 						checkUnload = false;
+						console.log($('input[name=oldDept]').val());
+						console.log($('input[name=oldDuty]').val());
+						console.log($('input[name=deptCode]').val());
+						console.log($('input[name=dutyCode]').val());
 						
-						console.log($('.preDuty').text());
-						console.log(checkChangeDuty);
 						/*
 						if($('.preDuty').text() == checkChangeDuty) {
 							$('input[name=deptCode]').val("");
@@ -665,6 +668,8 @@ input[type=file]:before {
 				enctype="multipart/form-data" method="POST">
 		<input type="hidden" name="dutyCode" value="">
 		<input type="hidden" name="deptCode" value="">
+		<input type="hidden" name="oldDuty" value="">
+		<input type="hidden" name="oldDept" value="">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
