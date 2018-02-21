@@ -58,10 +58,12 @@ public class AdminDesignateRoleController {
       
       Map<String, Object> map = new HashMap<String, Object>();
       map.put("list2",list2);
-      map.put("list",list);
+      map.put("list",list);     
       roleService.registerAuthRole(map);
+      
+      logger.error("=========================reload");
       metaSource.reload();
-
+      
       return 0;
     }
 }
