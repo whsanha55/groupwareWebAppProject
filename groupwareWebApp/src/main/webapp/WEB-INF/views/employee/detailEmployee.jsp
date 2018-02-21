@@ -23,7 +23,7 @@
 								src="${pageContext.request.contextPath}/resources/upload/employeeFiles/photos/${requestScope.employee.photoName}">
 						</div>
 					</div>
-					<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.employee.empName }</h3>
+					<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.employee.empName }</h3>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="mod-emp" href="${pageContext.request.contextPath }/modifyEmployee.do" class="btn btn-success"><i
 						class="fa fa-edit m-right-xs"></i>사원 정보 수정</a> <br>
