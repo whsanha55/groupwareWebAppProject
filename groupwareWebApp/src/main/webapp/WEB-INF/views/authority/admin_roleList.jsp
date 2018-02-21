@@ -81,6 +81,8 @@
           
           var a = $(this).parents("tr").find('input[name=rName]');
           
+          var temp = $(this).parents("tr");
+          
          swal({
               title: "역할을 수정하시겠습니까?",
               icon: "info",
@@ -109,11 +111,11 @@
                         success : function(data, textStatus, jqXHR){   
                            if(data.isSuccess == "true"){
                               swal("수정 완료!","");
-                              $(name).html(data.role.rName);
+                              $(name).html(data.role.rName);    
                               $(type).html(data.role.rType);
                               $(explan).html(data.role.rExplan);
                               $(selectBtn).html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
-                              Paging(1);   
+                              $('button:contains(수정)').prop("disabled", false);
                            }else if(data.isFail == "false"){
                               swal("이미 역할이 존재합니다.");
                            } 

@@ -201,7 +201,7 @@ public class ApprovalAjaxController {
 			if(appr.getApprovalRecords().get(0).getConfirmDate()==null) {
 				appr.setApprFinalStatus(5); 
 				approvalService.modifyApproval(appr); 
-				//approvalRecordService.removeApprovalRecord(apprNo); 
+			//	approvalRecordService.removeApprovalRecord(apprNo); 
 				return true;
 			}else {
 				return false;
