@@ -144,10 +144,10 @@ input[type=file]:before {
 						method="POST" class="form-horizontal form-label-left" enctype="multipart/form-data">
 					<div class="form-group">
 						<div class="form-group" id="img_wrap">
-							<img id="img" width="250px" height="250px" 
+							<img id="img" width="250px" height="250px" style=" border: 2px solid #ccc;"
 								src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${requestScope.signName}"
-								class="img-responsive"/>
-							<input id="upload-image" name="upload" class="center-block"
+								class="img-responsive center-block"/>
+							<input id="upload-image" name="upload" class="center-block" style="margin-top:2px;"
 								type="file" data-role="magic-overlay" data-target="#pictureBtn"
 								data-edit="insertImage">			
 						</div>
