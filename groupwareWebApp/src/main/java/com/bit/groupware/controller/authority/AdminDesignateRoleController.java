@@ -62,8 +62,8 @@ public class AdminDesignateRoleController {
       roleService.registerAuthRole(map);
       
       logger.error("=========================reload");
-      metaSource.reload();
-      
+     /* metaSource.reload();
+      */
       
       logger.error("===============addlist {}" , list);
 	  logger.error("================removelist {}", list2);
