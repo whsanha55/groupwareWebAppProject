@@ -183,6 +183,16 @@
 		 });
 		
 		
+			//처음으로
+			$('#goBack').on('click', function(){
+				pKeyfield = "";  
+				pKeyword = "";
+				pKeyword1 = "";
+				templatePaging(1);
+			});
+			
+		
+		
 	 
 	});
 		
@@ -244,8 +254,6 @@
 							currentPageNo : currentPageNo,
 							totalCount : totalCount
 						});
-						
-					
 				} ,
 				error: function(jqXHR) {
 					alert("에러: " + jqXHR.status);
@@ -372,6 +380,10 @@
 				
 						</nav> 
 						</div>
+						
+					  <div class="text-center">
+		               	  <button class="btn btn-primary pull-right" id='goBack'>처음으로</button>&nbsp;
+		              </div>
 					  </div>
                     </div>
 							

@@ -363,7 +363,7 @@ $(document).ready(function(){
 		            </div>
 				
 				
-					<table class="table table-striped table-bordered"
+					<table class="table table-striped jambo_table bulk_action"
 						style=" text-align: center; margin-left:-4px;">
 						<thead>
 							<tr>

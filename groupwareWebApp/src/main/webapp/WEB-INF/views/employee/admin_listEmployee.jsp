@@ -636,8 +636,9 @@ input[type=file]:before {
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
-						<div>
-							<div class="input-group col-md-6 pull-right">
+					 ¡Ø»ç¹ø Å¬¸¯ ½Ã, »ç¿ø »ó¼¼ Á¤º¸¸¦ Á¶È¸ÇÕ´Ï´Ù.
+						<div class="col-md-4 col-xs-offset-2 pull-right">
+							<div class="input-group style="margin-right:-25px;">
 								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
@@ -661,7 +662,11 @@ input[type=file]:before {
 										</li>
 									</ul>
 								</div>
+<<<<<<< HEAD
 								<input type="text" class="form-control keyword" placeholder="ê²€ìƒ‰ì–´" >
+=======
+								<input type="text" class="form-control keyword" placeholder="°Ë»ö¾î¸¦ ÀÔ·ÂÇÏ¼¼¿ä." >
+>>>>>>> refs/remotes/origin/master
 								<span class="input-group-btn">
 									<button class="btn btn-default" id="findEmployee" type="button" style="margin-left:3px; height:34px;">
 										<span class="glyphicon glyphicon-search"></span>
