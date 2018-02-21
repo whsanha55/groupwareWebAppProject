@@ -31,7 +31,7 @@
             <div class="text-center text-center">
               <img src="${pageContext.request.contextPath}/resources/images/warningSmall.png"  width="200px"/> 
               <h2 style="margin-top:20px;">서비스를 사용할 수 없습니다.</h2>
-              <p>관리자에게 문의바랍니다. <br><a href="#">ztz33@naver.com</a><br>
+              <p>관리자에게 문의바랍니다. <br><a href="#">ztz33@naver.com</a><br><br>
               <a class="btn btn-default" href='#' onclick="goBack();">뒤로가기</a>
               </p>   
               
