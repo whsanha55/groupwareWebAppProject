@@ -37,7 +37,8 @@ public class RemovePostController {
 			@RequestParam(value="empName", required = true) String empName,
 			@RequestParam(value="boardName", required = true) String boardName,
 			@RequestParam(value="fileCount", required = true) String fileCount,
-			@RequestParam(value="isComment", required = true) String isComment) {		
+			@RequestParam(value="isComment", required = true) String isComment,
+			@RequestParam(value="department", required = true) String department) {		
 		logger.info("보드번호!!!!!!!!!!!!!!: {}", boardNo);
 		postService.removePost(postNo);
 		
@@ -46,6 +47,7 @@ public class RemovePostController {
 		redirectAttributes.addAttribute("boardName", boardName);
 		redirectAttributes.addAttribute("fileCount", fileCount);		
 		redirectAttributes.addAttribute("isComment", isComment);
+		redirectAttributes.addAttribute("department", department);
 		
 		return "redirect:/postList.do";			
 	}

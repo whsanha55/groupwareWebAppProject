@@ -123,7 +123,8 @@
 		
 		<if test="linempNo != null and apprStatus == 6">
 			and line.line_emp_no = #{linempNo}
-			and line.appr_type = 1
+			and line.appr_type = 1 
+			and appr.appr_final_status in ('C-01-00','C-01-02')
 		</if>
 		
 		

@@ -41,7 +41,7 @@ $(document).ready(function() {
 					success: function(data) {
 						
 						swal("삭제 완료", "선택하신 항목이 삭제되었습니다.", "success");
-						location.href='${pageContext.request.contextPath}/postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment} ';
+						location.href='${pageContext.request.contextPath}/postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment}&department=${param.department} ';
 					}
 					, 
 					error: function(jqXHR) {
@@ -80,8 +80,7 @@ $(document).ready(function() {
 								empName: empName 
 							},
 							success : function() {
-								alert("댓글이 등록되었습니다.");
-							 	
+								swal("댓글이 등록되었습니다.");
 								listCmt();
 								$("#cmtContent").val('');
 								
@@ -291,14 +290,16 @@ $(document).ready(function() {
 							<c:param name="empName" value="${param.empName }" />
 							<c:param name="fileCount" value="${param.fileCount }" />
 							<c:param name="isComment" value="${param.isComment }" />
+							<c:param name="department" value="${param.department}" />
 						</c:url>
 						
+
 					<!-- 본인이 쓴 게시물만 수정, 삭제가 가능하도록 처리 -->
 					<c:if test="${requestScope.post.writer == param.empName}">
 						<a class="btn btn-primary" href="${modifyUrl}">수정</a> 
 						<button type="button"  id="deletePost" class="btn btn-danger pull-right" >삭제</button>
 					</c:if> 
-					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment} "/>'>목록</a>
+					<a class="btn btn-primary" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&empName=${param.empName}&fileCount=${param.fileCount}&isComment=${param.isComment}&department=${param.department} "/>'>목록</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
