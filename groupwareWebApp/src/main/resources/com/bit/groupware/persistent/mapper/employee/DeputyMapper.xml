@@ -154,14 +154,19 @@
 	<select id="selectDeputyCheck" statementType="PREPARED" parameterType="map" resultType="int">
 		
 		    select count(*)
-		    from deputy
-		     where emp_no=#{empNo}
-		    and (start_date <![CDATA[<=]]> to_date(#{endDate},'YYYY/MM/DD')
-		         or
-		         end_date <![CDATA[>=]]> to_date(#{startDate},'YYYY/MM/DD') )
+			from(select dep_no
+			    from deputy
+			    where emp_no='2018-00001'
+			    minus
+			    select dep_no
+			    from deputy
+			     where emp_no=#{empNo}
+			    and (start_date <![CDATA[>=]]> to_date(#{endDate},'YYYY/MM/DD')
+			         or
+			         end_date <![CDATA[<=]]> to_date(#{startDate},'YYYY/MM/DD') )
 		   and progression = 'T'
 		   
-			
+			   
 	</select>
 	
 	<delete id="deleteDeputy" parameterType="String" statementType="PREPARED">
