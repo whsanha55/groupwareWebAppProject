@@ -8,16 +8,16 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_style.min.css" rel="stylesheet" type="text/css" />
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0//js/froala_editor.pkgd.min.js"></script>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.0//js/froala_editor.pkgd.min.js"></script>
 	<script>
 	$(document).ready(function() {
 		var total = 0;
@@ -46,7 +46,21 @@
 				swal("내용을 입력하세요.");
 				$('#postContent').focus();
 				return false;
-			} 		
+			}  
+	 		
+	 		swal({
+				title: "게시글 수정",   
+				text: "게시글을 수정합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					$('#datatable').submit();
+				} else if(!e) {
+					checkUnload = true;
+					return;
+				}
+			});		
 	 		
 		
 		});
@@ -155,6 +169,9 @@
 		<input type = "hidden" name ="boardNo" value = "${param.boardNo}">
 		<input type = "hidden" name ="boardName" value = "${param.boardName}">
 		<input type = "hidden" name ="empName" value = "${param.empName}">
+		<input type = "hidden" name ="fileCount" value = "${param.fileCount}">
+		<input type = "hidden" name ="isComment" value = "${param.isComment}">
+		<input type = "hidden" name ="department" value = "${param.department}">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
@@ -233,7 +250,7 @@
 					</div>
 					
 				</div>
-					<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}"/>'>목록</a>
+					<a class="btn btn-primary pull-right" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}&department=${param.department}"/>'>목록</a>
 					<button type="reset" class="btn btn-primary pull-right">취소</button>					 		
 					<button type="submit" class="btn btn-primary pull-right" id="modifyPost">등록</button>
 					 
