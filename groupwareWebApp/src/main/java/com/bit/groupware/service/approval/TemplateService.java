@@ -23,6 +23,8 @@ public interface TemplateService {
    
    List<TemplateVO> retrieveTemplateNameList();
    
+   List<TemplateVO> retrieveTemplateListByCategoryNo(Map<String, Integer> map);
+   
    void updateTemplateUsing(Map<String, Object> map);
    
 }

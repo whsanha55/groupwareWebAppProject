@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.AuthEmpListVO;
 import com.bit.groupware.domain.authority.AuthEmpVO;
+import com.bit.groupware.security.ReloadableFilterInvocationSecurityMetadataSource;
 import com.bit.groupware.service.authority.AuthorityService;
 
 @Controller
@@ -25,6 +26,9 @@ public class AdminDesignateAuthorityController {
 	@Autowired
 	private AuthorityService authorityService;
 
+	@Autowired
+	private ReloadableFilterInvocationSecurityMetadataSource metaSource;
+	
 	private static final Logger logger = LoggerFactory.getLogger(AdminDesignateAuthorityController.class);
 
 	@RequestMapping(value = "/admin/designAuthority.do", method = RequestMethod.GET)
@@ -71,7 +75,7 @@ public class AdminDesignateAuthorityController {
 	@ResponseBody
 	public boolean submit(@RequestParam(value = "aNo", required=true) String aNo,
 			@RequestParam(value = "isRegistration", required = false, defaultValue="") String isRegistration,
-			@RequestParam(value = "isNotRegistration", required=false, defaultValue="") String isNotRegistration) {
+			@RequestParam(value = "isNotRegistration", required=false, defaultValue="") String isNotRegistration) throws Exception {
 
 		logger.info("////////////////////isRegistration {}", isRegistration);
 		logger.info("////////////////////isNotRegistration {}", isNotRegistration);
@@ -109,6 +113,8 @@ public class AdminDesignateAuthorityController {
 		map.put("removeList", list1);
 
 		authorityService.registerAuthEmp(map);
+		
+		metaSource.reload();
 
 		return true;
 	}

@@ -16,12 +16,19 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment/moment.min.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/bootstrap-datetimepicker.js"></script>
   <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/datetimepicker/ko.js"></script> --%>
-
+ 
 <script>
 	var eKeyfield;
 	var eKeyword;
 	var eKeyword1;
 	
+	var now = new Date();
+    var year= now.getFullYear();
+    var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+    var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+    
+    var NowTime = year + mon + day;
+	   
 	 $.datepicker.setDefaults({
 		    dateFormat: 'yy-mm',
 		    prevText: '이전 달',
@@ -39,18 +46,21 @@
 
 		employeePaging1(1);
 		
-		$('#startDate1').datepicker({
+		$('#startDate1').datetimepicker({
 			format : "YYYY/MM/DD HH:00",		
-			defaultDate : new Date().setHours(00) 
-
+			minDate : new Date().setHours(00) ,
+			defaultDate : new Date().setHours(8)
 			
 		});
-		$('#endDate1').datepicker({
+		$('#endDate1').datetimepicker({
 			format : "YYYY/MM/DD HH:00",	 
-			defaultDate : new Date().setHours(00)
-
+			minDate : new Date().setHours(00) ,
+			defaultDate : new Date().setHours(18)
 		});
 		
+		$('#endDate1').click(function(){
+			$(this).datetimepicker("minDate",$('#startDate1').val());
+		});
 		
 		//검색창 타입 바꾸기
 		 $('.keyfield1').on("change",function(){
@@ -111,9 +121,22 @@
 		
 		// 검색 실행
 		$("#btn3").on("click",function(){
-			eKeyfield=$('#pKeyfield').val();
+			eKeyfield=$('.keyfield1').val();
+
+			if(eKeyfield != "date" && eKeyword == "") { 			
+				swal("검색어를 입력해주세요.", "","error");
+				return; 				
+			}
+ 			if(eKeyfield == "date" ){
+	 			if( eKeyword == "" || eKeyword1 == "") {
+					swal("날짜를 입력해주세요.", "","error");
+					return;
+	 			}  
+ 			}
+ 			
+ 			
 			 if(eKeyfield=='date'){ 
-				 eKeyword=convertDate($('#pKeyword').datepicker('getDate'));
+				 eKeyword=convertDate($('#pKeyword').datepicker('getDate')); 
 				 eKeyword1=convertDate($('#pKeyword1').datepicker('getDate'));
 			 }else{
 				 eKeyword=$('#pKeyword').val();
@@ -127,17 +150,9 @@
 			 function convertDate(date) {
 			    return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad(date.getDate());	
 			 }
+	 				
 			 
-	 			if(eKeyfield != "date" && eKeyword == "") { 			
-					swal("검색어를 입력해주세요.", "");
-					return; 				
-				}
-	 			if(eKeyfield == "date" ){
-		 			if( pKeyword == "" || eKeyword1 == "") {
-						swal("날짜를 입력해주세요.", "");
-						return;
-		 			}  
-	 			}
+	 			
 			 
 			 employeePaging1(1);
 		 });
@@ -165,88 +180,120 @@
 			$('#chartBody').html(""); 
 		});
 		
+		//사용중단
 		$('#datatable').on('click','#stopUse',function() {
 		   var startDate = $(this).parent().parent().find("#startDate").text();
 		   var startDateArr = startDate.split('/');
 		   var startDatdCompare = startDateArr[0] + startDateArr[1] + startDateArr[2];
-		    
-		   var now = new Date();
-		   var year= now.getFullYear();
-		   var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
-		   var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
-		    
-		   var NowTime = year + mon + day;
-		   
-		   if(startDateArr > NowTime) {
-				$.ajax({
-					url: "${pageContext.request.contextPath}/cancelDeputy.do",
-					method: 'POST',
-					data : {
-						depNo : $(this).parent().parent().find('input').val()
-					},
-					dataType : 'json',
-					success: function(data) {
-						employeePaging1(1);
-					},
-					error: function(jqXHR) {
-						alert("error : " + jqXHR.status);
-					}
-				})
-		     } else {
-				$.ajax({
-					url: "${pageContext.request.contextPath}/stopUseDeputy.do",
-					method: 'POST',
-					data : {
-						depNo : $(this).parent().parent().find('input').val()
-					},
-					dataType : 'json',
-					success: function(data) {						
-						employeePaging1(1);
-					},
-					error: function(jqXHR) {
-						alert("error : " + jqXHR.status);
-					}
+
+		   swal({
+				  title: "대결 사용 중단",
+				  text: "해당 대결을 사용 중단 하시겠습니까?",
+				  icon: "warning",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						
+						$.ajax({
+							url: "${pageContext.request.contextPath}/stopUseDeputy.do",
+							method: 'POST',
+							data : {
+								depNo : $(this).parent().parent().find('.depNo').val(),
+								status : $(this).parent().parent().find('.status').val()
+							},
+							dataType : 'json',
+							success: function(data) {						
+								employeePaging1(1);
+							},
+							error: function(jqXHR) {
+								alert("error : " + jqXHR.status);
+							}
+						});
+						
+					}	
 				});
-				//$('#stopUse').detach();
-		    }
+		
 		});
 		
 		
 		//취소
 		$('#datatable').on('click','#candep',function() {
-			console.log($(this).parent().parent().find('input').val());
-			$.ajax({
-				url: "${pageContext.request.contextPath}/cancelDeputy.do",
-				method: 'POST',
-				data : {
-					depNo : $(this).parent().parent().find('input').val()
-				},
-				dataType : 'json',
-				success: function(data) {
-					employeePaging1(1);
-				},
-				error: function(jqXHR) {
-					alert("error : " + jqXHR.status);
+			
+			  swal({
+				  title: "대결 삭제",
+				  text: "해당 대결을 삭제하시겠습니까?",
+				  icon: "error",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+			
+					$.ajax({
+						url: "${pageContext.request.contextPath}/cancelDeputy.do",
+						method: 'POST',
+						data : {
+							depNo : $(this).parent().parent().find('input').val()
+						},
+						dataType : 'json',
+						success: function(data) {
+							employeePaging1(1);
+						},
+						error: function(jqXHR) {
+							alert("error : " + jqXHR.status);
+						}
+					})
+					
 				}
-			})
+			});		
 		});
 		
 		//대결 등록
 		$('#submitBtn').click(function(e) {
 			var startDate = $( "input[name='startDate']" ).val();
 			var endDate = $( "input[name='endDate']" ).val();
-		     
-			
-			/* var startDateArr = startDate.split('-');
-			var endDateArr = endDate.split('-');
+			swal({
+				  title: "대결 등록",
+				  text: "대결을 등록 하시겠습니까?",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e){
+					$.ajax({
+						url: "${pageContext.request.contextPath}/checkDeputy.do",
+						method: 'POST',
+						data : {
+							startDate : startDate,
+							endDate : endDate
+						},
+						dataType : 'json',
+						success: function(data) {						
+							if(data > 0){
+								 swal({
+									  title: "대결 지정 실패",
+									  text: "해당 기간에 이미 지정된 대결권자가 있습니다.",
+									  icon: "error",
+									  buttons : false 
+									})
+							}else{
+								$('#demo-form2').submit();
+							}
+						},
+						error: function(jqXHR) {
+							alert("error : " + jqXHR.status);
+						}
+					});
+					}
+				});
+			/*  var startDateArr = startDate.split('/');
+			var endDateArr = endDate.split('/');
 		                 
 			var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
 			var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-		         
+		        alert(startDate+"~~"+endDate) 
+		
 			if(startDateCompare.getTime() > endDateCompare.getTime()) {        
 		    	e.preventDefault();
 				alert("시작날짜와 종료날짜를 확인해 주세요.");
-			} */
+			}  */
 		});
 		
 	});
@@ -257,7 +304,7 @@
 			var pageSize = 5;		//페이지 리스트에 게시되는 페이지 수
 			var startRow = (currentPageNo - 1) * countPerPage + 1;
 			var endRow = currentPageNo * countPerPage;
-			
+
 			$.ajax({
 				url: '${pageContext.request.contextPath}/listDeputyAjax.do' 
 				,
@@ -287,7 +334,8 @@
 						for(var i=0;i<data.deputies.length;i++) {
 							for(var j=0;j<data.deputies[i].employees.length;j++) {
 								text += "<tr id='parent" + i + "'>";
-								text += "<input type='hidden' id='depNo"+ i +"' value='"+ data.deputies[i].depNo +"'>";
+								text += "<input type='hidden' class='depNo' id='depNo"+ i +"' value='"+ data.deputies[i].depNo +"'>";
+								text += "<input type='hidden' class='status' value='"+ data.deputies[i].status +"'>";
 								text += "<td>"+ data.deputies[i].dempNo +"</td>";
 								text += "<td>"+ data.deputies[i].employees[j].duty +"</td>";
 								text += "<td>"+ data.deputies[i].employees[j].empName; + "</td>";
@@ -295,13 +343,33 @@
 								text += "<td id='endDate'>"+ data.deputies[i].endDate +"</td>";
 								text += "<td>"+ data.deputies[i].progression +"</td>";
 								text += "<td>"+ data.deputies[i].depReason +"</td>";
-								text += "<td><button id='stopUse' type='button'>사용중단</button><button id='candep' type='button'>취소</button></td>";
+								text += "<td><button id='stopUse' type='button'>사용중단</button>&nbsp;<button id='candep' type='button'>취소</button></td>";
 								text += "</tr>";
+								if(data.deputies[i].status == "과거"){
+									text += "<td>만료</td>"
+								}else{
+									text += "<td>"+ data.deputies[i].progression +"</td>";																	
+								}
+								text += "<td>"+ data.deputies[i].depReason +"</td><td>";
+						//		text += "<td>"+ data.deputies[i].status +"</td>";
+								if(data.deputies[i].progression == "T"){
+									if(data.deputies[i].status == "미래"){
+							  			text += "<button id='stopUse' type='button' class='btn btn-warning' style='padding-top: 1px; padding-bottom: 1px;padding-left: 3px; padding-right: 3px;'>사용중단</button>"
+										text += "<button id='candep' type='button' class='btn btn-default' style='padding-top: 1px; padding-bottom: 1px;padding-left: 3px; padding-right: 3px;'>삭제</button>";									
+									}else if(data.deputies[i].status == "현재"){
+										text += "<button id='stopUse' type='button' class='btn btn-warning' style='padding-top: 1px; padding-bottom: 1px;padding-left: 3px; padding-right: 3px;'>사용중단</button>"									
+									}
+								}else{
+									if(data.deputies[i].status == "미래"){
+										text += "<button id='candep' type='button' class='btn btn-default' style='padding-top: 1px; padding-bottom: 1px;padding-left: 3px; padding-right: 3px;'>삭제</button>";									
+									}
+								}
+								text += "</td></tr>";
 							}
 						}
-					}
+					}   
 					$('#datatable').find('tbody').html(text);
-
+   
 					//페이징 처리
 					jqueryPager1({
 						countPerPage : countPerPage,
@@ -392,7 +460,7 @@
 							<input type="hidden" id="empNo" name="empNo" value="${requestScope.empNo }"/>
 							<input type="text" id="empName" name="empName" class="form-control" readonly>
 								<span class="input-group-btn">
-									<button id="searchEmp" type="button" class="btn btn-primary"
+									<button id="searchEmp" type="button" class="btn btn-default"
 										data-toggle="modal" <%-- data-target="#myModal" --%>>검색</button>
 								</span>
 						</div>
@@ -411,35 +479,42 @@
 					<br>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="depReason">사유 :</label>
-						<div class="col-md-6 col-sm-6 col-xs-12">
+						<div >
 							<input type="text" id="depReason" name="depReason"
-								required="required" class="form-control col-md-7 col-xs-12" style="width:535px;">
+								required="required" class="form-control col-md-7 col-xs-12" style="width:535px;margin-left: 10px;">
+							<button id="submitBtn" type="button" class="btn btn-primary" style="margin-left: 10px;">대결등록</button>
 						</div>
 					</div>
+					</form>
 					<br>
 					<div class="form-group">
 						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-							<button id="submitBtn" type="submit" class="btn btn-success">대결등록</button>
+							
 						</div>
 					</div>
-					
+					  
 					<div class="ln_solid"></div>
 					
-					<div class="col-md-3">
-						<div class="input-group">  
-							<div class="searchList2" style="width:700px;">
+					<div class="col-md-3" style="width:100%;"> 
+						<div class="input-group" style="width:100%;">  
+							<div class="searchList2" style="float:right !important;">
 								<select class="keyfield1" name="pKeyfield" style="height:25px;" >
 									<option value="dempNo">사원번호</option>
 									<option value="duty">직책</option>
 									<option value="empName">이름</option>
 									<option value="date">기간</option>
 								</select> <input id="pKeyword" type="text" name="pKeyword" placeholder="검색어를 입력하세요">
-								<button id="btn3" type="button">검색</button>
+								<button id="btn3" type="button" class="btn btn-default" style="padding-left: 2px;
+								    padding-right: 2px; padding-bottom: 2px; padding-top: 2px; margin-bottom: 1px;">검색</button>
 								<i class="fa fa-undo" id="return">되돌리기</i>
 						</div>
 					</div>
 						
-					<table id="datatable" class="table table-striped table-bordered" style="width:1202px;">
+<<<<<<< HEAD
+					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;width:1202px;">
+=======
+					<table id="datatable" class="table table-striped table-bordered" style="text-align:center;">
+>>>>>>> refs/remotes/origin/master
 						<thead>
 							<tr>
 								<th id='1' class="text-center">사번</th>
@@ -456,12 +531,13 @@
 							
 						</tbody>
 					</table>
-					<div class="text-center">
-				 		<nav aria-label="Page navigation" id = 'employeePaging1'>
+					<div >
+				 		<nav aria-label="Page navigation" id='employeePaging1'
+						style="text-align:center;">
 				
 						</nav> 
 						</div>
-				</form>
+				
 			</div>
 		</div>
 	</div>
@@ -482,6 +558,6 @@
 			</div>
 		</div>
 	</div>
-	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

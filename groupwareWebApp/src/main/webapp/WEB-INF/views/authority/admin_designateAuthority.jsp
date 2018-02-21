@@ -182,11 +182,16 @@ $(document).ready(function() {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$('#datatable').on('click', 'input[type=radio]', function() {
-	   
+	    var empNo = $(this).parents('tr').find('td:eq(0)').text();
+	 
 		if($(this).val() == '0') {
-			selected.push($(this).parents('tr').find('td:eq(0)').text());		
+			if(selected.indexOf(empNo) == -1) { 
+				selected.push(empNo);
+			} 
 		} else {
-			unselected.push($(this).parents('tr').find('td:eq(0)').text());				
+			if(unselected.indexOf(empNo) == -1) { 
+				unselected.push(empNo);		
+			} 					
 		}		
 	});
 	

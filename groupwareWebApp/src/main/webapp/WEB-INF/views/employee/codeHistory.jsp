@@ -22,13 +22,13 @@
 					<div class="col-md-6"></div>
 				</div>
 				<table id="datatable"
-					class="table table-striped table-bordered text-center">
+					class="table table-striped table-bordered text-center" style="text-align:center;">
 					<thead>
 						<tr>
-							<th>부서</th>
-							<th>직책</th>
-							<th>시작일</th>
-							<th>종료일</th>
+							<th class="text-center">부서</th>
+							<th class="text-center">직책</th>
+							<th class="text-center">시작일</th>
+							<th class="text-center">종료일</th>
 						</tr>
 					</thead>
 					<tbody>

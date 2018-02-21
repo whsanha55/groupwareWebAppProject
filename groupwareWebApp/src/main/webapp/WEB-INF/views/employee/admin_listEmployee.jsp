@@ -68,7 +68,7 @@ input[type=file]:before {
 		// 검색 실행
 		$('#findEmployee').on('click', function() {
 			if($('.keyfield').attr('id') == undefined) {
-				swal("검색조건를 선택해주세요","", "error");
+				swal("검색조건을 선택해주세요!","", "error");
 				return;
 			}
 	
@@ -152,6 +152,7 @@ input[type=file]:before {
 		});	
 		
 		$('#modalForm').on('click', '#modifyBtn', function() {
+			$('#upload-image').attr('disabled', false);
 			$('#modEmpName').attr('readonly', false);
 			$('#modEngName').attr('readonly', false);
 			$('select[name=phoneNumber1]').attr('disabled', false);
@@ -162,6 +163,7 @@ input[type=file]:before {
 			$('#email1').attr('readonly', false);
 			$('#email2').attr('readonly', false);
 			$('select[name=emailaddr]').attr('disabled', false);
+			$('#findpostcode').attr('disabled', false);
 			$('#moddetailAddress').attr('readonly', false);
 			$('#deptBtn').attr('disabled', false);
 			$('#dutyBtn').attr('disabled', false);
@@ -238,26 +240,55 @@ input[type=file]:before {
 		});
 		
 		$("#modalForm").on('click','#retireBtn',function() {
-			$.ajax ({
-				url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
-				method : 'POST',
-				data : {
-					empNo : $('#modifyEmpNo').val()
-				},
-				dataType : 'json',
-				success : function(data) {
-					$('#modRetireStatus').val(data.retireStatus);
-					if($('#modRetireStatus').val() == 0) {
-						$('#modRetireStatus').val('퇴사');
-					}
-					$('#modRetireDate').val(data.retireDate);
-					$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
-					employeePaging(1);
-				},
-				error : function(jqXHR) {
-					alert("error : " + jqXHR.status);
-				}				
-			});
+			
+			var empNo = $('#modifyEmpNo').val();
+			console.log(empNo);
+			swal({
+				title: "사원 퇴사",
+				text: "사원을 퇴사처리 합니다. 계속 진행하시겠습니까?",
+				icon: "info",
+				buttons : true 
+			}).then((e) => {
+				if(e) {
+					retireEmployee(empNo);
+				} else if(!e) {
+					return;
+				}
+			});			
+
+			
+			function retireEmployee(empNo) {
+				$.ajax ({
+					url : '${pageContext.request.contextPath}/admin/retireEmployee.do',
+					method : 'POST',
+					data : {
+						empNo : empNo
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log(data);
+						$('#modRetireStatus').val(data.retireStatus);
+						if($('#modRetireStatus').val() == 0) {
+							$('#modRetireStatus').val('퇴사');
+						}
+						$('#modRetireDate').val(data.retireDate);
+						$('#btnDiv').html('<button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
+						swal({
+							  title: "퇴사 완료",
+							  text: "해당 사원이 퇴사처리 되었습니다.",
+							  icon: "info",
+							  buttons : "확인" 
+						}).then((e) => {
+							if(e) {
+								employeePaging(1);
+							}
+						});						
+					},
+					error : function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}				
+				});
+			}
 		});
 		
 		$("#upload-image").on("change", handleImgFileSelect);
@@ -364,7 +395,7 @@ input[type=file]:before {
 				//datatable테이블 변경하기
 				var text = "";
 				if(totalCount == 0) {
-					text += '<tr><td>조회된 검색결과가 없습니다<td></tr>';
+					text += '<tr class="text-center"><td colspan=8>조회된 검색결과가 없습니다</td></tr>';
 				} else {
 					for(var i=0;i<data.employees.length;i++) {
 						text += "<tr>";
@@ -393,6 +424,7 @@ input[type=file]:before {
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						$('#upload-image').attr('disabled', true);
 						$('#modEmpName').attr('readonly', true);
 						$('#modEngName').attr('readonly', true);
 						$('select[name=phoneNumber1]').attr('disabled', true);
@@ -403,6 +435,7 @@ input[type=file]:before {
 						$('#email1').attr('readonly', true);
 						$('#email2').attr('readonly', true);
 						$('select[name=emailaddr]').attr('disabled', true);
+						$('#findpostcode').attr('disabled', true);
 						$('#moddetailAddress').attr('readonly', true);
 						$('#dutyBtn').attr('disabled',true);
 						$('#deptBtn').attr('disabled',true);

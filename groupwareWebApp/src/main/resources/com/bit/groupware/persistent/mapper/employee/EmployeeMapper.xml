@@ -290,5 +290,11 @@
 		where emp_no = #{empNo} 
 	</delete>
 	
+	<insert id="insertCodeHistoryProcedure" parameterType="String" statementType="CALLABLE">
+		{
+			call employee_code_history_proc(#{empNo})
+		}
+	</insert>
+	
 </mapper>
 

@@ -26,7 +26,9 @@ public class ListHistoryController {
 	
 	//코드 변경 이력 조회하기 (관리자)
 	@RequestMapping(value="/admin/listCodeHistory.do", method=RequestMethod.GET)
-	public ModelAndView listCodeHistoryByAdmin() {
+	public String listCodeHistoryByAdmin() {
+		return "employee/admin_codeHistory";
+		/*
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("keyfield", "검색조건");
@@ -35,6 +37,7 @@ public class ListHistoryController {
 		mv.addObject("codeHistories", codeService.retrieveCodeHistoryListByAdmin(map));
 		mv.setViewName("employee/admin_codeHistory");
 		return mv;
+		*/
 	}
 	
 	//코드 변경 이력 조회하기 (사용자)

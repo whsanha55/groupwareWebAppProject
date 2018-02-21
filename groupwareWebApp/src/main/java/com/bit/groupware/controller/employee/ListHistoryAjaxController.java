@@ -18,38 +18,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.groupware.domain.authority.UserVO;
-import com.bit.groupware.domain.employee.DeputyVO;
+import com.bit.groupware.domain.employee.CodeHistoryVO;
 import com.bit.groupware.domain.employee.EmployeeVO;
 import com.bit.groupware.service.employee.CodeService;
-import com.bit.groupware.service.employee.EmployeeService;
 
 @Controller
-public class DeputyListAjaxController {
-	private static final Logger logger = LoggerFactory.getLogger(DeputyListAjaxController.class);
-	@Autowired
-	private EmployeeService employeeService;
+public class ListHistoryAjaxController {
+	private static final Logger logger = LoggerFactory.getLogger(ListHistoryAjaxController.class);
 	@Autowired
 	private CodeService codeService;
 	
-	@RequestMapping(value="/listDeputyAjax.do", method=RequestMethod.POST)
+	//코드 변경 이력 조회하기 (관리자)
+	@RequestMapping(value="/admin/listAjaxCodeHistory.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> form(
-						@RequestParam(value="keyfield",required=false) String keyfield,
-						@RequestParam(value="keyword",required=false) String keyword,
-						@RequestParam(value="keyword1",required=false) String keyword1,
+						@RequestParam(required=false) String keyfield,
+						@RequestParam(required=false) String keyword,
 						@RequestParam int startRow,
-						@RequestParam int endRow
-						) {
+						@RequestParam int endRow) {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		SecurityContext context = SecurityContextHolder.getContext();
-		Authentication authentication = context.getAuthentication();
-		UserVO user = (UserVO)authentication.getPrincipal();
-
- 		map.put("keyfield", keyfield);
+		map.put("keyfield", keyfield);
 		map.put("keyword", keyword);
-		map.put("keyword1", keyword1);
-		map.put("empNo", user.getUsername());
-		int totalCount = employeeService.retrieveDeputyListCount(map);
+		
+		int totalCount = codeService.retrieveHistoryCount(map);
 		if(totalCount < endRow) {
 			endRow = totalCount;
 		}
@@ -57,11 +49,18 @@ public class DeputyListAjaxController {
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		
+		List<CodeHistoryVO> histories = codeService.retrieveCodeHistoryListByAdmin(map);
+		
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("totalCount", totalCount);
-		returnMap.put("deputies", employeeService.retrieveDeputyList(map));
-		logger.info("returnMap : {}", returnMap);
+		returnMap.put("histories", histories);
 		return returnMap;
-		
+	}
+	
+	@RequestMapping(value="/admin/removeHistory.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String removeAjaxController(@RequestParam("no")int no) {
+		codeService.removeHistory(no);
+		return "yes";
 	}
 }

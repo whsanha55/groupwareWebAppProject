@@ -171,12 +171,63 @@
 	</select>
 	
 	<!-- 코드 변경 이력 조회 (관리자) -->
-	<select id="selectCodeHistoryByAdmin" parameterType="map" resultType="CodeHistoryVO" statementType="STATEMENT" >
-		select emp_no as empNo, empName, department as deptName, 
-				duty as dutyName, start_date as startDate, end_date as endDate
-		from code_history ch, emplist_view e
-		where ch.emp_no = e.empno
+	<select id="selectCodeHistoryByAdmin" parameterType="map" resultType="CodeHistoryVO" statementType="PREPARED" >
+		select no, empNo, empName, deptName, dutyName, startDate, endDate
+		from (select rownum as rn, emp.*
+		    from (select no, emp_no as empNo, empName, department as deptName, duty as dutyName, start_date as startDate, end_date as endDate
+		          from code_history ch, emplist_view e
+		          where ch.emp_no = e.empno
+		          <if test="keyfield == 'empNo' and keyword != null">
+		              and empNo like '%' || #{keyword} || '%'
+		          </if>
+		          <if test="keyfield == 'empNo' and keyword == null">
+		              order by empNo asc
+		          </if>
+		          <if test="keyfield == 'empName' and keyword != null">
+		              and empName like '%' || #{keyword} || '%'
+		          </if>
+		          <if test="keyfield == 'empName' and keyword == null">
+		              order by empName asc
+		          </if>
+		          <if test="keyfield == 'department' and keyword != null">
+		              and department like '%' || #{keyword} || '%'
+		          </if>
+		          <if test="keyfield == 'department' and keyword == null">
+		              order by department asc
+		          </if>
+		          <if test="keyfield == 'duty' and keyword != null">
+		              and duty like '%' || #{keyword} || '%'
+		          </if>
+		          <if test="keyfield == 'duty' and keyword == null">
+		              order by duty asc
+		          </if>
+		          )emp)e
+		    where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
+
 	</select>
+	
+	<select id="selectCodeHistoryByAdminCount" parameterType="map" resultType="int" statementType="PREPARED" >
+		select count(*)
+        from code_history ch, emplist_view e
+        where ch.emp_no = e.empno
+		<if test="keyfield == 'empNo' and keyword != null">
+			and empNo like '%' || #{keyword} || '%'
+		</if>		
+		<if test="keyfield == 'empName' and keyword != null">
+		    and empName like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == 'department' and keyword != null">
+			and department like '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield == 'duty' and keyword != null">
+			and duty like '%' || #{keyword} || '%'
+		</if>
+	</select>
+	
+	<delete id="deleteHistory" parameterType="int" statementType="PREPARED">
+		delete code_history
+		where no = #{no}
+	</delete>
 		
 </mapper>
 

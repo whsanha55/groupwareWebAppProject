@@ -36,7 +36,7 @@
 			
 			$('#findDept').on('click', function() {
 				if($('.keyfield').attr('id') == undefined) {
-					swal("검색조건를 선택해주세요","", "error");
+					swal("검색조건을 선택해주세요!","", "error");
 					return false;
 				} 
 			
@@ -257,7 +257,7 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<table id="datatable2" class="table table-striped table-bordered" style="text-align:center;">
+						<table id="datatable2" class="table table-striped table-bordered jambo_table" style="text-align:center;">
 							<thead>
 								<tr id="deptEmpListTR">
 									<th class="text-center">사번</th>
