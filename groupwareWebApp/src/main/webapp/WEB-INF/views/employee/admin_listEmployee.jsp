@@ -322,8 +322,6 @@ input[type=file]:before {
 			dataType: 'json' 
 			,
 			success: function (data, textStatus, jqXHR) {
-				var checkChangeDept = "";
-				var checkChangeDuty = "";
 				totalCount = data.totalCount;
 				
 				//datatable테이블 변경하기
@@ -376,7 +374,11 @@ input[type=file]:before {
 						$('#deptBtn').attr('disabled',true);
 						
 						$('#btnDiv').html('<button id="modifyBtn" type="button" class="btn btn-primary">수정</button><button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button><button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
-													
+						
+						$('input[name=oldDuty]').val($(this).nextAll('#submitDutyNo').val());
+						console.log($('input[name=oldDuty]').val());
+						$('input[name=oldDept]').val($(this).nextAll('#submitDeptNo').val());
+						console.log($('input[name=oldDept]').val());
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
@@ -390,8 +392,7 @@ input[type=file]:before {
 						$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
 						$('.preDept').text($(this).nextAll('#submitDept').text());
-						checkChangeDuty = $(this).nextAll('#submitDuty').text();
-						checkChangeDept = $(this).nextAll('#submitDept').text();
+						
 						var phoneArr = $(this).nextAll('#submitPhoneNumber').text().split('-');
 						$('#phoneNumber1').val(phoneArr[0]);
 						$('#phoneNumber2').val(phoneArr[1]);
@@ -426,9 +427,11 @@ input[type=file]:before {
 					$('#modalForm').on('click', '#modifyCompBtn' , function() {
 						event.preventDefault();
 						checkUnload = false;
+						console.log($('input[name=oldDept]').val());
+						console.log($('input[name=oldDuty]').val());
+						console.log($('input[name=deptCode]').val());
+						console.log($('input[name=dutyCode]').val());
 						
-						console.log($('.preDuty').text());
-						console.log(checkChangeDuty);
 						/*
 						if($('.preDuty').text() == checkChangeDuty) {
 							$('input[name=deptCode]').val("");
@@ -595,23 +598,38 @@ input[type=file]:before {
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
+<<<<<<< HEAD
 					 ※사번 클릭 시, 사원 상세 정보를 조회합니다.
 						<div class="col-md-4 col-xs-offset-2 pull-right">
 							<div class="input-group style="margin-right:-25px;">
+=======
+						<div>
+							<div class="input-group col-md-6 pull-right">
+>>>>>>> branch 'master' of https://github.com/whsanha55/groupwareWebAppProject.git
 								<div id="search-panel" class="input-group-btn search-panel">
 									<button class="btn btn-default dropdown-toggle" style="margin-right:3px;"
 										data-toggle="dropdown" type="button">
 										<span class="keyfield">검색조건</span><span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
-										<li><a id="empNo" role="menuitem">사원번호</a></li>
-										<li><a id="empName" role="menuitem">이름</a></li>
-										<li><a id="duty" role="menuitem">직책</a></li>
-										<li><a id="department" role="menuitem">부서</a></li>
-										<li><a id="retireStatus" role="menuitem">퇴사여부</a></li>
+										<li>
+											<a id="empNo" role="menuitem">사원번호</a>
+										</li>
+										<li>
+											<a id="empName" role="menuitem">이름</a>
+										</li>
+										<li>
+											<a id="duty" role="menuitem">직책</a>
+										</li>
+										<li>
+											<a id="department" role="menuitem">부서</a>
+										</li>
+										<li>
+											<a id="retireStatus" role="menuitem">퇴사여부</a>
+										</li>
 									</ul>
 								</div>
-								<input type="text" class="form-control keyword" placeholder="검색어를 입력하세요." >
+								<input type="text" class="form-control keyword" placeholder="검색어" >
 								<span class="input-group-btn">
 									<button class="btn btn-default" id="findEmployee" type="button" style="margin-left:3px; height:34px;">
 										<span class="glyphicon glyphicon-search"></span>
@@ -656,6 +674,8 @@ input[type=file]:before {
 				enctype="multipart/form-data" method="POST">
 		<input type="hidden" name="dutyCode" value="">
 		<input type="hidden" name="deptCode" value="">
+		<input type="hidden" name="oldDuty" value="">
+		<input type="hidden" name="oldDept" value="">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
