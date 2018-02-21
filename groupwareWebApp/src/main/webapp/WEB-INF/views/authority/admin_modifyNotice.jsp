@@ -143,6 +143,28 @@
 	.fr-element {
 		height: 400px;
 	} 
+	
+	.btn-modify {
+	    background-color: white;
+	    border-color: white;
+	    color: #2196F3; 
+    }
+    
+	.btn-modify:hover,
+	.btn-modify:focus {
+	    border-color: white;
+	    background-color: white;
+	    color: balck; 
+	 }
+	 
+	.btn-modify:active,
+	.btn-modify:visited,
+	.btn-modify:active:focus,
+	.btn-modify:active:hover {
+	    border-color: white;
+	    background-color: white;
+	    color: balck; 
+    }
 </style>
 <title>Insert title here</title>
 </head>
@@ -185,25 +207,27 @@
 			
 						<%-- 업로드된 파일 목록 조회 --%>
 					<c:if test="${fn:length(sessionScope.notice.files) > 0 }">
-						<table border="1" id="datatable" >
+						<table id="datatable" >
+						 <tbody style='border-bottom: 1px  solid darkgray;'>
 							<c:forEach var="noticeFile" items="${sessionScope.notice.files }" varStatus="loop">
 								<c:url var="deleteUrl" value="/admin/removeNoticeFile.do" scope="page">
 									<c:param name="noticeNo" value="${pageScope.noticeFile.no }"/>
 								</c:url>
-								<tr>
-									<td>파일${pageScope.loop.count }</td>
-									<td>${pageScope.noticeFile.originalFileName }</td>							
-									<td><button type="button"  value="${pageScope.noticeFile.no }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td>
+								<tr style='height:40px; border-top: 1px  solid darkgray;'>
+									<td style='width:50px;'>파일${pageScope.loop.count }</td>
+									<td style='width:150px;'>${pageScope.noticeFile.originalFileName }</td>							
+									<td><button type="button"  class='btn btn-modify btn-xs' value="${pageScope.noticeFile.no }"  id="deleteBtn" class="btn btn-primary pull-right" >삭제</button></td>
 								</tr>
 							</c:forEach>
-						</table>
+							</tbody >
+						</table><br>
 					</c:if>
 						<div class="col-md-12">
 							<div class="row">
 								<div class="control-group" id="fields">
 									<div class="controls">
 										<div class="entry input-group col-xs-3">
-											<input type="file" class="btn btn-primary" name="upload">
+											<input type="file" class="btn btn-default" name="upload">             
 											<span class="input-group-btn">
 												<button class="btn btn-success btn-add" type="button">
 													<span class="glyphicon glyphicon-plus"></span>

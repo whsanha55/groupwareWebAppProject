@@ -134,7 +134,7 @@
      	  <div class="control-group" id="fields">
 			<div class="controls">
 				<div class="entry input-group col-xs-3">
-					<input type="file" class="btn btn-dark" name="upload" >
+					<input type="file" class="btn btn-default" name="upload" >  
 					<span class="input-group-btn">
 						<button class="btn btn-success btn-add" type="button">
 							<span class="glyphicon glyphicon-plus"></span>

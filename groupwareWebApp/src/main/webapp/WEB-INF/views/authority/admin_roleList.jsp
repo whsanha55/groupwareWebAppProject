@@ -152,6 +152,13 @@
          if($("input[name=selected]").is(':checked') == false) {
             swal("삭제할 항목을 체크해주세요.", "선택된 항목이 없습니다.");
          } else {
+        	 $(':checkbox[name=selected]').each(function() {
+					if($(this).is(':checked')) {
+						arr.push($(this).val());
+						console.log(arr.join());
+					}
+				});
+        	 
             $(':checkbox[name=selected]').each(function() {
                if($(this).is(':checked')) {
                   arr.push($(this).val());
@@ -191,6 +198,15 @@
             
          }
       });   
+      
+      $(':checkbox[name=all]').on('change', function() {		
+  		if($(this).prop('checked'))  {
+  			console.log($(this).val());
+				$(':checkbox[name=selected]').prop('checked', true)
+			} else {
+				$(':checkbox[name=selected]').prop('checked', false)
+			}
+  		});
       
    });
    
@@ -354,7 +370,7 @@
                         <thead>
                           <tr class="headings">
                             <th>
-                              <input type="checkbox" id="ex_chk"> 
+                           		 <input type='checkbox' name='all'>
                             </th>
                             <th class="column-title">롤 ID </th>
                             <th class="column-title">롤 명 </th>
