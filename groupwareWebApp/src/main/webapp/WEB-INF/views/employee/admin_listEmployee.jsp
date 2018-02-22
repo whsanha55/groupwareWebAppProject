@@ -9,6 +9,15 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
+	#bigtd {
+		padding-top:24px;
+	}
+	#smltd {
+		padding-top:16px;
+	}
+	#addresstd {
+		padding-top:55px;
+	}
 	.modal-dialog {
 		width:670px;
 	}
@@ -792,21 +801,21 @@ input[type=file]:before {
 							</div>
 						</div>
 						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:200px;">
-							<tbody style="vertical-align:middle;">
+							<tbody>
 								<tr>
-									<th class='text-center'>사번</th>
+									<th id="bigtd" class='text-center'>사번</th>
 									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
-										readonly value="" style="width:200px;"></td>
+										readonly value="" style="width:200px;display:inline-block;margin-top:8px;"></td>
 								</tr>
 								<tr>
-									<th>이름</th>
+									<th id="bigtd" class='text-center'>이름</th>
 									<td><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value="" style="width:200px;"></td>
+										required="required" value="" style="width:200px;display:inline-block;margin-top:8px;"></td>
 								</tr>
 								<tr>
-									<th>영문이름</th>
+									<th id="bigtd" class='text-center'>영문이름</th>
 									<td><input id="modEngName" name="engName" type="text" class="form-control"
-										value="" style="width:200px;"></td>
+										value="" style="width:200px;display:inline-block;margin-top:8px;"></td>
 								</tr>
 							</tbody>
 						</table>						
@@ -815,7 +824,7 @@ input[type=file]:before {
 							<tbody>
 								
 								<tr>
-									<th>직책</th>
+									<th id="smltd" class="text-center">직책</th>
 									<td colspan='2'><div>
 										<select id="dutyBtn" name="dutyBtn" style="width:80px;height:30px;">
 											<option value="">직책선택</option>
@@ -842,7 +851,7 @@ input[type=file]:before {
 												</div>
 											</div> --%>
 										</div></td>
-									<th>부서</th>
+									<th id="smltd" class="text-center" style="width:74px;height:51px;">부서</th>
 									<td id="deptTd" colspan='2'><div>
 										<select id="deptBtn" name="deptBtn" style="width:80px;height:30px;display:inline-block;float:left;margin-right:5px;">
 											<option value="">부서선택</option>
@@ -871,7 +880,7 @@ input[type=file]:before {
 										</div></td>
 								</tr>
 								<tr>
-									<th colspan='1'>연락처</th>
+									<th id="smltd" class="text-center" colspan='1'>연락처</th>
 									<td colspan='5' class="form-inline">
 											<input type="hidden" id="phoneNumber" name="phoneNumber"
 												 class="form-control col-md-7 col-xs-12">
@@ -892,7 +901,7 @@ input[type=file]:before {
 									</td>
 								</tr>
 								<tr>
-									<th colspan='1'>주민번호</th>
+									<th id="smltd" class="text-center" colspan='1'>주민번호</th>
 									<td colspan='5' class="form-inline">
 										<input type="hidden" id="regNumber" name="regNumber" 
 											 class="form-control col-md-7 col-xs-12" value="" >
@@ -904,7 +913,7 @@ input[type=file]:before {
 									</td>
 								</tr>
 								<tr>
-									<th colspan='1'>이메일</th>
+									<th id="smltd" class="text-center" colspan='1'>이메일</th>
 									<td colspan='5' class="form-inline">
 										<input type="hidden" id="email" name="email" value="" >
 										<input type='text' id="email1" name="email1" class="form-control" style="width:100px;">&nbsp;@&nbsp;
@@ -922,30 +931,30 @@ input[type=file]:before {
 									</td>
 								</tr>
 								<tr>
-									<th>입사일</th>
+									<th id="smltd" class="text-center">입사일</th>
 									<td><input id="modHireDate" name="hireDate" type="text" class="form-control"
 										required="required" value="" readonly style="width:100px;"></td>
-									<th>퇴사여부</th>
+									<th id="smltd" class="text-center">퇴사여부</th>
 									<td><input id="modRetireStatus" name="retireStatus" type="text" class="form-control"
 										required="required" readonly value="" style="width:60px;"></td>
-									<th>퇴사일</th>
+									<th id="smltd" class="text-center">퇴사일</th>
 									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly style="width:100px;"></td>
 								</tr>
 								<tr>
-									<th colspan='1'>주소</th>
+									<th id="addresstd" class="text-center" colspan='1'>주소</th>
 									<td colspan="5">
-									<div class="col-md-6 col-sm-6 col-xs-6">
+									<div class="col-md-6 col-sm-6 col-xs-6" style="padding-left:0px">
 										<input type="text" id="modpostcode" name="postcode" placeholder="우편번호" readonly
 												required="required" class="form-control col-sm-6 col-xs-6">
 									</div>
 									<button type="button" id="findpostcode" class="btn btn-success">우편번호 찾기</button><br>
-									<div class="col-md-12 col-sm-6 col-xs-12">
+									<div class="col-md-12 col-sm-6 col-xs-12" style="padding-left:0px">
 										<input type="text" id="modAddress" name="address" placeholder="주소" readonly
 												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
 									</div><br>
-									<div class="col-md-12 col-sm-6 col-xs-12">
+									<div class="col-md-12 col-sm-6 col-xs-12" style="padding-left:0px">
 										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="상세주소"
-												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
+												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;margin-top:5px">
 									</div>
 								</tr>
 							</tbody>
