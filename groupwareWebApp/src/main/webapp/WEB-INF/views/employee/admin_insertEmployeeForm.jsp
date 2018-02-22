@@ -100,6 +100,12 @@ input[type=file]::-webkit-file-upload-button {
 		
 		$("#upload-image").on("change", handleImgFileSelect);
 		
+		$('#upload-image').on('change', function() {
+			if($('#upload-image').val() == "") {
+				$('#img').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png'); 
+			}	
+		});
+		
 		$("#findpostcode").click(execDaumPostcode);
 		
 		$('select[name=emailaddr]').on('change', function () {	
