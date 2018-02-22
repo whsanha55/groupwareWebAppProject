@@ -318,15 +318,14 @@
 								id="empNo" name="empNo" readonly
 								value="${requestScope.employee.empNo }">
 						</div>
-
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12"
+						<label class="control-label col-md-3 col-sm-3 col-xs-3"
 							for="checkPwd">비밀번호 <span class="required">*</span>
 						</label>
-						<div class="col-md-4 col-sm-6 col-xs-6">
+						<div class="col-md-4 col-sm-4 col-xs-3">
 							<input type="password" id="checkPwd" name="checkPwd"
-								 class="form-control col-sm-4 col-xs-6" >
+								 class="form-control" >
 						</div>
 						<button type="button" id="checkPwdBtn" class="btn btn-success">비밀번호 확인</button>
 						<button type="button" id="modifyPwdBtn" class="btn btn-success">수정</button>
