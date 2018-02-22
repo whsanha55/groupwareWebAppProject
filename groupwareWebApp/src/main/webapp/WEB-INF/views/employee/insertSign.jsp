@@ -49,8 +49,6 @@ input[type=file] {
 			}).then((e) => {
 				if(e) {
 					$('#regSign').submit();
-				} else if(!e) {
-					return;
 				}
 			});
 		});		

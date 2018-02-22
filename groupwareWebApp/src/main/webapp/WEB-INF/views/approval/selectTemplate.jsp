@@ -30,7 +30,9 @@
 	#templatePaging li {
 		cursor : pointer;
 	}
-
+	.fa-star {
+		color : #ffc107;
+	}
 </style>
 <script>
 		var pKeyfield = 'bookmark'; //로딩첫페이지가 북마크!! 
@@ -291,8 +293,9 @@
 			<div class="x_title">
 				<h2>문서작성</h2>
 				<div class="clearfix" width="1200px"></div>
-			</div>
 
+			</div>
+			<div>※ 양식서명을 선택하면 문서 작성 페이지로 이동합니다.</div>
 			<!-- 양식서 카테고리 -->
 			<div class="col-md-4" width="20%">
 
