@@ -734,7 +734,7 @@ input[type=file]:before {
 						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:250px;">
 							<tbody>
 								<tr>
-									<th class='text-center'>사번</th>
+									<th>사번</th>
 									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
 										readonly value="" style="width:200px;"></td>
 								</tr>
