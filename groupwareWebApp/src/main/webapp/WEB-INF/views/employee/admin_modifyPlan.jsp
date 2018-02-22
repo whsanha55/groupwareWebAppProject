@@ -308,7 +308,7 @@ $(document).ready(function () {
 									 value="${requestScope.plan.latitude }">
 								<input type="hidden" id="longitude" name="longitude"
 									 value="${requestScope.plan.longitude }">
-								<button id="searchMap" type="button" class="btn btn-success" style="margin-left:25px;">주소찾기</button>
+								<button id="searchMap" type="button" class="btn btn-success" style="margin-left:5px;">주소찾기</button>
 							</div>
 						</div>
 
@@ -363,7 +363,7 @@ $(document).ready(function () {
 								<input type="text" id="empName" name="empName" class="form-control" style="width:435px;"
 									readonly value="${requestScope.plan.empName }" >
 									<span class="input-group-btn">
-										<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal" style="margin-right:108px;">검색</button>
+										<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal" style="margin-right:129px;">검색</button>
 							</div>
 						</div>
 
