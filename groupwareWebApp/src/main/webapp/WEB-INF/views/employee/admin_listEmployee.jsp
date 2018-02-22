@@ -636,6 +636,7 @@ input[type=file]:before {
 				<div class="col-md-3 col-sm-3 col-xs-12 profile_left"></div>
 				<div class="col-md-12 col-sm-9 col-xs-12">
 					<div>
+					 ※사번 클릭 시, 사원 상세 정보를 조회합니다.
 						<div class="col-md-4 col-xs-offset-2 pull-right">
 							<div class="input-group style="margin-right:-25px;">
 								<div id="search-panel" class="input-group-btn search-panel">
@@ -760,7 +761,7 @@ input[type=file]:before {
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
-															class="btn btn-default dropdown-toggle btn-sm"
+															class="btn btn-default dropdown-toggle btn"
 															data-toggle="dropdown">
 															<span id="search_concept" class="preDuty" >직책</span><span class="caret"></span>
 														</button>
@@ -781,7 +782,7 @@ input[type=file]:before {
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
 														<button id="deptBtn" type="button" 
-															class="btn btn-default dropdown-toggle btn-sm"
+															class="btn btn-default dropdown btn"
 															data-toggle="dropdown">
 															<span id="search_concept" class="preDept">부서</span> <span class="caret"></span>
 														</button>

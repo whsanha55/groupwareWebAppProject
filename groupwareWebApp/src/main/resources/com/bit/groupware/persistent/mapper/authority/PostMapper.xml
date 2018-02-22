@@ -16,9 +16,10 @@
 	
 	
 	<select id="selectPostList" resultType="PostVO" statementType="PREPARED" parameterType="map">
-		 select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, d_name as documentNo, c_name as cNo, board_no as boardNo  
-	  from( select rownum as rn, post1.*    									
-  			  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.c_name as d_name, c.c_name, b.board_no
+		 select post_no as postNo, post_title as postTitle, writer, to_char(post_date, 'YYYY-MM-DD') as postDate, d_name as documentNo, c_name as cNo, board_no as boardNo, recnt  
+	  	 from( select rownum as rn, post1.*    									
+  			  from (select  p.post_no, p.post_title, p.writer, p.post_date, d.c_name as d_name, c.c_name, b.board_no,
+  			  		(select count(*) from cmt where post_no=p.post_no) as recnt
                     from post p, code c, code d, board b
                     where c.c_no = p.c_no and d.c_no = p.document_no and b.board_no = p.board_no and b.board_no= #{no}
 					
@@ -110,8 +111,9 @@
 	
 	<select id="selectPostCount" statementType="PREPARED" parameterType="map" resultType="int">
 		select count(*)
-		from post p, code c, code d
-		where d.c_no = p.document_no and c.c_no = p.c_no and p.post_no is not null 
+		from post p, code c, code d, board b
+		where d.c_no = p.document_no and c.c_no = p.c_no and b.board_no = p.board_no and p.post_no is not null
+				and b.board_no like '%'|| #{no} ||'%' 
 			<if test="keyfield == 'documentNo' and keyword != null">
 				and d.c_name like '%'|| #{keyword} ||'%'
 			</if>
@@ -123,7 +125,7 @@
 			</if>
 			<if test="keyfield == 'writer' and keyword != null">
 				and writer like '%'|| #{keyword} ||'%'
-			</if>
+			</if>					
     </select>
 
 </mapper>

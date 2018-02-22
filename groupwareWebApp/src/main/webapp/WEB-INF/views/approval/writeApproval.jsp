@@ -408,7 +408,7 @@
       </span>
 	</span>
 	<!-- <button class="btn btn-primary" id="modalReceiver" type="button">관리</button> -->
-	<button class="btn btn-primary" id='modalReceiver' type="button">관리</button>
+	<button class="btn btn-primary" id='modalReceiver' type="button">결재선관리</button>
 
 	
 	<button type="button" class="btn btn-primary pull-right submitAppr" id="submitApprBtn_1">상신</button>

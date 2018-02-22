@@ -247,10 +247,10 @@
 	<div class="">
 		<div class="page-title">
 			<div class="title_left">
-				<h3>결재관리</h3>
 			</div>
 
 			<div class="title_right">
+
 				<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
 				</div>
 			</div>
@@ -267,7 +267,7 @@
 							<div class="clearfix"></div>
 						</div>
 				  <div>
-					
+					※ 양식명 클릭 시, 해당 양식을 미리보기로 확인할 수 있습니다.
 				   <div class="btn-group" >
                     <form id="search" style="margin-right: -20px;">
 						<select id="pKeyfield" name="pKeyfield" style="height:34px;" >

@@ -282,8 +282,8 @@ $(document).ready(function(){
 			<input type="hidden" name="boardName" value="${requestScope.boardName}" />
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>게시판 관리</h2>
-
+				<h2>게시판 관리 <span style="font-size:13px; color:#73879C;">&nbsp;&nbsp;&nbsp;※ 게시판명 클릭 시 상세정보를 확인할 수 있습니다.</span></h2>
+				
 				<div class="clearfix"></div>
 			</div>
 			<div class="col-md-4">
@@ -291,7 +291,6 @@ $(document).ready(function(){
 					<thead>
 						<tr class="headings">
 							<th class="column-title">게시판 관리 리스트</th>
-
 						</tr>
 					</thead>
 
@@ -374,7 +373,7 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<td class="col-md-4"
-								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">게시판
+								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">
 								카테고리 사용 유무</td>
 							<td><div class="radio">
 									<label> <input type="radio" name="isDocuType" value="Y"> 사용함</label>

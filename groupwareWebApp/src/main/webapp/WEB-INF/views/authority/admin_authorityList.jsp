@@ -440,7 +440,7 @@ $(document).ready(function() {
 		
 </script>
 <style>
-	.page-link{cursor:pointer !important;}
+	a{cursor:pointer !important;}
 </style>
 </head>
 <body>
@@ -456,10 +456,9 @@ $(document).ready(function() {
 					<div class="clearfix"></div>
 				</div>
 			 <div class="container">
-			<div class="row">    
-			        
-			        
-				</div>
+			 		<div class="pull-left" style="margin-left:3px;">
+			 			※ 권한번호 클릭 시 해당 권한을 소유한 사원조회가 가능합니다.
+			 		</div>
 					<div class="col-xs-5 pull-right">
 					    <div class="input-group" style="margin-right:-15px;">
 			                <div class="input-group-btn search-panel">

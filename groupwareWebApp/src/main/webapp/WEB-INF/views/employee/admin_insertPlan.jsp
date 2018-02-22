@@ -156,8 +156,10 @@ $(document).ready(function() {
 			keyboard : false
 		});
 	});
-
- 
+	
+	$('#return').click(function(){
+		location.reload();
+	});	
 	
 	$('#modalChooseBtn2').on('click',function() {	
 		console.log(selectedDest);
@@ -247,10 +249,10 @@ $(document).ready(function() {
 							<div class=" col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="destination" name="destination"
 									required="required" class="form-control col-md-10 col-xs-12"
-									style="width:515px;" value='비트캠프'>
+									style="width:435px;" value='비트캠프'>
 								<input type="hidden" id="latitude" name="latitude" value="37.49952673450098">
 								<input type="hidden" id="longitude" name="longitude" value="127.0292843723033">
-								<button id="searchMap" type="button" class="btn btn-success">주소찾기</button>
+								<button id="searchMap" type="button" class="btn btn-success" style="margin-left:5px;">주소찾기</button>
 							</div>
 						</div>
 
@@ -289,9 +291,9 @@ $(document).ready(function() {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" for="empName">담당자 지정 *</label>
 							<div class="input-group col-md-6 col-sm-6 col-xs-12">
 								<input type="hidden" id="rspbNo" name="rspbNo" value="" >
-								<input type="text" id="empName" name="empName" class="form-control" readonly>
+								<input type="text" id="empName" name="empName" class="form-control" style="width:435px;" readonly>
 									<span class="input-group-btn">
-									<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal">검색</button>
+									<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal" style="margin-right:129px;">검색</button>
 							</div>
 						</div>
 
@@ -302,6 +304,7 @@ $(document).ready(function() {
 									<c:url var="listPlanURL" value="/admin/listPlan.do" scope="page" ></c:url>
 									<a id="list" href="${pageScope.listPlanURL }"  ><button class="btn btn-primary" type="button">뒤로가기</button></a>
 									<button id="registerBtn" type="submit" class="btn btn-success">등록</button>
+									<button id="return" type="button" class="btn btn-default">취소</button>
 								</div>
 							</div>
 						</div>

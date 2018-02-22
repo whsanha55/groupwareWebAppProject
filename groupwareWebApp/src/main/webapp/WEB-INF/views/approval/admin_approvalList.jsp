@@ -327,10 +327,13 @@
                     <h2>결재 조회</h2>
                     
                     <div class="clearfix" id="count1">&nbsp;&nbsp; <br></div>
+                    	
                   </div>
 				  <div>
-					
+					※ 문서 제목 클릭 시, 해당 문서의 내용과 결재자 및 결재 여부를 확인할 수 있습니다.<br>
+					※ 결재 현황 클릭 시, 해당 문서의 결재 현황을 확인할 수 있습니다.
 				   <div class="btn-group" >
+				   
                     <form id="search" style="margin-right: -20px;">
 						<select id="pKeyfield" name="pKeyfield" style="height:34px;" >
 							<option value="apprTitle">제목</option>

@@ -133,7 +133,7 @@
 						text += '<td>'+ data.histories[i].dutyName +'</td>';
 						text += '<td>'+ data.histories[i].startDate +'</td>';
 						text += '<td>'+ data.histories[i].endDate +'</td>';
-						text += '<td><button id="removebtn" class="btn btn-primary" type="button">삭제</button></td>';
+						//text += '<td><button id="removebtn" class="btn btn-primary" type="button">삭제</button></td>';
 						text += '</tr>';
 					}
 				}
@@ -262,7 +262,7 @@
 							<th class="text-center">직책</th>
 							<th class="text-center">시작일</th>
 							<th class="text-center">종료일</th>
-							<th class="text-center">비고</th>
+							<%-- <th class="text-center">비고</th> --%>
 						</tr>
 					</thead>
 					<tbody>

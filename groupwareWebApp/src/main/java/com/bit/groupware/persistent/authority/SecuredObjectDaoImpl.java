@@ -20,7 +20,7 @@ public class SecuredObjectDaoImpl implements SecuredObjectDao {
 	private final String NAMESPACE ="com.bit.groupware.persistent.mapper.authority.AuthorityMapper";
 	
 	@Autowired
-	private   SqlSessionTemplate sqlSession;
+	private SqlSessionTemplate sqlSession;
 
 
 	public LinkedHashMap<Object, List<ConfigAttribute>> getRolesAndURL() throws Exception {
@@ -59,7 +59,6 @@ public class SecuredObjectDaoImpl implements SecuredObjectDao {
 			e.printStackTrace();
 		}
 		
-		System.out.println("requestMap : " + requestMap);
 		return requestMap;
 
 	}
