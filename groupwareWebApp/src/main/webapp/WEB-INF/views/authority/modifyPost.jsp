@@ -294,7 +294,7 @@
 					</div>
 					
 				</div>
-					<a class="btn btn-default pull-right" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}&department=${param.department}"/>'>뒤로가기</a>	 		
+					<a class="btn btn-default pull-right" href='<c:url value="detailPost.do?postNo=${requestScope.post.postNo }&boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}&department=${param.department}"/>'>뒤로가기</a>	 		
 					<button type="submit" class="btn btn-primary pull-right" id="modifyPost">수정</button>
 					 
 			</div>
