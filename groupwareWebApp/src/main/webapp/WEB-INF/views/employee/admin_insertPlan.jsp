@@ -158,7 +158,7 @@ $(document).ready(function() {
 	});
 	
 	$('#return').click(function(){
-		location.href="${pageContext.request.contextPath}/admin/registerPlan.do";
+		location.reload();
 	});	
 	
 	$('#modalChooseBtn2').on('click',function() {	
