@@ -40,6 +40,12 @@
 			error: function(jqXHR, textStatus, errorThrown) {
   				alert('error : ' + jqXHR.status);
   			}	
+		}).done(function() {
+				if('${param.boardNo}' != '') {
+					$('li#${param.boardNo}').attr('class','current-page boardList')
+					.closest('ul').slideDown()
+					.closest('li').attr('class','active');
+				}
 		});
 	});
 </script>
@@ -84,6 +90,7 @@
 		});	
 	});//end of document.ready
 
+	
 	
 	
 </script>
