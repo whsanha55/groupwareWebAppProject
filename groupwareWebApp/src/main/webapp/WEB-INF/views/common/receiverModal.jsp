@@ -85,7 +85,9 @@ select[name=apprType] {
 
 </style>
 <script>
-	var isMaintainModal = false;		
+	var isMaintainModal = false;	
+	var tableApprText = $('#tableDnDAppr').html();
+	var tableRefText = $('#tableDnDRef').html();
 	$(document).ready(function() {
 		myReceiverList(true);
 		
@@ -521,8 +523,12 @@ select[name=apprType] {
 							} ,
 							success : function(data) {
 								swal("결재선 삭제","해당 결재선이 삭제되었습니다.","error");
-								myReceiverList(true);								
-							} ,
+								myReceiverList(true);			
+								$('#tableDnDAppr').html(tableApprText);
+								$('#tableDnDRef').html(tableRefText);
+								receiverLineApprCount = 0;
+								
+								} ,
 							error : function(jqXHR) {
 								alert(jqXHR.status);
 								console.log(jqXHR);

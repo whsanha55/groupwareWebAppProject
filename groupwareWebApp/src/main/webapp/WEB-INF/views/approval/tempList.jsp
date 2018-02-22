@@ -204,6 +204,8 @@
                     <div class="clearfix" id="count1"></div>
                   </div>
 				  <div style="width:100%;">
+				  ※ 기안하기를 선택하면 해당 문서 작성 페이지로 이동합니다.<br>
+				 ※ 체크박스를 지정한 후 선택 삭제를 누르면 임시 보관 문서가 삭제됩니다.
 				   <!-- <div class="btn-group">
                      
                    
