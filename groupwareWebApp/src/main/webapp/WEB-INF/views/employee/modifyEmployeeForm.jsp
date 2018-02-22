@@ -16,7 +16,7 @@
 			$(this).text('수정 취소');
 			$(this).attr('id', 'modicanBtn');
 			$(this).attr('class','btn btn-primary');
-			$(this).css('margin-left','+=10px');
+		//	$(this).css('margin-left','+=10px');
 			
 			$.ajax ({
 				success:function() {
@@ -44,10 +44,10 @@
 		});
 		
 		$('#modiform').on('click','#modicanBtn', function() {
-			$(this).text('비밀번호 수정');
+			$(this).text('수정');
 			$(this).attr('id','modifyPwdBtn');
 			$(this).attr('class','btn btn-success');
-			$(this).css('margin-left','-=10px');
+			//$(this).css('margin-left','-=10px');
 			$('#addPwd').html("");
 		});
 		
@@ -87,12 +87,22 @@
 				},
 				dataType:'json',
 				success: function(data) {
-					txt = "";
-					if(data == true) {
+					
+					var txt = '';
+					/* if(data == true) {
 						txt += "<span id='greenSpan' style='color:green;'>비밀번호가 일치합니다.</span>"
 					} else {
 						txt += "<span id='errorSpan' style='color:red;'>비밀번호가 일치하지 않습니다.</span>"
+					} */
+					if(data) {
+						swal('비밀번호가 일치합니다','','success');
+						txt += "<span id='greenSpan'></span>";
+						$('input[name=checkPwd]').attr('readonly', true);
+					} else {
+						swal('비밀번호가 일치하지 않습니다.','','error');
+						txt += "<span id='errorSpan'></span>";
 					}
+					
 					$('#checkPwdBtn').after(txt);
 				},
 				error : function(jqXHR) {
@@ -176,7 +186,7 @@
 					return;
 				}
 				
-				if($("#greenSpan").text() == "") {
+				if($("#greenSpan").length ==0) {
 					swal("비밀번호 확인을 해주세요.","");
 					return;
 				}
@@ -312,13 +322,14 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
-							for="checkPwd">기존 비밀번호 <span class="required">*</span>
+							for="checkPwd">비밀번호 <span class="required">*</span>
 						</label>
 						<div class="col-md-4 col-sm-6 col-xs-6">
 							<input type="password" id="checkPwd" name="checkPwd"
 								 class="form-control col-sm-4 col-xs-6" >
 						</div>
 						<button type="button" id="checkPwdBtn" class="btn btn-success">비밀번호 확인</button>
+						<button type="button" id="modifyPwdBtn" class="btn btn-success">수정</button>
 					</div>
 					<div id="addPwd">
 					<%--
@@ -341,9 +352,6 @@
 						</div>
 					</div>
 					--%>
-					</div>
-					<div style="margin-left:460px;">
-						<button type="button" id="modifyPwdBtn" class="btn btn-success">비밀번호 수정</button>
 					</div>
 					
 					<div class="ln_solid"></div>
