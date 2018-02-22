@@ -734,7 +734,7 @@ input[type=file]:before {
 						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:250px;">
 							<tbody>
 								<tr>
-									<th>사번</th>
+									<th class='text-center'>사번</th>
 									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
 										readonly value="" style="width:200px;"></td>
 								</tr>
@@ -761,7 +761,7 @@ input[type=file]:before {
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
-															class="btn btn-default dropdown-toggle btn-sm"
+															class="btn btn-default dropdown-toggle btn"
 															data-toggle="dropdown">
 															<span id="search_concept" class="preDuty" >직책</span><span class="caret"></span>
 														</button>
@@ -782,7 +782,7 @@ input[type=file]:before {
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
 														<button id="deptBtn" type="button" 
-															class="btn btn-default dropdown-toggle btn-sm"
+															class="btn btn-default dropdown btn"
 															data-toggle="dropdown">
 															<span id="search_concept" class="preDept">부서</span> <span class="caret"></span>
 														</button>

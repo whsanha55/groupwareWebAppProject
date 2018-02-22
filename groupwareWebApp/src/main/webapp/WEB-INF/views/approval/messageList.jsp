@@ -289,6 +289,7 @@
                     <div class="clearfix"></div>
                   </div>
 				  <div >
+				      ※ 열람한 쪽지는 30일 후 자동 삭제됩니다. 
 				   <div class="btn-group">
                    
 				   </div>
