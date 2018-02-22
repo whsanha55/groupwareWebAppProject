@@ -141,7 +141,7 @@ input[type=file]:before {
 		});
 		*/
 		$('#deptBtn').on('change', function() {
-			$('input[name=deptCode]').val($('#deptBtn option:selected').val());	
+			$('input[name=deptCode]').val($('#deptBtn option:selected').val());
 						
 		  	$.ajax ({
 				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
@@ -157,7 +157,7 @@ input[type=file]:before {
 				success: function(data) {
 					var text = "";					
 					if(data.length != 0) {
-						text += '<select id="teamBtn" name="teamBtn" style="width:100px;height:30px;">';
+						text += '<select id="teamBtn" name="teamBtn" style="width:80px;height:30px;">';
 						text += '<option value="">팀선택</option>';					
 						for (var i = 0; i<data.length; i++) {
 							text += '<option value="'+ data[i].cNo +'">'+ data[i].cName +'</option>';
@@ -168,7 +168,7 @@ input[type=file]:before {
 							$('#teamBtn').remove();
 						}
 						
-						$(text).appendTo('#form-dept');
+						$(text).appendTo('#deptTd');
 											
 					} else {
 						$('#teamBtn').remove();
@@ -404,6 +404,8 @@ input[type=file]:before {
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						var empPhoto = $(this).parent().children('#submitPhotoName').val();
+						
 						$('#upload-image').attr('disabled', true);
 						$('#upload-image').hide();
 						$('#modEmpName').attr('readonly', true);
@@ -426,7 +428,7 @@ input[type=file]:before {
 						$('input[name=oldDuty]').val($(this).nextAll('#submitDutyNo').val());
 						$('input[name=oldDept]').val($(this).nextAll('#submitDeptNo').val());
 						
-						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
+						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + empPhoto);
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
 						
@@ -474,7 +476,7 @@ input[type=file]:before {
 						
 						$('#upload-image').on('change', function() {
 							if($('#upload-image').val() == "") {
-								$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($('#submitEmpNo').parent().children('#submitPhotoName').val())); 
+								$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + empPhoto); 
 							}	
 						});
 					});					
@@ -764,7 +766,7 @@ input[type=file]:before {
 		<form id="modalForm" enctype="multipart/form-data" 
 				action="${pageContext.request.contextPath }/admin/modifyEmployee.do" method="POST">
 		<input type="hidden" name="dutyCode" value="">
-		<input type="hidden" name="deptCode" value="">
+		<input id="deptCode" type="hidden" name="deptCode" value="">
 		<input type="hidden" name="oldDuty" value="">
 		<input type="hidden" name="oldDept" value="">
 		<div class="modal-dialog">
@@ -815,7 +817,7 @@ input[type=file]:before {
 								<tr>
 									<th>직책</th>
 									<td colspan='2'><div>
-										<select id="dutyBtn" name="dutyBtn" style="width:100px;height:30px;">
+										<select id="dutyBtn" name="dutyBtn" style="width:80px;height:30px;">
 											<option value="">직책선택</option>
 											<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
 												<option value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</option>
@@ -841,8 +843,8 @@ input[type=file]:before {
 											</div> --%>
 										</div></td>
 									<th>부서</th>
-									<td colspan='2'><div>
-										<select id="deptBtn" name="deptBtn" style="width:100px;height:30px;">
+									<td id="deptTd" colspan='2'><div>
+										<select id="deptBtn" name="deptBtn" style="width:80px;height:30px;display:inline-block;float:left;margin-right:5px;">
 											<option value="">부서선택</option>
 											<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 												<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
