@@ -374,7 +374,7 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<td class="col-md-4"
-								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">게시판
+								style="background: rgba(52, 73, 94, .94); color: #ecf0f1; font-weight: bold;">
 								카테고리 사용 유무</td>
 							<td><div class="radio">
 									<label> <input type="radio" name="isDocuType" value="Y"> 사용함</label>
