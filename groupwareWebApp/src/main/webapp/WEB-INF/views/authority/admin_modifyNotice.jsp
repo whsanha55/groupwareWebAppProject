@@ -25,7 +25,7 @@
 		   $('#back').on('click', function(){
 			   checkUnload = false;
 			   var noticeNo = '${param.noticeNo}';
-			   var url = '${pageContext.request.contextPath}/detailNotice.do?noticeNo='+noticeNo;
+			   var url = '${pageContext.request.contextPath}/admin/detailNotice.do?noticeNo='+noticeNo;
 				swal({
 					title: "이 페이지에서 뒤로가시겠습니까?",
 					  text: "변경사항이 저장되지 않을 수 있습니다.",

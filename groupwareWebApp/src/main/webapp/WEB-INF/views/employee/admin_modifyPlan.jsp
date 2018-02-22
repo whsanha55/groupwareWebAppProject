@@ -384,7 +384,6 @@ $(document).ready(function () {
 									</c:url>
 									<a id="modify" href="${pageScope.detailURL }"  ><button class="btn btn-primary" type="button">뒤로가기</button></a>
 									<button id="modifyBtn" type="submit"  class="btn btn-success ">수정</button>
-									<button id="return" type="button" class="btn btn-default">취소</button>
 								</div>
 							</div>
 						</div>
