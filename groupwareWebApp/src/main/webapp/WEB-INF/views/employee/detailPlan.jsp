@@ -111,7 +111,7 @@
 											
 											infowindow.open(map, centerMarker);
 											
-											map.setDraggable(false);
+											//map.setDraggable(false);
 											
 										});
 									});
