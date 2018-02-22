@@ -36,9 +36,7 @@ public class AdminDesignateRoleController {
                          @RequestParam(value="isNotRegistration", required=true) List<String> isNotRegistration, 
                         @RequestParam(value="aNo", required=true) String aNo) throws Exception { 
       
-	   System.out.println("isNotRegistration"+isNotRegistration.toString());
-	   System.out.println("isRegistration"+isRegistration.toString());
-	    
+	 
       List<AuthRoleVO> list = new ArrayList<AuthRoleVO>();
       List<AuthRoleVO> list2 = new ArrayList<AuthRoleVO>();
       for(int i =0;i<isRegistration.size();i++) {
@@ -61,12 +59,10 @@ public class AdminDesignateRoleController {
       map.put("list",list);     
       roleService.registerAuthRole(map);
       
-      logger.error("=========================reload");
+      
+      logger.error("============================ AdminDesignateRoleController ============================");;
       metaSource.reload();
       
-      
-      logger.error("===============addlist {}" , list);
-	  logger.error("================removelist {}", list2);
       return 0;
     }
 }

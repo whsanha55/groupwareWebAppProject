@@ -87,8 +87,17 @@
 					text += "<tr>";
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
-					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
-							+ data.posts[i].postNo+"&boardName="+boardName+"&boardNo="+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}&department=${param.department}'>"+data.posts[i].postTitle + "</a></td>";
+					if(data.posts[i].recnt > 0){
+						text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
+								+ data.posts[i].postNo+"&boardName="+boardName+"&boardNo="
+								+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}&department=${param.department}'>"
+								+data.posts[i].postTitle +" ("+ data.posts[i].recnt + ")" + "</a></td>";
+					} else {
+						text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
+							+ data.posts[i].postNo+"&boardName="+boardName+"&boardNo="
+							+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}&department=${param.department}'>"
+							+data.posts[i].postTitle + "</a></td>";
+					}
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";
 					text += "</tr>";								
@@ -97,21 +106,21 @@
 				
 				$('#datatable').find('tbody').html(text);
 				
-					//페이징 처리
-					jqueryPager({
-						countPerPage : countPerPage,
-						pageSize : pageSize,
-						currentPageNo : currentPageNo,
-						totalCount : totalCount
-					});
-					
+				//페이징 처리
+				jqueryPager({
+					countPerPage : countPerPage,
+					pageSize : pageSize,
+					currentPageNo : currentPageNo,
+					totalCount : totalCount
+				});
 				
-			} ,
-			error: function(jqXHR) {
-				alert("에러: " + jqXHR.status);
-			}
 			
-		});
+		} ,
+		error: function(jqXHR) {
+			alert("에러: " + jqXHR.status);
+		}
+		
+	});
 		
 
 	} //end Paging function
@@ -167,7 +176,7 @@
 		
 		$('#Paging').html(html);
 	
-	}//end of jqueryPager
+	}
 </script>
 </head>
 <body>
@@ -208,7 +217,7 @@
 
 				
 
-			<div>
+			<div class="table-responsive">
 				<table id="datatable" class="table table-striped jambo_table bulk_action">
 					<thead>
 						<tr class="headings">													
@@ -222,7 +231,7 @@
 					<tbody>
 					</tbody>
 				</table>
-				<div>
+			
 					<div class="text-right">
 					<c:url var="addUrl" value="/addPost.do" scope="page">
 						<c:param name="boardNo" value="${param.boardNo}" />
@@ -241,10 +250,12 @@
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 
 					</c:if>						
 					</div>
+					 <div>
 					<div class="text-center">
 						<nav aria-label="Page navigation" id = 'Paging'></nav>
 					</div>
-				</div>
+					</div>
+			
 
 			</div>
 
