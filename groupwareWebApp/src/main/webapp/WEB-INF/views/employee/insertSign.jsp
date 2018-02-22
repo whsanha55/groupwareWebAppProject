@@ -35,6 +35,12 @@ input[type=file] {
 	$(document).ready(function() {
 		$("#upload-image").on("change", handleImgFileSelect);
 		
+		$('#upload-image').on('change', function() {
+			if($('#upload-image').val() == "") {
+				$('#img').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/noimage.jpg'); 
+			}	
+		});
+		
 		$('#regSignBtn').click(function() {
 			if($('#upload-image').val() == "") {
 				swal("등록할 서명파일을 첨부해주세요.","");
@@ -69,7 +75,7 @@ input[type=file] {
 			
 			var reader = new FileReader();
 			reader.onload = function(e) {
-				$("#img").attr("src", e.target.result);
+				$("#img").attr("src", e.target.result);				
 			}
 			reader.readAsDataURL(f);
 		});
