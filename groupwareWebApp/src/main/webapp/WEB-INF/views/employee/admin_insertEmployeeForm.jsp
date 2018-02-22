@@ -349,17 +349,18 @@ input[type=file]::-webkit-file-upload-button {
 								action="${pageContext.request.contextPath }/admin/registerEmployee.do" method="post" enctype="multipart/form-data">
 					<input type="hidden" id="deptCode" name="deptCode" value="" />
 					<input type="hidden" id="dutyCode" name="dutyCode" value="" />	
-					<div class="form-group">		
+					<div class="form-group">	
+						<label class="control-label col-md-3 col-sm-3 col-xs-12"></label>	
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
 							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" 
-									width="200px" height="200px;"  style=" border: 2px solid #ccc;"   class="img-responsive center-block"/>
+									width="200px" height="200px;"  style=" border: 2px solid #ccc;"   class="img-responsive"/>
 						</div>
-						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">프로필 사진 </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<div class="btn-group">
 							<a class="btn" title="Insert picture (or just drag &amp; drop)"
-								id="pictureBtn"></a> 								
-								<input id="upload-image" name="upload"
+								id="pictureBtn"></a>
+								<input id="upload-image" name="upload" 
 								type="file" data-role="magic-overlay" data-target="#pictureBtn"
 								data-edit="insertImage">
 						</div>

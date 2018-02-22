@@ -205,6 +205,7 @@ $(document).ready(function() {
 		});
 		
 
+
 	
 
 	
@@ -241,17 +242,17 @@ $(document).ready(function() {
 	//수정 완료
  	$('#datatable').on('click','button:contains(완료)', function () {
  		
+ 		
  		var aNo = $(this).parents("tr").find('.aNo').text();		
  		var aName = $(this).parents("tr").find('input[name=aName]').val();
  		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
  		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
- 		
  		 var name = $(this).parents("tr").find('.aName');
          var note = $(this).parents("tr").find('.aNote');
          var whether = $(this).parents("tr").find('.aWhether');
          var selectBtn = $(this).parents("tr").find('.selectBtn');
-         
          var text = "";
+      
 		swal({
 			  title: "게시판을 수정하시겠습니까?",
 			  icon: "info",
@@ -283,17 +284,15 @@ $(document).ready(function() {
 									$(name).html(data.authority.aName);
 		                            $(note).html(data.authority.aNote);
 		                            if(data.authority.aWhether ==  '0'){	
-		                            	text += "<td class='aWhether'>유</td>";
+		                            	text += "유";
 		                			}else{
-		                				text += "<td class='aWhether'>무</td>";
+		                				text += "무";
 		                			} 
 		                            $(whether).html(text);
-		                            $(selectBtn).html("<a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ data.authority.aName +"&aNo="+data.authority.aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><button type='button' class='btn btn-default'><a href='<c:url value='/admin/designAuthority.do?aName="+ data.authority.aName +"&aNo="+data.authority.aNo+ "'/>'>사원추가</a></button>"); 
+		                            $(selectBtn).html("<a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ aName +"&aNo="+aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><button type='button' class='btn btn-default'><a href='<c:url value='/admin/designAuthority.do?aName="+ aName +"&aNo="+aNo+ "'/>'>사원추가</a></button>"); 
 							
 		                            $('button:contains(수정)').prop("disabled", false);
 		                    	    $('button:contains(사원추가)').prop("disabled", false);
-		                            
-		                    	   
 		                    	    
 								}else if(data.isSuccess == "false"){
 									swal("이미 권한이 존재합니다.");
@@ -310,6 +309,7 @@ $(document).ready(function() {
 
 	});
 	
+
 	//취소
  	$('#datatable').on('click','button:contains(취소)', function () {  
  		var aNo = $(this).parents("tr").find('.aNo').text();		
@@ -317,13 +317,12 @@ $(document).ready(function() {
  		var aNote = $(this).parents("tr").find('input[name=aNote]').val();
  		var aWhether = $(this).parents("tr").find('input[name=aWhether]:checked').val();		
  		var text = "";
- 		
  		$(this).parents("tr").find('.aName').html(aName);
         $(this).parents("tr").find('.aNote').html(aNote);
  		if(aWhether == '0'){
- 			text += "<td class='aWhether'>유</td>";
+ 			text += "유";
  		}else{
- 			text += "<td class='aWhether'>무</td>";
+ 			text += "무";
  		}
  		$(this).parents("tr").find('.aWhether').html(text);
  		$(this).parents("tr").find('.selectBtn').html("<a class='btn btn-default' href='<c:url value='/admin/designRole.do?aName="+ aName +"&aNo="+aNo+"'/>'>역할</a><button type='button' class='btn btn-default'>수정</button><button type='button' class='btn btn-default'><a href='<c:url value='/admin/designAuthority.do?aName="+ aName +"&aNo="+aNo+ "'/>'>사원추가</a></button>"); 

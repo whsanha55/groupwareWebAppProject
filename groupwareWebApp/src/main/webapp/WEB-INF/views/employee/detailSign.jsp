@@ -143,14 +143,11 @@ input[type=file]:before {
 				<form id="modisign" data-parsley-validate="" action="${pageContext.request.contextPath }/modifySign.do"
 						method="POST" class="form-horizontal form-label-left" enctype="multipart/form-data">
 					<div class="form-group">
-						<label class="control-label col-md-4 col-sm-3 col-xs-12"
-							for="last-name">Ό­Έν </label>
 						<div class="form-group" id="img_wrap">
-							<%-- <i class="fa fa-picture-o"> --%>
-							<img id="img" width="250px" height="250px" 
+							<img id="img" width="250px" height="250px" style=" border: 2px solid #ccc;"
 								src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/${requestScope.signName}"
-								class="img-responsive"/>
-							<input id="upload-image" name="upload" class="center-block"
+								class="img-responsive center-block"/>
+							<input id="upload-image" name="upload" class="center-block" style="margin-top:2px;"
 								type="file" data-role="magic-overlay" data-target="#pictureBtn"
 								data-edit="insertImage">			
 						</div>
