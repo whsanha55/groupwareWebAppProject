@@ -87,8 +87,17 @@
 					text += "<tr>";
 					text += "<td>" + data.posts[i].postNo + "</td>";
 					text += "<td>" + data.posts[i].documentNo + "</td>";
-					text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
-							+ data.posts[i].postNo+"&boardName="+boardName+"&boardNo="+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}&department=${param.department}'>"+data.posts[i].postTitle + "</a></td>";
+					if(data.posts[i].recnt > 0){
+						text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
+								+ data.posts[i].postNo+"&boardName="+boardName+"&boardNo="
+								+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}&department=${param.department}'>"
+								+data.posts[i].postTitle +" ("+ data.posts[i].recnt + ")" + "</a></td>";
+					} else {
+						text += "<td><a href='${pageContext.request.contextPath}/detailPost.do?postNo="
+							+ data.posts[i].postNo+"&boardName="+boardName+"&boardNo="
+							+no+"&isComment=${param.isComment}&fileCount=${param.fileCount}&empName=${param.empName}&department=${param.department}'>"
+							+data.posts[i].postTitle + "</a></td>";
+					}
 					text += "<td>" + data.posts[i].writer + "</td>";
 					text += "<td>" + data.posts[i].postDate + "</td>";
 					text += "</tr>";								
@@ -147,7 +156,7 @@
 		}
 		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
 		
-		for(var i=sPage; i<=ePage-1; i++) {
+		for(var i=sPage; i<=ePage; i++) {
 			if(currentPage == i) {
 				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
 			} else {

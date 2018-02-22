@@ -14,6 +14,7 @@ public class PostVO {
 	private String documentNo; 				//문서 종류 번호
 	private String cNo; 					//부서 코드 번호
 	private int boardNo; 				//게시판 번호
+	private int recnt;					//게시글 댓글 수
 	private List<MultipartFile> upload;
 	private List<PostFileVO> postFiles = new ArrayList<PostFileVO>(); //게시글 파일 목록
 	private List<CmtVO> cmts = new ArrayList<CmtVO>(); //게시글 파일 목록
@@ -136,6 +137,18 @@ public class PostVO {
 
 	public void setCmts(List<CmtVO> cmts) {
 		this.cmts = cmts;
+	}
+	
+	
+
+
+	public int getRecnt() {
+		return recnt;
+	}
+
+
+	public void setRecnt(int recnt) {
+		this.recnt = recnt;
 	}
 
 
