@@ -189,9 +189,14 @@
 				<div class="clearfix"></div>
 			</div>
 				<div class="container">
-					<div class="row">   					                   	
-						<div class="col-xs-7 col-xs-offset-5">											
-							<div class="input-group">							
+					<div class="row">
+					<div class="col-md-12 col-sm-9 col-xs-12">
+					※사번 클릭 시, 사원 상세 정보를 조회합니다.
+					</div>	
+							                   	
+						<div class="col-xs-7 col-xs-offset-5">															
+							<div class="input-group">	
+																															
 								<div class="input-group-btn search-panel">								
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px">
 										<span class="keyfield">검색조건</span> <span class="caret"></span>
