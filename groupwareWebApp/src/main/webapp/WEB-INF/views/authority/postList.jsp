@@ -191,7 +191,7 @@
 				<div class="container">
 					<div class="row">
 					<div class="col-md-12 col-sm-9 col-xs-12">
-					※사번 클릭 시, 사원 상세 정보를 조회합니다.
+					※제목 클릭 시, 게시글 상세 정보를 조회합니다.
 					</div>	
 							                   	
 						<div class="col-xs-7 col-xs-offset-5">															
