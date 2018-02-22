@@ -404,6 +404,8 @@ input[type=file]:before {
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						var empPhoto = $(this).parent().children('#submitPhotoName').val();
+						
 						$('#upload-image').attr('disabled', true);
 						$('#upload-image').hide();
 						$('#modEmpName').attr('readonly', true);
@@ -426,7 +428,7 @@ input[type=file]:before {
 						$('input[name=oldDuty]').val($(this).nextAll('#submitDutyNo').val());
 						$('input[name=oldDept]').val($(this).nextAll('#submitDeptNo').val());
 						
-						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
+						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + empPhoto);
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
 						
@@ -474,7 +476,7 @@ input[type=file]:before {
 						
 						$('#upload-image').on('change', function() {
 							if($('#upload-image').val() == "") {
-								$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($('#submitEmpNo').parent().children('#submitPhotoName').val())); 
+								$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + empPhoto); 
 							}	
 						});
 					});					
