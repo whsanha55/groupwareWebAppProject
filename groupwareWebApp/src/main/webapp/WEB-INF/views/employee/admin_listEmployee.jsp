@@ -470,8 +470,15 @@ input[type=file]:before {
 						$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
 						if($('#moddetailAddress').val() == 'null') {
 							$('#moddetailAddress').val("");
-						}						
-					});
+						}	
+						
+						$('#upload-image').on('change', function() {
+							if($('#upload-image').val() == "") {
+								$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($('#submitEmpNo').parent().children('#submitPhotoName').val())); 
+							}	
+						});
+					});					
+					
 					
 					$('#modalForm').on('click', '#modifyCompBtn' , function() {
 						/*var oldDept = $('input[name=oldDept]').val();
@@ -499,7 +506,8 @@ input[type=file]:before {
 							$('input[name=dutyCode]').val("");
 							console.log($('input[name=dutyCode]').val());
 						}
-						*/						
+						*/	
+						
 						if($('#photo').attr('src') == '') {
 							swal("프로필 사진을 추가해주세요.","");
 							return;
@@ -774,7 +782,7 @@ input[type=file]:before {
 								<div id="crop-avatar">
 									<!-- Current avatar -->
 									<img id="photo" style='width:150px;height:200px;' 
-									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
+									src="" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload" style="margin-left:80px;margin-top:4px"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
