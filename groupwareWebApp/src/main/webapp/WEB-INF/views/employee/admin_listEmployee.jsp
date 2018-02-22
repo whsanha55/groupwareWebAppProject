@@ -392,10 +392,10 @@ input[type=file]:before {
 						text += "<td id='submitEmpNo'><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
 						text += "<td id='submitEmpName'>"+ data.employees[i].empName 		+ "</td>";
 						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
-						text += "<input id='submitDeptNo' type='hidden' value='"+ data.employees[i].deptNo +"'>";
 						text += "<td id='submitDuty'>"+ data.employees[i].duty 			+ "</td>";
 						text += "<input id='submitDutyNo' type='hidden' value='"+ data.employees[i].dutyNo +"'>";
 						text += "<td id='submitDept'>"+ data.employees[i].department 	+ "</td>";
+						text += "<input id='submitDeptNo' type='hidden' value='"+ data.employees[i].deptNo +"'>";
 						text += "<td id='submitPhoneNumber'>"+ data.employees[i].phoneNumber	+ "</td>";
 						text += "<input id='submitRegNumber' type='hidden' value='"+ data.employees[i].regNumber +"'>";
 						text += "<td id='submitHireDate'>"+ data.employees[i].hireDate		+ "</td>";
@@ -451,6 +451,10 @@ input[type=file]:before {
 						//$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
 						$('#deptBtn').val($(this).parent().children('#submitDeptNo').val());
+						console.log($('#deptBtn').val());
+						if($('#deptBtn').val() == null){
+							$('#deptBtn').append("<option value=" + $(this).parent().children('#submitDeptNo').val() + ">" + $(this).parent().children('#submitDept').text() + "</option>");
+						}
 						//$('.preDept').text($(this).nextAll('#submitDept').text());
 						
 						var phoneArr = $(this).nextAll('#submitPhoneNumber').text().split('-');
@@ -488,7 +492,14 @@ input[type=file]:before {
 								$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + empPhoto); 
 							}	
 						});
-					});					
+						$('#modalForm').on('click', '#closeBtn2', function() {
+							if($('#deptBtn').val().length > 4) {
+								$('#deptBtn option:last').remove();
+							}
+						});
+						
+					});
+					
 					
 					
 					$('#modalForm').on('click', '#modifyCompBtn' , function() {
@@ -498,12 +509,7 @@ input[type=file]:before {
 						var dutyCode = $('input[name=dutyCode]').val();*/
 						
 						event.preventDefault();
-						checkUnload = false;
-						console.log($('input[name=oldDept]').val());
-						console.log($('input[name=oldDuty]').val());
-						console.log($('input[name=deptCode]').val());
-						console.log($('input[name=dutyCode]').val());
-						
+						checkUnload = false;						
 						/*
 						if($('.preDuty').text() == checkChangeDuty) {
 							$('input[name=deptCode]').val("");
