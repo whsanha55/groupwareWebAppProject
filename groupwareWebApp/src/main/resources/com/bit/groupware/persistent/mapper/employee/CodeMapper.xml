@@ -174,32 +174,35 @@
 	<select id="selectCodeHistoryByAdmin" parameterType="map" resultType="CodeHistoryVO" statementType="PREPARED" >
 		select no, empNo, empName, deptName, dutyName, startDate, endDate
 		from (select rownum as rn, emp.*
-		    from (select no, emp_no as empNo, empName, department as deptName, duty as dutyName, start_date as startDate, end_date as endDate
-		          from code_history ch, emplist_view e
-		          where ch.emp_no = e.empno
+		    from (select t1.no as no, t1.emp_no as empNo, t2.emp_name as empName, t3.c_name as deptName, t4.c_name as dutyName,
+		    			 t1.start_date as startdate, t1.end_date as enddate
+					from code_history t1, employee t2, code t3, code t4
+					where t1.emp_no = t2.emp_no
+						and t1.dept_no = t3.c_no
+						and t1.duty_no = t4.c_no
 		          <if test="keyfield == 'empNo' and keyword != null">
-		              and empno like '%' || #{keyword} || '%'
+		              and t1.emp_no like '%' || #{keyword} || '%'
 		          </if>
 		          <if test="keyfield == 'empNo' and keyword == ''">
-		              order by empno asc
+		              order by t1.emp_no asc
 		          </if>
 		          <if test="keyfield == 'empName' and keyword != null">
-		              and empname like '%' || #{keyword} || '%'
+		              and t2.emp_name like '%' || #{keyword} || '%'
 		          </if>
 		          <if test="keyfield == 'empName' and keyword == ''">
-		              order by empName asc
+		              order by t2.emp_Name asc
 		          </if>
 		          <if test="keyfield == 'deptName' and keyword != null">
-		              and department like '%' || #{keyword} || '%'
+		              and t3.c_name like '%' || #{keyword} || '%'
 		          </if>
 		          <if test="keyfield == 'deptName' and keyword == ''">
-		              order by department asc
+		              order by t3.c_name asc
 		          </if>
 		          <if test="keyfield == 'dutyName' and keyword != null">
-		              and duty like '%' || #{keyword} || '%'
+		              and t4.c_name like '%' || #{keyword} || '%'
 		          </if>
 		          <if test="keyfield == 'dutyName' and keyword == ''">
-		              order by duty asc
+		              order by t4.c_name asc
 		          </if>
 		          )emp)e
 		    where e.rn <![CDATA[>=]]> #{startRow} and e.rn <![CDATA[<=]]> #{endRow}
@@ -223,7 +226,7 @@
 			and duty like '%' || #{keyword} || '%'
 		</if>
 	</select>
-	
+	 
 	<delete id="deleteHistory" parameterType="int" statementType="PREPARED">
 		delete code_history
 		where no = #{no}

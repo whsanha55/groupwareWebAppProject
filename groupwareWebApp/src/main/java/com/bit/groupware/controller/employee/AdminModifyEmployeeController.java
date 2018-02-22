@@ -52,7 +52,6 @@ public class AdminModifyEmployeeController {
 	//	map.put("isChange", isChange);
 		logger.info("codeList : {}", codeList);
 		employee.setCodeList(codeList);
-
 		
 		List<MultipartFile> uploadPhotos = employee.getUpload();
 		for(MultipartFile file : uploadPhotos) {
@@ -101,13 +100,15 @@ public class AdminModifyEmployeeController {
 
 		
 		List<MultipartFile> uploadPhotos = employee.getUpload();
-		for(MultipartFile file : uploadPhotos) {
-			if(!file.isEmpty()) {
-				ServletContext context = session.getServletContext();
-				
-				PhotoVO photo = UploadPhotos.uploadFile(file, context);
-				logger.info("photo : {}", photo);
-				employee.addPhoto(photo);
+		if(uploadPhotos != null) {
+			for(MultipartFile file : uploadPhotos) {
+				if(!file.isEmpty()) {
+					ServletContext context = session.getServletContext();
+					
+					PhotoVO photo = UploadPhotos.uploadFile(file, context);
+					logger.info("photo : {}", photo);
+					employee.addPhoto(photo);
+				}
 			}
 		}
 		logger.info("employee : {}", employee);

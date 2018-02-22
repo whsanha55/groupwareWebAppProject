@@ -67,7 +67,7 @@
 							</tr>
 							<tr>
 								<th>аж╪р</th>
-								<td id="address">${requestScope.employee.address }</td>
+								<td id="address">${requestScope.employee.address }&nbsp;${requestScope.employee.detailAddress }</td>
 							</tr>
 						</tbody>
 					</table>
