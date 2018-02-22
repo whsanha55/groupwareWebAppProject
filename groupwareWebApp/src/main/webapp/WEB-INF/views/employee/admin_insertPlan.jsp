@@ -158,7 +158,7 @@ $(document).ready(function() {
 	});
 	
 	$('#return').click(function(){
-		location.href="${pageContext.request.contextPath}/admin/registerPlan.do";
+		location.reload();
 	});	
 	
 	$('#modalChooseBtn2').on('click',function() {	
@@ -252,7 +252,7 @@ $(document).ready(function() {
 									style="width:435px;" value='비트캠프'>
 								<input type="hidden" id="latitude" name="latitude" value="37.49952673450098">
 								<input type="hidden" id="longitude" name="longitude" value="127.0292843723033">
-								<button id="searchMap" type="button" class="btn btn-success" style="margin-left:25px;">주소찾기</button>
+								<button id="searchMap" type="button" class="btn btn-success" style="margin-left:5px;">주소찾기</button>
 							</div>
 						</div>
 
@@ -293,7 +293,7 @@ $(document).ready(function() {
 								<input type="hidden" id="rspbNo" name="rspbNo" value="" >
 								<input type="text" id="empName" name="empName" class="form-control" style="width:435px;" readonly>
 									<span class="input-group-btn">
-									<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal" style="margin-right:108px;">검색</button>
+									<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal" style="margin-right:129px;">검색</button>
 							</div>
 						</div>
 
