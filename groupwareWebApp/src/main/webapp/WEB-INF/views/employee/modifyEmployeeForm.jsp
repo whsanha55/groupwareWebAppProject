@@ -11,7 +11,11 @@
 
 	$(document).ready(function() {
 		
-		$('#modifyPwdBtn').click(function() {
+		$('#modiform').on('click','#modifyPwdBtn', function() {
+			
+			$(this).text('수정 취소');
+			$(this).attr('id', 'modicanBtn');
+			
 			$.ajax ({
 				success:function() {
 					txt = "";
@@ -43,6 +47,12 @@
 				
 				}
 			});
+		});
+		
+		$('#modiform').on('click','#modicanBtn', function() {
+			$(this).text('비밀번호 수정');
+			$(this).attr('id','modifyPwdBtn');
+			$('#addPwd').html("");
 		});
 		
 		$('select[name=emailaddr]').on('change', function () {	

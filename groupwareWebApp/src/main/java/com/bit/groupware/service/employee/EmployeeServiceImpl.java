@@ -125,20 +125,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 		procMap.put("empNo", empNo);
 		procMap.put("oldDuty", map.get("oldDuty"));
 		procMap.put("oldDept", map.get("oldDept"));
-		//boolean isChange = (Boolean)map.get("isChange");
 		logger.info("procMap : {}", procMap);
-		employeeDAO.insertCodeHistoryProcedure(procMap);
 		
-		//if(isChange != false) {
+		
 		List<EmployeeCodeVO> codeList = employee.getCodeList();
-			employeeDAO.deleteEmployeeCode(empNo);
-			for(EmployeeCodeVO code : codeList) { 
-				code.setEmpNo(empNo);
-			}
+		if(!(codeList.get(0).getcNo().equals((String)map.get("oldDept")) && codeList.get(1).getcNo().equals((String)map.get("oldDuty")))) {
+			employeeDAO.insertCodeHistoryProcedure(procMap);
+		}
+		employeeDAO.deleteEmployeeCode(empNo);
+		for(EmployeeCodeVO code : codeList) { 
+			code.setEmpNo(empNo);
+		}
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("codeList", codeList);
 		employeeDAO.insertEmployeeCode(map1);
-		//}
 		
 		List<PhotoVO> photos = employee.getPhotos();
 		if(photos.size() != 0) {
