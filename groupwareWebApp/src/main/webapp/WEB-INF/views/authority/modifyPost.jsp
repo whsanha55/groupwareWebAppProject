@@ -201,12 +201,54 @@
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<select class="form-control" name="documentNo">
 							<option value="D-00">문서를 선택하세요</option>
-							<option value="D-01">문서보관함</option>
-							<option value="D-02">회의문서</option>
-							<option value="D-03">각종 증명서</option>
-							<option value="D-04">공문서</option>
-							<option value="D-05">거래문서</option>
-							<option value="D-06">기타</option>
+							<c:if test="${sessionScope.post.documentNo == '문서보관함'}">
+								<option value="D-01" selected>문서보관함</option>
+								<option value="D-02">회의문서</option>
+								<option value="D-03">각종 증명서</option>
+								<option value="D-04">공문서</option>
+								<option value="D-05">거래문서</option>
+								<option value="D-06">기타</option>
+							</c:if>
+							<c:if test="${sessionScope.post.documentNo == '회의문서'}">
+								<option value="D-01">문서보관함</option>
+								<option value="D-02" selected>회의문서</option>
+								<option value="D-03">각종 증명서</option>
+								<option value="D-04">공문서</option>
+								<option value="D-05">거래문서</option>
+								<option value="D-06">기타</option>
+							</c:if>
+							<c:if test="${sessionScope.post.documentNo == '각종 증명서'}">
+								<option value="D-01">문서보관함</option>
+								<option value="D-02">회의문서</option>
+								<option value="D-03" selected>각종 증명서</option>
+								<option value="D-04">공문서</option>
+								<option value="D-05">거래문서</option>
+								<option value="D-06">기타</option>
+							</c:if>
+							<c:if test="${sessionScope.post.documentNo == '공문서'}">
+								<option value="D-01">문서보관함</option>
+								<option value="D-02">회의문서</option>
+								<option value="D-03">각종 증명서</option>
+								<option value="D-04" selected>공문서</option>
+								<option value="D-05">거래문서</option>
+								<option value="D-06">기타</option>
+							</c:if>
+							<c:if test="${sessionScope.post.documentNo == '거래문서'}">
+								<option value="D-01">문서보관함</option>
+								<option value="D-02">회의문서</option>
+								<option value="D-03">각종 증명서</option>
+								<option value="D-04">공문서</option>
+								<option value="D-05" selected>거래문서</option>
+								<option value="D-06">기타</option>
+							</c:if>
+							<c:if test="${sessionScope.post.documentNo == '기타'}">
+								<option value="D-01">문서보관함</option>
+								<option value="D-02">회의문서</option>
+								<option value="D-03">각종 증명서</option>
+								<option value="D-04">공문서</option>
+								<option value="D-05">거래문서</option>
+								<option value="D-06" selected>기타</option>
+							</c:if>
 						</select>
 					</div>
 					<div class="x_content">
@@ -253,7 +295,7 @@
 					
 				</div>
 					<a class="btn btn-default pull-right" href='<c:url value="postList.do?boardNo=${requestScope.post.boardNo }&boardName=${param.boardName}&fileCount=${param.fileCount}&isComment=${param.isComment}&empName=${param.empName}&department=${param.department}"/>'>뒤로가기</a>	 		
-					<button type="submit" class="btn btn-primary pull-right" id="modifyPost">등록</button>
+					<button type="submit" class="btn btn-primary pull-right" id="modifyPost">수정</button>
 					 
 			</div>
 		</div>

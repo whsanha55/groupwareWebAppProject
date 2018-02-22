@@ -85,12 +85,17 @@ input[type=file]:before {
 			employeePaging(1);
 			
 		});
-		
+		/*
 		$('#dutyBtnList li > a').on('click', function() {
 		    $('#dutyBtn').text($(this).text());
 		    $('input[name=dutyCode]').val($(this).attr('value'));
+		});*/
+		$('#dutyBtn').on('change', function() {
+			$('input[name=dutyCode]').val($('#dutyBtn option:selected').val());	
 		});
 		
+		
+		/*
 		$('#deptBtnList li > a').on('click', function() {	
 			$('#deptBtn').text($(this).text());
 		    $('input[name=deptCode]').val($(this).attr('value'));		    
@@ -127,6 +132,50 @@ input[type=file]:before {
 					} else {
 						return false;
 					}
+				}
+				,
+				error: function(jqXHR) {
+					alert('error : ' + jqXHR.status);
+				}
+			});
+		});
+		*/
+		$('#deptBtn').on('change', function() {
+			$('input[name=deptCode]').val($('#deptBtn option:selected').val());	
+						
+		  	$.ajax ({
+				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
+				,
+				method: 'POST'
+				,
+				data: {
+					deptCode: $('#deptCode').val()
+				}
+				,
+				dataType: 'json'
+				,
+				success: function(data) {
+					var text = "";					
+					if(data.length != 0) {
+						text += '<select id="teamBtn" name="teamBtn" style="width:100px;height:30px;">';
+						text += '<option value="">팀선택</option>';					
+						for (var i = 0; i<data.length; i++) {
+							text += '<option value="'+ data[i].cNo +'">'+ data[i].cName +'</option>';
+						}
+						text += '</select>';
+						
+						if($('#teamBtn').is(null) != true) {
+							$('#teamBtn').remove();
+						}
+						
+						$(text).appendTo('#form-dept');
+											
+					} else {
+						$('#teamBtn').remove();
+					}
+					$('#teamBtn').on('change', function() {
+						$('input[name=deptCode]').val($('#teamBtn option:selected').val());
+					});
 				}
 				,
 				error: function(jqXHR) {
@@ -375,9 +424,8 @@ input[type=file]:before {
 						$('#btnDiv').html('<button id="modifyBtn" type="button" class="btn btn-primary">수정</button><button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button><button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
 						
 						$('input[name=oldDuty]').val($(this).nextAll('#submitDutyNo').val());
-						console.log($('input[name=oldDuty]').val());
 						$('input[name=oldDept]').val($(this).nextAll('#submitDeptNo').val());
-						console.log($('input[name=oldDept]').val());
+						
 						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
@@ -388,9 +436,11 @@ input[type=file]:before {
 						}					
 						
 						$('input[name=dutyCode]').val($(this).parent().children('#submitDutyNo').val());
-						$('.preDuty').text($(this).nextAll('#submitDuty').text());
+						$('#dutyBtn').val($(this).parent().children('#submitDutyNo').val());
+						//$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
-						$('.preDept').text($(this).nextAll('#submitDept').text());
+						$('#deptBtn').val($(this).parent().children('#submitDeptNo').val());
+						//$('.preDept').text($(this).nextAll('#submitDept').text());
 						
 						var phoneArr = $(this).nextAll('#submitPhoneNumber').text().split('-');
 						$('#phoneNumber1').val(phoneArr[0]);
@@ -723,7 +773,7 @@ input[type=file]:before {
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" style='width:200px;height:250px;' 
+									<img id="photo" style='width:150px;height:200px;' 
 									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload" style="margin-left:80px;margin-top:4px"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
@@ -731,8 +781,8 @@ input[type=file]:before {
 								</div>
 							</div>
 						</div>
-						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:250px;">
-							<tbody>
+						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:200px;">
+							<tbody style="vertical-align:middle;">
 								<tr>
 									<th class='text-center'>사번</th>
 									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
@@ -757,7 +807,13 @@ input[type=file]:before {
 								<tr>
 									<th>직책</th>
 									<td colspan='2'><div>
-											<div class="col-xs-2 col-xs-offset-2">
+										<select id="dutyBtn" name="dutyBtn" style="width:100px;height:30px;">
+											<option value="">직책선택</option>
+											<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
+												<option value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</option>
+											</c:forEach>
+										</select>
+											<%-- <div class="col-xs-2 col-xs-offset-2">
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
@@ -774,11 +830,17 @@ input[type=file]:before {
 														</ul>
 													</div>
 												</div>
-											</div>
+											</div> --%>
 										</div></td>
 									<th>부서</th>
 									<td colspan='2'><div>
-											<div class="col-xs-2 col-xs-offset-2">
+										<select id="deptBtn" name="deptBtn" style="width:100px;height:30px;">
+											<option value="">부서선택</option>
+											<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
+												<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
+											</c:forEach>
+										</select>
+											<%-- <div class="col-xs-2 col-xs-offset-2">
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
 														<button id="deptBtn" type="button" 
@@ -795,7 +857,7 @@ input[type=file]:before {
 														</ul>
 													</div>
 												</div>
-											</div>
+											</div> --%>
 										</div></td>
 								</tr>
 								<tr>
