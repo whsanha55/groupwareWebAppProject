@@ -189,10 +189,10 @@
 				<div class="clearfix"></div>
 			</div>
 				<div class="container">
-					<div class="row">
-						<div class="col-xs-7 col-xs-offset-5">
-							<div class="input-group">
-								<div class="input-group-btn search-panel">
+					<div class="row">   					                   	
+						<div class="col-xs-7 col-xs-offset-5">											
+							<div class="input-group">							
+								<div class="input-group-btn search-panel">								
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px">
 										<span class="keyfield">검색조건</span> <span class="caret"></span>
 									</button>
