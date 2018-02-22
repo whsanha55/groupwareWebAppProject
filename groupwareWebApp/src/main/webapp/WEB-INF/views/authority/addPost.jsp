@@ -76,7 +76,7 @@
            controlForm.find('.entry:not(:last) .btn-add').removeClass('btn-add').addClass('btn-remove')
            .removeClass('btn-success').addClass('btn-danger').html('<span class="glyphicon glyphicon-minus"></span>');
            if(fileCount < total+1) {
-				swal(fileCount + "개의 파일만 첨부 가능합니다.",'error');
+				swal(fileCount + "개의 파일만 첨부 가능합니다.",'');
 				$(this).parents('.entry:first').remove();
 				$(this).val('');
 			}

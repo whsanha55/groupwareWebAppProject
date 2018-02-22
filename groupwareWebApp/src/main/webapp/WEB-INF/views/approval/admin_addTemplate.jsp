@@ -23,6 +23,8 @@
 		font-size : 15px;
 		vertical-align: middle;
 	}
+	
+	
 </style>
 
 <script>
@@ -386,7 +388,7 @@
                 		<td>양식 구분 선택</td>
                 	</tr>
 					<tr class>
-						<td><select class="form-control col-md-10" id="modalCategory">
+						<td><select class="form-control col-md-10" id="modalCategory" size="6">
 							<c:forEach var="category" items="${requestScope.categories }">
 								<option value="${pageScope.category.categoryNo }">${pageScope.category.categoryName }</option>
 							</c:forEach></select>

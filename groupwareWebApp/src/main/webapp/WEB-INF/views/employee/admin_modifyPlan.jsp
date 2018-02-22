@@ -227,7 +227,11 @@ $(document).ready(function () {
 	
 	$('#return').click(function(){
 		location.reload();
-	});	
+	});
+	
+	/* $('#return').click(function() {
+		$('#plan').load("${pageContext.request.contextPath}/admin/modifyPlan.do?pNo=${requestScope.plan.pNo }#plan");
+	}); */
 	
 	$('#modalChooseBtn2').on('click',function() {	
 		console.log(selectedDest);
@@ -253,7 +257,7 @@ $(document).ready(function () {
 					<h2>일정수정</h2>
 					<div class="clearfix"></div>
 				</div>
-				<div class="x_content">
+				<div id="plan" class="x_content">
 					<br>
 					<form id="modify" data-parsley-validate="" class="form-horizontal form-label-left"
 							action="${pageContext.request.contextPath }/admin/modifyPlan.do" method="post"
@@ -380,7 +384,6 @@ $(document).ready(function () {
 									</c:url>
 									<a id="modify" href="${pageScope.detailURL }"  ><button class="btn btn-primary" type="button">뒤로가기</button></a>
 									<button id="modifyBtn" type="submit"  class="btn btn-success ">수정</button>
-									<button id="return" type="button" class="btn btn-default">취소</button>
 								</div>
 							</div>
 						</div>

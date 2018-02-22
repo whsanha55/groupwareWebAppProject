@@ -312,7 +312,8 @@ $(document).ready(function(){
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-				<br>
+				※ 전결 등록 선택시 해당 양식과 직급에 대한 전결 정보가 등록됩니다.<br>
+				※ 삭제 선택 시 해당 전결 정보가 삭제됩니다. 
 				<div class="form-group form-inline" style='border-bottom : 2px solid #d8d3d3;'>
 					<div id="insertDeleg" >
 						<form id="search" style="margin-bottom:10px;">

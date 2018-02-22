@@ -9,6 +9,15 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
+	#bigtd {
+		padding-top:24px;
+	}
+	#smltd {
+		padding-top:16px;
+	}
+	#addresstd {
+		padding-top:55px;
+	}
 	.modal-dialog {
 		width:670px;
 	}
@@ -85,12 +94,17 @@ input[type=file]:before {
 			employeePaging(1);
 			
 		});
-		
+		/*
 		$('#dutyBtnList li > a').on('click', function() {
 		    $('#dutyBtn').text($(this).text());
 		    $('input[name=dutyCode]').val($(this).attr('value'));
+		});*/
+		$('#dutyBtn').on('change', function() {
+			$('input[name=dutyCode]').val($('#dutyBtn option:selected').val());	
 		});
 		
+		
+		/*
 		$('#deptBtnList li > a').on('click', function() {	
 			$('#deptBtn').text($(this).text());
 		    $('input[name=deptCode]').val($(this).attr('value'));		    
@@ -127,6 +141,50 @@ input[type=file]:before {
 					} else {
 						return false;
 					}
+				}
+				,
+				error: function(jqXHR) {
+					alert('error : ' + jqXHR.status);
+				}
+			});
+		});
+		*/
+		$('#deptBtn').on('change', function() {
+			$('input[name=deptCode]').val($('#deptBtn option:selected').val());
+						
+		  	$.ajax ({
+				url: "${pageContext.request.contextPath}/admin/checkRelation.do"
+				,
+				method: 'POST'
+				,
+				data: {
+					deptCode: $('#deptCode').val()
+				}
+				,
+				dataType: 'json'
+				,
+				success: function(data) {
+					var text = "";					
+					if(data.length != 0) {
+						text += '<select id="teamBtn" name="teamBtn" style="width:80px;height:30px;">';
+						text += '<option value="">팀선택</option>';					
+						for (var i = 0; i<data.length; i++) {
+							text += '<option value="'+ data[i].cNo +'">'+ data[i].cName +'</option>';
+						}
+						text += '</select>';
+						
+						if($('#teamBtn').is(null) != true) {
+							$('#teamBtn').remove();
+						}
+						
+						$(text).appendTo('#deptTd');
+											
+					} else {
+						$('#teamBtn').remove();
+					}
+					$('#teamBtn').on('change', function() {
+						$('input[name=deptCode]').val($('#teamBtn option:selected').val());
+					});
 				}
 				,
 				error: function(jqXHR) {
@@ -334,10 +392,10 @@ input[type=file]:before {
 						text += "<td id='submitEmpNo'><a data-toggle='modal' data-target='#myModal'>"+ data.employees[i].empNo + "</a></td>";
 						text += "<td id='submitEmpName'>"+ data.employees[i].empName 		+ "</td>";
 						text += "<input id='submitEngName' type='hidden' value='"+ data.employees[i].engName +"'>";
-						text += "<input id='submitDeptNo' type='hidden' value='"+ data.employees[i].deptNo +"'>";
 						text += "<td id='submitDuty'>"+ data.employees[i].duty 			+ "</td>";
 						text += "<input id='submitDutyNo' type='hidden' value='"+ data.employees[i].dutyNo +"'>";
 						text += "<td id='submitDept'>"+ data.employees[i].department 	+ "</td>";
+						text += "<input id='submitDeptNo' type='hidden' value='"+ data.employees[i].deptNo +"'>";
 						text += "<td id='submitPhoneNumber'>"+ data.employees[i].phoneNumber	+ "</td>";
 						text += "<input id='submitRegNumber' type='hidden' value='"+ data.employees[i].regNumber +"'>";
 						text += "<td id='submitHireDate'>"+ data.employees[i].hireDate		+ "</td>";
@@ -355,6 +413,8 @@ input[type=file]:before {
 					}
 						
 					$('#datatable').on('click','#submitEmpNo', function(){
+						var empPhoto = $(this).parent().children('#submitPhotoName').val();
+						
 						$('#upload-image').attr('disabled', true);
 						$('#upload-image').hide();
 						$('#modEmpName').attr('readonly', true);
@@ -375,10 +435,9 @@ input[type=file]:before {
 						$('#btnDiv').html('<button id="modifyBtn" type="button" class="btn btn-primary">수정</button><button id="retireBtn" type="button" class="btn btn-primary retire">퇴사</button><button id="closeBtn2" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
 						
 						$('input[name=oldDuty]').val($(this).nextAll('#submitDutyNo').val());
-						console.log($('input[name=oldDuty]').val());
 						$('input[name=oldDept]').val($(this).nextAll('#submitDeptNo').val());
-						console.log($('input[name=oldDept]').val());
-						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + ($(this).parent().children('#submitPhotoName').val()));
+						
+						$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + empPhoto);
 						$('#modifyEmpNo').val($(this).text());
 						$('#modEmpName').val($(this).next('#submitEmpName').text());							
 						
@@ -388,9 +447,15 @@ input[type=file]:before {
 						}					
 						
 						$('input[name=dutyCode]').val($(this).parent().children('#submitDutyNo').val());
-						$('.preDuty').text($(this).nextAll('#submitDuty').text());
+						$('#dutyBtn').val($(this).parent().children('#submitDutyNo').val());
+						//$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
-						$('.preDept').text($(this).nextAll('#submitDept').text());
+						$('#deptBtn').val($(this).parent().children('#submitDeptNo').val());
+						console.log($('#deptBtn').val());
+						if($('#deptBtn').val() == null){
+							$('#deptBtn').append("<option value=" + $(this).parent().children('#submitDeptNo').val() + ">" + $(this).parent().children('#submitDept').text() + "</option>");
+						}
+						//$('.preDept').text($(this).nextAll('#submitDept').text());
 						
 						var phoneArr = $(this).nextAll('#submitPhoneNumber').text().split('-');
 						$('#phoneNumber1').val(phoneArr[0]);
@@ -420,8 +485,22 @@ input[type=file]:before {
 						$('#moddetailAddress').val($(this).parent().children('#submitdetailAddress').val());
 						if($('#moddetailAddress').val() == 'null') {
 							$('#moddetailAddress').val("");
-						}						
+						}	
+						
+						$('#upload-image').on('change', function() {
+							if($('#upload-image').val() == "") {
+								$('#photo').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/' + empPhoto); 
+							}	
+						});
+						$('#modalForm').on('click', '#closeBtn2', function() {
+							if($('#deptBtn').val().length > 4) {
+								$('#deptBtn option:last').remove();
+							}
+						});
+						
 					});
+					
+					
 					
 					$('#modalForm').on('click', '#modifyCompBtn' , function() {
 						/*var oldDept = $('input[name=oldDept]').val();
@@ -430,12 +509,7 @@ input[type=file]:before {
 						var dutyCode = $('input[name=dutyCode]').val();*/
 						
 						event.preventDefault();
-						checkUnload = false;
-						console.log($('input[name=oldDept]').val());
-						console.log($('input[name=oldDuty]').val());
-						console.log($('input[name=deptCode]').val());
-						console.log($('input[name=dutyCode]').val());
-						
+						checkUnload = false;						
 						/*
 						if($('.preDuty').text() == checkChangeDuty) {
 							$('input[name=deptCode]').val("");
@@ -449,7 +523,8 @@ input[type=file]:before {
 							$('input[name=dutyCode]').val("");
 							console.log($('input[name=dutyCode]').val());
 						}
-						*/						
+						*/	
+						
 						if($('#photo').attr('src') == '') {
 							swal("프로필 사진을 추가해주세요.","");
 							return;
@@ -706,7 +781,7 @@ input[type=file]:before {
 		<form id="modalForm" enctype="multipart/form-data" 
 				action="${pageContext.request.contextPath }/admin/modifyEmployee.do" method="POST">
 		<input type="hidden" name="dutyCode" value="">
-		<input type="hidden" name="deptCode" value="">
+		<input id="deptCode" type="hidden" name="deptCode" value="">
 		<input type="hidden" name="oldDuty" value="">
 		<input type="hidden" name="oldDept" value="">
 		<div class="modal-dialog">
@@ -723,30 +798,30 @@ input[type=file]:before {
 							<div class="profile_img">
 								<div id="crop-avatar">
 									<!-- Current avatar -->
-									<img id="photo" style='width:200px;height:250px;' 
-									src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/employeeEX.png" class="img-responsive center-block"/> 
+									<img id="photo" style='width:150px;height:200px;' 
+									src="" class="img-responsive center-block"/> 
 									<input id="upload-image" name="upload" style="margin-left:80px;margin-top:4px"
 									type="file" data-role="magic-overlay" data-target="#pictureBtn"
 									data-edit="insertImage">
 								</div>
 							</div>
 						</div>
-						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:250px;">
+						<table class="table table-striped table-bordered" style="text-align:center;width:350px;height:200px;">
 							<tbody>
 								<tr>
-									<th class='text-center'>사번</th>
+									<th id="bigtd" class='text-center'>사번</th>
 									<td><input id="modifyEmpNo" name="empNo" type="text" class="form-control"
-										readonly value="" style="width:200px;"></td>
+										readonly value="" style="width:200px;display:inline-block;margin-top:8px;"></td>
 								</tr>
 								<tr>
-									<th>이름</th>
+									<th id="bigtd" class='text-center'>이름</th>
 									<td><input id="modEmpName" name="empName" type="text" class="form-control"
-										required="required" value="" style="width:200px;"></td>
+										required="required" value="" style="width:200px;display:inline-block;margin-top:8px;"></td>
 								</tr>
 								<tr>
-									<th>영문이름</th>
+									<th id="bigtd" class='text-center'>영문이름</th>
 									<td><input id="modEngName" name="engName" type="text" class="form-control"
-										value="" style="width:200px;"></td>
+										value="" style="width:200px;display:inline-block;margin-top:8px;"></td>
 								</tr>
 							</tbody>
 						</table>						
@@ -755,9 +830,15 @@ input[type=file]:before {
 							<tbody>
 								
 								<tr>
-									<th>직책</th>
+									<th id="smltd" class="text-center">직책</th>
 									<td colspan='2'><div>
-											<div class="col-xs-2 col-xs-offset-2">
+										<select id="dutyBtn" name="dutyBtn" style="width:80px;height:30px;">
+											<option value="">직책선택</option>
+											<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
+												<option value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</option>
+											</c:forEach>
+										</select>
+											<%-- <div class="col-xs-2 col-xs-offset-2">
 												<div class="input-group">
 													<div class="input-group-btn search-panel">
 														<button id="dutyBtn" type="button"
@@ -774,11 +855,17 @@ input[type=file]:before {
 														</ul>
 													</div>
 												</div>
-											</div>
+											</div> --%>
 										</div></td>
-									<th>부서</th>
-									<td colspan='2'><div>
-											<div class="col-xs-2 col-xs-offset-2">
+									<th id="smltd" class="text-center" style="width:74px;height:51px;">부서</th>
+									<td id="deptTd" colspan='2'><div>
+										<select id="deptBtn" name="deptBtn" style="width:80px;height:30px;display:inline-block;float:left;margin-right:5px;">
+											<option value="">부서선택</option>
+											<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
+												<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
+											</c:forEach>
+										</select>
+											<%-- <div class="col-xs-2 col-xs-offset-2">
 												<div id="inputDeptDiv" class="input-group">
 													<div id="deptDiv" class="input-group-btn search-panel">
 														<button id="deptBtn" type="button" 
@@ -795,11 +882,11 @@ input[type=file]:before {
 														</ul>
 													</div>
 												</div>
-											</div>
+											</div> --%>
 										</div></td>
 								</tr>
 								<tr>
-									<th colspan='1'>연락처</th>
+									<th id="smltd" class="text-center" colspan='1'>연락처</th>
 									<td colspan='5' class="form-inline">
 											<input type="hidden" id="phoneNumber" name="phoneNumber"
 												 class="form-control col-md-7 col-xs-12">
@@ -820,7 +907,7 @@ input[type=file]:before {
 									</td>
 								</tr>
 								<tr>
-									<th colspan='1'>주민번호</th>
+									<th id="smltd" class="text-center" colspan='1'>주민번호</th>
 									<td colspan='5' class="form-inline">
 										<input type="hidden" id="regNumber" name="regNumber" 
 											 class="form-control col-md-7 col-xs-12" value="" >
@@ -832,7 +919,7 @@ input[type=file]:before {
 									</td>
 								</tr>
 								<tr>
-									<th colspan='1'>이메일</th>
+									<th id="smltd" class="text-center" colspan='1'>이메일</th>
 									<td colspan='5' class="form-inline">
 										<input type="hidden" id="email" name="email" value="" >
 										<input type='text' id="email1" name="email1" class="form-control" style="width:100px;">&nbsp;@&nbsp;
@@ -850,30 +937,30 @@ input[type=file]:before {
 									</td>
 								</tr>
 								<tr>
-									<th>입사일</th>
+									<th id="smltd" class="text-center">입사일</th>
 									<td><input id="modHireDate" name="hireDate" type="text" class="form-control"
 										required="required" value="" readonly style="width:100px;"></td>
-									<th>퇴사여부</th>
+									<th id="smltd" class="text-center">퇴사여부</th>
 									<td><input id="modRetireStatus" name="retireStatus" type="text" class="form-control"
 										required="required" readonly value="" style="width:60px;"></td>
-									<th>퇴사일</th>
+									<th id="smltd" class="text-center">퇴사일</th>
 									<td><input id="modRetireDate" name="retireDate" type="text" class="form-control" value="" readonly style="width:100px;"></td>
 								</tr>
 								<tr>
-									<th colspan='1'>주소</th>
+									<th id="addresstd" class="text-center" colspan='1'>주소</th>
 									<td colspan="5">
-									<div class="col-md-6 col-sm-6 col-xs-6">
+									<div class="col-md-6 col-sm-6 col-xs-6" style="padding-left:0px">
 										<input type="text" id="modpostcode" name="postcode" placeholder="우편번호" readonly
 												required="required" class="form-control col-sm-6 col-xs-6">
 									</div>
 									<button type="button" id="findpostcode" class="btn btn-success">우편번호 찾기</button><br>
-									<div class="col-md-12 col-sm-6 col-xs-12">
+									<div class="col-md-12 col-sm-6 col-xs-12" style="padding-left:0px">
 										<input type="text" id="modAddress" name="address" placeholder="주소" readonly
 												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
 									</div><br>
-									<div class="col-md-12 col-sm-6 col-xs-12">
+									<div class="col-md-12 col-sm-6 col-xs-12" style="padding-left:0px">
 										<input type="text" id="moddetailAddress" name="detailAddress" placeholder="상세주소"
-												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;">
+												required="required" class="form-control col-md-7 col-xs-12" style="width:500px;margin-top:5px">
 									</div>
 								</tr>
 							</tbody>

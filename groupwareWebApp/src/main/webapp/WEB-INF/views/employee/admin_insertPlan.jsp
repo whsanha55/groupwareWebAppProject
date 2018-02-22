@@ -157,9 +157,14 @@ $(document).ready(function() {
 		});
 	});
 	
+	
 	$('#return').click(function(){
 		location.reload();
-	});	
+	});
+	
+	/* $('#return').click(function() {
+		$('#plan').load("${pageContext.request.contextPath}/admin/registerPlan.do" + "#plan");
+	}); */
 	
 	$('#modalChooseBtn2').on('click',function() {	
 		console.log(selectedDest);
@@ -184,7 +189,7 @@ $(document).ready(function() {
 					<h2>일정등록</h2>
 					<div class="clearfix"></div>
 				</div>
-				<div class="x_content">
+				<div id="plan" class="x_content">
 					<br>
 					<form id="register" data-parsley-validate="" class="form-horizontal form-label-left"
 							action="${pageContext.request.contextPath }/admin/registerPlan.do" method="post"
@@ -304,7 +309,6 @@ $(document).ready(function() {
 									<c:url var="listPlanURL" value="/admin/listPlan.do" scope="page" ></c:url>
 									<a id="list" href="${pageScope.listPlanURL }"  ><button class="btn btn-primary" type="button">뒤로가기</button></a>
 									<button id="registerBtn" type="submit" class="btn btn-success">등록</button>
-									<button id="return" type="button" class="btn btn-default">취소</button>
 								</div>
 							</div>
 						</div>
