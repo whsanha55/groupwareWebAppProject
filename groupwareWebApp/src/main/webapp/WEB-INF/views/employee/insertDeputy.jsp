@@ -266,6 +266,10 @@
 				swal("기간을 지정해주세요.","");
 				return;
 			}
+			if($('input[name=depReason]').val().trim() == '') {
+				swal("사유를 작성해주세요.","");
+				return;
+			}
 			
 			swal({
 				  title: "대결 등록",
