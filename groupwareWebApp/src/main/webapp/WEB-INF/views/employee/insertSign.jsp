@@ -96,7 +96,7 @@ input[type=file] {
 							<%-- <i class="fa fa-picture-o"> --%>
 							<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
-							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/도장기본.png" 
+							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/noimage.jpg" 
 									width="250px" height="250px"  style=" border: 2px solid #ccc;"   class="img-responsive center-block"/>
 							</div>							
 						</div>

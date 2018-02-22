@@ -303,12 +303,12 @@ $(document).ready(function () {
 							<div class=" col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="destination" name="destination"
 									required="required" class="form-control col-md-10 col-xs-12"
-									style="width:515px;" value="${requestScope.plan.destination }">
+									style="width:435px;" value="${requestScope.plan.destination }">
 								<input type="hidden" id="latitude" name="latitude"
 									 value="${requestScope.plan.latitude }">
 								<input type="hidden" id="longitude" name="longitude"
 									 value="${requestScope.plan.longitude }">
-								<button id="searchMap" type="button" class="btn btn-success">주소찾기</button>
+								<button id="searchMap" type="button" class="btn btn-success" style="margin-left:25px;">주소찾기</button>
 							</div>
 						</div>
 
@@ -360,10 +360,10 @@ $(document).ready(function () {
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" for="empName">담당자 지정 *</label>
 							<div class="input-group col-md-6 col-sm-6 col-xs-12">
 								<input type="hidden" id="rspbNo" name="rspbNo" value="${requestScope.plan.rspbNo }">
-								<input type="text" id="empName" name="empName" class="form-control"
+								<input type="text" id="empName" name="empName" class="form-control" style="width:435px;"
 									readonly value="${requestScope.plan.empName }" >
 									<span class="input-group-btn">
-										<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal">검색</button>
+										<button id="searchEmp" type="button" class="btn btn-primary" data-toggle="modal" style="margin-right:108px;">검색</button>
 							</div>
 						</div>
 

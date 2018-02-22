@@ -15,18 +15,12 @@
 			
 			$(this).text('수정 취소');
 			$(this).attr('id', 'modicanBtn');
+			$(this).attr('class','btn btn-primary');
+			$(this).css('margin-left','+=10px');
 			
 			$.ajax ({
 				success:function() {
 					txt = "";
-					txt += '<div class="form-group">';
-					txt += '<label class="control-label col-md-3 col-sm-3 col-xs-12" for="checkPwd">기존 비밀번호 <span class="required">*</span>';
-					txt += '</label>';
-					txt += '<div class="col-md-4 col-sm-6 col-xs-6">';
-					txt += '<input type="password" id="checkPwd" name="checkPwd" class="form-control col-sm-4 col-xs-6" >';
-					txt += '</div>';
-					txt += '<button type="button" id="checkPwdBtn" class="btn btn-success">비밀번호 확인</button>';
-					txt += '</div>';
 					txt += '<div class="form-group">';
 					txt += '<label class="control-label col-md-3 col-sm-3 col-xs-12" for="empPwd">새 비밀번호 <span class="required">*</span>';
 					txt += '</label>';
@@ -41,7 +35,7 @@
 					txt += '<input type="password" id="empPwdCheck" name="empPwdCheck" class="form-control col-md-7 col-xs-12">';
 					txt += '</div>';
 					txt += '</div>';
-					txt += '<div class="ln_solid"></div>';
+				//	txt += '<div class="ln_solid"></div>';
 					
 					$('#addPwd').html(txt);
 				
@@ -52,6 +46,8 @@
 		$('#modiform').on('click','#modicanBtn', function() {
 			$(this).text('비밀번호 수정');
 			$(this).attr('id','modifyPwdBtn');
+			$(this).attr('class','btn btn-success');
+			$(this).css('margin-left','-=10px');
 			$('#addPwd').html("");
 		});
 		
@@ -107,23 +103,23 @@
 		});
 		if($('input[name=checkPwd], input[name=empPwd], input[name=empPwdCheck]').length > 0) {
 			
-			$('input[name=empPwd]').focus(function() {
+			$('#modiform').on('focus', 'input[name=empPwd]', function() {
 				if($(this).next('span').text() != null){
 					$(this).next('span').remove();
 				}
 			});
-			$('input[name=empPwdCheck]').focus(function() {
+			$('#modiform').on('focus','input[name=empPwdCheck]', function() {
 				if($(this).next('span').text() != null){
 					$(this).next('span').remove();
 				}
 			});
 			
-			$('input[name=empPwd]').blur(function() {	
+			$('#modiform').on('blur', 'input[name=empPwd]', function() {	
 				if($(this).val().trim().length < 4 || $(this).val().trim().length > 12) {
 					$(this).after('<span id="errorSpan" style="color:red;">4~12자리 사이로 입력해주세요.</span>');
 				}
 			});		
-			$('input[name=empPwdCheck]').blur(function() {	
+			$('#modiform').on('blur', 'input[name=empPwdCheck]', function() {	
 				if($(this).val() != $('input[name=empPwd]').val()) {
 					$(this).after('<span id="errorSpan" style="color:red;">비밀번호가 일치하지 않습니다.</span>');
 				}
@@ -312,10 +308,8 @@
 								id="empNo" name="empNo" readonly
 								value="${requestScope.employee.empNo }">
 						</div>
-						<button type="button" id="modifyPwdBtn" class="btn btn-success">비밀번호 수정</button>
+
 					</div>
-					<div id="addPwd">
-					<%--
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="checkPwd">기존 비밀번호 <span class="required">*</span>
@@ -326,6 +320,8 @@
 						</div>
 						<button type="button" id="checkPwdBtn" class="btn btn-success">비밀번호 확인</button>
 					</div>
+					<div id="addPwd">
+					<%--
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="empPwd">새 비밀번호 <span class="required">*</span>
@@ -346,10 +342,12 @@
 					</div>
 					--%>
 					</div>
-					<%--
-					<div class="ln_solid"></div>
-					--%>
+					<div style="margin-left:460px;">
+						<button type="button" id="modifyPwdBtn" class="btn btn-success">비밀번호 수정</button>
+					</div>
 					
+					<div class="ln_solid"></div>
+										
 					<div class="form-group">
 						<label class="control-label col-md-3 col-sm-3 col-xs-12"
 							for="empName">이름 <span class="required">*</span>
