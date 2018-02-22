@@ -9,7 +9,7 @@ page contentType="text/html; charset=utf-8"%>
 <!-- Meta, title, CSS, favicons, etc. -->
 <meta charset="utf-8">
 <title>login</title>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script type="text/javascript">
@@ -19,19 +19,19 @@ page contentType="text/html; charset=utf-8"%>
       
       $('#login').click(function(){
          if($('input:text[name=id]').val() == ""){
-            alert("사번을 입력해주세요");
+            swal("사번을 입력해주세요");
             $('input:text[name=id]').focus;
             return false;
          }
          
          if($('input:password[name=pwd]').val() == ""){
-            alert("비밀번호를 입력해주세요");
+        	 swal("비밀번호를 입력해주세요");
             $('input:text[name=pwd]').focus;
             return false;
          }
          
          if(!($('input:radio[name=role]').is(':checked'))){
-            alert("옵션을 선택해주세요");
+        	 swal("옵션을 선택해주세요");
             $('input:radio[name=role]').focus;
             return false;
          }
