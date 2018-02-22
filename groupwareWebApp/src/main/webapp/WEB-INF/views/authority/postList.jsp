@@ -251,7 +251,7 @@
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 
 					</c:if>
 					
-					<c:if test="${param.boardName == '공용문서관리'}">
+					<c:if test="${param.boardName == '자유게시판'}">
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 
 					</c:if>						
 					</div>
