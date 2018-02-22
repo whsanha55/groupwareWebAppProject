@@ -147,7 +147,7 @@
 		}
 		html += '<span aria-hidden="true">&laquo;</span> </a> </li>';
 		
-		for(var i=sPage; i<=ePage-1; i++) {
+		for(var i=sPage; i<=ePage; i++) {
 			if(currentPage == i) {
 				html += '<li class="page-item active"><a class="page-link" ">' + i + '</a></li>';
 			} else {
