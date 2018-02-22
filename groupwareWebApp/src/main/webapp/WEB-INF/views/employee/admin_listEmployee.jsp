@@ -233,7 +233,6 @@ input[type=file]:before {
 		$("#modalForm").on('click','#retireBtn',function() {
 			
 			var empNo = $('#modifyEmpNo').val();
-			console.log(empNo);
 			swal({
 				title: "사원 퇴사",
 				text: "사원을 퇴사처리 합니다. 계속 진행하시겠습니까?",
@@ -256,7 +255,6 @@ input[type=file]:before {
 					},
 					dataType : 'json',
 					success : function(data) {
-						console.log(data);
 						$('#modRetireStatus').val(data.retireStatus);
 						if($('#modRetireStatus').val() == 0) {
 							$('#modRetireStatus').val('퇴사');
@@ -340,7 +338,8 @@ input[type=file]:before {
 
 		filesArr.forEach(function(f) {
 			if(!f.type.match("image.*")) {
-				alert("확장자는 이미지 확장자만 가능합니다.");
+				swal("확장자는 이미지 확장자만 가능합니다.","","error");
+				$('#upload-image').val("");
 				return;
 			}
 			
@@ -451,7 +450,6 @@ input[type=file]:before {
 						//$('.preDuty').text($(this).nextAll('#submitDuty').text());
 						$('input[name=deptCode]').val($(this).parent().children('#submitDeptNo').val());
 						$('#deptBtn').val($(this).parent().children('#submitDeptNo').val());
-						console.log($('#deptBtn').val());
 						if($('#deptBtn').val() == null){
 							$('#deptBtn').append("<option value=" + $(this).parent().children('#submitDeptNo').val() + ">" + $(this).parent().children('#submitDept').text() + "</option>");
 						}
