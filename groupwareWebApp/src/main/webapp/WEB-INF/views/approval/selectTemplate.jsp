@@ -30,7 +30,9 @@
 	#templatePaging li {
 		cursor : pointer;
 	}
-
+	.fa-star {
+		color : #ffc107;
+	}
 </style>
 <script>
 		var pKeyfield = 'bookmark'; //로딩첫페이지가 북마크!! 
