@@ -8,7 +8,7 @@
 	</appender>
 
 	<!-- 로거 -->
-	<logger name="com.bit.groupware.persistent.mapper" level="trace"  additivity="true" />
+	<logger name="com.bit.groupware.persistent.mapper" level="error"  additivity="true" />
 	
 	<!-- 
 	<logger name="com.bit.article.persistent.mapper.ArticleMapper" level="trace"  additivity="true" />
@@ -16,7 +16,7 @@
 	 -->
 	 	
 	<!-- 최상위 로거 -->
-	<root level="info">
+	<root level="error">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>
