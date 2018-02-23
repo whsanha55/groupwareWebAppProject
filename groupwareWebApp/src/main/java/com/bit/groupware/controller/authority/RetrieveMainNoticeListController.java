@@ -28,7 +28,6 @@ public class RetrieveMainNoticeListController {
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		
 		returnMap.put("notices", notices);
-		System.out.println("=================================="+ notices.toString());
 		return returnMap;
 	}
 	

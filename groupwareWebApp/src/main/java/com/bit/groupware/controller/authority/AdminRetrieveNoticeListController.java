@@ -42,7 +42,6 @@ public class AdminRetrieveNoticeListController {
 		map.put("endRow", endRow);
 		
 		List<NoticeVO> notices = noticeService.retrieveNoticeList(map);
-		System.out.print("²¥¾Æ¾Æ¾Æ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+notices.toString());
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("notices", notices);

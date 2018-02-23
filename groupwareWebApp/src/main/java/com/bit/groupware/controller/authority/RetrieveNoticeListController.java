@@ -47,7 +47,6 @@ public class RetrieveNoticeListController {
 		
 		List<NoticeVO> notices = noticeService.retrieveNoticeList(map);
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-		System.out.print("²¥¾Æ¾Æ¾Æ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+notices.toString());
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("notices", notices);
 		

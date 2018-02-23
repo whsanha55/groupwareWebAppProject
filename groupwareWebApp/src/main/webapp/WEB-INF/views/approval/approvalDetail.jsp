@@ -123,9 +123,15 @@
 		if($('.delegation1').length) {
 			var temp = $('.delegation1').closest('td');
 			var index = ${apprCount} -1;
-			$('.delegation1').closest('tr').find('td:eq(' + index + ')').html(temp.html());
+			
+			//사진이동
+			$('.delegation1').closest('tr').find('td:eq(' + index + ')').html(temp.html());	
 			$(temp).html('<img src="${pageContext.request.contextPath }/resources/upload/전결.JPG" style="height:35px; width:65px; margin-top:15px;">');
 			
+			//날짜 이동
+			temp = $('.apprLineAppr3').last();
+			temp.closest('tr').find('td:eq(' + index + ')').text(temp.text());
+			temp.text('');
 		}
 		   
 		

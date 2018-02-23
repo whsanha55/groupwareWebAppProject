@@ -419,7 +419,7 @@ $(document).ready(function() {
 										swal("삭제 완료!","");
 										 Paging(1); 
 									}else if(data.isSuccess == "false"){
-										swal("역할이 존재합니다.");
+										swal("역할 또는 사원이 존재합니다.");
 									} 
 								}
 								,

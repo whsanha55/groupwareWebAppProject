@@ -374,12 +374,12 @@
                            		 <input type='checkbox' name='all'>
                             </th>
                             <th class="column-title">롤 ID </th>
-                            <th class="column-title">롤 명 </th>
+                            <th style='width:238px;' class="column-title">롤 명 </th>
                             <th class="column-title">롤 타입</th>
-                            <th class="column-title">롤 설명</th>
+                            <th style='width:200px;' class="column-title">롤 설명</th>
                             <th class="column-title">등록일자</th>
                             <th class="column-title">수정</th>
-                            
+
                           </tr>
                         </thead>
 
