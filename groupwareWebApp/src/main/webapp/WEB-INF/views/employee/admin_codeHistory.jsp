@@ -26,7 +26,7 @@
 		//검색조건 엔터키 눌렀을때 트리거 발동
 		$('.keyword').on('keydown', function(e) {
 			if(e.keyCode == 13){
-				$('#findEmployee').trigger('click');
+				$('#findHistory').trigger('click');
 	        }
 		});
 		
@@ -39,7 +39,8 @@
 			}
 	
 			eKeyfield = $('.keyfield').attr('id');
-				
+			eKeyword = $('.keyword').val();
+			
 			historyPaging(1);
 			
 		});

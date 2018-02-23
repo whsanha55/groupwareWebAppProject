@@ -50,7 +50,6 @@ public class ListHistoryAjaxController {
 		map.put("endRow", endRow);
 		
 		List<CodeHistoryVO> histories = codeService.retrieveCodeHistoryListByAdmin(map);
-		logger.info("keyfield : {}", keyfield);
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("histories", histories);
