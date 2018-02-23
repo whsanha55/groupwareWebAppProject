@@ -47,11 +47,11 @@
 			<div class="x_panel tile fixed_height_200">
 				<dl style="margin-top: 40px;">
 					<dt class="text-center">
-						<a href='<c:url value="/admin/listCode1.do"/>'><img alt="부서" src="${pageContext.request.contextPath}/resources/images/icon8.png">
+						<a href='<c:url value="/admin/listDepartment.do"/>'><img alt="부서" src="${pageContext.request.contextPath}/resources/images/icon8.png">
 					</dt>
 					<dd>
 						<h2 class="text-center">
-							<a href='<c:url value="/admin/listCode1.do"/>'><strong>부서</strong></a>
+							<a href='<c:url value="/admin/listDepartment.do"/>'><strong>부서</strong></a>
 						</h2>
 					</dd>
 				</dl>
