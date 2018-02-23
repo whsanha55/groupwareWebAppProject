@@ -182,7 +182,7 @@ input[type=file]::-webkit-file-upload-button {
 				$('input[name=phoneNumber3]').after('<span id="errorSpan" style="color:red;">연락처를 정확히 입력해주세요.</span>');
 			}
 		});
-		
+		/*
 		$('input[name=regNumber1], input[name=regNumber2]').blur(function() {			
 			if(!($('input[name=regNumber1]').val().trim().length == 6 && $('input[name=regNumber2]').val().trim().length == 7)) {
 				$('input[name=regNumber2]').after('<span id="errorSpan" style="color:red;">주민번호를 정확히 입력해주세요.</span>');
@@ -211,7 +211,7 @@ input[type=file]::-webkit-file-upload-button {
 				});
 			}
 		});
-		
+		*/
 		/*
 		$('input[name=email1], input[name=email2]').blur(function() {
 			var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
