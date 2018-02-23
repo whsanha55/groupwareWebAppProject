@@ -44,7 +44,7 @@
 		});
 		
 		$('#modiform').on('click','#modicanBtn', function() {
-			$(this).text('수정');
+			$(this).text('비밀번호 수정');
 			$(this).attr('id','modifyPwdBtn');
 			$(this).attr('class','btn btn-success');
 			//$(this).css('margin-left','-=10px');
