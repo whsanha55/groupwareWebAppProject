@@ -33,7 +33,7 @@
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${requestScope.codeHistories } == null" > 			
+							<c:when test="${empty requestScope.codeHistories }" > 			
 								<tr><td colspan=4>조회된 검색결과가 없습니다</td></tr>	
 							</c:when>
 							<c:otherwise>
@@ -46,8 +46,7 @@
 									</tr>
 								</c:forEach>
 							</c:otherwise>
-						</c:choose>
-						
+						</c:choose>						
 					</tbody>
 				</table>
 			</div>
