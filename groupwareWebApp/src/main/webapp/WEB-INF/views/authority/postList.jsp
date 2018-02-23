@@ -190,9 +190,14 @@
 			</div>
 				<div class="container">
 					<div class="row">
-						<div class="col-xs-7 col-xs-offset-5">
-							<div class="input-group">
-								<div class="input-group-btn search-panel">
+					<div class="col-md-12 col-sm-9 col-xs-12">
+					※제목 클릭 시, 게시글 상세 정보를 조회합니다.
+					</div>	
+							                   	
+						<div class="col-xs-7 col-xs-offset-5">															
+							<div class="input-group">	
+																															
+								<div class="input-group-btn search-panel">								
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-right:3px">
 										<span class="keyfield">검색조건</span> <span class="caret"></span>
 									</button>
@@ -246,7 +251,7 @@
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 
 					</c:if>
 					
-					<c:if test="${param.boardName == '공용문서관리'}">
+					<c:if test="${param.boardName == '자유게시판'}">
 					<a class="btn btn-primary" href="${addUrl}">등록</a> 
 					</c:if>						
 					</div>

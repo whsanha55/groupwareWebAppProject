@@ -74,18 +74,21 @@
 		
 		//결재문서 상세조회 팝업창 생성
 		 $('#datatable').on("click",'.detailApproval',function(){
+
+				//문서 팝업창 열기
+				var apprNo=$(this).attr('id');
+				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=0';
+				window.open(url, "결재문서","width=1100, height=800");
 			 
 				//최초 확인시 확인일자 기록
 				var check = $(this).parent().children(":last").attr('class');	 		  	 
 				if(check == 'isNotRead') {
 					var recordNo = $(this).parent().children(":last").attr('id');
-				  	checkDate(recordNo);
+				  	$.when(checkDate(recordNo)).done(newMark);		
 				} 
 				
-				var apprNo=$(this).attr('id');
-				var url = '${pageContext.request.contextPath}/approvalDetail.do?apprNo='+apprNo+'&status=3&finalStatus=0';
-				window.open(url, "결재문서","width=1100, height=800");
-				
+
+			
 			});
 		
 		//검색창 타입 바꾸기

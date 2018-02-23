@@ -13,7 +13,7 @@ input[type=file]:before {
   font-size: 14px;
   line-height: 30px;
   color:#fff;
-  content: '서명선택';
+  content: '파일선택';
   display: inline-block;
   background: #26B99A;
     border: 1px solid #169F85;
@@ -35,6 +35,12 @@ input[type=file] {
 	$(document).ready(function() {
 		$("#upload-image").on("change", handleImgFileSelect);
 		
+		$('#upload-image').on('change', function() {
+			if($('#upload-image').val() == "") {
+				$('#img').attr('src','${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/noimage.jpg'); 
+			}	
+		});
+		
 		$('#regSignBtn').click(function() {
 			if($('#upload-image').val() == "") {
 				swal("등록할 서명파일을 첨부해주세요.","");
@@ -51,7 +57,11 @@ input[type=file] {
 					$('#regSign').submit();
 				}
 			});
-		});		
+		});
+		
+		$('#canbtn').click(function() {
+			location.href="${pageContext.request.contextPath}/index.do";
+		});
 		
 	});
 
@@ -61,7 +71,8 @@ input[type=file] {
 		
 		filesArr.forEach(function(f) {
 			if(!f.type.match("image.*")) {
-				alert("확장자는 이미지 확장자만 가능합니다.");
+				swal("확장자는 이미지 확장자만 가능합니다.","","error");
+				$('#upload-image').val("");
 				return;
 			}
 			
@@ -69,7 +80,7 @@ input[type=file] {
 			
 			var reader = new FileReader();
 			reader.onload = function(e) {
-				$("#img").attr("src", e.target.result);
+				$("#img").attr("src", e.target.result);				
 			}
 			reader.readAsDataURL(f);
 		});
@@ -89,26 +100,22 @@ input[type=file] {
 				<form id="regSign" data-parsley-validate="" class="form-horizontal form-label-left" 
 						action="${pageContext.request.contextPath }/registerSign.do" method="POST" 
 						enctype="multipart/form-data">
-					<div class="form-group">
+
 						<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
 							<div class="form-group" id="img_wrap">
 							<%-- <i class="fa fa-picture-o"> --%>
 							<img id="img" src="${pageContext.request.contextPath }/resources/upload/employeeFiles/signs/noimage.jpg" 
 									width="250px" height="250px"  style=" border: 2px solid #ccc;"   class="img-responsive center-block"/>
-							</div>							
-						</div>
-					</div>				
-					<div class="form-group col-md-3 text-center" style="margin-left:440px;">
-						<div class="btn-group center-block" style="display:inline-block;">
-								<input id="upload-image" name="upload" class='center-block'
+							<input id="upload-image" name="upload" class='center-block' style="margin-top:2px;"
 								type="file" data-role="magic-overlay" data-target="#signBtn"
 								data-edit="insertImage">
+							</div>
 						</div>
-					
-						<div class="col-md-2 col-sm-8 col-xs-12 col-md-offset-3 text-center">
-							<button id="regSignBtn" type="button" class="btn btn-primary">등록</button>
-						</div>
+					<div class="ln_solid"></div>
+					<div class="form-group text-center">
+						<button id="canbtn" type="button" class="btn btn-primary">취소</button>
+						<button id="regSignBtn" type="button" class="btn btn-success">등록</button>
 					</div>
 				</form>
 			</div>

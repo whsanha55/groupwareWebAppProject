@@ -45,11 +45,40 @@ $(document).ready(function(){
 			buttons : true 
 		}).then((e) => {
 			if(e) {
-				$('#add').submit();
-			} else if(!e) {
-				checkUnload = true;
-				return;
-			}
+				$.ajax({
+					
+					url: '${pageContext.request.contextPath}/admin/role.do'
+					,
+					method: 'POST'
+					,
+					dataType: 'json'
+					,
+					data: $('#form').serialize()
+					,
+					success: function(data){
+						
+						//성공시 sweetAlert
+						if(data.isSuccess == "true"){
+							swal({
+							title: "역할 등록 완료",
+							text: "역할을 등록하였습니다.",
+							icon: "success"
+							}).then((e)=>{
+								location.href = '${pageContext.request.contextPath}/admin/roleList.do';
+	
+							});
+						}else if(data.isFail == "false"){
+                            swal("이미 등록된 롤입니다.");
+                        } 
+						
+					}
+					,
+					
+					error: function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}
+				});
+			} 
 		});		
 	});
 });
@@ -57,7 +86,8 @@ $(document).ready(function(){
 </head>
 <body>
 	<!-- 역할 등록 -->
-	<form id="add" action="<%=request.getContextPath()%>/admin/role.do" method="post" enctype="multipart/form-data">
+	<%-- <form id="add" action="<%=request.getContextPath()%>/admin/role.do" method="post" enctype="multipart/form-data"> --%>
+	<form id="form">
 	<div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -99,7 +129,7 @@ $(document).ready(function(){
                </div>   
                   </div>
               <div class="text-center">
-               	  <button type="submit" class="btn btn-primary" id='addRole'>등록</button>&nbsp;
+               	  <button type="button" class="btn btn-primary" id='addRole'>등록</button>&nbsp;
                   <button type="reset" class="btn btn-default">취소</button>
                   <a class="btn btn-default" href='<c:url value="/admin/roleList.do"/>'>뒤로가기</a>
                </div>

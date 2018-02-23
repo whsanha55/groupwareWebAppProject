@@ -266,6 +266,10 @@
 				swal("기간을 지정해주세요.","");
 				return;
 			}
+			if($('input[name=depReason]').val().trim() == '') {
+				swal("사유를 작성해주세요.","");
+				return;
+			}
 			
 			swal({
 				  title: "대결 등록",
@@ -361,7 +365,11 @@
 								if(data.deputies[i].status == "과거"){
 									text += "<td>만료</td>"
 								}else{
-									text += "<td>"+ data.deputies[i].progression +"</td>";																	
+									if(data.deputies[i].progression == "T") {
+										text += "<td>사용</td>"
+									} else {
+										text += "<td>미사용</td>"
+									}																		
 								}
 								text += "<td>"+ data.deputies[i].depReason +"</td><td>";
 								if(data.deputies[i].progression == "T"){

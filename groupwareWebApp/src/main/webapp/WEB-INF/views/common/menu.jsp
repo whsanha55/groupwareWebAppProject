@@ -47,7 +47,44 @@
 					.closest('li').attr('class','active');
 				}
 		});
-	});
+		
+		newMark();
+		
+	});//end of document
+	
+	
+	function newMark() {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/newMark.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			success: function(data){
+				if(data.todoCount != 0) {
+					$('#todo').text(data.todoCount);
+					$('#todoLi').text('N');
+					
+				} else {
+					$('#todo').text('');
+					$('#todoLi').text('');
+				}
+				if(data.refCount != 0) {
+					$('#ref').text(data.refCount);
+					$('#refLi').text('N');
+				} else {
+					$('#ref').text('');
+					$('#refLi').text('');
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error: ' + jqXHR.status);
+			}			
+		});	
+	}
+	
+	
 </script>
 <title>content</title>
 
@@ -64,38 +101,6 @@
 	}
 </style>
 
-<script>
-	$(document).ready(function(){
-		$.ajax({
-			url: '${pageContext.request.contextPath}/newMark.do'
-			,
-			method: 'POST'
-			,
-			dataType: 'json'
-			,
-			success: function(data){
-				if(data.todoCount != 0) {
-					$('#todo').text(data.todoCount);
-					$('#todoLi').text('N');
-					
-				}
-				if(data.refCount != 0) {
-					$('#ref').text(data.refCount);
-					$('#refLi').text('N');
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert('error: ' + jqXHR.status);
-			}			
-		});	
-	});//end of document.ready
-
-	
-	
-	
-</script>
-
-
 </head>
 <body>
 
@@ -110,12 +115,12 @@
 	<!-- menu profile quick info -->
 	<div class="profile clearfix">
 		<div class="profile_pic">
-			<img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/${employee.photoName}"
+			<img src="${pageContext.request.contextPath }/resources/upload/employeeFiles/photos/${sessionScope.employee.photoName}"
 				alt="..." class="img-circle profile_img">
 		</div>
 		<div class="profile_info">
 			<span>Welcome,</span>
-			<h2>${employee.empName }</h2>
+			<h2>${sessionScope.employee.empName }</h2>
 		</div>
 	</div>
 	<!-- /menu profile quick info -->
