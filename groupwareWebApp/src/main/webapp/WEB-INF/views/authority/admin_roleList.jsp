@@ -236,16 +236,16 @@
             
             totalCount = data.totalCount;
             num = totalCount - (currentPageNo - 1) * countPerPage;
-            
+           
             //datatable테이블 변경하기
             var text = "";
             for(var i=0;i<data.roles.length;i++) {
-               text += "<tr class='even pointer'><td class='a-center '><input type='checkbox' name='selected' id='ex_chk' value="+data.roles[i].rId+"></td>";
-               text += "<td class='rId'>"+ data.roles[i].rId + "</td>";
-               text += "<td class='rName'>"+ data.roles[i].rName + "</td>";
-               text += "<td class='rType'>"+ data.roles[i].rType + "</td>";
-               text += "<td class='rExplan'>"+ data.roles[i].rExplan + "</td>";
-               text += "<td>"+ data.roles[i].rDate + "</td>"; 
+               text += "<tr style='width:55px;' class='even pointer'><td class='a-center '><input type='checkbox' name='selected' id='ex_chk' value="+data.roles[i].rId+"></td>";
+               text += "<td style='width:140px;' class='rId'>"+ data.roles[i].rId + "</td>";
+               text += "<td style='width:238px;' class='rName'>"+ data.roles[i].rName + "</td>";
+               text += "<td style='width:150px;' class='rType'>"+ data.roles[i].rType + "</td>";
+               text += "<td style='width:220px;' class='rExplan'>"+ data.roles[i].rExplan + "</td>";
+               text += "<td style='width:280px;'>"+ data.roles[i].rDate + "</td>"; 
                text += "<td class='selectBtn'><button type='button'  class='modifyBtn btn btn-primary'>수정</button></td>";
                text += "</tr>";
             }
@@ -370,14 +370,14 @@
                       <table id="datatable"  class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
-                            <th>
+                            <th style='width:55px;'>    
                            		 <input type='checkbox' name='all'>
-                            </th>
-                            <th class="column-title">롤 ID </th>
+                            </th> 
+                            <th style='width:140px;' class="column-title">롤 ID </th>
                             <th style='width:238px;' class="column-title">롤 명 </th>
-                            <th class="column-title">롤 타입</th>
-                            <th style='width:200px;' class="column-title">롤 설명</th>
-                            <th class="column-title">등록일자</th>
+                            <th style='width:150px;' class="column-title">롤 타입</th>
+                            <th style='width:220px;' class="column-title">롤 설명</th>
+                            <th style='width:280px;' class="column-title">등록일자</th>
                             <th class="column-title">수정</th>
 
                           </tr>
