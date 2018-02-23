@@ -1,5 +1,8 @@
 package com.bit.groupware.controller.authority;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -8,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.groupware.domain.authority.RoleVO;
 import com.bit.groupware.service.authority.RoleService;
@@ -26,18 +31,28 @@ public class AdminRegisterRoleController {
 	  
 	   //역할 추가 요청
 	   @RequestMapping(value="/admin/role.do", method=RequestMethod.POST)
-	   public String submit(RoleVO role, HttpSession session) throws Exception { 
-		   int name = roleService.rNameIsExist(role.getrName());
+		@ResponseBody
+	   public Map<String, Object> submit(
+			     @RequestParam(value = "rName") String rName,
+				@RequestParam(value = "rExplan") String rExplan, 
+				@RequestParam(value = "sortOrder") int sortOrder, 
+				@RequestParam(value = "rType") String rType) throws Exception { 
+	         
+		   int name = roleService.rNameIsExist(rName);
+		   Map<String, Object> map = new HashMap<String, Object>();
+		   RoleVO role = new RoleVO();
+		   role.setrName(rName);
+		   role.setrExplan(rExplan);
+		   role.setSortOrder(sortOrder);
+		   role.setrType(rType);
+
+	      
 		   if(name == 0) {
 			   roleService.registerRole(role);
-			   return "authority/admin_roleList";
+			   map.put("isSuccess", "true");
 		   }else {
-				return "authority/admin_roleFail";
+			   map.put("isFail", "false");
 		   }
-/*		   logger.info("롤명!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getrName());
-		   logger.info("롤설명!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getrExplan());
-		   logger.info("롤sort!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getSortOrder());
-	      logger.info("타입!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {}", role.getrType());*/
-	      
+			return map;
 	   }
 }
