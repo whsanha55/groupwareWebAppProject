@@ -47,7 +47,44 @@
 					.closest('li').attr('class','active');
 				}
 		});
-	});
+		
+		newMark();
+		
+	});//end of document
+	
+	
+	function newMark() {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/newMark.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			success: function(data){
+				if(data.todoCount != 0) {
+					$('#todo').text(data.todoCount);
+					$('#todoLi').text('N');
+					
+				} else {
+					$('#todo').text('');
+					$('#todoLi').text('');
+				}
+				if(data.refCount != 0) {
+					$('#ref').text(data.refCount);
+					$('#refLi').text('N');
+				} else {
+					$('#ref').text('');
+					$('#refLi').text('');
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error: ' + jqXHR.status);
+			}			
+		});	
+	}
+	
+	
 </script>
 <title>content</title>
 
@@ -63,38 +100,6 @@
 		color: yellow;
 	}
 </style>
-
-<script>
-	$(document).ready(function(){
-		$.ajax({
-			url: '${pageContext.request.contextPath}/newMark.do'
-			,
-			method: 'POST'
-			,
-			dataType: 'json'
-			,
-			success: function(data){
-				if(data.todoCount != 0) {
-					$('#todo').text(data.todoCount);
-					$('#todoLi').text('N');
-					
-				}
-				if(data.refCount != 0) {
-					$('#ref').text(data.refCount);
-					$('#refLi').text('N');
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert('error: ' + jqXHR.status);
-			}			
-		});	
-	});//end of document.ready
-
-	
-	
-	
-</script>
-
 
 </head>
 <body>

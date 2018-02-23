@@ -20,6 +20,11 @@
 	#datatable {
 		text-align : center;
 	}
+	
+	#datatable th {
+		text-align : center;
+	}
+	
 	.fa {
 		cursor: pointer;
 	}
