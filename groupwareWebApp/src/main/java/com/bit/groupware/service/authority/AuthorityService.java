@@ -50,5 +50,8 @@ public interface AuthorityService {
 	
 	//권한번호에 해당하는 사번리스트 조회
 	List<String> retrieveAuthEmpNo(String aNo);
+	
+	//권한 사원 존재여부
+	int retrieveAuthEmpCountByaNo(Map<String, Object> map);
 
 } 
