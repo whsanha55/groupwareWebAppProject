@@ -182,7 +182,7 @@ input[type=file]::-webkit-file-upload-button {
 				$('input[name=phoneNumber3]').after('<span id="errorSpan" style="color:red;">연락처를 정확히 입력해주세요.</span>');
 			}
 		});
-		/*
+		
 		$('input[name=regNumber1], input[name=regNumber2]').blur(function() {			
 			if(!($('input[name=regNumber1]').val().trim().length == 6 && $('input[name=regNumber2]').val().trim().length == 7)) {
 				$('input[name=regNumber2]').after('<span id="errorSpan" style="color:red;">주민번호를 정확히 입력해주세요.</span>');
@@ -211,8 +211,8 @@ input[type=file]::-webkit-file-upload-button {
 				});
 			}
 		});
-		*/
-		/*
+		
+		
 		$('input[name=email1], input[name=email2]').blur(function() {
 			var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 			var email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
@@ -221,7 +221,7 @@ input[type=file]::-webkit-file-upload-button {
 				$('select[name=emailaddr]').after('<span id="errorSpan" style="color:red;">이메일을 정확히 입력해주세요.</span>');
 			}
 		});
-		*/
+		
 		$('#regibtn').on('click', function() {
 			event.preventDefault();
 			checkUnload = false;
@@ -495,8 +495,8 @@ input[type=file]::-webkit-file-upload-button {
 						</label>
 						<div class="form-inline col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" id="email" name="email" value="" >
-							<input type='text' id="email1" name="email1" class="form-control" style="width:150px;">@
-            				<input type='text' id="email2" name="email2" class="form-control" style="width:150px;">
+							<input type='text' id="email1" name="email1" class="form-control" style="width:120px;">@
+            				<input type='text' id="email2" name="email2" class="form-control" style="width:120px;">
 				              <select name="emailaddr" class="form-control">
 				                 <option value="">직접입력</option>
 				                 <option value="naver.com">naver.com</option>
