@@ -59,6 +59,8 @@ public class AdminDesignateRoleController {
       map.put("list",list);     
       roleService.registerAuthRole(map);
       
+      
+      logger.error("============================ AdminDesignateRoleController ============================");;
       metaSource.reload();
       
       return 0;

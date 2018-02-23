@@ -22,6 +22,15 @@
 		
 		$('.modifyBtn').on('click', function() {
 			event.preventDefault();
+			
+			if($('input[name=cNo]').val().length > 10) {
+				swal("코드번호는 10자 이하로 작성해주세요.","");
+				return;
+			}
+			if($('input[name=cName]').val().length > 10) {
+				swal("코드명은 10자 이하로 작성해주세요.","");
+				return;
+			}
 			swal({
 				  title: "코드 수정",
 				  text: "코드를 수정합니다. 계속 진행하시겠습니까?",

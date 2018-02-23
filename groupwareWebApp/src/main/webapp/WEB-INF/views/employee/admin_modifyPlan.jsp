@@ -152,6 +152,10 @@ $(document).ready(function () {
 			swal("제목을 입력해주세요.","");
 			return;
 		}
+		if($('input[name=pTitle]').val().length > 20) {
+			swal("제목은 20자 이하로 작성해주세요.","");
+			return;
+		}
 		if($('input[name=startDate]').val().trim() == '') {
 			swal("시작일을 입력해주세요.","");
 			return;

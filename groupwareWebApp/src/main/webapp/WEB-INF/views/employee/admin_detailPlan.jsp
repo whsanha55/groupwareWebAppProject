@@ -195,8 +195,8 @@
 											
 											infowindow.open(map, centerMarker);
 											
-											map.setDraggable(false);
-											map.setZoomable(false);
+											//map.setDraggable(false);
+											//map.setZoomable(false);
 											
 										});
 									});
