@@ -9,7 +9,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 $(document).ready(function(){
-	
+
 	$('#insert').on('click',function(){
 		if($($('input:text[name=aName]')).val() == "" ){
 			swal("이름을 입력하세요.");
@@ -29,6 +29,49 @@ $(document).ready(function(){
 			return false;
 		} 
 		
+		swal({
+			title: "권한 등록",   
+			text: "권한을 등록합니다. 계속 진행하시겠습니까?",
+			icon: "info",
+			buttons : true 
+		}).then((e) => {
+			if(e) {
+				$.ajax({
+					
+					url: '${pageContext.request.contextPath}/admin/authority.do'
+					,
+					method: 'POST'
+					,
+					dataType: 'json'
+					,
+					data: $('#form').serialize()
+					,
+					success: function(data){
+						
+						//성공시 sweetAlert
+						if(data.isSuccess == "true"){
+							swal({
+							title: "권한 등록 완료",
+							text: "권한을 등록하였습니다.",
+							icon: "success"
+							}).then((e)=>{
+								location.href = '${pageContext.request.contextPath}/admin/authorityList.do';
+	
+							});
+						}else if(data.isSuccess == "false"){
+                            swal("이미 등록된 권한입니다.");
+                        } 
+						
+					}
+					,
+					
+					error: function(jqXHR) {
+						alert("error : " + jqXHR.status);
+					}
+				});
+			} 
+		});	
+		
 	});
 });
 </script>
@@ -43,7 +86,8 @@ $(document).ready(function(){
 
 				<div class="clearfix"></div>
 			</div>
-			<form action="${pageContext.request.contextPath }/admin/authority.do" method="post">
+			<%-- <form action="${pageContext.request.contextPath }/admin/authority.do" method="post"> --%>
+			<form id="form">
 			<input type="hidden" name=aNo />
 			<div class="x_content">
 				
@@ -77,7 +121,7 @@ $(document).ready(function(){
 			</div>
 			<div class="col-md-12">
 				<div class="text-center">
-					<button class="btn btn-primary" type="submit" id="insert">등록</button>
+					<button class="btn btn-primary" type="button" id="insert">등록</button>
 					<button class="btn btn-primary" type="reset">취소</button>
 					<a class="btn btn-primary" href='<c:url value="/admin/authorityList.do"/>'>뒤로가기</a>
 				</div>
