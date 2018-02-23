@@ -166,7 +166,7 @@ input[type=file]:before {
 				success: function(data) {
 					var text = "";					
 					if(data.length != 0) {
-						text += '<select id="teamBtn" name="teamBtn" style="width:80px;height:30px;">';
+						text += '<select id="teamBtn" name="teamBtn" style="width:90px;height:30px;">';
 						text += '<option value="">팀선택</option>';					
 						for (var i = 0; i<data.length; i++) {
 							text += '<option value="'+ data[i].cNo +'">'+ data[i].cName +'</option>';
@@ -830,7 +830,7 @@ input[type=file]:before {
 								<tr>
 									<th id="smltd" class="text-center">직책</th>
 									<td colspan='2'><div>
-										<select id="dutyBtn" name="dutyBtn" style="width:80px;height:30px;">
+										<select id="dutyBtn" name="dutyBtn" style="width:90px;height:30px;">
 											<option value="">직책선택</option>
 											<c:forEach var="dutyCode" items="${requestScope.dutyCodes }" varStatus="loop">
 												<option value="${pageScope.dutyCode.cNo }">${pageScope.dutyCode.cName }</option>
@@ -857,7 +857,7 @@ input[type=file]:before {
 										</div></td>
 									<th id="smltd" class="text-center" style="width:74px;height:51px;">부서</th>
 									<td id="deptTd" colspan='2'><div>
-										<select id="deptBtn" name="deptBtn" style="width:80px;height:30px;display:inline-block;float:left;margin-right:5px;">
+										<select id="deptBtn" name="deptBtn" style="width:90px;height:30px;display:inline-block;float:left;margin-right:5px;">
 											<option value="">부서선택</option>
 											<c:forEach var="deptCode" items="${requestScope.deptCodes }" varStatus="loop">
 												<option value="${pageScope.deptCode.cNo }">${pageScope.deptCode.cName }</option>
