@@ -11,6 +11,7 @@
    var pKeyfield='role';
    var pKeyword;
    var rName1;
+   var rExplan1;
    $(document).ready(function() {
       
       Paging(1); 
@@ -50,7 +51,7 @@
       $('#datatable').on('click','button:contains(수정)', function () {
          rName1 = $(this).parents("tr").find('.rName').text();      
          var rType = $(this).parents("tr").find('.rType').text();
-         var rExplan = $(this).parents("tr").find('.rExplan').text();
+         rExplan1 = $(this).parents("tr").find('.rExplan').text();
       
           $(this).parents("tr").find('.rName').html("<input type='text' name='rName' value="+rName1 +" />");   
           if(rType =='url') {
@@ -59,7 +60,7 @@
               $(this).parents("tr").find('.rType').html("<select id='selBox'><option name='rType' value='url' >url</option><option value='method' selected='selected'>method</option></select>");   
           }
           $(this).parents("tr").find('.rExplan').html("<input type='text' name='rExplan'>");   
-          $(this).parents("tr").find('.rExplan').find(':text[name=rExplan]').val(rExplan);   
+          $(this).parents("tr").find('.rExplan').find(':text[name=rExplan]').val(rExplan1);   
                     
           $(this).parents("tr").find('.selectBtn').html("<td class='align-center'><button type='button' class='btn btn-primary'>완료</button><button type='button' class='btn btn-default'>취소</button></td>");
           $('button:contains(수정)').prop("disabled", true);
@@ -133,14 +134,14 @@
       
       //수정 취소
        $('#datatable').on('click','button:contains(취소)', function () { 
-          var rName = $(this).parents("tr").find('input[name=rName]').val();
+          //var rName = $(this).parents("tr").find('input[name=rName]').val();
           var target = document.getElementById("selBox");
           var rType = target.options[target.selectedIndex].text;
-          var rExplan = $(this).parents("tr").find('input[name=rExplan]').val();      
-         
-         $(this).parents("tr").find('.rName').html(rName);
+         // var rExplan = $(this).parents("tr").find('input[name=rExplan]').val();      
+        
+         $(this).parents("tr").find('.rName').html(rName1);
          $(this).parents("tr").find('.rType').html(rType);
-         $(this).parents("tr").find('.rExplan').html(rExplan);
+         $(this).parents("tr").find('.rExplan').html(rExplan1);
          
          $(this).parents("tr").find('.selectBtn').html("<button type='button'  class='modifyBtn btn btn-primary'>수정</button>");
           $('button:contains(수정)').prop("disabled", false);
