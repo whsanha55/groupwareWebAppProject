@@ -83,6 +83,7 @@ $(document).ready(function() {
 	$('#registerBtn').on('click', function() {
 		event.preventDefault();
 		checkUnload = false;
+		console.log($('textarea[name=pContent]').val().length);
 		if($('input[name=pTitle]').val().trim() == '') {
 			swal("제목을 입력해주세요.","");
 			return;
@@ -105,6 +106,10 @@ $(document).ready(function() {
 		}
 		if($('textarea[name=pContent]').val().trim() == '') {
 			swal("내용을 입력해주세요.","");
+			return;
+		}
+		if($('textarea[name=pContent]').val().length > 200) {
+			swal("내용은 200자 이하로 작성해주세요.","");
 			return;
 		}
 		if($('input[name=empName]').val().trim() == '') {
@@ -264,8 +269,9 @@ $(document).ready(function() {
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" >내용 *</label>&nbsp;&nbsp;
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								 <textarea name="pContent" class="resizable_textarea form-control" rows="3" style="width:100%;resize:none;" ></textarea>
+								 <textarea id="pContent" name="pContent" class="resizable_textarea form-control" rows="3" style="width:100%;resize:none;" ></textarea>
 							</div>
+
 						</div>
 						
 						<div class="form-group">
