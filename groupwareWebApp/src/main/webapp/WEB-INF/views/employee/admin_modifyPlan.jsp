@@ -147,6 +147,7 @@ $(document).ready(function () {
 	$('#modifyBtn').on('click', function() {
 		event.preventDefault();
 		checkUnload = false;
+		console.log($('textarea[name=pContent]').val().length);
 		if($('input[name=pTitle]').val().trim() == '') {
 			swal("제목을 입력해주세요.","");
 			return;
@@ -169,6 +170,10 @@ $(document).ready(function () {
 		}
 		if($('textarea[name=pContent]').val().trim() == '') {
 			swal("내용을 입력해주세요.","");
+			return;
+		}
+		if($('textarea[name=pContent]').val().length > 200) {
+			swal("내용은 200자 이하로 작성해주세요.","");
 			return;
 		}
 		if($('input[name=empName]').val().trim() == '') {
