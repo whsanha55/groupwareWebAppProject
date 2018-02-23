@@ -25,13 +25,13 @@ public class LoginController {
 	// Logging
 	public static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
+
 	@Autowired
 	private EmployeeService employeeService;
 	@Autowired
 	private PlanService planService;
 	@Autowired
 	private ReloadableFilterInvocationSecurityMetadataSource metaSource;
-	
 
 	// 로그인 폼 요청
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
@@ -58,14 +58,17 @@ public class LoginController {
 	// 관리자 메인화면
 	@RequestMapping(value = "/admin/index.do", method = RequestMethod.GET)
 	public ModelAndView form3() throws Exception {
-		
-		/*metaSource.reload();*/
-		
+
+		/* metaSource.reload(); */
+
 		UserVO user = (UserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("employee", employeeService.retrieveEmployee(user.getUsername()));
 		mv.setViewName("adminMain");
+
+		metaSource.reload();
+
 		return mv;
 
 	}

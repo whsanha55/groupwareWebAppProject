@@ -38,7 +38,8 @@ public class AdminRemoveAuthorityController {
 		
 		logger.info("////////////AuthRoleCount", authorityService.retrieveAtuhRoleCount(map));
 		int no = authorityService.retrieveAtuhRoleCount(map);
-		if(no == 0) {
+		int empNo = authorityService.retrieveAuthEmpCountByaNo(map);
+		if(no == 0 && empNo ==0) {
 			logger.info("//////removeAuthority", map);
 			authorityService.removeAuthority(map);
 			map.put("isSuccess", "true");
