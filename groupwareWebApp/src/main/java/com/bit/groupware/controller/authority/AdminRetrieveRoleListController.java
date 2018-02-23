@@ -47,7 +47,6 @@ public class AdminRetrieveRoleListController {
 		
 		List<RoleVO> roles = roleService.retrieveRoleList(map);
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-		System.out.print("²¥¾Æ¾Æ¾Æ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+roles.toString());
 		returnMap.put("totalCount", totalCount);
 		returnMap.put("roles", roles);
 		
