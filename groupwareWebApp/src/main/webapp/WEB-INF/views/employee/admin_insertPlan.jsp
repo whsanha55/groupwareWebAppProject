@@ -83,9 +83,12 @@ $(document).ready(function() {
 	$('#registerBtn').on('click', function() {
 		event.preventDefault();
 		checkUnload = false;
-		console.log($('textarea[name=pContent]').val().length);
 		if($('input[name=pTitle]').val().trim() == '') {
 			swal("제목을 입력해주세요.","");
+			return;
+		}
+		if($('input[name=pTitle]').val().length > 20) {
+			swal("제목은 20자 이하로 작성해주세요.","");
 			return;
 		}
 		if($('input[name=startDate]').val().trim() == '') {
