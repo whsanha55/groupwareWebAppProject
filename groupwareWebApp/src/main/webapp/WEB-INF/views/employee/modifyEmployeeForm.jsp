@@ -44,7 +44,7 @@
 		});
 		
 		$('#modiform').on('click','#modicanBtn', function() {
-			$(this).text('수정');
+			$(this).text('비밀번호 수정');
 			$(this).attr('id','modifyPwdBtn');
 			$(this).attr('class','btn btn-success');
 			//$(this).css('margin-left','-=10px');
@@ -328,7 +328,7 @@
 								 class="form-control" >
 						</div>
 						<button type="button" id="checkPwdBtn" class="btn btn-success">비밀번호 확인</button>
-						<button type="button" id="modifyPwdBtn" class="btn btn-success">수정</button>
+						<button type="button" id="modifyPwdBtn" class="btn btn-success">비밀번호 수정</button>
 					</div>
 					<div id="addPwd">
 					<%--

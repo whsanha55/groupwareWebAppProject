@@ -405,7 +405,7 @@ map_wrap {overflow:hidden;height:330px}
 			$("#mapSearchBTN").click(function() {
 				// 값을 입력하지 않았을 때 안내 경고창
 				if ($('#keyWord').val() == ''){
-					alert('위치를 입력해주세요. ex)비트캠프 강남');
+					swal("장소를 입력해주세요.","ex)비트캠프 강남","info");
 				};
 					
 				// 키워드로 장소를 검색합니다
