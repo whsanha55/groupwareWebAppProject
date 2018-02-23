@@ -508,20 +508,7 @@ input[type=file]:before {
 						
 						event.preventDefault();
 						checkUnload = false;						
-						/*
-						if($('.preDuty').text() == checkChangeDuty) {
-							$('input[name=deptCode]').val("");
-							console.log($('input[name=deptCode]').val());
-						}
-						*/
-						/*
-						console.log($('.preDept').text());
-						console.log(checkChangeDept);						
-						if($('.preDept').text() == checkChangeDept) {
-							$('input[name=dutyCode]').val("");
-							console.log($('input[name=dutyCode]').val());
-						}
-						*/	
+						
 						
 						if($('#photo').attr('src') == '') {
 							swal("프로필 사진을 추가해주세요.","");
@@ -529,14 +516,6 @@ input[type=file]:before {
 						}
 						if($('input[name=empName]').val().trim() == '') {
 							swal("사원이름을 입력해주세요.","");
-							return;
-						}
-						if($('input[name=empPwd]').val() == '') {
-							swal("비밀번호를 입력해주세요.","");
-							return;
-						}
-						if($('input[name=empPwdCheck]').val() == '') {
-							swal("비밀번호 확인을 해주세요.","");
 							return;
 						}
 						if($('input[name=phoneNumber2]').val() == '' || $('input[name=phoneNumber3]').val() == '' ) {
@@ -547,6 +526,31 @@ input[type=file]:before {
 							swal("주민등록번호를 입력해주세요.","");
 							return;
 						}
+						
+							
+						if(!($('input[name=regNumber1]').val().trim().length == 6 && $('input[name=regNumber2]').val().trim().length == 7)) {
+							swal("주민번호를 정확히 입력해주세요.","");
+							return;
+						} else {
+							$.ajax ({
+								url:'${pageContext.request.contextPath}/checkssn.do',
+								method:'POST',
+								dataType:'json',
+								data:{
+									ssn : $('#regNumber1').val() + '-' + $('#regNumber2').val()
+								},
+								success: function(data) {
+									if(data != true) {
+										swal("주민번호를 확인해주세요!","","error");
+										return;
+									}
+								},
+								error: function(jqXHR) {
+									alert('error : ' + jqXHR.status);
+								}
+							});
+						}
+						
 						/* if($('input[name=dutyCode]').val().trim() == '') {
 							swal("직책을 선택해주세요.","");
 							return;
@@ -559,6 +563,15 @@ input[type=file]:before {
 							swal("이메일 입력해주세요.","");
 							return;
 						}
+						
+						var regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+						var email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
+						$('#email').val(email);
+						if(!regEmail.test($('#email').val())) {
+							swal("이메일을 정확히 입력해주세요!","","error");
+							return;
+						}
+						
 						if($('input[name=address]').val() == '') {
 							swal("주소정보를 입력해주세요.","");
 							return;
@@ -912,7 +925,7 @@ input[type=file]:before {
 										<input type="text" id="regNumber1" name="regNumber1" maxlength="6"
 											 class="form-control" style="width:150px;">
 											&nbsp;-&nbsp;
-										<input type="text" id="regNumber2" name="regNumber2" maxlength="7"
+										<input type="password" id="regNumber2" name="regNumber2" maxlength="7"
 											 class="form-control" style="width:150px;">
 									</td>
 								</tr>
