@@ -16,7 +16,6 @@ public class AdminDetailNoticeController {
 	
 	@RequestMapping(value="/admin/detailNotice.do", method=RequestMethod.GET)
 	public ModelAndView form(@RequestParam(value="noticeNo") int noticeNo) {
-		System.out.println("³Ñ¹ö!!!!!!!!!!!!!!!!!!!"+noticeNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("notice", noticeService.retrieveNotice(noticeNo));
 		mv.setViewName("authority/admin_detailNotice");
