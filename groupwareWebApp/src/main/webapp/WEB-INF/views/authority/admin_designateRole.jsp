@@ -273,9 +273,9 @@
                   <thead>
                      <tr class="headings">
                         <th class="column-title">롤 ID</th>
-                        <th class="column-title">롤 명</th>
+                        <th style='width:238px;' class="column-title">롤 명</th>
                         <th class="column-title">롤 타입</th>
-                        <th class="column-title">롤 설명</th>
+                        <th style='width:280px;' class="column-title">롤 설명</th>
                         <th class="column-title">등록일자</th>
                         <th class="column-title">등록여부</th>
 
