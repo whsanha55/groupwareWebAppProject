@@ -19,8 +19,25 @@
 	   $(function() {
 		   $('textarea#froala-editor').froalaEditor()
 		 });
-	   
-	   
+	                      
+	   //뒤로가기   
+	   $('#back').on('click', function(){
+		   checkUnload = false;
+			swal({
+				title: "이 페이지에서 뒤로가시겠습니까?",
+				  text: "변경사항이 저장되지 않을 수 있습니다.",
+				  icon: "info",
+				  buttons : true 
+				}).then((e) => {
+					if(e) {
+						location.href='${pageContext.request.contextPath}/admin/noticeList.do';
+					} else if(!e) {
+						checkUnload = true;
+						return;
+					}	
+				});
+		     
+	   });
 	   //등록
 	    $('#addNotice').on('click', function() {
 	    	event.preventDefault();
@@ -149,7 +166,7 @@
 				 <div class="text-right">  
                <button type="submit" class="btn btn-primary" id="addNotice">등록</button>
                <button type="reset" class="btn btn-default">취소</button>
-               <a class="btn btn-default" href='<c:url value="/admin/noticeList.do"/>'>뒤로가기</a>
+               <a id="back"  class="btn btn-default" >뒤로가기</a>
                </div>
             </div>
          </div>
