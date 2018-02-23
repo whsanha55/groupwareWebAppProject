@@ -32,14 +32,22 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="codeHistory" items="${requestScope.codeHistories }" varStatus="loop" >
-							<tr>
-								<td>${pageScope.codeHistory.deptName }</td>
-								<td>${pageScope.codeHistory.dutyName }</td>
-								<td>${pageScope.codeHistory.startDate }</td>
-								<td>${pageScope.codeHistory.endDate }</td>
-							</tr>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${requestScope.codeHistories } == null" > 			
+								<tr><td colspan=4>조회된 검색결과가 없습니다</td></tr>	
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="codeHistory" items="${requestScope.codeHistories }" varStatus="loop" >
+									<tr>
+										<td>${pageScope.codeHistory.deptName }</td>
+										<td>${pageScope.codeHistory.dutyName }</td>
+										<td>${pageScope.codeHistory.startDate }</td>
+										<td>${pageScope.codeHistory.endDate }</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+						
 					</tbody>
 				</table>
 			</div>
