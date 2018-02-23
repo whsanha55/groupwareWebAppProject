@@ -85,10 +85,12 @@ public class ReloadableFilterInvocationSecurityMetadataSource implements FilterI
 		 * while (iterator.hasNext()) { Entry<RequestMatcher, List<ConfigAttribute>>
 		 * entry = iterator.next(); requestMap.put(entry.getKey(), entry.getValue()); }
 		 */
-		requestMap.clear();
-		
+				
 
 		Set<Map.Entry<RequestMatcher, List<ConfigAttribute>>> iterator = requestMap.entrySet();
+		
+		requestMap.clear();		
+		
 
 		Collection c = Collections.synchronizedCollection(iterator);
 
