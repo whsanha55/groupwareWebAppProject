@@ -201,7 +201,7 @@
 						  buttons : true 
 						}).then((e) => {
 							if(e) {
-								location.href = '${pageContext.request.contextPath}/approvalMyRequest.do';
+								location.href = '${pageContext.request.contextPath}/approvalTemp.do';
 							}	
 						});
 					break;
