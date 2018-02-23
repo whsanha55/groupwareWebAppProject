@@ -55,4 +55,8 @@ public interface AuthorityDAO {
 	
 	//권한번호에 해당하는 사번리스트 조회
 	List<String> selectListAuthEmpNo(String aNo);
+	
+	
+	//권한 사원 존재여부
+	int selectAuthEmpCountByaNo(Map<String, Object> map);
 }
