@@ -186,6 +186,29 @@ input[type=file]::-webkit-file-upload-button {
 		$('input[name=regNumber1], input[name=regNumber2]').blur(function() {			
 			if(!($('input[name=regNumber1]').val().trim().length == 6 && $('input[name=regNumber2]').val().trim().length == 7)) {
 				$('input[name=regNumber2]').after('<span id="errorSpan" style="color:red;">주민번호를 정확히 입력해주세요.</span>');
+			} else {
+				$.ajax ({
+					url:'${pageContext.request.contextPath}/checkssn.do',
+					method:'POST',
+					dataType:'json',
+					data:{
+						ssn : $('#regNumber1').val() + '-' + $('#regNumber2').val()
+					},
+					success: function(data) {
+						if(data == true) {
+							$('input[name=regNumber2]').after('<span id="greenSpan" style="color:green;"></span>');
+							if($('input[name=regNumber2]').next('span').text() != null) {
+								$('input[name=regNumber2]').next('span').remove();
+							}
+							
+						} else {
+							$('input[name=regNumber2]').after('<span id="errorSpan" style="color:red;">주민번호를 확인해주세요.</span>');
+						}
+					},
+					error: function(jqXHR) {
+						alert('error : ' + jqXHR.status);
+					}
+				});
 			}
 		});
 		*/
