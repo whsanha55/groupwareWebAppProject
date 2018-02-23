@@ -129,9 +129,9 @@
 			$(temp).html('<img src="${pageContext.request.contextPath }/resources/upload/전결.JPG" style="height:35px; width:65px; margin-top:15px;">');
 			
 			//날짜 이동
-			var temp2 = $('.apprLineAppr3').parent().find('td:eq(' + (index -1) +')');
-			temp2.next().text(temp2.text());
-			temp2.text('');
+			temp = $('.apprLineAppr3').last();
+			temp.closest('tr').find('td:eq(' + index + ')').text(temp.text());
+			temp.text('');
 		}
 		   
 		
